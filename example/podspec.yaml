@@ -1,0 +1,38 @@
+grow_version: ">=0.8.16"
+
+title: "Grow Translation Extension Example"
+
+localization:
+  default_locale: en
+  locales:
+  - es
+  - de
+
+ext:
+- ext.translation.TranslationExtension:
+    enabled@env.prod: false
+
+preprocessors:
+- kind: webpack
+
+static_dirs:
+- static_dir: /static/
+  serve_at: /static/
+- static_dir: /dist/css/
+  serve_at: /css/
+  fingerprinted: true
+- static_dir: /dist/js/
+  serve_at: /js/
+  fingerprinted: true
+
+deployments:
+  staging:
+    destination: local
+    out_dir: build/
+    env:
+      name: staging
+  prod:
+    destination: local
+    out_dir: build/
+    env:
+      name: prod

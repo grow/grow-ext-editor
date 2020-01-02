@@ -1,0 +1,15 @@
+$title: !g.string example.page_title
+description: !g.string example.meta_description
+
+composite_files:
+- home
+
+partials:
+- partial: example
+  title: !g.string example.page_title
+  description: !g.string example.description
+  cta:
+    label: !g.string example.link_label
+    title: !g.string example.link_title
+  image:
+    alt: !g.string example.image_alt

@@ -1,0 +1,8 @@
+.DS_Store
+example/.grow
+example/dist
+example/extensions
+example/build
+node_modules
+**.pyc
+**.mo

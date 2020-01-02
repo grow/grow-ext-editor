@@ -1,0 +1,67 @@
+{% import 'translation/macros/translation.html' as translation with context %}
+<!DOCTYPE html>
+<html lang="{{doc.locale}}">
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, height=device-height">
+    <title>{% if doc.title %}{{doc.title}} – {% endif %}{{podspec.title}}</title>
+    <meta property="og:title" content="{% if doc.title %}{{doc.title}} – {% endif %}{{podspec.title}}">
+    <meta property="og:site_name" content="{{podspec.title}}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{doc.url}}">
+    {% if doc.description %}
+    <meta name="description" content="{{doc.description}}">
+    <meta property="og:description" content="{{doc.description}}">
+    {% endif %}
+
+    <link href="{{ g.static('/dist/css/global.min.css').url.path }}" rel="stylesheet">
+    {% set compositeCssFiles = [doc.view|replace('.html', '')] %}
+    {% set compositeCssFiles = compositeCssFiles + (doc.composite_files if doc.composite_files else []) %}
+    {% for compositeCssFile in compositeCssFiles %}
+      {% if not compositeCssFile.startswith('/') %}
+        {% set compositeCssFile = '/' ~ compositeCssFile %}
+      {% endif %}
+      {% set viewCssFile = '/dist/css' ~ compositeCssFile ~ '.min.css' %}
+      {% if doc.pod.file_exists(viewCssFile) %}
+        <link href="{{ g.static(viewCssFile).url.path }}" rel="stylesheet">
+      {% endif %}
+    {% endfor %}
+    {{ translation.translation_styles(extension_dir='ext') }}
+  </head>
+  <body>
+    <div class="wrapper">
+      {% block main %}
+        {% if doc.partials %}
+          {% for field in doc.partials %}
+            {% if not field.partial %}
+              {% continue %}
+            {% endif %}
+
+            {# Render the partial with the values in {{partial}}. #}
+            {% set partial_filename = field.partial|expand_partial %}
+            {% with partial = field %}
+              {% include partial_filename with context %}
+            {% endwith %}
+          {% endfor %}
+        {% else %}
+          {{doc.formatted|safe}}
+        {% endif %}
+      {% endblock %}
+    </div>
+
+    <script src="{{ g.static('/dist/js/global.min.js').url.path }}"></script>
+    {% set compositeJsFiles = [doc.view|replace('.html', '')] %}
+    {% set compositeJsFiles = compositeJsFiles + (doc.composite_files if doc.composite_files else []) %}
+    {% for compositeJsFile in compositeJsFiles %}
+      {% if not compositeJsFile.startswith('/') %}
+        {% set compositeJsFile = '/' ~ compositeJsFile %}
+      {% endif %}
+      {% set viewJsFile = '/dist/js' ~ compositeJsFile ~ '.min.js' %}
+      {% if doc.pod.file_exists(viewJsFile) %}
+        <script src="{{ g.static(viewJsFile).url.path }}"></script>
+      {% endif %}
+    {% endfor %}
+    {{ translation.translation_scripts(extension_dir='ext') }}
+  </body>
+</html>
