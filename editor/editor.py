@@ -3,6 +3,36 @@
 import os
 from grow import extensions
 from grow.extensions import hooks
+from grow.routing import router as grow_router
+import editor_api
+import handlers
+
+
+class EditorDevHandlerHook(hooks.DevHandlerHook):
+    """Handle the dev handler hook."""
+
+    # pylint: disable=arguments-differ
+    def trigger(self, previous_result, routes, host, port, *_args, **_kwargs):
+        """Execute dev handler modification."""
+        routes.add('/_grow/api/editor/*path', grow_router.RouteInfo('console', meta={
+            'handler': editor_api.serve_api,
+        }))
+
+        editor_meta = {
+            'handler': handlers.serve_editor,
+            'meta': {
+                'app': {
+                    'host': host,
+                    'port': port,
+                },
+            },
+        }
+        routes.add(
+            '/_grow/editor/*path',
+            grow_router.RouteInfo('console', meta=editor_meta))
+        routes.add(
+            '/_grow/editor',
+            grow_router.RouteInfo('console', meta=editor_meta))
 
 
 class EditorPodspecStaticDirHook(hooks.PodspecStaticDirHook):
@@ -35,4 +65,4 @@ class EditorExtension(extensions.BaseExtension):
     @property
     def available_hooks(self):
         """Returns the available hook classes."""
-        return [EditorPodspecStaticDirHook]
+        return [EditorDevHandlerHook, EditorPodspecStaticDirHook]

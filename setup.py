@@ -14,6 +14,9 @@ setup(
         'editor',
     ],
     package_data={
-        'editor': ['dist/*.js', 'dist/*.css']
-    }
+        'editor': ['dist/*.js', 'dist/*.css', 'dist/*.html']
+    },
+    install_requires=[
+        'werkzeug',
+    ],
 )

@@ -1,8 +1,13 @@
+{% set default_path = '/' ~ path %}
+{% set home_doc = pod.get_home_doc() %}
+{% if home_doc and not path %}
+  {% set default_path = home_doc.pod_path %}
+{% endif %}
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Content Editor - Grow</title>
+    <title>{% if title %}{{title}} – {% endif %}Grow Editor</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="/_grow/assets/favicon.png">
     <link href="https://fonts.googleapis.com/css?family=Roboto|Roboto+Mono" rel="stylesheet">
@@ -23,13 +28,13 @@
           </button>
           <div class="content__path">
             <div class="mdc-text-field mdc-text-field--fullwidth mdc-text-field--with-trailing-icon">
-              <input id="pod_path" class="mdc-text-field__input" type="text" placeholder="Pod Path" aria-label="Pod Path">
+              <input id="pod_path" class="mdc-text-field__input" type="text" placeholder="Pod Path" aria-label="Pod Path" value="{{default_path}}">
               <i class="material-icons mdc-text-field__icon" tabindex="0" role="button">cloud</i>
             </div>
           </div>
         </div>
         <div class="content__preview">
-          <iframe class="preview" data-host="localhost" data-port="8888"></iframe>
+          <iframe class="preview" data-host="{{meta.app.host}}" data-port="{{meta.app.port}}"></iframe>
         </div>
       </div>
       <div class="sidebar">

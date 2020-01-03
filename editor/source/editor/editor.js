@@ -129,7 +129,7 @@ export default class Editor {
   documentFromResponse(response) {
     this.document = new Document(
       response['pod_path'],
-      response['editor']['fields'],
+      response['editor']['fields'] || [],
       response['front_matter'],
       response['raw_front_matter'],
       response['serving_paths'],
@@ -202,12 +202,11 @@ export default class Editor {
   }
 
   load(podPath) {
-    // TODO: Re-add the loading ability.
-    // if (this.sourceToggleMd.on) {
-    //   this.loadSource(podPath)
-    // } else {
-    //   this.loadFields(podPath)
-    // }
+    if (this.sourceToggleMd.on) {
+      this.loadSource(podPath)
+    } else {
+      this.loadFields(podPath)
+    }
   }
 
   loadFields(podPath) {

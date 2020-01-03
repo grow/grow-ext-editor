@@ -9,7 +9,7 @@ const request = require('superagent');
 export default class Api {
   constructor(config) {
     this.config = new Config(config, {
-      'basePath': '/_grow/api/',
+      'basePath': '/_grow/api/editor/',
     })
     this.request = request
   }
