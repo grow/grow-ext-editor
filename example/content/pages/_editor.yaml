@@ -1,0 +1,13 @@
+fields:
+- type: text
+  key: $title
+  label: Title
+- type: textarea
+  key: description
+  label: Description
+- type: partials
+  key: partials
+  label: Partials
+
+partials:
+- example
