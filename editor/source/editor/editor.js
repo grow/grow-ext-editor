@@ -5,7 +5,7 @@
 import Config from '../utility/config'
 import Document from './document'
 import EditorApi from './editorApi'
-import Partials from './partial'
+import Selective from 'selective-edit'
 import { MDCIconButtonToggle } from '@material/icon-button'
 import { MDCLinearProgress } from '@material/linear-progress'
 import { MDCSwitch } from '@material/switch'
@@ -28,10 +28,13 @@ export default class Editor {
     this.podPathEl = this.containerEl.querySelector('#pod_path')
     this.host = this.previewEl.dataset.host
     this.port = this.previewEl.dataset.port
-    this.fields = []
     this.document = null
     this.autosaveID = null
     this._isEditingSource = false
+
+    this.selective = new Selective(this.fieldsEl, {
+      // TODO: Selective configuration.
+    })
 
     this.autosaveToggleEl.addEventListener('click', this.handleAutosaveClick.bind(this))
     this.saveEl.addEventListener('click', () => { this.save(true) })
@@ -57,8 +60,6 @@ export default class Editor {
       host: this.host,
       port: this.port,
     })
-    this.partials = new Partials(this.api)
-
 
     // Default to loading with the UI.
     this.load(this.podPath)
@@ -72,12 +73,7 @@ export default class Editor {
   }
 
   get isClean() {
-    for (const field of this.fields) {
-      if (!field.isClean) {
-        return false
-      }
-    }
-    return true
+    return this.selective.isClean
   }
 
   get isEditingSource() {
@@ -99,21 +95,6 @@ export default class Editor {
     return this.document.servingPath
   }
 
-  addField(field) {
-    this.fields.push(field)
-    this.fieldsEl.appendChild(field.fieldEl)
-    // Update the reference to be the attached element.
-    field.fieldEl = this.fieldsEl.children[this.fieldsEl.children.length - 1]
-    field.setup()
-  }
-
-  clearFields() {
-    this.fields = []
-    while (this.fieldsEl.firstChild) {
-      this.fieldsEl.removeChild(this.fieldsEl.firstChild)
-    }
-  }
-
   // When editing the pod path wait until the user stops typing before loading.
   delayPodPath() {
     this._lastPodPathUpdate = Date.now()
@@ -129,14 +110,13 @@ export default class Editor {
   documentFromResponse(response) {
     this.document = new Document(
       response['pod_path'],
-      response['editor']['fields'] || [],
       response['front_matter'],
       response['raw_front_matter'],
       response['serving_paths'],
-      response['default_locale'],
-      this.partials)
+      response['default_locale'])
 
-    this.clearFields()
+    // TODO: Create form fields from the field config.
+    // response['editor']['fields'] || []
   }
 
   handleAutosaveClick(evt) {
@@ -151,7 +131,6 @@ export default class Editor {
     this._isEditingSource = false
     this.documentFromResponse(response)
     this.pushState(this.document.podPath)
-    this.showFields()
     this.refreshPreview()
   }
 
@@ -159,7 +138,6 @@ export default class Editor {
     this._isEditingSource = true
     this.documentFromResponse(response)
     this.pushState(this.document.podPath)
-    this.showSource()
     this.refreshPreview()
   }
 
@@ -238,42 +216,34 @@ export default class Editor {
   save(force) {
     this.saveProgressMd.open()
     if (this.isClean && !force) {
+      // Already saved with no new changes.
       this.saveProgressMd.close()
     } else if (this.isEditingSource) {
-      const rawFrontMatter = this.fields[0].value // Source field
+      // TODO: Retrieve the edited front matter.
+      const rawFrontMatter = ''
       const result = this.api.saveDocumentSource(this.podPath, rawFrontMatter)
       result.then(this.handleSaveSourceResponse.bind(this))
     } else {
-      const shortFrontMatter = {}
-      for (const field of this.fields) {
-        // Field key getter not working...?!?
-        shortFrontMatter[field._key] = field.value
-      }
-      const frontMatter = expandObject(shortFrontMatter)
-      const result = this.api.saveDocumentFields(this.podPath, frontMatter, this.document.locale)
+      // TODO: Retrieve the updated front matter value.
+      const newFrontMatter = {}
+      const result = this.api.saveDocumentFields(this.podPath, newFrontMatter, this.document.locale)
       result.then(this.handleSaveFieldsResponse.bind(this))
     }
   }
 
   showFields() {
-    this.clearFields()
     this.containerEl.classList.remove('container--source')
-    for (const field of this.document.fields) {
-      this.addField(field)
-    }
+    // TODO: Update to show all of the fields from the config.
   }
 
   showSource() {
-    this.clearFields()
     this.containerEl.classList.add('container--source')
-    for (const field of this.document.sourceFields) {
-      this.addField(field)
-    }
+    // TODO: Update to show the source field.
   }
 
   startAutosave() {
     if (this.autosaveID) {
-      this.stopAutosave()
+      window.clearInterval(this.autosaveID)
     }
 
     this.autosaveID = window.setInterval(() => {
