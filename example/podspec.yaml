@@ -9,7 +9,7 @@ localization:
   - de
 
 ext:
-- ext.translation.TranslationExtension:
+- ext.editor.EditorExtension:
     enabled@env.prod: false
 
 preprocessors:

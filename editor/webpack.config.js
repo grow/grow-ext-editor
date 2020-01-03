@@ -2,7 +2,7 @@ const path = require('path');
 const readdirRecursive = require('fs-readdir-recursive');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-const sourceDir = './source/'
+const sourceDir = './source/composite/'
 const files = readdirRecursive(sourceDir);
 const entry = {};
 files.forEach(function(value) {
@@ -31,12 +31,10 @@ module.exports = {
   module: {
     rules: [{
         test: /\.js$/,
-        exclude: /node_modules\/(?!(lit-html|@polymer)\/).*/,
         loader: 'babel-loader',
       },
       {
         test: /\.(sa|sc|c)ss$/,
-
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
@@ -46,7 +44,14 @@ module.exports = {
           },
           'css-loader',
           'postcss-loader',
-          'sass-loader',
+          {
+            loader: 'sass-loader',
+            options: {
+              sassOptions: {
+                includePaths: ['./node_modules']
+              }
+            }
+          }
         ]
       }
     ]

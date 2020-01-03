@@ -1,7 +1,9 @@
 {
-  "name": "grow_ext_editor_example",
+  "name": "grow_ext_editor",
   "private": true,
-  "dependencies": {},
+  "dependencies": {
+    "deep-extend": "^0.6.0"
+  },
   "browserslist": [
     "last 1 version",
     "last 2 iOS versions"
@@ -10,7 +12,7 @@
     "@babel/core": "^7.7.7",
     "@babel/preset-env": "^7.7.7",
     "babel-loader": "^8.0.6",
-    "css-loader": "^3.4.0",
+    "css-loader": "^3.4.1",
     "cssnano": "^4.1.10",
     "gulp": "^4.0.2",
     "fs-readdir-recursive": "^1.1.0",
@@ -19,7 +21,7 @@
     "postcss-import": "^12.0.1",
     "postcss-loader": "^3.0.0",
     "postcss-preset-env": "^6.7.0",
-    "sass": "^1.23.7",
+    "sass": "^1.24.1",
     "sass-loader": "^8.0.0",
     "style-loader": "^1.1.2",
     "sugarss": "^2.0.0",
