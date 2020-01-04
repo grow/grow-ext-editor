@@ -6,10 +6,10 @@ import Config from '../utility/config'
 import Document from './document'
 import EditorApi from './editorApi'
 import Selective from 'selective-edit'
-import { MDCIconButtonToggle } from '@material/icon-button'
-import { MDCLinearProgress } from '@material/linear-progress'
-import { MDCSwitch } from '@material/switch'
-import { MDCTextField } from '@material/textfield'
+import { MDCIconButtonToggle } from '@material/icon-button/index'
+import { MDCLinearProgress } from '@material/linear-progress/index'
+import { MDCSwitch } from '@material/switch/index'
+import { MDCTextField } from '@material/textfield/index'
 import expandObject from '../utility/expandObject'
 
 
@@ -32,9 +32,7 @@ export default class Editor {
     this.autosaveID = null
     this._isEditingSource = false
 
-    this.selective = new Selective(this.fieldsEl, {
-      // TODO: Selective configuration.
-    })
+    this.selective = new Selective(this.fieldsEl, {})
 
     this.autosaveToggleEl.addEventListener('click', this.handleAutosaveClick.bind(this))
     this.saveEl.addEventListener('click', () => { this.save(true) })
@@ -114,9 +112,6 @@ export default class Editor {
       response['raw_front_matter'],
       response['serving_paths'],
       response['default_locale'])
-
-    // TODO: Create form fields from the field config.
-    // response['editor']['fields'] || []
   }
 
   handleAutosaveClick(evt) {
@@ -131,6 +126,21 @@ export default class Editor {
     this._isEditingSource = false
     this.documentFromResponse(response)
     this.pushState(this.document.podPath)
+
+    // Set the data from the document front matter.
+    this.selective.data = this.document.frontMatter
+
+    // Load the field configuration from the response.
+    const fieldConfigs = response['editor']['fields'] || []
+
+    for (const fieldConfig of fieldConfigs) {
+      try {
+        this.selective.addField(fieldConfig)
+      } catch(e) {
+        // Ignore the error when the field type does not exist for now.
+      }
+    }
+
     this.refreshPreview()
   }
 
