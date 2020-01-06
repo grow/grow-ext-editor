@@ -1,6 +1,7 @@
 """API Handler for serving api requests."""
 
 import json
+import os
 import yaml
 from werkzeug import wrappers
 from grow.common import yaml_utils
@@ -8,6 +9,8 @@ from grow.common import yaml_utils
 
 class PodApi(object):
     """Basic pod api."""
+
+    EDITOR_FILE_NAME = '_editor.yaml'
 
     def __init__(self, pod, request, matched):
         self.pod = pod
@@ -21,12 +24,34 @@ class PodApi(object):
         """Generate a response object from the request information."""
         return wrappers.Response(json.dumps(self.data), mimetype='application/json')
 
+    def _editor_config(self, doc):
+        """Return the editor configuration for the document."""
+        # See if the document has an editor config.
+        fields = doc.format.front_matter.data
+        config = fields.get('$editor')
+        if config:
+            return config
+
+        # Fall back to the collection level editor config.
+        collection = doc.collection
+        editor_path = os.path.join(collection.pod_path, self.EDITOR_FILE_NAME)
+        if not self.pod.file_exists(editor_path):
+            return {}
+        return yaml.load(self.pod.read_file(editor_path), Loader=yaml.FullLoader) or {}
+
+    def _editor_config_partial(self, partial):
+        """Return the editor configuration for the partial."""
+        editor_path = '{}/{}'.format(partial.pod_path, self.EDITOR_FILE_NAME)
+        if self.pod.file_exists(editor_path):
+            return yaml.load(self.pod.read_file(editor_path), Loader=yaml.FullLoader) or {}
+        return {}
+
     def _load_doc(self, pod_path):
         doc = self.pod.get_doc(pod_path)
         if not doc.exists:
             return {
                 'pod_path': doc.pod_path,
-                'editor': doc.editor_config,
+                'editor': self._editor_config(doc),
                 'front_matter': {},
                 'serving_paths': {},
                 'default_locale': str(doc.default_locale),
@@ -45,7 +70,7 @@ class PodApi(object):
 
         return {
             'pod_path': doc.pod_path,
-            'editor': doc.editor_config,
+            'editor': self._editor_config(doc),
             'front_matter': front_matter,
             'serving_paths': serving_paths,
             'default_locale': str(doc.default_locale),
@@ -63,7 +88,7 @@ class PodApi(object):
         partials = {}
 
         for partial in self.pod.partials.get_partials():
-            editor_config = partial.editor_config
+            editor_config = self._editor_config_partial(partial)
             if editor_config:
                 partials[partial.key] = editor_config
 
