@@ -10,6 +10,7 @@ import { MDCIconButtonToggle } from '@material/icon-button/index'
 import { MDCLinearProgress } from '@material/linear-progress/index'
 import { MDCSwitch } from '@material/switch/index'
 import { MDCTextField } from '@material/textfield/index'
+import { defaultFieldTypes } from './fieldType'
 import expandObject from '../utility/expandObject'
 
 
@@ -58,6 +59,11 @@ export default class Editor {
       host: this.host,
       port: this.port,
     })
+
+    // Add the editor extension default field types.
+    for (const type of defaultFieldTypes) {
+      this.selective.addFieldType(type)
+    }
 
     // Default to loading with the UI.
     this.load(this.podPath)
@@ -134,11 +140,7 @@ export default class Editor {
     const fieldConfigs = response['editor']['fields'] || []
 
     for (const fieldConfig of fieldConfigs) {
-      try {
-        this.selective.addField(fieldConfig)
-      } catch(e) {
-        // Ignore the error when the field type does not exist for now.
-      }
+      this.selective.addField(fieldConfig)
     }
 
     this.refreshPreview()

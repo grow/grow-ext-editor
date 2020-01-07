@@ -1,10 +1,8 @@
 $title: Example
-description: All the examples we get.
-
 composite_files:
 - home
-
+description: All the examples we get.
 partials:
-- partial: example
+- description: Going places with examples.
+  partial: example
   title: An example title!
-  description: Going places with examples.
