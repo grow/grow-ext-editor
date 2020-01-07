@@ -1,0 +1,7 @@
+fields:
+- type: text
+  key: $title
+  label: Title
+- type: textarea
+  key: description
+  label: Description
