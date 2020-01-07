@@ -100,12 +100,12 @@ class PodApi(object):
         """Determine how to handle the request."""
         path = self.matched.params['path']
         method = self.request.method
-        if path == 'editor/content':
+        if path == 'content':
             if method == 'GET':
                 self.get_editor_content()
             elif method == 'POST':
                 self.post_editor_content()
-        elif path == 'editor/partials':
+        elif path == 'partials':
             if method == 'GET':
                 self.get_partials()
 

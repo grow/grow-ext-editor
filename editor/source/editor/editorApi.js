@@ -13,7 +13,7 @@ export default class EditorApi extends Api {
   getDocument(podPath) {
     const result = new Defer()
 
-    this.request.get(this.apiPath('editor/content'))
+    this.request.get(this.apiPath('content'))
       .query({ 'pod_path': podPath })
       .then((res) => {
         result.resolve(res.body)
@@ -25,7 +25,7 @@ export default class EditorApi extends Api {
   getPartials(podPath) {
     const result = new Defer()
 
-    this.request.get(this.apiPath('editor/partials'))
+    this.request.get(this.apiPath('partials'))
       .then((res) => {
         result.resolve(res.body)
       })
@@ -41,7 +41,7 @@ export default class EditorApi extends Api {
       'locale': locale,
     }
 
-    this.request.post(this.apiPath('editor/content'))
+    this.request.post(this.apiPath('content'))
       .type('form')
       .send(saveRequest)
       .then((res) => {
@@ -58,7 +58,7 @@ export default class EditorApi extends Api {
       'raw_front_matter': rawFrontMatter,
     }
 
-    this.request.post(this.apiPath('editor/content'))
+    this.request.post(this.apiPath('content'))
       .type('form')
       .send(saveRequest)
       .then((res) => {
