@@ -8,6 +8,7 @@ import EditorApi from './editorApi'
 import Selective from 'selective-edit'
 import { MDCIconButtonToggle } from '@material/icon-button/index'
 import { MDCLinearProgress } from '@material/linear-progress/index'
+import { MDCRipple } from '@material/ripple/index'
 import { MDCSwitch } from '@material/switch/index'
 import { MDCTextField } from '@material/textfield/index'
 import { defaultFieldTypes } from './fieldType'
@@ -25,7 +26,7 @@ export default class Editor {
     this.autosaveToggleEl = this.containerEl.querySelector('#autosave')
     this.previewEl = this.containerEl.querySelector('.preview')
     this.fieldsEl = this.containerEl.querySelector('.fields')
-    this.saveEl = this.containerEl.querySelector('.sidebar__save button')
+    this.saveEl = this.containerEl.querySelector('.sidebar__save .mdc-button')
     this.podPathEl = this.containerEl.querySelector('#pod_path')
     this.host = this.previewEl.dataset.host
     this.port = this.previewEl.dataset.port
@@ -40,6 +41,7 @@ export default class Editor {
     this.podPathEl.addEventListener('change', () => { this.load(this.podPath) })
     this.podPathEl.addEventListener('keyup', () => { this.delayPodPath() })
 
+    this.saveEl = MDCRipple.attachTo(this.autosaveEl)
     this.autoSaveMd = MDCSwitch.attachTo(this.autosaveEl)
     this.mobileToggleMd = MDCIconButtonToggle.attachTo(this.mobileToggleEl)
     this.mobileToggleEl.addEventListener(
