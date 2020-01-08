@@ -4,6 +4,7 @@
 
 import {
   html,
+  repeat,
   FieldType,
 } from 'selective-edit'
 import {
@@ -14,7 +15,42 @@ import {
 } from '@material/ripple/index'
 
 
-export const partialsFieldType = new FieldType('partials', {
+export class PartialsFieldType extends FieldType {
+  constructor(fieldEl, fieldType, config) {
+    super(fieldEl, fieldType, config)
+    this._api = null
+    this.partials = []
+  }
+
+  get api() {
+    return this._api
+  }
+
+  set api(api) {
+    this._api = api
+    this.updatePartials()
+  }
+
+  handleLoadPartialsResponse(response) {
+    const partials = []
+
+    // Sorted objects for the partials.
+    const partialKeys = Object.keys(response['partials']).sort()
+    for (const key of partialKeys) {
+      const newPartial = response['partials'][key]
+      newPartial['key'] = key
+      partials.push(newPartial)
+    }
+
+    this.partials = partials
+  }
+
+  updatePartials() {
+    this.api.getPartials().then(this.handleLoadPartialsResponse.bind(this))
+  }
+}
+
+export const partialsFieldType = new PartialsFieldType('partials', {
   uiCallback: (element) => {
     const fieldUi = {}
 
@@ -27,7 +63,7 @@ export const partialsFieldType = new FieldType('partials', {
 
     return fieldUi
   },
-}, (id, label, value, options) => html`<div class="field field__partials">
+}, (id, label, value, options, fieldType) => html`<div class="field field__partials">
   <div class="partials">
     <div class="partials__label"></div>
     <div class="partials__items">
@@ -45,13 +81,14 @@ export const partialsFieldType = new FieldType('partials', {
               <div class="mdc-notched-outline__trailing"></div>
             </div>
           </div>
-<!--
+
           <div class="mdc-select__menu mdc-menu mdc-menu-surface" role="listbox">
             <ul class="mdc-list">
-              <li class="mdc-list-item mdc-list-item--selected" data-value="" role="option"></li>
+              ${repeat(fieldType.partials, (partial) => partial.key, (partial, index) => html`
+                <li class="mdc-list-item ${index == 0 ? html`mdc-list-item--selected` : '' }" data-value="${partial.key}" role="option">${partial.key}</li>
+              `)}
             </ul>
           </div>
- -->
         </div>
 
         <button class="mdc-button mdc-button--outlined">

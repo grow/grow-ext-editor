@@ -62,6 +62,8 @@ export default class Editor {
 
     // Add the editor extension default field types.
     for (const type of defaultFieldTypes) {
+      // Allow the default types to use the api if desired.
+      type.api = this.api
       this.selective.addFieldType(type)
     }
 
