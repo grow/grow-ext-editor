@@ -2,6 +2,7 @@
  * Field types for the editor extension.
  */
 
+import * as extend from 'deep-extend'
 import {
   autoDeepObject,
   html,
@@ -36,36 +37,39 @@ export class PartialsField extends Field {
             ${field.valueFromData(data)}
             ${field.renderPartials(editor, data)}
           </div>
-          <div class="partials__add">
-            <div class="mdc-select mdc-select--outlined">
-              <div class="mdc-select__anchor">
-                <div class="mdc-notched-outline">
-                  <i class="mdc-select__dropdown-icon"></i>
-                  <div class="mdc-notched-outline__leading"></div>
-                  <div class="mdc-notched-outline__notch">
-                    <label class="mdc-floating-label">${field.options['addLabel'] || field.label}</label>
-                  </div>
-                  <div class="mdc-notched-outline__trailing"></div>
-                </div>
-              </div>
-              <div class="mdc-select__menu mdc-menu mdc-menu-surface">
-                <ul class="mdc-list">
-                  <li class="mdc-list-item mdc-list-item--selected" data-value="" aria-selected="true"></li>
-                  <li class="mdc-list-item" data-value="test">Testing</li>
-                  ${repeat(Object.keys(field.partialTypes), (key) => key, (key, index) => html`
-                    <li class="mdc-list-item" data-value="${key}">${key}</li>
-                  `)}
-                </ul>
-              </div>
-            </div>
-            <button class="mdc-button mdc-button--outlined">
-              <div class="mdc-button__ripple"></div>
-              <i class="material-icons mdc-button__icon" aria-hidden="true">add</i>
-              <span class="mdc-button__label">Add</span>
-            </button>
-          </div>
+          <!-- Partial adding goes here. -->
         </div>
       </div>`
+
+      // TODO: Get working when the mdc select works correctly.
+      // <div class="partials__add">
+      //   <div class="mdc-select mdc-select--outlined">
+      //     <div class="mdc-select__anchor">
+      //       <div class="mdc-notched-outline">
+      //         <i class="mdc-select__dropdown-icon"></i>
+      //         <div class="mdc-notched-outline__leading"></div>
+      //         <div class="mdc-notched-outline__notch">
+      //           <label class="mdc-floating-label">${field.options['addLabel'] || field.label}</label>
+      //         </div>
+      //         <div class="mdc-notched-outline__trailing"></div>
+      //       </div>
+      //     </div>
+      //     <div class="mdc-select__menu mdc-menu mdc-menu-surface">
+      //       <ul class="mdc-list">
+      //         <li class="mdc-list-item mdc-list-item--selected" data-value="" aria-selected="true"></li>
+      //         <li class="mdc-list-item" data-value="test">Testing</li>
+      //         ${repeat(Object.keys(field.partialTypes), (key) => key, (key, index) => html`
+      //           <li class="mdc-list-item" data-value="${key}">${key}</li>
+      //         `)}
+      //       </ul>
+      //     </div>
+      //   </div>
+      //   <button class="mdc-button mdc-button--outlined">
+      //     <div class="mdc-button__ripple"></div>
+      //     <i class="material-icons mdc-button__icon" aria-hidden="true">add</i>
+      //     <span class="mdc-button__label">Add</span>
+      //   </button>
+      // </div>
   }
 
   get api() {
@@ -157,17 +161,33 @@ export class PartialsField extends Field {
 }
 
 class PartialFields extends Fields {
-  constructor(fieldTypes, config) {
+  constructor(fieldTypes, config, partialKey) {
     super(fieldTypes, config)
 
     this.label = this.getConfig().get('partial', {})['label'] || 'Partial'
+    this.partialKey = partialKey
+    this._dataValue = undefined
+    this._value = undefined
 
     this.template = (editor, fields, data) => html`<div class="selective__fields selective__fields__partial">
       <div class="partial__label">${fields.label}</div>
+      ${fields.valueFromData(data)}
       ${repeat(fields.fields, (field) => field.getUid(), (field, index) => html`
         ${field.template(editor, field, data)}
       `)}
     </div>`
+  }
+
+  valueFromData(data) {
+    this._dataValue = autoDeepObject(data)
+  }
+
+  get value() {
+    return extend({}, this._dataValue.obj, super.value)
+  }
+
+  set value(value) {
+    // Setting value doesn't actually do anything.
   }
 }
 
