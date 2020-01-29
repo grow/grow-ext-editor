@@ -1,6 +1,7 @@
+label: Example Partial
 fields:
 - type: text
-  key: $title
+  key: title
   label: Title
 - type: textarea
   key: description

@@ -11,7 +11,7 @@ import { MDCLinearProgress } from '@material/linear-progress/index'
 import { MDCRipple } from '@material/ripple/index'
 import { MDCSwitch } from '@material/switch/index'
 import { MDCTextField } from '@material/textfield/index'
-import { defaultFieldTypes } from './fieldType'
+import { defaultFields } from './field'
 import expandObject from '../utility/expandObject'
 
 
@@ -63,10 +63,8 @@ export default class Editor {
     })
 
     // Add the editor extension default field types.
-    for (const type of defaultFieldTypes) {
-      // Allow the default types to use the api if desired.
-      type.api = this.api
-      this.selective.addFieldType(type)
+    for (const key of Object.keys(defaultFields)) {
+      this.selective.addFieldType(key, defaultFields[key])
     }
 
     // Default to loading with the UI.
@@ -137,15 +135,17 @@ export default class Editor {
     this.documentFromResponse(response)
     this.pushState(this.document.podPath)
 
-    // Set the data from the document front matter.
-    this.selective.data = this.document.frontMatter
-
     // Load the field configuration from the response.
     const fieldConfigs = response['editor']['fields'] || []
 
     for (const fieldConfig of fieldConfigs) {
+      // Allow the fields to use the API if needed.
+      fieldConfig['api'] = this.api
       this.selective.addField(fieldConfig)
     }
+
+    // Set the data from the document front matter.
+    this.selective.data = this.document.frontMatter
 
     this.refreshPreview()
   }
@@ -241,7 +241,7 @@ export default class Editor {
       result.then(this.handleSaveSourceResponse.bind(this))
     } else {
       // TODO: Retrieve the updated front matter value.
-      const newFrontMatter = {}
+      const newFrontMatter = this.selective.value
       const result = this.api.saveDocumentFields(this.podPath, newFrontMatter, this.document.locale)
       result.then(this.handleSaveFieldsResponse.bind(this))
     }
