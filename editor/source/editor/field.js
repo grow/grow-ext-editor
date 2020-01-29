@@ -166,8 +166,6 @@ class PartialFields extends Fields {
 
     this.label = this.getConfig().get('partial', {})['label'] || 'Partial'
     this.partialKey = partialKey
-    this._dataValue = undefined
-    this._value = undefined
 
     this.template = (editor, fields, data) => html`<div class="selective__fields selective__fields__partial">
       <div class="partial__label">${fields.label}</div>
@@ -176,18 +174,6 @@ class PartialFields extends Fields {
         ${field.template(editor, field, data)}
       `)}
     </div>`
-  }
-
-  valueFromData(data) {
-    this._dataValue = autoDeepObject(data)
-  }
-
-  get value() {
-    return extend({}, this._dataValue.obj, super.value)
-  }
-
-  set value(value) {
-    // Setting value doesn't actually do anything.
   }
 }
 
