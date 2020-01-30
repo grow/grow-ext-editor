@@ -119,7 +119,8 @@ export default class Editor {
       response['front_matter'],
       response['raw_front_matter'],
       response['serving_paths'],
-      response['default_locale'])
+      response['default_locale'],
+      response['content'])
   }
 
   handleAutosaveClick(evt) {
@@ -136,7 +137,7 @@ export default class Editor {
     this.pushState(this.document.podPath)
 
     // Set the data from the document front matter.
-    this.selective.data = this.document.frontMatter
+    this.selective.data = this.document.data
 
     // Load the field configuration from the response.
     let fieldConfigs = response['editor']['fields'] || []
@@ -145,12 +146,38 @@ export default class Editor {
     if (!fieldConfigs.length) {
       const guessedFields = this.selective.guessFields()
       fieldConfigs = guessedFields['fields'] || []
+
+      // Remove the content.
+      let contentConfigIndex = null
+      for (let i = 0; i < fieldConfigs.length; i++) {
+        if (fieldConfigs[i].key == '__content__') {
+          contentConfigIndex = i
+          break
+        }
+      }
+      if (contentConfigIndex) {
+        fieldConfigs.splice(contentConfigIndex, 1)
+      }
     }
 
     for (const fieldConfig of fieldConfigs) {
       // Allow the fields to use the API if needed.
       fieldConfig['api'] = this.api
       this.selective.addField(fieldConfig)
+    }
+
+    // Add the ability to edit the document body.
+    if (response['content']) {
+      let contentType = 'textarea'
+      if (this.document.podPath.endsWith('.md')) {
+        contentType = 'markdown'
+      }
+      this.selective.addField({
+        type: contentType,
+        key: "__content__",
+        label: "Content",
+        api: this.api,
+      })
     }
 
     this.selective.render()

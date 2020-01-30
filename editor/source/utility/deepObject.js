@@ -45,7 +45,5 @@ export const autoDeepObject = (value) => {
     return value
   }
 
-  console.log('here', value);
-
   return new DeepObject(value)
 }
