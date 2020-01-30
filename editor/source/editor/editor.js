@@ -73,6 +73,9 @@ export default class Editor {
     // Default to loading with the UI.
     this.load(this.podPath)
 
+    // Bind the keyboard actions.
+    this.bindKeyboard()
+
     // TODO Start the autosave depending on local storage.
     // this.startAutosave()
   }
@@ -102,6 +105,18 @@ export default class Editor {
       return ''
     }
     return this.document.servingPath
+  }
+
+  bindKeyboard() {
+    window.addEventListener('keydown', (event) => {
+      // Save when using Ctrl+s or Command+s.
+      if ((event.ctrlKey || event.metaKey) && event.key == 's') {
+        event.preventDefault()
+        this.save()
+        return false
+      }
+      return true
+    })
   }
 
   // When editing the pod path wait until the user stops typing before loading.
