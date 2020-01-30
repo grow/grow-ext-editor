@@ -97,7 +97,7 @@ export default class Editor {
   }
 
   get previewUrl() {
-    return `http://${this.host}:${this.port}${this.servingPath}`
+    return this.servingPath
   }
 
   get servingPath() {
