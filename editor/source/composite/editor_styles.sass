@@ -30,6 +30,32 @@ $speed-fast: 250ms
 // Padding unit
 $pad: 1em
 
+// Material design components
+$mdc-theme-primary: $color-p
+$mdc-theme-secondary: $color-s
+$mdc-theme-background: $color-back
+
+@import "@material/button/mdc-button"
+@import "@material/elevation/mdc-elevation"
+@import "@material/icon-button/mdc-icon-button"
+@import "@material/linear-progress/mdc-linear-progress"
+@import "@material/list/mdc-list"
+@import "@material/menu-surface/mdc-menu-surface"
+@import "@material/menu/mdc-menu"
+@import "@material/select/mdc-select"
+@import "@material/switch/mdc-switch"
+@import "@material/textfield/mdc-text-field"
+@import "@material/textfield/icon/mdc-text-field-icon"
+@import "selective-edit/sass/selective"
+
+.mdc-text-field--textarea
+  .mdc-floating-label
+    background-color: transparent
+
+// Pell Editor
+$pell-content-height: 20vh
+
+
 *
   box-sizing: border-box
 
@@ -250,30 +276,3 @@ body
   &:last-of-type
     .partial__down
       display: none
-
-
-// Material design components
-$mdc-theme-primary: $color-p
-$mdc-theme-secondary: $color-s
-$mdc-theme-background: $color-back
-
-@import "@material/button/mdc-button"
-@import "@material/elevation/mdc-elevation"
-@import "@material/icon-button/mdc-icon-button"
-@import "@material/linear-progress/mdc-linear-progress"
-@import "@material/list/mdc-list"
-@import "@material/menu-surface/mdc-menu-surface"
-@import "@material/menu/mdc-menu"
-@import "@material/select/mdc-select"
-@import "@material/switch/mdc-switch"
-@import "@material/textfield/mdc-text-field"
-@import "@material/textfield/icon/mdc-text-field-icon"
-
-.mdc-text-field--textarea
-  .mdc-floating-label
-    background-color: transparent
-
-// Pell Editor
-$pell-content-height: 20vh
-
-@import '../../node_modules/pell/src/pell'

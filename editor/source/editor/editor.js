@@ -208,7 +208,8 @@ export default class Editor {
       response['front_matter'],
       response['raw_front_matter'],
       response['serving_paths'],
-      response['default_locale'])
+      response['default_locale'],
+      response['content'])
 
     this.refreshPreview()
   }
@@ -220,7 +221,8 @@ export default class Editor {
       response['front_matter'],
       response['raw_front_matter'],
       response['serving_paths'],
-      response['default_locale'])
+      response['default_locale'],
+      response['content'])
 
     this.refreshPreview()
   }
