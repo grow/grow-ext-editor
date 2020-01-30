@@ -135,8 +135,17 @@ export default class Editor {
     this.documentFromResponse(response)
     this.pushState(this.document.podPath)
 
+    // Set the data from the document front matter.
+    this.selective.data = this.document.frontMatter
+
     // Load the field configuration from the response.
-    const fieldConfigs = response['editor']['fields'] || []
+    let fieldConfigs = response['editor']['fields'] || []
+
+    // If no fields defined, guess.
+    if (!fieldConfigs.length) {
+      const guessedFields = this.selective.guessFields()
+      fieldConfigs = guessedFields['fields'] || []
+    }
 
     for (const fieldConfig of fieldConfigs) {
       // Allow the fields to use the API if needed.
@@ -144,9 +153,7 @@ export default class Editor {
       this.selective.addField(fieldConfig)
     }
 
-    // Set the data from the document front matter.
-    this.selective.data = this.document.frontMatter
-
+    this.selective.render()
     this.refreshPreview()
   }
 
