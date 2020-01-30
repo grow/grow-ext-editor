@@ -31,8 +31,6 @@ export default class Editor {
     this.fieldsEl = this.containerEl.querySelector('.fields')
     this.saveEl = this.containerEl.querySelector('.sidebar__save .mdc-button')
     this.podPathEl = this.containerEl.querySelector('#pod_path')
-    this.host = this.previewEl.dataset.host
-    this.port = this.previewEl.dataset.port
     this.document = null
     this.autosaveID = null
     this._isEditingSource = false
@@ -60,10 +58,7 @@ export default class Editor {
     // Turn off the progress bar until saving.
     this.saveProgressMd.close()
 
-    this.api = new EditorApi({
-      host: this.host,
-      port: this.port,
-    })
+    this.api = new EditorApi()
 
     // Add the editor extension default field types.
     for (const key of Object.keys(defaultFields)) {
