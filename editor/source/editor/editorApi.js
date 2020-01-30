@@ -33,12 +33,13 @@ export default class EditorApi extends Api {
     return result.promise
   }
 
-  saveDocumentFields(podPath, frontMatter, locale) {
+  saveDocumentFields(podPath, frontMatter, locale, content) {
     const result = new Defer()
     const saveRequest = {
       'pod_path': podPath,
       'front_matter': JSON.stringify(frontMatter),
       'locale': locale,
+      'content': content,
     }
 
     this.request.post(this.apiPath('content'))

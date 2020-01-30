@@ -15,6 +15,9 @@ import { defaultFields } from './field'
 import expandObject from '../utility/expandObject'
 
 
+const CONTENT_KEY = '__content__'
+
+
 export default class Editor {
   constructor(containerEl, config) {
     this.containerEl = containerEl
@@ -150,7 +153,7 @@ export default class Editor {
       // Remove the content.
       let contentConfigIndex = null
       for (let i = 0; i < fieldConfigs.length; i++) {
-        if (fieldConfigs[i].key == '__content__') {
+        if (fieldConfigs[i].key == CONTENT_KEY) {
           contentConfigIndex = i
           break
         }
@@ -174,8 +177,8 @@ export default class Editor {
       }
       this.selective.addField({
         type: contentType,
-        key: "__content__",
-        label: "Content",
+        key: CONTENT_KEY,
+        label: 'Content',
         api: this.api,
       })
     }
@@ -276,9 +279,11 @@ export default class Editor {
       const result = this.api.saveDocumentSource(this.podPath, rawFrontMatter)
       result.then(this.handleSaveSourceResponse.bind(this))
     } else {
-      // TODO: Retrieve the updated front matter value.
       const newFrontMatter = this.selective.value
-      const result = this.api.saveDocumentFields(this.podPath, newFrontMatter, this.document.locale)
+      const content = newFrontMatter[CONTENT_KEY]
+      delete newFrontMatter[CONTENT_KEY]
+      const result = this.api.saveDocumentFields(
+        this.podPath, newFrontMatter, this.document.locale, content)
       result.then(this.handleSaveFieldsResponse.bind(this))
     }
   }

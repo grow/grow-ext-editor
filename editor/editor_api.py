@@ -122,7 +122,10 @@ class PodApi(object):
             # TODO: Array updates don't work well.
             fields = json.loads(self.request.POST['front_matter'])
             doc.format.front_matter.update_fields(fields)
-            doc.write()
+            if 'content' in self.request.POST:
+                doc.write(body=self.request.POST['content'])
+            else:
+                doc.write()
 
         self.pod.podcache.document_cache.remove(doc)
         self.data = self._load_doc(pod_path)
