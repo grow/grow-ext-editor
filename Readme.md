@@ -43,9 +43,10 @@ deployments:
 
 ### Collection Configuration
 
-The editor uses the `_editor.yaml` file in collections to determine which
-fields to show in the editor. If there is no configuration for a collection the
-editor attempts to guess the field types by the values of the content.
+In collections, the `_editor.yaml` file determines which
+fields to show in the editor. If no configuration file exists for a 
+collection the editor attempts to guess the field types by the values 
+of the content.
 
 ```yaml
 fields:
@@ -59,9 +60,6 @@ fields:
   key: partials
   label: Partials
 ```
-
-The `fields` setting handles the configuration for any document front matter to
-be edited in the editor.
 
 ### Partial Configuration
 
