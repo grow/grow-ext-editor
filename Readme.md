@@ -41,8 +41,64 @@ deployments:
       name: prod
 ```
 
-### Configuration
+### Collection Configuration
 
-The editor uses the `_editor.yaml` file in the collection to determine which fields to allow the editor to display.
+The editor uses the `_editor.yaml` file in collections to determine which
+fields to show in the editor. If there is no configuration for a collection the
+editor attempts to guess the field types by the values of the content.
 
-Partials can also define a `editor.yaml` file in their main directory to provide the editor with information on how the partial should be displayed for editing.
+```yaml
+fields:
+- type: text
+  key: $title
+  label: Title
+- type: textarea
+  key: meta.description
+  label: Description
+- type: partials
+  key: partials
+  label: Partials
+```
+
+The `fields` setting handles the configuration for any document front matter to
+be edited in the editor.
+
+### Partial Configuration
+
+Partials in the `/view/partials` directory can add front matter to their
+partials to configure how the partial should be displayed in the editor.
+
+```html
+# /views/partials/hero.html
+editor:
+  label: Hero
+  fields:
+  - type: text
+    key: title
+    label: Title
+  - type: text
+    key: subtitle
+    label: Sub Title
+---
+<div class="hero">
+   ...
+</div>
+```
+
+Partials can also define a `_editor.yaml` file in their main directory to provide the editor with information on how the partial should be displayed for editing.
+
+```yaml
+# /partials/hero/_editor.yaml
+editor:
+  label: Hero
+  fields:
+  - type: text
+    key: title
+    label: Title
+  - type: text
+    key: subtitle
+    label: Sub Title
+  - type: text
+    key: cta.text
+    label: CTA Title
+```
