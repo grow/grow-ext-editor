@@ -5,12 +5,14 @@ import os
 import yaml
 from werkzeug import wrappers
 from grow.common import yaml_utils
+from grow.documents import document_front_matter
 
 
 class PodApi(object):
     """Basic pod api."""
 
     EDITOR_FILE_NAME = '_editor.yaml'
+    PARTIALS_VIEWS_PATH = '/views/partials'
 
     def __init__(self, pod, request, matched):
         self.pod = pod
@@ -87,10 +89,26 @@ class PodApi(object):
         """Handle the request for editor content."""
         partials = {}
 
+        # Stand alone partials.
         for partial in self.pod.partials.get_partials():
             editor_config = self._editor_config_partial(partial)
             if editor_config:
                 partials[partial.key] = editor_config
+
+        # View partials.
+        view_pod_paths = []
+        split_front_matter = document_front_matter.DocumentFrontMatter.split_front_matter
+        for root, dirs, files in self.pod.walk(self.PARTIALS_VIEWS_PATH):
+            pod_dir = root.replace(self.pod.root, '')
+            for file_name in files:
+                view_pod_paths.append(os.path.join(pod_dir, file_name))
+
+        for view_pod_path in view_pod_paths:
+            partial_key, _ = os.path.splitext(os.path.basename(view_pod_path))
+            front_matter, _ = split_front_matter(self.pod.read_file(view_pod_path))
+            if front_matter:
+                editor_config = yaml.load(front_matter, Loader=yaml.FullLoader) or {}
+                partials[partial_key] = editor_config.get('editor', {})
 
         self.data = {
             'partials': partials,

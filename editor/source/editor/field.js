@@ -132,6 +132,12 @@ export class PartialsField extends Field {
     for (const partialData of this._value) {
       const partialKey = partialData['partial']
       const partialConfig = this.partialTypes[partialKey]
+
+      // Skip missing partials.
+      if (!partialConfig) {
+        continue
+      }
+
       const partialFields = new PartialFields(editor.fieldTypes, {
         'partial': partialConfig,
       })
