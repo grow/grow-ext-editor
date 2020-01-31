@@ -4,8 +4,8 @@ import os
 from grow import extensions
 from grow.extensions import hooks
 from grow.routing import router as grow_router
-import editor_api
-import handlers
+from . import editor_api
+from . import handlers
 
 
 class EditorDevHandlerHook(hooks.DevHandlerHook):
