@@ -101,7 +101,33 @@ editor:
     label: CTA Title
 ```
 
-### Field Types
+### Field Configuration
+
+The key of the field is used to retrieve the value to be edited from the document.
+To access nested data use the `.` to separate out key names.
+
+For example, with a document that has a `meta` value:
+
+```yaml
+# /content/pages/example.yaml
+$title: Example page
+meta:
+  description: Example description
+```
+
+The field can be configured to edit the title and description like so:
+
+```yaml
+# /content/pages/_editor.yaml
+editor:
+  fields:
+  - type: text
+    key: $title
+    label: Title
+  - type: text
+    key: meta.description
+    label: Description
+```
 
 The following field types are available for use in the editor configurations:
 
