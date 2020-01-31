@@ -20,7 +20,7 @@ ext:
 
 When the extension is enabled (on by default) the editor UI JS and CSS will be added to the build output.
 
-The editor can be viewed at `/_grow/ext/editor/`.
+The editor can be viewed at `/_grow/editor/`.
 
 ### Environment specific configuration.
 
