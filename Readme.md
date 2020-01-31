@@ -68,6 +68,7 @@ partials to configure how the partial should be displayed in the editor.
 
 ```html
 # /views/partials/hero.html
+---
 editor:
   label: Hero
   fields:
