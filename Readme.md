@@ -67,8 +67,8 @@ Partials in the `/view/partials` directory can add front matter to their
 partials to configure how the partial should be displayed in the editor.
 
 ```html
-# /views/partials/hero.html
 ---
+# /views/partials/hero.html
 editor:
   label: Hero
   fields:
