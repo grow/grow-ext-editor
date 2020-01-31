@@ -44,8 +44,8 @@ deployments:
 ### Collection Configuration
 
 In collections, the `_editor.yaml` file determines which
-fields to show in the editor. If no configuration file exists for a 
-collection the editor attempts to guess the field types by the values 
+fields to show in the editor. If no configuration file exists for a
+collection the editor attempts to guess the field types by the values
 of the content.
 
 ```yaml
@@ -100,3 +100,12 @@ editor:
     key: cta.text
     label: CTA Title
 ```
+
+### Field Types
+
+The following field types are available for use in the editor configurations:
+
+- `text` - Standard text field.
+- `textarea` - Standard textarea field.
+- `markdown` - Uses a markdown editor to work with the content.
+- `partials` - shows the fields for all partials when editor configuration is defined.
