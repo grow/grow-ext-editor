@@ -1,6 +1,6 @@
 # Grow Editor Extension
 
-Note: **Experimental**
+Status: **In Development**
 
 Extension for using an editor interface to edit content files.
 
