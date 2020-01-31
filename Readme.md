@@ -49,6 +49,7 @@ collection the editor attempts to guess the field types by the values
 of the content.
 
 ```yaml
+# /content/pages/_editor.yaml
 fields:
 - type: text
   key: $title
