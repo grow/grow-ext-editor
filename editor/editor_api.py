@@ -1,5 +1,6 @@
 """API Handler for serving api requests."""
 
+from __future__ import print_function
 import json
 import os
 import yaml
@@ -13,6 +14,11 @@ class PodApi(object):
 
     EDITOR_FILE_NAME = '_editor.yaml'
     PARTIALS_VIEWS_PATH = '/views/partials'
+    STRINGS_PATH = '/content/strings'
+    IGNORED_PREFIXS = (
+        '.',
+        '_',
+    )
 
     def __init__(self, pod, request, matched):
         self.pod = pod
@@ -63,7 +69,7 @@ class PodApi(object):
 
         serving_paths = {}
         serving_paths[str(doc.default_locale)] = doc.get_serving_path()
-        for key, value in doc.get_serving_paths_localized().iteritems():
+        for key, value in doc.get_serving_paths_localized().items():
             serving_paths[str(key)] = value
 
         raw_front_matter = doc.format.front_matter.export()
@@ -114,6 +120,26 @@ class PodApi(object):
             'partials': partials,
         }
 
+    def get_strings(self):
+        """Handle the request for strings content for use with !g.string constructor."""
+        strings = {
+        }
+
+        # Read all of the strings.
+        pod_paths = []
+        for root, dirs, files in self.pod.walk(self.STRINGS_PATH):
+            pod_dir = root.replace(self.pod.root, '')
+            for file_name in files:
+                if not file_name.startswith(self.IGNORED_PREFIXS):
+                    pod_paths.append(os.path.join(pod_dir, file_name))
+
+        for pod_path in pod_paths:
+            strings[pod_path] = self.pod.read_yaml(pod_path)
+
+        self.data = {
+            'strings': strings,
+        }
+
     def handle_request(self):
         """Determine how to handle the request."""
         path = self.matched.params['path']
@@ -126,6 +152,9 @@ class PodApi(object):
         elif path == 'partials':
             if method == 'GET':
                 self.get_partials()
+        elif path == 'strings':
+            if method == 'GET':
+                self.get_strings()
 
     def post_editor_content(self):
         """Handle the request to save editor content."""
