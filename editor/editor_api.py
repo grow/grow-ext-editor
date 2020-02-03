@@ -7,6 +7,7 @@ import yaml
 from werkzeug import wrappers
 from grow.common import yaml_utils
 from grow.documents import document_front_matter
+from grow.routing import router as grow_router
 
 
 class PodApi(object):
@@ -86,6 +87,27 @@ class PodApi(object):
             'content': doc.body,
         }
 
+    def get_documents(self):
+        """Handle the request for document and static info."""
+        documents = {}
+
+        # Read all of the documents in the routes.
+        # TODO: Has to create a concrete routes each time. Not efficient.
+        router = grow_router.Router(self.pod)
+        router.use_simple()
+        router.add_all(concrete=True)
+        for path, node_info, _options in router.routes.nodes:
+            if node_info.kind in ('doc', 'static'):
+                documents[path] = {
+                    'pod_path': node_info.meta['pod_path'],
+                    'locale': node_info.meta.get('locale'),
+                    'locale': node_info.meta.get('locale'),
+                }
+
+        self.data = {
+            'documents': documents,
+        }
+
     def get_editor_content(self):
         """Handle the request for editor content."""
         pod_path = self.request.params.get('pod_path')
@@ -155,6 +177,9 @@ class PodApi(object):
         elif path == 'strings':
             if method == 'GET':
                 self.get_strings()
+        elif path == 'documents':
+            if method == 'GET':
+                self.get_documents()
 
     def post_editor_content(self):
         """Handle the request to save editor content."""
