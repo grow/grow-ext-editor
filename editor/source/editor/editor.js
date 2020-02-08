@@ -36,13 +36,11 @@ export default class Editor {
           <div class="editor__menu">
             <button class="editor__save editor--primary" @click=${editor.save.bind(editor)}>Save</button>
             <div class="editor__actions">
-              <button class="editor__style__fields editor--secondary editor--selected" @click=${editor.handleSourceClick.bind(editor)}>Fields</button>
+              <button class="editor__style__fields editor--secondary editor--selected" @click=${editor.handleFieldsClick.bind(editor)}>Fields</button>
               <button class="editor__style__raw editor--secondary" @click=${editor.handleSourceClick.bind(editor)}>Raw</button>
             </div>
           </div>
-          <div class="editor__selective">
-            ${selective.template(selective, selective.data)}
-          </div>
+          ${editor.templateEditorOrSource}
         </div>
       </div>
       <div class="editor__preview">
@@ -123,6 +121,22 @@ export default class Editor {
     return styles.join(' ')
   }
 
+  get templateEditorOrSource() {
+    if (this.isEditingSource) {
+      return html`<div class="editor__source">
+        Source!!!
+      </div>`
+    }
+    return html`<div class="editor__selective">
+      ${this.selective.template(this.selective, this.selective.data)}
+    </div>`
+  }
+
+  set isEditingSource(value) {
+    this._isEditingSource = value
+    // TODO: Save to local storage.
+  }
+
   set isMobileRotated(value) {
     this._isMobileRotated = value
     // TODO: Save to local storage.
@@ -172,6 +186,15 @@ export default class Editor {
       response['serving_paths'],
       response['default_locale'],
       response['content'])
+  }
+
+  handleFieldsClick(evt) {
+    this.isEditingSource = false
+
+    // TODO: Show only the source as a field.
+    console.log('Show the fields...');
+
+    this.render()
   }
 
   handleLoadFieldsResponse(response) {
@@ -280,7 +303,12 @@ export default class Editor {
   }
 
   handleSourceClick(evt) {
-    this.load(this.podPath)
+    this.isEditingSource = true
+
+    // TODO: Show only the raw source as form field.
+    console.log('Show the source...');
+
+    this.render()
   }
 
   load(podPath) {

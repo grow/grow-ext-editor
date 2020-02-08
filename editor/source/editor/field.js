@@ -41,13 +41,12 @@ export class PartialsField extends Field {
         </div>
 
         <div class="partials__add">
-          <select name="pets" id="pet-select">
-            <option value="">${field.options['defaultLabel'] || ''}</option>
+          <select @change=${field.handleAddPartial}>
+            <option value="">${field.options['addLabel'] || 'Add section'}</option>
             ${repeat(Object.entries(field.partialTypes), (item) => item[0], (item, index) => html`
               <option value="${item[1]['key']}">${item[1]['label']}</option>
             `)}
           </select>
-          <button>${field.options['addLabel'] || 'Add section'}</button>
         </div>
       </div>
     </div>`
@@ -73,6 +72,10 @@ export class PartialsField extends Field {
 
   set value(value) {
     this._value = value || []
+  }
+
+  handleAddPartial(evt) {
+    console.log('Add partial!', evt.target.value);
   }
 
   handleLoadPartialsResponse(response) {
