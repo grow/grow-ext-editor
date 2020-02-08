@@ -5,6 +5,11 @@
 import Config from '../utility/config'
 import Document from './document'
 import EditorApi from './editorApi'
+import {
+  html,
+  repeat,
+  render,
+} from 'selective-edit'
 import Selective from 'selective-edit'
 import { MDCIconButtonToggle } from '@material/icon-button/index'
 import { MDCLinearProgress } from '@material/linear-progress/index'
@@ -22,61 +27,59 @@ export default class Editor {
   constructor(containerEl, config) {
     this.containerEl = containerEl
     this.config = new Config(config || {})
-    this.mobileToggleEl = this.containerEl.querySelector('#content_device')
-    this.sourceToggleEl = this.containerEl.querySelector('#content_source')
-    this.contentPreviewEl = this.containerEl.querySelector('.content__preview')
-    this.autosaveEl = this.containerEl.querySelector('.sidebar__save__auto .mdc-switch')
-    this.autosaveToggleEl = this.containerEl.querySelector('#autosave')
-    this.previewEl = this.containerEl.querySelector('.preview')
-    this.fieldsEl = this.containerEl.querySelector('.fields')
-    this.saveEl = this.containerEl.querySelector('.sidebar__save .mdc-button')
-    this.podPathEl = this.containerEl.querySelector('#pod_path')
+    this.template = (editor, selective) => html`<div class="editor ${editor.stylesEditor}">
+      <div class="editor__edit">
+        <div class="editor__pod_path">
+          <input type="text" value="${editor.podPath}"
+            @change=${editor.handlePodPathChange.bind(editor)}
+            @input=${editor.handlePodPathInput.bind(editor)}>
+        </div>
+        <div class="editor__card">
+          <div class="editor__menu">
+            <button class="editor__save editor--primary" @click=${editor.save.bind(editor)}>Save</button>
+            <div class="editor__actions">
+              <button class="editor__style__fields editor--secondary editor--selected" @click=${editor.handleSourceClick.bind(editor)}>Fields</button>
+              <button class="editor__style__raw editor--secondary" @click=${editor.handleSourceClick.bind(editor)}>Raw</button>
+            </div>
+          </div>
+          <div class="editor__selective">
+            ${selective.template(selective, selective.data)}
+          </div>
+        </div>
+      </div>
+      <div class="editor__preview ${editor.stylesPreview}">
+        <iframe src="${editor.servingPath}"></iframe>
+      </div>
+    </div>`
+
+    const EditorApiCls = this.config.get('EditorApiCls', EditorApi)
+    this.api = new EditorApiCls()
+
+    this.podPath = this.containerEl.dataset.defaultPath || ''
     this.document = null
     this.autosaveID = null
     this._isEditingSource = false
+    this._isMobileView = false
 
-    this.selective = new Selective(this.fieldsEl, {})
-
-    this.autosaveToggleEl.addEventListener('click', this.handleAutosaveClick.bind(this))
-    this.saveEl.addEventListener('click', () => { this.save(true) })
-    this.podPathEl.addEventListener('change', () => { this.load(this.podPath) })
-    this.podPathEl.addEventListener('keyup', () => { this.delayPodPath() })
-
-    this.saveEl = MDCRipple.attachTo(this.autosaveEl)
-    this.autoSaveMd = MDCSwitch.attachTo(this.autosaveEl)
-    this.mobileToggleMd = MDCIconButtonToggle.attachTo(this.mobileToggleEl)
-    this.mobileToggleEl.addEventListener(
-      'MDCIconButtonToggle:change', this.handleMobileClick.bind(this))
-    this.sourceToggleMd = MDCIconButtonToggle.attachTo(this.sourceToggleEl)
-    this.sourceToggleEl.addEventListener(
-      'MDCIconButtonToggle:change', this.handleSourceClick.bind(this))
-    this.podPathMd = new MDCTextField(
-      this.containerEl.querySelector('.content__path .mdc-text-field'))
-    this.saveProgressMd = MDCLinearProgress.attachTo(
-      this.containerEl.querySelector('.sidebar__save .mdc-linear-progress'))
-
-    // Turn off the progress bar until saving.
-    this.saveProgressMd.close()
-
-    this.api = new EditorApi()
+    this.selective = new Selective(null, {})
 
     // Add the editor extension default field types.
     for (const key of Object.keys(defaultFields)) {
       this.selective.addFieldType(key, defaultFields[key])
     }
 
-    // Default to loading with the UI.
-    this.load(this.podPath)
-
-    // Bind the keyboard actions.
+    this.bindEvents()
     this.bindKeyboard()
 
+    this.load(this.podPath)
+
     // TODO Start the autosave depending on local storage.
-    // this.startAutosave()
+    this.startAutosave()
   }
 
   get autosave() {
-    return this.autosaveToggleEl.checked
+    // Always autosave for now.
+    return true
   }
 
   get isClean() {
@@ -87,8 +90,8 @@ export default class Editor {
     return this._isEditingSource
   }
 
-  get podPath() {
-    return this.podPathEl.value
+  get isMobileView() {
+    return this._isMobileView
   }
 
   get previewUrl() {
@@ -100,6 +103,28 @@ export default class Editor {
       return ''
     }
     return this.document.servingPath
+  }
+
+  get stylesEditor() {
+    const styles = []
+    if (!this.isMobileView) {
+      styles.push('editor--mobile')
+    }
+    return styles.join(' ')
+  }
+
+  get stylesPreview() {
+    if (!this.isMobileView) {
+      return 'editor__preview--mobile'
+    }
+    return ''
+  }
+
+  bindEvents() {
+    // Allow triggering a re-render.
+    document.addEventListener('selective.render', () => {
+      this.render()
+    })
   }
 
   bindKeyboard() {
@@ -134,14 +159,6 @@ export default class Editor {
       response['serving_paths'],
       response['default_locale'],
       response['content'])
-  }
-
-  handleAutosaveClick(evt) {
-    if (this.autosaveToggleEl.checked) {
-      this.startAutosave()
-    } else {
-      this.stopAutosave()
-    }
   }
 
   handleLoadFieldsResponse(response) {
@@ -193,25 +210,30 @@ export default class Editor {
       })
     }
 
-    this.selective.render()
-    this.refreshPreview()
+    this.render()
   }
 
   handleLoadSourceResponse(response) {
     this._isEditingSource = true
     this.documentFromResponse(response)
     this.pushState(this.document.podPath)
-    this.refreshPreview()
+    this.render()
   }
 
   handleMobileClick(evt) {
     if (evt.detail.isOn) {
       this.containerEl.classList.add('container--mobile')
-      this.previewEl.classList.add('mdc-elevation--z4')
     } else {
       this.containerEl.classList.remove('container--mobile')
-      this.previewEl.classList.remove('mdc-elevation--z4')
     }
+  }
+
+  handlePodPathChange(evt) {
+    this.load(evt.target.value)
+  }
+
+  handlePodPathInput(evt) {
+    this.delayPodPath(evt.target.value)
   }
 
   handleSaveFieldsResponse(response) {
@@ -224,7 +246,7 @@ export default class Editor {
       response['default_locale'],
       response['content'])
 
-    this.refreshPreview()
+    this.render()
   }
 
   handleSaveSourceResponse(response) {
@@ -237,7 +259,7 @@ export default class Editor {
       response['default_locale'],
       response['content'])
 
-    this.refreshPreview()
+    this.render()
   }
 
   handleSourceClick(evt) {
@@ -245,7 +267,7 @@ export default class Editor {
   }
 
   load(podPath) {
-    if (this.sourceToggleMd.on) {
+    if (this.isEditingSource) {
       this.loadSource(podPath)
     } else {
       this.loadFields(podPath)
@@ -270,12 +292,11 @@ export default class Editor {
     }
   }
 
-  refreshPreview() {
-    if (this.previewEl.src == this.previewUrl) {
-      this.previewEl.contentWindow.location.reload(true)
-    } else {
-      this.previewEl.src = this.previewUrl
-    }
+  render() {
+    render(this.template(this, this.selective), this.containerEl)
+
+    // Allow selective to run its post render process.
+    this.selective.postRender(this.containerEl)
   }
 
   save(force) {
@@ -316,15 +337,11 @@ export default class Editor {
     this.autosaveID = window.setInterval(() => {
       this.save()
     }, this.config.get('autosaveInterval', 2000))
-
-    this.autosaveToggleEl.checked = true
   }
 
   stopAutosave() {
     if (this.autosaveID) {
       window.clearInterval(this.autosaveID)
     }
-
-    this.autosaveToggleEl.checked = false
   }
 }

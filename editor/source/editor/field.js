@@ -10,9 +10,6 @@ import {
   Field,
   Fields,
 } from 'selective-edit'
-import {
-  MDCSelect
-} from '@material/select/index'
 
 export class PartialsField extends Field {
   constructor(config) {
@@ -30,16 +27,20 @@ export class PartialsField extends Field {
     }
 
     this.template = (editor, field, data) => html`<div class="selective__field selective__field__partials">
-      <div class="partials">
+      <div class="partials__menu">
         <div class="partials__label">${field.label}</div>
-        <div class="partials__items">
-          <div class="partials__list" id="${field.getUid()}">
-            ${field.valueFromData(data)}
-            ${field.renderPartials(editor, data)}
-          </div>
-          <!-- Partial adding goes here. -->
+        <div class="editor__actions">
+          <button class="partials__action--expand">Expand All</button>
         </div>
-      </div>`
+      </div>
+      <div class="partials__items">
+        <div class="partials__list" id="${field.getUid()}">
+          ${field.valueFromData(data)}
+          ${field.renderPartials(editor, data)}
+        </div>
+        <!-- Partial adding goes here. -->
+      </div>
+    </div>`
 
       // TODO: Get working when the mdc select works correctly.
       // <div class="partials__add">
@@ -92,12 +93,6 @@ export class PartialsField extends Field {
 
   set value(value) {
     this._value = value || []
-  }
-
-  static initialize(containerEl) {
-    const fieldInstances = containerEl.querySelectorAll('.selective__field__partials')
-    this.intializeMaterialComponents(
-      fieldInstances, '.mdc-select', MDCSelect)
   }
 
   handleLoadPartialsResponse(response) {
@@ -166,6 +161,30 @@ export class PartialsField extends Field {
   }
 }
 
+export class TextField extends Field {
+  constructor(config) {
+    super(config)
+    this.fieldType = 'text'
+
+    this.template = (editor, field, data) => html`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
+      <label for="${field.getUid()}">${field.label}</label>
+      <input type="text" id="${field.getUid()}" class="mdc-text-field__input" value="${field.valueFromData(data)}" @input=${field.handleInput.bind(field)}>
+    </div>`
+  }
+}
+
+export class TextareaField extends Field {
+  constructor(config) {
+    super(config)
+    this.fieldType = 'textarea'
+
+    this.template = (editor, field, data) => html`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
+      <label for="${field.getUid()}">${field.label}</label>
+      <textarea id="${field.getUid()}" rows="${field.options.rows || 6}" @input=${field.handleInput.bind(field)}>${field.valueFromData(data) || ' '}</textarea>
+    </div>`
+  }
+}
+
 class PartialFields extends Fields {
   constructor(fieldTypes, config, partialKey) {
     super(fieldTypes, config)
@@ -173,8 +192,8 @@ class PartialFields extends Fields {
     this.label = this.getConfig().get('partial', {})['label'] || 'Partial'
     this.partialKey = partialKey
 
-    this.template = (editor, fields, data) => html`<div class="selective__fields selective__fields__partial">
-      <div class="partial__label">${fields.label}</div>
+    this.template = (editor, fields, data) => html`<div class="selective__fields selective__fields__partials" data-fields-type="partials">
+      <div class="partial__fields__label">${fields.label}</div>
       ${fields.valueFromData(data)}
       ${repeat(fields.fields, (field) => field.getUid(), (field, index) => html`
         ${field.template(editor, field, data)}
@@ -186,4 +205,6 @@ class PartialFields extends Fields {
 
 export const defaultFields = {
   'partials': PartialsField,
+  'text': TextField,
+  'textarea': TextareaField,
 }
