@@ -29,7 +29,8 @@ export default class Editor {
             @change=${editor.handlePodPathChange.bind(editor)}
             @input=${editor.handlePodPathInput.bind(editor)}>
           <i class="material-icons" @click=${editor.handleMobileClick.bind(editor)}>devices</i>
-          <i class="material-icons" @click=${editor.handleMobileRotateClick.bind(editor)}>screen_rotation</i>
+          <i class="material-icons editor--mobile-only" @click=${editor.handleMobileRotateClick.bind(editor)}>screen_rotation</i>
+          <i class="material-icons" @click=${editor.handleOpenInNew.bind(editor)}>open_in_new</i>
         </div>
         <div class="editor__card">
           <div class="editor__menu">
@@ -74,7 +75,7 @@ export default class Editor {
     this.load(this.podPath)
 
     // TODO Start the autosave depending on local storage.
-    this.startAutosave()
+    // this.startAutosave()
   }
 
   get autosave() {
@@ -240,6 +241,10 @@ export default class Editor {
   handleMobileClick(evt) {
     this.isMobileView = !this.isMobileView
     this.render()
+  }
+
+  handleOpenInNew(evt) {
+    window.open(this.servingPath, '_blank')
   }
 
   handlePodPathChange(evt) {

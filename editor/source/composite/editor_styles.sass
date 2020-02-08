@@ -47,7 +47,8 @@
 
 .editor__edit
   flex-basis: 40%
-  max-width: 500px
+  max-width: $edit-column-max-width
+  min-width: $edit-column-min-width
 
 .editor__pod_path
   background: $color-s
@@ -62,6 +63,8 @@
     cursor: pointer
     font-size: 18px
     margin: 0 $pad / 4
+    opacity: 0.25
+    transition: opacity $speed-fast
 
   input
     background: transparent
@@ -71,6 +74,20 @@
     font-weight: bold
     padding: $pad/2
     width: 100%
+
+  &:hover
+    i
+      opacity: 1
+
+      &.editor--mobile-only
+        cursor: default
+        opacity: 0.25
+
+.editor--mobile
+  .editor__pod_path:hover
+    i.editor--mobile-only
+      cursor: pointer
+      opacity: 1
 
 .editor__card
   background-color: $color-back
