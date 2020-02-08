@@ -11,11 +11,6 @@ import {
   render,
 } from 'selective-edit'
 import Selective from 'selective-edit'
-import { MDCIconButtonToggle } from '@material/icon-button/index'
-import { MDCLinearProgress } from '@material/linear-progress/index'
-import { MDCRipple } from '@material/ripple/index'
-import { MDCSwitch } from '@material/switch/index'
-import { MDCTextField } from '@material/textfield/index'
 import { defaultFields } from './field'
 import expandObject from '../utility/expandObject'
 
