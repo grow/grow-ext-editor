@@ -31,6 +31,7 @@ export class PartialsField extends Field {
         <div class="partials__label">${field.label}</div>
         <div class="editor__actions">
           <button class="partials__action--expand">Expand All</button>
+          <button class="partials__action--collapse">Collapse All</button>
         </div>
       </div>
       <div class="partials__items">
@@ -38,39 +39,18 @@ export class PartialsField extends Field {
           ${field.valueFromData(data)}
           ${field.renderPartials(editor, data)}
         </div>
-        <!-- Partial adding goes here. -->
+
+        <div class="partials__add">
+          <select name="pets" id="pet-select">
+            <option value="">${field.options['defaultLabel'] || ''}</option>
+            ${repeat(Object.entries(field.partialTypes), (item) => item[0], (item, index) => html`
+              <option value="${item[1]['key']}">${item[1]['label']}</option>
+            `)}
+          </select>
+          <button>${field.options['addLabel'] || 'Add section'}</button>
+        </div>
       </div>
     </div>`
-
-      // TODO: Get working when the mdc select works correctly.
-      // <div class="partials__add">
-      //   <div class="mdc-select mdc-select--outlined">
-      //     <div class="mdc-select__anchor">
-      //       <div class="mdc-notched-outline">
-      //         <i class="mdc-select__dropdown-icon"></i>
-      //         <div class="mdc-notched-outline__leading"></div>
-      //         <div class="mdc-notched-outline__notch">
-      //           <label class="mdc-floating-label">${field.options['addLabel'] || field.label}</label>
-      //         </div>
-      //         <div class="mdc-notched-outline__trailing"></div>
-      //       </div>
-      //     </div>
-      //     <div class="mdc-select__menu mdc-menu mdc-menu-surface">
-      //       <ul class="mdc-list">
-      //         <li class="mdc-list-item mdc-list-item--selected" data-value="" aria-selected="true"></li>
-      //         <li class="mdc-list-item" data-value="test">Testing</li>
-      //         ${repeat(Object.keys(field.partialTypes), (key) => key, (key, index) => html`
-      //           <li class="mdc-list-item" data-value="${key}">${key}</li>
-      //         `)}
-      //       </ul>
-      //     </div>
-      //   </div>
-      //   <button class="mdc-button mdc-button--outlined">
-      //     <div class="mdc-button__ripple"></div>
-      //     <i class="material-icons mdc-button__icon" aria-hidden="true">add</i>
-      //     <span class="mdc-button__label">Add</span>
-      //   </button>
-      // </div>
   }
 
   get api() {

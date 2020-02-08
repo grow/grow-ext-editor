@@ -28,6 +28,8 @@ export default class Editor {
           <input type="text" value="${editor.podPath}"
             @change=${editor.handlePodPathChange.bind(editor)}
             @input=${editor.handlePodPathInput.bind(editor)}>
+          <i class="material-icons" @click=${editor.handleMobileClick.bind(editor)}>devices</i>
+          <i class="material-icons" @click=${editor.handleMobileRotateClick.bind(editor)}>screen_rotation</i>
         </div>
         <div class="editor__card">
           <div class="editor__menu">
@@ -42,7 +44,7 @@ export default class Editor {
           </div>
         </div>
       </div>
-      <div class="editor__preview ${editor.stylesPreview}">
+      <div class="editor__preview">
         <iframe src="${editor.servingPath}"></iframe>
       </div>
     </div>`
@@ -53,7 +55,10 @@ export default class Editor {
     this.podPath = this.containerEl.dataset.defaultPath || ''
     this.document = null
     this.autosaveID = null
+
+    // TODO: Read from local storage.
     this._isEditingSource = false
+    this._isMobileRotated = false
     this._isMobileView = false
 
     this.selective = new Selective(null, {})
@@ -85,6 +90,10 @@ export default class Editor {
     return this._isEditingSource
   }
 
+  get isMobileRotated() {
+    return this._isMobileRotated
+  }
+
   get isMobileView() {
     return this._isMobileView
   }
@@ -102,17 +111,25 @@ export default class Editor {
 
   get stylesEditor() {
     const styles = []
-    if (!this.isMobileView) {
+    if (this.isMobileView) {
       styles.push('editor--mobile')
+
+      // Only allow the rotated when in mobile view.
+      if (this.isMobileRotated) {
+        styles.push('editor--rotated')
+      }
     }
     return styles.join(' ')
   }
 
-  get stylesPreview() {
-    if (!this.isMobileView) {
-      return 'editor__preview--mobile'
-    }
-    return ''
+  set isMobileRotated(value) {
+    this._isMobileRotated = value
+    // TODO: Save to local storage.
+  }
+
+  set isMobileView(value) {
+    this._isMobileView = value
+    // TODO: Save to local storage.
   }
 
   bindEvents() {
@@ -215,12 +232,14 @@ export default class Editor {
     this.render()
   }
 
+  handleMobileRotateClick(evt) {
+    this.isMobileRotated = !this.isMobileRotated
+    this.render()
+  }
+
   handleMobileClick(evt) {
-    if (evt.detail.isOn) {
-      this.containerEl.classList.add('container--mobile')
-    } else {
-      this.containerEl.classList.remove('container--mobile')
-    }
+    this.isMobileView = !this.isMobileView
+    this.render()
   }
 
   handlePodPathChange(evt) {
@@ -232,7 +251,6 @@ export default class Editor {
   }
 
   handleSaveFieldsResponse(response) {
-    this.saveProgressMd.close()
     this.document.update(
       response['pod_path'],
       response['front_matter'],
@@ -245,7 +263,6 @@ export default class Editor {
   }
 
   handleSaveSourceResponse(response) {
-    this.saveProgressMd.close()
     this.document.update(
       response['pod_path'],
       response['front_matter'],
@@ -295,10 +312,9 @@ export default class Editor {
   }
 
   save(force) {
-    this.saveProgressMd.open()
     if (this.isClean && !force) {
       // Already saved with no new changes.
-      this.saveProgressMd.close()
+      return
     } else if (this.isEditingSource) {
       // TODO: Retrieve the edited front matter.
       const rawFrontMatter = ''
