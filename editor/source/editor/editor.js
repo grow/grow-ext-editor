@@ -82,7 +82,7 @@ export default class Editor {
   }
 
   get isClean() {
-    return this.selective.isClean
+    return this.document.isClean && this.selective.isClean
   }
 
   get isEditingSource() {
@@ -110,6 +110,7 @@ export default class Editor {
 
   get stylesEditor() {
     const styles = []
+
     if (this.isMobileView) {
       styles.push('editor--mobile')
 
@@ -118,13 +119,18 @@ export default class Editor {
         styles.push('editor--rotated')
       }
     }
+
+    if (this.isEditingSource) {
+      styles.push('editor--raw')
+    }
+
     return styles.join(' ')
   }
 
   get templateEditorOrSource() {
     if (this.isEditingSource) {
       return html`<div class="editor__source">
-        Source!!!
+        <textarea @input=${this.handleRawInput.bind(this)}>${this.document.rawFrontMatter}</textarea>
       </div>`
     }
     return html`<div class="editor__selective">
@@ -150,7 +156,7 @@ export default class Editor {
   bindEvents() {
     // Allow triggering a re-render.
     document.addEventListener('selective.render', () => {
-      this.render()
+      this.render(true)
     })
   }
 
@@ -190,10 +196,6 @@ export default class Editor {
 
   handleFieldsClick(evt) {
     this.isEditingSource = false
-
-    // TODO: Show only the source as a field.
-    console.log('Show the fields...');
-
     this.render()
   }
 
@@ -278,19 +280,11 @@ export default class Editor {
     this.delayPodPath(evt.target.value)
   }
 
-  handleSaveFieldsResponse(response) {
-    this.document.update(
-      response['pod_path'],
-      response['front_matter'],
-      response['raw_front_matter'],
-      response['serving_paths'],
-      response['default_locale'],
-      response['content'])
-
-    this.render()
+  handleRawInput(evt) {
+    this.document.rawFrontMatter = evt.target.value
   }
 
-  handleSaveSourceResponse(response) {
+  handleSaveResponse(response) {
     this.document.update(
       response['pod_path'],
       response['front_matter'],
@@ -299,15 +293,11 @@ export default class Editor {
       response['default_locale'],
       response['content'])
 
-    this.render()
+    this.render(true)
   }
 
   handleSourceClick(evt) {
     this.isEditingSource = true
-
-    // TODO: Show only the raw source as form field.
-    console.log('Show the source...');
-
     this.render()
   }
 
@@ -337,40 +327,35 @@ export default class Editor {
     }
   }
 
-  render() {
+  render(force) {
     render(this.template(this, this.selective), this.containerEl)
 
     // Allow selective to run its post render process.
     this.selective.postRender(this.containerEl)
+
+    if (force === true) {
+      // Force a reload when neccesary.
+      const iframe = this.containerEl.querySelector('iframe')
+      iframe.contentWindow.location.reload(true)
+    }
   }
 
   save(force) {
-    if (this.isClean && !force) {
+    if (!force && this.isClean) {
       // Already saved with no new changes.
       return
     } else if (this.isEditingSource) {
-      // TODO: Retrieve the edited front matter.
-      const rawFrontMatter = ''
-      const result = this.api.saveDocumentSource(this.podPath, rawFrontMatter)
-      result.then(this.handleSaveSourceResponse.bind(this))
+      const result = this.api.saveDocumentSource(
+        this.podPath, this.document.rawFrontMatter)
+      result.then(this.handleSaveResponse.bind(this))
     } else {
       const newFrontMatter = this.selective.value
       const content = newFrontMatter[CONTENT_KEY]
       delete newFrontMatter[CONTENT_KEY]
       const result = this.api.saveDocumentFields(
         this.podPath, newFrontMatter, this.document.locale, content)
-      result.then(this.handleSaveFieldsResponse.bind(this))
+      result.then(this.handleSaveResponse.bind(this))
     }
-  }
-
-  showFields() {
-    this.containerEl.classList.remove('container--source')
-    // TODO: Update to show all of the fields from the config.
-  }
-
-  showSource() {
-    this.containerEl.classList.add('container--source')
-    // TODO: Update to show the source field.
   }
 
   startAutosave() {

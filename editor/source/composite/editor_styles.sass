@@ -45,10 +45,23 @@
       &.editor--selected
         color: $color-on-back
 
+  select
+    appearance: none
+    border: 1px solid $color-back-l
+    border-radius: $radius-2
+    font-family: $font-family
+    font-size: $font-size
+    padding: $pad/2
+
 .editor__edit
   flex-basis: 40%
   max-width: $edit-column-max-width
   min-width: $edit-column-min-width
+
+.editor--raw
+  .editor__edit
+    display: flex
+    flex-flow: column
 
 .editor__pod_path
   background: $color-s
@@ -93,7 +106,13 @@
   background-color: $color-back
   border-radius: $radius-2
   box-shadow: $shadow-2
+  display: flex
+  flex-flow: column
   margin: $pad
+
+.editor--raw
+  .editor__card
+    flex-grow: 1
 
 .editor__menu
   align-items: center
@@ -113,8 +132,18 @@
   button
     margin-left: $pad/2
 
+.editor__source,
 .editor__selective
   padding: $pad*2
+
+.editor__source
+  display: flex
+  flex-flow: column
+  flex-grow: 1
+
+  textarea
+    height: 100%
+    width: 100%
 
 .editor__preview
   align-items: stretch
