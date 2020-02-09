@@ -154,7 +154,7 @@ export class PartialsField extends Field {
     return html`<div class="partials__list__item">
         <div class="partials__list__item__drag"><i class="material-icons">drag_indicator</i></div>
         <div class="partials__list__item__label" data-index=${partialItem['partialIndex']} @click=${this.handlePartialExpand.bind(this)}>${partialItem['partialConfig']['label']}</div>
-        <div class="partials__list__item__preview">
+        <div class="partials__list__item__preview" data-index=${partialItem['partialIndex']} @click=${this.handlePartialExpand.bind(this)}>
           ${partialItem['partialConfig']['preview_field']
             ? autoDeepObject(this._value[partialItem['partialIndex']]).get(partialItem['partialConfig']['preview_field'])
             : ''}
