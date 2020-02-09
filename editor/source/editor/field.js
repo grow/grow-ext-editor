@@ -151,7 +151,7 @@ export class PartialsField extends Field {
   }
 
   renderCollapsedPartial(editor, partialItem) {
-    return html`<div class="partials__list__item">
+    return html`<div class="partials__list__item" draggable="true">
         <div class="partials__list__item__drag"><i class="material-icons">drag_indicator</i></div>
         <div class="partials__list__item__label" data-index=${partialItem['partialIndex']} @click=${this.handlePartialExpand.bind(this)}>${partialItem['partialConfig']['label']}</div>
         <div class="partials__list__item__preview" data-index=${partialItem['partialIndex']} @click=${this.handlePartialExpand.bind(this)}>
