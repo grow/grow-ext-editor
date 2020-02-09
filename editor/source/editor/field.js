@@ -19,6 +19,7 @@ export class PartialsField extends Field {
     this.partialsFields = []
     this._api = null
     this._isExpanded = false
+    this._expandedIndexes = []
     this._dataValue = []
     this._value = []
 
@@ -39,9 +40,7 @@ export class PartialsField extends Field {
       <div class="partials__items">
         <div class="partials__list" id="${field.getUid()}">
           ${field.valueFromData(data)}
-          ${field.isExpanded
-            ? field.renderExpandedPartials(editor, data)
-            : field.renderCollapsedPartials(editor, data)}
+          ${field.renderPartials(editor, data)}
         </div>
 
         <div class="partials__add">
@@ -92,6 +91,10 @@ export class PartialsField extends Field {
     console.log('Add partial!', evt.target.value);
   }
 
+  handleExpandPartial(evt) {
+    this._expandedIndexes.push(evt.dataset.index)
+  }
+
   handleLoadPartialsResponse(response) {
     const partialTypes = []
 
@@ -109,10 +112,21 @@ export class PartialsField extends Field {
     document.dispatchEvent(new CustomEvent('selective.render'))
   }
 
+  handlePartialCollapse(evt) {
+    const expandIndex = this._expandedIndexes.indexOf(parseInt(evt.target.dataset.index))
+    if (expandIndex > -1) {
+      this._expandedIndexes.splice(expandIndex, 1)
+      document.dispatchEvent(new CustomEvent('selective.render'))
+    }
+  }
+
+  handlePartialExpand(evt) {
+    this._expandedIndexes.push(parseInt(evt.target.dataset.index))
+    document.dispatchEvent(new CustomEvent('selective.render'))
+  }
+
   handleToggleExpandPartials(evt) {
     this.isExpanded = !this.isExpanded
-
-    // Trigger a re-render after toggling.
     document.dispatchEvent(new CustomEvent('selective.render'))
   }
 
@@ -121,67 +135,75 @@ export class PartialsField extends Field {
     return JSON.stringify(this._dataValue) == JSON.stringify(this.value)
   }
 
-  renderCollapsedPartials(editor) {
-    if (Object.entries(this.partialTypes).length === 0) {
-      // Partial types have not loaded. Skip for now.
-      return
-    }
-
-    const partialConfigs = []
-    for (const partialData of this._value) {
-      const partialKey = partialData['partial']
-      const partialConfig = this.partialTypes[partialKey]
-
-      // Skip missing partials.
-      if (!partialConfig) {
-        continue
-      }
-
-      partialConfigs.push(partialConfig)
-    }
-
-    return html`${repeat(partialConfigs, (partialConfig) => partialConfig['key'], (partialConfig, index) => html`
-      <div class="partials__list__item">
+  renderCollapsedPartial(editor, partialItem) {
+    return html`<div class="partials__list__item">
         <div class="partials__list__item__drag"><i class="material-icons">drag_indicator</i></div>
-        <div class="partials__list__item__label">${partialConfig['label']}</div>
+        <div class="partials__list__item__label" data-index=${partialItem['partialIndex']} @click=${this.handlePartialExpand.bind(this)}>${partialItem['partialConfig']['label']}</div>
         <div class="partials__list__item__preview">
-          ${partialConfig['preview_field']
-            ? autoDeepObject(this._value[index]).get(partialConfig['preview_field'])
+          ${partialItem['partialConfig']['preview_field']
+            ? autoDeepObject(this._value[partialItem['partialIndex']]).get(partialItem['partialConfig']['preview_field'])
             : ''}
         </div>
-      </div>
+      </div>`
+  }
+
+  renderExpandedPartial(editor, partialItem) {
+    return html`${repeat(partialItem['partialsFields'], (partialFields) => partialFields.getUid(), (partialFields, index) => html`
+      <div class="partial__fields__label" data-index=${partialItem['partialIndex']} @click=${this.handlePartialCollapse.bind(this)}>${partialFields.label}</div>
+      ${partialFields.template(editor, partialFields, this._value[partialItem['partialIndex']])}
     `)}`
   }
 
-  renderExpandedPartials(editor) {
+  renderPartials(editor, data) {
     if (Object.entries(this.partialTypes).length === 0) {
       // Partial types have not loaded. Skip for now.
       return
     }
 
-    this.partialsFields = []
+    // Track the index separately since we skip missing partials
+    // and the data needs to match up with the partial display.
+    let partialIndex = 0
+    const partialItems = []
     for (const partialData of this._value) {
       const partialKey = partialData['partial']
       const partialConfig = this.partialTypes[partialKey]
+      const isExpanded = this.isExpanded || (this._expandedIndexes.indexOf(partialIndex) > -1)
 
       // Skip missing partials.
       if (!partialConfig) {
+        partialIndex += 1
         continue
       }
 
-      const partialFields = new PartialFields(editor.fieldTypes, {
-        'partial': partialConfig,
-      })
+      const partialsFields = []
+      if (isExpanded) {
+        const partialFields = new PartialFields(editor.fieldTypes, {
+          'partial': partialConfig,
+        })
 
-      for (const fieldConfig of partialConfig['fields'] || []) {
-        partialFields.addField(fieldConfig)
+        for (const fieldConfig of partialConfig['fields'] || []) {
+          partialFields.addField(fieldConfig)
+        }
+
+        partialsFields.push(partialFields)
       }
 
-      this.partialsFields.push(partialFields)
+
+      partialItems.push({
+        'id': partialKey + ':' + partialIndex,
+        'partialConfig': partialConfig,
+        'partialIndex': partialIndex,
+        'partialsFields': partialsFields,
+        'isExpanded': isExpanded,
+      })
+
+      partialIndex += 1
     }
 
-    return html`${repeat(this.partialsFields, (partialFields) => partialFields.getUid(), (partialFields, index) => html`
-      ${partialFields.template(editor, partialFields, this._value[index])}
+    return html`${repeat(partialItems, (partialItem) => partialItem['key'], (partialItem, index) => html`
+      ${partialItem['isExpanded']
+        ? this.renderExpandedPartial(editor, partialItem)
+        : this.renderCollapsedPartial(editor, partialItem)}
     `)}`
   }
 
@@ -229,7 +251,6 @@ class PartialFields extends Fields {
     this.partialKey = partialKey
 
     this.template = (editor, fields, data) => html`<div class="selective__fields selective__fields__partials" data-fields-type="partials">
-      <div class="partial__fields__label">${fields.label}</div>
       ${fields.valueFromData(data)}
       ${repeat(fields.fields, (field) => field.getUid(), (field, index) => html`
         ${field.template(editor, field, data)}
