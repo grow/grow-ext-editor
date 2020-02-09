@@ -149,9 +149,10 @@ export class PartialsField extends Field {
 
   renderExpandedPartial(editor, partialItem) {
     return html`${repeat(partialItem['partialsFields'], (partialFields) => partialFields.getUid(), (partialFields, index) => html`
-      <div class="partial__fields__label" data-index=${partialItem['partialIndex']} @click=${this.handlePartialCollapse.bind(this)}>${partialFields.label}</div>
-      ${partialFields.template(editor, partialFields, this._value[partialItem['partialIndex']])}
-    `)}`
+      <div class="selective__fields selective__fields__partials" data-fields-type="partials">
+        <div class="partial__fields__label" data-index=${partialItem['partialIndex']} @click=${this.handlePartialCollapse.bind(this)}>${partialFields.label}</div>
+          ${partialFields.template(editor, partialFields, this._value[partialItem['partialIndex']])}
+      </div>`)}`
   }
 
   renderPartials(editor, data) {
@@ -250,12 +251,10 @@ class PartialFields extends Fields {
     this.label = this.getConfig().get('partial', {})['label'] || 'Partial'
     this.partialKey = partialKey
 
-    this.template = (editor, fields, data) => html`<div class="selective__fields selective__fields__partials" data-fields-type="partials">
-      ${fields.valueFromData(data)}
+    this.template = (editor, fields, data) => html`${fields.valueFromData(data)}
       ${repeat(fields.fields, (field) => field.getUid(), (field, index) => html`
         ${field.template(editor, field, data)}
-      `)}
-    </div>`
+      `)}`
   }
 }
 
