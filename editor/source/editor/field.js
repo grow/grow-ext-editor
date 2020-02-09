@@ -21,6 +21,7 @@ export class PartialsField extends Field {
     this._isExpanded = false
     this._expandedIndexes = []
     this._dataValue = []
+    this._partialCount = 0
     this._value = []
 
     // Set the api if it was provided
@@ -33,7 +34,7 @@ export class PartialsField extends Field {
         <div class="partials__label">${field.label}</div>
         <div class="editor__actions">
           <button class="partials__action__toggle" @click=${field.handleToggleExpandPartials.bind(field)}>
-            ${field.isExpanded ? 'Collapse All' : 'Expand All'}
+            ${field.isExpanded ? 'Collapse' : 'Expand'}
           </button>
         </div>
       </div>
@@ -60,6 +61,10 @@ export class PartialsField extends Field {
   }
 
   get isExpanded() {
+    // Handle when all partials are expanded manually.
+    if (this._partialCount > 0 && this._expandedIndexes.length == this._partialCount) {
+      return true
+    }
     return this._isExpanded
   }
 
@@ -113,7 +118,9 @@ export class PartialsField extends Field {
   }
 
   handlePartialCollapse(evt) {
-    const expandIndex = this._expandedIndexes.indexOf(parseInt(evt.target.dataset.index))
+    this.isExpanded = false
+    const partialIndex = parseInt(evt.target.dataset.index)
+    const expandIndex = this._expandedIndexes.indexOf(partialIndex)
     if (expandIndex > -1) {
       this._expandedIndexes.splice(expandIndex, 1)
       document.dispatchEvent(new CustomEvent('selective.render'))
@@ -121,12 +128,20 @@ export class PartialsField extends Field {
   }
 
   handlePartialExpand(evt) {
-    this._expandedIndexes.push(parseInt(evt.target.dataset.index))
+    const partialIndex = parseInt(evt.target.dataset.index)
+    this._expandedIndexes.push(partialIndex)
     document.dispatchEvent(new CustomEvent('selective.render'))
   }
 
   handleToggleExpandPartials(evt) {
-    this.isExpanded = !this.isExpanded
+    if (this.isExpanded) {
+      // Clear out all expanded indexes when collapsing.
+      this._expandedIndexes = []
+      this.isExpanded = false
+    } else {
+      this.isExpanded = true
+    }
+
     document.dispatchEvent(new CustomEvent('selective.render'))
   }
 
@@ -200,6 +215,9 @@ export class PartialsField extends Field {
 
       partialIndex += 1
     }
+
+    // Store how many partials are there in total.
+    this._partialCount = partialItems.length
 
     return html`${repeat(partialItems, (partialItem) => partialItem['key'], (partialItem, index) => html`
       ${partialItem['isExpanded']
