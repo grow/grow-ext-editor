@@ -155,8 +155,9 @@ export default class Editor {
 
   bindEvents() {
     // Allow triggering a re-render.
-    document.addEventListener('selective.render', () => {
-      this.render(true)
+    document.addEventListener('selective.render', (evt) => {
+      const forceReload = (evt.detail && evt.detail['force'] == true)
+      this.render(forceReload)
     })
   }
 

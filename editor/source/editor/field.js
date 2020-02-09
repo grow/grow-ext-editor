@@ -18,6 +18,7 @@ export class PartialsField extends Field {
     this.partialTypes = {}
     this.partialsFields = []
     this._api = null
+    this._isExpanded = false
     this._dataValue = []
     this._value = []
 
@@ -30,14 +31,17 @@ export class PartialsField extends Field {
       <div class="partials__menu">
         <div class="partials__label">${field.label}</div>
         <div class="editor__actions">
-          <button class="partials__action--expand">Expand All</button>
-          <button class="partials__action--collapse">Collapse All</button>
+          <button class="partials__action__toggle" @click=${field.handleToggleExpandPartials.bind(field)}>
+            ${field.isExpanded ? 'Collapse All' : 'Expand All'}
+          </button>
         </div>
       </div>
       <div class="partials__items">
         <div class="partials__list" id="${field.getUid()}">
           ${field.valueFromData(data)}
-          ${field.renderPartials(editor, data)}
+          ${field.isExpanded
+            ? field.renderExpandedPartials(editor, data)
+            : field.renderCollapsedPartials(editor, data)}
         </div>
 
         <div class="partials__add">
@@ -56,6 +60,10 @@ export class PartialsField extends Field {
     return this._api
   }
 
+  get isExpanded() {
+    return this._isExpanded
+  }
+
   get value() {
     // Loop through each nested partial fields and get their values.
     const partials = []
@@ -68,6 +76,12 @@ export class PartialsField extends Field {
   set api(api) {
     this._api = api
     this.updatePartials()
+  }
+
+  set isExpanded(value) {
+    this._isExpanded = value
+
+    // TODO: Save to local storage
   }
 
   set value(value) {
@@ -95,12 +109,51 @@ export class PartialsField extends Field {
     document.dispatchEvent(new CustomEvent('selective.render'))
   }
 
+  handleToggleExpandPartials(evt) {
+    this.isExpanded = !this.isExpanded
+
+    // Trigger a re-render after toggling.
+    document.dispatchEvent(new CustomEvent('selective.render'))
+  }
+
   get isClean() {
     // TODO: Better array comparisons?
     return JSON.stringify(this._dataValue) == JSON.stringify(this.value)
   }
 
-  renderPartials(editor) {
+  renderCollapsedPartials(editor) {
+    if (Object.entries(this.partialTypes).length === 0) {
+      // Partial types have not loaded. Skip for now.
+      return
+    }
+
+    const partialConfigs = []
+    for (const partialData of this._value) {
+      const partialKey = partialData['partial']
+      const partialConfig = this.partialTypes[partialKey]
+
+      // Skip missing partials.
+      if (!partialConfig) {
+        continue
+      }
+
+      partialConfigs.push(partialConfig)
+    }
+
+    return html`${repeat(partialConfigs, (partialConfig) => partialConfig['key'], (partialConfig, index) => html`
+      <div class="partials__list__item">
+        <div class="partials__list__item__drag"><i class="material-icons">drag_indicator</i></div>
+        <div class="partials__list__item__label">${partialConfig['label']}</div>
+        <div class="partials__list__item__preview">
+          ${partialConfig['preview_field']
+            ? autoDeepObject(this._value[index]).get(partialConfig['preview_field'])
+            : ''}
+        </div>
+      </div>
+    `)}`
+  }
+
+  renderExpandedPartials(editor) {
     if (Object.entries(this.partialTypes).length === 0) {
       // Partial types have not loaded. Skip for now.
       return
