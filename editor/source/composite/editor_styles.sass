@@ -1,12 +1,12 @@
 @import "../styles/config"
 
 .editor
-  background-color: $se-color-back-l
+  background-color: $ge-color-back-l
   display: flex
   flex-flow: row
-  font-family: $se-font-family
-  font-size: $se-font-size
-  line-height: $se-line-height
+  font-family: $ge-font-family
+  font-size: $ge-font-size
+  line-height: $ge-line-height
   min-height: 100vh
 
   *
@@ -14,50 +14,50 @@
 
   input,
   textarea
-    background: rgba($se-color-back-l, .5)
+    background: rgba($ge-color-back-l, .5)
     border: none
-    border-radius: $se-radius-2
-    font-family: $se-font-family
-    font-size: $se-font-size
-    padding: $se-pad/2
+    border-radius: $ge-radius-2
+    font-family: $ge-font-family
+    font-size: $ge-font-size
+    padding: $ge-pad/2
 
   button
-    background: $se-color-back
-    border-radius: $se-radius-5
-    color: $se-color-on-back
-    border: 1px solid $se-color-back-l
-    font-family: $se-font-family
-    font-size: $se-font-size
-    padding: $se-pad/2 $se-pad
+    background: $ge-color-back
+    border-radius: $ge-radius-5
+    color: $ge-color-on-back
+    border: 1px solid $ge-color-back-l
+    font-family: $ge-font-family
+    font-size: $ge-font-size
+    padding: $ge-pad/2 $ge-pad
 
     &.editor--primary
-      background: $se-color-p
-      border-color: $se-color-p
-      color: $se-color-on-p
+      background: $ge-color-p
+      border-color: $ge-color-p
+      color: $ge-color-on-p
       font-weight: bold
 
     &.editor--secondary
       background: none
       border: none
-      color: lighten($se-color-on-back, 50%)
+      color: lighten($ge-color-on-back, 50%)
       font-weight: bold
 
       &.editor--selected
-        color: $se-color-on-back
+        color: $ge-color-on-back
 
   select
     appearance: none
-    background: $se-color-back
-    border: 1px solid $se-color-back-l
-    border-radius: $se-radius-5
-    font-family: $se-font-family
-    font-size: $se-font-size
-    padding: $se-pad/2 $se-pad
+    background: $ge-color-back
+    border: 1px solid $ge-color-back-l
+    border-radius: $ge-radius-5
+    font-family: $ge-font-family
+    font-size: $ge-font-size
+    padding: $ge-pad/2 $ge-pad
 
 .editor__edit
   flex-basis: 40%
-  max-width: $se-edit-column-max-width
-  min-width: $se-edit-column-min-width
+  max-width: $ge-edit-column-max-width
+  min-width: $ge-edit-column-min-width
 
 .editor--raw
   .editor__edit
@@ -65,28 +65,28 @@
     flex-flow: column
 
 .editor__pod_path
-  background: $se-color-s
-  box-shadow: $se-shadow-1
-  color: $se-color-on-s
+  background: $ge-color-s
+  box-shadow: $ge-shadow-1
+  color: $ge-color-on-s
   display: flex
   flex-flow: row
   align-items: center
-  padding: $se-pad / 2
+  padding: $ge-pad / 2
 
   i
     cursor: pointer
     font-size: 18px
-    margin: 0 $se-pad / 4
+    margin: 0 $ge-pad / 4
     opacity: 0.25
-    transition: opacity $se-speed-fast
+    transition: opacity $ge-speed-fast
 
   input
     background: transparent
     border: none
-    color: $se-color-on-s
+    color: $ge-color-on-s
     flex-grow: 1
     font-weight: bold
-    padding: $se-pad/2
+    padding: $ge-pad/2
     width: 100%
 
   &:hover
@@ -104,12 +104,12 @@
       opacity: 1
 
 .editor__card
-  background-color: $se-color-back
-  border-radius: $se-radius-2
-  box-shadow: $se-shadow-2
+  background-color: $ge-color-back
+  border-radius: $ge-radius-2
+  box-shadow: $ge-shadow-2
   display: flex
   flex-flow: column
-  margin: $se-pad
+  margin: $ge-pad
 
 .editor--raw
   .editor__card
@@ -117,13 +117,13 @@
 
 .editor__menu
   align-items: center
-  background-color: $se-color-back
-  border-bottom: 1px solid $se-color-back-l
+  background-color: $ge-color-back
+  border-bottom: 1px solid $ge-color-back-l
   display: flex
   flex-flow: row
   justify-content: space-between
   position: sticky
-  padding: $se-pad*1.5 $se-pad*2
+  padding: $ge-pad*1.5 $ge-pad*2
   top: 0
 
 .editor__actions
@@ -131,11 +131,11 @@
   flex-flow: row
 
   button
-    margin-left: $se-pad/2
+    margin-left: $ge-pad/2
 
 .editor__source,
 .editor__selective
-  padding: $se-pad*2
+  padding: $ge-pad*2
 
 .editor__source
   display: flex
@@ -157,9 +157,9 @@
   top: 0
 
   iframe
-    background-color: $se-color-back-l
+    background-color: $ge-color-back-l
     border: none
-    color: $se-color-on-back-l
+    color: $ge-color-on-back-l
     flex-grow: 1
 
 .editor--mobile
@@ -167,53 +167,53 @@
     align-items: center
 
     iframe
-      box-shadow: $se-shadow-3
-      height: $se-mobile-height
-      max-height: $se-mobile-height
-      max-width: $se-mobile-width
+      box-shadow: $ge-shadow-3
+      height: $ge-mobile-height
+      max-height: $ge-mobile-height
+      max-width: $ge-mobile-width
 
 .editor--rotated
   .editor__preview
     iframe
       // Reverse the width/height for mobile view.
-      height: $se-mobile-width
-      max-height: $se-mobile-width
-      max-width: $se-mobile-height
+      height: $ge-mobile-width
+      max-height: $ge-mobile-width
+      max-width: $ge-mobile-height
 
 .selective__fields__partials
-  background: rgba($se-color-back-l, .5)
+  background: rgba($ge-color-back-l, .5)
   border: none
-  border-radius: $se-radius-2
-  padding: $se-pad
-  margin: $se-pad 0
+  border-radius: $ge-radius-2
+  padding: $ge-pad
+  margin: $ge-pad 0
 
   // Invert the field styling.
   input,
   textarea
-    background: $se-color-back
+    background: $ge-color-back
 
   button
-    background: $se-color-back-l
+    background: $ge-color-back-l
 
   &.draggable--above
-    border-top: 3px solid $se-color-p
+    border-top: 3px solid $ge-color-p
 
   &.draggable--below
-    border-bottom: 3px solid $se-color-p
+    border-bottom: 3px solid $ge-color-p
 
 .partial__fields__label
   cursor: pointer
   font-weight: bold
-  padding: $se-pad/2 0
+  padding: $ge-pad/2 0
 
 .selective__field
   label
     display: block
-    margin: $se-pad/2 0
+    margin: $ge-pad/2 0
 
 .selective__field__partials
-  margin-top: $se-pad
-  margin-bottom: $se-pad/2
+  margin-top: $ge-pad
+  margin-bottom: $ge-pad/2
 
   .partials__menu
     align-items: center
@@ -226,28 +226,28 @@
 
 .selective__field__text
   input
-    margin: $se-pad/2 0
+    margin: $ge-pad/2 0
     width: 100%
 
 .selective__field__textarea
   textarea
-    margin: $se-pad/2 0
+    margin: $ge-pad/2 0
     width: 100%
 
 .partials__list__item
   align-items: center
-  background: rgba($se-color-back-l, .5)
-  border-radius: $se-radius-2
+  background: rgba($ge-color-back-l, .5)
+  border-radius: $ge-radius-2
   display: flex
   flex-flow: row
-  font-family: $se-font-family
-  font-size: $se-font-size
+  font-family: $ge-font-family
+  font-size: $ge-font-size
   justify-content: space-between
-  margin: $se-pad 0
-  padding: $se-pad / 2
+  margin: $ge-pad 0
+  padding: $ge-pad / 2
 
   &--hidden
-    background: rgba($se-color-back-l, .25)
+    background: rgba($ge-color-back-l, .25)
 
     .partials__list__item__label
       flex-grow: 1
@@ -255,24 +255,24 @@
       cursor: default
 
   &.draggable--above
-    border-top: 3px solid $se-color-p
+    border-top: 3px solid $ge-color-p
 
   &.draggable--below
-    border-bottom: 3px solid $se-color-p
+    border-bottom: 3px solid $ge-color-p
 
 .partials__list__item__drag
   cursor: grab
   flex-shrink: 1
 
   i
-    font-size: $se-font-size
-    margin-right: $se-pad / 2
+    font-size: $ge-font-size
+    margin-right: $ge-pad / 2
 
 .partials__list__item__label
   cursor: pointer
   flex-basis: 25%
   font-weight: bold
-  padding-right: $se-pad
+  padding-right: $ge-pad
 
 .partials__list__item__preview
   cursor: pointer
