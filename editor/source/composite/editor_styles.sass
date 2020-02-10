@@ -52,7 +52,7 @@
     border-radius: $radius-5
     font-family: $font-family
     font-size: $font-size
-    padding: $pad/2
+    padding: $pad/2 $pad
 
 .editor__edit
   flex-basis: 40%
@@ -240,7 +240,16 @@
   margin: $pad 0
   padding: $pad / 2
 
+  &--hidden
+    background: rgba($color-back-l, .25)
+
+    .partials__list__item__label
+      flex-grow: 1
+      flex-basis: 100%
+      cursor: default
+
 .partials__list__item__drag
+  cursor: grab
   flex-shrink: 1
 
   i

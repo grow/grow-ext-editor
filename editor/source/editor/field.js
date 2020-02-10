@@ -170,6 +170,13 @@ export class PartialsField extends Field {
       </div>`)}`
   }
 
+  renderHiddenPartial(editor, partialItem) {
+    return html`<div class="partials__list__item partials__list__item--hidden" draggable="true">
+        <div class="partials__list__item__drag"><i class="material-icons">drag_indicator</i></div>
+        <div class="partials__list__item__label" data-index=${partialItem['partialIndex']}>${partialItem['partialConfig']['label'] || partialItem['partialKey']}</div>
+      </div>`
+  }
+
   renderPartials(editor, data) {
     if (Object.entries(this.partialTypes).length === 0) {
       // Partial types have not loaded. Skip for now.
@@ -187,6 +194,17 @@ export class PartialsField extends Field {
 
       // Skip missing partials.
       if (!partialConfig) {
+        // Add as a hidden partial.
+        partialItems.push({
+          'id': partialKey + ':' + partialIndex,
+          'partialConfig': {},
+          'partialIndex': partialIndex,
+          'partialKey': partialKey,
+          'partialsFields': [],
+          'isExpanded': false,
+          'isHidden': true,
+        })
+
         partialIndex += 1
         continue
       }
@@ -204,13 +222,14 @@ export class PartialsField extends Field {
         partialsFields.push(partialFields)
       }
 
-
       partialItems.push({
         'id': partialKey + ':' + partialIndex,
         'partialConfig': partialConfig,
         'partialIndex': partialIndex,
         'partialsFields': partialsFields,
+        'partialKey': partialKey,
         'isExpanded': isExpanded,
+        'isHidden': false,
       })
 
       partialIndex += 1
@@ -222,7 +241,9 @@ export class PartialsField extends Field {
     return html`${repeat(partialItems, (partialItem) => partialItem['key'], (partialItem, index) => html`
       ${partialItem['isExpanded']
         ? this.renderExpandedPartial(editor, partialItem)
-        : this.renderCollapsedPartial(editor, partialItem)}
+        : partialItem['isHidden']
+          ? this.renderHiddenPartial(editor, partialItem)
+          : this.renderCollapsedPartial(editor, partialItem)}
     `)}`
   }
 
