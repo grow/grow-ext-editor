@@ -195,6 +195,12 @@
   button
     background: $color-back-l
 
+  &.draggable--above
+    border-top: 3px solid $color-p
+
+  &.draggable--below
+    border-bottom: 3px solid $color-p
+
 .partial__fields__label
   cursor: pointer
   font-weight: bold
@@ -248,6 +254,12 @@
       flex-basis: 100%
       cursor: default
 
+  &.draggable--above
+    border-top: 3px solid $color-p
+
+  &.draggable--below
+    border-bottom: 3px solid $color-p
+
 .partials__list__item__drag
   cursor: grab
   flex-shrink: 1
@@ -267,3 +279,7 @@
   flex-grow: 1
   overflow: hidden
   text-overflow: ellipsis
+
+.draggable--hover
+  *
+    pointer-events: none

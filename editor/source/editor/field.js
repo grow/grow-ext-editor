@@ -21,6 +21,8 @@ export class PartialsField extends Field {
     this._isExpanded = false
     this._expandedIndexes = []
     this._dataValue = []
+    this._dragOriginElement = null
+    this._dragHoverElement = null
     this._partialCount = 0
     this._value = []
 
@@ -92,8 +94,112 @@ export class PartialsField extends Field {
     this._value = value || []
   }
 
+  _findDraggable(target) {
+    // Use the event target to traverse until the draggable element is found.
+    let isDraggable = false
+    while (target && !isDraggable) {
+      isDraggable = target.getAttribute('draggable') == 'true'
+      if (!isDraggable) {
+        target = target.parentElement
+      }
+    }
+    return target
+  }
+
   handleAddPartial(evt) {
     console.log('Add partial!', evt.target.value);
+  }
+
+  handleDragStart(evt) {
+    this._dragOriginElement = evt.target
+
+    evt.dataTransfer.setData('text/plain', evt.target.dataset.index)
+    evt.dataTransfer.setData('selective/index', evt.target.dataset.index)
+    // TODO: Add data about the list that it is allowed to drop in.
+    // evt.dataTransfer.setData('selective/list', evt.target.dataset.id)
+    evt.dataTransfer.effectAllowed = 'move'
+  }
+
+  handleDragEnter(evt) {
+    // Only allow dropping when the 'selective/index' custom data is set.
+    if (this._dragOriginElement && evt.dataTransfer.types.includes('selective/index')) {
+      const target = this._findDraggable(evt.target)
+
+      if (!target) {
+        return
+      }
+
+      const currentIndex = parseInt(evt.target.dataset.index)
+      const startIndex = parseInt(this._dragOriginElement.dataset.index)
+
+      // Show that the element is hovering.
+      // Also prevent sub elements from triggering more drag events.
+      target.classList.add('draggable--hover')
+
+      if (currentIndex == startIndex) {
+        // Hovering over self, ignore.
+        return
+      }
+
+      if (currentIndex < startIndex) {
+        target.classList.add('draggable--above')
+      } else {
+        target.classList.add('draggable--below')
+      }
+    }
+  }
+
+  handleDragLeave(evt) {
+    // Only allow dropping when the 'selective/index' custom data is set.
+    if (this._dragOriginElement && evt.dataTransfer.types.includes('selective/index')) {
+      const target = this._findDraggable(evt.target)
+
+      if (!target) {
+        return
+      }
+
+      // No longer hovering.
+      target.classList.remove('draggable--hover')
+      target.classList.remove('draggable--above')
+      target.classList.remove('draggable--below')
+    }
+  }
+
+  handleDragOver(evt) {
+    // Only allow dropping when the 'selective/index' custom data is set.
+    if (this._dragOriginElement && evt.dataTransfer.types.includes('selective/index')) {
+      evt.preventDefault()
+    }
+  }
+
+  handleDrop(evt) {
+    // Trying to drag from outside the list.
+    if (!this._dragOriginElement) {
+      return
+    }
+
+    const target = this._findDraggable(evt.target)
+    const currentIndex = parseInt(evt.target.dataset.index)
+    const startIndex = parseInt(evt.dataTransfer.getData("text/plain"))
+
+    // No longer hovering.
+    target.classList.remove('draggable--hover')
+    target.classList.remove('draggable--above')
+    target.classList.remove('draggable--below')
+
+    if (currentIndex == startIndex) {
+      // Dropped on self, ignore.
+      return
+    }
+
+    // TODO: Rework the array to have the items in the correct position.
+
+    console.log('Drop!', currentIndex, startIndex);
+
+    this._dragOriginElement = null
+
+    // Trigger a re-render after moving.
+    document.dispatchEvent(new CustomEvent('selective.render'))
   }
 
   handleExpandPartial(evt) {
@@ -151,30 +257,54 @@ export class PartialsField extends Field {
   }
 
   renderCollapsedPartial(editor, partialItem) {
-    return html`<div class="partials__list__item" draggable="true">
-        <div class="partials__list__item__drag"><i class="material-icons">drag_indicator</i></div>
-        <div class="partials__list__item__label" data-index=${partialItem['partialIndex']} @click=${this.handlePartialExpand.bind(this)}>${partialItem['partialConfig']['label']}</div>
-        <div class="partials__list__item__preview" data-index=${partialItem['partialIndex']} @click=${this.handlePartialExpand.bind(this)}>
-          ${partialItem['partialConfig']['preview_field']
-            ? autoDeepObject(this._value[partialItem['partialIndex']]).get(partialItem['partialConfig']['preview_field'])
-            : ''}
-        </div>
-      </div>`
+    return html`
+    <div class="partials__list__item"
+        draggable="true"
+        data-index=${partialItem['partialIndex']}
+        @dragenter=${this.handleDragEnter.bind(this)}
+        @dragleave=${this.handleDragLeave.bind(this)}
+        @dragstart=${this.handleDragStart.bind(this)}
+        @dragover=${this.handleDragOver.bind(this)}
+        @drop=${this.handleDrop.bind(this)}>
+      <div class="partials__list__item__drag"><i class="material-icons">drag_indicator</i></div>
+      <div class="partials__list__item__label" data-index=${partialItem['partialIndex']} @click=${this.handlePartialExpand.bind(this)}>${partialItem['partialConfig']['label']}</div>
+      <div class="partials__list__item__preview" data-index=${partialItem['partialIndex']} @click=${this.handlePartialExpand.bind(this)}>
+        ${partialItem['partialConfig']['preview_field']
+          ? autoDeepObject(this._value[partialItem['partialIndex']]).get(partialItem['partialConfig']['preview_field'])
+          : ''}
+      </div>
+    </div>`
   }
 
   renderExpandedPartial(editor, partialItem) {
     return html`${repeat(partialItem['partialsFields'], (partialFields) => partialFields.getUid(), (partialFields, index) => html`
-      <div class="selective__fields selective__fields__partials" data-fields-type="partials">
+      <div class="selective__fields selective__fields__partials"
+          draggable="true"
+          data-fields-type="partials"
+          data-index=${partialItem['partialIndex']}
+          @dragenter=${this.handleDragEnter.bind(this)}
+          @dragleave=${this.handleDragLeave.bind(this)}
+          @dragstart=${this.handleDragStart.bind(this)}
+          @dragover=${this.handleDragOver.bind(this)}
+          @drop=${this.handleDrop.bind(this)}>
         <div class="partial__fields__label" data-index=${partialItem['partialIndex']} @click=${this.handlePartialCollapse.bind(this)}>${partialFields.label}</div>
           ${partialFields.template(editor, partialFields, this._value[partialItem['partialIndex']])}
       </div>`)}`
   }
 
   renderHiddenPartial(editor, partialItem) {
-    return html`<div class="partials__list__item partials__list__item--hidden" draggable="true">
-        <div class="partials__list__item__drag"><i class="material-icons">drag_indicator</i></div>
-        <div class="partials__list__item__label" data-index=${partialItem['partialIndex']}>${partialItem['partialConfig']['label'] || partialItem['partialKey']}</div>
-      </div>`
+    return html`
+    <div class="partials__list__item partials__list__item--hidden"
+        draggable="true"
+        data-index=${partialItem['partialIndex']}
+        @dragenter=${this.handleDragEnter.bind(this)}
+        @dragleave=${this.handleDragLeave.bind(this)}
+        @dragstart=${this.handleDragStart.bind(this)}
+        @dragover=${this.handleDragOver.bind(this)}
+        @drop=${this.handleDrop.bind(this)}>
+      <div class="partials__list__item__drag"><i class="material-icons">drag_indicator</i></div>
+      <div class="partials__list__item__label" data-index=${partialItem['partialIndex']}>${partialItem['partialConfig']['label'] || partialItem['partialKey']}</div>
+    </div>`
   }
 
   renderPartials(editor, data) {
