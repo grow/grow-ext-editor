@@ -71,6 +71,9 @@ export class PartialsField extends Field {
   }
 
   get value() {
+
+    // TODO: Make the values work correctly with hidden values...
+
     // Loop through each nested partial fields and get their values.
     const partials = []
     for (const partialFields of this.partialsFields) {
@@ -196,53 +199,33 @@ export class PartialsField extends Field {
     const newValue = []
     const newExpanded = []
     const oldValue = this._value
-
+    const maxIndex = Math.max(currentIndex, startIndex)
+    const minIndex = Math.min(currentIndex, startIndex)
+    let modifier = 1
     if (startIndex > currentIndex) {
-      for (let i = 0; i < oldValue.length; i++) {
-        if (i < currentIndex || i > startIndex) {
-          // Leave in the same order.
-          newValue[i] = oldValue[i]
+      modifier = -1
+    }
 
-          if (this._expandedIndexes.includes(i)) {
-            newExpanded.push(i)
-          }
-        } else if (i == currentIndex) {
-          newValue[i] = oldValue[startIndex]
+    for (let i = 0; i < oldValue.length; i++) {
+      if (i < minIndex || i > maxIndex) {
+        // Leave in the same order.
+        newValue[i] = oldValue[i]
 
-          if (this._expandedIndexes.includes(startIndex)) {
-            newExpanded.push(i)
-          }
-        } else {
-          // Shift the old index up by one.
-          newValue[i] = oldValue[i-1]
-
-          if (this._expandedIndexes.includes(i-1)) {
-            newExpanded.push(i)
-          }
+        if (this._expandedIndexes.includes(i)) {
+          newExpanded.push(i)
         }
-      }
-    } else {
-      for (let i = 0; i < oldValue.length; i++) {
-        if (i < startIndex || i > currentIndex) {
-          // Leave in the same order.
-          newValue[i] = oldValue[i]
+      } else if (i == currentIndex) {
+        newValue[i] = oldValue[startIndex]
 
-          if (this._expandedIndexes.includes(i)) {
-            newExpanded.push(i)
-          }
-        } else if (i == currentIndex) {
-          newValue[i] = oldValue[startIndex]
+        if (this._expandedIndexes.includes(startIndex)) {
+          newExpanded.push(i)
+        }
+      } else {
+        // Shift the old index by one.
+        newValue[i] = oldValue[i+modifier]
 
-          if (this._expandedIndexes.includes(startIndex)) {
-            newExpanded.push(i)
-          }
-        } else {
-          // Shift the old index down by one.
-          newValue[i] = oldValue[i+1]
-
-          if (this._expandedIndexes.includes(i+1)) {
-            newExpanded.push(i)
-          }
+        if (this._expandedIndexes.includes(i+modifier)) {
+          newExpanded.push(i)
         }
       }
     }
