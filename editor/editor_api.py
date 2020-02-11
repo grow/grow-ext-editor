@@ -5,6 +5,7 @@ import json
 import os
 import yaml
 from werkzeug import wrappers
+from grow.common import utils
 from grow.common import yaml_utils
 from grow.documents import document_front_matter
 from grow.routing import router as grow_router
@@ -32,6 +33,26 @@ class PodApi(object):
     def response(self):
         """Generate a response object from the request information."""
         return wrappers.Response(json.dumps(self.data), mimetype='application/json')
+
+    def _convert_fields(self, fields):
+        """Convert raw field data from submission to use objects when needed."""
+        # Convert the !g constructors into their objects.
+        def _walk_field(item, key, node, parent_node):
+            if key == 'tag' and item.startswith('!g') and 'value' in node:
+                newValue = None
+
+                if item == '!g.doc':
+                    newValue = self.pod.get_doc(node['value'])
+
+                if newValue:
+                    for parent_key in parent_node:
+                        if parent_node[parent_key] == node:
+                            parent_node[parent_key] = newValue
+
+
+        utils.walk(fields, _walk_field)
+
+        return fields
 
     def _editor_config(self, doc):
         """Return the editor configuration for the document."""
@@ -191,8 +212,10 @@ class PodApi(object):
                 self.request.POST['raw_front_matter'])
             doc.write()
         elif 'front_matter' in self.request.POST:
-            # TODO: Array updates don't work well.
             fields = json.loads(self.request.POST['front_matter'])
+            fields = self._convert_fields(fields)
+
+            # TODO: Array updates don't work well.
             doc.format.front_matter.update_fields(fields)
             if 'content' in self.request.POST:
                 doc.write(body=self.request.POST['content'])

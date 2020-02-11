@@ -14,7 +14,7 @@ import {
 export class PartialsField extends Field {
   constructor(config) {
     super(config)
-    this.fieldType = 'textarea'
+    this.fieldType = 'partials'
     this.partialTypes = {}
     this.partialItems = null
     this._api = null
@@ -156,7 +156,7 @@ export class PartialsField extends Field {
       const partialFields = new PartialFields(editor.fieldTypes, {
         'partial': partialConfig,
       })
-      partialFields.valueFromData(data)
+      partialFields.valueFromData(this._value[partialIndex])
 
       for (const fieldConfig of partialConfig['fields'] || []) {
         partialFields.addField(fieldConfig)
@@ -480,7 +480,8 @@ class PartialFields extends Fields {
     this.label = this.getConfig().get('partial', {})['label'] || 'Partial'
     this.partialKey = partialKey
 
-    this.template = (editor, fields, data) => html`${fields.valueFromData(data)}
+    this.template = (editor, fields, data) => html`
+      ${fields.valueFromData(data)}
       ${repeat(fields.fields, (field) => field.getUid(), (field, index) => html`
         ${field.template(editor, field, data)}
       `)}`
