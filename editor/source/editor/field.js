@@ -192,10 +192,63 @@ export class PartialsField extends Field {
       return
     }
 
-    // TODO: Rework the array to have the items in the correct position.
+    // Rework the array to have the items in the correct position.
+    const newValue = []
+    const newExpanded = []
+    const oldValue = this._value
 
-    console.log('Drop!', currentIndex, startIndex);
+    if (startIndex > currentIndex) {
+      for (let i = 0; i < oldValue.length; i++) {
+        if (i < currentIndex || i > startIndex) {
+          // Leave in the same order.
+          newValue[i] = oldValue[i]
 
+          if (this._expandedIndexes.includes(i)) {
+            newExpanded.push(i)
+          }
+        } else if (i == currentIndex) {
+          newValue[i] = oldValue[startIndex]
+
+          if (this._expandedIndexes.includes(startIndex)) {
+            newExpanded.push(i)
+          }
+        } else {
+          // Shift the old index up by one.
+          newValue[i] = oldValue[i-1]
+
+          if (this._expandedIndexes.includes(i-1)) {
+            newExpanded.push(i)
+          }
+        }
+      }
+    } else {
+      for (let i = 0; i < oldValue.length; i++) {
+        if (i < startIndex || i > currentIndex) {
+          // Leave in the same order.
+          newValue[i] = oldValue[i]
+
+          if (this._expandedIndexes.includes(i)) {
+            newExpanded.push(i)
+          }
+        } else if (i == currentIndex) {
+          newValue[i] = oldValue[startIndex]
+
+          if (this._expandedIndexes.includes(startIndex)) {
+            newExpanded.push(i)
+          }
+        } else {
+          // Shift the old index down by one.
+          newValue[i] = oldValue[i+1]
+
+          if (this._expandedIndexes.includes(i+1)) {
+            newExpanded.push(i)
+          }
+        }
+      }
+    }
+
+    this._value = newValue
+    this._expandedIndexes = newExpanded
     this._dragOriginElement = null
 
     // Trigger a re-render after moving.
