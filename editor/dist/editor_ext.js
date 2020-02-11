@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./source/composite/editor.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./source/composite/editor_ext.js");
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -1111,6 +1111,18 @@ eval("var g;\n\n// This works in non-strict mode\ng = (function() {\n\treturn th
 
 "use strict";
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _editor_editor__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../editor/editor */ \"./source/editor/editor.js\");\n/* harmony import */ var _utility_throttle__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utility/throttle */ \"./source/utility/throttle.js\");\n\n // Throttled events.\n\nnew _utility_throttle__WEBPACK_IMPORTED_MODULE_1__[\"default\"]('resize', 'opt_resize');\nnew _utility_throttle__WEBPACK_IMPORTED_MODULE_1__[\"default\"]('scroll', 'opt_scroll');\n/* harmony default export */ __webpack_exports__[\"default\"] = (_editor_editor__WEBPACK_IMPORTED_MODULE_0__[\"default\"]);\n\n//# sourceURL=webpack:///./source/composite/editor.js?");
+
+/***/ }),
+
+/***/ "./source/composite/editor_ext.js":
+/*!****************************************!*\
+  !*** ./source/composite/editor_ext.js ***!
+  \****************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _editor__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./editor */ \"./source/composite/editor.js\");\n\nnew _editor__WEBPACK_IMPORTED_MODULE_0__[\"default\"](document.querySelector('.container'));\n\n//# sourceURL=webpack:///./source/composite/editor_ext.js?");
 
 /***/ }),
 

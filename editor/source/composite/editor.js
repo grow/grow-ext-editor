@@ -5,4 +5,4 @@ import Throttle from '../utility/throttle'
 new Throttle('resize', 'opt_resize')
 new Throttle('scroll', 'opt_scroll')
 
-new Editor(document.querySelector('.container'))
+export default Editor

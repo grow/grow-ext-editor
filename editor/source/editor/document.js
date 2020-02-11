@@ -9,6 +9,7 @@ export default class Document {
     this.podPath = podPath
     this.frontMatter = autoDeepObject(frontMatter)
     this.rawFrontMatter = rawFrontMatter
+    this._rawFrontMatter = rawFrontMatter
     this.servingPaths = servingPaths
     this.defaultLocale = defaultLocale
     this.locale = defaultLocale
@@ -26,6 +27,11 @@ export default class Document {
     data['__content__'] = this.content
 
     return data
+  }
+
+  get isClean() {
+    // If the raw front matter changes it is not clean.
+    return this.rawFrontMatter == this._rawFrontMatter
   }
 
   get servingPath() {

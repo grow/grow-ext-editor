@@ -1,8 +1,3 @@
-{% set default_path = '/' ~ path %}
-{% set home_doc = pod.get_home_doc() %}
-{% if home_doc and not path %}
-  {% set default_path = home_doc.pod_path %}
-{% endif %}
 <!DOCTYPE html>
 <html>
   <head>
@@ -10,83 +5,18 @@
     <title>{% if title %}{{title}} – {% endif %}Grow Editor</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="/_grow/assets/favicon.png">
-    <link href="https://fonts.googleapis.com/css?family=Roboto|Roboto+Mono" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700,900|Roboto+Mono:400,700" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="/_grow/ext/editor/editor_styles.css">
+    <link rel="stylesheet" href="/_grow/ext/editor/editor_ext_styles.css">
   </head>
-  <body class="mdc-typography front_matter">
-    <div class="container">
-      <div class="content">
-        <div class="content__header">
-          <button id="content_device"
-             class="mdc-icon-button"
-             aria-label="Toggle mobile device sizing"
-             aria-hidden="true"
-             aria-pressed="false">
-             <i class="material-icons mdc-icon-button__icon mdc-icon-button__icon--on">desktop_mac</i>
-             <i class="material-icons mdc-icon-button__icon">phone_android</i>
-          </button>
-          <div class="content__path">
-            <div class="mdc-text-field mdc-text-field--fullwidth mdc-text-field--with-trailing-icon">
-              <input id="pod_path" class="mdc-text-field__input" type="text" placeholder="Pod Path" aria-label="Pod Path" value="{{default_path}}">
-              <i class="material-icons mdc-text-field__icon" tabindex="0" role="button">cloud</i>
-            </div>
-          </div>
-        </div>
-        <div class="content__preview">
-          <iframe class="preview"></iframe>
-        </div>
-      </div>
-      <div class="sidebar">
-        <div class="sidebar__content">
-          <div class="sidebar__action">
-            <div class="info info__info mdc-elevation--z2">
-              Preview is updated on save.
-            </div>
-            <button id="content_source"
-               class="mdc-icon-button"
-               aria-label="Toggle front matter source"
-               aria-hidden="true"
-               aria-pressed="false">
-               <i class="material-icons mdc-icon-button__icon mdc-icon-button__icon--on">text_format</i>
-               <i class="material-icons mdc-icon-button__icon">code</i>
-            </button>
-          </div>
-          <div class="fields"></div>
-        </div>
-        <div class="sidebar__save">
-          <div role="progressbar" class="mdc-linear-progress mdc-linear-progress--indeterminate" aria-label="Saving changes to content">
-            <div class="mdc-linear-progress__buffering-dots"></div>
-            <div class="mdc-linear-progress__buffer"></div>
-            <div class="mdc-linear-progress__bar mdc-linear-progress__primary-bar">
-              <span class="mdc-linear-progress__bar-inner"></span>
-            </div>
-            <div class="mdc-linear-progress__bar mdc-linear-progress__secondary-bar">
-              <span class="mdc-linear-progress__bar-inner"></span>
-            </div>
-          </div>
-          <div class="sidebar__save__content">
-            <div class="sidebar__save__auto">
-              <div class="mdc-switch">
-                <div class="mdc-switch__track"></div>
-                <div class="mdc-switch__thumb-underlay">
-                  <div class="mdc-switch__thumb"></div>
-                  <input type="checkbox" id="autosave" class="mdc-switch__native-control" role="switch">
-                </div>
-              </div>
-              <label for="autosave">Auto Save</label>
-            </div>
-
-            <button class="mdc-button mdc-button--raised">
-              <div class="mdc-button__ripple"></div>
-              <i class="material-icons mdc-button__icon" aria-hidden="true">save</i>
-              <span class="mdc-button__label">Save</span>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <script src="/_grow/ext/editor/editor.js"></script>
+  <body>
+    {% set default_path = '/' ~ path %}
+    {% set home_doc = pod.get_home_doc() %}
+    {% if home_doc and not path %}
+      {% set default_path = home_doc.pod_path %}
+    {% endif %}
+    <div class="container" data-default-path="{{default_path}}"></div>
+    <script src="/_grow/ext/editor/editor_ext.js"></script>
   </body>
 </html>

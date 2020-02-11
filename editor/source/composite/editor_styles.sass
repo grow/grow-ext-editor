@@ -1,278 +1,285 @@
-// Primary Colors
-$color-p: #455a64
-$color-p-l: #718792
-$color-p-d: #1c313a
-$color-on-p: #ffffff
-$color-on-p-l: #000000
-$color-on-p-d: #ffffff
+@import "../styles/config"
 
-// Secondary Colors
-$color-s: #512da8
-$color-s-l: #8559da
-$color-s-d: #140078
-$color-on-s: #ffffff
-$color-on-s-l: #ffffff
-$color-on-s-d: #ffffff
-
-// Utility Colors
-$color-text: #455a64
-$color-back: #fefefe
-$color-back-l: #f5f5f5
-$color-back-d: darken($color-back, 10%)
-$color-on-back: #000000
-$color-on-back-l: #455a64
-$color-on-back-d: #455a64
-
-// Speeds
-$speed-slow: 400ms
-$speed-fast: 250ms
-
-// Padding unit
-$pad: 1em
-
-// Material design components
-$mdc-theme-primary: $color-p
-$mdc-theme-secondary: $color-s
-$mdc-theme-background: $color-back
-
-@import "@material/button/mdc-button"
-@import "@material/elevation/mdc-elevation"
-@import "@material/icon-button/mdc-icon-button"
-@import "@material/linear-progress/mdc-linear-progress"
-@import "@material/list/mdc-list"
-@import "@material/menu-surface/mdc-menu-surface"
-@import "@material/menu/mdc-menu"
-@import "@material/select/mdc-select"
-@import "@material/switch/mdc-switch"
-@import "@material/textfield/mdc-text-field"
-@import "@material/textfield/icon/mdc-text-field-icon"
-@import "selective-edit/sass/selective"
-
-.mdc-text-field--textarea
-  .mdc-floating-label
-    background-color: transparent
-
-// Pell Editor
-$pell-content-height: 20vh
-
-
-*
-  box-sizing: border-box
-
-body
-  background-color: $color-back-l
-  margin: 0
-  padding: 0
-
-.container
+.editor
+  background-color: $ge-color-back-l
   display: flex
   flex-flow: row
+  font-family: $ge-font-family
+  font-size: $ge-font-size
+  line-height: $ge-line-height
   min-height: 100vh
 
-.content
+  *
+    box-sizing: border-box
+
+  input,
+  textarea
+    background: rgba($ge-color-back-l, .5)
+    border: none
+    border-radius: $ge-radius-2
+    font-family: $ge-font-family
+    font-size: $ge-font-size
+    padding: $ge-pad/2
+
+  button
+    background: $ge-color-back
+    border-radius: $ge-radius-5
+    color: $ge-color-on-back
+    border: 1px solid $ge-color-back-l
+    font-family: $ge-font-family
+    font-size: $ge-font-size
+    padding: $ge-pad/2 $ge-pad
+
+    &.editor--primary
+      background: $ge-color-p
+      border-color: $ge-color-p
+      color: $ge-color-on-p
+      font-weight: bold
+
+    &.editor--secondary
+      background: none
+      border: none
+      color: lighten($ge-color-on-back, 50%)
+      font-weight: bold
+
+      &.editor--selected
+        color: $ge-color-on-back
+
+  select
+    appearance: none
+    background: $ge-color-back
+    border: 1px solid $ge-color-back-l
+    border-radius: $ge-radius-5
+    font-family: $ge-font-family
+    font-size: $ge-font-size
+    padding: $ge-pad/2 $ge-pad
+
+.editor__edit
+  flex-basis: 40%
+  max-width: $ge-edit-column-max-width
+  min-width: $ge-edit-column-min-width
+
+.editor--raw
+  .editor__edit
+    display: flex
+    flex-flow: column
+
+.editor__pod_path
+  background: $ge-color-s
+  box-shadow: $ge-shadow-1
+  color: $ge-color-on-s
+  display: flex
+  flex-flow: row
+  align-items: center
+  padding: $ge-pad / 2
+
+  i
+    cursor: pointer
+    font-size: 18px
+    margin: 0 $ge-pad / 4
+    opacity: 0.25
+    transition: opacity $ge-speed-fast
+
+  input
+    background: transparent
+    border: none
+    color: $ge-color-on-s
+    flex-grow: 1
+    font-weight: bold
+    padding: $ge-pad/2
+    width: 100%
+
+  &:hover
+    i
+      opacity: 1
+
+      &.editor--mobile-only
+        cursor: default
+        opacity: 0.25
+
+.editor--mobile
+  .editor__pod_path:hover
+    i.editor--mobile-only
+      cursor: pointer
+      opacity: 1
+
+.editor__card
+  background-color: $ge-color-back
+  border-radius: $ge-radius-2
+  box-shadow: $ge-shadow-2
+  display: flex
+  flex-flow: column
+  margin: $ge-pad
+
+.editor--raw
+  .editor__card
+    flex-grow: 1
+
+.editor__menu
+  align-items: center
+  background-color: $ge-color-back
+  border-bottom: 1px solid $ge-color-back-l
+  display: flex
+  flex-flow: row
+  justify-content: space-between
+  position: sticky
+  padding: $ge-pad*1.5 $ge-pad*2
+  top: 0
+
+.editor__actions
+  display: flex
+  flex-flow: row
+
+  button
+    margin-left: $ge-pad/2
+
+.editor__source,
+.editor__selective
+  padding: $ge-pad*2
+
+.editor__source
   display: flex
   flex-flow: column
   flex-grow: 1
 
-.content__header
-  display: flex
-  padding: $pad/2 $pad
+  textarea
+    height: 100%
+    width: 100%
 
-.content__path
-  flex-grow: 1
-  padding: 0 0 0 $pad
-
-.content__preview
+.editor__preview
   align-items: stretch
   display: flex
   flex-grow: 1
+  flex-shrink: 1
   justify-content: center
-
-.sidebar
-  display: flex
-  flex-flow: column
   max-height: 100vh
-  flex-basis: 30vw
+  position: sticky
+  top: 0
 
-.sidebar__content
-  flex-grow: 1
-  overflow-y: auto
-
-  .info
+  iframe
+    background-color: $ge-color-back-l
+    border: none
+    color: $ge-color-on-back-l
     flex-grow: 1
 
-  .mdc-text-field
-    width: 100%
-
-.sidebar__action
-  align-items: center
-  display: flex
-  flex-flow: row
-  margin: $pad
-
-  i:last-child
-    margin-right: 1rem
-
-.sidebar__save
-  background-color: $color-back-d
-  display: flex
-  flex-flow: column
-  flex-shrink: 0
-
-.sidebar__save__content
-  align-items: center
-  display: flex
-  flex-flow: row
-  flex-shrink: 0
-  justify-content: space-between
-  padding: $pad
-
-.preview
-  background-color: $color-back
-  border: none
-  color: $color-on-back
-  flex-grow: 1
-
-.container--mobile
-  .content
-    flex-grow: 0
-
-  .content__preview
+.editor--mobile
+  .editor__preview
     align-items: center
-    margin: $pad
 
-  .fields
-    display: flex
-    flex-flow: column
-    flex-wrap: wrap
+    iframe
+      box-shadow: $ge-shadow-3
+      height: $ge-mobile-height
+      max-height: $ge-mobile-height
+      max-width: $ge-mobile-width
 
-  .selective__field
-    width: 50%
-    margin: 0
-    padding: $pad
+.editor--rotated
+  .editor__preview
+    iframe
+      // Reverse the width/height for mobile view.
+      height: $ge-mobile-width
+      max-height: $ge-mobile-width
+      max-width: $ge-mobile-height
 
-  .list__items
-    .partial
-      padding: $pad $pad 0 $pad
+.selective__fields__partials
+  background: rgba($ge-color-back-l, .5)
+  border: none
+  border-radius: $ge-radius-2
+  padding: $ge-pad
+  margin: $ge-pad 0
 
-  .preview
-    flex-grow: 0
-    height: 732px
-    width: 412px
-
-  .sidebar
-    flex-grow: 1
-
-  .sidebar__content
-    display: flex
-    flex-flow: column
-
-.container--source
-  .sidebar__content
-    display: flex
-    flex-flow: column
-
-  .fields
-    display: flex
-    flex-flow: column
-    flex-grow: 1
-
-  .selective__field
-    flex-grow: 1
-
-  .selective__field__source
-    display: flex
-    flex-flow: column
-
-    textarea
-      flex-grow: 1
-      font-family: 'Roboto Mono', monospace
-      width: 100%
-
-.info
-  background-color: $color-back
-  border-radius: $pad/2
-  color: $color-on-back
-  margin-right: $pad
-  padding: $pad
-
-.info__info
-  background-color: #e1f5fe
-
-.selective__field
-  padding: $pad
-
-.list__items
-  margin: $pad 0
-
-  .partial
-    padding: $pad 0 0 $pad
-    border-left: 3px solid $color-s
-
-    .selective__field
-      padding: $pad 0
-
-.list__add
-  align-items: center
-  display: flex
-  flex-flow: row
-  justify-content: center
-  padding: $pad
-
-  .mdc-select
-    display: none
-    flex-grow: 1
-    margin-right: $pad
-
-  &--select
-    .mdc-select
-      display: inherit
-
-.list__label
-  font-size: 1.2rem
-
-.partials__add
-  display: flex
-  flex-flow: row
-  align-items: center
-
-  .mdc-select
-    flex-grow: 1
-    .mdc-select__anchor,
-    .mdc-select__menu
-      width: 100%
+  // Invert the field styling.
+  input,
+  textarea
+    background: $ge-color-back
 
   button
-    margin-left: $pad
+    background: $ge-color-back-l
 
-.partial__action
-  align-items: center
-  display: flex
-  flex-flow: row
+  &.draggable--above
+    border-top: 3px solid $ge-color-p
 
-.partials__label
-  flex-grow: 1
-  font-size: 1.1rem
-  font-weight: 700
+  &.draggable--below
+    border-bottom: 3px solid $ge-color-p
 
-.partial__label
-  flex-grow: 1
-  font-size: 1rem
-  font-weight: 500
+.partial__fields__label
+  cursor: pointer
+  font-weight: bold
+  padding: $ge-pad/2 0
 
-.selective__fields__partial
-  margin: $pad 0
+.selective__field
+  label
+    display: block
+    margin: $ge-pad/2 0
 
-  .selective__field
-    padding-left: 0
-    padding-right: 0
+.selective__field__partials
+  margin-top: $ge-pad
+  margin-bottom: $ge-pad/2
+
+  .partials__menu
+    align-items: center
+    display: flex
+    flex-flow: row
+    justify-content: space-between
+
+  .partials__label
+    font-weight: bold
+
+.selective__field__text
+  input
+    margin: $ge-pad/2 0
     width: 100%
 
-.partial
-  &:first-of-type
-    .partial__up
-      display: none
+.selective__field__textarea
+  textarea
+    margin: $ge-pad/2 0
+    width: 100%
 
-  &:last-of-type
-    .partial__down
-      display: none
+.partials__list__item
+  align-items: center
+  background: rgba($ge-color-back-l, .5)
+  border-radius: $ge-radius-2
+  display: flex
+  flex-flow: row
+  font-family: $ge-font-family
+  font-size: $ge-font-size
+  justify-content: space-between
+  margin: $ge-pad 0
+  padding: $ge-pad / 2
+
+  &--hidden
+    background: rgba($ge-color-back-l, .25)
+
+    .partials__list__item__label
+      flex-grow: 1
+      flex-basis: 100%
+      cursor: default
+
+  &.draggable--above
+    border-top: 3px solid $ge-color-p
+
+  &.draggable--below
+    border-bottom: 3px solid $ge-color-p
+
+.partials__list__item__drag
+  cursor: grab
+  flex-shrink: 1
+
+  i
+    font-size: $ge-font-size
+    margin-right: $ge-pad / 2
+
+.partials__list__item__label
+  cursor: pointer
+  flex-basis: 25%
+  font-weight: bold
+  padding-right: $ge-pad
+
+.partials__list__item__preview
+  cursor: pointer
+  flex-grow: 1
+  overflow: hidden
+  text-overflow: ellipsis
+
+.draggable--hover
+  *
+    pointer-events: none

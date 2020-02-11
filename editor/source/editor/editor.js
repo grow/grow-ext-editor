@@ -5,12 +5,12 @@
 import Config from '../utility/config'
 import Document from './document'
 import EditorApi from './editorApi'
+import {
+  html,
+  repeat,
+  render,
+} from 'selective-edit'
 import Selective from 'selective-edit'
-import { MDCIconButtonToggle } from '@material/icon-button/index'
-import { MDCLinearProgress } from '@material/linear-progress/index'
-import { MDCRipple } from '@material/ripple/index'
-import { MDCSwitch } from '@material/switch/index'
-import { MDCTextField } from '@material/textfield/index'
 import { defaultFields } from './field'
 import expandObject from '../utility/expandObject'
 
@@ -22,73 +22,79 @@ export default class Editor {
   constructor(containerEl, config) {
     this.containerEl = containerEl
     this.config = new Config(config || {})
-    this.mobileToggleEl = this.containerEl.querySelector('#content_device')
-    this.sourceToggleEl = this.containerEl.querySelector('#content_source')
-    this.contentPreviewEl = this.containerEl.querySelector('.content__preview')
-    this.autosaveEl = this.containerEl.querySelector('.sidebar__save__auto .mdc-switch')
-    this.autosaveToggleEl = this.containerEl.querySelector('#autosave')
-    this.previewEl = this.containerEl.querySelector('.preview')
-    this.fieldsEl = this.containerEl.querySelector('.fields')
-    this.saveEl = this.containerEl.querySelector('.sidebar__save .mdc-button')
-    this.podPathEl = this.containerEl.querySelector('#pod_path')
+    this.template = (editor, selective) => html`<div class="editor ${editor.stylesEditor}">
+      <div class="editor__edit">
+        <div class="editor__pod_path">
+          <input type="text" value="${editor.podPath}"
+            @change=${editor.handlePodPathChange.bind(editor)}
+            @input=${editor.handlePodPathInput.bind(editor)}>
+          <i class="material-icons" @click=${editor.handleMobileClick.bind(editor)}>devices</i>
+          <i class="material-icons editor--mobile-only" @click=${editor.handleMobileRotateClick.bind(editor)}>screen_rotation</i>
+          <i class="material-icons" @click=${editor.handleOpenInNew.bind(editor)}>open_in_new</i>
+        </div>
+        <div class="editor__card">
+          <div class="editor__menu">
+            <button class="editor__save editor--primary" @click=${editor.save.bind(editor)}>Save</button>
+            <div class="editor__actions">
+              <button class="editor__style__fields editor--secondary editor--selected" @click=${editor.handleFieldsClick.bind(editor)}>Fields</button>
+              <button class="editor__style__raw editor--secondary" @click=${editor.handleSourceClick.bind(editor)}>Raw</button>
+            </div>
+          </div>
+          ${editor.templateEditorOrSource}
+        </div>
+      </div>
+      <div class="editor__preview">
+        <iframe src="${editor.servingPath}"></iframe>
+      </div>
+    </div>`
+
+    const EditorApiCls = this.config.get('EditorApiCls', EditorApi)
+    this.api = new EditorApiCls()
+
+    this.podPath = this.containerEl.dataset.defaultPath || ''
     this.document = null
     this.autosaveID = null
+
+    // TODO: Read from local storage.
     this._isEditingSource = false
+    this._isMobileRotated = false
+    this._isMobileView = false
 
-    this.selective = new Selective(this.fieldsEl, {})
-
-    this.autosaveToggleEl.addEventListener('click', this.handleAutosaveClick.bind(this))
-    this.saveEl.addEventListener('click', () => { this.save(true) })
-    this.podPathEl.addEventListener('change', () => { this.load(this.podPath) })
-    this.podPathEl.addEventListener('keyup', () => { this.delayPodPath() })
-
-    this.saveEl = MDCRipple.attachTo(this.autosaveEl)
-    this.autoSaveMd = MDCSwitch.attachTo(this.autosaveEl)
-    this.mobileToggleMd = MDCIconButtonToggle.attachTo(this.mobileToggleEl)
-    this.mobileToggleEl.addEventListener(
-      'MDCIconButtonToggle:change', this.handleMobileClick.bind(this))
-    this.sourceToggleMd = MDCIconButtonToggle.attachTo(this.sourceToggleEl)
-    this.sourceToggleEl.addEventListener(
-      'MDCIconButtonToggle:change', this.handleSourceClick.bind(this))
-    this.podPathMd = new MDCTextField(
-      this.containerEl.querySelector('.content__path .mdc-text-field'))
-    this.saveProgressMd = MDCLinearProgress.attachTo(
-      this.containerEl.querySelector('.sidebar__save .mdc-linear-progress'))
-
-    // Turn off the progress bar until saving.
-    this.saveProgressMd.close()
-
-    this.api = new EditorApi()
+    this.selective = new Selective(null, {})
 
     // Add the editor extension default field types.
     for (const key of Object.keys(defaultFields)) {
       this.selective.addFieldType(key, defaultFields[key])
     }
 
-    // Default to loading with the UI.
-    this.load(this.podPath)
-
-    // Bind the keyboard actions.
+    this.bindEvents()
     this.bindKeyboard()
+
+    this.load(this.podPath)
 
     // TODO Start the autosave depending on local storage.
     // this.startAutosave()
   }
 
   get autosave() {
-    return this.autosaveToggleEl.checked
+    // Always autosave for now.
+    return true
   }
 
   get isClean() {
-    return this.selective.isClean
+    return this.document.isClean && this.selective.isClean
   }
 
   get isEditingSource() {
     return this._isEditingSource
   }
 
-  get podPath() {
-    return this.podPathEl.value
+  get isMobileRotated() {
+    return this._isMobileRotated
+  }
+
+  get isMobileView() {
+    return this._isMobileView
   }
 
   get previewUrl() {
@@ -100,6 +106,59 @@ export default class Editor {
       return ''
     }
     return this.document.servingPath
+  }
+
+  get stylesEditor() {
+    const styles = []
+
+    if (this.isMobileView) {
+      styles.push('editor--mobile')
+
+      // Only allow the rotated when in mobile view.
+      if (this.isMobileRotated) {
+        styles.push('editor--rotated')
+      }
+    }
+
+    if (this.isEditingSource) {
+      styles.push('editor--raw')
+    }
+
+    return styles.join(' ')
+  }
+
+  get templateEditorOrSource() {
+    if (this.isEditingSource) {
+      return html`<div class="editor__source">
+        <textarea @input=${this.handleRawInput.bind(this)}>${this.document.rawFrontMatter}</textarea>
+      </div>`
+    }
+    return html`<div class="editor__selective">
+      ${this.selective.template(this.selective, this.selective.data)}
+    </div>`
+  }
+
+  set isEditingSource(value) {
+    this._isEditingSource = value
+    // TODO: Save to local storage.
+  }
+
+  set isMobileRotated(value) {
+    this._isMobileRotated = value
+    // TODO: Save to local storage.
+  }
+
+  set isMobileView(value) {
+    this._isMobileView = value
+    // TODO: Save to local storage.
+  }
+
+  bindEvents() {
+    // Allow triggering a re-render.
+    document.addEventListener('selective.render', (evt) => {
+      const forceReload = (evt.detail && evt.detail['force'] == true)
+      this.render(forceReload)
+    })
   }
 
   bindKeyboard() {
@@ -136,12 +195,9 @@ export default class Editor {
       response['content'])
   }
 
-  handleAutosaveClick(evt) {
-    if (this.autosaveToggleEl.checked) {
-      this.startAutosave()
-    } else {
-      this.stopAutosave()
-    }
+  handleFieldsClick(evt) {
+    this.isEditingSource = false
+    this.render()
   }
 
   handleLoadFieldsResponse(response) {
@@ -193,29 +249,43 @@ export default class Editor {
       })
     }
 
-    this.selective.render()
-    this.refreshPreview()
+    this.render()
   }
 
   handleLoadSourceResponse(response) {
     this._isEditingSource = true
     this.documentFromResponse(response)
     this.pushState(this.document.podPath)
-    this.refreshPreview()
+    this.render()
+  }
+
+  handleMobileRotateClick(evt) {
+    this.isMobileRotated = !this.isMobileRotated
+    this.render()
   }
 
   handleMobileClick(evt) {
-    if (evt.detail.isOn) {
-      this.containerEl.classList.add('container--mobile')
-      this.previewEl.classList.add('mdc-elevation--z4')
-    } else {
-      this.containerEl.classList.remove('container--mobile')
-      this.previewEl.classList.remove('mdc-elevation--z4')
-    }
+    this.isMobileView = !this.isMobileView
+    this.render()
   }
 
-  handleSaveFieldsResponse(response) {
-    this.saveProgressMd.close()
+  handleOpenInNew(evt) {
+    window.open(this.servingPath, '_blank')
+  }
+
+  handlePodPathChange(evt) {
+    this.load(evt.target.value)
+  }
+
+  handlePodPathInput(evt) {
+    this.delayPodPath(evt.target.value)
+  }
+
+  handleRawInput(evt) {
+    this.document.rawFrontMatter = evt.target.value
+  }
+
+  handleSaveResponse(response) {
     this.document.update(
       response['pod_path'],
       response['front_matter'],
@@ -224,28 +294,16 @@ export default class Editor {
       response['default_locale'],
       response['content'])
 
-    this.refreshPreview()
-  }
-
-  handleSaveSourceResponse(response) {
-    this.saveProgressMd.close()
-    this.document.update(
-      response['pod_path'],
-      response['front_matter'],
-      response['raw_front_matter'],
-      response['serving_paths'],
-      response['default_locale'],
-      response['content'])
-
-    this.refreshPreview()
+    this.render(true)
   }
 
   handleSourceClick(evt) {
-    this.load(this.podPath)
+    this.isEditingSource = true
+    this.render()
   }
 
   load(podPath) {
-    if (this.sourceToggleMd.on) {
+    if (this.isEditingSource) {
       this.loadSource(podPath)
     } else {
       this.loadFields(podPath)
@@ -270,42 +328,35 @@ export default class Editor {
     }
   }
 
-  refreshPreview() {
-    if (this.previewEl.src == this.previewUrl) {
-      this.previewEl.contentWindow.location.reload(true)
-    } else {
-      this.previewEl.src = this.previewUrl
+  render(force) {
+    render(this.template(this, this.selective), this.containerEl)
+
+    // Allow selective to run its post render process.
+    this.selective.postRender(this.containerEl)
+
+    if (force === true) {
+      // Force a reload when neccesary.
+      const iframe = this.containerEl.querySelector('iframe')
+      iframe.contentWindow.location.reload(true)
     }
   }
 
   save(force) {
-    this.saveProgressMd.open()
-    if (this.isClean && !force) {
+    if (!force && this.isClean) {
       // Already saved with no new changes.
-      this.saveProgressMd.close()
+      return
     } else if (this.isEditingSource) {
-      // TODO: Retrieve the edited front matter.
-      const rawFrontMatter = ''
-      const result = this.api.saveDocumentSource(this.podPath, rawFrontMatter)
-      result.then(this.handleSaveSourceResponse.bind(this))
+      const result = this.api.saveDocumentSource(
+        this.podPath, this.document.rawFrontMatter)
+      result.then(this.handleSaveResponse.bind(this))
     } else {
       const newFrontMatter = this.selective.value
       const content = newFrontMatter[CONTENT_KEY]
       delete newFrontMatter[CONTENT_KEY]
       const result = this.api.saveDocumentFields(
         this.podPath, newFrontMatter, this.document.locale, content)
-      result.then(this.handleSaveFieldsResponse.bind(this))
+      result.then(this.handleSaveResponse.bind(this))
     }
-  }
-
-  showFields() {
-    this.containerEl.classList.remove('container--source')
-    // TODO: Update to show all of the fields from the config.
-  }
-
-  showSource() {
-    this.containerEl.classList.add('container--source')
-    // TODO: Update to show the source field.
   }
 
   startAutosave() {
@@ -316,15 +367,11 @@ export default class Editor {
     this.autosaveID = window.setInterval(() => {
       this.save()
     }, this.config.get('autosaveInterval', 2000))
-
-    this.autosaveToggleEl.checked = true
   }
 
   stopAutosave() {
     if (this.autosaveID) {
       window.clearInterval(this.autosaveID)
     }
-
-    this.autosaveToggleEl.checked = false
   }
 }
