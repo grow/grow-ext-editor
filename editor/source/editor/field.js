@@ -156,10 +156,16 @@ export class PartialsField extends Field {
       const partialFields = new PartialFields(editor.fieldTypes, {
         'partial': partialConfig,
       })
-      partialFields.valueFromData(this._value[partialIndex])
+      partialFields.valueFromData(partialData)
 
       for (const fieldConfig of partialConfig['fields'] || []) {
         partialFields.addField(fieldConfig)
+      }
+
+      // When a partial is not expanded and not hidden it does not get the value
+      // updated correctly so we need to manually call the data update.
+      for (const partialField of partialFields.fields) {
+        partialField.valueFromData(partialData)
       }
 
       partialsFields.push(partialFields)
@@ -426,17 +432,6 @@ export class PartialsField extends Field {
     // Update the expanded state each render.
     for (const partialItem of this.partialItems) {
       partialItem['isExpanded'] = this.isExpanded || (this._expandedIndexes.indexOf(partialItem['partialIndex']) > -1)
-
-      // When a partial is not expanded and not hidden it does not get the value
-      // updated correctly so we need to manually call the data update.
-      if (!partialItem['isExpanded'] && !partialItem['isHidden']) {
-        const partialData = this._value[partialItem['partialIndex']]
-        for (const partialsFields of partialItem['partialsFields']) {
-          for (const partialField of partialsFields.fields) {
-            partialField.valueFromData(partialData)
-          }
-        }
-      }
     }
 
     return html`${repeat(this.partialItems, (partialItem) => partialItem['key'], (partialItem, index) => html`
