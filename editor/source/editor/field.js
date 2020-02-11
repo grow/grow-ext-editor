@@ -16,7 +16,7 @@ export class PartialsField extends Field {
     super(config)
     this.fieldType = 'textarea'
     this.partialTypes = {}
-    this.partialItems = []
+    this.partialItems = null
     this._api = null
     this._isExpanded = false
     this._expandedIndexes = []
@@ -63,27 +63,32 @@ export class PartialsField extends Field {
 
   get isExpanded() {
     // Count all partials that are not hidden.
-    let partialsLen = 0
-    for (const partialItem of this.partialItems) {
-      if (!partialItem['isHidden']) {
-        partialsLen += 1
+    if (this.partialItems) {
+      let partialsLen = 0
+      for (const partialItem of this.partialItems) {
+        if (!partialItem['isHidden']) {
+          partialsLen += 1
+        }
       }
-    }
 
-    // Handle when all partials are expanded manually.
-    if (partialsLen > 0 && this._expandedIndexes.length == partialsLen) {
-      return true
+      // Handle when all partials are expanded manually.
+      if (partialsLen > 0 && this._expandedIndexes.length == partialsLen) {
+        return true
+      }
     }
 
     return this._isExpanded
   }
 
   get value() {
+    if (!this.partialItems) {
+      return this._value
+    }
+
     // Loop through each nested partial fields and get their values.
     const partials = []
     for (const partialItem of this.partialItems) {
-      console.log(partialItem);
-      if (partialItem['isHidden'] || !partialItem['isExpanded']) {
+      if (partialItem['isHidden']) {
         partials.push(this._value[partialItem['partialIndex']])
       } else {
         for (const partialFields of partialItem['partialsFields']) {
@@ -119,6 +124,59 @@ export class PartialsField extends Field {
       }
     }
     return target
+  }
+
+  createPartialItems(editor, data) {
+    // Track the index separately since we skip missing partials
+    // and the data needs to match up with the partial display.
+    let partialIndex = 0
+    const partialItems = []
+    for (const partialData of this._value) {
+      const partialKey = partialData['partial']
+      const partialConfig = this.partialTypes[partialKey]
+
+      // Skip missing partials.
+      if (!partialConfig) {
+        // Add as a hidden partial.
+        partialItems.push({
+          'id': partialKey + ':' + partialIndex,
+          'partialConfig': {},
+          'partialIndex': partialIndex,
+          'partialKey': partialKey,
+          'partialsFields': [],
+          'isExpanded': false,
+          'isHidden': true,
+        })
+
+        partialIndex += 1
+        continue
+      }
+
+      const partialsFields = []
+      const partialFields = new PartialFields(editor.fieldTypes, {
+        'partial': partialConfig,
+      })
+      partialFields.valueFromData(data)
+
+      for (const fieldConfig of partialConfig['fields'] || []) {
+        partialFields.addField(fieldConfig)
+      }
+
+      partialsFields.push(partialFields)
+
+      partialItems.push({
+        'id': partialKey + ':' + partialIndex,
+        'partialConfig': partialConfig,
+        'partialIndex': partialIndex,
+        'partialsFields': partialsFields,
+        'partialKey': partialKey,
+        'isExpanded': false,
+        'isHidden': false,
+      })
+
+      partialIndex += 1
+    }
+    return partialItems
   }
 
   handleAddPartial(evt) {
@@ -361,56 +419,13 @@ export class PartialsField extends Field {
       return
     }
 
-    // Track the index separately since we skip missing partials
-    // and the data needs to match up with the partial display.
-    let partialIndex = 0
-    this.partialItems = []
-    for (const partialData of this._value) {
-      const partialKey = partialData['partial']
-      const partialConfig = this.partialTypes[partialKey]
-      const isExpanded = this.isExpanded || (this._expandedIndexes.indexOf(partialIndex) > -1)
+    if (!this.partialItems) {
+      this.partialItems = this.createPartialItems(editor, data)
+    }
 
-      // Skip missing partials.
-      if (!partialConfig) {
-        // Add as a hidden partial.
-        this.partialItems.push({
-          'id': partialKey + ':' + partialIndex,
-          'partialConfig': {},
-          'partialIndex': partialIndex,
-          'partialKey': partialKey,
-          'partialsFields': [],
-          'isExpanded': false,
-          'isHidden': true,
-        })
-
-        partialIndex += 1
-        continue
-      }
-
-      const partialsFields = []
-      if (isExpanded) {
-        const partialFields = new PartialFields(editor.fieldTypes, {
-          'partial': partialConfig,
-        })
-
-        for (const fieldConfig of partialConfig['fields'] || []) {
-          partialFields.addField(fieldConfig)
-        }
-
-        partialsFields.push(partialFields)
-      }
-
-      this.partialItems.push({
-        'id': partialKey + ':' + partialIndex,
-        'partialConfig': partialConfig,
-        'partialIndex': partialIndex,
-        'partialsFields': partialsFields,
-        'partialKey': partialKey,
-        'isExpanded': isExpanded,
-        'isHidden': false,
-      })
-
-      partialIndex += 1
+    // Update the expanded state each render.
+    for (const partialItem of this.partialItems) {
+      partialItem['isExpanded'] = this.isExpanded || (this._expandedIndexes.indexOf(partialItem['partialIndex']) > -1)
     }
 
     return html`${repeat(this.partialItems, (partialItem) => partialItem['key'], (partialItem, index) => html`
