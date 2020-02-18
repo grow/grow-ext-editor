@@ -8,10 +8,11 @@ import {
   html,
   repeat,
   Field,
+  SortableField,
   Fields,
 } from 'selective-edit'
 
-export class PartialsField extends Field {
+export class PartialsField extends SortableField {
   constructor(config) {
     super(config)
     this.fieldType = 'partials'
@@ -21,8 +22,6 @@ export class PartialsField extends Field {
     this._isExpanded = false
     this._expandedIndexes = []
     this._dataValue = []
-    this._dragOriginElement = null
-    this._dragHoverElement = null
     this._value = []
 
     // Set the api if it was provided
@@ -114,16 +113,55 @@ export class PartialsField extends Field {
     this._value = value || []
   }
 
-  _findDraggable(target) {
-    // Use the event target to traverse until the draggable element is found.
-    let isDraggable = false
-    while (target && !isDraggable) {
-      isDraggable = target.getAttribute('draggable') == 'true'
-      if (!isDraggable) {
-        target = target.parentElement
-      }
+  _reorderValues(currentIndex, startIndex) {
+    if (!super._reorderValues(currentIndex, startIndex)) {
+      return false
     }
-    return target
+
+    // Rework the expanded array to have the items in the correct position.
+    const newExpanded = []
+    const oldExpanded = this._expandedIndexes
+    const valueLen = this._value.length
+    const newItems = []
+    const oldItems = this.partialItems
+    const maxIndex = Math.max(currentIndex, startIndex)
+    const minIndex = Math.min(currentIndex, startIndex)
+
+    // Determine which direction to shift misplaced items.
+    let modifier = 1
+    if (startIndex > currentIndex) {
+      modifier = -1
+    }
+
+    for (let i = 0; i < valueLen; i++) {
+      if (i < minIndex || i > maxIndex) {
+        newItems[i] = oldItems[i]
+
+        if (oldExpanded.includes(i)) {
+          newExpanded.push(i)
+        }
+      } else if (i == currentIndex) {
+        // This element is being moved to, place the moved value here.
+        newItems[i] = oldItems[startIndex]
+
+        if (oldExpanded.includes(startIndex)) {
+          newExpanded.push(i)
+        }
+      } else {
+        // Shift the old index using the modifier to determine direction.
+        newItems[i] = oldItems[i+modifier]
+
+        if (oldExpanded.includes(i+modifier)) {
+          newExpanded.push(i)
+        }
+      }
+      newItems[i]['partialIndex'] = i
+    }
+
+    this._expandedIndexes = newExpanded
+    this.partialItems = newItems
+
+    return true
   }
 
   createPartialItems(editor, data) {
@@ -187,131 +225,6 @@ export class PartialsField extends Field {
 
   handleAddPartial(evt) {
     console.log('Add partial!', evt.target.value);
-  }
-
-  handleDragStart(evt) {
-    this._dragOriginElement = evt.target
-
-    evt.dataTransfer.setData('text/plain', evt.target.dataset.index)
-    evt.dataTransfer.setData('selective/index', evt.target.dataset.index)
-    // TODO: Add data about the list that it is allowed to drop in.
-    // evt.dataTransfer.setData('selective/list', evt.target.dataset.id)
-    evt.dataTransfer.effectAllowed = 'move'
-  }
-
-  handleDragEnter(evt) {
-    // Only allow dropping when the 'selective/index' custom data is set.
-    if (this._dragOriginElement && evt.dataTransfer.types.includes('selective/index')) {
-      const target = this._findDraggable(evt.target)
-
-      if (!target) {
-        return
-      }
-
-      const currentIndex = parseInt(evt.target.dataset.index)
-      const startIndex = parseInt(this._dragOriginElement.dataset.index)
-
-      // Show that the element is hovering.
-      // Also prevent sub elements from triggering more drag events.
-      target.classList.add('draggable--hover')
-
-      if (currentIndex == startIndex) {
-        // Hovering over self, ignore.
-        return
-      }
-
-      if (currentIndex < startIndex) {
-        target.classList.add('draggable--above')
-      } else {
-        target.classList.add('draggable--below')
-      }
-    }
-  }
-
-  handleDragLeave(evt) {
-    // Only allow dropping when the 'selective/index' custom data is set.
-    if (this._dragOriginElement && evt.dataTransfer.types.includes('selective/index')) {
-      const target = this._findDraggable(evt.target)
-
-      if (!target) {
-        return
-      }
-
-      // No longer hovering.
-      target.classList.remove('draggable--hover')
-      target.classList.remove('draggable--above')
-      target.classList.remove('draggable--below')
-    }
-  }
-
-  handleDragOver(evt) {
-    // Only allow dropping when the 'selective/index' custom data is set.
-    if (this._dragOriginElement && evt.dataTransfer.types.includes('selective/index')) {
-      evt.preventDefault()
-    }
-  }
-
-  handleDrop(evt) {
-    // Trying to drag from outside the list.
-    if (!this._dragOriginElement) {
-      return
-    }
-
-    const target = this._findDraggable(evt.target)
-    const currentIndex = parseInt(evt.target.dataset.index)
-    const startIndex = parseInt(evt.dataTransfer.getData("text/plain"))
-
-    // No longer hovering.
-    target.classList.remove('draggable--hover')
-    target.classList.remove('draggable--above')
-    target.classList.remove('draggable--below')
-
-    if (currentIndex == startIndex) {
-      // Dropped on self, ignore.
-      return
-    }
-
-    // Rework the array to have the items in the correct position.
-    const newValue = []
-    const newExpanded = []
-    const oldValue = this._value
-    const maxIndex = Math.max(currentIndex, startIndex)
-    const minIndex = Math.min(currentIndex, startIndex)
-    let modifier = 1
-    if (startIndex > currentIndex) {
-      modifier = -1
-    }
-
-    for (let i = 0; i < oldValue.length; i++) {
-      if (i < minIndex || i > maxIndex) {
-        // Leave in the same order.
-        newValue[i] = oldValue[i]
-
-        if (this._expandedIndexes.includes(i)) {
-          newExpanded.push(i)
-        }
-      } else if (i == currentIndex) {
-        newValue[i] = oldValue[startIndex]
-
-        if (this._expandedIndexes.includes(startIndex)) {
-          newExpanded.push(i)
-        }
-      } else {
-        // Shift the old index by one.
-        newValue[i] = oldValue[i+modifier]
-
-        if (this._expandedIndexes.includes(i+modifier)) {
-          newExpanded.push(i)
-        }
-      }
-    }
-
-    this._value = newValue
-    this._expandedIndexes = newExpanded
-    this._dragOriginElement = null
-
-    // Trigger a re-render after moving.
-    document.dispatchEvent(new CustomEvent('selective.render'))
   }
 
   handleExpandPartial(evt) {

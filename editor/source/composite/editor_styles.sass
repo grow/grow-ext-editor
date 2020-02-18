@@ -1,4 +1,5 @@
 @import "../styles/config"
+@import "selective-edit/sass/selective-core"
 
 .editor
   background-color: $ge-color-back-l
@@ -195,10 +196,10 @@
   button
     background: $ge-color-back-l
 
-  &.draggable--above
+  &.sortable--above
     border-top: 3px solid $ge-color-p
 
-  &.draggable--below
+  &.sortable--below
     border-bottom: 3px solid $ge-color-p
 
 .partial__fields__label
@@ -254,10 +255,10 @@
       flex-basis: 100%
       cursor: default
 
-  &.draggable--above
+  &.sortable--above
     border-top: 3px solid $ge-color-p
 
-  &.draggable--below
+  &.sortable--below
     border-bottom: 3px solid $ge-color-p
 
 .partials__list__item__drag
@@ -280,6 +281,6 @@
   overflow: hidden
   text-overflow: ellipsis
 
-.draggable--hover
+.sortable--hover
   *
     pointer-events: none
