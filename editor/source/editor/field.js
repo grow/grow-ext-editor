@@ -8,52 +8,81 @@ import {
   html,
   repeat,
   Field,
-  SortableField,
+  ListField,
   Fields,
 } from 'selective-edit'
 
-export class PartialsField extends SortableField {
+export class PartialsField extends ListField {
   constructor(config) {
     super(config)
     this.fieldType = 'partials'
     this.partialTypes = {}
-    this.partialItems = null
     this._api = null
-    this._isExpanded = false
-    this._expandedIndexes = []
-    this._dataValue = []
-    this._value = []
 
     // Set the api if it was provided
     if (this.getConfig().get('api')) {
       this.api = this.getConfig().get('api')
     }
+  }
 
-    this.template = (editor, field, data) => html`<div class="selective__field selective__field__partials">
-      <div class="partials__menu">
-        <div class="partials__label">${field.label}</div>
-        <div class="editor__actions">
-          <button class="partials__action__toggle" @click=${field.handleToggleExpandPartials.bind(field)}>
-            ${field.isExpanded ? 'Collapse' : 'Expand'}
-          </button>
-        </div>
-      </div>
-      <div class="partials__items">
-        <div class="partials__list" id="${field.getUid()}">
-          ${field.valueFromData(data)}
-          ${field.renderPartials(editor, data)}
-        </div>
+  _createItems(editor) {
+    // No value yet.
+    if (!this.value) {
+      return []
+    }
 
-        <div class="partials__add">
-          <select @change=${field.handleAddPartial}>
-            <option value="">${field.options['addLabel'] || 'Add section'}</option>
-            ${repeat(Object.entries(field.partialTypes), (item) => item[0], (item, index) => html`
-              <option value="${item[1]['key']}">${item[1]['label']}</option>
-            `)}
-          </select>
-        </div>
-      </div>
-    </div>`
+    let index = 0
+    const items = []
+    for (const itemData of this.value) {
+      const partialKey = partialData['partial']
+      const partialConfig = this.partialTypes[partialKey]
+
+      // Skip missing partials.
+      // TODO: Make this work with placeholders.
+      if (!partialConfig) {
+        // Add as a hidden partial.
+        items.push({
+          'id': `${this.getUid()}-${partialKey}-${index}`,
+          'partialConfig': {},
+          'index': index,
+          'partialKey': partialKey,
+          'itemFields': [],
+          'isExpanded': false,
+          'isHidden': true,
+        })
+
+        index += 1
+        continue
+      }
+
+      const itemFields = new PartialFields(editor.fieldTypes, {
+        'partial': partialConfig,
+      })
+      itemFields.valueFromData(itemData)
+
+      for (const fieldConfig of fieldConfigs || []) {
+        itemFields.addField(fieldConfig)
+      }
+
+      // When a partial is not expanded and not hidden it does not get the value
+      // updated correctly so we need to manually call the data update.
+      // for (const itemField of itemFields.fields) {
+      //   itemField.updateFromData(itemData)
+      // }
+
+      items.push({
+        'id': `${this.getUid()}-${partialKey}-${index}`,
+        'index': index,
+        'partialConfig': partialConfig,
+        'partialKey': partialKey,
+        'itemFields': itemFields,
+        'isExpanded': false,
+        'isHidden': false,
+      })
+
+      index += 1
+    }
+    return items
   }
 
   get api() {
@@ -62,16 +91,16 @@ export class PartialsField extends SortableField {
 
   get isExpanded() {
     // Count all partials that are not hidden.
-    if (this.partialItems) {
-      let partialsLen = 0
-      for (const partialItem of this.partialItems) {
-        if (!partialItem['isHidden']) {
-          partialsLen += 1
+    if (this._listItems) {
+      let nonHiddenItemCount = 0
+      for (const item of this._listItems) {
+        if (!item['isHidden']) {
+          nonHiddenItemCount += 1
         }
       }
 
       // Handle when all partials are expanded manually.
-      if (partialsLen > 0 && this._expandedIndexes.length == partialsLen) {
+      if (nonHiddenItemCount > 0 && this._expandedIndexes.length == nonHiddenItemCount) {
         return true
       }
     }
@@ -79,156 +108,63 @@ export class PartialsField extends SortableField {
     return this._isExpanded
   }
 
-  get value() {
-    if (!this.partialItems) {
-      return this._value
-    }
-
-    // Loop through each nested partial fields and get their values.
-    const partials = []
-    for (const partialItem of this.partialItems) {
-      if (partialItem['isHidden']) {
-        partials.push(this._value[partialItem['partialIndex']])
-      } else {
-        for (const partialFields of partialItem['partialsFields']) {
-          partials.push(partialFields.value)
-        }
-      }
-    }
-    return partials
-  }
+  // TODO: Retrieve the value from item fields.
+  // get value() {
+  //   if (!this.partialItems) {
+  //     return this._value
+  //   }
+  //
+  //   // Loop through each nested partial fields and get their values.
+  //   const partials = []
+  //   for (const partialItem of this.partialItems) {
+  //     if (partialItem['isHidden']) {
+  //       partials.push(this._value[partialItem['partialIndex']])
+  //     } else {
+  //       for (const partialFields of partialItem['partialsFields']) {
+  //         partials.push(partialFields.value)
+  //       }
+  //     }
+  //   }
+  //   return partials
+  // }
 
   set api(api) {
     this._api = api
     this.updatePartials()
   }
 
-  set isExpanded(value) {
-    this._isExpanded = value
-
-    // TODO: Save to local storage
-  }
-
-  set value(value) {
-    this._value = value || []
-  }
-
-  _reorderValues(currentIndex, startIndex) {
-    if (!super._reorderValues(currentIndex, startIndex)) {
-      return false
-    }
-
-    // Rework the expanded array to have the items in the correct position.
-    const newExpanded = []
-    const oldExpanded = this._expandedIndexes
-    const valueLen = this._value.length
-    const newItems = []
-    const oldItems = this.partialItems
-    const maxIndex = Math.max(currentIndex, startIndex)
-    const minIndex = Math.min(currentIndex, startIndex)
-
-    // Determine which direction to shift misplaced items.
-    let modifier = 1
-    if (startIndex > currentIndex) {
-      modifier = -1
-    }
-
-    for (let i = 0; i < valueLen; i++) {
-      if (i < minIndex || i > maxIndex) {
-        newItems[i] = oldItems[i]
-
-        if (oldExpanded.includes(i)) {
-          newExpanded.push(i)
-        }
-      } else if (i == currentIndex) {
-        // This element is being moved to, place the moved value here.
-        newItems[i] = oldItems[startIndex]
-
-        if (oldExpanded.includes(startIndex)) {
-          newExpanded.push(i)
-        }
-      } else {
-        // Shift the old index using the modifier to determine direction.
-        newItems[i] = oldItems[i+modifier]
-
-        if (oldExpanded.includes(i+modifier)) {
-          newExpanded.push(i)
-        }
-      }
-      newItems[i]['partialIndex'] = i
-    }
-
-    this._expandedIndexes = newExpanded
-    this.partialItems = newItems
-
-    return true
-  }
-
-  createPartialItems(editor, data) {
-    // Track the index separately since we skip missing partials
-    // and the data needs to match up with the partial display.
-    let partialIndex = 0
-    const partialItems = []
-    for (const partialData of this._value) {
-      const partialKey = partialData['partial']
-      const partialConfig = this.partialTypes[partialKey]
-
-      // Skip missing partials.
-      if (!partialConfig) {
-        // Add as a hidden partial.
-        partialItems.push({
-          'id': partialKey + ':' + partialIndex,
-          'partialConfig': {},
-          'partialIndex': partialIndex,
-          'partialKey': partialKey,
-          'partialsFields': [],
-          'isExpanded': false,
-          'isHidden': true,
-        })
-
-        partialIndex += 1
-        continue
-      }
-
-      const partialsFields = []
-      const partialFields = new PartialFields(editor.fieldTypes, {
-        'partial': partialConfig,
-      })
-      partialFields.valueFromData(partialData)
-
-      for (const fieldConfig of partialConfig['fields'] || []) {
-        partialFields.addField(fieldConfig)
-      }
-
-      // When a partial is not expanded and not hidden it does not get the value
-      // updated correctly so we need to manually call the data update.
-      for (const partialField of partialFields.fields) {
-        partialField.valueFromData(partialData)
-      }
-
-      partialsFields.push(partialFields)
-
-      partialItems.push({
-        'id': partialKey + ':' + partialIndex,
-        'partialConfig': partialConfig,
-        'partialIndex': partialIndex,
-        'partialsFields': partialsFields,
-        'partialKey': partialKey,
-        'isExpanded': false,
-        'isHidden': false,
-      })
-
-      partialIndex += 1
-    }
-    return partialItems
-  }
-
-  handleAddPartial(evt) {
+  handleAddItem(evt, editor) {
+    // TODO: Fix for partial adding.
     console.log('Add partial!', evt.target.value);
-  }
+    return
 
-  handleExpandPartial(evt) {
-    this._expandedIndexes.push(evt.dataset.index)
+    const index = this.value.length
+    const itemFields = new Fields(editor.fieldTypes)
+
+    // Use the field config for the list items to create the correct field types.
+    const fieldConfigs = this.getConfig().get('fields', [])
+
+    for (const fieldConfig of fieldConfigs || []) {
+      itemFields.addField(fieldConfig)
+    }
+
+    this._listItems.push({
+      'id': `${this.getUid()}-${index}`,
+      'index': index,
+      'itemFields': itemFields,
+      'isExpanded': false,
+    })
+
+    if (fieldConfigs.length > 1) {
+      this.value.push({})
+    } else {
+      this.value.push('')
+    }
+
+    // Expanded by default.
+    this._expandedIndexes.push(index)
+
+    document.dispatchEvent(new CustomEvent('selective.render'))
   }
 
   handleLoadPartialsResponse(response) {
@@ -248,37 +184,20 @@ export class PartialsField extends SortableField {
     document.dispatchEvent(new CustomEvent('selective.render'))
   }
 
-  handlePartialCollapse(evt) {
-    this.isExpanded = false
-    const partialIndex = parseInt(evt.target.dataset.index)
-    const expandIndex = this._expandedIndexes.indexOf(partialIndex)
-    if (expandIndex > -1) {
-      this._expandedIndexes.splice(expandIndex, 1)
-      document.dispatchEvent(new CustomEvent('selective.render'))
-    }
-  }
-
-  handlePartialExpand(evt) {
-    const partialIndex = parseInt(evt.target.dataset.index)
-    this._expandedIndexes.push(partialIndex)
-    document.dispatchEvent(new CustomEvent('selective.render'))
-  }
-
-  handleToggleExpandPartials(evt) {
-    if (this.isExpanded) {
-      // Clear out all expanded indexes when collapsing.
-      this._expandedIndexes = []
-      this.isExpanded = false
-    } else {
-      this.isExpanded = true
-    }
-
-    document.dispatchEvent(new CustomEvent('selective.render'))
-  }
-
   get isClean() {
     // TODO: Better array comparisons?
     return JSON.stringify(this._dataValue) == JSON.stringify(this.value)
+  }
+
+  renderActionsFooter(editor, field, data) {
+    return html`<div class="selective__actions">
+      <select @change=${field.handleAddItem}>
+        <option value="">${field.options['addLabel'] || 'Add section'}</option>
+        ${repeat(Object.entries(field.partialTypes), (item) => item[0], (item, index) => html`
+          <option value="${item[1]['key']}">${item[1]['label']}</option>
+        `)}
+      </select>
+    </div>`
   }
 
   renderCollapsedPartial(editor, partialItem) {
@@ -359,13 +278,6 @@ export class PartialsField extends SortableField {
   updatePartials() {
     this.api.getPartials().then(this.handleLoadPartialsResponse.bind(this))
   }
-
-  valueFromData(data) {
-    super.valueFromData(data)
-
-    // Do not return anything for partials.
-    // The template is rendered from the nested partial fields.
-  }
 }
 
 export class TextField extends Field {
@@ -375,7 +287,7 @@ export class TextField extends Field {
 
     this.template = (editor, field, data) => html`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
       <label for="${field.getUid()}">${field.label}</label>
-      <input type="text" id="${field.getUid()}" class="mdc-text-field__input" value="${field.valueFromData(data)}" @input=${field.handleInput.bind(field)}>
+      <input type="text" id="${field.getUid()}" value="${field.valueFromData(data)}" @input=${field.handleInput.bind(field)}>
     </div>`
   }
 }
