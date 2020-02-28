@@ -183,10 +183,18 @@
 
 .selective__fields__partials
   background: rgba($ge-color-back-l, .5)
-  border: none
+  border-bottom: 3px solid transparent
   border-radius: $ge-radius-2
+  border-top: 3px solid transparent
   padding: $ge-pad
-  margin: $ge-pad 0
+  margin-bottom: $ge-pad/2
+  margin-top: $ge-pad
+
+  &.sortable--above
+    border-top: 3px solid $ge-color-p
+
+  &.sortable--below
+    border-bottom: 3px solid $ge-color-p
 
   // Invert the field styling.
   input,
@@ -196,26 +204,6 @@
   button
     background: $ge-color-back-l
 
-  &.sortable--above
-    border-top: 3px solid $ge-color-p
-
-  &.sortable--below
-    border-bottom: 3px solid $ge-color-p
-
-.partial__fields__label
-  cursor: pointer
-  font-weight: bold
-  padding: $ge-pad/2 0
-
-.selective__field
-  label
-    display: block
-    margin: $ge-pad/2 0
-
-.selective__field__partials
-  margin-top: $ge-pad
-  margin-bottom: $ge-pad/2
-
   .partials__menu
     align-items: center
     display: flex
@@ -224,6 +212,14 @@
 
   .partials__label
     font-weight: bold
+
+.selective__field
+  label
+    display: block
+    margin: $ge-pad/2 0
+
+.selective__field__label
+  padding: $ge-pad/2 0
 
 .selective__field__text
   input
@@ -235,22 +231,24 @@
     margin: $ge-pad/2 0
     width: 100%
 
-.partials__list__item
+.selective__list__item
   align-items: center
   background: rgba($ge-color-back-l, .5)
+  border-bottom: 3px solid transparent
   border-radius: $ge-radius-2
+  border-top: 3px solid transparent
   display: flex
   flex-flow: row
   font-family: $ge-font-family
   font-size: $ge-font-size
   justify-content: space-between
-  margin: $ge-pad 0
+  margin: $ge-pad / 2 0
   padding: $ge-pad / 2
 
   &--hidden
     background: rgba($ge-color-back-l, .25)
 
-    .partials__list__item__label
+    .selective__list__item__label
       flex-grow: 1
       flex-basis: 100%
       cursor: default
@@ -261,7 +259,7 @@
   &.sortable--below
     border-bottom: 3px solid $ge-color-p
 
-.partials__list__item__drag
+.selective__list__item__drag
   cursor: grab
   flex-shrink: 1
 
@@ -269,13 +267,14 @@
     font-size: $ge-font-size
     margin-right: $ge-pad / 2
 
-.partials__list__item__label
+.selective__list__item__label
   cursor: pointer
   flex-basis: 25%
+  flex-shrink: 0
   font-weight: bold
   padding-right: $ge-pad
 
-.partials__list__item__preview
+.selective__list__item__preview
   cursor: pointer
   flex-grow: 1
   overflow: hidden

@@ -25,16 +25,21 @@ export class PartialsField extends ListField {
     }
   }
 
-  _createItems(editor) {
+  _createItems(editor, data) {
     // No value yet.
     if (!this.value) {
+      return []
+    }
+
+    // No partials loaded yet.
+    if (!Object.keys(this.partialTypes).length) {
       return []
     }
 
     let index = 0
     const items = []
     for (const itemData of this.value) {
-      const partialKey = partialData['partial']
+      const partialKey = itemData['partial']
       const partialConfig = this.partialTypes[partialKey]
 
       // Skip missing partials.
@@ -60,6 +65,7 @@ export class PartialsField extends ListField {
       })
       itemFields.valueFromData(itemData)
 
+      const fieldConfigs = partialConfig.partials
       for (const fieldConfig of fieldConfigs || []) {
         itemFields.addField(fieldConfig)
       }
@@ -118,7 +124,7 @@ export class PartialsField extends ListField {
   //   const partials = []
   //   for (const partialItem of this.partialItems) {
   //     if (partialItem['isHidden']) {
-  //       partials.push(this._value[partialItem['partialIndex']])
+  //       partials.push(this._value[partialItem['index']])
   //     } else {
   //       for (const partialFields of partialItem['partialsFields']) {
   //         partials.push(partialFields.value)
@@ -202,77 +208,64 @@ export class PartialsField extends ListField {
 
   renderCollapsedPartial(editor, partialItem) {
     return html`
-    <div class="partials__list__item"
-        draggable="true"
-        data-index=${partialItem['partialIndex']}
-        @dragenter=${this.handleDragEnter.bind(this)}
-        @dragleave=${this.handleDragLeave.bind(this)}
-        @dragstart=${this.handleDragStart.bind(this)}
-        @dragover=${this.handleDragOver.bind(this)}
-        @drop=${this.handleDrop.bind(this)}>
-      <div class="partials__list__item__drag"><i class="material-icons">drag_indicator</i></div>
-      <div class="partials__list__item__label" data-index=${partialItem['partialIndex']} @click=${this.handlePartialExpand.bind(this)}>${partialItem['partialConfig']['label']}</div>
-      <div class="partials__list__item__preview" data-index=${partialItem['partialIndex']} @click=${this.handlePartialExpand.bind(this)}>
-        ${partialItem['partialConfig']['preview_field']
-          ? autoDeepObject(this._value[partialItem['partialIndex']]).get(partialItem['partialConfig']['preview_field'])
-          : ''}
+      <div class="selective__list__item__drag"><i class="material-icons">drag_indicator</i></div>
+      <div class="selective__list__item__label" data-index=${partialItem['index']} @click=${this.handleItemExpand.bind(this)}>
+        ${partialItem['partialConfig']['label']}
       </div>
-    </div>`
+      <div class="selective__list__item__preview" data-index=${partialItem['index']} @click=${this.handleItemExpand.bind(this)}>
+        ${partialItem['partialConfig']['preview_field']
+          ? autoDeepObject(this.value[partialItem['index']]).get(partialItem['partialConfig']['preview_field'])
+          : ''}
+      </div>`
   }
 
   renderExpandedPartial(editor, partialItem) {
-    return html`${repeat(partialItem['partialsFields'], (partialFields) => partialFields.getUid(), (partialFields, index) => html`
-      <div class="selective__fields selective__fields__partials"
-          draggable="true"
-          data-fields-type="partials"
-          data-index=${partialItem['partialIndex']}
-          @dragenter=${this.handleDragEnter.bind(this)}
-          @dragleave=${this.handleDragLeave.bind(this)}
-          @dragstart=${this.handleDragStart.bind(this)}
-          @dragover=${this.handleDragOver.bind(this)}
-          @drop=${this.handleDrop.bind(this)}>
-        <div class="partial__fields__label" data-index=${partialItem['partialIndex']} @click=${this.handlePartialCollapse.bind(this)}>${partialFields.label}</div>
-        ${partialFields.template(editor, partialFields, this._value[partialItem['partialIndex']])}
-      </div>`)}`
+    const fields = partialItem.itemFields
+    return fields.template(editor, fields, this.value[partialItem['index']])
   }
 
   renderHiddenPartial(editor, partialItem) {
     return html`
-    <div class="partials__list__item partials__list__item--hidden"
-        draggable="true"
-        data-index=${partialItem['partialIndex']}
-        @dragenter=${this.handleDragEnter.bind(this)}
-        @dragleave=${this.handleDragLeave.bind(this)}
-        @dragstart=${this.handleDragStart.bind(this)}
-        @dragover=${this.handleDragOver.bind(this)}
-        @drop=${this.handleDrop.bind(this)}>
-      <div class="partials__list__item__drag"><i class="material-icons">drag_indicator</i></div>
-      <div class="partials__list__item__label" data-index=${partialItem['partialIndex']}>${partialItem['partialConfig']['label'] || partialItem['partialKey']}</div>
-    </div>`
+      <div class="selective__list__item__drag"><i class="material-icons">drag_indicator</i></div>
+      <div class="selective__list__item__label" data-index=${partialItem['index']}>
+        ${partialItem['partialConfig']['label'] || partialItem['partialKey']}
+      </div>`
   }
 
-  renderPartials(editor, data) {
-    if (Object.entries(this.partialTypes).length === 0) {
-      // Partial types have not loaded. Skip for now.
-      return
-    }
-
-    if (!this.partialItems) {
-      this.partialItems = this.createPartialItems(editor, data)
+  renderItems(editor, data) {
+    // If the sub fields have not been created create them now.
+    if (!this._listItems.length) {
+      this._listItems = this._createItems(editor, data)
     }
 
     // Update the expanded state each render.
-    for (const partialItem of this.partialItems) {
-      partialItem['isExpanded'] = this.isExpanded || (this._expandedIndexes.indexOf(partialItem['partialIndex']) > -1)
+    for (const listItem of this._listItems) {
+      const inIndex = this._expandedIndexes.indexOf(listItem['index']) > -1
+      listItem['isExpanded'] = this.isExpanded || inIndex
     }
 
-    return html`${repeat(this.partialItems, (partialItem) => partialItem['key'], (partialItem, index) => html`
-      ${partialItem['isExpanded']
-        ? this.renderExpandedPartial(editor, partialItem)
-        : partialItem['isHidden']
-          ? this.renderHiddenPartial(editor, partialItem)
-          : this.renderCollapsedPartial(editor, partialItem)}
+    return html`${repeat(this._listItems, (listItem) => listItem['id'], (listItem, index) => html`
+      <div class="selective__list__item selective__list__item--${listItem['isExpanded'] ? 'expanded' : listItem['isHidden'] ? 'hidden' : 'collapsed'}"
+          draggable="true"
+          data-index=${listItem['index']}
+          @dragenter=${this.handleDragEnter.bind(this)}
+          @dragleave=${this.handleDragLeave.bind(this)}
+          @dragover=${this.handleDragOver.bind(this)}
+          @dragstart=${this.handleDragStart.bind(this)}
+          @drop=${this.handleDrop.bind(this)}>
+        ${listItem['isExpanded']
+          ? this.renderExpandedPartial(editor, listItem)
+          : listItem['isHidden']
+            ? this.renderHiddenPartial(editor, listItem)
+            : this.renderCollapsedPartial(editor, listItem)}
+      </div>
     `)}`
+  }
+
+  // TODO: This should be removed once the isClean is working correctly.
+  updateFromData(data) {
+    super.updateFromData(data)
+    this.value = this._dataValue
   }
 
   updatePartials() {
