@@ -1,5 +1,6 @@
 const path = require('path');
 const readdirRecursive = require('fs-readdir-recursive');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const sourceDir = './source/composite/'
@@ -16,17 +17,18 @@ files.forEach(function(value) {
 });
 
 module.exports = {
-  mode: 'development',
   entry: entry,
-  output: {
-    filename: '[name].js',
-    path: path.resolve(__dirname, 'dist'),
-  },
   plugins: [
+    new CleanWebpackPlugin({
+      cleanOnceBeforeBuildPatterns: [
+        '**/*.js',
+        '**/*.css',
+      ]
+    }),
     new MiniCssExtractPlugin({
       filename: '[name].css',
       path: path.resolve(__dirname, 'dist'),
-    })
+    }),
   ],
   module: {
     rules: [{
@@ -56,5 +58,9 @@ module.exports = {
         ]
       }
     ]
-  }
+  },
+  output: {
+    filename: '[name].js',
+    path: path.resolve(__dirname, 'dist'),
+  },
 };

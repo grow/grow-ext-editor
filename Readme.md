@@ -131,9 +131,27 @@ editor:
     label: Description
 ```
 
-The following field types are available for use in the editor configurations:
+The following field types are currently available for use in the editor configurations:
 
 - `text` - Standard text field.
 - `textarea` - Standard textarea field.
 - `markdown` - Uses a markdown editor to work with the content.
 - `partials` - shows the fields for all partials when editor configuration is defined.
+
+## Development
+
+To develop the editor extension you need to run a command to watch and compile the
+code:
+
+```sh
+yarn run watch
+```
+
+To test the changes in another tab run:
+
+```sh
+cd example
+grow run
+```
+
+And visit [/_grow/editor/](http://localhost:8080/_grow/editor/)
