@@ -5,6 +5,7 @@ import json
 import os
 import yaml
 from werkzeug import wrappers
+from grow.common import json_encoder
 from grow.common import utils
 from grow.common import yaml_utils
 from grow.documents import document_front_matter
@@ -32,7 +33,8 @@ class PodApi(object):
     @property
     def response(self):
         """Generate a response object from the request information."""
-        return wrappers.Response(json.dumps(self.data), mimetype='application/json')
+        data = json.dumps(self.data, cls=json_encoder.GrowJSONEncoder)
+        return wrappers.Response(data, mimetype='application/json')
 
     def _convert_fields(self, fields):
         """Convert raw field data from submission to use objects when needed."""
