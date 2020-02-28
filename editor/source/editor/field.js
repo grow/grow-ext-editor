@@ -72,9 +72,9 @@ export class PartialsField extends ListField {
 
       // When a partial is not expanded and not hidden it does not get the value
       // updated correctly so we need to manually call the data update.
-      // for (const itemField of itemFields.fields) {
-      //   itemField.updateFromData(itemData)
-      // }
+      for (const itemField of itemFields.fields) {
+        itemField.updateFromData(itemData)
+      }
 
       items.push({
         'id': `${this.getUid()}-${partialKey}-${index}`,
@@ -114,25 +114,23 @@ export class PartialsField extends ListField {
     return this._isExpanded
   }
 
-  // TODO: Retrieve the value from item fields.
-  // get value() {
-  //   if (!this.partialItems) {
-  //     return this._value
-  //   }
-  //
-  //   // Loop through each nested partial fields and get their values.
-  //   const partials = []
-  //   for (const partialItem of this.partialItems) {
-  //     if (partialItem['isHidden']) {
-  //       partials.push(this._value[partialItem['index']])
-  //     } else {
-  //       for (const partialFields of partialItem['partialsFields']) {
-  //         partials.push(partialFields.value)
-  //       }
-  //     }
-  //   }
-  //   return partials
-  // }
+  get value() {
+    if (!this._listItems || this._listItems.length < 1) {
+      return this._dataValue
+    }
+
+    // Loop through each fields and get the values.
+    const values = []
+    for (const item of this._listItems) {
+      if (item['isHidden']) {
+        values.push(this._dataValue[item['index']])
+      } else {
+        values.push(item['itemFields'].value)
+      }
+    }
+
+    return values
+  }
 
   set api(api) {
     this._api = api
@@ -141,6 +139,10 @@ export class PartialsField extends ListField {
 
   set isExpanded(value) {
     super.isExpanded = value
+  }
+
+  set value(value) {
+    // no-op
   }
 
   handleAddItem(evt, editor) {
@@ -192,11 +194,6 @@ export class PartialsField extends ListField {
 
     // Trigger a re-render after the partials load.
     document.dispatchEvent(new CustomEvent('selective.render'))
-  }
-
-  get isClean() {
-    // TODO: Better array comparisons?
-    return JSON.stringify(this._dataValue) == JSON.stringify(this.value)
   }
 
   renderActionsFooter(editor, field, data) {
@@ -278,12 +275,6 @@ export class PartialsField extends ListField {
             : this.renderCollapsedPartial(editor, listItem)}
       </div>
     `)}`
-  }
-
-  // TODO: This should be removed once the isClean is working correctly.
-  updateFromData(data) {
-    super.updateFromData(data)
-    this.value = this._dataValue
   }
 
   updatePartials() {
