@@ -146,32 +146,32 @@ export class PartialsField extends ListField {
   }
 
   handleAddItem(evt, editor) {
-    // TODO: Fix for partial adding.
-    console.log('Add partial!', evt.target.value);
-    return
+    console.log(evt.target.value, this);
 
+    const partialKey = evt.target.value
+    const partialConfig = this.partialTypes[partialKey]
     const index = this.value.length
-    const itemFields = new Fields(editor.fieldTypes)
+    const itemFields = new PartialFields(editor.fieldTypes, {
+      'partial': partialConfig,
+    })
+    itemFields.valueFromData({
+      'partial': partialKey,
+    })
 
-    // Use the field config for the list items to create the correct field types.
-    const fieldConfigs = this.getConfig().get('fields', [])
-
+    const fieldConfigs = partialConfig.fields
     for (const fieldConfig of fieldConfigs || []) {
       itemFields.addField(fieldConfig)
     }
 
     this._listItems.push({
-      'id': `${this.getUid()}-${index}`,
+      'id': `${this.getUid()}-${partialKey}-${index}`,
       'index': index,
+      'partialConfig': partialConfig,
+      'partialKey': partialKey,
       'itemFields': itemFields,
       'isExpanded': false,
+      'isHidden': false,
     })
-
-    if (fieldConfigs.length > 1) {
-      this.value.push({})
-    } else {
-      this.value.push('')
-    }
 
     // Expanded by default.
     this._expandedIndexes.push(index)
@@ -198,7 +198,7 @@ export class PartialsField extends ListField {
 
   renderActionsFooter(editor, field, data) {
     return html`<div class="selective__actions">
-      <select @change=${field.handleAddItem}>
+      <select @change=${(evt) => {field.handleAddItem(evt, editor)}}>
         <option value="">${field.options['addLabel'] || 'Add section'}</option>
         ${repeat(Object.entries(field.partialTypes), (item) => item[0], (item, index) => html`
           <option value="${item[1]['key']}">${item[1]['label']}</option>
