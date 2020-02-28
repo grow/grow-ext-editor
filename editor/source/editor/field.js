@@ -65,7 +65,7 @@ export class PartialsField extends ListField {
       })
       itemFields.valueFromData(itemData)
 
-      const fieldConfigs = partialConfig.partials
+      const fieldConfigs = partialConfig.fields
       for (const fieldConfig of fieldConfigs || []) {
         itemFields.addField(fieldConfig)
       }
@@ -139,6 +139,10 @@ export class PartialsField extends ListField {
     this.updatePartials()
   }
 
+  set isExpanded(value) {
+    super.isExpanded = value
+  }
+
   handleAddItem(evt, editor) {
     // TODO: Fix for partial adding.
     console.log('Add partial!', evt.target.value);
@@ -206,6 +210,15 @@ export class PartialsField extends ListField {
     </div>`
   }
 
+  renderActionsHeader(editor, field, data) {
+    // Allow collapsing and expanding of sub fields.
+    return html`<div class="selective__actions">
+      <button class="selective__action__toggle" @click=${field.handleToggleExpand.bind(field)}>
+        ${field.isExpanded ? 'Collapse' : 'Expand'}
+      </button>
+    </div>`
+  }
+
   renderCollapsedPartial(editor, partialItem) {
     return html`
       <div class="selective__list__item__drag"><i class="material-icons">drag_indicator</i></div>
@@ -221,7 +234,12 @@ export class PartialsField extends ListField {
 
   renderExpandedPartial(editor, partialItem) {
     const fields = partialItem.itemFields
-    return fields.template(editor, fields, this.value[partialItem['index']])
+    return html`
+      <div class="selective__list__item__label" data-index=${partialItem['index']} @click=${this.handleItemCollapse.bind(this)}>
+        ${partialItem['partialConfig']['label']}
+      </div>
+      ${fields.template(editor, fields, this.value[partialItem['index']])}`
+    return
   }
 
   renderHiddenPartial(editor, partialItem) {
@@ -241,7 +259,7 @@ export class PartialsField extends ListField {
     // Update the expanded state each render.
     for (const listItem of this._listItems) {
       const inIndex = this._expandedIndexes.indexOf(listItem['index']) > -1
-      listItem['isExpanded'] = this.isExpanded || inIndex
+      listItem['isExpanded'] = !listItem['isHidden'] && (this.isExpanded || inIndex)
     }
 
     return html`${repeat(this._listItems, (listItem) => listItem['id'], (listItem, index) => html`
@@ -280,7 +298,7 @@ export class TextField extends Field {
 
     this.template = (editor, field, data) => html`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
       <label for="${field.getUid()}">${field.label}</label>
-      <input type="text" id="${field.getUid()}" value="${field.valueFromData(data)}" @input=${field.handleInput.bind(field)}>
+      <input type="text" id="${field.getUid()}" value="${field.valueFromData(data) || ''}" @input=${field.handleInput.bind(field)}>
     </div>`
   }
 }

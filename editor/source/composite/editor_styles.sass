@@ -181,13 +181,10 @@
       max-height: $ge-mobile-width
       max-width: $ge-mobile-height
 
-.selective__fields__partials
-  background: rgba($ge-color-back-l, .5)
+.selective__field__partials
   border-bottom: 3px solid transparent
   border-radius: $ge-radius-2
   border-top: 3px solid transparent
-  padding: $ge-pad
-  margin-bottom: $ge-pad/2
   margin-top: $ge-pad
 
   &.sortable--above
@@ -197,12 +194,13 @@
     border-bottom: 3px solid $ge-color-p
 
   // Invert the field styling.
-  input,
-  textarea
-    background: $ge-color-back
+  .selective__list__item
+    input,
+    textarea
+      background: $ge-color-back
 
-  button
-    background: $ge-color-back-l
+    button
+      background: $ge-color-back-l
 
   .partials__menu
     align-items: center
@@ -221,6 +219,9 @@
 .selective__field__label
   padding: $ge-pad/2 0
 
+  .selective__field__partials &
+    font-weight: bold
+
 .selective__field__text
   input
     margin: $ge-pad/2 0
@@ -237,21 +238,33 @@
   border-bottom: 3px solid transparent
   border-radius: $ge-radius-2
   border-top: 3px solid transparent
-  display: flex
-  flex-flow: row
   font-family: $ge-font-family
   font-size: $ge-font-size
   justify-content: space-between
   margin: $ge-pad / 2 0
   padding: $ge-pad / 2
 
+  &--collapsed
+    display: flex
+    flex-flow: row
+
   &--hidden
+    display: flex
+    flex-flow: row
     background: rgba($ge-color-back-l, .25)
 
     .selective__list__item__label
       flex-grow: 1
       flex-basis: 100%
       cursor: default
+
+  &--expanded
+    padding: $ge-pad / 2 $ge-pad
+
+    .selective__list__item__label
+      cursor: pointer
+      font-weight: 700
+      padding: $ge-pad/2 0
 
   &.sortable--above
     border-top: 3px solid $ge-color-p
@@ -280,6 +293,9 @@
   overflow: hidden
   text-overflow: ellipsis
 
-.sortable--hover
-  *
-    pointer-events: none
+.selective__header,
+.selective__footer
+  align-items: center
+  display: flex
+  flex-flow: row
+  justify-content: space-between
