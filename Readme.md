@@ -144,6 +144,8 @@ To develop the editor extension you need to run a command to watch and compile t
 code:
 
 ```sh
+cd editor
+yarn install
 yarn run watch
 ```
 
