@@ -8431,7 +8431,7 @@ class Editor {
     this.autosaveID = null; // TODO: Read from local storage.
 
     this._isEditingSource = false;
-    this._isFullScreen = true;
+    this._isFullScreen = false;
     this._isMobileRotated = false;
     this._isMobileView = false;
     this.selective = new selective_edit__WEBPACK_IMPORTED_MODULE_4__["default"](null, {}); // Add the editor extension default field types.

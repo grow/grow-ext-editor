@@ -249,11 +249,12 @@
   // Flex flow when using full screen.
   .editor--fullscreen &
     align-items: flex-start
-    flex-basis: unquote("calc(33% - .5em)")
+    flex-basis: unquote("calc(33% - #{$ge-pad/2})")
     flex-grow: 1
     margin-right: $ge-pad/2
 
-    &:nth-child(3n)
+    &:nth-child(3n),
+    &:last-child
       margin-right: 0
 
   // Invert the item for every other layer.

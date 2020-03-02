@@ -62,7 +62,7 @@ export default class Editor {
 
     // TODO: Read from local storage.
     this._isEditingSource = false
-    this._isFullScreen = true
+    this._isFullScreen = false
     this._isMobileRotated = false
     this._isMobileView = false
 
