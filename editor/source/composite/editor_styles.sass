@@ -60,10 +60,13 @@
   max-width: $ge-edit-column-max-width
   min-width: $ge-edit-column-min-width
 
-.editor--raw
-  .editor__edit
+  .editor--raw &
     display: flex
     flex-flow: column
+
+  .editor--fullscreen &
+    flex-grow: 1
+    max-width: 100%
 
 .editor__pod_path
   background: $ge-color-s
@@ -224,6 +227,13 @@
     margin: $ge-pad/2 0
     width: 100%
 
+.selective__list__items
+  // Flex flow when using full screen.
+  .editor--fullscreen &
+    display: flex
+    flex-flow: row
+    flex-wrap: wrap
+
 .selective__list__item
   align-items: center
   background: rgba($ge-color-back-l, .5)
@@ -235,6 +245,16 @@
   justify-content: space-between
   margin: $ge-pad / 2 0
   padding: $ge-pad / 2
+
+  // Flex flow when using full screen.
+  .editor--fullscreen &
+    align-items: flex-start
+    flex-basis: unquote("calc(33% - .5em)")
+    flex-grow: 1
+    margin-right: $ge-pad/2
+
+    &:nth-child(3n)
+      margin-right: 0
 
   // Invert the item for every other layer.
   .selective__list__item &

@@ -8400,8 +8400,11 @@ class Editor {
           <input type="text" value="${editor.podPath}"
             @change=${editor.handlePodPathChange.bind(editor)}
             @input=${editor.handlePodPathInput.bind(editor)}>
-          <i class="material-icons" @click=${editor.handleMobileClick.bind(editor)}>devices</i>
-          <i class="material-icons editor--mobile-only" @click=${editor.handleMobileRotateClick.bind(editor)}>screen_rotation</i>
+          ${editor.isFullScreen ? '' : selective_edit__WEBPACK_IMPORTED_MODULE_4__["html"]`
+            <i class="material-icons" @click=${editor.handleMobileClick.bind(editor)}>devices</i>
+            <i class="material-icons editor--mobile-only" @click=${editor.handleMobileRotateClick.bind(editor)}>screen_rotation</i>
+          `}
+          <i class="material-icons" @click=${editor.handleFullScreenClick.bind(editor)}>fullscreen</i>
           <i class="material-icons" @click=${editor.handleOpenInNew.bind(editor)}>open_in_new</i>
         </div>
         <div class="editor__card">
@@ -8415,9 +8418,9 @@ class Editor {
           ${editor.templateEditorOrSource}
         </div>
       </div>
-      <div class="editor__preview">
+      ${editor.isFullScreen ? '' : selective_edit__WEBPACK_IMPORTED_MODULE_4__["html"]`<div class="editor__preview">
         <iframe src="${editor.servingPath}"></iframe>
-      </div>
+      </div>`}
     </div>`;
 
     const EditorApiCls = this.config.get('EditorApiCls', _editorApi__WEBPACK_IMPORTED_MODULE_3__["default"]);
@@ -8428,6 +8431,7 @@ class Editor {
     this.autosaveID = null; // TODO: Read from local storage.
 
     this._isEditingSource = false;
+    this._isFullScreen = true;
     this._isMobileRotated = false;
     this._isMobileView = false;
     this.selective = new selective_edit__WEBPACK_IMPORTED_MODULE_4__["default"](null, {}); // Add the editor extension default field types.
@@ -8453,6 +8457,10 @@ class Editor {
 
   get isEditingSource() {
     return this._isEditingSource;
+  }
+
+  get isFullScreen() {
+    return this._isFullScreen;
   }
 
   get isMobileRotated() {
@@ -8490,6 +8498,10 @@ class Editor {
       styles.push('editor--raw');
     }
 
+    if (this.isFullScreen) {
+      styles.push('editor--fullscreen');
+    }
+
     return styles.join(' ');
   }
 
@@ -8507,6 +8519,10 @@ class Editor {
 
   set isEditingSource(value) {
     this._isEditingSource = value; // TODO: Save to local storage.
+  }
+
+  set isFullScreen(value) {
+    this._isFullScreen = value; // TODO: Save to local storage.
   }
 
   set isMobileRotated(value) {
@@ -8557,6 +8573,11 @@ class Editor {
 
   handleFieldsClick(evt) {
     this.isEditingSource = false;
+    this.render();
+  }
+
+  handleFullScreenClick(evt) {
+    this.isFullScreen = !this.isFullScreen;
     this.render();
   }
 
