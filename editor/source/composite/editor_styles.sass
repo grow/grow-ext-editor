@@ -193,15 +193,6 @@
   &.sortable--below
     border-bottom: 3px solid $ge-color-p
 
-  // Invert the field styling.
-  .selective__list__item
-    input,
-    textarea
-      background: $ge-color-back
-
-    button
-      background: $ge-color-back-l
-
   .partials__menu
     align-items: center
     display: flex
@@ -243,6 +234,27 @@
   justify-content: space-between
   margin: $ge-pad / 2 0
   padding: $ge-pad / 2
+
+  // Invert the item for every other layer.
+  .selective__list__item &
+    background-color: $ge-color-back
+
+    .selective__fields &
+      input,
+      textarea
+        background: rgba($ge-color-back-l, .5)
+
+      button
+        background: $ge-color-back
+
+  // Invert the styling for each layer.
+  .selective__field__partials &
+    input,
+    textarea
+      background: $ge-color-back
+
+    button
+      background: $ge-color-back-l
 
   &--collapsed
     display: flex

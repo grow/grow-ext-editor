@@ -324,6 +324,7 @@ class PartialFields extends Fields {
 
 export const defaultFields = {
   'partials': PartialsField,
+  'list': ListField,
   'text': TextField,
   'textarea': TextareaField,
 }
