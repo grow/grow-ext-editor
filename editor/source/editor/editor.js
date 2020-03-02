@@ -33,7 +33,7 @@ export default class Editor {
             <i class="material-icons" @click=${editor.handleMobileClick.bind(editor)}>devices</i>
             <i class="material-icons editor--mobile-only" @click=${editor.handleMobileRotateClick.bind(editor)}>screen_rotation</i>
           `}
-          <i class="material-icons" @click=${editor.handleFullScreenClick.bind(editor)}>fullscreen</i>
+          <i class="material-icons" @click=${editor.handleFullScreenClick.bind(editor)}>${editor.isFullScreen ? 'fullscreen_exit' : 'fullscreen'}</i>
           <i class="material-icons" @click=${editor.handleOpenInNew.bind(editor)}>open_in_new</i>
         </div>
         <div class="editor__card">
