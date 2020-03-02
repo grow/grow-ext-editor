@@ -8371,14 +8371,16 @@ class Document {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Editor; });
 /* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utility/config */ "./source/utility/config.js");
-/* harmony import */ var _document__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./document */ "./source/editor/document.js");
-/* harmony import */ var _editorApi__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./editorApi */ "./source/editor/editorApi.js");
-/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
-/* harmony import */ var _field__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./field */ "./source/editor/field.js");
-/* harmony import */ var _utility_expandObject__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utility/expandObject */ "./source/utility/expandObject.js");
+/* harmony import */ var _utility_listeners__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utility/listeners */ "./source/utility/listeners.js");
+/* harmony import */ var _document__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./document */ "./source/editor/document.js");
+/* harmony import */ var _editorApi__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./editorApi */ "./source/editor/editorApi.js");
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var _field__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./field */ "./source/editor/field.js");
+/* harmony import */ var _utility_expandObject__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utility/expandObject */ "./source/utility/expandObject.js");
 /**
  * Content editor.
  */
+
 
 
 
@@ -8392,7 +8394,7 @@ class Editor {
     this.containerEl = containerEl;
     this.config = new _utility_config__WEBPACK_IMPORTED_MODULE_0__["default"](config || {});
 
-    this.template = (editor, selective) => selective_edit__WEBPACK_IMPORTED_MODULE_3__["html"]`<div class="editor ${editor.stylesEditor}">
+    this.template = (editor, selective) => selective_edit__WEBPACK_IMPORTED_MODULE_4__["html"]`<div class="editor ${editor.stylesEditor}">
       <div class="editor__edit">
         <div class="editor__pod_path">
           <input type="text" value="${editor.podPath}"
@@ -8418,8 +8420,9 @@ class Editor {
       </div>
     </div>`;
 
-    const EditorApiCls = this.config.get('EditorApiCls', _editorApi__WEBPACK_IMPORTED_MODULE_2__["default"]);
+    const EditorApiCls = this.config.get('EditorApiCls', _editorApi__WEBPACK_IMPORTED_MODULE_3__["default"]);
     this.api = new EditorApiCls();
+    this.listeners = new _utility_listeners__WEBPACK_IMPORTED_MODULE_1__["default"]();
     this.podPath = this.containerEl.dataset.defaultPath || '';
     this.document = null;
     this.autosaveID = null; // TODO: Read from local storage.
@@ -8427,10 +8430,10 @@ class Editor {
     this._isEditingSource = false;
     this._isMobileRotated = false;
     this._isMobileView = false;
-    this.selective = new selective_edit__WEBPACK_IMPORTED_MODULE_3__["default"](null, {}); // Add the editor extension default field types.
+    this.selective = new selective_edit__WEBPACK_IMPORTED_MODULE_4__["default"](null, {}); // Add the editor extension default field types.
 
-    for (const key of Object.keys(_field__WEBPACK_IMPORTED_MODULE_4__["defaultFields"])) {
-      this.selective.addFieldType(key, _field__WEBPACK_IMPORTED_MODULE_4__["defaultFields"][key]);
+    for (const key of Object.keys(_field__WEBPACK_IMPORTED_MODULE_5__["defaultFields"])) {
+      this.selective.addFieldType(key, _field__WEBPACK_IMPORTED_MODULE_5__["defaultFields"][key]);
     }
 
     this.bindEvents();
@@ -8492,12 +8495,12 @@ class Editor {
 
   get templateEditorOrSource() {
     if (this.isEditingSource) {
-      return selective_edit__WEBPACK_IMPORTED_MODULE_3__["html"]`<div class="editor__source">
+      return selective_edit__WEBPACK_IMPORTED_MODULE_4__["html"]`<div class="editor__source">
         <textarea @input=${this.handleRawInput.bind(this)}>${this.document.rawFrontMatter}</textarea>
       </div>`;
     }
 
-    return selective_edit__WEBPACK_IMPORTED_MODULE_3__["html"]`<div class="editor__selective">
+    return selective_edit__WEBPACK_IMPORTED_MODULE_4__["html"]`<div class="editor__selective">
       ${this.selective.template(this.selective, this.selective.data)}
     </div>`;
   }
@@ -8549,7 +8552,7 @@ class Editor {
   }
 
   documentFromResponse(response) {
-    this.document = new _document__WEBPACK_IMPORTED_MODULE_1__["default"](response['pod_path'], response['front_matter'], response['raw_front_matter'], response['serving_paths'], response['default_locale'], response['content']);
+    this.document = new _document__WEBPACK_IMPORTED_MODULE_2__["default"](response['pod_path'], response['front_matter'], response['raw_front_matter'], response['serving_paths'], response['default_locale'], response['content']);
   }
 
   handleFieldsClick(evt) {
@@ -8644,6 +8647,9 @@ class Editor {
 
   handleSaveResponse(response) {
     this.document.update(response['pod_path'], response['front_matter'], response['raw_front_matter'], response['serving_paths'], response['default_locale'], response['content']);
+    this.listeners.trigger('save.response', {
+      response: response
+    });
     this.render(true);
   }
 
@@ -8680,7 +8686,7 @@ class Editor {
   }
 
   render(force) {
-    Object(selective_edit__WEBPACK_IMPORTED_MODULE_3__["render"])(this.template(this, this.selective), this.containerEl); // Allow selective to run its post render process.
+    Object(selective_edit__WEBPACK_IMPORTED_MODULE_4__["render"])(this.template(this, this.selective), this.containerEl); // Allow selective to run its post render process.
 
     this.selective.postRender(this.containerEl);
 
@@ -8695,7 +8701,13 @@ class Editor {
     if (!force && this.isClean) {
       // Already saved with no new changes.
       return;
-    } else if (this.isEditingSource) {
+    }
+
+    this.listeners.trigger('save.start', {
+      isEditingSource: this.isEditingSource
+    });
+
+    if (this.isEditingSource) {
       const result = this.api.saveDocumentSource(this.podPath, this.document.rawFrontMatter);
       result.then(this.handleSaveResponse.bind(this));
     } else {
@@ -9351,6 +9363,47 @@ function deepExpandArray(arr) {
       console.warn('Unknown deep expand for array: ', arr[i]);
     }
   }
+}
+
+/***/ }),
+
+/***/ "./source/utility/listeners.js":
+/*!*************************************!*\
+  !*** ./source/utility/listeners.js ***!
+  \*************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Listeners; });
+/**
+ * Utility class for allowing a class to bind listeners and trigger callbacks.
+ */
+class Listeners {
+  constructor() {
+    this._listeners = {};
+  }
+
+  add(eventName, callback) {
+    const listeners = this.listenersForEvent(eventName);
+    listeners.push(callback);
+  }
+
+  listenersForEvent(eventName) {
+    if (!this._listeners[eventName]) {
+      this._listeners[eventName] = [];
+    }
+
+    return this._listeners[eventName];
+  }
+
+  trigger(eventName, ...data) {
+    for (const listener of this.listenersForEvent(eventName)) {
+      listener(...data);
+    }
+  }
+
 }
 
 /***/ }),

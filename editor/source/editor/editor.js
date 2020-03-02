@@ -3,6 +3,7 @@
  */
 
 import Config from '../utility/config'
+import Listeners from '../utility/listeners'
 import Document from './document'
 import EditorApi from './editorApi'
 import {
@@ -50,6 +51,7 @@ export default class Editor {
 
     const EditorApiCls = this.config.get('EditorApiCls', EditorApi)
     this.api = new EditorApiCls()
+    this.listeners = new Listeners()
 
     this.podPath = this.containerEl.dataset.defaultPath || ''
     this.document = null
@@ -294,6 +296,10 @@ export default class Editor {
       response['default_locale'],
       response['content'])
 
+    this.listeners.trigger('save.response', {
+      response: response,
+    })
+
     this.render(true)
   }
 
@@ -345,7 +351,12 @@ export default class Editor {
     if (!force && this.isClean) {
       // Already saved with no new changes.
       return
-    } else if (this.isEditingSource) {
+    }
+
+    this.listeners.trigger('save.start', {
+      isEditingSource: this.isEditingSource,
+    })
+    if (this.isEditingSource) {
       const result = this.api.saveDocumentSource(
         this.podPath, this.document.rawFrontMatter)
       result.then(this.handleSaveResponse.bind(this))
