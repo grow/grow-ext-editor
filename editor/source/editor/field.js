@@ -146,8 +146,6 @@ export class PartialsField extends ListField {
   }
 
   handleAddItem(evt, editor) {
-    console.log(evt.target.value, this);
-
     const partialKey = evt.target.value
     const partialConfig = this.partialTypes[partialKey]
     const index = this.value.length

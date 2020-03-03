@@ -22,6 +22,17 @@ export default class EditorApi extends Api {
     return result.promise
   }
 
+  getDocuments(podPath) {
+    const result = new Defer()
+
+    this.request.get(this.apiPath('documents'))
+      .then((res) => {
+        result.resolve(res.body)
+      })
+
+    return result.promise
+  }
+
   getPartials(podPath) {
     const result = new Defer()
 

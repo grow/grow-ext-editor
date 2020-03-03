@@ -1,0 +1,150 @@
+@import "selective-edit/sass/selective-core"
+
+.selective__field__partials
+  border-bottom: 3px solid transparent
+  border-radius: $ge-radius-2
+  border-top: 3px solid transparent
+  margin-top: $ge-pad
+
+  &.sortable--above
+    border-top: 3px solid $ge-color-p
+
+  &.sortable--below
+    border-bottom: 3px solid $ge-color-p
+
+  .partials__menu
+    align-items: center
+    display: flex
+    flex-flow: row
+    justify-content: space-between
+
+  .partials__label
+    font-weight: bold
+
+.selective__field
+  label
+    display: block
+    margin: $ge-pad/2 0
+
+.selective__field__label
+  padding: $ge-pad/2 0
+
+  .selective__field__partials &
+    font-weight: bold
+
+.selective__field__text
+  input
+    margin: $ge-pad/2 0
+    width: 100%
+
+.selective__field__textarea
+  textarea
+    margin: $ge-pad/2 0
+    width: 100%
+
+.selective__list__items
+  // Flex flow when using full screen.
+  .editor--fullscreen &
+    display: flex
+    flex-flow: row
+    flex-wrap: wrap
+
+.selective__list__item
+  align-items: center
+  background: rgba($ge-color-back-l, .5)
+  border-bottom: 3px solid transparent
+  border-radius: $ge-radius-2
+  border-top: 3px solid transparent
+  font-family: $ge-font-family
+  font-size: $ge-font-size
+  justify-content: space-between
+  margin: $ge-pad / 2 0
+  padding: $ge-pad / 2
+
+  // Flex flow when using full screen.
+  .editor--fullscreen &
+    align-items: flex-start
+    flex-basis: unquote("calc(33% - #{$ge-pad/2})")
+    flex-grow: 1
+    margin-right: $ge-pad/2
+
+    &:nth-child(3n),
+    &:last-child
+      margin-right: 0
+
+  // Invert the item for every other layer.
+  .selective__list__item &
+    background-color: $ge-color-back
+
+    .selective__fields &
+      input,
+      textarea
+        background: rgba($ge-color-back-l, .5)
+
+      button
+        background: $ge-color-back
+
+  // Invert the styling for each layer.
+  .selective__field__partials &
+    input,
+    textarea
+      background: $ge-color-back
+
+    button
+      background: $ge-color-back-l
+
+  &--collapsed
+    display: flex
+    flex-flow: row
+
+  &--hidden
+    display: flex
+    flex-flow: row
+    background: rgba($ge-color-back-l, .25)
+
+    .selective__list__item__label
+      flex-grow: 1
+      flex-basis: 100%
+      cursor: default
+
+  &--expanded
+    padding: $ge-pad / 2 $ge-pad
+
+    .selective__list__item__label
+      cursor: pointer
+      font-weight: 700
+      padding: $ge-pad/2 0
+
+  &.sortable--above
+    border-top: 3px solid $ge-color-p
+
+  &.sortable--below
+    border-bottom: 3px solid $ge-color-p
+
+.selective__list__item__drag
+  cursor: grab
+  flex-shrink: 1
+
+  i
+    font-size: $ge-font-size
+    margin-right: $ge-pad / 2
+
+.selective__list__item__label
+  cursor: pointer
+  flex-basis: 25%
+  flex-shrink: 0
+  font-weight: bold
+  padding-right: $ge-pad
+
+.selective__list__item__preview
+  cursor: pointer
+  flex-grow: 1
+  overflow: hidden
+  text-overflow: ellipsis
+
+.selective__header,
+.selective__footer
+  align-items: center
+  display: flex
+  flex-flow: row
+  justify-content: space-between
