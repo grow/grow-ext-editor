@@ -664,6 +664,8 @@ class SortableField extends Field {
   }
 
   handleDragStart(evt) {
+    evt.stopPropagation();
+
     const target = this._findDraggable(evt.target);
 
     this._dragOriginElement = target;
@@ -684,9 +686,10 @@ class SortableField extends Field {
 
       if (!target) {
         return;
-      } // Show that the element is hovering.
-      // Also prevent sub elements from triggering more drag events.
+      }
 
+      evt.stopPropagation(); // Show that the element is hovering.
+      // Also prevent sub elements from triggering more drag events.
 
       target.classList.add('sortable--hover');
       const currentIndex = parseInt(evt.target.dataset.index);
@@ -715,8 +718,9 @@ class SortableField extends Field {
 
       if (target !== evt.target) {
         return;
-      } // No longer hovering.
+      }
 
+      evt.stopPropagation(); // No longer hovering.
 
       target.classList.remove('sortable--hover', 'sortable--above', 'sortable--below');
     }
@@ -726,6 +730,7 @@ class SortableField extends Field {
     if (this._shouldHandleDrag(evt)) {
       // Flag to the browser that this is a valid drop target.
       evt.preventDefault();
+      evt.stopPropagation();
     }
   }
 
@@ -734,6 +739,8 @@ class SortableField extends Field {
     if (!this._dragOriginElement) {
       return;
     }
+
+    evt.stopPropagation();
 
     const target = this._findDraggable(evt.target);
 
