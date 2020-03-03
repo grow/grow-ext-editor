@@ -8382,9 +8382,7 @@ class Editor {
       <div class="editor__edit">
         <div class="editor__pod_path">
           <input type="text" value="${editor.podPath}"
-            @blur=${editor.handlePodPathBlur.bind(editor)}
             @change=${editor.handlePodPathChange.bind(editor)}
-            @focus=${editor.handlePodPathFocus.bind(editor)}
             @input=${editor.handlePodPathInput.bind(editor)}>
           ${editor.isFullScreen ? '' : selective_edit__WEBPACK_IMPORTED_MODULE_4__["html"]`
             <i class="material-icons" @click=${editor.handleMobileClick.bind(editor)}>devices</i>
@@ -8414,8 +8412,7 @@ class Editor {
     this.listeners = new _utility_listeners__WEBPACK_IMPORTED_MODULE_1__["default"]();
     this.podPath = this.containerEl.dataset.defaultPath || '';
     this.document = null;
-    this.autosaveID = null;
-    this.documents = {}; // TODO: Read initial values from local storage.
+    this.autosaveID = null; // TODO: Read initial values from local storage.
 
     this._isEditingSource = false;
     this._isFullScreen = false;
@@ -8531,7 +8528,6 @@ class Editor {
     document.addEventListener('selective.path.update', evt => {
       const podPath = evt.detail['path'];
       this.podPath = podPath;
-      console.log('Loading pod path.', this.podPath);
       this.load(podPath);
     });
   }
@@ -8564,11 +8560,6 @@ class Editor {
 
   documentFromResponse(response) {
     this.document = new _document__WEBPACK_IMPORTED_MODULE_2__["default"](response['pod_path'], response['front_matter'], response['raw_front_matter'], response['serving_paths'], response['default_locale'], response['content']);
-  }
-
-  handleLoadDocumentsResponse(response) {
-    this.documents = response['documents'];
-    this.render();
   }
 
   handleFieldsClick(evt) {
@@ -8754,15 +8745,6 @@ class Editor {
     if (this.autosaveID) {
       window.clearInterval(this.autosaveID);
     }
-  }
-
-  updateDocuments() {
-    if (this._isLoading['documents']) {
-      return;
-    }
-
-    this._isLoading['documents'] = true;
-    this.api.getDocuments().then(this.handleLoadDocumentsResponse.bind(this));
   }
 
 }

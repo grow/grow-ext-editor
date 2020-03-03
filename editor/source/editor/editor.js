@@ -26,9 +26,7 @@ export default class Editor {
       <div class="editor__edit">
         <div class="editor__pod_path">
           <input type="text" value="${editor.podPath}"
-            @blur=${editor.handlePodPathBlur.bind(editor)}
             @change=${editor.handlePodPathChange.bind(editor)}
-            @focus=${editor.handlePodPathFocus.bind(editor)}
             @input=${editor.handlePodPathInput.bind(editor)}>
           ${editor.isFullScreen ? '' : html`
             <i class="material-icons" @click=${editor.handleMobileClick.bind(editor)}>devices</i>
@@ -60,7 +58,6 @@ export default class Editor {
     this.podPath = this.containerEl.dataset.defaultPath || ''
     this.document = null
     this.autosaveID = null
-    this.documents = {}
 
     // TODO: Read initial values from local storage.
     this._isEditingSource = false
@@ -187,7 +184,6 @@ export default class Editor {
     document.addEventListener('selective.path.update', (evt) => {
       const podPath = evt.detail['path']
       this.podPath = podPath
-      console.log('Loading pod path.', this.podPath);
       this.load(podPath)
     })
   }
@@ -224,11 +220,6 @@ export default class Editor {
       response['serving_paths'],
       response['default_locale'],
       response['content'])
-  }
-
-  handleLoadDocumentsResponse(response) {
-    this.documents = response['documents']
-    this.render()
   }
 
   handleFieldsClick(evt) {
@@ -423,13 +414,5 @@ export default class Editor {
     if (this.autosaveID) {
       window.clearInterval(this.autosaveID)
     }
-  }
-
-  updateDocuments() {
-    if (this._isLoading['documents']) {
-      return
-    }
-    this._isLoading['documents'] = true
-    this.api.getDocuments().then(this.handleLoadDocumentsResponse.bind(this))
   }
 }
