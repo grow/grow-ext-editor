@@ -8375,8 +8375,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _editorApi__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./editorApi */ "./source/editor/editorApi.js");
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
 /* harmony import */ var _field__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./field */ "./source/editor/field.js");
-/* harmony import */ var _filetree__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./filetree */ "./source/editor/filetree.js");
-/* harmony import */ var _utility_expandObject__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utility/expandObject */ "./source/utility/expandObject.js");
+/* harmony import */ var _utility_expandObject__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utility/expandObject */ "./source/utility/expandObject.js");
 /**
  * Content editor.
  */
@@ -8388,10 +8387,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 const CONTENT_KEY = '__content__';
-const BLACKLIST_PATHS_RE = [/^\/_grow\//i];
-const WHITELIST_PODPATHS_RE = [/^\/content\//i, /^\/data\//i];
 class Editor {
   constructor(containerEl, config) {
     this.containerEl = containerEl;
@@ -8412,9 +8408,6 @@ class Editor {
           <i class="material-icons" @click=${editor.handleFullScreenClick.bind(editor)}>${editor.isFullScreen ? 'fullscreen_exit' : 'fullscreen'}</i>
           <i class="material-icons" @click=${editor.handleOpenInNew.bind(editor)}>open_in_new</i>
         </div>
-        ${editor.showFileTree ? selective_edit__WEBPACK_IMPORTED_MODULE_4__["html"]`<div class="editor__card">
-          ${editor.templateFileTree}
-        </div>` : ''}
         <div class="editor__card">
           <div class="editor__menu">
             <button class="editor__save editor--primary" @click=${editor.save.bind(editor)}>Save</button>
@@ -8437,8 +8430,6 @@ class Editor {
     this.podPath = this.containerEl.dataset.defaultPath || '';
     this.document = null;
     this.autosaveID = null;
-    this.showFileTree = false;
-    this.fileTree = null;
     this.documents = {}; // TODO: Read initial values from local storage.
 
     this._isEditingSource = false;
@@ -8529,18 +8520,6 @@ class Editor {
     </div>`;
   }
 
-  get templateFileTree() {
-    // Documents not loaded yet.
-    if (!this.fileTree) {
-      this.updateDocuments();
-      return selective_edit__WEBPACK_IMPORTED_MODULE_4__["html"]`<div class="editor__filetree">
-        Loading documents...
-      </div>`;
-    }
-
-    return this.fileTree.template(this.fileTree);
-  }
-
   set isEditingSource(value) {
     this._isEditingSource = value; // TODO: Save to local storage.
   }
@@ -8604,10 +8583,6 @@ class Editor {
 
   handleLoadDocumentsResponse(response) {
     this.documents = response['documents'];
-    this.fileTree = new _filetree__WEBPACK_IMPORTED_MODULE_6__["default"](this.documents, {
-      whitelistPodPaths: WHITELIST_PODPATHS_RE,
-      blacklistPaths: BLACKLIST_PATHS_RE
-    });
     this.render();
   }
 
@@ -8694,18 +8669,8 @@ class Editor {
     window.open(this.servingPath, '_blank');
   }
 
-  handlePodPathBlur(evt) {
-    this.showFileTree = false;
-    this.render();
-  }
-
   handlePodPathChange(evt) {
     this.load(evt.target.value);
-  }
-
-  handlePodPathFocus(evt) {
-    this.showFileTree = true;
-    this.render();
   }
 
   handlePodPathInput(evt) {
@@ -9229,130 +9194,6 @@ const defaultFields = {
 
 /***/ }),
 
-/***/ "./source/editor/filetree.js":
-/*!***********************************!*\
-  !*** ./source/editor/filetree.js ***!
-  \***********************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return FileTree; });
-/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
-/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utility/config */ "./source/utility/config.js");
-/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utility/dom */ "./source/utility/dom.js");
-/**
- *  File tree utility.
- */
-
-
-
-class FileTree {
-  constructor(documents, config) {
-    this.documents = documents;
-    this.config = new _utility_config__WEBPACK_IMPORTED_MODULE_1__["default"](config);
-    this.search = '';
-
-    this.template = fileTree => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="editor__filetree">
-      ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(fileTree.treeRows, row => row.id, (row, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-        <div class="editor__filetree__row"
-            data-pod-path="${row.podPath}"
-            @click=${fileTree.handleRowClick.bind(fileTree)}>
-          ${row['path']}
-        </div>
-      `)}
-    </div>`;
-  }
-
-  _isBlacklisted(path, blacklists) {
-    for (const ignoredPathRe of blacklists) {
-      if (ignoredPathRe.test(path)) {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
-  _isWhitelisted(path, whitelists) {
-    // No whitelists is all whitelisted.
-    if (!whitelists.length) {
-      return true;
-    }
-
-    for (const onlyPathRe of whitelists) {
-      if (onlyPathRe.test(path)) {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
-  _sectionTemplates(sections) {
-    const parts = [];
-    const totalSections = sections.length;
-
-    for (let i = 0; i < totalSections; i++) {
-      parts.push(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<span class="editor__filetree__section editor__filetree__section--${i + 1 == totalSections ? 'leaf' : 'node'}">${sections[i]}</span>`);
-    }
-
-    return parts;
-  }
-
-  get documents() {
-    return this._documents;
-  }
-
-  get treeRows() {
-    const rows = [];
-
-    for (const path of this.paths) {
-      // Check the serving path lists.
-      if (!this._isWhitelisted(path, this.config.get('whitelistPaths', [])) || this._isBlacklisted(path, this.config.get('blacklistPaths', []))) {
-        continue;
-      }
-
-      const docInfo = this.documents[path]; // Check the pod path lists.
-
-      if (!this._isWhitelisted(docInfo['pod_path'], this.config.get('whitelistPodPaths', [])) || this._isBlacklisted(docInfo['pod_path'], this.config.get('blacklistPodPaths', []))) {
-        continue;
-      }
-
-      const rowInfo = {
-        id: path,
-        podPath: docInfo['pod_path'],
-        path: path,
-        sections: path.split('/')
-      }; // TODO: Filter using the search criteria.
-
-      rows.push(rowInfo);
-    }
-
-    return rows;
-  }
-
-  set documents(value) {
-    this._documents = value;
-    this.paths = Object.keys(value).sort();
-  }
-
-  handleRowClick(evt) {
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_2__["findParentByClassname"])(evt.target, 'editor__filetree__row');
-    const podPath = target.dataset.podPath; // Trigger that the pod path should update.
-
-    document.dispatchEvent(new CustomEvent('selective.path.update', {
-      detail: {
-        path: podPath
-      }
-    }));
-  }
-
-}
-
-/***/ }),
-
 /***/ "./source/utility/api.js":
 /*!*******************************!*\
   !*** ./source/utility/api.js ***!
@@ -9519,31 +9360,6 @@ class Defer {
   }
 
 }
-
-/***/ }),
-
-/***/ "./source/utility/dom.js":
-/*!*******************************!*\
-  !*** ./source/utility/dom.js ***!
-  \*******************************/
-/*! exports provided: findParentByClassname */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "findParentByClassname", function() { return findParentByClassname; });
-/**
- *  DOM helper functions.
- */
-const findParentByClassname = (element, classname) => {
-  while (element && !element.classList.contains(classname)) {
-    element = element.parentElement;
-  }
-
-  return element;
-};
-
-
 
 /***/ }),
 

@@ -12,13 +12,10 @@ import {
 } from 'selective-edit'
 import Selective from 'selective-edit'
 import { defaultFields } from './field'
-import FileTree from './filetree'
 import expandObject from '../utility/expandObject'
 
 
 const CONTENT_KEY = '__content__'
-const BLACKLIST_PATHS_RE = [/^\/_grow\//i]
-const WHITELIST_PODPATHS_RE = [/^\/content\//i, /^\/data\//i]
 
 
 export default class Editor {
@@ -40,9 +37,6 @@ export default class Editor {
           <i class="material-icons" @click=${editor.handleFullScreenClick.bind(editor)}>${editor.isFullScreen ? 'fullscreen_exit' : 'fullscreen'}</i>
           <i class="material-icons" @click=${editor.handleOpenInNew.bind(editor)}>open_in_new</i>
         </div>
-        ${editor.showFileTree ? html`<div class="editor__card">
-          ${editor.templateFileTree}
-        </div>` : ''}
         <div class="editor__card">
           <div class="editor__menu">
             <button class="editor__save editor--primary" @click=${editor.save.bind(editor)}>Save</button>
@@ -66,8 +60,6 @@ export default class Editor {
     this.podPath = this.containerEl.dataset.defaultPath || ''
     this.document = null
     this.autosaveID = null
-    this.showFileTree = false
-    this.fileTree = null
     this.documents = {}
 
     // TODO: Read initial values from local storage.
@@ -164,18 +156,6 @@ export default class Editor {
     </div>`
   }
 
-  get templateFileTree() {
-    // Documents not loaded yet.
-    if (!this.fileTree) {
-      this.updateDocuments()
-      return html`<div class="editor__filetree">
-        Loading documents...
-      </div>`
-    }
-
-    return this.fileTree.template(this.fileTree)
-  }
-
   set isEditingSource(value) {
     this._isEditingSource = value
     // TODO: Save to local storage.
@@ -248,10 +228,6 @@ export default class Editor {
 
   handleLoadDocumentsResponse(response) {
     this.documents = response['documents']
-    this.fileTree = new FileTree(this.documents, {
-      whitelistPodPaths: WHITELIST_PODPATHS_RE,
-      blacklistPaths: BLACKLIST_PATHS_RE
-    })
     this.render()
   }
 
@@ -338,18 +314,8 @@ export default class Editor {
     window.open(this.servingPath, '_blank')
   }
 
-  handlePodPathBlur(evt) {
-    this.showFileTree = false
-    this.render()
-  }
-
   handlePodPathChange(evt) {
     this.load(evt.target.value)
-  }
-
-  handlePodPathFocus(evt) {
-    this.showFileTree = true
-    this.render()
   }
 
   handlePodPathInput(evt) {
