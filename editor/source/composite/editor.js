@@ -6,3 +6,5 @@ new Throttle('resize', 'opt_resize')
 new Throttle('scroll', 'opt_scroll')
 
 export default Editor
+
+window.Editor = Editor

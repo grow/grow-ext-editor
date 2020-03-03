@@ -55,7 +55,7 @@ export default class Editor {
     this.api = new EditorApiCls()
     this.listeners = new Listeners()
 
-    this.podPath = this.containerEl.dataset.defaultPath || ''
+    this.podPath = this.containerEl.dataset.defaultPath || this.config.get('defaultPath', '')
     this.document = null
     this.autosaveID = null
 

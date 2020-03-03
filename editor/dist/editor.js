@@ -8286,6 +8286,7 @@ __webpack_require__.r(__webpack_exports__);
 new _utility_throttle__WEBPACK_IMPORTED_MODULE_1__["default"]('resize', 'opt_resize');
 new _utility_throttle__WEBPACK_IMPORTED_MODULE_1__["default"]('scroll', 'opt_scroll');
 /* harmony default export */ __webpack_exports__["default"] = (_editor_editor__WEBPACK_IMPORTED_MODULE_0__["default"]);
+window.Editor = _editor_editor__WEBPACK_IMPORTED_MODULE_0__["default"];
 
 /***/ }),
 
@@ -8417,7 +8418,7 @@ class Editor {
     const EditorApiCls = this.config.get('EditorApiCls', _editorApi__WEBPACK_IMPORTED_MODULE_3__["default"]);
     this.api = new EditorApiCls();
     this.listeners = new _utility_listeners__WEBPACK_IMPORTED_MODULE_1__["default"]();
-    this.podPath = this.containerEl.dataset.defaultPath || '';
+    this.podPath = this.containerEl.dataset.defaultPath || this.config.get('defaultPath', '');
     this.document = null;
     this.autosaveID = null; // TODO: Read initial values from local storage.
 
