@@ -7,8 +7,8 @@
     <link rel="shortcut icon" href="/_grow/assets/favicon.png">
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700,900|Roboto+Mono:400,700" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="/_grow/ext/editor/editor_styles.css">
-    <link rel="stylesheet" href="/_grow/ext/editor/editor_ext_styles.css">
+    <link rel="stylesheet" href="{{pod.get_static('/extensions/editor/dist/editor_styles.css').url.path}}">
+    <link rel="stylesheet" href="{{pod.get_static('/extensions/editor/dist/editor_ext_styles.css').url.path}}">
   </head>
   <body>
     {% set default_path = '/' ~ path %}
@@ -17,6 +17,6 @@
       {% set default_path = home_doc.pod_path %}
     {% endif %}
     <div class="container" data-default-path="{{default_path}}"></div>
-    <script src="/_grow/ext/editor/editor_ext.js"></script>
+    <script src="{{pod.get_static('/extensions/editor/dist/editor.js').url.path}}"></script>
   </body>
 </html>
