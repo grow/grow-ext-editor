@@ -8647,6 +8647,13 @@ class Editor {
     this.render();
   }
 
+  handleLoadPodPaths(response) {
+    this._pod_paths = response['pod_paths'];
+    this.listeners.trigger('load.podPaths', {
+      pod_paths: this._pod_paths
+    });
+  }
+
   handleLoadSourceResponse(response) {
     this._isEditingSource = true;
     this.documentFromResponse(response);
@@ -8703,6 +8710,16 @@ class Editor {
 
   loadFields(podPath) {
     this.api.getDocument(podPath).then(this.handleLoadFieldsResponse.bind(this));
+  }
+
+  loadPodPaths(force) {
+    if (!force && this._isLoading['podPaths']) {
+      // Already loading the pod paths, do not re-request.
+      return;
+    }
+
+    this._isLoading['podPaths'] = true;
+    this.api.getPodPaths().then(this.handleLoadPodPaths.bind(this));
   }
 
   loadSource(podPath) {
@@ -8817,6 +8834,14 @@ class EditorApi extends _utility_api__WEBPACK_IMPORTED_MODULE_0__["default"] {
   getPartials(podPath) {
     const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
     this.request.get(this.apiPath('partials')).then(res => {
+      result.resolve(res.body);
+    });
+    return result.promise;
+  }
+
+  getPodPaths() {
+    const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
+    this.request.get(this.apiPath('pod_paths')).then(res => {
       result.resolve(res.body);
     });
     return result.promise;

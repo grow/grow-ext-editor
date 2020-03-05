@@ -22,6 +22,15 @@ class PodApi(object):
         '.',
         '_',
     )
+    IGNORED_EXTS = (
+        '.pyc',
+    )
+    IGNORED_DIRS = (
+        '/build/',
+        '/ext/',
+        '/extensions/',
+        '/node_modules/',
+    )
 
     def __init__(self, pod, request, matched):
         self.pod = pod
@@ -131,6 +140,29 @@ class PodApi(object):
             'documents': documents,
         }
 
+    def get_pod_paths(self):
+        """Handle the request for document and static info."""
+        pod_paths = []
+
+        for root, dirs, files in self.pod.walk('/'):
+            for directory in dirs:
+                if directory.startswith('.'):
+                    dirs.remove(directory)
+            pod_dir = root.replace(self.pod.root, '')
+            for file_name in files:
+                if file_name.startswith(self.IGNORED_PREFIXS):
+                    continue
+                if file_name.endswith(self.IGNORED_EXTS):
+                    continue
+                full_path = os.path.join(pod_dir, file_name)
+                if full_path.startswith(self.IGNORED_DIRS):
+                    continue
+                pod_paths.append(full_path)
+
+        self.data = {
+            'pod_paths': pod_paths,
+        }
+
     def get_editor_content(self):
         """Handle the request for editor content."""
         pod_path = self.request.params.get('pod_path')
@@ -203,6 +235,9 @@ class PodApi(object):
         elif path == 'documents':
             if method == 'GET':
                 self.get_documents()
+        elif path == 'pod_paths':
+            if method == 'GET':
+                self.get_pod_paths()
 
     def post_editor_content(self):
         """Handle the request to save editor content."""
