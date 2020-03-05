@@ -1,5 +1,5 @@
 .editor
-  background-color: $ge-color-back-l
+  background-color: $ge-color-back-light
   display: flex
   flex-flow: row
   font-family: $ge-font-family
@@ -12,7 +12,7 @@
 
   input,
   textarea
-    background: rgba($ge-color-back-l, .5)
+    background: rgba($ge-color-back-light, .5)
     border: none
     border-radius: $ge-radius-2
     font-family: $ge-font-family
@@ -23,15 +23,15 @@
     background: $ge-color-back
     border-radius: $ge-radius-5
     color: $ge-color-on-back
-    border: 1px solid $ge-color-back-l
+    border: 1px solid $ge-color-back-light
     font-family: $ge-font-family
     font-size: $ge-font-size
     padding: $ge-pad/2 $ge-pad
 
     &.editor--primary
-      background: $ge-color-p
-      border-color: $ge-color-p
-      color: $ge-color-on-p
+      background: $ge-color-primary
+      border-color: $ge-color-primary
+      color: $ge-color-on-primary
       font-weight: bold
 
     &.editor--secondary
@@ -49,7 +49,7 @@
   select
     appearance: none
     background: $ge-color-back
-    border: 1px solid $ge-color-back-l
+    border: 1px solid $ge-color-back-light
     border-radius: $ge-radius-5
     font-family: $ge-font-family
     font-size: $ge-font-size
@@ -69,9 +69,9 @@
     max-width: 100%
 
 .editor__pod_path
-  background: $ge-color-s
+  background: $ge-color-secondary
   box-shadow: $ge-shadow-1
-  color: $ge-color-on-s
+  color: $ge-color-on-secondary
   display: flex
   flex-flow: row
   align-items: center
@@ -88,7 +88,7 @@
   input
     background: transparent
     border: none
-    color: $ge-color-on-s
+    color: $ge-color-on-secondary
     flex-grow: 1
     font-weight: bold
     padding: $ge-pad/2
@@ -127,7 +127,7 @@
 .editor__menu
   align-items: center
   background-color: $ge-color-back
-  border-bottom: 1px solid $ge-color-back-l
+  border-bottom: 1px solid $ge-color-back-light
   display: flex
   flex-flow: row
   justify-content: space-between
@@ -167,9 +167,9 @@
   top: 0
 
   iframe
-    background-color: $ge-color-back-l
+    background-color: $ge-color-back-light
     border: none
-    color: $ge-color-on-back-l
+    color: $ge-color-on-back-light
     flex-grow: 1
 
   .editor--mobile &
