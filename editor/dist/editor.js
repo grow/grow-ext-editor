@@ -660,7 +660,7 @@ class SortableField extends Field {
   }
 
   _shouldHandleDrag(evt) {
-    return this._dragOriginElement && evt.dataTransfer.types.includes('selective/index');
+    return this._dragOriginElement && evt.dataTransfer.types.includes(`selective/${this.getUid()}`);
   }
 
   handleDragStart(evt) {
@@ -670,7 +670,7 @@ class SortableField extends Field {
 
     this._dragOriginElement = target;
     evt.dataTransfer.setData('text/plain', evt.target.dataset.index);
-    evt.dataTransfer.setData('selective/index', evt.target.dataset.index);
+    evt.dataTransfer.setData(`selective/${this.getUid()}`, evt.target.dataset.index);
     evt.dataTransfer.effectAllowed = 'move'; // Allow for custom preview for dragging.
 
     const previewEl = target.querySelector('.sortable__preview');
