@@ -39,7 +39,7 @@ class EditorPodspecStaticDirHook(hooks.PodspecStaticDirHook):
     """Handle the router add hook."""
 
     def trigger(self, previous_result, *_args, **_kwargs):
-        """Execute pre deploy validation."""
+        """Execute static dir validation."""
         previous_result = previous_result or []
 
         if not self.extension.config.get('enabled', True):
