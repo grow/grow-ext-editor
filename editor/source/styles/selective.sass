@@ -34,13 +34,19 @@
 
 .selective__field__text
   input
+    border: 2px solid transparent
     margin: $ge-pad/2 0
     width: 100%
+    &:focus
+      +field-control-focus
 
 .selective__field__textarea
   textarea
+    border: 2px solid transparent
     margin: $ge-pad/2 0
     width: 100%
+    &:focus
+      +field-control-focus
 
 .selective__list__items
   // Flex flow when using full screen.
@@ -52,14 +58,16 @@
 .selective__list__item
   align-items: center
   background: rgba($ge-color-back-l, .5)
-  border-bottom: 3px solid transparent
+  border: 1px solid transparent
   border-radius: $ge-radius-2
-  border-top: 3px solid transparent
   font-family: $ge-font-family
   font-size: $ge-font-size
   justify-content: space-between
   margin: $ge-pad / 2 0
   padding: $ge-pad / 2
+
+  &:hover
+    border-color: rgba(0, 0, 0, .3)
 
   // Flex flow when using full screen.
   .editor--fullscreen &
@@ -123,6 +131,7 @@
 
 .selective__list__item__drag
   cursor: grab
+  display: flex
   flex-shrink: 1
 
   i
