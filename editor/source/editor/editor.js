@@ -35,15 +35,17 @@ export default class Editor {
           <i class="material-icons" @click=${editor.handleFullScreenClick.bind(editor)}>${editor.isFullScreen ? 'fullscreen_exit' : 'fullscreen'}</i>
           <i class="material-icons" @click=${editor.handleOpenInNew.bind(editor)}>open_in_new</i>
         </div>
-        <div class="editor__card">
-          <div class="editor__menu">
-            <button class="editor__save editor--primary" @click=${editor.save.bind(editor)}>Save</button>
-            <div class="editor__actions">
-              <button class="editor__style__fields editor--secondary editor--selected" @click=${editor.handleFieldsClick.bind(editor)}>Fields</button>
-              <button class="editor__style__raw editor--secondary" @click=${editor.handleSourceClick.bind(editor)}>Raw</button>
+        <div class="editor__cards">
+          <div class="editor__card">
+            <div class="editor__menu">
+              <button class="editor__save editor--primary" @click=${editor.save.bind(editor)}>Save</button>
+              <div class="editor__actions">
+                <button class="editor__style__fields editor--secondary editor--selected" @click=${editor.handleFieldsClick.bind(editor)}>Fields</button>
+                <button class="editor__style__raw editor--secondary" @click=${editor.handleSourceClick.bind(editor)}>Raw</button>
+              </div>
             </div>
+            ${editor.templateEditorOrSource}
           </div>
-          ${editor.templateEditorOrSource}
         </div>
       </div>
       ${editor.isFullScreen ? '' : html`<div class="editor__preview">

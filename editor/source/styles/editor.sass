@@ -57,6 +57,7 @@
 
 .editor__edit
   flex-basis: 40%
+  max-height: 100vh
   max-width: $ge-edit-column-max-width
   min-width: $ge-edit-column-min-width
 
@@ -69,12 +70,13 @@
     max-width: 100%
 
 .editor__pod_path
+  align-items: center
   background: $ge-color-secondary
   box-shadow: $ge-shadow-1
   color: $ge-color-on-secondary
   display: flex
   flex-flow: row
-  align-items: center
+  height: $ge-edit-header-height
   padding: $ge-pad / 2
   z-index: 15
 
@@ -108,13 +110,20 @@
       cursor: pointer
       opacity: 1
 
+.editor__cards
+  display: flex
+  flex-flow: column
+  flex-grow: 1
+  height: calc(100vh - #{$ge-edit-header-height})
+  overflow-y: auto
+
 .editor__card
   background-color: $ge-color-back
   border-radius: $ge-radius-2
   box-shadow: $ge-shadow-2
   display: flex
-  flex-flow: column
   margin: $ge-pad
+  flex-flow: column
 
   &--flush-top
     margin-top: 0
