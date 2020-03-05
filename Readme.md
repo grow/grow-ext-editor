@@ -153,7 +153,6 @@ To test the changes in another tab run:
 
 ```sh
 cd example
-cd extensions/editor && ln -s ../../../editor/dist/ dist
 grow run
 ```
 
