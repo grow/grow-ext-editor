@@ -920,18 +920,18 @@ class ListField extends SortableField {
       itemFields.addField(fieldConfig);
     }
 
+    if (fieldConfigs.length > 1) {
+      itemFields.valueFromData({});
+    } else {
+      itemFields.valueFromData('');
+    }
+
     this._listItems.push({
       'id': `${this.getUid()}-${index}`,
       'index': index,
       'itemFields': itemFields,
       'isExpanded': false
-    });
-
-    if (fieldConfigs.length > 1) {
-      this.value.push({});
-    } else {
-      this.value.push('');
-    } // Expanded by default.
+    }); // Expanded by default.
 
 
     this._expandedIndexes.push(index);
