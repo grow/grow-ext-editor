@@ -1,4 +1,5 @@
-label: Example Partial
+label: Example long partial name
+preview_field: title
 fields:
 - type: text
   key: title
