@@ -1051,7 +1051,7 @@ class ListField extends SortableField {
     const itemValue = this.value[listItem['index']];
 
     if (preview_field) {
-      return Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_6__["autoDeepObject"])(itemValue).get(preview_field) || '____';
+      return Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_6__["autoDeepObject"])(itemValue).get(preview_field) || `Item ${listItem.index + 1}`;
     } // Default to just previewing the value. May not be pretty.
 
 
