@@ -123,27 +123,6 @@ class PodApi(object):
             'content': doc.body,
         }
 
-    def get_documents(self):
-        """Handle the request for document and static info."""
-        documents = {}
-
-        # Read all of the documents in the routes.
-        # TODO: Has to create a concrete routes each time. Not efficient.
-        router = grow_router.Router(self.pod)
-        router.use_simple()
-        router.add_all(concrete=True)
-        for path, node_info, _options in router.routes.nodes:
-            if node_info.kind in ('doc', 'static'):
-                documents[path] = {
-                    'pod_path': node_info.meta['pod_path'],
-                    'locale': node_info.meta.get('locale'),
-                    'locale': node_info.meta.get('locale'),
-                }
-
-        self.data = {
-            'documents': documents,
-        }
-
     def get_pod_paths(self):
         """Handle the request for document and static info."""
         pod_paths = []
@@ -199,6 +178,26 @@ class PodApi(object):
 
         self.data = {
             'partials': partials,
+        }
+
+    def get_routes(self):
+        """Handle the request for routing and meta info."""
+        routes = {}
+
+        # Read all of the routes in the routes.
+        # TODO: Has to create a concrete routes each time. Not efficient.
+        router = grow_router.Router(self.pod)
+        router.use_simple()
+        router.add_all(concrete=True)
+        for path, node_info, _options in router.routes.nodes:
+            if node_info.kind in ('doc', 'static'):
+                routes[path] = {
+                    'pod_path': node_info.meta['pod_path'],
+                    'locale': node_info.meta.get('locale'),
+                }
+
+        self.data = {
+            'routes': routes,
         }
 
     def get_strings(self):
@@ -261,9 +260,9 @@ class PodApi(object):
         elif path == 'strings':
             if method == 'GET':
                 self.get_strings()
-        elif path == 'documents':
+        elif path == 'routes':
             if method == 'GET':
-                self.get_documents()
+                self.get_routes()
         elif path == 'pod_paths':
             if method == 'GET':
                 self.get_pod_paths()
