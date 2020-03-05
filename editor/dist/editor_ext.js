@@ -8600,7 +8600,8 @@ class Editor {
     this.documentFromResponse(response);
     this.pushState(this.document.podPath); // Set the data from the document front matter.
 
-    this.selective.data = this.document.data; // Load the field configuration from the response.
+    this.selective.data = this.document.data;
+    this.selective.fields.reset(); // Load the field configuration from the response.
 
     let fieldConfigs = response['editor']['fields'] || []; // If no fields defined, guess.
 
