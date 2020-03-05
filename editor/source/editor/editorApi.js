@@ -44,6 +44,17 @@ export default class EditorApi extends Api {
     return result.promise
   }
 
+  getPodPaths() {
+    const result = new Defer()
+
+    this.request.get(this.apiPath('pod_paths'))
+      .then((res) => {
+        result.resolve(res.body)
+      })
+
+    return result.promise
+  }
+
   saveDocumentFields(podPath, frontMatter, locale, content) {
     const result = new Defer()
     const saveRequest = {
