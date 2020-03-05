@@ -9,7 +9,7 @@ fields:
   key: partials
   label: Partials
   options:
-    addLabel: Partial
+    addLabel: Customized add label
 
 partials:
 - example

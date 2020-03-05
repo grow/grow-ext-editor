@@ -1,4 +1,5 @@
-label: Example Partial
+label: Example Partial ascascas123
+preview_field: title
 fields:
 - type: text
   key: title

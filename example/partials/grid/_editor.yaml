@@ -1,0 +1,17 @@
+label: Grid
+preview_field: title
+fields:
+- type: text
+  key: title
+  label: Title
+- type: textarea
+  key: description
+  label: Description
+- type: list
+  key: items
+  preview_field: title
+  fields:
+  - type: text
+    key: title
+  - type: textarea
+    key: description
