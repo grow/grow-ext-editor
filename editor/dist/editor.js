@@ -9086,15 +9086,22 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListFie
     </div>`;
   }
 
+  renderListItemPreview(partialItem, deepObject) {
+    return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__list__item__preview" data-index=${partialItem['index']} @click=${this.handleItemExpand.bind(this)}>
+      ${deepObject}
+    </div>`;
+  }
+
   renderCollapsedPartial(editor, partialItem) {
+    let previewField = partialItem['partialConfig']['preview_field'];
+    let deepObject = previewField && Object(selective_edit__WEBPACK_IMPORTED_MODULE_1__["autoDeepObject"])(this.value[partialItem['index']]).get(partialItem['partialConfig']['preview_field']);
     return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
       <div class="selective__list__item__drag"><i class="material-icons">drag_indicator</i></div>
       <div class="selective__list__item__label" data-index=${partialItem['index']} @click=${this.handleItemExpand.bind(this)}>
         ${partialItem['partialConfig']['label']}
       </div>
-      <div class="selective__list__item__preview" data-index=${partialItem['index']} @click=${this.handleItemExpand.bind(this)}>
-        ${partialItem['partialConfig']['preview_field'] ? Object(selective_edit__WEBPACK_IMPORTED_MODULE_1__["autoDeepObject"])(this.value[partialItem['index']]).get(partialItem['partialConfig']['preview_field']) : ''}
-      </div>`;
+      ${previewField && deepObject ? this.renderListItemPreview(partialItem, deepObject) : ''}
+      `;
   }
 
   renderExpandedPartial(editor, partialItem) {
