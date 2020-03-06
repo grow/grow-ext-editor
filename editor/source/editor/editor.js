@@ -63,10 +63,10 @@ export default class Editor {
     this.autosaveID = null
 
     // Persistent settings in local storage.
-    this._isEditingSource = localStorage.getItem('selective.isEditingSource') || false
-    this._isFullScreen = localStorage.getItem('selective.isFullScreen') || false
-    this._isMobileRotated = localStorage.getItem('selective.isMobileRotated') || false
-    this._isMobileView = localStorage.getItem('selective.isMobileView') || false
+    this._isEditingSource = localStorage.getItem('selective.isEditingSource') == 'true'
+    this._isFullScreen = localStorage.getItem('selective.isFullScreen') == 'true'
+    this._isMobileRotated = localStorage.getItem('selective.isMobileRotated') == 'true'
+    this._isMobileView = localStorage.getItem('selective.isMobileView') == 'true'
 
     this._isLoading = {}
 
