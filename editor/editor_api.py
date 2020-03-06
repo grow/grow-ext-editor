@@ -49,13 +49,17 @@ class PodApi(object):
         """Convert raw field data from submission to use objects when needed."""
         # Convert the !g constructors into their objects.
         def _walk_field(item, key, node, parent_node):
-            if key == 'tag' and item.startswith('!g') and 'value' in node:
-                newValue = None
+            if key == 'tag' and item.startswith('!g.') and 'value' in node:
+                newValue = ConstructorReference(item, node['value'])
 
-                if item == '!g.doc':
-                    newValue = self.pod.get_doc(node['value'])
-
-                if newValue:
+                try:
+                    # Try as an array.
+                    for index, parent_key in enumerate(parent_node):
+                        if parent_node[index] == node:
+                            parent_node[index] = newValue
+                            break
+                except KeyError:
+                    # Try as a dict.
                     for parent_key in parent_node:
                         if parent_node[parent_key] == node:
                             parent_node[parent_key] = newValue
@@ -295,3 +299,18 @@ def serve_api(pod, request, matched, **_kwargs):
     """Serve the default console page."""
     api = PodApi(pod, request, matched)
     return api.response
+
+
+# Allow the yaml dump to write out a representation of the !g.yaml.
+def g_representer(dumper, data):
+    return dumper.represent_scalar(data.tag, data.pod_path)
+
+
+class ConstructorReference:
+    """Helper class to serialize !g.* fields."""
+
+    def __init__(self, tag, pod_path):
+        self.tag = tag
+        self.pod_path = pod_path
+
+yaml.SafeDumper.add_representer(ConstructorReference, g_representer)
