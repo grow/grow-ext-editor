@@ -8909,7 +8909,10 @@ class DocumentField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"]
   handleInput(evt) {
     // Update the value to what is being typed.
     // Helps mark the field as dirty.
-    this.value['value'] = evt.target.value;
+    this.value = {
+      'value': evt.target.value,
+      'tag': '!g.doc'
+    };
   }
 
   valueFromData(data) {

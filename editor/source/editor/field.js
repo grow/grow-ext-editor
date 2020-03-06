@@ -26,7 +26,10 @@ export class DocumentField extends Field {
   handleInput(evt) {
     // Update the value to what is being typed.
     // Helps mark the field as dirty.
-    this.value['value'] = evt.target.value
+    this.value = {
+      'value': evt.target.value,
+      'tag': '!g.doc',
+    }
   }
 
   valueFromData(data) {
