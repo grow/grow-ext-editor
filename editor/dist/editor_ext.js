@@ -8513,7 +8513,7 @@ class Editor {
         <div class="editor__cards">
           <div class="editor__card">
             <div class="editor__menu">
-              <button class="editor__save editor--primary" @click=${editor.save.bind(editor)}>Save</button>
+              <button class="editor__save editor--primary" @click=${() => editor.save()}>Save</button>
               <div class="editor__actions">
                 <button class="editor__style__fields editor--secondary editor--selected" @click=${editor.handleFieldsClick.bind(editor)}>Fields</button>
                 <button class="editor__style__raw editor--secondary" @click=${editor.handleSourceClick.bind(editor)}>Raw</button>
@@ -8828,11 +8828,9 @@ class Editor {
     this.document.rawFrontMatter = evt.target.value;
   }
 
-  handleSaveResponse(response) {
+  handleSaveResponse(response, isAutosave) {
     this.document.update(response['pod_path'], response['front_matter'], response['raw_front_matter'], response['serving_paths'], response['default_locale'], response['content']);
-    this.listeners.trigger('save.response', {
-      response: response
-    });
+    this.listeners.trigger('save.response', response, isAutosave);
     this.render(true);
   }
 
@@ -8894,7 +8892,7 @@ class Editor {
     }
   }
 
-  save(force) {
+  save(force, isAutosave) {
     if (!force && this.isClean) {
       // Already saved with no new changes.
       return;
@@ -8906,13 +8904,13 @@ class Editor {
 
     if (this.isEditingSource) {
       const result = this.api.saveDocumentSource(this.podPath, this.document.rawFrontMatter);
-      result.then(this.handleSaveResponse.bind(this));
+      result.then(response => this.handleSaveResponse(response, isAutosave));
     } else {
       const newFrontMatter = this.selective.value;
       const content = newFrontMatter[CONTENT_KEY];
       delete newFrontMatter[CONTENT_KEY];
       const result = this.api.saveDocumentFields(this.podPath, newFrontMatter, this.document.locale, content);
-      result.then(this.handleSaveResponse.bind(this));
+      result.then(response => this.handleSaveResponse(response, isAutosave));
     }
   }
 
@@ -8922,7 +8920,7 @@ class Editor {
     }
 
     this.autosaveID = window.setInterval(() => {
-      this.save();
+      this.save(false, true);
     }, this.config.get('autosaveInterval', 2000));
   }
 
