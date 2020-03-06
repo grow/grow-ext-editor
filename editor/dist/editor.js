@@ -1009,7 +1009,7 @@ class ListField extends SortableField {
   renderExpandedItem(editor, listItem) {
     return lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`
       <div class="selective__list__fields">
-        <div class="partial__fields__label"
+        <div class="selective__list__fields__label ${!listItem['itemFields'].label ? 'selective__list__fields__label--empty' : ''}"
             data-index=${listItem['index']}
             @click=${this.handleItemCollapse.bind(this)}>
           ${listItem['itemFields'].label}
