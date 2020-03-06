@@ -8522,6 +8522,7 @@ class Editor {
             ${editor.templateEditorOrSource}
           </div>
           <div class="editor__dev_tools">
+            <div>Developer tools:</div>
             <i
                 class="editor__dev_tools__icon ${editor.isHightlighted ? 'editor__dev_tools__icon--selected' : ''} material-icons"
                 @click=${editor.handleHighlight.bind(editor)}
