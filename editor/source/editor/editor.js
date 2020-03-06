@@ -142,6 +142,11 @@ export default class Editor {
       styles.push('editor--fullscreen')
     }
 
+    const urlParams = new URLSearchParams(window.location.search)
+    if (urlParams.has('highlight')) {
+      styles.push('editor--highlight')
+    }
+
     return styles.join(' ')
   }
 

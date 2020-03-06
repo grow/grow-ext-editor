@@ -265,21 +265,13 @@ export class PartialsField extends ListField {
     </div>`
   }
 
-  renderListItemPreview(partialItem, deepObject) {
-    return html`<div class="selective__list__item__preview" data-index=${partialItem['index']} @click=${this.handleItemExpand.bind(this)}>
-      ${deepObject}
-    </div>`
-  }
-
   renderCollapsedPartial(editor, partialItem) {
-    let previewField = partialItem['partialConfig']['preview_field'];
-    let deepObject = previewField && autoDeepObject(this.value[partialItem['index']]).get(partialItem['partialConfig']['preview_field']);
     return html`
       <div class="selective__list__item__drag"><i class="material-icons">drag_indicator</i></div>
       <div class="selective__list__item__label" data-index=${partialItem['index']} @click=${this.handleItemExpand.bind(this)}>
         ${partialItem['partialConfig']['label']}
       </div>
-      ${previewField && deepObject ? this.renderListItemPreview(partialItem, deepObject) : ''}
+      ${this.renderPreview(partialItem)}
       <div class="selective__list__item__delete" data-index=${partialItem['index']} @click=${this.handleItemDelete.bind(this)}>
         <i class="material-icons">delete</i>
       </div>`
@@ -334,6 +326,18 @@ export class PartialsField extends ListField {
             : this.renderCollapsedPartial(editor, listItem)}
       </div>
     `)}`
+  }
+
+  renderPreview(partialItem) {
+    const previewValue = this._determineItemPreview(partialItem)
+
+    if (!previewValue) {
+      return ''
+    }
+
+    return html`<div class="selective__list__item__preview" data-index=${partialItem['index']} @click=${this.handleItemExpand.bind(this)}>
+      ${previewValue}
+    </div>`
   }
 
   updatePartials() {

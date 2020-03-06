@@ -257,14 +257,17 @@ class AutoFields {
 
   _fieldConfig(key, value) {
     const fieldType = this.typeFromValue(value);
+    const label = this.labelFromKey(key);
     const fieldConfig = {
-      "type": fieldType,
-      "key": key,
-      "label": this.labelFromKey(key)
+      "type": fieldType
     };
 
-    if (fieldConfig.type == 'list') {
-      fieldConfig['fields'] = this._deepGuess(value, key.split('.'));
+    if (key != '') {
+      fieldConfig['key'] = key;
+    }
+
+    if (label != '') {
+      fieldConfig['label'] = label;
     }
 
     return fieldConfig;
@@ -494,12 +497,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../mixin/config */ "../../../selective-edit/js/mixin/config.js");
 /* harmony import */ var _mixin_uid__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../mixin/uid */ "../../../selective-edit/js/mixin/uid.js");
 /* harmony import */ var _fields__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./fields */ "../../../selective-edit/js/selective/fields.js");
-/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utility/compose */ "../../../selective-edit/js/utility/compose.js");
-/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
-/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utility/dom */ "../../../selective-edit/js/utility/dom.js");
+/* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./autoFields */ "../../../selective-edit/js/selective/autoFields.js");
+/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utility/compose */ "../../../selective-edit/js/utility/compose.js");
+/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
+/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../utility/dom */ "../../../selective-edit/js/utility/dom.js");
 /**
  * Field defined for editing.
  */
+
 
 
 
@@ -511,7 +516,7 @@ __webpack_require__.r(__webpack_exports__);
 // === Base Field
 // ========================================
 
-class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_5__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_2__["default"], _mixin_uid__WEBPACK_IMPORTED_MODULE_3__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_5__["Base"]) {
+class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_6__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_2__["default"], _mixin_uid__WEBPACK_IMPORTED_MODULE_3__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_6__["Base"]) {
   constructor(config) {
     super();
     this.fieldType = 'Field';
@@ -561,7 +566,7 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_5__["compos
     let newDataValue = data;
 
     if (typeof data === 'object' && data !== null) {
-      data = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_6__["autoDeepObject"])(data);
+      data = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_7__["autoDeepObject"])(data);
       newDataValue = data.get(this.key);
     }
 
@@ -652,7 +657,7 @@ class SortableField extends Field {
 
   handleDragStart(evt) {
     evt.stopPropagation();
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_7__["findParentDraggable"])(evt.target);
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_8__["findParentDraggable"])(evt.target);
     this._dragOriginElement = target;
     evt.dataTransfer.setData('text/plain', evt.target.dataset.index);
     evt.dataTransfer.setData(`selective/${this.getUid()}`, evt.target.dataset.index);
@@ -667,7 +672,7 @@ class SortableField extends Field {
 
   handleDragEnter(evt) {
     if (this._shouldHandleDrag(evt)) {
-      const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_7__["findParentDraggable"])(evt.target);
+      const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_8__["findParentDraggable"])(evt.target);
 
       if (!target) {
         return;
@@ -694,7 +699,7 @@ class SortableField extends Field {
 
   handleDragLeave(evt) {
     if (this._shouldHandleDrag(evt)) {
-      const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_7__["findParentDraggable"])(evt.target);
+      const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_8__["findParentDraggable"])(evt.target);
 
       if (!target) {
         return;
@@ -726,7 +731,7 @@ class SortableField extends Field {
     }
 
     evt.stopPropagation();
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_7__["findParentDraggable"])(evt.target);
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_8__["findParentDraggable"])(evt.target);
     const currentIndex = parseInt(evt.target.dataset.index);
     const startIndex = parseInt(evt.dataTransfer.getData("text/plain")); // No longer hovering.
 
@@ -753,23 +758,27 @@ class ListField extends SortableField {
     this.fieldType = 'list';
     this._listItems = [];
     this._isExpanded = false;
+    this._useAutoFields = false;
     this._expandedIndexes = [];
 
-    this.template = (editor, field, data) => lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
-      ${field.updateFromData(data)}
-      <div class="selective__header">
-        <div class="selective__field__label">${field.label}</div>
-        ${field.renderActionsHeader(editor, field, data)}
-      </div>
-      <div class="selective__list">
-        <div class="selective__list__items" id="${field.getUid()}">
-          ${field.renderItems(editor, data)}
+    this.template = (editor, field, data) => lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <div
+          class="selective__field selective__field__${field.fieldType}"
+          data-field-type="${field.fieldType}">
+        ${field.updateFromData(data)}
+        <div class="selective__header">
+          <div class="selective__field__label">${field.label}</div>
+          ${field.renderActionsHeader(editor, field, data)}
         </div>
-      </div>
-      <div class="selective__footer">
-        ${field.renderActionsFooter(editor, field, data)}
-      </div>
-    </div>`;
+        <div class="selective__list">
+          <div class="selective__list__items" id="${field.getUid()}">
+            ${field.renderItems(editor, data)}
+          </div>
+        </div>
+        <div class="selective__footer">
+          ${field.renderActionsFooter(editor, field, data)}
+        </div>
+      </div>`;
   }
 
   _reorderValues(currentIndex, startIndex) {
@@ -863,13 +872,19 @@ class ListField extends SortableField {
     } // Use the field config for the list items to create the correct field types.
 
 
-    const fieldConfigs = this.getConfig().get('fields', []);
+    let fieldConfigs = this.getConfig().get('fields', []);
+    this._useAutoFields = fieldConfigs.length == 0;
     let index = 0;
     const items = [];
 
     for (const itemData of this.value) {
       const itemFields = new _fields__WEBPACK_IMPORTED_MODULE_4__["default"](editor.fieldTypes);
       itemFields.valueFromData(itemData || {});
+
+      if (this._useAutoFields) {
+        // Auto guess the fields if they are not defined.
+        fieldConfigs = new _autoFields__WEBPACK_IMPORTED_MODULE_5__["default"](itemData).config['fields'];
+      }
 
       for (const fieldConfig of fieldConfigs || []) {
         itemFields.addField(fieldConfig);
@@ -891,6 +906,24 @@ class ListField extends SortableField {
     }
 
     return items;
+  }
+
+  _determineItemPreview(listItem) {
+    const defaultPreviewField = this.getConfig().get('preview_field');
+    const previewField = (listItem['partialConfig'] || {})['preview_field'];
+    const itemValue = this.value[listItem['index']];
+    let previewValue = itemValue;
+
+    if (previewField || defaultPreviewField) {
+      previewValue = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_7__["autoDeepObject"])(itemValue).get(previewField || defaultPreviewField);
+    } // Do not try to show preview for complex values.
+
+
+    if (typeof previewValue == 'object') {
+      previewValue = null;
+    }
+
+    return previewValue;
   }
 
   handleAddItem(evt, editor) {
@@ -937,7 +970,7 @@ class ListField extends SortableField {
 
   handleItemDelete(evt) {
     evt.stopPropagation();
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_7__["findParentByClassname"])(evt.target, 'selective__list__item__delete');
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_8__["findParentByClassname"])(evt.target, 'selective__list__item__delete');
     const index = parseInt(target.dataset.index); // Clean up an expanded indexes.
 
     const newExpanded = [];
@@ -1057,7 +1090,7 @@ class ListField extends SortableField {
     }
 
     return lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`${Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_1__["repeat"])(this._listItems, listItem => listItem['id'], (listItem, index) => lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <div class="selective__list__item selective__list__item--${listItem['isExpanded'] ? 'expanded' : 'collapsed'}"
+      <div class="selective__list__item selective__list__item--${listItem['isExpanded'] ? 'expanded' : 'collapsed'} ${this._useAutoFields ? 'selective__list__item--auto' : ''}"
           draggable="true"
           data-index=${listItem['index']}
           @dragenter=${this.handleDragEnter.bind(this)}
@@ -1071,15 +1104,9 @@ class ListField extends SortableField {
   }
 
   renderPreview(listItem) {
-    const preview_field = this.getConfig().get('preview_field');
-    const itemValue = this.value[listItem['index']];
+    const previewValue = this._determineItemPreview(listItem);
 
-    if (preview_field) {
-      return Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_6__["autoDeepObject"])(itemValue).get(preview_field) || `Item ${listItem.index + 1}`;
-    } // Default to just previewing the value. May not be pretty.
-
-
-    return itemValue;
+    return previewValue || `Item ${listItem.index + 1}`;
   }
 
 }
@@ -8578,6 +8605,12 @@ class Editor {
       styles.push('editor--fullscreen');
     }
 
+    const urlParams = new URLSearchParams(window.location.search);
+
+    if (urlParams.has('highlight')) {
+      styles.push('editor--highlight');
+    }
+
     return styles.join(' ');
   }
 
@@ -9249,21 +9282,13 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListFie
     </div>`;
   }
 
-  renderListItemPreview(partialItem, deepObject) {
-    return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__list__item__preview" data-index=${partialItem['index']} @click=${this.handleItemExpand.bind(this)}>
-      ${deepObject}
-    </div>`;
-  }
-
   renderCollapsedPartial(editor, partialItem) {
-    let previewField = partialItem['partialConfig']['preview_field'];
-    let deepObject = previewField && Object(selective_edit__WEBPACK_IMPORTED_MODULE_1__["autoDeepObject"])(this.value[partialItem['index']]).get(partialItem['partialConfig']['preview_field']);
     return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
       <div class="selective__list__item__drag"><i class="material-icons">drag_indicator</i></div>
       <div class="selective__list__item__label" data-index=${partialItem['index']} @click=${this.handleItemExpand.bind(this)}>
         ${partialItem['partialConfig']['label']}
       </div>
-      ${previewField && deepObject ? this.renderListItemPreview(partialItem, deepObject) : ''}
+      ${this.renderPreview(partialItem)}
       <div class="selective__list__item__delete" data-index=${partialItem['index']} @click=${this.handleItemDelete.bind(this)}>
         <i class="material-icons">delete</i>
       </div>`;
@@ -9314,6 +9339,18 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListFie
         ${listItem['isExpanded'] ? this.renderExpandedPartial(editor, listItem) : listItem['isHidden'] ? this.renderHiddenPartial(editor, listItem) : this.renderCollapsedPartial(editor, listItem)}
       </div>
     `)}`;
+  }
+
+  renderPreview(partialItem) {
+    const previewValue = this._determineItemPreview(partialItem);
+
+    if (!previewValue) {
+      return '';
+    }
+
+    return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__list__item__preview" data-index=${partialItem['index']} @click=${this.handleItemExpand.bind(this)}>
+      ${previewValue}
+    </div>`;
   }
 
   updatePartials() {
