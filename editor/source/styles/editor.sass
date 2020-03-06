@@ -28,11 +28,19 @@
     font-size: $ge-font-size
     padding: $ge-pad/2 $ge-pad
 
+    &:focus
+      outline: none
+      box-shadow: $focus-shadow-secondary
+
     &.editor--primary
       background: $ge-color-primary
       border-color: $ge-color-primary
       color: $ge-color-on-primary
       font-weight: bold
+
+      &:focus
+        outline: none
+        box-shadow: $focus-shadow-primary
 
     &.editor--secondary
       background: none
@@ -46,6 +54,9 @@
       &:hover
         color: $ge-color-on-back
 
+      &:focus
+        box-shadow: none
+
   select
     appearance: none
     background: $ge-color-back
@@ -54,6 +65,10 @@
     font-family: $ge-font-family
     font-size: $ge-font-size
     padding: $ge-pad/2 $ge-pad
+
+    &:focus
+      outline: none
+      box-shadow: $focus-shadow-secondary
 
 .editor__edit
   flex-basis: 40%
@@ -143,6 +158,7 @@
   position: sticky
   padding: $ge-pad*1.5 $ge-pad*2
   top: 0
+  z-index: 1
 
 .editor__actions
   display: flex

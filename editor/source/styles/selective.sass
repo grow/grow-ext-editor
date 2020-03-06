@@ -67,16 +67,17 @@
 .selective__list__item
   align-items: center
   background: rgba($ge-color-back-light, .5)
-  border: 1px solid transparent
   border-radius: $ge-radius-2
   font-family: $ge-font-family
   font-size: $ge-font-size
   justify-content: space-between
-  margin: $ge-pad / 2 0
-  padding: $ge-pad / 2
+  margin: $ge-pad/2 0
+  overflow: hidden
+  padding: $ge-pad/2
+  position: relative
 
   &:hover
-    border-color: rgba(0, 0, 0, .3)
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, .3)
 
   // Flex flow when using full screen.
   .editor--fullscreen &
@@ -164,10 +165,13 @@
 
 .selective__list__fields__label
   &--empty
-    border-radius: $ge-radius-1
+    background: $ge-color-bar
     cursor: pointer
     height: $ge-bar-height
-    background: $ge-color-light-border
+    margin-top: -$ge-pad/2
+    margin-left: -$ge-pad
+    margin-bottom: $ge-pad
+    width: calc(100% + #{$ge-pad*2})
 
 .selective__header,
 .selective__footer
