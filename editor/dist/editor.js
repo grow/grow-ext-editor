@@ -8421,6 +8421,7 @@ class Editor {
     this.api = new EditorApiCls();
     this.listeners = new _utility_listeners__WEBPACK_IMPORTED_MODULE_1__["default"]();
     this.podPath = this.containerEl.dataset.defaultPath || this.config.get('defaultPath', '');
+    this.repo = null;
     this.document = null;
     this.autosaveID = null; // TODO: Read initial values from local storage.
 
@@ -8642,6 +8643,13 @@ class Editor {
     });
   }
 
+  handleLoadRepo(response) {
+    this.repo = response['repo'];
+    this.listeners.trigger('load.repo', {
+      repo: this.repo
+    });
+  }
+
   handleLoadSourceResponse(response) {
     this._isEditingSource = true;
     this.documentFromResponse(response);
@@ -8708,6 +8716,10 @@ class Editor {
 
     this._isLoading['podPaths'] = true;
     this.api.getPodPaths().then(this.handleLoadPodPaths.bind(this));
+  }
+
+  loadRepo() {
+    this.api.getRepo().then(this.handleLoadRepo.bind(this));
   }
 
   loadSource(podPath) {

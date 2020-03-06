@@ -58,6 +58,7 @@ export default class Editor {
     this.listeners = new Listeners()
 
     this.podPath = this.containerEl.dataset.defaultPath || this.config.get('defaultPath', '')
+    this.repo = null
     this.document = null
     this.autosaveID = null
 
@@ -294,6 +295,13 @@ export default class Editor {
     })
   }
 
+  handleLoadRepo(response) {
+    this.repo = response['repo']
+    this.listeners.trigger('load.repo', {
+      repo: this.repo,
+    })
+  }
+
   handleLoadSourceResponse(response) {
     this._isEditingSource = true
     this.documentFromResponse(response)
@@ -367,6 +375,10 @@ export default class Editor {
     }
     this._isLoading['podPaths'] = true
     this.api.getPodPaths().then(this.handleLoadPodPaths.bind(this))
+  }
+
+  loadRepo() {
+    this.api.getRepo().then(this.handleLoadRepo.bind(this))
   }
 
   loadSource(podPath) {
