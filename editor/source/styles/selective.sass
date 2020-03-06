@@ -77,9 +77,15 @@
   &:hover
     box-shadow: 0 0 0 1px rgba(0, 0, 0, .3)
 
+  .material-icons
+    color: $ge-color-icon-on-back-light
+
   // Invert the item for every other layer.
   & .selective__list__item
     background-color: $ge-color-back
+
+    .material-icons
+      color: $ge-color-icon-on-back
 
     .selective__fields &
       input,
@@ -149,7 +155,7 @@
 .selective__list__item__preview
   cursor: pointer
   flex-basis: 75%
-  flex-shrink: 0
+  flex-shrink: 1
   flex-grow: 1
   overflow: hidden
   text-overflow: ellipsis
