@@ -12,10 +12,11 @@ import {
   Fields,
 } from 'selective-edit'
 
-export class DocumentField extends Field {
+export class ConstructorField extends Field {
   constructor(config) {
     super(config)
-    this.fieldType = 'document'
+    this.fieldType = 'constructor'
+    this.tag = '!g.*'
 
     this.template = (editor, field, data) => html`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
       <label for="${field.getUid()}">${field.label}</label>
@@ -28,7 +29,7 @@ export class DocumentField extends Field {
     // Helps mark the field as dirty.
     this.value = {
       'value': evt.target.value,
-      'tag': '!g.doc',
+      'tag': this.tag,
     }
   }
 
@@ -38,6 +39,14 @@ export class DocumentField extends Field {
       return value['value']
     }
     return ''
+  }
+}
+
+export class DocumentField extends ConstructorField {
+  constructor(config) {
+    super(config)
+    this.fieldType = 'document'
+    this.tag = '!g.doc'
   }
 }
 
@@ -353,6 +362,14 @@ class PartialFields extends Fields {
   }
 }
 
+export class YamlField extends ConstructorField {
+  constructor(config) {
+    super(config)
+    this.fieldType = 'yaml'
+    this.tag = '!g.yaml'
+  }
+}
+
 
 export const defaultFields = {
   'document': DocumentField,
@@ -360,4 +377,5 @@ export const defaultFields = {
   'list': ListField,
   'text': TextField,
   'textarea': TextareaField,
+  'yaml': YamlField,
 }

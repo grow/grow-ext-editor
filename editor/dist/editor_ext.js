@@ -8892,15 +8892,17 @@ class EditorApi extends _utility_api__WEBPACK_IMPORTED_MODULE_0__["default"] {
 /*!********************************!*\
   !*** ./source/editor/field.js ***!
   \********************************/
-/*! exports provided: DocumentField, PartialsField, TextField, TextareaField, defaultFields */
+/*! exports provided: ConstructorField, DocumentField, PartialsField, TextField, TextareaField, YamlField, defaultFields */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ConstructorField", function() { return ConstructorField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DocumentField", function() { return DocumentField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PartialsField", function() { return PartialsField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TextField", function() { return TextField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TextareaField", function() { return TextareaField; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "YamlField", function() { return YamlField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "defaultFields", function() { return defaultFields; });
 /* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! deep-extend */ "./node_modules/deep-extend/lib/deep-extend.js");
 /* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(deep_extend__WEBPACK_IMPORTED_MODULE_0__);
@@ -8910,10 +8912,11 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 
-class DocumentField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
+class ConstructorField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
   constructor(config) {
     super(config);
-    this.fieldType = 'document';
+    this.fieldType = 'constructor';
+    this.tag = '!g.*';
 
     this.template = (editor, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
       <label for="${field.getUid()}">${field.label}</label>
@@ -8926,7 +8929,7 @@ class DocumentField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"]
     // Helps mark the field as dirty.
     this.value = {
       'value': evt.target.value,
-      'tag': '!g.doc'
+      'tag': this.tag
     };
   }
 
@@ -8938,6 +8941,14 @@ class DocumentField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"]
     }
 
     return '';
+  }
+
+}
+class DocumentField extends ConstructorField {
+  constructor(config) {
+    super(config);
+    this.fieldType = 'document';
+    this.tag = '!g.doc';
   }
 
 }
@@ -9250,12 +9261,21 @@ class PartialFields extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Fields"
 
 }
 
+class YamlField extends ConstructorField {
+  constructor(config) {
+    super(config);
+    this.fieldType = 'yaml';
+    this.tag = '!g.yaml';
+  }
+
+}
 const defaultFields = {
   'document': DocumentField,
   'partials': PartialsField,
   'list': selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListField"],
   'text': TextField,
-  'textarea': TextareaField
+  'textarea': TextareaField,
+  'yaml': YamlField
 };
 
 /***/ }),
