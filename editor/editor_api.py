@@ -217,6 +217,31 @@ class PodApi(object):
             'strings': strings,
         }
 
+    def get_repo(self):
+        repo = utils.get_git_repo(self.pod.root)
+        if not repo:
+            return {}
+        branch = str(repo.active_branch)
+        commits = []
+        # Handle repo with no commits.
+        if repo.head.ref:
+            for commit in repo.iter_commits(branch, max_count=10):
+                commits.append({
+                    'message': commit.message,
+                    'commit_date': commit.committed_date,
+                    'sha': commit.hexsha,
+                    'author': {
+                        'name': commit.author.name,
+                        'email': commit.author.email,
+                    },
+                })
+        self.data = {
+            'repo': {
+                'branch': branch,
+                'commits': commits,
+            },
+        }
+
     def handle_request(self):
         """Determine how to handle the request."""
         path = self.matched.params['path']
@@ -238,6 +263,9 @@ class PodApi(object):
         elif path == 'pod_paths':
             if method == 'GET':
                 self.get_pod_paths()
+        elif path == 'repo':
+            if method == 'GET':
+                self.get_repo()
 
     def post_editor_content(self):
         """Handle the request to save editor content."""

@@ -86,3464 +86,6 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "../../../selective-edit/js/mixin/config.js":
-/*!******************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/js/mixin/config.js ***!
-  \******************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utility/config */ "../../../selective-edit/js/utility/config.js");
-/**
- * Config mixin for adding configuration options to a class.
- */
-
-
-const ConfigMixin = superclass => class extends superclass {
-  constructor() {
-    super();
-    this._config = Object(_utility_config__WEBPACK_IMPORTED_MODULE_0__["autoConfig"])({});
-  }
-
-  getConfig() {
-    return this._config;
-  }
-
-  setConfig(value) {
-    this._config = Object(_utility_config__WEBPACK_IMPORTED_MODULE_0__["autoConfig"])(value);
-  }
-
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (ConfigMixin);
-
-/***/ }),
-
-/***/ "../../../selective-edit/js/mixin/uid.js":
-/*!***************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/js/mixin/uid.js ***!
-  \***************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _utility_uuid__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utility/uuid */ "../../../selective-edit/js/utility/uuid.js");
-/**
- * UID mixin for adding unique id to a class.
- */
-
-
-const UidMixin = superclass => class extends superclass {
-  getUid() {
-    if (!this._uid) {
-      this._uid = Object(_utility_uuid__WEBPACK_IMPORTED_MODULE_0__["default"])();
-    }
-
-    return this._uid;
-  }
-
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (UidMixin);
-
-/***/ }),
-
-/***/ "../../../selective-edit/js/selective.js":
-/*!***************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/js/selective.js ***!
-  \***************************************************************/
-/*! exports provided: default, Field, SortableField, ListField, Fields, html, repeat, render, autoDeepObject */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lit-html */ "../../../selective-edit/node_modules/lit-html/lit-html.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "html", function() { return lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return lit_html__WEBPACK_IMPORTED_MODULE_0__["render"]; });
-
-/* harmony import */ var lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lit-html/directives/repeat */ "../../../selective-edit/node_modules/lit-html/directives/repeat.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "repeat", function() { return lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_1__["repeat"]; });
-
-/* harmony import */ var _selective_editor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./selective/editor */ "../../../selective-edit/js/selective/editor.js");
-/* harmony import */ var _selective_field__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./selective/field */ "../../../selective-edit/js/selective/field.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Field", function() { return _selective_field__WEBPACK_IMPORTED_MODULE_3__["default"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SortableField", function() { return _selective_field__WEBPACK_IMPORTED_MODULE_3__["SortableField"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ListField", function() { return _selective_field__WEBPACK_IMPORTED_MODULE_3__["ListField"]; });
-
-/* harmony import */ var _selective_fields__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./selective/fields */ "../../../selective-edit/js/selective/fields.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Fields", function() { return _selective_fields__WEBPACK_IMPORTED_MODULE_4__["default"]; });
-
-/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "autoDeepObject", function() { return _utility_deepObject__WEBPACK_IMPORTED_MODULE_5__["autoDeepObject"]; });
-
-/**
- * Selective structure content editor.
- */
-
-
-
-
-
-
-
-const Selective = _selective_editor__WEBPACK_IMPORTED_MODULE_2__["default"];
-/* harmony default export */ __webpack_exports__["default"] = (Selective);
-
-
-/***/ }),
-
-/***/ "../../../selective-edit/js/selective/autoFields.js":
-/*!**************************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/js/selective/autoFields.js ***!
-  \**************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return AutoFields; });
-/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
-/* harmony import */ var _utility_dataType__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utility/dataType */ "../../../selective-edit/js/utility/dataType.js");
-/**
- * Automatically guess the field configuration from data.
- */
-
-
-class AutoFields {
-  constructor(data) {
-    this.data = data;
-    this._data = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_0__["autoDeepObject"])(data);
-    this.dataType = new _utility_dataType__WEBPACK_IMPORTED_MODULE_1__["default"]();
-  }
-
-  get config() {
-    return {
-      'fields': this.guessAll()
-    };
-  }
-
-  _deepGuess(data, keyBase) {
-    let fields = [];
-    keyBase = keyBase || [];
-
-    if (this.dataType.isArray(data)) {
-      const firstValue = data.length ? data[0] : null;
-      fields.push(this._fieldConfig('', firstValue));
-    } else {
-      for (const key in data) {
-        if (!data.hasOwnProperty(key)) {
-          continue;
-        }
-
-        const newKeyBase = keyBase.concat([key]);
-
-        if (this.dataType.isObject(data[key])) {
-          fields = fields.concat(this._deepGuess(data[key], newKeyBase));
-        } else {
-          const fullKey = newKeyBase.join('.');
-          fields.push(this._fieldConfig(fullKey, data[key]));
-        }
-      }
-    }
-
-    return fields;
-  }
-
-  _fieldConfig(key, value) {
-    const fieldType = this.typeFromValue(value);
-    const fieldConfig = {
-      "type": fieldType,
-      "key": key,
-      "label": this.labelFromKey(key)
-    };
-
-    if (fieldConfig.type == 'list') {
-      fieldConfig['fields'] = this._deepGuess(value, key.split('.'));
-    }
-
-    return fieldConfig;
-  }
-  /**
-   * Given a data key, guess the field configuration from the data.
-   */
-
-
-  guess(key) {
-    return this._fieldConfig(key, this.typeFromValue(this._data.get(key)));
-  }
-  /**
-   * Guess all the field configuration from the data.
-   */
-
-
-  guessAll() {
-    return this._deepGuess(this.data);
-  }
-  /**
-   * From a key guess the label of the field.
-   */
-
-
-  labelFromKey(key) {
-    return key.replace('.', ' ').split(' ').map(function (word) {
-      return word.charAt(0).toUpperCase() + word.slice(1);
-    }).join(' ');
-  }
-  /**
-   * From a value guess the type of field.
-   */
-
-
-  typeFromValue(value) {
-    if (value === null || value === undefined) {
-      return 'text';
-    }
-
-    if (this.dataType.isArray(value)) {
-      return 'list';
-    }
-
-    if (value.length > 150) {
-      return 'textarea';
-    }
-
-    return 'text';
-  }
-
-}
-
-/***/ }),
-
-/***/ "../../../selective-edit/js/selective/editor.js":
-/*!**********************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/js/selective/editor.js ***!
-  \**********************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Editor; });
-/* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lit-html */ "../../../selective-edit/node_modules/lit-html/lit-html.js");
-/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../mixin/config */ "../../../selective-edit/js/mixin/config.js");
-/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
-/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utility/compose */ "../../../selective-edit/js/utility/compose.js");
-/* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./autoFields */ "../../../selective-edit/js/selective/autoFields.js");
-/* harmony import */ var _fields__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./fields */ "../../../selective-edit/js/selective/fields.js");
-/* harmony import */ var _fieldTypes__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./fieldTypes */ "../../../selective-edit/js/selective/fieldTypes.js");
-/**
- * Selective content editor.
- *
- * Editor for taking structured data and creating a UI for editing portions of
- * the data.
- */
-
-
-
-
-
-
-
-class Editor extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_1__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["Base"]) {
-  constructor(containerEl, config) {
-    super();
-    this.containerEl = containerEl;
-    this.fieldTypes = new _fieldTypes__WEBPACK_IMPORTED_MODULE_6__["default"]();
-    this._fields = null;
-    this._data = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_2__["autoDeepObject"])({}); // Needs to be defined before the config is set.
-
-    this.template = (editor, data) => lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective">
-      ${editor.fields.template(editor, editor.fields, data)}
-    </div>`;
-
-    this.setConfig(config);
-    this.bindEvents();
-    this.render();
-  }
-
-  get data() {
-    return this._data;
-  }
-
-  get fields() {
-    if (!this._fields) {
-      const FieldsCls = this.getConfig().get('FieldsCls', _fields__WEBPACK_IMPORTED_MODULE_5__["default"]);
-      this._fields = new FieldsCls(this.fieldTypes);
-    }
-
-    return this._fields;
-  }
-
-  get isClean() {
-    return this.fields.isClean;
-  }
-
-  get selfRender() {
-    // Determine if we are self rendering or being externally rendered.
-    return this.containerEl !== null;
-  }
-
-  get value() {
-    return this.fields.value;
-  }
-
-  set data(value) {
-    this._data = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_2__["autoDeepObject"])(value);
-    this.render();
-    return this._data;
-  }
-
-  addField(...args) {
-    this.fields.addField(...args);
-  }
-
-  addFieldType(key, FieldCls) {
-    this.fieldTypes.addFieldType(key, FieldCls);
-    this.render();
-  }
-
-  addFieldTypes(fieldTypes) {
-    for (const key of Object.keys(fieldTypes)) {
-      this.fieldTypes.addFieldType(key, fieldTypes[key]);
-    }
-
-    this.render();
-  }
-
-  bindEvents() {
-    // Skip binding if externally rendering.
-    if (!this.selfRender) {
-      return;
-    } // Allow triggering a re-render.
-
-
-    document.addEventListener('selective.render', () => {
-      this.render();
-    });
-  }
-
-  guessFields() {
-    const autoFields = new _autoFields__WEBPACK_IMPORTED_MODULE_4__["default"](this.data.obj);
-    return autoFields.config;
-  }
-
-  postRender(containerEl) {
-    // Allow for using without explicitly calling the render
-    // This supports external rendering using the template.
-    containerEl = containerEl || this.containerEl; // Initialize any new fields.
-
-    this.fieldTypes.initialize(containerEl); // Trigger any field specific actions.
-
-    this.fields.postRender(containerEl);
-  }
-
-  render() {
-    // Do nothing when not self rendering.
-    if (!this.selfRender) {
-      return;
-    }
-
-    Object(lit_html__WEBPACK_IMPORTED_MODULE_0__["render"])(this.template(this, this.data), this.containerEl);
-    this.postRender();
-  }
-
-  setConfig(value) {
-    super.setConfig(value);
-
-    if (value) {
-      // Reset the fields and add new field configs.
-      this.fields.reset();
-
-      for (const fieldConfig of this.getConfig().get('fields', [])) {
-        this.addField(fieldConfig);
-      }
-
-      this.render();
-    }
-  }
-
-  update(value) {
-    this.data = extend({}, this.data.obj, value);
-    return this.data;
-  }
-
-}
-
-/***/ }),
-
-/***/ "../../../selective-edit/js/selective/field.js":
-/*!*********************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/js/selective/field.js ***!
-  \*********************************************************************/
-/*! exports provided: default, SortableField, ListField */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Field; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SortableField", function() { return SortableField; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ListField", function() { return ListField; });
-/* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lit-html */ "../../../selective-edit/node_modules/lit-html/lit-html.js");
-/* harmony import */ var lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lit-html/directives/repeat */ "../../../selective-edit/node_modules/lit-html/directives/repeat.js");
-/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../mixin/config */ "../../../selective-edit/js/mixin/config.js");
-/* harmony import */ var _mixin_uid__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../mixin/uid */ "../../../selective-edit/js/mixin/uid.js");
-/* harmony import */ var _fields__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./fields */ "../../../selective-edit/js/selective/fields.js");
-/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utility/compose */ "../../../selective-edit/js/utility/compose.js");
-/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
-/**
- * Field defined for editing.
- */
-
-
-
-
-
-
- // ========================================
-// === Base Field
-// ========================================
-
-class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_5__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_2__["default"], _mixin_uid__WEBPACK_IMPORTED_MODULE_3__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_5__["Base"]) {
-  constructor(config) {
-    super();
-    this.fieldType = 'Field';
-    this.setConfig(config);
-    this._dataValue = undefined;
-    this.value = undefined;
-
-    this.template = (editor, field, data) => lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__field" data-field-type="${field.fieldType}">
-      Missing template.
-    </div>`;
-  }
-
-  get isClean() {
-    return this._dataValue == this.value;
-  }
-
-  get key() {
-    return this.getConfig().key;
-  }
-
-  get label() {
-    return this.getConfig().label;
-  }
-
-  get options() {
-    return this.getConfig().options || {};
-  }
-
-  handleInput(evt) {
-    // Update the value to what is being typed.
-    // Helps mark the field as dirty.
-    this.value = evt.target.value;
-  }
-
-  static initialize(containerEl) {// Pass.
-  }
-
-  postRender(containerEl) {// Pass.
-  }
-
-  updateFromData(data) {
-    // Update the data, but do not return the value.
-    this.valueFromData(data);
-  }
-
-  valueFromData(data) {
-    let newDataValue = data;
-
-    if (typeof data === 'object' && data !== null) {
-      data = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_6__["autoDeepObject"])(data);
-      newDataValue = data.get(this.key);
-    }
-
-    if (!this.isClean) {
-      // The value has changed since the last update.
-      // Update the stored data value, but don't change the actual value.
-      // isClean uses the _dataValue, so don't change until after the compare
-      // is complete.
-      this._dataValue = newDataValue;
-      return this.value;
-    }
-
-    this._dataValue = newDataValue;
-    this.value = newDataValue;
-    return this.value;
-  }
-
-} // ========================================
-// === Sortable Field
-// ========================================
-//
-// The following are required as part of the template to make the sorting work:
-//
-// - Add 'draggable="true"' attribute to the sortable containers.
-// - Add 'data-index="X"' attribute to any sortable container with the current index.
-// - Add '@dragenter=${this.handleDragEnter.bind(this)}' event binding to the sortable container.
-// - Add '@dragleave=${this.handleDragLeave.bind(this)}' event binding to the sortable container.
-// - Add '@dragstart=${this.handleDragStart.bind(this)}' event binding to the sortable container.
-// - Add '@dragover=${this.handleDragOver.bind(this)}' event binding to the sortable container.
-// - Add '@drop=${this.handleDrop.bind(this)}' event binding to the sortable container.
-// - Use 'sortable--hover' class to style the currently hovering drop target.
-// - Use 'sortable--above' class to style the hovering element that is above the dragged element.
-// - Use 'sortable--below' class to style the hovering element that is below the dragged element.
-// - Optionally add 'sortable__preview' class to a child elmeent to use as the dragging preview.
-//
-
-class SortableField extends Field {
-  constructor(config) {
-    super(config);
-    this.fieldType = 'sortable';
-    this._dragOriginElement = null;
-    this._dragHoverElement = null;
-    this._dataValue = [];
-
-    this.template = (editor, field, data) => lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`<div>
-      Sortable Field sub class needs a custom template.
-    </div>`;
-  }
-
-  _findDraggable(target) {
-    // Use the event target to traverse until the draggable element is found.
-    let isDraggable = false;
-
-    while (target && !isDraggable) {
-      isDraggable = target.getAttribute('draggable') == 'true';
-
-      if (!isDraggable) {
-        target = target.parentElement;
-      }
-    }
-
-    return target;
-  }
-
-  _reorderValues(currentIndex, startIndex) {
-    // Dropped on self, ignore.
-    if (currentIndex == startIndex) {
-      return false;
-    } // Rework the array to have the items in the correct position.
-
-
-    const newValue = [];
-    const oldValue = this.value;
-    const maxIndex = Math.max(currentIndex, startIndex);
-    const minIndex = Math.min(currentIndex, startIndex); // Determine which direction to shift misplaced items.
-
-    let modifier = 1;
-
-    if (startIndex > currentIndex) {
-      modifier = -1;
-    }
-
-    for (let i = 0; i < oldValue.length; i++) {
-      if (i < minIndex || i > maxIndex) {
-        // Leave in the same order.
-        newValue[i] = oldValue[i];
-      } else if (i == currentIndex) {
-        // This element is being moved to, place the moved value here.
-        newValue[i] = oldValue[startIndex];
-      } else {
-        // Shift the old index using the modifier to determine direction.
-        newValue[i] = oldValue[i + modifier];
-      }
-    }
-
-    this.value = newValue;
-    return true;
-  }
-
-  _shouldHandleDrag(evt) {
-    return this._dragOriginElement && evt.dataTransfer.types.includes(`selective/${this.getUid()}`);
-  }
-
-  handleDragStart(evt) {
-    evt.stopPropagation();
-
-    const target = this._findDraggable(evt.target);
-
-    this._dragOriginElement = target;
-    evt.dataTransfer.setData('text/plain', evt.target.dataset.index);
-    evt.dataTransfer.setData(`selective/${this.getUid()}`, evt.target.dataset.index);
-    evt.dataTransfer.effectAllowed = 'move'; // Allow for custom preview for dragging.
-
-    const previewEl = target.querySelector('.sortable__preview');
-
-    if (previewEl) {
-      evt.dataTransfer.setDragImage(previewEl, 0, 0);
-    }
-  }
-
-  handleDragEnter(evt) {
-    if (this._shouldHandleDrag(evt)) {
-      const target = this._findDraggable(evt.target);
-
-      if (!target) {
-        return;
-      }
-
-      evt.stopPropagation(); // Show that the element is hovering.
-      // Also prevent sub elements from triggering more drag events.
-
-      target.classList.add('sortable--hover');
-      const currentIndex = parseInt(evt.target.dataset.index);
-      const startIndex = parseInt(this._dragOriginElement.dataset.index); // Hovering over self, ignore.
-
-      if (currentIndex == startIndex) {
-        return;
-      }
-
-      if (currentIndex < startIndex) {
-        target.classList.add('sortable--above');
-      } else {
-        target.classList.add('sortable--below');
-      }
-    }
-  }
-
-  handleDragLeave(evt) {
-    if (this._shouldHandleDrag(evt)) {
-      const target = this._findDraggable(evt.target);
-
-      if (!target) {
-        return;
-      } //  Make sure that the event target comes from the main element.
-
-
-      if (target !== evt.target) {
-        return;
-      }
-
-      evt.stopPropagation(); // No longer hovering.
-
-      target.classList.remove('sortable--hover', 'sortable--above', 'sortable--below');
-    }
-  }
-
-  handleDragOver(evt) {
-    if (this._shouldHandleDrag(evt)) {
-      // Flag to the browser that this is a valid drop target.
-      evt.preventDefault();
-      evt.stopPropagation();
-    }
-  }
-
-  handleDrop(evt) {
-    // Trying to drag from outside the list.
-    if (!this._dragOriginElement) {
-      return;
-    }
-
-    evt.stopPropagation();
-
-    const target = this._findDraggable(evt.target);
-
-    const currentIndex = parseInt(evt.target.dataset.index);
-    const startIndex = parseInt(evt.dataTransfer.getData("text/plain")); // No longer hovering.
-
-    target.classList.remove('sortable--hover', 'sortable--above', 'sortable--below'); // Reset the drag element.
-
-    this._dragOriginElement = null;
-
-    if (!this._reorderValues(currentIndex, startIndex)) {
-      // If false nothing changed, so don't re-render.
-      return;
-    } // Trigger a re-render after moving.
-
-
-    document.dispatchEvent(new CustomEvent('selective.render'));
-  }
-
-} // ========================================
-// === List Field
-// ========================================
-
-class ListField extends SortableField {
-  constructor(config) {
-    super(config);
-    this.fieldType = 'list';
-    this._listItems = [];
-    this._isExpanded = false;
-    this._expandedIndexes = [];
-
-    this.template = (editor, field, data) => lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
-      ${field.updateFromData(data)}
-      <div class="selective__header">
-        <div class="selective__field__label">${field.label}</div>
-        ${field.renderActionsHeader(editor, field, data)}
-      </div>
-      <div class="selective__list">
-        <div class="selective__list__items" id="${field.getUid()}">
-          ${field.renderItems(editor, data)}
-        </div>
-      </div>
-      <div class="selective__footer">
-        ${field.renderActionsFooter(editor, field, data)}
-      </div>
-    </div>`;
-  }
-
-  _reorderValues(currentIndex, startIndex) {
-    // Rework the expanded array to have the items in the correct position.
-    const newExpanded = [];
-    const oldExpanded = this._expandedIndexes;
-    const newItems = [];
-    const oldItems = this._listItems;
-    const valueLen = this.value.length;
-    const maxIndex = Math.max(currentIndex, startIndex);
-    const minIndex = Math.min(currentIndex, startIndex); // Determine which direction to shift misplaced items.
-
-    let modifier = 1;
-
-    if (startIndex > currentIndex) {
-      modifier = -1;
-    }
-
-    for (let i = 0; i < valueLen; i++) {
-      if (i < minIndex || i > maxIndex) {
-        // Leave in the same order.
-        newItems[i] = oldItems[i];
-
-        if (oldExpanded.includes(i)) {
-          newExpanded.push(i);
-        }
-      } else if (i == currentIndex) {
-        // This element is being moved to, place the moved value here.
-        newItems[i] = oldItems[startIndex];
-        newItems[i]['index'] = i;
-
-        if (oldExpanded.includes(startIndex)) {
-          newExpanded.push(i);
-        }
-      } else {
-        // Shift the old index using the modifier to determine direction.
-        newItems[i] = oldItems[i + modifier];
-        newItems[i]['index'] = i;
-
-        if (oldExpanded.includes(i + modifier)) {
-          newExpanded.push(i);
-        }
-      }
-    }
-
-    this._expandedIndexes = newExpanded;
-    this._listItems = newItems;
-    return true;
-  }
-
-  get isClean() {
-    // TODO: Better array comparisons?
-    return JSON.stringify(this._dataValue) == JSON.stringify(this.value);
-  }
-
-  get isExpanded() {
-    // If all of the items are in the expanded list then consider it expanded.
-    if (this._listItems.length == this._expandedIndexes.length) {
-      return true;
-    }
-
-    return this._isExpanded;
-  }
-
-  get value() {
-    if (!this._listItems || this._listItems.length < 1) {
-      return this._dataValue;
-    } // Loop through each fields and get the values.
-
-
-    const values = [];
-
-    for (const item of this._listItems) {
-      values.push(item['itemFields'].value);
-    }
-
-    return values;
-  }
-
-  set isExpanded(value) {
-    this._isExpanded = value; // TODO: Save to local storage
-  }
-
-  set value(value) {// no-op
-  }
-
-  _createItems(editor, data) {
-    // No value yet.
-    if (!this.value) {
-      return [];
-    } // Use the field config for the list items to create the correct field types.
-
-
-    const fieldConfigs = this.getConfig().get('fields', []);
-    let index = 0;
-    const items = [];
-
-    for (const itemData of this.value) {
-      const itemFields = new _fields__WEBPACK_IMPORTED_MODULE_4__["default"](editor.fieldTypes);
-      itemFields.valueFromData(itemData || {});
-
-      for (const fieldConfig of fieldConfigs || []) {
-        itemFields.addField(fieldConfig);
-      } // When a partial is not expanded it does not get the value
-      // updated correctly so we need to manually call the data update.
-
-
-      for (const itemField of itemFields.fields) {
-        itemField.updateFromData(itemData || {});
-      }
-
-      items.push({
-        'id': `${this.getUid()}-${index}`,
-        'index': index,
-        'itemFields': itemFields,
-        'isExpanded': false
-      });
-      index += 1;
-    }
-
-    return items;
-  }
-
-  handleAddItem(evt, editor) {
-    const index = this.value.length;
-    const itemFields = new _fields__WEBPACK_IMPORTED_MODULE_4__["default"](editor.fieldTypes); // Use the field config for the list items to create the correct field types.
-
-    const fieldConfigs = this.getConfig().get('fields', []);
-
-    for (const fieldConfig of fieldConfigs || []) {
-      itemFields.addField(fieldConfig);
-    }
-
-    if (fieldConfigs.length > 1) {
-      itemFields.valueFromData({});
-    } else {
-      itemFields.valueFromData('');
-    }
-
-    this._listItems.push({
-      'id': `${this.getUid()}-${index}`,
-      'index': index,
-      'itemFields': itemFields,
-      'isExpanded': false
-    }); // Expanded by default.
-
-
-    this._expandedIndexes.push(index);
-
-    document.dispatchEvent(new CustomEvent('selective.render'));
-  }
-
-  handleItemCollapse(evt) {
-    this.isExpanded = false;
-    const index = parseInt(evt.target.dataset.index);
-
-    const expandIndex = this._expandedIndexes.indexOf(index);
-
-    if (expandIndex > -1) {
-      this._expandedIndexes.splice(expandIndex, 1);
-
-      document.dispatchEvent(new CustomEvent('selective.render'));
-    }
-  }
-
-  handleItemExpand(evt) {
-    const index = parseInt(evt.target.dataset.index);
-
-    this._expandedIndexes.push(index);
-
-    document.dispatchEvent(new CustomEvent('selective.render'));
-  }
-
-  handleToggleExpand(evt) {
-    if (this.isExpanded) {
-      // Clear out all expanded indexes when collapsing.
-      this._expandedIndexes = [];
-      this._isExpanded = false;
-    } else {
-      this._isExpanded = true;
-    }
-
-    document.dispatchEvent(new CustomEvent('selective.render'));
-  }
-
-  renderActionsFooter(editor, field, data) {
-    return lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__actions">
-      <button @click=${evt => {
-      field.handleAddItem(evt, editor);
-    }}>
-        Add
-      </button>
-    </div>`;
-  }
-
-  renderActionsHeader(editor, field, data) {
-    // No expand toggle action to render if there is only 1 sub field config.
-    const fieldConfigs = this.getConfig().get('fields', []);
-
-    if (fieldConfigs.length <= 1) {
-      return '';
-    } // Allow collapsing and expanding of sub fields.
-
-
-    return lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__actions">
-      <button class="selective__action__toggle" @click=${field.handleToggleExpand.bind(field)}>
-        ${field.isExpanded ? 'Collapse' : 'Expand'}
-      </button>
-    </div>`;
-  }
-
-  renderCollapsedItem(editor, listItem) {
-    return lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <div class="selective__list__item__drag"><i class="material-icons">drag_indicator</i></div>
-      <div class="selective__list__item__preview sortable__preview" data-index=${listItem['index']} @click=${this.handleItemExpand.bind(this)}>
-        ${this.renderPreview(listItem)}
-      </div>`;
-  }
-
-  renderExpandedItem(editor, listItem) {
-    return lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <div class="selective__list__fields">
-        <div class="selective__list__fields__label ${!listItem['itemFields'].label ? 'selective__list__fields__label--empty' : ''}"
-            data-index=${listItem['index']}
-            @click=${this.handleItemCollapse.bind(this)}>
-          ${listItem['itemFields'].label}
-        </div>
-        ${listItem['itemFields'].template(editor, listItem['itemFields'], this.value[listItem['index']])}
-      </div>`;
-  }
-
-  renderItems(editor, data) {
-    // If the sub fields have not been created create them now.
-    if (!this._listItems.length) {
-      this._listItems = this._createItems(editor, data);
-    } // Update the expanded state each render.
-
-
-    for (const listItem of this._listItems) {
-      const inIndex = this._expandedIndexes.indexOf(listItem['index']) > -1;
-      const itemValue = this.value[listItem['index']];
-      const isSimpleValue = typeof itemValue !== 'object';
-      listItem['isExpanded'] = this.isExpanded || inIndex || isSimpleValue;
-    }
-
-    return lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`${Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_1__["repeat"])(this._listItems, listItem => listItem['id'], (listItem, index) => lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <div class="selective__list__item selective__list__item--${listItem['isExpanded'] ? 'expanded' : 'collapsed'}"
-          draggable="true"
-          data-index=${listItem['index']}
-          @dragenter=${this.handleDragEnter.bind(this)}
-          @dragleave=${this.handleDragLeave.bind(this)}
-          @dragover=${this.handleDragOver.bind(this)}
-          @dragstart=${this.handleDragStart.bind(this)}
-          @drop=${this.handleDrop.bind(this)}>
-        ${listItem['isExpanded'] ? this.renderExpandedItem(editor, listItem) : this.renderCollapsedItem(editor, listItem)}
-      </div>
-    `)}`;
-  }
-
-  renderPreview(listItem) {
-    const preview_field = this.getConfig().get('preview_field');
-    const itemValue = this.value[listItem['index']];
-
-    if (preview_field) {
-      return Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_6__["autoDeepObject"])(itemValue).get(preview_field) || `Item ${listItem.index + 1}`;
-    } // Default to just previewing the value. May not be pretty.
-
-
-    return itemValue;
-  }
-
-}
-
-/***/ }),
-
-/***/ "../../../selective-edit/js/selective/fieldTypes.js":
-/*!**************************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/js/selective/fieldTypes.js ***!
-  \**************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return FieldTypes; });
-/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../mixin/config */ "../../../selective-edit/js/mixin/config.js");
-/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utility/compose */ "../../../selective-edit/js/utility/compose.js");
-/**
- * Fields types defined for editing.
- */
-
-
-class FieldTypes extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_1__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_0__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_1__["Base"]) {
-  constructor(config) {
-    super();
-    this.fieldTypes = {};
-    this.setConfig(config);
-  }
-
-  addFieldType(key, FieldCls) {
-    this.fieldTypes[key] = FieldCls;
-  }
-
-  initialize(containerEl) {
-    for (const [key, value] of Object.entries(this.fieldTypes)) {
-      value.initialize(containerEl);
-    }
-  }
-
-  newField(type, ...args) {
-    if (type in this.fieldTypes) {
-      return new this.fieldTypes[type](...args);
-    } // TODO: Placeholder field.
-
-  }
-
-}
-
-/***/ }),
-
-/***/ "../../../selective-edit/js/selective/fields.js":
-/*!**********************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/js/selective/fields.js ***!
-  \**********************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Fields; });
-/* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! deep-extend */ "../../../selective-edit/node_modules/deep-extend/lib/deep-extend.js");
-/* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(deep_extend__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lit-html */ "../../../selective-edit/node_modules/lit-html/lit-html.js");
-/* harmony import */ var lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lit-html/directives/repeat */ "../../../selective-edit/node_modules/lit-html/directives/repeat.js");
-/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../mixin/config */ "../../../selective-edit/js/mixin/config.js");
-/* harmony import */ var _mixin_uid__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../mixin/uid */ "../../../selective-edit/js/mixin/uid.js");
-/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utility/compose */ "../../../selective-edit/js/utility/compose.js");
-/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utility/config */ "../../../selective-edit/js/utility/config.js");
-/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
-/**
- * Fields defined for editing.
- */
-
-
-
-
-
-
-
-
-class Fields extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_5__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_3__["default"], _mixin_uid__WEBPACK_IMPORTED_MODULE_4__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_5__["Base"]) {
-  constructor(fieldTypes, config) {
-    super();
-    this.fieldTypes = fieldTypes;
-    this.fields = [];
-    this._dataValue = undefined;
-    this._value = undefined;
-    this.setConfig(config);
-
-    this.template = (editor, fields, data) => lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__fields">
-      ${fields.valueFromData(data)}
-      ${Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__["repeat"])(fields.fields, field => field.getUid(), (field, index) => lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
-        ${field.template(editor, field, data)}
-      `)}
-    </div>`;
-  }
-
-  get isClean() {
-    for (const field of this.fields) {
-      if (!field.isClean) {
-        return false;
-      }
-    }
-
-    return true;
-  }
-
-  get value() {
-    const value = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_7__["autoDeepObject"])({});
-
-    for (const field of this.fields) {
-      value.set(field.key, field.value);
-    }
-
-    return deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, this._dataValue.obj, value.obj);
-  }
-
-  set value(value) {// Setting value doesn't actually do anything.
-  }
-
-  addField(fieldConfig) {
-    fieldConfig = Object(_utility_config__WEBPACK_IMPORTED_MODULE_6__["autoConfig"])(fieldConfig);
-    const newField = this.fieldTypes.newField(fieldConfig.type, fieldConfig);
-
-    if (newField) {
-      this.fields.push(newField);
-    }
-  }
-
-  postRender(containerEl) {
-    // Pass it along to the fields.
-    for (const field of this.fields) {
-      field.postRender(containerEl);
-    }
-  }
-
-  reset() {
-    this.fields = [];
-  }
-
-  valueFromData(data) {
-    this._dataValue = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_7__["autoDeepObject"])(data);
-  }
-
-}
-
-/***/ }),
-
-/***/ "../../../selective-edit/js/utility/compose.js":
-/*!*********************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/js/utility/compose.js ***!
-  \*********************************************************************/
-/*! exports provided: Base, compose */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Base", function() { return Base; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "compose", function() { return compose; });
-/**
- * Compose multiple mixins into an easier syntax.
- *
- * Adapted from lodash flow.
- */
-function compose(...mixins) {
-  const length = mixins.length;
-  mixins = mixins.reverse();
-  return function (...args) {
-    let index = 0;
-    let result = length ? mixins[index].apply(this, args) : args[0];
-
-    while (++index < length) {
-      result = mixins[index].call(this, result);
-    }
-
-    return result;
-  };
-}
-
-class Base {}
-
-
-
-/***/ }),
-
-/***/ "../../../selective-edit/js/utility/config.js":
-/*!********************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/js/utility/config.js ***!
-  \********************************************************************/
-/*! exports provided: default, autoConfig */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Config; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "autoConfig", function() { return autoConfig; });
-/**
- * Utility for working with config.
- */
-class Config {
-  constructor(config, defaultValues) {
-    this._defaultValues = defaultValues || {};
-    this._config = Object.assign({}, this._defaultValues, config || {}); // Allow for direct access to config values.
-
-    for (const key of Object.keys(this._config)) {
-      this[key] = this._config[key];
-    }
-  }
-
-  get(key, defaultValue) {
-    if (typeof this._config[key] == 'undefined') {
-      return defaultValue;
-    }
-
-    return this._config[key];
-  }
-
-  set(key, value) {
-    this._config[key] = value;
-    return this[key] = value;
-  }
-
-}
-const autoConfig = value => {
-  if (value instanceof Config) {
-    return value;
-  }
-
-  return new Config(value);
-};
-
-/***/ }),
-
-/***/ "../../../selective-edit/js/utility/dataType.js":
-/*!**********************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/js/utility/dataType.js ***!
-  \**********************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return DataType; });
-/**
- * Utility for determining the type of a data value.
- */
-class DataType {
-  isArray(value) {
-    if (Array.isArray) {
-      return Array.isArray(value);
-    }
-
-    return value && typeof value === 'object' && value.constructor === Array;
-  }
-
-  isBoolean(value) {
-    return typeof value === 'boolean';
-  }
-
-  isDate(value) {
-    return value instanceof Date;
-  }
-
-  isFunction(value) {
-    return typeof value === 'function';
-  }
-
-  isNumber(value) {
-    return typeof value === 'number' && isFinite(value);
-  }
-
-  isNull(value) {
-    return value === null;
-  }
-
-  isObject(value) {
-    return value && typeof value === 'object' && value.constructor === Object;
-  }
-
-  isRegExp(value) {
-    return value && typeof value === 'object' && value.constructor === RegExp;
-  }
-
-  isString(value) {
-    return typeof value === 'string' || value instanceof String;
-  }
-
-  isSymbol(value) {
-    return typeof value === 'symbol';
-  }
-
-  isUndefined(value) {
-    return typeof value === 'undefined';
-  }
-
-}
-
-/***/ }),
-
-/***/ "../../../selective-edit/js/utility/deepObject.js":
-/*!************************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/js/utility/deepObject.js ***!
-  \************************************************************************/
-/*! exports provided: default, autoDeepObject */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return DeepObject; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "autoDeepObject", function() { return autoDeepObject; });
-/**
- * Utility for working with deep object references.
- *
- * Example: obj.get('somthing.sub.key') would deeply reference the object.
- */
-class DeepObject {
-  constructor(obj) {
-    this.obj = obj || {};
-  }
-
-  get(key) {
-    let root = this.obj;
-
-    for (const part of key.split('.')) {
-      if (!root) {
-        return undefined;
-      }
-
-      if (!part in root) {
-        return undefined;
-      }
-
-      root = root[part];
-    }
-
-    return root;
-  }
-
-  set(key, value) {
-    let root = this.obj;
-    const parts = key.split('.');
-
-    for (let i = 0; i < parts.length - 1; i++) {
-      const part = parts[i];
-
-      if (!(part in root)) {
-        root[part] = {};
-      }
-
-      root = root[part];
-    }
-
-    root[parts[parts.length - 1]] = value;
-  }
-
-}
-const autoDeepObject = value => {
-  if (value === undefined) {
-    return value;
-  }
-
-  let has_get = false;
-
-  if (value.get && typeof value.get === 'function') {
-    has_get = true;
-  } // Allow for duck typing and external objects that define a get.
-
-
-  if (has_get || value instanceof DeepObject) {
-    return value;
-  }
-
-  return new DeepObject(value);
-};
-
-/***/ }),
-
-/***/ "../../../selective-edit/js/utility/uuid.js":
-/*!******************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/js/utility/uuid.js ***!
-  \******************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/**
- * UUID Generator for JS.
- */
-const generateUUID = () => {
-  let array = new Uint32Array(8);
-  window.crypto.getRandomValues(array);
-  let str = '';
-
-  for (let i = 0; i < array.length; i++) {
-    str += (i < 2 || i > 5 ? '' : '-') + array[i].toString(16).slice(-4);
-  }
-
-  return str;
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (generateUUID);
-
-/***/ }),
-
-/***/ "../../../selective-edit/node_modules/deep-extend/lib/deep-extend.js":
-/*!*******************************************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/node_modules/deep-extend/lib/deep-extend.js ***!
-  \*******************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(Buffer) {/*!
- * @description Recursive object extending
- * @author Viacheslav Lotsmanov <lotsmanov89@gmail.com>
- * @license MIT
- *
- * The MIT License (MIT)
- *
- * Copyright (c) 2013-2018 Viacheslav Lotsmanov
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to
- * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
- * the Software, and to permit persons to whom the Software is furnished to do so,
- * subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
-
-
-
-function isSpecificValue(val) {
-	return (
-		val instanceof Buffer
-		|| val instanceof Date
-		|| val instanceof RegExp
-	) ? true : false;
-}
-
-function cloneSpecificValue(val) {
-	if (val instanceof Buffer) {
-		var x = Buffer.alloc
-			? Buffer.alloc(val.length)
-			: new Buffer(val.length);
-		val.copy(x);
-		return x;
-	} else if (val instanceof Date) {
-		return new Date(val.getTime());
-	} else if (val instanceof RegExp) {
-		return new RegExp(val);
-	} else {
-		throw new Error('Unexpected situation');
-	}
-}
-
-/**
- * Recursive cloning array.
- */
-function deepCloneArray(arr) {
-	var clone = [];
-	arr.forEach(function (item, index) {
-		if (typeof item === 'object' && item !== null) {
-			if (Array.isArray(item)) {
-				clone[index] = deepCloneArray(item);
-			} else if (isSpecificValue(item)) {
-				clone[index] = cloneSpecificValue(item);
-			} else {
-				clone[index] = deepExtend({}, item);
-			}
-		} else {
-			clone[index] = item;
-		}
-	});
-	return clone;
-}
-
-function safeGetProperty(object, property) {
-	return property === '__proto__' ? undefined : object[property];
-}
-
-/**
- * Extening object that entered in first argument.
- *
- * Returns extended object or false if have no target object or incorrect type.
- *
- * If you wish to clone source object (without modify it), just use empty new
- * object as first argument, like this:
- *   deepExtend({}, yourObj_1, [yourObj_N]);
- */
-var deepExtend = module.exports = function (/*obj_1, [obj_2], [obj_N]*/) {
-	if (arguments.length < 1 || typeof arguments[0] !== 'object') {
-		return false;
-	}
-
-	if (arguments.length < 2) {
-		return arguments[0];
-	}
-
-	var target = arguments[0];
-
-	// convert arguments to array and cut off target object
-	var args = Array.prototype.slice.call(arguments, 1);
-
-	var val, src, clone;
-
-	args.forEach(function (obj) {
-		// skip argument if isn't an object, is null, or is an array
-		if (typeof obj !== 'object' || obj === null || Array.isArray(obj)) {
-			return;
-		}
-
-		Object.keys(obj).forEach(function (key) {
-			src = safeGetProperty(target, key); // source value
-			val = safeGetProperty(obj, key); // new value
-
-			// recursion prevention
-			if (val === target) {
-				return;
-
-			/**
-			 * if new value isn't object then just overwrite by new value
-			 * instead of extending.
-			 */
-			} else if (typeof val !== 'object' || val === null) {
-				target[key] = val;
-				return;
-
-			// just clone arrays (and recursive clone objects inside)
-			} else if (Array.isArray(val)) {
-				target[key] = deepCloneArray(val);
-				return;
-
-			// custom cloning and overwrite for specific objects
-			} else if (isSpecificValue(val)) {
-				target[key] = cloneSpecificValue(val);
-				return;
-
-			// overwrite by new value if source isn't object or array
-			} else if (typeof src !== 'object' || src === null || Array.isArray(src)) {
-				target[key] = deepExtend({}, val);
-				return;
-
-			// source value and new value is objects both, extending...
-			} else {
-				target[key] = deepExtend(src, val);
-				return;
-			}
-		});
-	});
-
-	return target;
-};
-
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../ext/editor/editor/node_modules/buffer/index.js */ "./node_modules/buffer/index.js").Buffer))
-
-/***/ }),
-
-/***/ "../../../selective-edit/node_modules/lit-html/directives/repeat.js":
-/*!******************************************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/node_modules/lit-html/directives/repeat.js ***!
-  \******************************************************************************************/
-/*! exports provided: repeat */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "repeat", function() { return repeat; });
-/* harmony import */ var _lit_html_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../lit-html.js */ "../../../selective-edit/node_modules/lit-html/lit-html.js");
-/**
- * @license
- * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
- * This code may only be used under the BSD style license found at
- * http://polymer.github.io/LICENSE.txt
- * The complete set of authors may be found at
- * http://polymer.github.io/AUTHORS.txt
- * The complete set of contributors may be found at
- * http://polymer.github.io/CONTRIBUTORS.txt
- * Code distributed by Google as part of the polymer project is also
- * subject to an additional IP rights grant found at
- * http://polymer.github.io/PATENTS.txt
- */
-
-// Helper functions for manipulating parts
-// TODO(kschaaf): Refactor into Part API?
-const createAndInsertPart = (containerPart, beforePart) => {
-    const container = containerPart.startNode.parentNode;
-    const beforeNode = beforePart === undefined ? containerPart.endNode :
-        beforePart.startNode;
-    const startNode = container.insertBefore(Object(_lit_html_js__WEBPACK_IMPORTED_MODULE_0__["createMarker"])(), beforeNode);
-    container.insertBefore(Object(_lit_html_js__WEBPACK_IMPORTED_MODULE_0__["createMarker"])(), beforeNode);
-    const newPart = new _lit_html_js__WEBPACK_IMPORTED_MODULE_0__["NodePart"](containerPart.options);
-    newPart.insertAfterNode(startNode);
-    return newPart;
-};
-const updatePart = (part, value) => {
-    part.setValue(value);
-    part.commit();
-    return part;
-};
-const insertPartBefore = (containerPart, part, ref) => {
-    const container = containerPart.startNode.parentNode;
-    const beforeNode = ref ? ref.startNode : containerPart.endNode;
-    const endNode = part.endNode.nextSibling;
-    if (endNode !== beforeNode) {
-        Object(_lit_html_js__WEBPACK_IMPORTED_MODULE_0__["reparentNodes"])(container, part.startNode, endNode, beforeNode);
-    }
-};
-const removePart = (part) => {
-    Object(_lit_html_js__WEBPACK_IMPORTED_MODULE_0__["removeNodes"])(part.startNode.parentNode, part.startNode, part.endNode.nextSibling);
-};
-// Helper for generating a map of array item to its index over a subset
-// of an array (used to lazily generate `newKeyToIndexMap` and
-// `oldKeyToIndexMap`)
-const generateMap = (list, start, end) => {
-    const map = new Map();
-    for (let i = start; i <= end; i++) {
-        map.set(list[i], i);
-    }
-    return map;
-};
-// Stores previous ordered list of parts and map of key to index
-const partListCache = new WeakMap();
-const keyListCache = new WeakMap();
-/**
- * A directive that repeats a series of values (usually `TemplateResults`)
- * generated from an iterable, and updates those items efficiently when the
- * iterable changes based on user-provided `keys` associated with each item.
- *
- * Note that if a `keyFn` is provided, strict key-to-DOM mapping is maintained,
- * meaning previous DOM for a given key is moved into the new position if
- * needed, and DOM will never be reused with values for different keys (new DOM
- * will always be created for new keys). This is generally the most efficient
- * way to use `repeat` since it performs minimum unnecessary work for insertions
- * amd removals.
- *
- * IMPORTANT: If providing a `keyFn`, keys *must* be unique for all items in a
- * given call to `repeat`. The behavior when two or more items have the same key
- * is undefined.
- *
- * If no `keyFn` is provided, this directive will perform similar to mapping
- * items to values, and DOM will be reused against potentially different items.
- */
-const repeat = Object(_lit_html_js__WEBPACK_IMPORTED_MODULE_0__["directive"])((items, keyFnOrTemplate, template) => {
-    let keyFn;
-    if (template === undefined) {
-        template = keyFnOrTemplate;
-    }
-    else if (keyFnOrTemplate !== undefined) {
-        keyFn = keyFnOrTemplate;
-    }
-    return (containerPart) => {
-        if (!(containerPart instanceof _lit_html_js__WEBPACK_IMPORTED_MODULE_0__["NodePart"])) {
-            throw new Error('repeat can only be used in text bindings');
-        }
-        // Old part & key lists are retrieved from the last update
-        // (associated with the part for this instance of the directive)
-        const oldParts = partListCache.get(containerPart) || [];
-        const oldKeys = keyListCache.get(containerPart) || [];
-        // New part list will be built up as we go (either reused from
-        // old parts or created for new keys in this update). This is
-        // saved in the above cache at the end of the update.
-        const newParts = [];
-        // New value list is eagerly generated from items along with a
-        // parallel array indicating its key.
-        const newValues = [];
-        const newKeys = [];
-        let index = 0;
-        for (const item of items) {
-            newKeys[index] = keyFn ? keyFn(item, index) : index;
-            newValues[index] = template(item, index);
-            index++;
-        }
-        // Maps from key to index for current and previous update; these
-        // are generated lazily only when needed as a performance
-        // optimization, since they are only required for multiple
-        // non-contiguous changes in the list, which are less common.
-        let newKeyToIndexMap;
-        let oldKeyToIndexMap;
-        // Head and tail pointers to old parts and new values
-        let oldHead = 0;
-        let oldTail = oldParts.length - 1;
-        let newHead = 0;
-        let newTail = newValues.length - 1;
-        // Overview of O(n) reconciliation algorithm (general approach
-        // based on ideas found in ivi, vue, snabbdom, etc.):
-        //
-        // * We start with the list of old parts and new values (and
-        //   arrays of their respective keys), head/tail pointers into
-        //   each, and we build up the new list of parts by updating
-        //   (and when needed, moving) old parts or creating new ones.
-        //   The initial scenario might look like this (for brevity of
-        //   the diagrams, the numbers in the array reflect keys
-        //   associated with the old parts or new values, although keys
-        //   and parts/values are actually stored in parallel arrays
-        //   indexed using the same head/tail pointers):
-        //
-        //      oldHead v                 v oldTail
-        //   oldKeys:  [0, 1, 2, 3, 4, 5, 6]
-        //   newParts: [ ,  ,  ,  ,  ,  ,  ]
-        //   newKeys:  [0, 2, 1, 4, 3, 7, 6] <- reflects the user's new
-        //                                      item order
-        //      newHead ^                 ^ newTail
-        //
-        // * Iterate old & new lists from both sides, updating,
-        //   swapping, or removing parts at the head/tail locations
-        //   until neither head nor tail can move.
-        //
-        // * Example below: keys at head pointers match, so update old
-        //   part 0 in-place (no need to move it) and record part 0 in
-        //   the `newParts` list. The last thing we do is advance the
-        //   `oldHead` and `newHead` pointers (will be reflected in the
-        //   next diagram).
-        //
-        //      oldHead v                 v oldTail
-        //   oldKeys:  [0, 1, 2, 3, 4, 5, 6]
-        //   newParts: [0,  ,  ,  ,  ,  ,  ] <- heads matched: update 0
-        //   newKeys:  [0, 2, 1, 4, 3, 7, 6]    and advance both oldHead
-        //                                      & newHead
-        //      newHead ^                 ^ newTail
-        //
-        // * Example below: head pointers don't match, but tail
-        //   pointers do, so update part 6 in place (no need to move
-        //   it), and record part 6 in the `newParts` list. Last,
-        //   advance the `oldTail` and `oldHead` pointers.
-        //
-        //         oldHead v              v oldTail
-        //   oldKeys:  [0, 1, 2, 3, 4, 5, 6]
-        //   newParts: [0,  ,  ,  ,  ,  , 6] <- tails matched: update 6
-        //   newKeys:  [0, 2, 1, 4, 3, 7, 6]    and advance both oldTail
-        //                                      & newTail
-        //         newHead ^              ^ newTail
-        //
-        // * If neither head nor tail match; next check if one of the
-        //   old head/tail items was removed. We first need to generate
-        //   the reverse map of new keys to index (`newKeyToIndexMap`),
-        //   which is done once lazily as a performance optimization,
-        //   since we only hit this case if multiple non-contiguous
-        //   changes were made. Note that for contiguous removal
-        //   anywhere in the list, the head and tails would advance
-        //   from either end and pass each other before we get to this
-        //   case and removals would be handled in the final while loop
-        //   without needing to generate the map.
-        //
-        // * Example below: The key at `oldTail` was removed (no longer
-        //   in the `newKeyToIndexMap`), so remove that part from the
-        //   DOM and advance just the `oldTail` pointer.
-        //
-        //         oldHead v           v oldTail
-        //   oldKeys:  [0, 1, 2, 3, 4, 5, 6]
-        //   newParts: [0,  ,  ,  ,  ,  , 6] <- 5 not in new map: remove
-        //   newKeys:  [0, 2, 1, 4, 3, 7, 6]    5 and advance oldTail
-        //         newHead ^           ^ newTail
-        //
-        // * Once head and tail cannot move, any mismatches are due to
-        //   either new or moved items; if a new key is in the previous
-        //   "old key to old index" map, move the old part to the new
-        //   location, otherwise create and insert a new part. Note
-        //   that when moving an old part we null its position in the
-        //   oldParts array if it lies between the head and tail so we
-        //   know to skip it when the pointers get there.
-        //
-        // * Example below: neither head nor tail match, and neither
-        //   were removed; so find the `newHead` key in the
-        //   `oldKeyToIndexMap`, and move that old part's DOM into the
-        //   next head position (before `oldParts[oldHead]`). Last,
-        //   null the part in the `oldPart` array since it was
-        //   somewhere in the remaining oldParts still to be scanned
-        //   (between the head and tail pointers) so that we know to
-        //   skip that old part on future iterations.
-        //
-        //         oldHead v        v oldTail
-        //   oldKeys:  [0, 1, -, 3, 4, 5, 6]
-        //   newParts: [0, 2,  ,  ,  ,  , 6] <- stuck: update & move 2
-        //   newKeys:  [0, 2, 1, 4, 3, 7, 6]    into place and advance
-        //                                      newHead
-        //         newHead ^           ^ newTail
-        //
-        // * Note that for moves/insertions like the one above, a part
-        //   inserted at the head pointer is inserted before the
-        //   current `oldParts[oldHead]`, and a part inserted at the
-        //   tail pointer is inserted before `newParts[newTail+1]`. The
-        //   seeming asymmetry lies in the fact that new parts are
-        //   moved into place outside in, so to the right of the head
-        //   pointer are old parts, and to the right of the tail
-        //   pointer are new parts.
-        //
-        // * We always restart back from the top of the algorithm,
-        //   allowing matching and simple updates in place to
-        //   continue...
-        //
-        // * Example below: the head pointers once again match, so
-        //   simply update part 1 and record it in the `newParts`
-        //   array.  Last, advance both head pointers.
-        //
-        //         oldHead v        v oldTail
-        //   oldKeys:  [0, 1, -, 3, 4, 5, 6]
-        //   newParts: [0, 2, 1,  ,  ,  , 6] <- heads matched: update 1
-        //   newKeys:  [0, 2, 1, 4, 3, 7, 6]    and advance both oldHead
-        //                                      & newHead
-        //            newHead ^        ^ newTail
-        //
-        // * As mentioned above, items that were moved as a result of
-        //   being stuck (the final else clause in the code below) are
-        //   marked with null, so we always advance old pointers over
-        //   these so we're comparing the next actual old value on
-        //   either end.
-        //
-        // * Example below: `oldHead` is null (already placed in
-        //   newParts), so advance `oldHead`.
-        //
-        //            oldHead v     v oldTail
-        //   oldKeys:  [0, 1, -, 3, 4, 5, 6] <- old head already used:
-        //   newParts: [0, 2, 1,  ,  ,  , 6]    advance oldHead
-        //   newKeys:  [0, 2, 1, 4, 3, 7, 6]
-        //               newHead ^     ^ newTail
-        //
-        // * Note it's not critical to mark old parts as null when they
-        //   are moved from head to tail or tail to head, since they
-        //   will be outside the pointer range and never visited again.
-        //
-        // * Example below: Here the old tail key matches the new head
-        //   key, so the part at the `oldTail` position and move its
-        //   DOM to the new head position (before `oldParts[oldHead]`).
-        //   Last, advance `oldTail` and `newHead` pointers.
-        //
-        //               oldHead v  v oldTail
-        //   oldKeys:  [0, 1, -, 3, 4, 5, 6]
-        //   newParts: [0, 2, 1, 4,  ,  , 6] <- old tail matches new
-        //   newKeys:  [0, 2, 1, 4, 3, 7, 6]   head: update & move 4,
-        //                                     advance oldTail & newHead
-        //               newHead ^     ^ newTail
-        //
-        // * Example below: Old and new head keys match, so update the
-        //   old head part in place, and advance the `oldHead` and
-        //   `newHead` pointers.
-        //
-        //               oldHead v oldTail
-        //   oldKeys:  [0, 1, -, 3, 4, 5, 6]
-        //   newParts: [0, 2, 1, 4, 3,   ,6] <- heads match: update 3
-        //   newKeys:  [0, 2, 1, 4, 3, 7, 6]    and advance oldHead &
-        //                                      newHead
-        //                  newHead ^  ^ newTail
-        //
-        // * Once the new or old pointers move past each other then all
-        //   we have left is additions (if old list exhausted) or
-        //   removals (if new list exhausted). Those are handled in the
-        //   final while loops at the end.
-        //
-        // * Example below: `oldHead` exceeded `oldTail`, so we're done
-        //   with the main loop.  Create the remaining part and insert
-        //   it at the new head position, and the update is complete.
-        //
-        //                   (oldHead > oldTail)
-        //   oldKeys:  [0, 1, -, 3, 4, 5, 6]
-        //   newParts: [0, 2, 1, 4, 3, 7 ,6] <- create and insert 7
-        //   newKeys:  [0, 2, 1, 4, 3, 7, 6]
-        //                     newHead ^ newTail
-        //
-        // * Note that the order of the if/else clauses is not
-        //   important to the algorithm, as long as the null checks
-        //   come first (to ensure we're always working on valid old
-        //   parts) and that the final else clause comes last (since
-        //   that's where the expensive moves occur). The order of
-        //   remaining clauses is is just a simple guess at which cases
-        //   will be most common.
-        //
-        // * TODO(kschaaf) Note, we could calculate the longest
-        //   increasing subsequence (LIS) of old items in new position,
-        //   and only move those not in the LIS set. However that costs
-        //   O(nlogn) time and adds a bit more code, and only helps
-        //   make rare types of mutations require fewer moves. The
-        //   above handles removes, adds, reversal, swaps, and single
-        //   moves of contiguous items in linear time, in the minimum
-        //   number of moves. As the number of multiple moves where LIS
-        //   might help approaches a random shuffle, the LIS
-        //   optimization becomes less helpful, so it seems not worth
-        //   the code at this point. Could reconsider if a compelling
-        //   case arises.
-        while (oldHead <= oldTail && newHead <= newTail) {
-            if (oldParts[oldHead] === null) {
-                // `null` means old part at head has already been used
-                // below; skip
-                oldHead++;
-            }
-            else if (oldParts[oldTail] === null) {
-                // `null` means old part at tail has already been used
-                // below; skip
-                oldTail--;
-            }
-            else if (oldKeys[oldHead] === newKeys[newHead]) {
-                // Old head matches new head; update in place
-                newParts[newHead] =
-                    updatePart(oldParts[oldHead], newValues[newHead]);
-                oldHead++;
-                newHead++;
-            }
-            else if (oldKeys[oldTail] === newKeys[newTail]) {
-                // Old tail matches new tail; update in place
-                newParts[newTail] =
-                    updatePart(oldParts[oldTail], newValues[newTail]);
-                oldTail--;
-                newTail--;
-            }
-            else if (oldKeys[oldHead] === newKeys[newTail]) {
-                // Old head matches new tail; update and move to new tail
-                newParts[newTail] =
-                    updatePart(oldParts[oldHead], newValues[newTail]);
-                insertPartBefore(containerPart, oldParts[oldHead], newParts[newTail + 1]);
-                oldHead++;
-                newTail--;
-            }
-            else if (oldKeys[oldTail] === newKeys[newHead]) {
-                // Old tail matches new head; update and move to new head
-                newParts[newHead] =
-                    updatePart(oldParts[oldTail], newValues[newHead]);
-                insertPartBefore(containerPart, oldParts[oldTail], oldParts[oldHead]);
-                oldTail--;
-                newHead++;
-            }
-            else {
-                if (newKeyToIndexMap === undefined) {
-                    // Lazily generate key-to-index maps, used for removals &
-                    // moves below
-                    newKeyToIndexMap = generateMap(newKeys, newHead, newTail);
-                    oldKeyToIndexMap = generateMap(oldKeys, oldHead, oldTail);
-                }
-                if (!newKeyToIndexMap.has(oldKeys[oldHead])) {
-                    // Old head is no longer in new list; remove
-                    removePart(oldParts[oldHead]);
-                    oldHead++;
-                }
-                else if (!newKeyToIndexMap.has(oldKeys[oldTail])) {
-                    // Old tail is no longer in new list; remove
-                    removePart(oldParts[oldTail]);
-                    oldTail--;
-                }
-                else {
-                    // Any mismatches at this point are due to additions or
-                    // moves; see if we have an old part we can reuse and move
-                    // into place
-                    const oldIndex = oldKeyToIndexMap.get(newKeys[newHead]);
-                    const oldPart = oldIndex !== undefined ? oldParts[oldIndex] : null;
-                    if (oldPart === null) {
-                        // No old part for this value; create a new one and
-                        // insert it
-                        const newPart = createAndInsertPart(containerPart, oldParts[oldHead]);
-                        updatePart(newPart, newValues[newHead]);
-                        newParts[newHead] = newPart;
-                    }
-                    else {
-                        // Reuse old part
-                        newParts[newHead] =
-                            updatePart(oldPart, newValues[newHead]);
-                        insertPartBefore(containerPart, oldPart, oldParts[oldHead]);
-                        // This marks the old part as having been used, so that
-                        // it will be skipped in the first two checks above
-                        oldParts[oldIndex] = null;
-                    }
-                    newHead++;
-                }
-            }
-        }
-        // Add parts for any remaining new values
-        while (newHead <= newTail) {
-            // For all remaining additions, we insert before last new
-            // tail, since old pointers are no longer valid
-            const newPart = createAndInsertPart(containerPart, newParts[newTail + 1]);
-            updatePart(newPart, newValues[newHead]);
-            newParts[newHead++] = newPart;
-        }
-        // Remove any remaining unused old parts
-        while (oldHead <= oldTail) {
-            const oldPart = oldParts[oldHead++];
-            if (oldPart !== null) {
-                removePart(oldPart);
-            }
-        }
-        // Save order of new parts for next round
-        partListCache.set(containerPart, newParts);
-        keyListCache.set(containerPart, newKeys);
-    };
-});
-//# sourceMappingURL=repeat.js.map
-
-/***/ }),
-
-/***/ "../../../selective-edit/node_modules/lit-html/lib/default-template-processor.js":
-/*!*******************************************************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/node_modules/lit-html/lib/default-template-processor.js ***!
-  \*******************************************************************************************************/
-/*! exports provided: DefaultTemplateProcessor, defaultTemplateProcessor */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DefaultTemplateProcessor", function() { return DefaultTemplateProcessor; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "defaultTemplateProcessor", function() { return defaultTemplateProcessor; });
-/* harmony import */ var _parts_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./parts.js */ "../../../selective-edit/node_modules/lit-html/lib/parts.js");
-/**
- * @license
- * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
- * This code may only be used under the BSD style license found at
- * http://polymer.github.io/LICENSE.txt
- * The complete set of authors may be found at
- * http://polymer.github.io/AUTHORS.txt
- * The complete set of contributors may be found at
- * http://polymer.github.io/CONTRIBUTORS.txt
- * Code distributed by Google as part of the polymer project is also
- * subject to an additional IP rights grant found at
- * http://polymer.github.io/PATENTS.txt
- */
-
-/**
- * Creates Parts when a template is instantiated.
- */
-class DefaultTemplateProcessor {
-    /**
-     * Create parts for an attribute-position binding, given the event, attribute
-     * name, and string literals.
-     *
-     * @param element The element containing the binding
-     * @param name  The attribute name
-     * @param strings The string literals. There are always at least two strings,
-     *   event for fully-controlled bindings with a single expression.
-     */
-    handleAttributeExpressions(element, name, strings, options) {
-        const prefix = name[0];
-        if (prefix === '.') {
-            const committer = new _parts_js__WEBPACK_IMPORTED_MODULE_0__["PropertyCommitter"](element, name.slice(1), strings);
-            return committer.parts;
-        }
-        if (prefix === '@') {
-            return [new _parts_js__WEBPACK_IMPORTED_MODULE_0__["EventPart"](element, name.slice(1), options.eventContext)];
-        }
-        if (prefix === '?') {
-            return [new _parts_js__WEBPACK_IMPORTED_MODULE_0__["BooleanAttributePart"](element, name.slice(1), strings)];
-        }
-        const committer = new _parts_js__WEBPACK_IMPORTED_MODULE_0__["AttributeCommitter"](element, name, strings);
-        return committer.parts;
-    }
-    /**
-     * Create parts for a text-position binding.
-     * @param templateFactory
-     */
-    handleTextExpression(options) {
-        return new _parts_js__WEBPACK_IMPORTED_MODULE_0__["NodePart"](options);
-    }
-}
-const defaultTemplateProcessor = new DefaultTemplateProcessor();
-//# sourceMappingURL=default-template-processor.js.map
-
-/***/ }),
-
-/***/ "../../../selective-edit/node_modules/lit-html/lib/directive.js":
-/*!**************************************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/node_modules/lit-html/lib/directive.js ***!
-  \**************************************************************************************/
-/*! exports provided: directive, isDirective */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "directive", function() { return directive; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isDirective", function() { return isDirective; });
-/**
- * @license
- * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
- * This code may only be used under the BSD style license found at
- * http://polymer.github.io/LICENSE.txt
- * The complete set of authors may be found at
- * http://polymer.github.io/AUTHORS.txt
- * The complete set of contributors may be found at
- * http://polymer.github.io/CONTRIBUTORS.txt
- * Code distributed by Google as part of the polymer project is also
- * subject to an additional IP rights grant found at
- * http://polymer.github.io/PATENTS.txt
- */
-const directives = new WeakMap();
-/**
- * Brands a function as a directive factory function so that lit-html will call
- * the function during template rendering, rather than passing as a value.
- *
- * A _directive_ is a function that takes a Part as an argument. It has the
- * signature: `(part: Part) => void`.
- *
- * A directive _factory_ is a function that takes arguments for data and
- * configuration and returns a directive. Users of directive usually refer to
- * the directive factory as the directive. For example, "The repeat directive".
- *
- * Usually a template author will invoke a directive factory in their template
- * with relevant arguments, which will then return a directive function.
- *
- * Here's an example of using the `repeat()` directive factory that takes an
- * array and a function to render an item:
- *
- * ```js
- * html`<ul><${repeat(items, (item) => html`<li>${item}</li>`)}</ul>`
- * ```
- *
- * When `repeat` is invoked, it returns a directive function that closes over
- * `items` and the template function. When the outer template is rendered, the
- * return directive function is called with the Part for the expression.
- * `repeat` then performs it's custom logic to render multiple items.
- *
- * @param f The directive factory function. Must be a function that returns a
- * function of the signature `(part: Part) => void`. The returned function will
- * be called with the part object.
- *
- * @example
- *
- * import {directive, html} from 'lit-html';
- *
- * const immutable = directive((v) => (part) => {
- *   if (part.value !== v) {
- *     part.setValue(v)
- *   }
- * });
- */
-const directive = (f) => ((...args) => {
-    const d = f(...args);
-    directives.set(d, true);
-    return d;
-});
-const isDirective = (o) => {
-    return typeof o === 'function' && directives.has(o);
-};
-//# sourceMappingURL=directive.js.map
-
-/***/ }),
-
-/***/ "../../../selective-edit/node_modules/lit-html/lib/dom.js":
-/*!********************************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/node_modules/lit-html/lib/dom.js ***!
-  \********************************************************************************/
-/*! exports provided: isCEPolyfill, reparentNodes, removeNodes */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isCEPolyfill", function() { return isCEPolyfill; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "reparentNodes", function() { return reparentNodes; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeNodes", function() { return removeNodes; });
-/**
- * @license
- * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
- * This code may only be used under the BSD style license found at
- * http://polymer.github.io/LICENSE.txt
- * The complete set of authors may be found at
- * http://polymer.github.io/AUTHORS.txt
- * The complete set of contributors may be found at
- * http://polymer.github.io/CONTRIBUTORS.txt
- * Code distributed by Google as part of the polymer project is also
- * subject to an additional IP rights grant found at
- * http://polymer.github.io/PATENTS.txt
- */
-/**
- * True if the custom elements polyfill is in use.
- */
-const isCEPolyfill = window.customElements !== undefined &&
-    window.customElements.polyfillWrapFlushCallback !==
-        undefined;
-/**
- * Reparents nodes, starting from `start` (inclusive) to `end` (exclusive),
- * into another container (could be the same container), before `before`. If
- * `before` is null, it appends the nodes to the container.
- */
-const reparentNodes = (container, start, end = null, before = null) => {
-    while (start !== end) {
-        const n = start.nextSibling;
-        container.insertBefore(start, before);
-        start = n;
-    }
-};
-/**
- * Removes nodes, starting from `start` (inclusive) to `end` (exclusive), from
- * `container`.
- */
-const removeNodes = (container, start, end = null) => {
-    while (start !== end) {
-        const n = start.nextSibling;
-        container.removeChild(start);
-        start = n;
-    }
-};
-//# sourceMappingURL=dom.js.map
-
-/***/ }),
-
-/***/ "../../../selective-edit/node_modules/lit-html/lib/part.js":
-/*!*********************************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/node_modules/lit-html/lib/part.js ***!
-  \*********************************************************************************/
-/*! exports provided: noChange, nothing */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "noChange", function() { return noChange; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "nothing", function() { return nothing; });
-/**
- * @license
- * Copyright (c) 2018 The Polymer Project Authors. All rights reserved.
- * This code may only be used under the BSD style license found at
- * http://polymer.github.io/LICENSE.txt
- * The complete set of authors may be found at
- * http://polymer.github.io/AUTHORS.txt
- * The complete set of contributors may be found at
- * http://polymer.github.io/CONTRIBUTORS.txt
- * Code distributed by Google as part of the polymer project is also
- * subject to an additional IP rights grant found at
- * http://polymer.github.io/PATENTS.txt
- */
-/**
- * A sentinel value that signals that a value was handled by a directive and
- * should not be written to the DOM.
- */
-const noChange = {};
-/**
- * A sentinel value that signals a NodePart to fully clear its content.
- */
-const nothing = {};
-//# sourceMappingURL=part.js.map
-
-/***/ }),
-
-/***/ "../../../selective-edit/node_modules/lit-html/lib/parts.js":
-/*!**********************************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/node_modules/lit-html/lib/parts.js ***!
-  \**********************************************************************************/
-/*! exports provided: isPrimitive, isIterable, AttributeCommitter, AttributePart, NodePart, BooleanAttributePart, PropertyCommitter, PropertyPart, EventPart */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isPrimitive", function() { return isPrimitive; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isIterable", function() { return isIterable; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AttributeCommitter", function() { return AttributeCommitter; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AttributePart", function() { return AttributePart; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NodePart", function() { return NodePart; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BooleanAttributePart", function() { return BooleanAttributePart; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PropertyCommitter", function() { return PropertyCommitter; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PropertyPart", function() { return PropertyPart; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EventPart", function() { return EventPart; });
-/* harmony import */ var _directive_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./directive.js */ "../../../selective-edit/node_modules/lit-html/lib/directive.js");
-/* harmony import */ var _dom_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./dom.js */ "../../../selective-edit/node_modules/lit-html/lib/dom.js");
-/* harmony import */ var _part_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./part.js */ "../../../selective-edit/node_modules/lit-html/lib/part.js");
-/* harmony import */ var _template_instance_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./template-instance.js */ "../../../selective-edit/node_modules/lit-html/lib/template-instance.js");
-/* harmony import */ var _template_result_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./template-result.js */ "../../../selective-edit/node_modules/lit-html/lib/template-result.js");
-/* harmony import */ var _template_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./template.js */ "../../../selective-edit/node_modules/lit-html/lib/template.js");
-/**
- * @license
- * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
- * This code may only be used under the BSD style license found at
- * http://polymer.github.io/LICENSE.txt
- * The complete set of authors may be found at
- * http://polymer.github.io/AUTHORS.txt
- * The complete set of contributors may be found at
- * http://polymer.github.io/CONTRIBUTORS.txt
- * Code distributed by Google as part of the polymer project is also
- * subject to an additional IP rights grant found at
- * http://polymer.github.io/PATENTS.txt
- */
-/**
- * @module lit-html
- */
-
-
-
-
-
-
-const isPrimitive = (value) => {
-    return (value === null ||
-        !(typeof value === 'object' || typeof value === 'function'));
-};
-const isIterable = (value) => {
-    return Array.isArray(value) ||
-        // tslint:disable-next-line:no-any
-        !!(value && value[Symbol.iterator]);
-};
-/**
- * Writes attribute values to the DOM for a group of AttributeParts bound to a
- * single attibute. The value is only set once even if there are multiple parts
- * for an attribute.
- */
-class AttributeCommitter {
-    constructor(element, name, strings) {
-        this.dirty = true;
-        this.element = element;
-        this.name = name;
-        this.strings = strings;
-        this.parts = [];
-        for (let i = 0; i < strings.length - 1; i++) {
-            this.parts[i] = this._createPart();
-        }
-    }
-    /**
-     * Creates a single part. Override this to create a differnt type of part.
-     */
-    _createPart() {
-        return new AttributePart(this);
-    }
-    _getValue() {
-        const strings = this.strings;
-        const l = strings.length - 1;
-        let text = '';
-        for (let i = 0; i < l; i++) {
-            text += strings[i];
-            const part = this.parts[i];
-            if (part !== undefined) {
-                const v = part.value;
-                if (isPrimitive(v) || !isIterable(v)) {
-                    text += typeof v === 'string' ? v : String(v);
-                }
-                else {
-                    for (const t of v) {
-                        text += typeof t === 'string' ? t : String(t);
-                    }
-                }
-            }
-        }
-        text += strings[l];
-        return text;
-    }
-    commit() {
-        if (this.dirty) {
-            this.dirty = false;
-            this.element.setAttribute(this.name, this._getValue());
-        }
-    }
-}
-/**
- * A Part that controls all or part of an attribute value.
- */
-class AttributePart {
-    constructor(committer) {
-        this.value = undefined;
-        this.committer = committer;
-    }
-    setValue(value) {
-        if (value !== _part_js__WEBPACK_IMPORTED_MODULE_2__["noChange"] && (!isPrimitive(value) || value !== this.value)) {
-            this.value = value;
-            // If the value is a not a directive, dirty the committer so that it'll
-            // call setAttribute. If the value is a directive, it'll dirty the
-            // committer if it calls setValue().
-            if (!Object(_directive_js__WEBPACK_IMPORTED_MODULE_0__["isDirective"])(value)) {
-                this.committer.dirty = true;
-            }
-        }
-    }
-    commit() {
-        while (Object(_directive_js__WEBPACK_IMPORTED_MODULE_0__["isDirective"])(this.value)) {
-            const directive = this.value;
-            this.value = _part_js__WEBPACK_IMPORTED_MODULE_2__["noChange"];
-            directive(this);
-        }
-        if (this.value === _part_js__WEBPACK_IMPORTED_MODULE_2__["noChange"]) {
-            return;
-        }
-        this.committer.commit();
-    }
-}
-/**
- * A Part that controls a location within a Node tree. Like a Range, NodePart
- * has start and end locations and can set and update the Nodes between those
- * locations.
- *
- * NodeParts support several value types: primitives, Nodes, TemplateResults,
- * as well as arrays and iterables of those types.
- */
-class NodePart {
-    constructor(options) {
-        this.value = undefined;
-        this.__pendingValue = undefined;
-        this.options = options;
-    }
-    /**
-     * Appends this part into a container.
-     *
-     * This part must be empty, as its contents are not automatically moved.
-     */
-    appendInto(container) {
-        this.startNode = container.appendChild(Object(_template_js__WEBPACK_IMPORTED_MODULE_5__["createMarker"])());
-        this.endNode = container.appendChild(Object(_template_js__WEBPACK_IMPORTED_MODULE_5__["createMarker"])());
-    }
-    /**
-     * Inserts this part after the `ref` node (between `ref` and `ref`'s next
-     * sibling). Both `ref` and its next sibling must be static, unchanging nodes
-     * such as those that appear in a literal section of a template.
-     *
-     * This part must be empty, as its contents are not automatically moved.
-     */
-    insertAfterNode(ref) {
-        this.startNode = ref;
-        this.endNode = ref.nextSibling;
-    }
-    /**
-     * Appends this part into a parent part.
-     *
-     * This part must be empty, as its contents are not automatically moved.
-     */
-    appendIntoPart(part) {
-        part.__insert(this.startNode = Object(_template_js__WEBPACK_IMPORTED_MODULE_5__["createMarker"])());
-        part.__insert(this.endNode = Object(_template_js__WEBPACK_IMPORTED_MODULE_5__["createMarker"])());
-    }
-    /**
-     * Inserts this part after the `ref` part.
-     *
-     * This part must be empty, as its contents are not automatically moved.
-     */
-    insertAfterPart(ref) {
-        ref.__insert(this.startNode = Object(_template_js__WEBPACK_IMPORTED_MODULE_5__["createMarker"])());
-        this.endNode = ref.endNode;
-        ref.endNode = this.startNode;
-    }
-    setValue(value) {
-        this.__pendingValue = value;
-    }
-    commit() {
-        while (Object(_directive_js__WEBPACK_IMPORTED_MODULE_0__["isDirective"])(this.__pendingValue)) {
-            const directive = this.__pendingValue;
-            this.__pendingValue = _part_js__WEBPACK_IMPORTED_MODULE_2__["noChange"];
-            directive(this);
-        }
-        const value = this.__pendingValue;
-        if (value === _part_js__WEBPACK_IMPORTED_MODULE_2__["noChange"]) {
-            return;
-        }
-        if (isPrimitive(value)) {
-            if (value !== this.value) {
-                this.__commitText(value);
-            }
-        }
-        else if (value instanceof _template_result_js__WEBPACK_IMPORTED_MODULE_4__["TemplateResult"]) {
-            this.__commitTemplateResult(value);
-        }
-        else if (value instanceof Node) {
-            this.__commitNode(value);
-        }
-        else if (isIterable(value)) {
-            this.__commitIterable(value);
-        }
-        else if (value === _part_js__WEBPACK_IMPORTED_MODULE_2__["nothing"]) {
-            this.value = _part_js__WEBPACK_IMPORTED_MODULE_2__["nothing"];
-            this.clear();
-        }
-        else {
-            // Fallback, will render the string representation
-            this.__commitText(value);
-        }
-    }
-    __insert(node) {
-        this.endNode.parentNode.insertBefore(node, this.endNode);
-    }
-    __commitNode(value) {
-        if (this.value === value) {
-            return;
-        }
-        this.clear();
-        this.__insert(value);
-        this.value = value;
-    }
-    __commitText(value) {
-        const node = this.startNode.nextSibling;
-        value = value == null ? '' : value;
-        // If `value` isn't already a string, we explicitly convert it here in case
-        // it can't be implicitly converted - i.e. it's a symbol.
-        const valueAsString = typeof value === 'string' ? value : String(value);
-        if (node === this.endNode.previousSibling &&
-            node.nodeType === 3 /* Node.TEXT_NODE */) {
-            // If we only have a single text node between the markers, we can just
-            // set its value, rather than replacing it.
-            // TODO(justinfagnani): Can we just check if this.value is primitive?
-            node.data = valueAsString;
-        }
-        else {
-            this.__commitNode(document.createTextNode(valueAsString));
-        }
-        this.value = value;
-    }
-    __commitTemplateResult(value) {
-        const template = this.options.templateFactory(value);
-        if (this.value instanceof _template_instance_js__WEBPACK_IMPORTED_MODULE_3__["TemplateInstance"] &&
-            this.value.template === template) {
-            this.value.update(value.values);
-        }
-        else {
-            // Make sure we propagate the template processor from the TemplateResult
-            // so that we use its syntax extension, etc. The template factory comes
-            // from the render function options so that it can control template
-            // caching and preprocessing.
-            const instance = new _template_instance_js__WEBPACK_IMPORTED_MODULE_3__["TemplateInstance"](template, value.processor, this.options);
-            const fragment = instance._clone();
-            instance.update(value.values);
-            this.__commitNode(fragment);
-            this.value = instance;
-        }
-    }
-    __commitIterable(value) {
-        // For an Iterable, we create a new InstancePart per item, then set its
-        // value to the item. This is a little bit of overhead for every item in
-        // an Iterable, but it lets us recurse easily and efficiently update Arrays
-        // of TemplateResults that will be commonly returned from expressions like:
-        // array.map((i) => html`${i}`), by reusing existing TemplateInstances.
-        // If _value is an array, then the previous render was of an
-        // iterable and _value will contain the NodeParts from the previous
-        // render. If _value is not an array, clear this part and make a new
-        // array for NodeParts.
-        if (!Array.isArray(this.value)) {
-            this.value = [];
-            this.clear();
-        }
-        // Lets us keep track of how many items we stamped so we can clear leftover
-        // items from a previous render
-        const itemParts = this.value;
-        let partIndex = 0;
-        let itemPart;
-        for (const item of value) {
-            // Try to reuse an existing part
-            itemPart = itemParts[partIndex];
-            // If no existing part, create a new one
-            if (itemPart === undefined) {
-                itemPart = new NodePart(this.options);
-                itemParts.push(itemPart);
-                if (partIndex === 0) {
-                    itemPart.appendIntoPart(this);
-                }
-                else {
-                    itemPart.insertAfterPart(itemParts[partIndex - 1]);
-                }
-            }
-            itemPart.setValue(item);
-            itemPart.commit();
-            partIndex++;
-        }
-        if (partIndex < itemParts.length) {
-            // Truncate the parts array so _value reflects the current state
-            itemParts.length = partIndex;
-            this.clear(itemPart && itemPart.endNode);
-        }
-    }
-    clear(startNode = this.startNode) {
-        Object(_dom_js__WEBPACK_IMPORTED_MODULE_1__["removeNodes"])(this.startNode.parentNode, startNode.nextSibling, this.endNode);
-    }
-}
-/**
- * Implements a boolean attribute, roughly as defined in the HTML
- * specification.
- *
- * If the value is truthy, then the attribute is present with a value of
- * ''. If the value is falsey, the attribute is removed.
- */
-class BooleanAttributePart {
-    constructor(element, name, strings) {
-        this.value = undefined;
-        this.__pendingValue = undefined;
-        if (strings.length !== 2 || strings[0] !== '' || strings[1] !== '') {
-            throw new Error('Boolean attributes can only contain a single expression');
-        }
-        this.element = element;
-        this.name = name;
-        this.strings = strings;
-    }
-    setValue(value) {
-        this.__pendingValue = value;
-    }
-    commit() {
-        while (Object(_directive_js__WEBPACK_IMPORTED_MODULE_0__["isDirective"])(this.__pendingValue)) {
-            const directive = this.__pendingValue;
-            this.__pendingValue = _part_js__WEBPACK_IMPORTED_MODULE_2__["noChange"];
-            directive(this);
-        }
-        if (this.__pendingValue === _part_js__WEBPACK_IMPORTED_MODULE_2__["noChange"]) {
-            return;
-        }
-        const value = !!this.__pendingValue;
-        if (this.value !== value) {
-            if (value) {
-                this.element.setAttribute(this.name, '');
-            }
-            else {
-                this.element.removeAttribute(this.name);
-            }
-            this.value = value;
-        }
-        this.__pendingValue = _part_js__WEBPACK_IMPORTED_MODULE_2__["noChange"];
-    }
-}
-/**
- * Sets attribute values for PropertyParts, so that the value is only set once
- * even if there are multiple parts for a property.
- *
- * If an expression controls the whole property value, then the value is simply
- * assigned to the property under control. If there are string literals or
- * multiple expressions, then the strings are expressions are interpolated into
- * a string first.
- */
-class PropertyCommitter extends AttributeCommitter {
-    constructor(element, name, strings) {
-        super(element, name, strings);
-        this.single =
-            (strings.length === 2 && strings[0] === '' && strings[1] === '');
-    }
-    _createPart() {
-        return new PropertyPart(this);
-    }
-    _getValue() {
-        if (this.single) {
-            return this.parts[0].value;
-        }
-        return super._getValue();
-    }
-    commit() {
-        if (this.dirty) {
-            this.dirty = false;
-            // tslint:disable-next-line:no-any
-            this.element[this.name] = this._getValue();
-        }
-    }
-}
-class PropertyPart extends AttributePart {
-}
-// Detect event listener options support. If the `capture` property is read
-// from the options object, then options are supported. If not, then the thrid
-// argument to add/removeEventListener is interpreted as the boolean capture
-// value so we should only pass the `capture` property.
-let eventOptionsSupported = false;
-try {
-    const options = {
-        get capture() {
-            eventOptionsSupported = true;
-            return false;
-        }
-    };
-    // tslint:disable-next-line:no-any
-    window.addEventListener('test', options, options);
-    // tslint:disable-next-line:no-any
-    window.removeEventListener('test', options, options);
-}
-catch (_e) {
-}
-class EventPart {
-    constructor(element, eventName, eventContext) {
-        this.value = undefined;
-        this.__pendingValue = undefined;
-        this.element = element;
-        this.eventName = eventName;
-        this.eventContext = eventContext;
-        this.__boundHandleEvent = (e) => this.handleEvent(e);
-    }
-    setValue(value) {
-        this.__pendingValue = value;
-    }
-    commit() {
-        while (Object(_directive_js__WEBPACK_IMPORTED_MODULE_0__["isDirective"])(this.__pendingValue)) {
-            const directive = this.__pendingValue;
-            this.__pendingValue = _part_js__WEBPACK_IMPORTED_MODULE_2__["noChange"];
-            directive(this);
-        }
-        if (this.__pendingValue === _part_js__WEBPACK_IMPORTED_MODULE_2__["noChange"]) {
-            return;
-        }
-        const newListener = this.__pendingValue;
-        const oldListener = this.value;
-        const shouldRemoveListener = newListener == null ||
-            oldListener != null &&
-                (newListener.capture !== oldListener.capture ||
-                    newListener.once !== oldListener.once ||
-                    newListener.passive !== oldListener.passive);
-        const shouldAddListener = newListener != null && (oldListener == null || shouldRemoveListener);
-        if (shouldRemoveListener) {
-            this.element.removeEventListener(this.eventName, this.__boundHandleEvent, this.__options);
-        }
-        if (shouldAddListener) {
-            this.__options = getOptions(newListener);
-            this.element.addEventListener(this.eventName, this.__boundHandleEvent, this.__options);
-        }
-        this.value = newListener;
-        this.__pendingValue = _part_js__WEBPACK_IMPORTED_MODULE_2__["noChange"];
-    }
-    handleEvent(event) {
-        if (typeof this.value === 'function') {
-            this.value.call(this.eventContext || this.element, event);
-        }
-        else {
-            this.value.handleEvent(event);
-        }
-    }
-}
-// We copy options because of the inconsistent behavior of browsers when reading
-// the third argument of add/removeEventListener. IE11 doesn't support options
-// at all. Chrome 41 only reads `capture` if the argument is an object.
-const getOptions = (o) => o &&
-    (eventOptionsSupported ?
-        { capture: o.capture, passive: o.passive, once: o.once } :
-        o.capture);
-//# sourceMappingURL=parts.js.map
-
-/***/ }),
-
-/***/ "../../../selective-edit/node_modules/lit-html/lib/render.js":
-/*!***********************************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/node_modules/lit-html/lib/render.js ***!
-  \***********************************************************************************/
-/*! exports provided: parts, render */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parts", function() { return parts; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
-/* harmony import */ var _dom_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dom.js */ "../../../selective-edit/node_modules/lit-html/lib/dom.js");
-/* harmony import */ var _parts_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./parts.js */ "../../../selective-edit/node_modules/lit-html/lib/parts.js");
-/* harmony import */ var _template_factory_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./template-factory.js */ "../../../selective-edit/node_modules/lit-html/lib/template-factory.js");
-/**
- * @license
- * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
- * This code may only be used under the BSD style license found at
- * http://polymer.github.io/LICENSE.txt
- * The complete set of authors may be found at
- * http://polymer.github.io/AUTHORS.txt
- * The complete set of contributors may be found at
- * http://polymer.github.io/CONTRIBUTORS.txt
- * Code distributed by Google as part of the polymer project is also
- * subject to an additional IP rights grant found at
- * http://polymer.github.io/PATENTS.txt
- */
-/**
- * @module lit-html
- */
-
-
-
-const parts = new WeakMap();
-/**
- * Renders a template result or other value to a container.
- *
- * To update a container with new values, reevaluate the template literal and
- * call `render` with the new result.
- *
- * @param result Any value renderable by NodePart - typically a TemplateResult
- *     created by evaluating a template tag like `html` or `svg`.
- * @param container A DOM parent to render to. The entire contents are either
- *     replaced, or efficiently updated if the same result type was previous
- *     rendered there.
- * @param options RenderOptions for the entire render tree rendered to this
- *     container. Render options must *not* change between renders to the same
- *     container, as those changes will not effect previously rendered DOM.
- */
-const render = (result, container, options) => {
-    let part = parts.get(container);
-    if (part === undefined) {
-        Object(_dom_js__WEBPACK_IMPORTED_MODULE_0__["removeNodes"])(container, container.firstChild);
-        parts.set(container, part = new _parts_js__WEBPACK_IMPORTED_MODULE_1__["NodePart"](Object.assign({ templateFactory: _template_factory_js__WEBPACK_IMPORTED_MODULE_2__["templateFactory"] }, options)));
-        part.appendInto(container);
-    }
-    part.setValue(result);
-    part.commit();
-};
-//# sourceMappingURL=render.js.map
-
-/***/ }),
-
-/***/ "../../../selective-edit/node_modules/lit-html/lib/template-factory.js":
-/*!*********************************************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/node_modules/lit-html/lib/template-factory.js ***!
-  \*********************************************************************************************/
-/*! exports provided: templateFactory, templateCaches */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "templateFactory", function() { return templateFactory; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "templateCaches", function() { return templateCaches; });
-/* harmony import */ var _template_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./template.js */ "../../../selective-edit/node_modules/lit-html/lib/template.js");
-/**
- * @license
- * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
- * This code may only be used under the BSD style license found at
- * http://polymer.github.io/LICENSE.txt
- * The complete set of authors may be found at
- * http://polymer.github.io/AUTHORS.txt
- * The complete set of contributors may be found at
- * http://polymer.github.io/CONTRIBUTORS.txt
- * Code distributed by Google as part of the polymer project is also
- * subject to an additional IP rights grant found at
- * http://polymer.github.io/PATENTS.txt
- */
-
-/**
- * The default TemplateFactory which caches Templates keyed on
- * result.type and result.strings.
- */
-function templateFactory(result) {
-    let templateCache = templateCaches.get(result.type);
-    if (templateCache === undefined) {
-        templateCache = {
-            stringsArray: new WeakMap(),
-            keyString: new Map()
-        };
-        templateCaches.set(result.type, templateCache);
-    }
-    let template = templateCache.stringsArray.get(result.strings);
-    if (template !== undefined) {
-        return template;
-    }
-    // If the TemplateStringsArray is new, generate a key from the strings
-    // This key is shared between all templates with identical content
-    const key = result.strings.join(_template_js__WEBPACK_IMPORTED_MODULE_0__["marker"]);
-    // Check if we already have a Template for this key
-    template = templateCache.keyString.get(key);
-    if (template === undefined) {
-        // If we have not seen this key before, create a new Template
-        template = new _template_js__WEBPACK_IMPORTED_MODULE_0__["Template"](result, result.getTemplateElement());
-        // Cache the Template for this key
-        templateCache.keyString.set(key, template);
-    }
-    // Cache all future queries for this TemplateStringsArray
-    templateCache.stringsArray.set(result.strings, template);
-    return template;
-}
-const templateCaches = new Map();
-//# sourceMappingURL=template-factory.js.map
-
-/***/ }),
-
-/***/ "../../../selective-edit/node_modules/lit-html/lib/template-instance.js":
-/*!**********************************************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/node_modules/lit-html/lib/template-instance.js ***!
-  \**********************************************************************************************/
-/*! exports provided: TemplateInstance */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TemplateInstance", function() { return TemplateInstance; });
-/* harmony import */ var _dom_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dom.js */ "../../../selective-edit/node_modules/lit-html/lib/dom.js");
-/* harmony import */ var _template_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./template.js */ "../../../selective-edit/node_modules/lit-html/lib/template.js");
-/**
- * @license
- * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
- * This code may only be used under the BSD style license found at
- * http://polymer.github.io/LICENSE.txt
- * The complete set of authors may be found at
- * http://polymer.github.io/AUTHORS.txt
- * The complete set of contributors may be found at
- * http://polymer.github.io/CONTRIBUTORS.txt
- * Code distributed by Google as part of the polymer project is also
- * subject to an additional IP rights grant found at
- * http://polymer.github.io/PATENTS.txt
- */
-/**
- * @module lit-html
- */
-
-
-/**
- * An instance of a `Template` that can be attached to the DOM and updated
- * with new values.
- */
-class TemplateInstance {
-    constructor(template, processor, options) {
-        this.__parts = [];
-        this.template = template;
-        this.processor = processor;
-        this.options = options;
-    }
-    update(values) {
-        let i = 0;
-        for (const part of this.__parts) {
-            if (part !== undefined) {
-                part.setValue(values[i]);
-            }
-            i++;
-        }
-        for (const part of this.__parts) {
-            if (part !== undefined) {
-                part.commit();
-            }
-        }
-    }
-    _clone() {
-        // There are a number of steps in the lifecycle of a template instance's
-        // DOM fragment:
-        //  1. Clone - create the instance fragment
-        //  2. Adopt - adopt into the main document
-        //  3. Process - find part markers and create parts
-        //  4. Upgrade - upgrade custom elements
-        //  5. Update - set node, attribute, property, etc., values
-        //  6. Connect - connect to the document. Optional and outside of this
-        //     method.
-        //
-        // We have a few constraints on the ordering of these steps:
-        //  * We need to upgrade before updating, so that property values will pass
-        //    through any property setters.
-        //  * We would like to process before upgrading so that we're sure that the
-        //    cloned fragment is inert and not disturbed by self-modifying DOM.
-        //  * We want custom elements to upgrade even in disconnected fragments.
-        //
-        // Given these constraints, with full custom elements support we would
-        // prefer the order: Clone, Process, Adopt, Upgrade, Update, Connect
-        //
-        // But Safari dooes not implement CustomElementRegistry#upgrade, so we
-        // can not implement that order and still have upgrade-before-update and
-        // upgrade disconnected fragments. So we instead sacrifice the
-        // process-before-upgrade constraint, since in Custom Elements v1 elements
-        // must not modify their light DOM in the constructor. We still have issues
-        // when co-existing with CEv0 elements like Polymer 1, and with polyfills
-        // that don't strictly adhere to the no-modification rule because shadow
-        // DOM, which may be created in the constructor, is emulated by being placed
-        // in the light DOM.
-        //
-        // The resulting order is on native is: Clone, Adopt, Upgrade, Process,
-        // Update, Connect. document.importNode() performs Clone, Adopt, and Upgrade
-        // in one step.
-        //
-        // The Custom Elements v1 polyfill supports upgrade(), so the order when
-        // polyfilled is the more ideal: Clone, Process, Adopt, Upgrade, Update,
-        // Connect.
-        const fragment = _dom_js__WEBPACK_IMPORTED_MODULE_0__["isCEPolyfill"] ?
-            this.template.element.content.cloneNode(true) :
-            document.importNode(this.template.element.content, true);
-        const stack = [];
-        const parts = this.template.parts;
-        // Edge needs all 4 parameters present; IE11 needs 3rd parameter to be null
-        const walker = document.createTreeWalker(fragment, 133 /* NodeFilter.SHOW_{ELEMENT|COMMENT|TEXT} */, null, false);
-        let partIndex = 0;
-        let nodeIndex = 0;
-        let part;
-        let node = walker.nextNode();
-        // Loop through all the nodes and parts of a template
-        while (partIndex < parts.length) {
-            part = parts[partIndex];
-            if (!Object(_template_js__WEBPACK_IMPORTED_MODULE_1__["isTemplatePartActive"])(part)) {
-                this.__parts.push(undefined);
-                partIndex++;
-                continue;
-            }
-            // Progress the tree walker until we find our next part's node.
-            // Note that multiple parts may share the same node (attribute parts
-            // on a single element), so this loop may not run at all.
-            while (nodeIndex < part.index) {
-                nodeIndex++;
-                if (node.nodeName === 'TEMPLATE') {
-                    stack.push(node);
-                    walker.currentNode = node.content;
-                }
-                if ((node = walker.nextNode()) === null) {
-                    // We've exhausted the content inside a nested template element.
-                    // Because we still have parts (the outer for-loop), we know:
-                    // - There is a template in the stack
-                    // - The walker will find a nextNode outside the template
-                    walker.currentNode = stack.pop();
-                    node = walker.nextNode();
-                }
-            }
-            // We've arrived at our part's node.
-            if (part.type === 'node') {
-                const part = this.processor.handleTextExpression(this.options);
-                part.insertAfterNode(node.previousSibling);
-                this.__parts.push(part);
-            }
-            else {
-                this.__parts.push(...this.processor.handleAttributeExpressions(node, part.name, part.strings, this.options));
-            }
-            partIndex++;
-        }
-        if (_dom_js__WEBPACK_IMPORTED_MODULE_0__["isCEPolyfill"]) {
-            document.adoptNode(fragment);
-            customElements.upgrade(fragment);
-        }
-        return fragment;
-    }
-}
-//# sourceMappingURL=template-instance.js.map
-
-/***/ }),
-
-/***/ "../../../selective-edit/node_modules/lit-html/lib/template-result.js":
-/*!********************************************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/node_modules/lit-html/lib/template-result.js ***!
-  \********************************************************************************************/
-/*! exports provided: TemplateResult, SVGTemplateResult */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TemplateResult", function() { return TemplateResult; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SVGTemplateResult", function() { return SVGTemplateResult; });
-/* harmony import */ var _dom_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dom.js */ "../../../selective-edit/node_modules/lit-html/lib/dom.js");
-/* harmony import */ var _template_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./template.js */ "../../../selective-edit/node_modules/lit-html/lib/template.js");
-/**
- * @license
- * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
- * This code may only be used under the BSD style license found at
- * http://polymer.github.io/LICENSE.txt
- * The complete set of authors may be found at
- * http://polymer.github.io/AUTHORS.txt
- * The complete set of contributors may be found at
- * http://polymer.github.io/CONTRIBUTORS.txt
- * Code distributed by Google as part of the polymer project is also
- * subject to an additional IP rights grant found at
- * http://polymer.github.io/PATENTS.txt
- */
-/**
- * @module lit-html
- */
-
-
-const commentMarker = ` ${_template_js__WEBPACK_IMPORTED_MODULE_1__["marker"]} `;
-/**
- * The return type of `html`, which holds a Template and the values from
- * interpolated expressions.
- */
-class TemplateResult {
-    constructor(strings, values, type, processor) {
-        this.strings = strings;
-        this.values = values;
-        this.type = type;
-        this.processor = processor;
-    }
-    /**
-     * Returns a string of HTML used to create a `<template>` element.
-     */
-    getHTML() {
-        const l = this.strings.length - 1;
-        let html = '';
-        let isCommentBinding = false;
-        for (let i = 0; i < l; i++) {
-            const s = this.strings[i];
-            // For each binding we want to determine the kind of marker to insert
-            // into the template source before it's parsed by the browser's HTML
-            // parser. The marker type is based on whether the expression is in an
-            // attribute, text, or comment poisition.
-            //   * For node-position bindings we insert a comment with the marker
-            //     sentinel as its text content, like <!--{{lit-guid}}-->.
-            //   * For attribute bindings we insert just the marker sentinel for the
-            //     first binding, so that we support unquoted attribute bindings.
-            //     Subsequent bindings can use a comment marker because multi-binding
-            //     attributes must be quoted.
-            //   * For comment bindings we insert just the marker sentinel so we don't
-            //     close the comment.
-            //
-            // The following code scans the template source, but is *not* an HTML
-            // parser. We don't need to track the tree structure of the HTML, only
-            // whether a binding is inside a comment, and if not, if it appears to be
-            // the first binding in an attribute.
-            const commentOpen = s.lastIndexOf('<!--');
-            // We're in comment position if we have a comment open with no following
-            // comment close. Because <-- can appear in an attribute value there can
-            // be false positives.
-            isCommentBinding = (commentOpen > -1 || isCommentBinding) &&
-                s.indexOf('-->', commentOpen + 1) === -1;
-            // Check to see if we have an attribute-like sequence preceeding the
-            // expression. This can match "name=value" like structures in text,
-            // comments, and attribute values, so there can be false-positives.
-            const attributeMatch = _template_js__WEBPACK_IMPORTED_MODULE_1__["lastAttributeNameRegex"].exec(s);
-            if (attributeMatch === null) {
-                // We're only in this branch if we don't have a attribute-like
-                // preceeding sequence. For comments, this guards against unusual
-                // attribute values like <div foo="<!--${'bar'}">. Cases like
-                // <!-- foo=${'bar'}--> are handled correctly in the attribute branch
-                // below.
-                html += s + (isCommentBinding ? commentMarker : _template_js__WEBPACK_IMPORTED_MODULE_1__["nodeMarker"]);
-            }
-            else {
-                // For attributes we use just a marker sentinel, and also append a
-                // $lit$ suffix to the name to opt-out of attribute-specific parsing
-                // that IE and Edge do for style and certain SVG attributes.
-                html += s.substr(0, attributeMatch.index) + attributeMatch[1] +
-                    attributeMatch[2] + _template_js__WEBPACK_IMPORTED_MODULE_1__["boundAttributeSuffix"] + attributeMatch[3] +
-                    _template_js__WEBPACK_IMPORTED_MODULE_1__["marker"];
-            }
-        }
-        html += this.strings[l];
-        return html;
-    }
-    getTemplateElement() {
-        const template = document.createElement('template');
-        template.innerHTML = this.getHTML();
-        return template;
-    }
-}
-/**
- * A TemplateResult for SVG fragments.
- *
- * This class wraps HTML in an `<svg>` tag in order to parse its contents in the
- * SVG namespace, then modifies the template to remove the `<svg>` tag so that
- * clones only container the original fragment.
- */
-class SVGTemplateResult extends TemplateResult {
-    getHTML() {
-        return `<svg>${super.getHTML()}</svg>`;
-    }
-    getTemplateElement() {
-        const template = super.getTemplateElement();
-        const content = template.content;
-        const svgElement = content.firstChild;
-        content.removeChild(svgElement);
-        Object(_dom_js__WEBPACK_IMPORTED_MODULE_0__["reparentNodes"])(content, svgElement.firstChild);
-        return template;
-    }
-}
-//# sourceMappingURL=template-result.js.map
-
-/***/ }),
-
-/***/ "../../../selective-edit/node_modules/lit-html/lib/template.js":
-/*!*************************************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/node_modules/lit-html/lib/template.js ***!
-  \*************************************************************************************/
-/*! exports provided: marker, nodeMarker, markerRegex, boundAttributeSuffix, Template, isTemplatePartActive, createMarker, lastAttributeNameRegex */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "marker", function() { return marker; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "nodeMarker", function() { return nodeMarker; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "markerRegex", function() { return markerRegex; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "boundAttributeSuffix", function() { return boundAttributeSuffix; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Template", function() { return Template; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isTemplatePartActive", function() { return isTemplatePartActive; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createMarker", function() { return createMarker; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "lastAttributeNameRegex", function() { return lastAttributeNameRegex; });
-/**
- * @license
- * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
- * This code may only be used under the BSD style license found at
- * http://polymer.github.io/LICENSE.txt
- * The complete set of authors may be found at
- * http://polymer.github.io/AUTHORS.txt
- * The complete set of contributors may be found at
- * http://polymer.github.io/CONTRIBUTORS.txt
- * Code distributed by Google as part of the polymer project is also
- * subject to an additional IP rights grant found at
- * http://polymer.github.io/PATENTS.txt
- */
-/**
- * An expression marker with embedded unique key to avoid collision with
- * possible text in templates.
- */
-const marker = `{{lit-${String(Math.random()).slice(2)}}}`;
-/**
- * An expression marker used text-positions, multi-binding attributes, and
- * attributes with markup-like text values.
- */
-const nodeMarker = `<!--${marker}-->`;
-const markerRegex = new RegExp(`${marker}|${nodeMarker}`);
-/**
- * Suffix appended to all bound attribute names.
- */
-const boundAttributeSuffix = '$lit$';
-/**
- * An updateable Template that tracks the location of dynamic parts.
- */
-class Template {
-    constructor(result, element) {
-        this.parts = [];
-        this.element = element;
-        const nodesToRemove = [];
-        const stack = [];
-        // Edge needs all 4 parameters present; IE11 needs 3rd parameter to be null
-        const walker = document.createTreeWalker(element.content, 133 /* NodeFilter.SHOW_{ELEMENT|COMMENT|TEXT} */, null, false);
-        // Keeps track of the last index associated with a part. We try to delete
-        // unnecessary nodes, but we never want to associate two different parts
-        // to the same index. They must have a constant node between.
-        let lastPartIndex = 0;
-        let index = -1;
-        let partIndex = 0;
-        const { strings, values: { length } } = result;
-        while (partIndex < length) {
-            const node = walker.nextNode();
-            if (node === null) {
-                // We've exhausted the content inside a nested template element.
-                // Because we still have parts (the outer for-loop), we know:
-                // - There is a template in the stack
-                // - The walker will find a nextNode outside the template
-                walker.currentNode = stack.pop();
-                continue;
-            }
-            index++;
-            if (node.nodeType === 1 /* Node.ELEMENT_NODE */) {
-                if (node.hasAttributes()) {
-                    const attributes = node.attributes;
-                    const { length } = attributes;
-                    // Per
-                    // https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap,
-                    // attributes are not guaranteed to be returned in document order.
-                    // In particular, Edge/IE can return them out of order, so we cannot
-                    // assume a correspondence between part index and attribute index.
-                    let count = 0;
-                    for (let i = 0; i < length; i++) {
-                        if (endsWith(attributes[i].name, boundAttributeSuffix)) {
-                            count++;
-                        }
-                    }
-                    while (count-- > 0) {
-                        // Get the template literal section leading up to the first
-                        // expression in this attribute
-                        const stringForPart = strings[partIndex];
-                        // Find the attribute name
-                        const name = lastAttributeNameRegex.exec(stringForPart)[2];
-                        // Find the corresponding attribute
-                        // All bound attributes have had a suffix added in
-                        // TemplateResult#getHTML to opt out of special attribute
-                        // handling. To look up the attribute value we also need to add
-                        // the suffix.
-                        const attributeLookupName = name.toLowerCase() + boundAttributeSuffix;
-                        const attributeValue = node.getAttribute(attributeLookupName);
-                        node.removeAttribute(attributeLookupName);
-                        const statics = attributeValue.split(markerRegex);
-                        this.parts.push({ type: 'attribute', index, name, strings: statics });
-                        partIndex += statics.length - 1;
-                    }
-                }
-                if (node.tagName === 'TEMPLATE') {
-                    stack.push(node);
-                    walker.currentNode = node.content;
-                }
-            }
-            else if (node.nodeType === 3 /* Node.TEXT_NODE */) {
-                const data = node.data;
-                if (data.indexOf(marker) >= 0) {
-                    const parent = node.parentNode;
-                    const strings = data.split(markerRegex);
-                    const lastIndex = strings.length - 1;
-                    // Generate a new text node for each literal section
-                    // These nodes are also used as the markers for node parts
-                    for (let i = 0; i < lastIndex; i++) {
-                        let insert;
-                        let s = strings[i];
-                        if (s === '') {
-                            insert = createMarker();
-                        }
-                        else {
-                            const match = lastAttributeNameRegex.exec(s);
-                            if (match !== null && endsWith(match[2], boundAttributeSuffix)) {
-                                s = s.slice(0, match.index) + match[1] +
-                                    match[2].slice(0, -boundAttributeSuffix.length) + match[3];
-                            }
-                            insert = document.createTextNode(s);
-                        }
-                        parent.insertBefore(insert, node);
-                        this.parts.push({ type: 'node', index: ++index });
-                    }
-                    // If there's no text, we must insert a comment to mark our place.
-                    // Else, we can trust it will stick around after cloning.
-                    if (strings[lastIndex] === '') {
-                        parent.insertBefore(createMarker(), node);
-                        nodesToRemove.push(node);
-                    }
-                    else {
-                        node.data = strings[lastIndex];
-                    }
-                    // We have a part for each match found
-                    partIndex += lastIndex;
-                }
-            }
-            else if (node.nodeType === 8 /* Node.COMMENT_NODE */) {
-                if (node.data === marker) {
-                    const parent = node.parentNode;
-                    // Add a new marker node to be the startNode of the Part if any of
-                    // the following are true:
-                    //  * We don't have a previousSibling
-                    //  * The previousSibling is already the start of a previous part
-                    if (node.previousSibling === null || index === lastPartIndex) {
-                        index++;
-                        parent.insertBefore(createMarker(), node);
-                    }
-                    lastPartIndex = index;
-                    this.parts.push({ type: 'node', index });
-                    // If we don't have a nextSibling, keep this node so we have an end.
-                    // Else, we can remove it to save future costs.
-                    if (node.nextSibling === null) {
-                        node.data = '';
-                    }
-                    else {
-                        nodesToRemove.push(node);
-                        index--;
-                    }
-                    partIndex++;
-                }
-                else {
-                    let i = -1;
-                    while ((i = node.data.indexOf(marker, i + 1)) !== -1) {
-                        // Comment node has a binding marker inside, make an inactive part
-                        // The binding won't work, but subsequent bindings will
-                        // TODO (justinfagnani): consider whether it's even worth it to
-                        // make bindings in comments work
-                        this.parts.push({ type: 'node', index: -1 });
-                        partIndex++;
-                    }
-                }
-            }
-        }
-        // Remove text binding nodes after the walk to not disturb the TreeWalker
-        for (const n of nodesToRemove) {
-            n.parentNode.removeChild(n);
-        }
-    }
-}
-const endsWith = (str, suffix) => {
-    const index = str.length - suffix.length;
-    return index >= 0 && str.slice(index) === suffix;
-};
-const isTemplatePartActive = (part) => part.index !== -1;
-// Allows `document.createComment('')` to be renamed for a
-// small manual size-savings.
-const createMarker = () => document.createComment('');
-/**
- * This regex extracts the attribute name preceding an attribute-position
- * expression. It does this by matching the syntax allowed for attributes
- * against the string literal directly preceding the expression, assuming that
- * the expression is in an attribute-value position.
- *
- * See attributes in the HTML spec:
- * https://www.w3.org/TR/html5/syntax.html#elements-attributes
- *
- * " \x09\x0a\x0c\x0d" are HTML space characters:
- * https://www.w3.org/TR/html5/infrastructure.html#space-characters
- *
- * "\0-\x1F\x7F-\x9F" are Unicode control characters, which includes every
- * space character except " ".
- *
- * So an attribute is:
- *  * The name: any character except a control character, space character, ('),
- *    ("), ">", "=", or "/"
- *  * Followed by zero or more space characters
- *  * Followed by "="
- *  * Followed by zero or more space characters
- *  * Followed by:
- *    * Any character except space, ('), ("), "<", ">", "=", (`), or
- *    * (") then any non-("), or
- *    * (') then any non-(')
- */
-const lastAttributeNameRegex = /([ \x09\x0a\x0c\x0d])([^\0-\x1F\x7F-\x9F "'>=/]+)([ \x09\x0a\x0c\x0d]*=[ \x09\x0a\x0c\x0d]*(?:[^ \x09\x0a\x0c\x0d"'`<>=]*|"[^"]*|'[^']*))$/;
-//# sourceMappingURL=template.js.map
-
-/***/ }),
-
-/***/ "../../../selective-edit/node_modules/lit-html/lit-html.js":
-/*!*********************************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/node_modules/lit-html/lit-html.js ***!
-  \*********************************************************************************/
-/*! exports provided: DefaultTemplateProcessor, defaultTemplateProcessor, directive, isDirective, removeNodes, reparentNodes, noChange, nothing, AttributeCommitter, AttributePart, BooleanAttributePart, EventPart, isIterable, isPrimitive, NodePart, PropertyCommitter, PropertyPart, parts, render, templateCaches, templateFactory, TemplateInstance, SVGTemplateResult, TemplateResult, createMarker, isTemplatePartActive, Template, html, svg */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "html", function() { return html; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "svg", function() { return svg; });
-/* harmony import */ var _lib_default_template_processor_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./lib/default-template-processor.js */ "../../../selective-edit/node_modules/lit-html/lib/default-template-processor.js");
-/* harmony import */ var _lib_template_result_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./lib/template-result.js */ "../../../selective-edit/node_modules/lit-html/lib/template-result.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DefaultTemplateProcessor", function() { return _lib_default_template_processor_js__WEBPACK_IMPORTED_MODULE_0__["DefaultTemplateProcessor"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "defaultTemplateProcessor", function() { return _lib_default_template_processor_js__WEBPACK_IMPORTED_MODULE_0__["defaultTemplateProcessor"]; });
-
-/* harmony import */ var _lib_directive_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./lib/directive.js */ "../../../selective-edit/node_modules/lit-html/lib/directive.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "directive", function() { return _lib_directive_js__WEBPACK_IMPORTED_MODULE_2__["directive"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isDirective", function() { return _lib_directive_js__WEBPACK_IMPORTED_MODULE_2__["isDirective"]; });
-
-/* harmony import */ var _lib_dom_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./lib/dom.js */ "../../../selective-edit/node_modules/lit-html/lib/dom.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "removeNodes", function() { return _lib_dom_js__WEBPACK_IMPORTED_MODULE_3__["removeNodes"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "reparentNodes", function() { return _lib_dom_js__WEBPACK_IMPORTED_MODULE_3__["reparentNodes"]; });
-
-/* harmony import */ var _lib_part_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./lib/part.js */ "../../../selective-edit/node_modules/lit-html/lib/part.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "noChange", function() { return _lib_part_js__WEBPACK_IMPORTED_MODULE_4__["noChange"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "nothing", function() { return _lib_part_js__WEBPACK_IMPORTED_MODULE_4__["nothing"]; });
-
-/* harmony import */ var _lib_parts_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./lib/parts.js */ "../../../selective-edit/node_modules/lit-html/lib/parts.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AttributeCommitter", function() { return _lib_parts_js__WEBPACK_IMPORTED_MODULE_5__["AttributeCommitter"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AttributePart", function() { return _lib_parts_js__WEBPACK_IMPORTED_MODULE_5__["AttributePart"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "BooleanAttributePart", function() { return _lib_parts_js__WEBPACK_IMPORTED_MODULE_5__["BooleanAttributePart"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "EventPart", function() { return _lib_parts_js__WEBPACK_IMPORTED_MODULE_5__["EventPart"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isIterable", function() { return _lib_parts_js__WEBPACK_IMPORTED_MODULE_5__["isIterable"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isPrimitive", function() { return _lib_parts_js__WEBPACK_IMPORTED_MODULE_5__["isPrimitive"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NodePart", function() { return _lib_parts_js__WEBPACK_IMPORTED_MODULE_5__["NodePart"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "PropertyCommitter", function() { return _lib_parts_js__WEBPACK_IMPORTED_MODULE_5__["PropertyCommitter"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "PropertyPart", function() { return _lib_parts_js__WEBPACK_IMPORTED_MODULE_5__["PropertyPart"]; });
-
-/* harmony import */ var _lib_render_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./lib/render.js */ "../../../selective-edit/node_modules/lit-html/lib/render.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "parts", function() { return _lib_render_js__WEBPACK_IMPORTED_MODULE_6__["parts"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _lib_render_js__WEBPACK_IMPORTED_MODULE_6__["render"]; });
-
-/* harmony import */ var _lib_template_factory_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./lib/template-factory.js */ "../../../selective-edit/node_modules/lit-html/lib/template-factory.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "templateCaches", function() { return _lib_template_factory_js__WEBPACK_IMPORTED_MODULE_7__["templateCaches"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "templateFactory", function() { return _lib_template_factory_js__WEBPACK_IMPORTED_MODULE_7__["templateFactory"]; });
-
-/* harmony import */ var _lib_template_instance_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./lib/template-instance.js */ "../../../selective-edit/node_modules/lit-html/lib/template-instance.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TemplateInstance", function() { return _lib_template_instance_js__WEBPACK_IMPORTED_MODULE_8__["TemplateInstance"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SVGTemplateResult", function() { return _lib_template_result_js__WEBPACK_IMPORTED_MODULE_1__["SVGTemplateResult"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TemplateResult", function() { return _lib_template_result_js__WEBPACK_IMPORTED_MODULE_1__["TemplateResult"]; });
-
-/* harmony import */ var _lib_template_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./lib/template.js */ "../../../selective-edit/node_modules/lit-html/lib/template.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createMarker", function() { return _lib_template_js__WEBPACK_IMPORTED_MODULE_9__["createMarker"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isTemplatePartActive", function() { return _lib_template_js__WEBPACK_IMPORTED_MODULE_9__["isTemplatePartActive"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Template", function() { return _lib_template_js__WEBPACK_IMPORTED_MODULE_9__["Template"]; });
-
-/**
- * @license
- * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
- * This code may only be used under the BSD style license found at
- * http://polymer.github.io/LICENSE.txt
- * The complete set of authors may be found at
- * http://polymer.github.io/AUTHORS.txt
- * The complete set of contributors may be found at
- * http://polymer.github.io/CONTRIBUTORS.txt
- * Code distributed by Google as part of the polymer project is also
- * subject to an additional IP rights grant found at
- * http://polymer.github.io/PATENTS.txt
- */
-/**
- *
- * Main lit-html module.
- *
- * Main exports:
- *
- * -  [[html]]
- * -  [[svg]]
- * -  [[render]]
- *
- * @module lit-html
- * @preferred
- */
-/**
- * Do not remove this comment; it keeps typedoc from misplacing the module
- * docs.
- */
-
-
-
-
-// TODO(justinfagnani): remove line when we get NodePart moving methods
-
-
-
-
-
-
-
-
-// IMPORTANT: do not change the property name or the assignment expression.
-// This line will be used in regexes to search for lit-html usage.
-// TODO(justinfagnani): inject version number at build time
-(window['litHtmlVersions'] || (window['litHtmlVersions'] = [])).push('1.1.2');
-/**
- * Interprets a template literal as an HTML template that can efficiently
- * render to and update a container.
- */
-const html = (strings, ...values) => new _lib_template_result_js__WEBPACK_IMPORTED_MODULE_1__["TemplateResult"](strings, values, 'html', _lib_default_template_processor_js__WEBPACK_IMPORTED_MODULE_0__["defaultTemplateProcessor"]);
-/**
- * Interprets a template literal as an SVG template that can efficiently
- * render to and update a container.
- */
-const svg = (strings, ...values) => new _lib_template_result_js__WEBPACK_IMPORTED_MODULE_1__["SVGTemplateResult"](strings, values, 'svg', _lib_default_template_processor_js__WEBPACK_IMPORTED_MODULE_0__["defaultTemplateProcessor"]);
-//# sourceMappingURL=lit-html.js.map
-
-/***/ }),
-
 /***/ "./node_modules/base64-js/index.js":
 /*!*****************************************!*\
   !*** ./node_modules/base64-js/index.js ***!
@@ -6142,6 +2684,3294 @@ module.exports = Array.isArray || function (arr) {
 
 /***/ }),
 
+/***/ "./node_modules/lit-html/directives/repeat.js":
+/*!****************************************************!*\
+  !*** ./node_modules/lit-html/directives/repeat.js ***!
+  \****************************************************/
+/*! exports provided: repeat */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "repeat", function() { return repeat; });
+/* harmony import */ var _lit_html_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../lit-html.js */ "./node_modules/lit-html/lit-html.js");
+/**
+ * @license
+ * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+ * This code may only be used under the BSD style license found at
+ * http://polymer.github.io/LICENSE.txt
+ * The complete set of authors may be found at
+ * http://polymer.github.io/AUTHORS.txt
+ * The complete set of contributors may be found at
+ * http://polymer.github.io/CONTRIBUTORS.txt
+ * Code distributed by Google as part of the polymer project is also
+ * subject to an additional IP rights grant found at
+ * http://polymer.github.io/PATENTS.txt
+ */
+
+// Helper functions for manipulating parts
+// TODO(kschaaf): Refactor into Part API?
+const createAndInsertPart = (containerPart, beforePart) => {
+    const container = containerPart.startNode.parentNode;
+    const beforeNode = beforePart === undefined ? containerPart.endNode :
+        beforePart.startNode;
+    const startNode = container.insertBefore(Object(_lit_html_js__WEBPACK_IMPORTED_MODULE_0__["createMarker"])(), beforeNode);
+    container.insertBefore(Object(_lit_html_js__WEBPACK_IMPORTED_MODULE_0__["createMarker"])(), beforeNode);
+    const newPart = new _lit_html_js__WEBPACK_IMPORTED_MODULE_0__["NodePart"](containerPart.options);
+    newPart.insertAfterNode(startNode);
+    return newPart;
+};
+const updatePart = (part, value) => {
+    part.setValue(value);
+    part.commit();
+    return part;
+};
+const insertPartBefore = (containerPart, part, ref) => {
+    const container = containerPart.startNode.parentNode;
+    const beforeNode = ref ? ref.startNode : containerPart.endNode;
+    const endNode = part.endNode.nextSibling;
+    if (endNode !== beforeNode) {
+        Object(_lit_html_js__WEBPACK_IMPORTED_MODULE_0__["reparentNodes"])(container, part.startNode, endNode, beforeNode);
+    }
+};
+const removePart = (part) => {
+    Object(_lit_html_js__WEBPACK_IMPORTED_MODULE_0__["removeNodes"])(part.startNode.parentNode, part.startNode, part.endNode.nextSibling);
+};
+// Helper for generating a map of array item to its index over a subset
+// of an array (used to lazily generate `newKeyToIndexMap` and
+// `oldKeyToIndexMap`)
+const generateMap = (list, start, end) => {
+    const map = new Map();
+    for (let i = start; i <= end; i++) {
+        map.set(list[i], i);
+    }
+    return map;
+};
+// Stores previous ordered list of parts and map of key to index
+const partListCache = new WeakMap();
+const keyListCache = new WeakMap();
+/**
+ * A directive that repeats a series of values (usually `TemplateResults`)
+ * generated from an iterable, and updates those items efficiently when the
+ * iterable changes based on user-provided `keys` associated with each item.
+ *
+ * Note that if a `keyFn` is provided, strict key-to-DOM mapping is maintained,
+ * meaning previous DOM for a given key is moved into the new position if
+ * needed, and DOM will never be reused with values for different keys (new DOM
+ * will always be created for new keys). This is generally the most efficient
+ * way to use `repeat` since it performs minimum unnecessary work for insertions
+ * amd removals.
+ *
+ * IMPORTANT: If providing a `keyFn`, keys *must* be unique for all items in a
+ * given call to `repeat`. The behavior when two or more items have the same key
+ * is undefined.
+ *
+ * If no `keyFn` is provided, this directive will perform similar to mapping
+ * items to values, and DOM will be reused against potentially different items.
+ */
+const repeat = Object(_lit_html_js__WEBPACK_IMPORTED_MODULE_0__["directive"])((items, keyFnOrTemplate, template) => {
+    let keyFn;
+    if (template === undefined) {
+        template = keyFnOrTemplate;
+    }
+    else if (keyFnOrTemplate !== undefined) {
+        keyFn = keyFnOrTemplate;
+    }
+    return (containerPart) => {
+        if (!(containerPart instanceof _lit_html_js__WEBPACK_IMPORTED_MODULE_0__["NodePart"])) {
+            throw new Error('repeat can only be used in text bindings');
+        }
+        // Old part & key lists are retrieved from the last update
+        // (associated with the part for this instance of the directive)
+        const oldParts = partListCache.get(containerPart) || [];
+        const oldKeys = keyListCache.get(containerPart) || [];
+        // New part list will be built up as we go (either reused from
+        // old parts or created for new keys in this update). This is
+        // saved in the above cache at the end of the update.
+        const newParts = [];
+        // New value list is eagerly generated from items along with a
+        // parallel array indicating its key.
+        const newValues = [];
+        const newKeys = [];
+        let index = 0;
+        for (const item of items) {
+            newKeys[index] = keyFn ? keyFn(item, index) : index;
+            newValues[index] = template(item, index);
+            index++;
+        }
+        // Maps from key to index for current and previous update; these
+        // are generated lazily only when needed as a performance
+        // optimization, since they are only required for multiple
+        // non-contiguous changes in the list, which are less common.
+        let newKeyToIndexMap;
+        let oldKeyToIndexMap;
+        // Head and tail pointers to old parts and new values
+        let oldHead = 0;
+        let oldTail = oldParts.length - 1;
+        let newHead = 0;
+        let newTail = newValues.length - 1;
+        // Overview of O(n) reconciliation algorithm (general approach
+        // based on ideas found in ivi, vue, snabbdom, etc.):
+        //
+        // * We start with the list of old parts and new values (and
+        //   arrays of their respective keys), head/tail pointers into
+        //   each, and we build up the new list of parts by updating
+        //   (and when needed, moving) old parts or creating new ones.
+        //   The initial scenario might look like this (for brevity of
+        //   the diagrams, the numbers in the array reflect keys
+        //   associated with the old parts or new values, although keys
+        //   and parts/values are actually stored in parallel arrays
+        //   indexed using the same head/tail pointers):
+        //
+        //      oldHead v                 v oldTail
+        //   oldKeys:  [0, 1, 2, 3, 4, 5, 6]
+        //   newParts: [ ,  ,  ,  ,  ,  ,  ]
+        //   newKeys:  [0, 2, 1, 4, 3, 7, 6] <- reflects the user's new
+        //                                      item order
+        //      newHead ^                 ^ newTail
+        //
+        // * Iterate old & new lists from both sides, updating,
+        //   swapping, or removing parts at the head/tail locations
+        //   until neither head nor tail can move.
+        //
+        // * Example below: keys at head pointers match, so update old
+        //   part 0 in-place (no need to move it) and record part 0 in
+        //   the `newParts` list. The last thing we do is advance the
+        //   `oldHead` and `newHead` pointers (will be reflected in the
+        //   next diagram).
+        //
+        //      oldHead v                 v oldTail
+        //   oldKeys:  [0, 1, 2, 3, 4, 5, 6]
+        //   newParts: [0,  ,  ,  ,  ,  ,  ] <- heads matched: update 0
+        //   newKeys:  [0, 2, 1, 4, 3, 7, 6]    and advance both oldHead
+        //                                      & newHead
+        //      newHead ^                 ^ newTail
+        //
+        // * Example below: head pointers don't match, but tail
+        //   pointers do, so update part 6 in place (no need to move
+        //   it), and record part 6 in the `newParts` list. Last,
+        //   advance the `oldTail` and `oldHead` pointers.
+        //
+        //         oldHead v              v oldTail
+        //   oldKeys:  [0, 1, 2, 3, 4, 5, 6]
+        //   newParts: [0,  ,  ,  ,  ,  , 6] <- tails matched: update 6
+        //   newKeys:  [0, 2, 1, 4, 3, 7, 6]    and advance both oldTail
+        //                                      & newTail
+        //         newHead ^              ^ newTail
+        //
+        // * If neither head nor tail match; next check if one of the
+        //   old head/tail items was removed. We first need to generate
+        //   the reverse map of new keys to index (`newKeyToIndexMap`),
+        //   which is done once lazily as a performance optimization,
+        //   since we only hit this case if multiple non-contiguous
+        //   changes were made. Note that for contiguous removal
+        //   anywhere in the list, the head and tails would advance
+        //   from either end and pass each other before we get to this
+        //   case and removals would be handled in the final while loop
+        //   without needing to generate the map.
+        //
+        // * Example below: The key at `oldTail` was removed (no longer
+        //   in the `newKeyToIndexMap`), so remove that part from the
+        //   DOM and advance just the `oldTail` pointer.
+        //
+        //         oldHead v           v oldTail
+        //   oldKeys:  [0, 1, 2, 3, 4, 5, 6]
+        //   newParts: [0,  ,  ,  ,  ,  , 6] <- 5 not in new map: remove
+        //   newKeys:  [0, 2, 1, 4, 3, 7, 6]    5 and advance oldTail
+        //         newHead ^           ^ newTail
+        //
+        // * Once head and tail cannot move, any mismatches are due to
+        //   either new or moved items; if a new key is in the previous
+        //   "old key to old index" map, move the old part to the new
+        //   location, otherwise create and insert a new part. Note
+        //   that when moving an old part we null its position in the
+        //   oldParts array if it lies between the head and tail so we
+        //   know to skip it when the pointers get there.
+        //
+        // * Example below: neither head nor tail match, and neither
+        //   were removed; so find the `newHead` key in the
+        //   `oldKeyToIndexMap`, and move that old part's DOM into the
+        //   next head position (before `oldParts[oldHead]`). Last,
+        //   null the part in the `oldPart` array since it was
+        //   somewhere in the remaining oldParts still to be scanned
+        //   (between the head and tail pointers) so that we know to
+        //   skip that old part on future iterations.
+        //
+        //         oldHead v        v oldTail
+        //   oldKeys:  [0, 1, -, 3, 4, 5, 6]
+        //   newParts: [0, 2,  ,  ,  ,  , 6] <- stuck: update & move 2
+        //   newKeys:  [0, 2, 1, 4, 3, 7, 6]    into place and advance
+        //                                      newHead
+        //         newHead ^           ^ newTail
+        //
+        // * Note that for moves/insertions like the one above, a part
+        //   inserted at the head pointer is inserted before the
+        //   current `oldParts[oldHead]`, and a part inserted at the
+        //   tail pointer is inserted before `newParts[newTail+1]`. The
+        //   seeming asymmetry lies in the fact that new parts are
+        //   moved into place outside in, so to the right of the head
+        //   pointer are old parts, and to the right of the tail
+        //   pointer are new parts.
+        //
+        // * We always restart back from the top of the algorithm,
+        //   allowing matching and simple updates in place to
+        //   continue...
+        //
+        // * Example below: the head pointers once again match, so
+        //   simply update part 1 and record it in the `newParts`
+        //   array.  Last, advance both head pointers.
+        //
+        //         oldHead v        v oldTail
+        //   oldKeys:  [0, 1, -, 3, 4, 5, 6]
+        //   newParts: [0, 2, 1,  ,  ,  , 6] <- heads matched: update 1
+        //   newKeys:  [0, 2, 1, 4, 3, 7, 6]    and advance both oldHead
+        //                                      & newHead
+        //            newHead ^        ^ newTail
+        //
+        // * As mentioned above, items that were moved as a result of
+        //   being stuck (the final else clause in the code below) are
+        //   marked with null, so we always advance old pointers over
+        //   these so we're comparing the next actual old value on
+        //   either end.
+        //
+        // * Example below: `oldHead` is null (already placed in
+        //   newParts), so advance `oldHead`.
+        //
+        //            oldHead v     v oldTail
+        //   oldKeys:  [0, 1, -, 3, 4, 5, 6] <- old head already used:
+        //   newParts: [0, 2, 1,  ,  ,  , 6]    advance oldHead
+        //   newKeys:  [0, 2, 1, 4, 3, 7, 6]
+        //               newHead ^     ^ newTail
+        //
+        // * Note it's not critical to mark old parts as null when they
+        //   are moved from head to tail or tail to head, since they
+        //   will be outside the pointer range and never visited again.
+        //
+        // * Example below: Here the old tail key matches the new head
+        //   key, so the part at the `oldTail` position and move its
+        //   DOM to the new head position (before `oldParts[oldHead]`).
+        //   Last, advance `oldTail` and `newHead` pointers.
+        //
+        //               oldHead v  v oldTail
+        //   oldKeys:  [0, 1, -, 3, 4, 5, 6]
+        //   newParts: [0, 2, 1, 4,  ,  , 6] <- old tail matches new
+        //   newKeys:  [0, 2, 1, 4, 3, 7, 6]   head: update & move 4,
+        //                                     advance oldTail & newHead
+        //               newHead ^     ^ newTail
+        //
+        // * Example below: Old and new head keys match, so update the
+        //   old head part in place, and advance the `oldHead` and
+        //   `newHead` pointers.
+        //
+        //               oldHead v oldTail
+        //   oldKeys:  [0, 1, -, 3, 4, 5, 6]
+        //   newParts: [0, 2, 1, 4, 3,   ,6] <- heads match: update 3
+        //   newKeys:  [0, 2, 1, 4, 3, 7, 6]    and advance oldHead &
+        //                                      newHead
+        //                  newHead ^  ^ newTail
+        //
+        // * Once the new or old pointers move past each other then all
+        //   we have left is additions (if old list exhausted) or
+        //   removals (if new list exhausted). Those are handled in the
+        //   final while loops at the end.
+        //
+        // * Example below: `oldHead` exceeded `oldTail`, so we're done
+        //   with the main loop.  Create the remaining part and insert
+        //   it at the new head position, and the update is complete.
+        //
+        //                   (oldHead > oldTail)
+        //   oldKeys:  [0, 1, -, 3, 4, 5, 6]
+        //   newParts: [0, 2, 1, 4, 3, 7 ,6] <- create and insert 7
+        //   newKeys:  [0, 2, 1, 4, 3, 7, 6]
+        //                     newHead ^ newTail
+        //
+        // * Note that the order of the if/else clauses is not
+        //   important to the algorithm, as long as the null checks
+        //   come first (to ensure we're always working on valid old
+        //   parts) and that the final else clause comes last (since
+        //   that's where the expensive moves occur). The order of
+        //   remaining clauses is is just a simple guess at which cases
+        //   will be most common.
+        //
+        // * TODO(kschaaf) Note, we could calculate the longest
+        //   increasing subsequence (LIS) of old items in new position,
+        //   and only move those not in the LIS set. However that costs
+        //   O(nlogn) time and adds a bit more code, and only helps
+        //   make rare types of mutations require fewer moves. The
+        //   above handles removes, adds, reversal, swaps, and single
+        //   moves of contiguous items in linear time, in the minimum
+        //   number of moves. As the number of multiple moves where LIS
+        //   might help approaches a random shuffle, the LIS
+        //   optimization becomes less helpful, so it seems not worth
+        //   the code at this point. Could reconsider if a compelling
+        //   case arises.
+        while (oldHead <= oldTail && newHead <= newTail) {
+            if (oldParts[oldHead] === null) {
+                // `null` means old part at head has already been used
+                // below; skip
+                oldHead++;
+            }
+            else if (oldParts[oldTail] === null) {
+                // `null` means old part at tail has already been used
+                // below; skip
+                oldTail--;
+            }
+            else if (oldKeys[oldHead] === newKeys[newHead]) {
+                // Old head matches new head; update in place
+                newParts[newHead] =
+                    updatePart(oldParts[oldHead], newValues[newHead]);
+                oldHead++;
+                newHead++;
+            }
+            else if (oldKeys[oldTail] === newKeys[newTail]) {
+                // Old tail matches new tail; update in place
+                newParts[newTail] =
+                    updatePart(oldParts[oldTail], newValues[newTail]);
+                oldTail--;
+                newTail--;
+            }
+            else if (oldKeys[oldHead] === newKeys[newTail]) {
+                // Old head matches new tail; update and move to new tail
+                newParts[newTail] =
+                    updatePart(oldParts[oldHead], newValues[newTail]);
+                insertPartBefore(containerPart, oldParts[oldHead], newParts[newTail + 1]);
+                oldHead++;
+                newTail--;
+            }
+            else if (oldKeys[oldTail] === newKeys[newHead]) {
+                // Old tail matches new head; update and move to new head
+                newParts[newHead] =
+                    updatePart(oldParts[oldTail], newValues[newHead]);
+                insertPartBefore(containerPart, oldParts[oldTail], oldParts[oldHead]);
+                oldTail--;
+                newHead++;
+            }
+            else {
+                if (newKeyToIndexMap === undefined) {
+                    // Lazily generate key-to-index maps, used for removals &
+                    // moves below
+                    newKeyToIndexMap = generateMap(newKeys, newHead, newTail);
+                    oldKeyToIndexMap = generateMap(oldKeys, oldHead, oldTail);
+                }
+                if (!newKeyToIndexMap.has(oldKeys[oldHead])) {
+                    // Old head is no longer in new list; remove
+                    removePart(oldParts[oldHead]);
+                    oldHead++;
+                }
+                else if (!newKeyToIndexMap.has(oldKeys[oldTail])) {
+                    // Old tail is no longer in new list; remove
+                    removePart(oldParts[oldTail]);
+                    oldTail--;
+                }
+                else {
+                    // Any mismatches at this point are due to additions or
+                    // moves; see if we have an old part we can reuse and move
+                    // into place
+                    const oldIndex = oldKeyToIndexMap.get(newKeys[newHead]);
+                    const oldPart = oldIndex !== undefined ? oldParts[oldIndex] : null;
+                    if (oldPart === null) {
+                        // No old part for this value; create a new one and
+                        // insert it
+                        const newPart = createAndInsertPart(containerPart, oldParts[oldHead]);
+                        updatePart(newPart, newValues[newHead]);
+                        newParts[newHead] = newPart;
+                    }
+                    else {
+                        // Reuse old part
+                        newParts[newHead] =
+                            updatePart(oldPart, newValues[newHead]);
+                        insertPartBefore(containerPart, oldPart, oldParts[oldHead]);
+                        // This marks the old part as having been used, so that
+                        // it will be skipped in the first two checks above
+                        oldParts[oldIndex] = null;
+                    }
+                    newHead++;
+                }
+            }
+        }
+        // Add parts for any remaining new values
+        while (newHead <= newTail) {
+            // For all remaining additions, we insert before last new
+            // tail, since old pointers are no longer valid
+            const newPart = createAndInsertPart(containerPart, newParts[newTail + 1]);
+            updatePart(newPart, newValues[newHead]);
+            newParts[newHead++] = newPart;
+        }
+        // Remove any remaining unused old parts
+        while (oldHead <= oldTail) {
+            const oldPart = oldParts[oldHead++];
+            if (oldPart !== null) {
+                removePart(oldPart);
+            }
+        }
+        // Save order of new parts for next round
+        partListCache.set(containerPart, newParts);
+        keyListCache.set(containerPart, newKeys);
+    };
+});
+//# sourceMappingURL=repeat.js.map
+
+/***/ }),
+
+/***/ "./node_modules/lit-html/lib/default-template-processor.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/lit-html/lib/default-template-processor.js ***!
+  \*****************************************************************/
+/*! exports provided: DefaultTemplateProcessor, defaultTemplateProcessor */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DefaultTemplateProcessor", function() { return DefaultTemplateProcessor; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "defaultTemplateProcessor", function() { return defaultTemplateProcessor; });
+/* harmony import */ var _parts_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./parts.js */ "./node_modules/lit-html/lib/parts.js");
+/**
+ * @license
+ * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+ * This code may only be used under the BSD style license found at
+ * http://polymer.github.io/LICENSE.txt
+ * The complete set of authors may be found at
+ * http://polymer.github.io/AUTHORS.txt
+ * The complete set of contributors may be found at
+ * http://polymer.github.io/CONTRIBUTORS.txt
+ * Code distributed by Google as part of the polymer project is also
+ * subject to an additional IP rights grant found at
+ * http://polymer.github.io/PATENTS.txt
+ */
+
+/**
+ * Creates Parts when a template is instantiated.
+ */
+class DefaultTemplateProcessor {
+    /**
+     * Create parts for an attribute-position binding, given the event, attribute
+     * name, and string literals.
+     *
+     * @param element The element containing the binding
+     * @param name  The attribute name
+     * @param strings The string literals. There are always at least two strings,
+     *   event for fully-controlled bindings with a single expression.
+     */
+    handleAttributeExpressions(element, name, strings, options) {
+        const prefix = name[0];
+        if (prefix === '.') {
+            const committer = new _parts_js__WEBPACK_IMPORTED_MODULE_0__["PropertyCommitter"](element, name.slice(1), strings);
+            return committer.parts;
+        }
+        if (prefix === '@') {
+            return [new _parts_js__WEBPACK_IMPORTED_MODULE_0__["EventPart"](element, name.slice(1), options.eventContext)];
+        }
+        if (prefix === '?') {
+            return [new _parts_js__WEBPACK_IMPORTED_MODULE_0__["BooleanAttributePart"](element, name.slice(1), strings)];
+        }
+        const committer = new _parts_js__WEBPACK_IMPORTED_MODULE_0__["AttributeCommitter"](element, name, strings);
+        return committer.parts;
+    }
+    /**
+     * Create parts for a text-position binding.
+     * @param templateFactory
+     */
+    handleTextExpression(options) {
+        return new _parts_js__WEBPACK_IMPORTED_MODULE_0__["NodePart"](options);
+    }
+}
+const defaultTemplateProcessor = new DefaultTemplateProcessor();
+//# sourceMappingURL=default-template-processor.js.map
+
+/***/ }),
+
+/***/ "./node_modules/lit-html/lib/directive.js":
+/*!************************************************!*\
+  !*** ./node_modules/lit-html/lib/directive.js ***!
+  \************************************************/
+/*! exports provided: directive, isDirective */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "directive", function() { return directive; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isDirective", function() { return isDirective; });
+/**
+ * @license
+ * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+ * This code may only be used under the BSD style license found at
+ * http://polymer.github.io/LICENSE.txt
+ * The complete set of authors may be found at
+ * http://polymer.github.io/AUTHORS.txt
+ * The complete set of contributors may be found at
+ * http://polymer.github.io/CONTRIBUTORS.txt
+ * Code distributed by Google as part of the polymer project is also
+ * subject to an additional IP rights grant found at
+ * http://polymer.github.io/PATENTS.txt
+ */
+const directives = new WeakMap();
+/**
+ * Brands a function as a directive factory function so that lit-html will call
+ * the function during template rendering, rather than passing as a value.
+ *
+ * A _directive_ is a function that takes a Part as an argument. It has the
+ * signature: `(part: Part) => void`.
+ *
+ * A directive _factory_ is a function that takes arguments for data and
+ * configuration and returns a directive. Users of directive usually refer to
+ * the directive factory as the directive. For example, "The repeat directive".
+ *
+ * Usually a template author will invoke a directive factory in their template
+ * with relevant arguments, which will then return a directive function.
+ *
+ * Here's an example of using the `repeat()` directive factory that takes an
+ * array and a function to render an item:
+ *
+ * ```js
+ * html`<ul><${repeat(items, (item) => html`<li>${item}</li>`)}</ul>`
+ * ```
+ *
+ * When `repeat` is invoked, it returns a directive function that closes over
+ * `items` and the template function. When the outer template is rendered, the
+ * return directive function is called with the Part for the expression.
+ * `repeat` then performs it's custom logic to render multiple items.
+ *
+ * @param f The directive factory function. Must be a function that returns a
+ * function of the signature `(part: Part) => void`. The returned function will
+ * be called with the part object.
+ *
+ * @example
+ *
+ * import {directive, html} from 'lit-html';
+ *
+ * const immutable = directive((v) => (part) => {
+ *   if (part.value !== v) {
+ *     part.setValue(v)
+ *   }
+ * });
+ */
+const directive = (f) => ((...args) => {
+    const d = f(...args);
+    directives.set(d, true);
+    return d;
+});
+const isDirective = (o) => {
+    return typeof o === 'function' && directives.has(o);
+};
+//# sourceMappingURL=directive.js.map
+
+/***/ }),
+
+/***/ "./node_modules/lit-html/lib/dom.js":
+/*!******************************************!*\
+  !*** ./node_modules/lit-html/lib/dom.js ***!
+  \******************************************/
+/*! exports provided: isCEPolyfill, reparentNodes, removeNodes */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isCEPolyfill", function() { return isCEPolyfill; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "reparentNodes", function() { return reparentNodes; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeNodes", function() { return removeNodes; });
+/**
+ * @license
+ * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+ * This code may only be used under the BSD style license found at
+ * http://polymer.github.io/LICENSE.txt
+ * The complete set of authors may be found at
+ * http://polymer.github.io/AUTHORS.txt
+ * The complete set of contributors may be found at
+ * http://polymer.github.io/CONTRIBUTORS.txt
+ * Code distributed by Google as part of the polymer project is also
+ * subject to an additional IP rights grant found at
+ * http://polymer.github.io/PATENTS.txt
+ */
+/**
+ * True if the custom elements polyfill is in use.
+ */
+const isCEPolyfill = window.customElements !== undefined &&
+    window.customElements.polyfillWrapFlushCallback !==
+        undefined;
+/**
+ * Reparents nodes, starting from `start` (inclusive) to `end` (exclusive),
+ * into another container (could be the same container), before `before`. If
+ * `before` is null, it appends the nodes to the container.
+ */
+const reparentNodes = (container, start, end = null, before = null) => {
+    while (start !== end) {
+        const n = start.nextSibling;
+        container.insertBefore(start, before);
+        start = n;
+    }
+};
+/**
+ * Removes nodes, starting from `start` (inclusive) to `end` (exclusive), from
+ * `container`.
+ */
+const removeNodes = (container, start, end = null) => {
+    while (start !== end) {
+        const n = start.nextSibling;
+        container.removeChild(start);
+        start = n;
+    }
+};
+//# sourceMappingURL=dom.js.map
+
+/***/ }),
+
+/***/ "./node_modules/lit-html/lib/part.js":
+/*!*******************************************!*\
+  !*** ./node_modules/lit-html/lib/part.js ***!
+  \*******************************************/
+/*! exports provided: noChange, nothing */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "noChange", function() { return noChange; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "nothing", function() { return nothing; });
+/**
+ * @license
+ * Copyright (c) 2018 The Polymer Project Authors. All rights reserved.
+ * This code may only be used under the BSD style license found at
+ * http://polymer.github.io/LICENSE.txt
+ * The complete set of authors may be found at
+ * http://polymer.github.io/AUTHORS.txt
+ * The complete set of contributors may be found at
+ * http://polymer.github.io/CONTRIBUTORS.txt
+ * Code distributed by Google as part of the polymer project is also
+ * subject to an additional IP rights grant found at
+ * http://polymer.github.io/PATENTS.txt
+ */
+/**
+ * A sentinel value that signals that a value was handled by a directive and
+ * should not be written to the DOM.
+ */
+const noChange = {};
+/**
+ * A sentinel value that signals a NodePart to fully clear its content.
+ */
+const nothing = {};
+//# sourceMappingURL=part.js.map
+
+/***/ }),
+
+/***/ "./node_modules/lit-html/lib/parts.js":
+/*!********************************************!*\
+  !*** ./node_modules/lit-html/lib/parts.js ***!
+  \********************************************/
+/*! exports provided: isPrimitive, isIterable, AttributeCommitter, AttributePart, NodePart, BooleanAttributePart, PropertyCommitter, PropertyPart, EventPart */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isPrimitive", function() { return isPrimitive; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isIterable", function() { return isIterable; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AttributeCommitter", function() { return AttributeCommitter; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AttributePart", function() { return AttributePart; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NodePart", function() { return NodePart; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BooleanAttributePart", function() { return BooleanAttributePart; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PropertyCommitter", function() { return PropertyCommitter; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PropertyPart", function() { return PropertyPart; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EventPart", function() { return EventPart; });
+/* harmony import */ var _directive_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./directive.js */ "./node_modules/lit-html/lib/directive.js");
+/* harmony import */ var _dom_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./dom.js */ "./node_modules/lit-html/lib/dom.js");
+/* harmony import */ var _part_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./part.js */ "./node_modules/lit-html/lib/part.js");
+/* harmony import */ var _template_instance_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./template-instance.js */ "./node_modules/lit-html/lib/template-instance.js");
+/* harmony import */ var _template_result_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./template-result.js */ "./node_modules/lit-html/lib/template-result.js");
+/* harmony import */ var _template_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./template.js */ "./node_modules/lit-html/lib/template.js");
+/**
+ * @license
+ * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+ * This code may only be used under the BSD style license found at
+ * http://polymer.github.io/LICENSE.txt
+ * The complete set of authors may be found at
+ * http://polymer.github.io/AUTHORS.txt
+ * The complete set of contributors may be found at
+ * http://polymer.github.io/CONTRIBUTORS.txt
+ * Code distributed by Google as part of the polymer project is also
+ * subject to an additional IP rights grant found at
+ * http://polymer.github.io/PATENTS.txt
+ */
+/**
+ * @module lit-html
+ */
+
+
+
+
+
+
+const isPrimitive = (value) => {
+    return (value === null ||
+        !(typeof value === 'object' || typeof value === 'function'));
+};
+const isIterable = (value) => {
+    return Array.isArray(value) ||
+        // tslint:disable-next-line:no-any
+        !!(value && value[Symbol.iterator]);
+};
+/**
+ * Writes attribute values to the DOM for a group of AttributeParts bound to a
+ * single attibute. The value is only set once even if there are multiple parts
+ * for an attribute.
+ */
+class AttributeCommitter {
+    constructor(element, name, strings) {
+        this.dirty = true;
+        this.element = element;
+        this.name = name;
+        this.strings = strings;
+        this.parts = [];
+        for (let i = 0; i < strings.length - 1; i++) {
+            this.parts[i] = this._createPart();
+        }
+    }
+    /**
+     * Creates a single part. Override this to create a differnt type of part.
+     */
+    _createPart() {
+        return new AttributePart(this);
+    }
+    _getValue() {
+        const strings = this.strings;
+        const l = strings.length - 1;
+        let text = '';
+        for (let i = 0; i < l; i++) {
+            text += strings[i];
+            const part = this.parts[i];
+            if (part !== undefined) {
+                const v = part.value;
+                if (isPrimitive(v) || !isIterable(v)) {
+                    text += typeof v === 'string' ? v : String(v);
+                }
+                else {
+                    for (const t of v) {
+                        text += typeof t === 'string' ? t : String(t);
+                    }
+                }
+            }
+        }
+        text += strings[l];
+        return text;
+    }
+    commit() {
+        if (this.dirty) {
+            this.dirty = false;
+            this.element.setAttribute(this.name, this._getValue());
+        }
+    }
+}
+/**
+ * A Part that controls all or part of an attribute value.
+ */
+class AttributePart {
+    constructor(committer) {
+        this.value = undefined;
+        this.committer = committer;
+    }
+    setValue(value) {
+        if (value !== _part_js__WEBPACK_IMPORTED_MODULE_2__["noChange"] && (!isPrimitive(value) || value !== this.value)) {
+            this.value = value;
+            // If the value is a not a directive, dirty the committer so that it'll
+            // call setAttribute. If the value is a directive, it'll dirty the
+            // committer if it calls setValue().
+            if (!Object(_directive_js__WEBPACK_IMPORTED_MODULE_0__["isDirective"])(value)) {
+                this.committer.dirty = true;
+            }
+        }
+    }
+    commit() {
+        while (Object(_directive_js__WEBPACK_IMPORTED_MODULE_0__["isDirective"])(this.value)) {
+            const directive = this.value;
+            this.value = _part_js__WEBPACK_IMPORTED_MODULE_2__["noChange"];
+            directive(this);
+        }
+        if (this.value === _part_js__WEBPACK_IMPORTED_MODULE_2__["noChange"]) {
+            return;
+        }
+        this.committer.commit();
+    }
+}
+/**
+ * A Part that controls a location within a Node tree. Like a Range, NodePart
+ * has start and end locations and can set and update the Nodes between those
+ * locations.
+ *
+ * NodeParts support several value types: primitives, Nodes, TemplateResults,
+ * as well as arrays and iterables of those types.
+ */
+class NodePart {
+    constructor(options) {
+        this.value = undefined;
+        this.__pendingValue = undefined;
+        this.options = options;
+    }
+    /**
+     * Appends this part into a container.
+     *
+     * This part must be empty, as its contents are not automatically moved.
+     */
+    appendInto(container) {
+        this.startNode = container.appendChild(Object(_template_js__WEBPACK_IMPORTED_MODULE_5__["createMarker"])());
+        this.endNode = container.appendChild(Object(_template_js__WEBPACK_IMPORTED_MODULE_5__["createMarker"])());
+    }
+    /**
+     * Inserts this part after the `ref` node (between `ref` and `ref`'s next
+     * sibling). Both `ref` and its next sibling must be static, unchanging nodes
+     * such as those that appear in a literal section of a template.
+     *
+     * This part must be empty, as its contents are not automatically moved.
+     */
+    insertAfterNode(ref) {
+        this.startNode = ref;
+        this.endNode = ref.nextSibling;
+    }
+    /**
+     * Appends this part into a parent part.
+     *
+     * This part must be empty, as its contents are not automatically moved.
+     */
+    appendIntoPart(part) {
+        part.__insert(this.startNode = Object(_template_js__WEBPACK_IMPORTED_MODULE_5__["createMarker"])());
+        part.__insert(this.endNode = Object(_template_js__WEBPACK_IMPORTED_MODULE_5__["createMarker"])());
+    }
+    /**
+     * Inserts this part after the `ref` part.
+     *
+     * This part must be empty, as its contents are not automatically moved.
+     */
+    insertAfterPart(ref) {
+        ref.__insert(this.startNode = Object(_template_js__WEBPACK_IMPORTED_MODULE_5__["createMarker"])());
+        this.endNode = ref.endNode;
+        ref.endNode = this.startNode;
+    }
+    setValue(value) {
+        this.__pendingValue = value;
+    }
+    commit() {
+        while (Object(_directive_js__WEBPACK_IMPORTED_MODULE_0__["isDirective"])(this.__pendingValue)) {
+            const directive = this.__pendingValue;
+            this.__pendingValue = _part_js__WEBPACK_IMPORTED_MODULE_2__["noChange"];
+            directive(this);
+        }
+        const value = this.__pendingValue;
+        if (value === _part_js__WEBPACK_IMPORTED_MODULE_2__["noChange"]) {
+            return;
+        }
+        if (isPrimitive(value)) {
+            if (value !== this.value) {
+                this.__commitText(value);
+            }
+        }
+        else if (value instanceof _template_result_js__WEBPACK_IMPORTED_MODULE_4__["TemplateResult"]) {
+            this.__commitTemplateResult(value);
+        }
+        else if (value instanceof Node) {
+            this.__commitNode(value);
+        }
+        else if (isIterable(value)) {
+            this.__commitIterable(value);
+        }
+        else if (value === _part_js__WEBPACK_IMPORTED_MODULE_2__["nothing"]) {
+            this.value = _part_js__WEBPACK_IMPORTED_MODULE_2__["nothing"];
+            this.clear();
+        }
+        else {
+            // Fallback, will render the string representation
+            this.__commitText(value);
+        }
+    }
+    __insert(node) {
+        this.endNode.parentNode.insertBefore(node, this.endNode);
+    }
+    __commitNode(value) {
+        if (this.value === value) {
+            return;
+        }
+        this.clear();
+        this.__insert(value);
+        this.value = value;
+    }
+    __commitText(value) {
+        const node = this.startNode.nextSibling;
+        value = value == null ? '' : value;
+        // If `value` isn't already a string, we explicitly convert it here in case
+        // it can't be implicitly converted - i.e. it's a symbol.
+        const valueAsString = typeof value === 'string' ? value : String(value);
+        if (node === this.endNode.previousSibling &&
+            node.nodeType === 3 /* Node.TEXT_NODE */) {
+            // If we only have a single text node between the markers, we can just
+            // set its value, rather than replacing it.
+            // TODO(justinfagnani): Can we just check if this.value is primitive?
+            node.data = valueAsString;
+        }
+        else {
+            this.__commitNode(document.createTextNode(valueAsString));
+        }
+        this.value = value;
+    }
+    __commitTemplateResult(value) {
+        const template = this.options.templateFactory(value);
+        if (this.value instanceof _template_instance_js__WEBPACK_IMPORTED_MODULE_3__["TemplateInstance"] &&
+            this.value.template === template) {
+            this.value.update(value.values);
+        }
+        else {
+            // Make sure we propagate the template processor from the TemplateResult
+            // so that we use its syntax extension, etc. The template factory comes
+            // from the render function options so that it can control template
+            // caching and preprocessing.
+            const instance = new _template_instance_js__WEBPACK_IMPORTED_MODULE_3__["TemplateInstance"](template, value.processor, this.options);
+            const fragment = instance._clone();
+            instance.update(value.values);
+            this.__commitNode(fragment);
+            this.value = instance;
+        }
+    }
+    __commitIterable(value) {
+        // For an Iterable, we create a new InstancePart per item, then set its
+        // value to the item. This is a little bit of overhead for every item in
+        // an Iterable, but it lets us recurse easily and efficiently update Arrays
+        // of TemplateResults that will be commonly returned from expressions like:
+        // array.map((i) => html`${i}`), by reusing existing TemplateInstances.
+        // If _value is an array, then the previous render was of an
+        // iterable and _value will contain the NodeParts from the previous
+        // render. If _value is not an array, clear this part and make a new
+        // array for NodeParts.
+        if (!Array.isArray(this.value)) {
+            this.value = [];
+            this.clear();
+        }
+        // Lets us keep track of how many items we stamped so we can clear leftover
+        // items from a previous render
+        const itemParts = this.value;
+        let partIndex = 0;
+        let itemPart;
+        for (const item of value) {
+            // Try to reuse an existing part
+            itemPart = itemParts[partIndex];
+            // If no existing part, create a new one
+            if (itemPart === undefined) {
+                itemPart = new NodePart(this.options);
+                itemParts.push(itemPart);
+                if (partIndex === 0) {
+                    itemPart.appendIntoPart(this);
+                }
+                else {
+                    itemPart.insertAfterPart(itemParts[partIndex - 1]);
+                }
+            }
+            itemPart.setValue(item);
+            itemPart.commit();
+            partIndex++;
+        }
+        if (partIndex < itemParts.length) {
+            // Truncate the parts array so _value reflects the current state
+            itemParts.length = partIndex;
+            this.clear(itemPart && itemPart.endNode);
+        }
+    }
+    clear(startNode = this.startNode) {
+        Object(_dom_js__WEBPACK_IMPORTED_MODULE_1__["removeNodes"])(this.startNode.parentNode, startNode.nextSibling, this.endNode);
+    }
+}
+/**
+ * Implements a boolean attribute, roughly as defined in the HTML
+ * specification.
+ *
+ * If the value is truthy, then the attribute is present with a value of
+ * ''. If the value is falsey, the attribute is removed.
+ */
+class BooleanAttributePart {
+    constructor(element, name, strings) {
+        this.value = undefined;
+        this.__pendingValue = undefined;
+        if (strings.length !== 2 || strings[0] !== '' || strings[1] !== '') {
+            throw new Error('Boolean attributes can only contain a single expression');
+        }
+        this.element = element;
+        this.name = name;
+        this.strings = strings;
+    }
+    setValue(value) {
+        this.__pendingValue = value;
+    }
+    commit() {
+        while (Object(_directive_js__WEBPACK_IMPORTED_MODULE_0__["isDirective"])(this.__pendingValue)) {
+            const directive = this.__pendingValue;
+            this.__pendingValue = _part_js__WEBPACK_IMPORTED_MODULE_2__["noChange"];
+            directive(this);
+        }
+        if (this.__pendingValue === _part_js__WEBPACK_IMPORTED_MODULE_2__["noChange"]) {
+            return;
+        }
+        const value = !!this.__pendingValue;
+        if (this.value !== value) {
+            if (value) {
+                this.element.setAttribute(this.name, '');
+            }
+            else {
+                this.element.removeAttribute(this.name);
+            }
+            this.value = value;
+        }
+        this.__pendingValue = _part_js__WEBPACK_IMPORTED_MODULE_2__["noChange"];
+    }
+}
+/**
+ * Sets attribute values for PropertyParts, so that the value is only set once
+ * even if there are multiple parts for a property.
+ *
+ * If an expression controls the whole property value, then the value is simply
+ * assigned to the property under control. If there are string literals or
+ * multiple expressions, then the strings are expressions are interpolated into
+ * a string first.
+ */
+class PropertyCommitter extends AttributeCommitter {
+    constructor(element, name, strings) {
+        super(element, name, strings);
+        this.single =
+            (strings.length === 2 && strings[0] === '' && strings[1] === '');
+    }
+    _createPart() {
+        return new PropertyPart(this);
+    }
+    _getValue() {
+        if (this.single) {
+            return this.parts[0].value;
+        }
+        return super._getValue();
+    }
+    commit() {
+        if (this.dirty) {
+            this.dirty = false;
+            // tslint:disable-next-line:no-any
+            this.element[this.name] = this._getValue();
+        }
+    }
+}
+class PropertyPart extends AttributePart {
+}
+// Detect event listener options support. If the `capture` property is read
+// from the options object, then options are supported. If not, then the thrid
+// argument to add/removeEventListener is interpreted as the boolean capture
+// value so we should only pass the `capture` property.
+let eventOptionsSupported = false;
+try {
+    const options = {
+        get capture() {
+            eventOptionsSupported = true;
+            return false;
+        }
+    };
+    // tslint:disable-next-line:no-any
+    window.addEventListener('test', options, options);
+    // tslint:disable-next-line:no-any
+    window.removeEventListener('test', options, options);
+}
+catch (_e) {
+}
+class EventPart {
+    constructor(element, eventName, eventContext) {
+        this.value = undefined;
+        this.__pendingValue = undefined;
+        this.element = element;
+        this.eventName = eventName;
+        this.eventContext = eventContext;
+        this.__boundHandleEvent = (e) => this.handleEvent(e);
+    }
+    setValue(value) {
+        this.__pendingValue = value;
+    }
+    commit() {
+        while (Object(_directive_js__WEBPACK_IMPORTED_MODULE_0__["isDirective"])(this.__pendingValue)) {
+            const directive = this.__pendingValue;
+            this.__pendingValue = _part_js__WEBPACK_IMPORTED_MODULE_2__["noChange"];
+            directive(this);
+        }
+        if (this.__pendingValue === _part_js__WEBPACK_IMPORTED_MODULE_2__["noChange"]) {
+            return;
+        }
+        const newListener = this.__pendingValue;
+        const oldListener = this.value;
+        const shouldRemoveListener = newListener == null ||
+            oldListener != null &&
+                (newListener.capture !== oldListener.capture ||
+                    newListener.once !== oldListener.once ||
+                    newListener.passive !== oldListener.passive);
+        const shouldAddListener = newListener != null && (oldListener == null || shouldRemoveListener);
+        if (shouldRemoveListener) {
+            this.element.removeEventListener(this.eventName, this.__boundHandleEvent, this.__options);
+        }
+        if (shouldAddListener) {
+            this.__options = getOptions(newListener);
+            this.element.addEventListener(this.eventName, this.__boundHandleEvent, this.__options);
+        }
+        this.value = newListener;
+        this.__pendingValue = _part_js__WEBPACK_IMPORTED_MODULE_2__["noChange"];
+    }
+    handleEvent(event) {
+        if (typeof this.value === 'function') {
+            this.value.call(this.eventContext || this.element, event);
+        }
+        else {
+            this.value.handleEvent(event);
+        }
+    }
+}
+// We copy options because of the inconsistent behavior of browsers when reading
+// the third argument of add/removeEventListener. IE11 doesn't support options
+// at all. Chrome 41 only reads `capture` if the argument is an object.
+const getOptions = (o) => o &&
+    (eventOptionsSupported ?
+        { capture: o.capture, passive: o.passive, once: o.once } :
+        o.capture);
+//# sourceMappingURL=parts.js.map
+
+/***/ }),
+
+/***/ "./node_modules/lit-html/lib/render.js":
+/*!*********************************************!*\
+  !*** ./node_modules/lit-html/lib/render.js ***!
+  \*********************************************/
+/*! exports provided: parts, render */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parts", function() { return parts; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony import */ var _dom_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dom.js */ "./node_modules/lit-html/lib/dom.js");
+/* harmony import */ var _parts_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./parts.js */ "./node_modules/lit-html/lib/parts.js");
+/* harmony import */ var _template_factory_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./template-factory.js */ "./node_modules/lit-html/lib/template-factory.js");
+/**
+ * @license
+ * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+ * This code may only be used under the BSD style license found at
+ * http://polymer.github.io/LICENSE.txt
+ * The complete set of authors may be found at
+ * http://polymer.github.io/AUTHORS.txt
+ * The complete set of contributors may be found at
+ * http://polymer.github.io/CONTRIBUTORS.txt
+ * Code distributed by Google as part of the polymer project is also
+ * subject to an additional IP rights grant found at
+ * http://polymer.github.io/PATENTS.txt
+ */
+/**
+ * @module lit-html
+ */
+
+
+
+const parts = new WeakMap();
+/**
+ * Renders a template result or other value to a container.
+ *
+ * To update a container with new values, reevaluate the template literal and
+ * call `render` with the new result.
+ *
+ * @param result Any value renderable by NodePart - typically a TemplateResult
+ *     created by evaluating a template tag like `html` or `svg`.
+ * @param container A DOM parent to render to. The entire contents are either
+ *     replaced, or efficiently updated if the same result type was previous
+ *     rendered there.
+ * @param options RenderOptions for the entire render tree rendered to this
+ *     container. Render options must *not* change between renders to the same
+ *     container, as those changes will not effect previously rendered DOM.
+ */
+const render = (result, container, options) => {
+    let part = parts.get(container);
+    if (part === undefined) {
+        Object(_dom_js__WEBPACK_IMPORTED_MODULE_0__["removeNodes"])(container, container.firstChild);
+        parts.set(container, part = new _parts_js__WEBPACK_IMPORTED_MODULE_1__["NodePart"](Object.assign({ templateFactory: _template_factory_js__WEBPACK_IMPORTED_MODULE_2__["templateFactory"] }, options)));
+        part.appendInto(container);
+    }
+    part.setValue(result);
+    part.commit();
+};
+//# sourceMappingURL=render.js.map
+
+/***/ }),
+
+/***/ "./node_modules/lit-html/lib/template-factory.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/lit-html/lib/template-factory.js ***!
+  \*******************************************************/
+/*! exports provided: templateFactory, templateCaches */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "templateFactory", function() { return templateFactory; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "templateCaches", function() { return templateCaches; });
+/* harmony import */ var _template_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./template.js */ "./node_modules/lit-html/lib/template.js");
+/**
+ * @license
+ * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+ * This code may only be used under the BSD style license found at
+ * http://polymer.github.io/LICENSE.txt
+ * The complete set of authors may be found at
+ * http://polymer.github.io/AUTHORS.txt
+ * The complete set of contributors may be found at
+ * http://polymer.github.io/CONTRIBUTORS.txt
+ * Code distributed by Google as part of the polymer project is also
+ * subject to an additional IP rights grant found at
+ * http://polymer.github.io/PATENTS.txt
+ */
+
+/**
+ * The default TemplateFactory which caches Templates keyed on
+ * result.type and result.strings.
+ */
+function templateFactory(result) {
+    let templateCache = templateCaches.get(result.type);
+    if (templateCache === undefined) {
+        templateCache = {
+            stringsArray: new WeakMap(),
+            keyString: new Map()
+        };
+        templateCaches.set(result.type, templateCache);
+    }
+    let template = templateCache.stringsArray.get(result.strings);
+    if (template !== undefined) {
+        return template;
+    }
+    // If the TemplateStringsArray is new, generate a key from the strings
+    // This key is shared between all templates with identical content
+    const key = result.strings.join(_template_js__WEBPACK_IMPORTED_MODULE_0__["marker"]);
+    // Check if we already have a Template for this key
+    template = templateCache.keyString.get(key);
+    if (template === undefined) {
+        // If we have not seen this key before, create a new Template
+        template = new _template_js__WEBPACK_IMPORTED_MODULE_0__["Template"](result, result.getTemplateElement());
+        // Cache the Template for this key
+        templateCache.keyString.set(key, template);
+    }
+    // Cache all future queries for this TemplateStringsArray
+    templateCache.stringsArray.set(result.strings, template);
+    return template;
+}
+const templateCaches = new Map();
+//# sourceMappingURL=template-factory.js.map
+
+/***/ }),
+
+/***/ "./node_modules/lit-html/lib/template-instance.js":
+/*!********************************************************!*\
+  !*** ./node_modules/lit-html/lib/template-instance.js ***!
+  \********************************************************/
+/*! exports provided: TemplateInstance */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TemplateInstance", function() { return TemplateInstance; });
+/* harmony import */ var _dom_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dom.js */ "./node_modules/lit-html/lib/dom.js");
+/* harmony import */ var _template_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./template.js */ "./node_modules/lit-html/lib/template.js");
+/**
+ * @license
+ * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+ * This code may only be used under the BSD style license found at
+ * http://polymer.github.io/LICENSE.txt
+ * The complete set of authors may be found at
+ * http://polymer.github.io/AUTHORS.txt
+ * The complete set of contributors may be found at
+ * http://polymer.github.io/CONTRIBUTORS.txt
+ * Code distributed by Google as part of the polymer project is also
+ * subject to an additional IP rights grant found at
+ * http://polymer.github.io/PATENTS.txt
+ */
+/**
+ * @module lit-html
+ */
+
+
+/**
+ * An instance of a `Template` that can be attached to the DOM and updated
+ * with new values.
+ */
+class TemplateInstance {
+    constructor(template, processor, options) {
+        this.__parts = [];
+        this.template = template;
+        this.processor = processor;
+        this.options = options;
+    }
+    update(values) {
+        let i = 0;
+        for (const part of this.__parts) {
+            if (part !== undefined) {
+                part.setValue(values[i]);
+            }
+            i++;
+        }
+        for (const part of this.__parts) {
+            if (part !== undefined) {
+                part.commit();
+            }
+        }
+    }
+    _clone() {
+        // There are a number of steps in the lifecycle of a template instance's
+        // DOM fragment:
+        //  1. Clone - create the instance fragment
+        //  2. Adopt - adopt into the main document
+        //  3. Process - find part markers and create parts
+        //  4. Upgrade - upgrade custom elements
+        //  5. Update - set node, attribute, property, etc., values
+        //  6. Connect - connect to the document. Optional and outside of this
+        //     method.
+        //
+        // We have a few constraints on the ordering of these steps:
+        //  * We need to upgrade before updating, so that property values will pass
+        //    through any property setters.
+        //  * We would like to process before upgrading so that we're sure that the
+        //    cloned fragment is inert and not disturbed by self-modifying DOM.
+        //  * We want custom elements to upgrade even in disconnected fragments.
+        //
+        // Given these constraints, with full custom elements support we would
+        // prefer the order: Clone, Process, Adopt, Upgrade, Update, Connect
+        //
+        // But Safari dooes not implement CustomElementRegistry#upgrade, so we
+        // can not implement that order and still have upgrade-before-update and
+        // upgrade disconnected fragments. So we instead sacrifice the
+        // process-before-upgrade constraint, since in Custom Elements v1 elements
+        // must not modify their light DOM in the constructor. We still have issues
+        // when co-existing with CEv0 elements like Polymer 1, and with polyfills
+        // that don't strictly adhere to the no-modification rule because shadow
+        // DOM, which may be created in the constructor, is emulated by being placed
+        // in the light DOM.
+        //
+        // The resulting order is on native is: Clone, Adopt, Upgrade, Process,
+        // Update, Connect. document.importNode() performs Clone, Adopt, and Upgrade
+        // in one step.
+        //
+        // The Custom Elements v1 polyfill supports upgrade(), so the order when
+        // polyfilled is the more ideal: Clone, Process, Adopt, Upgrade, Update,
+        // Connect.
+        const fragment = _dom_js__WEBPACK_IMPORTED_MODULE_0__["isCEPolyfill"] ?
+            this.template.element.content.cloneNode(true) :
+            document.importNode(this.template.element.content, true);
+        const stack = [];
+        const parts = this.template.parts;
+        // Edge needs all 4 parameters present; IE11 needs 3rd parameter to be null
+        const walker = document.createTreeWalker(fragment, 133 /* NodeFilter.SHOW_{ELEMENT|COMMENT|TEXT} */, null, false);
+        let partIndex = 0;
+        let nodeIndex = 0;
+        let part;
+        let node = walker.nextNode();
+        // Loop through all the nodes and parts of a template
+        while (partIndex < parts.length) {
+            part = parts[partIndex];
+            if (!Object(_template_js__WEBPACK_IMPORTED_MODULE_1__["isTemplatePartActive"])(part)) {
+                this.__parts.push(undefined);
+                partIndex++;
+                continue;
+            }
+            // Progress the tree walker until we find our next part's node.
+            // Note that multiple parts may share the same node (attribute parts
+            // on a single element), so this loop may not run at all.
+            while (nodeIndex < part.index) {
+                nodeIndex++;
+                if (node.nodeName === 'TEMPLATE') {
+                    stack.push(node);
+                    walker.currentNode = node.content;
+                }
+                if ((node = walker.nextNode()) === null) {
+                    // We've exhausted the content inside a nested template element.
+                    // Because we still have parts (the outer for-loop), we know:
+                    // - There is a template in the stack
+                    // - The walker will find a nextNode outside the template
+                    walker.currentNode = stack.pop();
+                    node = walker.nextNode();
+                }
+            }
+            // We've arrived at our part's node.
+            if (part.type === 'node') {
+                const part = this.processor.handleTextExpression(this.options);
+                part.insertAfterNode(node.previousSibling);
+                this.__parts.push(part);
+            }
+            else {
+                this.__parts.push(...this.processor.handleAttributeExpressions(node, part.name, part.strings, this.options));
+            }
+            partIndex++;
+        }
+        if (_dom_js__WEBPACK_IMPORTED_MODULE_0__["isCEPolyfill"]) {
+            document.adoptNode(fragment);
+            customElements.upgrade(fragment);
+        }
+        return fragment;
+    }
+}
+//# sourceMappingURL=template-instance.js.map
+
+/***/ }),
+
+/***/ "./node_modules/lit-html/lib/template-result.js":
+/*!******************************************************!*\
+  !*** ./node_modules/lit-html/lib/template-result.js ***!
+  \******************************************************/
+/*! exports provided: TemplateResult, SVGTemplateResult */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TemplateResult", function() { return TemplateResult; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SVGTemplateResult", function() { return SVGTemplateResult; });
+/* harmony import */ var _dom_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dom.js */ "./node_modules/lit-html/lib/dom.js");
+/* harmony import */ var _template_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./template.js */ "./node_modules/lit-html/lib/template.js");
+/**
+ * @license
+ * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+ * This code may only be used under the BSD style license found at
+ * http://polymer.github.io/LICENSE.txt
+ * The complete set of authors may be found at
+ * http://polymer.github.io/AUTHORS.txt
+ * The complete set of contributors may be found at
+ * http://polymer.github.io/CONTRIBUTORS.txt
+ * Code distributed by Google as part of the polymer project is also
+ * subject to an additional IP rights grant found at
+ * http://polymer.github.io/PATENTS.txt
+ */
+/**
+ * @module lit-html
+ */
+
+
+const commentMarker = ` ${_template_js__WEBPACK_IMPORTED_MODULE_1__["marker"]} `;
+/**
+ * The return type of `html`, which holds a Template and the values from
+ * interpolated expressions.
+ */
+class TemplateResult {
+    constructor(strings, values, type, processor) {
+        this.strings = strings;
+        this.values = values;
+        this.type = type;
+        this.processor = processor;
+    }
+    /**
+     * Returns a string of HTML used to create a `<template>` element.
+     */
+    getHTML() {
+        const l = this.strings.length - 1;
+        let html = '';
+        let isCommentBinding = false;
+        for (let i = 0; i < l; i++) {
+            const s = this.strings[i];
+            // For each binding we want to determine the kind of marker to insert
+            // into the template source before it's parsed by the browser's HTML
+            // parser. The marker type is based on whether the expression is in an
+            // attribute, text, or comment poisition.
+            //   * For node-position bindings we insert a comment with the marker
+            //     sentinel as its text content, like <!--{{lit-guid}}-->.
+            //   * For attribute bindings we insert just the marker sentinel for the
+            //     first binding, so that we support unquoted attribute bindings.
+            //     Subsequent bindings can use a comment marker because multi-binding
+            //     attributes must be quoted.
+            //   * For comment bindings we insert just the marker sentinel so we don't
+            //     close the comment.
+            //
+            // The following code scans the template source, but is *not* an HTML
+            // parser. We don't need to track the tree structure of the HTML, only
+            // whether a binding is inside a comment, and if not, if it appears to be
+            // the first binding in an attribute.
+            const commentOpen = s.lastIndexOf('<!--');
+            // We're in comment position if we have a comment open with no following
+            // comment close. Because <-- can appear in an attribute value there can
+            // be false positives.
+            isCommentBinding = (commentOpen > -1 || isCommentBinding) &&
+                s.indexOf('-->', commentOpen + 1) === -1;
+            // Check to see if we have an attribute-like sequence preceeding the
+            // expression. This can match "name=value" like structures in text,
+            // comments, and attribute values, so there can be false-positives.
+            const attributeMatch = _template_js__WEBPACK_IMPORTED_MODULE_1__["lastAttributeNameRegex"].exec(s);
+            if (attributeMatch === null) {
+                // We're only in this branch if we don't have a attribute-like
+                // preceeding sequence. For comments, this guards against unusual
+                // attribute values like <div foo="<!--${'bar'}">. Cases like
+                // <!-- foo=${'bar'}--> are handled correctly in the attribute branch
+                // below.
+                html += s + (isCommentBinding ? commentMarker : _template_js__WEBPACK_IMPORTED_MODULE_1__["nodeMarker"]);
+            }
+            else {
+                // For attributes we use just a marker sentinel, and also append a
+                // $lit$ suffix to the name to opt-out of attribute-specific parsing
+                // that IE and Edge do for style and certain SVG attributes.
+                html += s.substr(0, attributeMatch.index) + attributeMatch[1] +
+                    attributeMatch[2] + _template_js__WEBPACK_IMPORTED_MODULE_1__["boundAttributeSuffix"] + attributeMatch[3] +
+                    _template_js__WEBPACK_IMPORTED_MODULE_1__["marker"];
+            }
+        }
+        html += this.strings[l];
+        return html;
+    }
+    getTemplateElement() {
+        const template = document.createElement('template');
+        template.innerHTML = this.getHTML();
+        return template;
+    }
+}
+/**
+ * A TemplateResult for SVG fragments.
+ *
+ * This class wraps HTML in an `<svg>` tag in order to parse its contents in the
+ * SVG namespace, then modifies the template to remove the `<svg>` tag so that
+ * clones only container the original fragment.
+ */
+class SVGTemplateResult extends TemplateResult {
+    getHTML() {
+        return `<svg>${super.getHTML()}</svg>`;
+    }
+    getTemplateElement() {
+        const template = super.getTemplateElement();
+        const content = template.content;
+        const svgElement = content.firstChild;
+        content.removeChild(svgElement);
+        Object(_dom_js__WEBPACK_IMPORTED_MODULE_0__["reparentNodes"])(content, svgElement.firstChild);
+        return template;
+    }
+}
+//# sourceMappingURL=template-result.js.map
+
+/***/ }),
+
+/***/ "./node_modules/lit-html/lib/template.js":
+/*!***********************************************!*\
+  !*** ./node_modules/lit-html/lib/template.js ***!
+  \***********************************************/
+/*! exports provided: marker, nodeMarker, markerRegex, boundAttributeSuffix, Template, isTemplatePartActive, createMarker, lastAttributeNameRegex */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "marker", function() { return marker; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "nodeMarker", function() { return nodeMarker; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "markerRegex", function() { return markerRegex; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "boundAttributeSuffix", function() { return boundAttributeSuffix; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Template", function() { return Template; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isTemplatePartActive", function() { return isTemplatePartActive; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createMarker", function() { return createMarker; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "lastAttributeNameRegex", function() { return lastAttributeNameRegex; });
+/**
+ * @license
+ * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+ * This code may only be used under the BSD style license found at
+ * http://polymer.github.io/LICENSE.txt
+ * The complete set of authors may be found at
+ * http://polymer.github.io/AUTHORS.txt
+ * The complete set of contributors may be found at
+ * http://polymer.github.io/CONTRIBUTORS.txt
+ * Code distributed by Google as part of the polymer project is also
+ * subject to an additional IP rights grant found at
+ * http://polymer.github.io/PATENTS.txt
+ */
+/**
+ * An expression marker with embedded unique key to avoid collision with
+ * possible text in templates.
+ */
+const marker = `{{lit-${String(Math.random()).slice(2)}}}`;
+/**
+ * An expression marker used text-positions, multi-binding attributes, and
+ * attributes with markup-like text values.
+ */
+const nodeMarker = `<!--${marker}-->`;
+const markerRegex = new RegExp(`${marker}|${nodeMarker}`);
+/**
+ * Suffix appended to all bound attribute names.
+ */
+const boundAttributeSuffix = '$lit$';
+/**
+ * An updateable Template that tracks the location of dynamic parts.
+ */
+class Template {
+    constructor(result, element) {
+        this.parts = [];
+        this.element = element;
+        const nodesToRemove = [];
+        const stack = [];
+        // Edge needs all 4 parameters present; IE11 needs 3rd parameter to be null
+        const walker = document.createTreeWalker(element.content, 133 /* NodeFilter.SHOW_{ELEMENT|COMMENT|TEXT} */, null, false);
+        // Keeps track of the last index associated with a part. We try to delete
+        // unnecessary nodes, but we never want to associate two different parts
+        // to the same index. They must have a constant node between.
+        let lastPartIndex = 0;
+        let index = -1;
+        let partIndex = 0;
+        const { strings, values: { length } } = result;
+        while (partIndex < length) {
+            const node = walker.nextNode();
+            if (node === null) {
+                // We've exhausted the content inside a nested template element.
+                // Because we still have parts (the outer for-loop), we know:
+                // - There is a template in the stack
+                // - The walker will find a nextNode outside the template
+                walker.currentNode = stack.pop();
+                continue;
+            }
+            index++;
+            if (node.nodeType === 1 /* Node.ELEMENT_NODE */) {
+                if (node.hasAttributes()) {
+                    const attributes = node.attributes;
+                    const { length } = attributes;
+                    // Per
+                    // https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap,
+                    // attributes are not guaranteed to be returned in document order.
+                    // In particular, Edge/IE can return them out of order, so we cannot
+                    // assume a correspondence between part index and attribute index.
+                    let count = 0;
+                    for (let i = 0; i < length; i++) {
+                        if (endsWith(attributes[i].name, boundAttributeSuffix)) {
+                            count++;
+                        }
+                    }
+                    while (count-- > 0) {
+                        // Get the template literal section leading up to the first
+                        // expression in this attribute
+                        const stringForPart = strings[partIndex];
+                        // Find the attribute name
+                        const name = lastAttributeNameRegex.exec(stringForPart)[2];
+                        // Find the corresponding attribute
+                        // All bound attributes have had a suffix added in
+                        // TemplateResult#getHTML to opt out of special attribute
+                        // handling. To look up the attribute value we also need to add
+                        // the suffix.
+                        const attributeLookupName = name.toLowerCase() + boundAttributeSuffix;
+                        const attributeValue = node.getAttribute(attributeLookupName);
+                        node.removeAttribute(attributeLookupName);
+                        const statics = attributeValue.split(markerRegex);
+                        this.parts.push({ type: 'attribute', index, name, strings: statics });
+                        partIndex += statics.length - 1;
+                    }
+                }
+                if (node.tagName === 'TEMPLATE') {
+                    stack.push(node);
+                    walker.currentNode = node.content;
+                }
+            }
+            else if (node.nodeType === 3 /* Node.TEXT_NODE */) {
+                const data = node.data;
+                if (data.indexOf(marker) >= 0) {
+                    const parent = node.parentNode;
+                    const strings = data.split(markerRegex);
+                    const lastIndex = strings.length - 1;
+                    // Generate a new text node for each literal section
+                    // These nodes are also used as the markers for node parts
+                    for (let i = 0; i < lastIndex; i++) {
+                        let insert;
+                        let s = strings[i];
+                        if (s === '') {
+                            insert = createMarker();
+                        }
+                        else {
+                            const match = lastAttributeNameRegex.exec(s);
+                            if (match !== null && endsWith(match[2], boundAttributeSuffix)) {
+                                s = s.slice(0, match.index) + match[1] +
+                                    match[2].slice(0, -boundAttributeSuffix.length) + match[3];
+                            }
+                            insert = document.createTextNode(s);
+                        }
+                        parent.insertBefore(insert, node);
+                        this.parts.push({ type: 'node', index: ++index });
+                    }
+                    // If there's no text, we must insert a comment to mark our place.
+                    // Else, we can trust it will stick around after cloning.
+                    if (strings[lastIndex] === '') {
+                        parent.insertBefore(createMarker(), node);
+                        nodesToRemove.push(node);
+                    }
+                    else {
+                        node.data = strings[lastIndex];
+                    }
+                    // We have a part for each match found
+                    partIndex += lastIndex;
+                }
+            }
+            else if (node.nodeType === 8 /* Node.COMMENT_NODE */) {
+                if (node.data === marker) {
+                    const parent = node.parentNode;
+                    // Add a new marker node to be the startNode of the Part if any of
+                    // the following are true:
+                    //  * We don't have a previousSibling
+                    //  * The previousSibling is already the start of a previous part
+                    if (node.previousSibling === null || index === lastPartIndex) {
+                        index++;
+                        parent.insertBefore(createMarker(), node);
+                    }
+                    lastPartIndex = index;
+                    this.parts.push({ type: 'node', index });
+                    // If we don't have a nextSibling, keep this node so we have an end.
+                    // Else, we can remove it to save future costs.
+                    if (node.nextSibling === null) {
+                        node.data = '';
+                    }
+                    else {
+                        nodesToRemove.push(node);
+                        index--;
+                    }
+                    partIndex++;
+                }
+                else {
+                    let i = -1;
+                    while ((i = node.data.indexOf(marker, i + 1)) !== -1) {
+                        // Comment node has a binding marker inside, make an inactive part
+                        // The binding won't work, but subsequent bindings will
+                        // TODO (justinfagnani): consider whether it's even worth it to
+                        // make bindings in comments work
+                        this.parts.push({ type: 'node', index: -1 });
+                        partIndex++;
+                    }
+                }
+            }
+        }
+        // Remove text binding nodes after the walk to not disturb the TreeWalker
+        for (const n of nodesToRemove) {
+            n.parentNode.removeChild(n);
+        }
+    }
+}
+const endsWith = (str, suffix) => {
+    const index = str.length - suffix.length;
+    return index >= 0 && str.slice(index) === suffix;
+};
+const isTemplatePartActive = (part) => part.index !== -1;
+// Allows `document.createComment('')` to be renamed for a
+// small manual size-savings.
+const createMarker = () => document.createComment('');
+/**
+ * This regex extracts the attribute name preceding an attribute-position
+ * expression. It does this by matching the syntax allowed for attributes
+ * against the string literal directly preceding the expression, assuming that
+ * the expression is in an attribute-value position.
+ *
+ * See attributes in the HTML spec:
+ * https://www.w3.org/TR/html5/syntax.html#elements-attributes
+ *
+ * " \x09\x0a\x0c\x0d" are HTML space characters:
+ * https://www.w3.org/TR/html5/infrastructure.html#space-characters
+ *
+ * "\0-\x1F\x7F-\x9F" are Unicode control characters, which includes every
+ * space character except " ".
+ *
+ * So an attribute is:
+ *  * The name: any character except a control character, space character, ('),
+ *    ("), ">", "=", or "/"
+ *  * Followed by zero or more space characters
+ *  * Followed by "="
+ *  * Followed by zero or more space characters
+ *  * Followed by:
+ *    * Any character except space, ('), ("), "<", ">", "=", (`), or
+ *    * (") then any non-("), or
+ *    * (') then any non-(')
+ */
+const lastAttributeNameRegex = /([ \x09\x0a\x0c\x0d])([^\0-\x1F\x7F-\x9F "'>=/]+)([ \x09\x0a\x0c\x0d]*=[ \x09\x0a\x0c\x0d]*(?:[^ \x09\x0a\x0c\x0d"'`<>=]*|"[^"]*|'[^']*))$/;
+//# sourceMappingURL=template.js.map
+
+/***/ }),
+
+/***/ "./node_modules/lit-html/lit-html.js":
+/*!*******************************************!*\
+  !*** ./node_modules/lit-html/lit-html.js ***!
+  \*******************************************/
+/*! exports provided: DefaultTemplateProcessor, defaultTemplateProcessor, directive, isDirective, removeNodes, reparentNodes, noChange, nothing, AttributeCommitter, AttributePart, BooleanAttributePart, EventPart, isIterable, isPrimitive, NodePart, PropertyCommitter, PropertyPart, parts, render, templateCaches, templateFactory, TemplateInstance, SVGTemplateResult, TemplateResult, createMarker, isTemplatePartActive, Template, html, svg */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "html", function() { return html; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "svg", function() { return svg; });
+/* harmony import */ var _lib_default_template_processor_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./lib/default-template-processor.js */ "./node_modules/lit-html/lib/default-template-processor.js");
+/* harmony import */ var _lib_template_result_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./lib/template-result.js */ "./node_modules/lit-html/lib/template-result.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DefaultTemplateProcessor", function() { return _lib_default_template_processor_js__WEBPACK_IMPORTED_MODULE_0__["DefaultTemplateProcessor"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "defaultTemplateProcessor", function() { return _lib_default_template_processor_js__WEBPACK_IMPORTED_MODULE_0__["defaultTemplateProcessor"]; });
+
+/* harmony import */ var _lib_directive_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./lib/directive.js */ "./node_modules/lit-html/lib/directive.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "directive", function() { return _lib_directive_js__WEBPACK_IMPORTED_MODULE_2__["directive"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isDirective", function() { return _lib_directive_js__WEBPACK_IMPORTED_MODULE_2__["isDirective"]; });
+
+/* harmony import */ var _lib_dom_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./lib/dom.js */ "./node_modules/lit-html/lib/dom.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "removeNodes", function() { return _lib_dom_js__WEBPACK_IMPORTED_MODULE_3__["removeNodes"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "reparentNodes", function() { return _lib_dom_js__WEBPACK_IMPORTED_MODULE_3__["reparentNodes"]; });
+
+/* harmony import */ var _lib_part_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./lib/part.js */ "./node_modules/lit-html/lib/part.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "noChange", function() { return _lib_part_js__WEBPACK_IMPORTED_MODULE_4__["noChange"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "nothing", function() { return _lib_part_js__WEBPACK_IMPORTED_MODULE_4__["nothing"]; });
+
+/* harmony import */ var _lib_parts_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./lib/parts.js */ "./node_modules/lit-html/lib/parts.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AttributeCommitter", function() { return _lib_parts_js__WEBPACK_IMPORTED_MODULE_5__["AttributeCommitter"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AttributePart", function() { return _lib_parts_js__WEBPACK_IMPORTED_MODULE_5__["AttributePart"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "BooleanAttributePart", function() { return _lib_parts_js__WEBPACK_IMPORTED_MODULE_5__["BooleanAttributePart"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "EventPart", function() { return _lib_parts_js__WEBPACK_IMPORTED_MODULE_5__["EventPart"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isIterable", function() { return _lib_parts_js__WEBPACK_IMPORTED_MODULE_5__["isIterable"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isPrimitive", function() { return _lib_parts_js__WEBPACK_IMPORTED_MODULE_5__["isPrimitive"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NodePart", function() { return _lib_parts_js__WEBPACK_IMPORTED_MODULE_5__["NodePart"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "PropertyCommitter", function() { return _lib_parts_js__WEBPACK_IMPORTED_MODULE_5__["PropertyCommitter"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "PropertyPart", function() { return _lib_parts_js__WEBPACK_IMPORTED_MODULE_5__["PropertyPart"]; });
+
+/* harmony import */ var _lib_render_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./lib/render.js */ "./node_modules/lit-html/lib/render.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "parts", function() { return _lib_render_js__WEBPACK_IMPORTED_MODULE_6__["parts"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _lib_render_js__WEBPACK_IMPORTED_MODULE_6__["render"]; });
+
+/* harmony import */ var _lib_template_factory_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./lib/template-factory.js */ "./node_modules/lit-html/lib/template-factory.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "templateCaches", function() { return _lib_template_factory_js__WEBPACK_IMPORTED_MODULE_7__["templateCaches"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "templateFactory", function() { return _lib_template_factory_js__WEBPACK_IMPORTED_MODULE_7__["templateFactory"]; });
+
+/* harmony import */ var _lib_template_instance_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./lib/template-instance.js */ "./node_modules/lit-html/lib/template-instance.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TemplateInstance", function() { return _lib_template_instance_js__WEBPACK_IMPORTED_MODULE_8__["TemplateInstance"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SVGTemplateResult", function() { return _lib_template_result_js__WEBPACK_IMPORTED_MODULE_1__["SVGTemplateResult"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TemplateResult", function() { return _lib_template_result_js__WEBPACK_IMPORTED_MODULE_1__["TemplateResult"]; });
+
+/* harmony import */ var _lib_template_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./lib/template.js */ "./node_modules/lit-html/lib/template.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createMarker", function() { return _lib_template_js__WEBPACK_IMPORTED_MODULE_9__["createMarker"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isTemplatePartActive", function() { return _lib_template_js__WEBPACK_IMPORTED_MODULE_9__["isTemplatePartActive"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Template", function() { return _lib_template_js__WEBPACK_IMPORTED_MODULE_9__["Template"]; });
+
+/**
+ * @license
+ * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+ * This code may only be used under the BSD style license found at
+ * http://polymer.github.io/LICENSE.txt
+ * The complete set of authors may be found at
+ * http://polymer.github.io/AUTHORS.txt
+ * The complete set of contributors may be found at
+ * http://polymer.github.io/CONTRIBUTORS.txt
+ * Code distributed by Google as part of the polymer project is also
+ * subject to an additional IP rights grant found at
+ * http://polymer.github.io/PATENTS.txt
+ */
+/**
+ *
+ * Main lit-html module.
+ *
+ * Main exports:
+ *
+ * -  [[html]]
+ * -  [[svg]]
+ * -  [[render]]
+ *
+ * @module lit-html
+ * @preferred
+ */
+/**
+ * Do not remove this comment; it keeps typedoc from misplacing the module
+ * docs.
+ */
+
+
+
+
+// TODO(justinfagnani): remove line when we get NodePart moving methods
+
+
+
+
+
+
+
+
+// IMPORTANT: do not change the property name or the assignment expression.
+// This line will be used in regexes to search for lit-html usage.
+// TODO(justinfagnani): inject version number at build time
+(window['litHtmlVersions'] || (window['litHtmlVersions'] = [])).push('1.1.2');
+/**
+ * Interprets a template literal as an HTML template that can efficiently
+ * render to and update a container.
+ */
+const html = (strings, ...values) => new _lib_template_result_js__WEBPACK_IMPORTED_MODULE_1__["TemplateResult"](strings, values, 'html', _lib_default_template_processor_js__WEBPACK_IMPORTED_MODULE_0__["defaultTemplateProcessor"]);
+/**
+ * Interprets a template literal as an SVG template that can efficiently
+ * render to and update a container.
+ */
+const svg = (strings, ...values) => new _lib_template_result_js__WEBPACK_IMPORTED_MODULE_1__["SVGTemplateResult"](strings, values, 'svg', _lib_default_template_processor_js__WEBPACK_IMPORTED_MODULE_0__["defaultTemplateProcessor"]);
+//# sourceMappingURL=lit-html.js.map
+
+/***/ }),
+
+/***/ "./node_modules/selective-edit/js/mixin/config.js":
+/*!********************************************************!*\
+  !*** ./node_modules/selective-edit/js/mixin/config.js ***!
+  \********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utility/config */ "./node_modules/selective-edit/js/utility/config.js");
+/**
+ * Config mixin for adding configuration options to a class.
+ */
+
+
+
+const ConfigMixin = superclass => class extends superclass {
+  constructor() {
+    super()
+    this._config = Object(_utility_config__WEBPACK_IMPORTED_MODULE_0__["autoConfig"])({})
+  }
+
+  getConfig() {
+    return this._config
+  }
+
+  setConfig(value) {
+    this._config = Object(_utility_config__WEBPACK_IMPORTED_MODULE_0__["autoConfig"])(value)
+  }
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (ConfigMixin);
+
+
+/***/ }),
+
+/***/ "./node_modules/selective-edit/js/mixin/uid.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/selective-edit/js/mixin/uid.js ***!
+  \*****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _utility_uuid__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utility/uuid */ "./node_modules/selective-edit/js/utility/uuid.js");
+/**
+ * UID mixin for adding unique id to a class.
+ */
+
+
+
+
+const UidMixin = superclass => class extends superclass {
+  getUid() {
+    if (!this._uid) {
+      this._uid = Object(_utility_uuid__WEBPACK_IMPORTED_MODULE_0__["default"])()
+    }
+    return this._uid
+  }
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (UidMixin);
+
+
+/***/ }),
+
+/***/ "./node_modules/selective-edit/js/selective.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/selective-edit/js/selective.js ***!
+  \*****************************************************/
+/*! exports provided: default, Field, SortableField, ListField, Fields, html, repeat, render, autoDeepObject */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lit-html */ "./node_modules/lit-html/lit-html.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "html", function() { return lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return lit_html__WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony import */ var lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lit-html/directives/repeat */ "./node_modules/lit-html/directives/repeat.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "repeat", function() { return lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_1__["repeat"]; });
+
+/* harmony import */ var _selective_editor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./selective/editor */ "./node_modules/selective-edit/js/selective/editor.js");
+/* harmony import */ var _selective_field__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./selective/field */ "./node_modules/selective-edit/js/selective/field.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Field", function() { return _selective_field__WEBPACK_IMPORTED_MODULE_3__["default"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SortableField", function() { return _selective_field__WEBPACK_IMPORTED_MODULE_3__["SortableField"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ListField", function() { return _selective_field__WEBPACK_IMPORTED_MODULE_3__["ListField"]; });
+
+/* harmony import */ var _selective_fields__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./selective/fields */ "./node_modules/selective-edit/js/selective/fields.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Fields", function() { return _selective_fields__WEBPACK_IMPORTED_MODULE_4__["default"]; });
+
+/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./utility/deepObject */ "./node_modules/selective-edit/js/utility/deepObject.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "autoDeepObject", function() { return _utility_deepObject__WEBPACK_IMPORTED_MODULE_5__["autoDeepObject"]; });
+
+/**
+ * Selective structure content editor.
+ */
+
+
+
+
+
+
+
+
+
+const Selective = _selective_editor__WEBPACK_IMPORTED_MODULE_2__["default"]
+
+/* harmony default export */ __webpack_exports__["default"] = (Selective);
+
+
+
+/***/ }),
+
+/***/ "./node_modules/selective-edit/js/selective/autoFields.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/selective-edit/js/selective/autoFields.js ***!
+  \****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return AutoFields; });
+/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utility/deepObject */ "./node_modules/selective-edit/js/utility/deepObject.js");
+/* harmony import */ var _utility_dataType__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utility/dataType */ "./node_modules/selective-edit/js/utility/dataType.js");
+/**
+ * Automatically guess the field configuration from data.
+ */
+
+
+
+class AutoFields {
+  constructor(data) {
+    this.data = data
+    this._data = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_0__["autoDeepObject"])(data)
+    this.dataType = new _utility_dataType__WEBPACK_IMPORTED_MODULE_1__["default"]()
+  }
+
+  get config() {
+    return {
+      'fields': this.guessAll(),
+    }
+  }
+
+  _deepGuess(data, keyBase) {
+    let fields = []
+    keyBase = keyBase || []
+
+    if (this.dataType.isArray(data)) {
+      const firstValue = data.length ? data[0] : null
+      fields.push(this._fieldConfig('', firstValue))
+    } else {
+      for (const key in data) {
+        if (!data.hasOwnProperty(key)) {
+          continue
+        }
+
+        const newKeyBase = keyBase.concat([key])
+        if (this.dataType.isObject(data[key])) {
+          fields = fields.concat(this._deepGuess(data[key], newKeyBase))
+        } else {
+          const fullKey = newKeyBase.join('.')
+          fields.push(this._fieldConfig(fullKey, data[key]))
+        }
+      }
+    }
+
+    return fields
+  }
+
+  _fieldConfig(key, value) {
+    const fieldType = this.typeFromValue(value)
+    const fieldConfig = {
+      "type": fieldType,
+      "key": key,
+      "label": this.labelFromKey(key),
+    }
+
+    if (fieldConfig.type == 'list') {
+      fieldConfig['fields'] = this._deepGuess(value, key.split('.'))
+    }
+
+    return fieldConfig
+  }
+
+  /**
+   * Given a data key, guess the field configuration from the data.
+   */
+  guess(key) {
+    return this._fieldConfig(
+      key, this.typeFromValue(this._data.get(key)))
+  }
+
+  /**
+   * Guess all the field configuration from the data.
+   */
+  guessAll() {
+    return this._deepGuess(this.data)
+  }
+
+  /**
+   * From a key guess the label of the field.
+   */
+  labelFromKey(key) {
+    return key.replace('.', ' ').split(' ').map(function(word) {
+      return (word.charAt(0).toUpperCase() + word.slice(1));
+    }).join(' ')
+  }
+
+  /**
+   * From a value guess the type of field.
+   */
+  typeFromValue(value) {
+    if (value === null || value === undefined) {
+      return 'text'
+    }
+    if (this.dataType.isArray(value)) {
+      return 'list'
+    }
+    if (value.length > 150) {
+      return 'textarea'
+    }
+    return 'text'
+  }
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/selective-edit/js/selective/editor.js":
+/*!************************************************************!*\
+  !*** ./node_modules/selective-edit/js/selective/editor.js ***!
+  \************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Editor; });
+/* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lit-html */ "./node_modules/lit-html/lit-html.js");
+/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../mixin/config */ "./node_modules/selective-edit/js/mixin/config.js");
+/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utility/deepObject */ "./node_modules/selective-edit/js/utility/deepObject.js");
+/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utility/compose */ "./node_modules/selective-edit/js/utility/compose.js");
+/* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./autoFields */ "./node_modules/selective-edit/js/selective/autoFields.js");
+/* harmony import */ var _fields__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./fields */ "./node_modules/selective-edit/js/selective/fields.js");
+/* harmony import */ var _fieldTypes__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./fieldTypes */ "./node_modules/selective-edit/js/selective/fieldTypes.js");
+/**
+ * Selective content editor.
+ *
+ * Editor for taking structured data and creating a UI for editing portions of
+ * the data.
+ */
+
+
+
+
+
+
+
+
+
+class Editor extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_1__["default"],)(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["Base"]) {
+  constructor(containerEl, config) {
+    super()
+    this.containerEl = containerEl
+    this.fieldTypes = new _fieldTypes__WEBPACK_IMPORTED_MODULE_6__["default"]()
+    this._fields = null
+    this._data = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_2__["autoDeepObject"])({})
+
+    // Needs to be defined before the config is set.
+    this.template = (editor, data) => lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective">
+      ${editor.fields.template(editor, editor.fields, data)}
+    </div>`
+
+    this.setConfig(config)
+    this.bindEvents()
+    this.render()
+  }
+
+  get data() {
+    return this._data
+  }
+
+  get fields() {
+    if (!this._fields) {
+      const FieldsCls = this.getConfig().get('FieldsCls', _fields__WEBPACK_IMPORTED_MODULE_5__["default"])
+      this._fields = new FieldsCls(this.fieldTypes)
+    }
+    return this._fields
+  }
+
+  get isClean() {
+    return this.fields.isClean
+  }
+
+  get selfRender() {
+    // Determine if we are self rendering or being externally rendered.
+    return this.containerEl !== null
+  }
+
+  get value() {
+    return this.fields.value
+  }
+
+  set data(value) {
+    this._data = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_2__["autoDeepObject"])(value)
+    this.render()
+    return this._data
+  }
+
+  addField(...args) {
+    this.fields.addField(...args)
+  }
+
+  addFieldType(key, FieldCls) {
+    this.fieldTypes.addFieldType(key, FieldCls)
+    this.render()
+  }
+
+  addFieldTypes(fieldTypes) {
+    for (const key of Object.keys(fieldTypes)) {
+      this.fieldTypes.addFieldType(key, fieldTypes[key])
+    }
+    this.render()
+  }
+
+  bindEvents() {
+    // Skip binding if externally rendering.
+    if (!this.selfRender) {
+      return
+    }
+
+    // Allow triggering a re-render.
+    document.addEventListener('selective.render', () => {
+      this.render()
+    })
+  }
+
+  guessFields() {
+    const autoFields = new _autoFields__WEBPACK_IMPORTED_MODULE_4__["default"](this.data.obj)
+    return autoFields.config
+  }
+
+  postRender(containerEl) {
+    // Allow for using without explicitly calling the render
+    // This supports external rendering using the template.
+    containerEl = containerEl || this.containerEl
+
+    // Initialize any new fields.
+    this.fieldTypes.initialize(containerEl)
+
+    // Trigger any field specific actions.
+    this.fields.postRender(containerEl)
+  }
+
+  render() {
+    // Do nothing when not self rendering.
+    if (!this.selfRender) {
+      return
+    }
+
+    Object(lit_html__WEBPACK_IMPORTED_MODULE_0__["render"])(this.template(this, this.data), this.containerEl)
+    this.postRender()
+  }
+
+  setConfig(value) {
+    super.setConfig(value)
+
+    if (value) {
+      // Reset the fields and add new field configs.
+      this.fields.reset()
+
+      for (const fieldConfig of this.getConfig().get('fields', [])) {
+        this.addField(fieldConfig)
+      }
+
+      this.render()
+    }
+  }
+
+  update(value) {
+    this.data = extend({}, this.data.obj, value)
+    return this.data
+  }
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/selective-edit/js/selective/field.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/selective-edit/js/selective/field.js ***!
+  \***********************************************************/
+/*! exports provided: default, SortableField, ListField */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Field; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SortableField", function() { return SortableField; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ListField", function() { return ListField; });
+/* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lit-html */ "./node_modules/lit-html/lit-html.js");
+/* harmony import */ var lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lit-html/directives/repeat */ "./node_modules/lit-html/directives/repeat.js");
+/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../mixin/config */ "./node_modules/selective-edit/js/mixin/config.js");
+/* harmony import */ var _mixin_uid__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../mixin/uid */ "./node_modules/selective-edit/js/mixin/uid.js");
+/* harmony import */ var _fields__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./fields */ "./node_modules/selective-edit/js/selective/fields.js");
+/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utility/compose */ "./node_modules/selective-edit/js/utility/compose.js");
+/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utility/deepObject */ "./node_modules/selective-edit/js/utility/deepObject.js");
+/**
+ * Field defined for editing.
+ */
+
+
+
+
+
+
+
+
+
+// ========================================
+// === Base Field
+// ========================================
+class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_5__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_2__["default"], _mixin_uid__WEBPACK_IMPORTED_MODULE_3__["default"],)(_utility_compose__WEBPACK_IMPORTED_MODULE_5__["Base"]) {
+  constructor(config) {
+    super()
+    this.fieldType = 'Field'
+    this.setConfig(config)
+    this._dataValue = undefined
+    this.value = undefined
+
+    this.template = (editor, field, data) => lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__field" data-field-type="${field.fieldType}">
+      Missing template.
+    </div>`
+  }
+
+  get isClean() {
+    return this._dataValue == this.value
+  }
+
+  get key() {
+    return this.getConfig().key
+  }
+
+  get label() {
+    return this.getConfig().label
+  }
+
+  get options() {
+    return this.getConfig().options || {}
+  }
+
+  handleInput(evt) {
+    // Update the value to what is being typed.
+    // Helps mark the field as dirty.
+    this.value = evt.target.value
+  }
+
+  static initialize(containerEl) {
+    // Pass.
+  }
+
+  postRender(containerEl) {
+    // Pass.
+  }
+
+  updateFromData(data) {
+    // Update the data, but do not return the value.
+    this.valueFromData(data)
+  }
+
+  valueFromData(data) {
+    let newDataValue = data
+    if (typeof data === 'object' && data !== null) {
+      data = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_6__["autoDeepObject"])(data)
+      newDataValue = data.get(this.key)
+    }
+
+    if (!this.isClean) {
+      // The value has changed since the last update.
+      // Update the stored data value, but don't change the actual value.
+      // isClean uses the _dataValue, so don't change until after the compare
+      // is complete.
+      this._dataValue = newDataValue
+      return this.value
+    }
+    this._dataValue = newDataValue
+    this.value = newDataValue
+    return this.value
+  }
+}
+
+
+// ========================================
+// === Sortable Field
+// ========================================
+//
+// The following are required as part of the template to make the sorting work:
+//
+// - Add 'draggable="true"' attribute to the sortable containers.
+// - Add 'data-index="X"' attribute to any sortable container with the current index.
+// - Add '@dragenter=${this.handleDragEnter.bind(this)}' event binding to the sortable container.
+// - Add '@dragleave=${this.handleDragLeave.bind(this)}' event binding to the sortable container.
+// - Add '@dragstart=${this.handleDragStart.bind(this)}' event binding to the sortable container.
+// - Add '@dragover=${this.handleDragOver.bind(this)}' event binding to the sortable container.
+// - Add '@drop=${this.handleDrop.bind(this)}' event binding to the sortable container.
+// - Use 'sortable--hover' class to style the currently hovering drop target.
+// - Use 'sortable--above' class to style the hovering element that is above the dragged element.
+// - Use 'sortable--below' class to style the hovering element that is below the dragged element.
+// - Optionally add 'sortable__preview' class to a child elmeent to use as the dragging preview.
+//
+class SortableField extends Field {
+  constructor(config) {
+    super(config)
+    this.fieldType = 'sortable'
+    this._dragOriginElement = null
+    this._dragHoverElement = null
+    this._dataValue = []
+    this.template = (editor, field, data) => lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`<div>
+      Sortable Field sub class needs a custom template.
+    </div>`
+  }
+
+  _findDraggable(target) {
+    // Use the event target to traverse until the draggable element is found.
+    let isDraggable = false
+    while (target && !isDraggable) {
+      isDraggable = target.getAttribute('draggable') == 'true'
+      if (!isDraggable) {
+        target = target.parentElement
+      }
+    }
+    return target
+  }
+
+  _reorderValues(currentIndex, startIndex) {
+    // Dropped on self, ignore.
+    if (currentIndex == startIndex) {
+      return false
+    }
+
+    // Rework the array to have the items in the correct position.
+    const newValue = []
+    const oldValue = this.value
+    const maxIndex = Math.max(currentIndex, startIndex)
+    const minIndex = Math.min(currentIndex, startIndex)
+
+    // Determine which direction to shift misplaced items.
+    let modifier = 1
+    if (startIndex > currentIndex) {
+      modifier = -1
+    }
+
+    for (let i = 0; i < oldValue.length; i++) {
+      if (i < minIndex || i > maxIndex) {
+        // Leave in the same order.
+        newValue[i] = oldValue[i]
+      } else if (i == currentIndex) {
+        // This element is being moved to, place the moved value here.
+        newValue[i] = oldValue[startIndex]
+      } else {
+        // Shift the old index using the modifier to determine direction.
+        newValue[i] = oldValue[i+modifier]
+      }
+    }
+
+    this.value = newValue
+
+    return true
+  }
+
+  _shouldHandleDrag(evt) {
+    return (this._dragOriginElement
+      && evt.dataTransfer.types.includes('selective/index'))
+  }
+
+  handleDragStart(evt) {
+    const target = this._findDraggable(evt.target)
+    this._dragOriginElement = target
+    evt.dataTransfer.setData('text/plain', evt.target.dataset.index)
+    evt.dataTransfer.setData('selective/index', evt.target.dataset.index)
+    evt.dataTransfer.effectAllowed = 'move'
+
+    // Allow for custom preview for dragging.
+    const previewEl = target.querySelector('.sortable__preview')
+    if (previewEl) {
+      evt.dataTransfer.setDragImage(previewEl, 0, 0)
+    }
+  }
+
+  handleDragEnter(evt) {
+    if (this._shouldHandleDrag(evt)) {
+      const target = this._findDraggable(evt.target)
+      if (!target) {
+        return
+      }
+
+      // Show that the element is hovering.
+      // Also prevent sub elements from triggering more drag events.
+      target.classList.add('sortable--hover')
+
+      const currentIndex = parseInt(evt.target.dataset.index)
+      const startIndex = parseInt(this._dragOriginElement.dataset.index)
+
+      // Hovering over self, ignore.
+      if (currentIndex == startIndex) {
+        return
+      }
+
+      if (currentIndex < startIndex) {
+        target.classList.add('sortable--above')
+      } else {
+        target.classList.add('sortable--below')
+      }
+    }
+  }
+
+  handleDragLeave(evt) {
+    if (this._shouldHandleDrag(evt)) {
+      const target = this._findDraggable(evt.target)
+      if (!target) {
+        return
+      }
+
+      //  Make sure that the event target comes from the main element.
+      if (target !== evt.target) {
+        return
+      }
+
+      // No longer hovering.
+      target.classList.remove(
+        'sortable--hover', 'sortable--above', 'sortable--below')
+    }
+  }
+
+  handleDragOver(evt) {
+    if (this._shouldHandleDrag(evt)) {
+      // Flag to the browser that this is a valid drop target.
+      evt.preventDefault()
+    }
+  }
+
+  handleDrop(evt) {
+    // Trying to drag from outside the list.
+    if (!this._dragOriginElement) {
+      return
+    }
+
+    const target = this._findDraggable(evt.target)
+    const currentIndex = parseInt(evt.target.dataset.index)
+    const startIndex = parseInt(evt.dataTransfer.getData("text/plain"))
+
+    // No longer hovering.
+    target.classList.remove(
+      'sortable--hover', 'sortable--above', 'sortable--below')
+
+    // Reset the drag element.
+    this._dragOriginElement = null
+
+    if (!this._reorderValues(currentIndex, startIndex)) {
+      // If false nothing changed, so don't re-render.
+      return
+    }
+
+    // Trigger a re-render after moving.
+    document.dispatchEvent(new CustomEvent('selective.render'))
+  }
+}
+
+
+// ========================================
+// === List Field
+// ========================================
+class ListField extends SortableField {
+  constructor(config) {
+    super(config)
+    this.fieldType = 'list'
+    this._listItems = []
+    this._isExpanded = false
+    this._expandedIndexes = []
+
+    this.template = (editor, field, data) => lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
+      ${field.updateFromData(data)}
+      <div class="selective__header">
+        <div class="selective__field__label">${field.label}</div>
+        ${field.renderActionsHeader(editor, field, data)}
+      </div>
+      <div class="selective__list">
+        <div class="selective__list__items" id="${field.getUid()}">
+          ${field.renderItems(editor, data)}
+        </div>
+      </div>
+      <div class="selective__footer">
+        ${field.renderActionsFooter(editor, field, data)}
+      </div>
+    </div>`
+  }
+
+  _reorderValues(currentIndex, startIndex) {
+    // Rework the expanded array to have the items in the correct position.
+    const newExpanded = []
+    const oldExpanded = this._expandedIndexes
+    const newItems = []
+    const oldItems = this._listItems
+    const valueLen = this.value.length
+    const maxIndex = Math.max(currentIndex, startIndex)
+    const minIndex = Math.min(currentIndex, startIndex)
+
+    // Determine which direction to shift misplaced items.
+    let modifier = 1
+    if (startIndex > currentIndex) {
+      modifier = -1
+    }
+
+    for (let i = 0; i < valueLen; i++) {
+      if (i < minIndex || i > maxIndex) {
+        // Leave in the same order.
+        newItems[i] = oldItems[i]
+
+        if (oldExpanded.includes(i)) {
+          newExpanded.push(i)
+        }
+      } else if (i == currentIndex) {
+        // This element is being moved to, place the moved value here.
+        newItems[i] = oldItems[startIndex]
+        newItems[i]['index'] = i
+
+        if (oldExpanded.includes(startIndex)) {
+          newExpanded.push(i)
+        }
+      } else {
+        // Shift the old index using the modifier to determine direction.
+        newItems[i] = oldItems[i+modifier]
+        newItems[i]['index'] = i
+
+        if (oldExpanded.includes(i+modifier)) {
+          newExpanded.push(i)
+        }
+      }
+    }
+
+    this._expandedIndexes = newExpanded
+    this._listItems = newItems
+    return true
+  }
+
+  get isClean() {
+    // TODO: Better array comparisons?
+    return JSON.stringify(this._dataValue) == JSON.stringify(this.value)
+  }
+
+  get isExpanded() {
+    // If all of the items are in the expanded list then consider it expanded.
+    if (this._listItems.length == this._expandedIndexes.length) {
+      return true
+    }
+
+    return this._isExpanded
+  }
+
+  get value() {
+    if (!this._listItems || this._listItems.length < 1) {
+      return this._dataValue
+    }
+
+    // Loop through each fields and get the values.
+    const values = []
+    for (const item of this._listItems) {
+      values.push(item['itemFields'].value)
+    }
+
+    return values
+  }
+
+  set isExpanded(value) {
+    this._isExpanded = value
+
+    // TODO: Save to local storage
+  }
+
+  set value(value) {
+    // no-op
+  }
+
+  _createItems(editor, data) {
+    // No value yet.
+    if (!this.value) {
+      return []
+    }
+
+    // Use the field config for the list items to create the correct field types.
+    const fieldConfigs = this.getConfig().get('fields', [])
+
+    let index = 0
+    const items = []
+    for (const itemData of this.value) {
+      const itemFields = new _fields__WEBPACK_IMPORTED_MODULE_4__["default"](editor.fieldTypes)
+      itemFields.valueFromData(itemData)
+
+      for (const fieldConfig of fieldConfigs || []) {
+        itemFields.addField(fieldConfig)
+      }
+
+      items.push({
+        'id': `${this.getUid()}-${index}`,
+        'index': index,
+        'itemFields': itemFields,
+        'isExpanded': false,
+      })
+
+      index += 1
+    }
+    return items
+  }
+
+  handleAddItem(evt, editor) {
+    const index = this.value.length
+    const itemFields = new _fields__WEBPACK_IMPORTED_MODULE_4__["default"](editor.fieldTypes)
+
+    // Use the field config for the list items to create the correct field types.
+    const fieldConfigs = this.getConfig().get('fields', [])
+
+    for (const fieldConfig of fieldConfigs || []) {
+      itemFields.addField(fieldConfig)
+    }
+
+    this._listItems.push({
+      'id': `${this.getUid()}-${index}`,
+      'index': index,
+      'itemFields': itemFields,
+      'isExpanded': false,
+    })
+
+    if (fieldConfigs.length > 1) {
+      this.value.push({})
+    } else {
+      this.value.push('')
+    }
+
+    // Expanded by default.
+    this._expandedIndexes.push(index)
+
+    document.dispatchEvent(new CustomEvent('selective.render'))
+  }
+
+  handleItemCollapse(evt) {
+    this.isExpanded = false
+    const index = parseInt(evt.target.dataset.index)
+    const expandIndex = this._expandedIndexes.indexOf(index)
+    if (expandIndex > -1) {
+      this._expandedIndexes.splice(expandIndex, 1)
+      document.dispatchEvent(new CustomEvent('selective.render'))
+    }
+  }
+
+  handleItemExpand(evt) {
+    const index = parseInt(evt.target.dataset.index)
+    this._expandedIndexes.push(index)
+    document.dispatchEvent(new CustomEvent('selective.render'))
+  }
+
+  handleToggleExpand(evt) {
+    if (this.isExpanded) {
+      // Clear out all expanded indexes when collapsing.
+      this._expandedIndexes = []
+      this._isExpanded = false
+    } else {
+      this._isExpanded = true
+    }
+
+    document.dispatchEvent(new CustomEvent('selective.render'))
+  }
+
+  renderActionsFooter(editor, field, data) {
+    return lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__actions">
+      <button @click=${(evt) => {field.handleAddItem(evt, editor)}}>
+        Add
+      </button>
+    </div>`
+  }
+
+  renderActionsHeader(editor, field, data) {
+    // No expand toggle action to render if there is only 1 sub field config.
+    const fieldConfigs = this.getConfig().get('fields', [])
+
+    if (fieldConfigs.length <= 1) {
+      return ''
+    }
+
+    // Allow collapsing and expanding of sub fields.
+    return lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__actions">
+      <button class="selective__action__toggle" @click=${field.handleToggleExpand.bind(field)}>
+        ${field.isExpanded ? 'Collapse' : 'Expand'}
+      </button>
+    </div>`
+  }
+
+  renderCollapsedItem(editor, listItem) {
+    return lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <div class="selective__list__item__drag"><i class="material-icons">drag_indicator</i></div>
+      <div class="selective__list__item__preview sortable__preview" data-index=${listItem['index']} @click=${this.handleItemExpand.bind(this)}>
+        ${this.renderPreview(listItem)}
+      </div>`
+  }
+
+  renderExpandedItem(editor, listItem) {
+    return lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <div class="selective__list__fields">
+        <div class="partial__fields__label"
+            data-index=${listItem['index']}
+            @click=${this.handleItemCollapse.bind(this)}>
+          ${listItem['itemFields'].label}
+        </div>
+        ${listItem['itemFields'].template(editor, listItem['itemFields'], this.value[listItem['index']])}
+      </div>`
+  }
+
+  renderItems(editor, data) {
+    // If the sub fields have not been created create them now.
+    if (!this._listItems.length) {
+      this._listItems = this._createItems(editor, data)
+    }
+
+    // Update the expanded state each render.
+    for (const listItem of this._listItems) {
+      const inIndex = this._expandedIndexes.indexOf(listItem['index']) > -1
+      const itemValue = this.value[listItem['index']]
+      const isSimpleValue = typeof itemValue !== 'object'
+      listItem['isExpanded'] = this.isExpanded || inIndex || isSimpleValue
+    }
+
+    return lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`${Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_1__["repeat"])(this._listItems, (listItem) => listItem['id'], (listItem, index) => lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <div class="selective__list__item selective__list__item--${listItem['isExpanded'] ? 'expanded' : 'collapsed'}"
+          draggable="true"
+          data-index=${listItem['index']}
+          @dragenter=${this.handleDragEnter.bind(this)}
+          @dragleave=${this.handleDragLeave.bind(this)}
+          @dragover=${this.handleDragOver.bind(this)}
+          @dragstart=${this.handleDragStart.bind(this)}
+          @drop=${this.handleDrop.bind(this)}>
+        ${listItem['isExpanded']
+          ? this.renderExpandedItem(editor, listItem)
+          : this.renderCollapsedItem(editor, listItem)}
+      </div>
+    `)}`
+  }
+
+  renderPreview(listItem) {
+    const preview_field = this.getConfig().get('preview_field')
+    const itemValue = this.value[listItem['index']]
+
+    if (preview_field) {
+      return Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_6__["autoDeepObject"])(itemValue).get(preview_field)
+    }
+
+    // Default to just previewing the value. May not be pretty.
+    return itemValue
+  }
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/selective-edit/js/selective/fieldTypes.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/selective-edit/js/selective/fieldTypes.js ***!
+  \****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return FieldTypes; });
+/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../mixin/config */ "./node_modules/selective-edit/js/mixin/config.js");
+/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utility/compose */ "./node_modules/selective-edit/js/utility/compose.js");
+/**
+ * Fields types defined for editing.
+ */
+
+
+
+
+class FieldTypes extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_1__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_0__["default"],)(_utility_compose__WEBPACK_IMPORTED_MODULE_1__["Base"]) {
+  constructor(config) {
+    super()
+    this.fieldTypes = {}
+    this.setConfig(config)
+  }
+
+  addFieldType(key, FieldCls) {
+    this.fieldTypes[key] = FieldCls
+  }
+
+  initialize(containerEl) {
+    for (const [key, value] of Object.entries(this.fieldTypes)) {
+      value.initialize(containerEl)
+    }
+  }
+
+  newField(type, ...args) {
+    if ( type in this.fieldTypes ) {
+      return new this.fieldTypes[type](...args)
+    }
+
+    // TODO: Placeholder field.
+  }
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/selective-edit/js/selective/fields.js":
+/*!************************************************************!*\
+  !*** ./node_modules/selective-edit/js/selective/fields.js ***!
+  \************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Fields; });
+/* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! deep-extend */ "./node_modules/deep-extend/lib/deep-extend.js");
+/* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(deep_extend__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lit-html */ "./node_modules/lit-html/lit-html.js");
+/* harmony import */ var lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lit-html/directives/repeat */ "./node_modules/lit-html/directives/repeat.js");
+/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../mixin/config */ "./node_modules/selective-edit/js/mixin/config.js");
+/* harmony import */ var _mixin_uid__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../mixin/uid */ "./node_modules/selective-edit/js/mixin/uid.js");
+/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utility/compose */ "./node_modules/selective-edit/js/utility/compose.js");
+/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utility/config */ "./node_modules/selective-edit/js/utility/config.js");
+/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utility/deepObject */ "./node_modules/selective-edit/js/utility/deepObject.js");
+/**
+ * Fields defined for editing.
+ */
+
+
+
+
+
+
+
+
+
+
+class Fields extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_5__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_3__["default"], _mixin_uid__WEBPACK_IMPORTED_MODULE_4__["default"],)(_utility_compose__WEBPACK_IMPORTED_MODULE_5__["Base"]) {
+  constructor(fieldTypes, config) {
+    super()
+    this.fieldTypes = fieldTypes
+    this.fields = []
+    this._dataValue = undefined
+    this._value = undefined
+    this.setConfig(config)
+
+    this.template = (editor, fields, data) => lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__fields">
+      ${fields.valueFromData(data)}
+      ${Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__["repeat"])(fields.fields, (field) => field.getUid(), (field, index) => lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
+        ${field.template(editor, field, data)}
+      `)}
+    </div>`
+  }
+
+  get isClean() {
+    for (const field of this.fields) {
+      if (!field.isClean) {
+        return false
+      }
+    }
+
+    return true
+  }
+
+  get value() {
+    const value = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_7__["autoDeepObject"])({})
+
+    for (const field of this.fields) {
+      value.set(field.key, field.value)
+    }
+
+    return deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, this._dataValue.obj, value.obj)
+  }
+
+  set value(value) {
+    // Setting value doesn't actually do anything.
+  }
+
+  addField(fieldConfig) {
+    fieldConfig = Object(_utility_config__WEBPACK_IMPORTED_MODULE_6__["autoConfig"])(fieldConfig)
+    const newField = this.fieldTypes.newField(fieldConfig.type, fieldConfig)
+    if (newField) {
+      this.fields.push(newField)
+    }
+  }
+
+  postRender(containerEl) {
+    // Pass it along to the fields.
+    for( const field of this.fields ) {
+      field.postRender(containerEl)
+    }
+  }
+
+  reset() {
+    this.fields = []
+  }
+
+  valueFromData(data) {
+    this._dataValue = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_7__["autoDeepObject"])(data)
+  }
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/selective-edit/js/utility/compose.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/selective-edit/js/utility/compose.js ***!
+  \***********************************************************/
+/*! exports provided: Base, compose */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Base", function() { return Base; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "compose", function() { return compose; });
+/**
+ * Compose multiple mixins into an easier syntax.
+ *
+ * Adapted from lodash flow.
+ */
+
+function compose(...mixins) {
+  const length = mixins.length
+  mixins = mixins.reverse()
+  return function(...args) {
+    let index = 0
+    let result = length ? mixins[index].apply(this, args) : args[0]
+    while (++index < length) {
+      result = mixins[index].call(this, result)
+    }
+    return result
+  }
+}
+
+class Base {}
+
+
+
+
+/***/ }),
+
+/***/ "./node_modules/selective-edit/js/utility/config.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/selective-edit/js/utility/config.js ***!
+  \**********************************************************/
+/*! exports provided: default, autoConfig */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Config; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "autoConfig", function() { return autoConfig; });
+/**
+ * Utility for working with config.
+ */
+
+class Config {
+  constructor(config, defaultValues) {
+    this._defaultValues = defaultValues || {}
+    this._config = Object.assign({}, this._defaultValues, config || {})
+
+    // Allow for direct access to config values.
+    for (const key of Object.keys(this._config)) {
+      this[key] = this._config[key]
+    }
+  }
+
+  get(key, defaultValue) {
+    if (typeof this._config[key] == 'undefined') {
+      return defaultValue
+    }
+    return this._config[key]
+  }
+
+  set(key, value) {
+    this._config[key] = value
+    return this[key] = value
+  }
+}
+
+
+const autoConfig = value => {
+  if (value instanceof Config) {
+    return value
+  }
+  return new Config(value)
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/selective-edit/js/utility/dataType.js":
+/*!************************************************************!*\
+  !*** ./node_modules/selective-edit/js/utility/dataType.js ***!
+  \************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return DataType; });
+/**
+ * Utility for determining the type of a data value.
+ */
+
+class DataType {
+  isArray (value) {
+    if (Array.isArray) {
+      return Array.isArray(value)
+    }
+    return value && typeof value === 'object' && value.constructor === Array
+  }
+
+  isBoolean (value) {
+    return typeof value === 'boolean'
+  }
+
+  isDate (value) {
+    return value instanceof Date
+  }
+
+  isFunction (value) {
+    return typeof value === 'function'
+  }
+
+  isNumber (value) {
+    return typeof value === 'number' && isFinite(value)
+  }
+
+  isNull (value) {
+    return value === null
+  }
+
+  isObject (value) {
+    return value && typeof value === 'object' && value.constructor === Object
+  }
+
+  isRegExp (value) {
+    return value && typeof value === 'object' && value.constructor === RegExp
+  }
+
+  isString (value) {
+    return typeof value === 'string' || value instanceof String
+  }
+
+  isSymbol (value) {
+    return typeof value === 'symbol'
+  }
+
+  isUndefined (value) {
+    return typeof value === 'undefined'
+  }
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/selective-edit/js/utility/deepObject.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/selective-edit/js/utility/deepObject.js ***!
+  \**************************************************************/
+/*! exports provided: default, autoDeepObject */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return DeepObject; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "autoDeepObject", function() { return autoDeepObject; });
+/**
+ * Utility for working with deep object references.
+ *
+ * Example: obj.get('somthing.sub.key') would deeply reference the object.
+ */
+
+class DeepObject {
+  constructor(obj) {
+    this.obj = obj || {}
+  }
+
+  get(key) {
+    let root = this.obj
+    for (const part of key.split('.')) {
+      if (!root) {
+        return undefined
+      }
+      if (!part in root) {
+        return undefined
+      }
+      root = root[part]
+    }
+    return root
+  }
+
+  set(key, value) {
+    let root = this.obj
+    const parts = key.split('.')
+    for (let i = 0; i < parts.length - 1; i++) {
+      const part = parts[i]
+      if (!(part in root)) {
+        root[part] = {}
+      }
+      root = root[part]
+    }
+    root[parts[parts.length - 1]] = value
+  }
+}
+
+
+const autoDeepObject = (value) => {
+  if (value === undefined) {
+    return value
+  }
+
+  let has_get = false
+  if (value.get && typeof value.get === 'function') {
+    has_get = true
+  }
+
+  // Allow for duck typing and external objects that define a get.
+  if (has_get || value instanceof DeepObject) {
+    return value
+  }
+
+  return new DeepObject(value)
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/selective-edit/js/utility/uuid.js":
+/*!********************************************************!*\
+  !*** ./node_modules/selective-edit/js/utility/uuid.js ***!
+  \********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/**
+ * UUID Generator for JS.
+ */
+
+const generateUUID = () => {
+ let array = new Uint32Array(8)
+ window.crypto.getRandomValues(array)
+ let str = ''
+ for (let i = 0; i < array.length; i++) {
+   str += (i < 2 || i > 5 ? '' : '-') + array[i].toString(16).slice(-4)
+ }
+ return str
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (generateUUID);
+
+
+/***/ }),
+
 /***/ "./node_modules/superagent/lib/agent-base.js":
 /*!***************************************************!*\
   !*** ./node_modules/superagent/lib/agent-base.js ***!
@@ -8366,7 +8196,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utility_listeners__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utility/listeners */ "./source/utility/listeners.js");
 /* harmony import */ var _document__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./document */ "./source/editor/document.js");
 /* harmony import */ var _editorApi__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./editorApi */ "./source/editor/editorApi.js");
-/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! selective-edit */ "./node_modules/selective-edit/js/selective.js");
 /* harmony import */ var _field__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./field */ "./source/editor/field.js");
 /* harmony import */ var _utility_expandObject__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utility/expandObject */ "./source/utility/expandObject.js");
 /**
@@ -8835,6 +8665,14 @@ class EditorApi extends _utility_api__WEBPACK_IMPORTED_MODULE_0__["default"] {
     return result.promise;
   }
 
+  getRepo() {
+    const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
+    this.request.get(this.apiPath('repo')).then(res => {
+      result.resolve(res.body);
+    });
+    return result.promise;
+  }
+
   saveDocumentFields(podPath, frontMatter, locale, content) {
     const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
     const saveRequest = {
@@ -8880,7 +8718,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "defaultFields", function() { return defaultFields; });
 /* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! deep-extend */ "./node_modules/deep-extend/lib/deep-extend.js");
 /* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(deep_extend__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! selective-edit */ "./node_modules/selective-edit/js/selective.js");
 /**
  * Field types for the editor extension.
  */
