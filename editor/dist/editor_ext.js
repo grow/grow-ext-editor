@@ -1058,7 +1058,11 @@ class ListField extends SortableField {
       <div class="selective__list__item__preview sortable__preview" data-index=${listItem['index']} @click=${this.handleItemExpand.bind(this)}>
         ${this.renderPreview(listItem)}
       </div>
-      <div class="selective__list__item__delete" data-index=${listItem['index']} @click=${this.handleItemDelete.bind(this)}>
+      <div
+          class="selective__list__item__delete"
+          data-index=${listItem['index']}
+          @click=${this.handleItemDelete.bind(this)}
+          title="Delete item">
         <i class="material-icons">delete</i>
       </div>`;
   }
@@ -9312,7 +9316,11 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListFie
         ${partialItem['partialConfig']['label']}
       </div>
       ${this.renderPreview(partialItem)}
-      <div class="selective__list__item__delete" data-index=${partialItem['index']} @click=${this.handleItemDelete.bind(this)}>
+      <div
+          class="selective__list__item__delete"
+          data-index=${partialItem['index']}
+          @click=${this.handleItemDelete.bind(this)}
+          title="Delete ${partialItem['partialConfig']['label']}">
         <i class="material-icons">delete</i>
       </div>`;
   }
@@ -9333,7 +9341,11 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListFie
       <div class="selective__list__item__label" data-index=${partialItem['index']}>
         ${partialItem['partialConfig']['label'] || partialItem['partialKey']}
       </div>
-      <div class="selective__list__item__delete" data-index=${partialItem['index']} @click=${this.handleItemDelete.bind(this)}>
+      <div
+          class="selective__list__item__delete"
+          data-index=${partialItem['index']}
+          @click=${this.handleItemDelete.bind(this)}
+          title="Delete ${partialItem['partialConfig']['label'] || partialItem['partialKey']}">
         <i class="material-icons">delete</i>
       </div>`;
   }

@@ -272,7 +272,11 @@ export class PartialsField extends ListField {
         ${partialItem['partialConfig']['label']}
       </div>
       ${this.renderPreview(partialItem)}
-      <div class="selective__list__item__delete" data-index=${partialItem['index']} @click=${this.handleItemDelete.bind(this)}>
+      <div
+          class="selective__list__item__delete"
+          data-index=${partialItem['index']}
+          @click=${this.handleItemDelete.bind(this)}
+          title="Delete ${partialItem['partialConfig']['label']}">
         <i class="material-icons">delete</i>
       </div>`
   }
@@ -293,7 +297,11 @@ export class PartialsField extends ListField {
       <div class="selective__list__item__label" data-index=${partialItem['index']}>
         ${partialItem['partialConfig']['label'] || partialItem['partialKey']}
       </div>
-      <div class="selective__list__item__delete" data-index=${partialItem['index']} @click=${this.handleItemDelete.bind(this)}>
+      <div
+          class="selective__list__item__delete"
+          data-index=${partialItem['index']}
+          @click=${this.handleItemDelete.bind(this)}
+          title="Delete ${partialItem['partialConfig']['label'] || partialItem['partialKey']}">
         <i class="material-icons">delete</i>
       </div>`
   }
