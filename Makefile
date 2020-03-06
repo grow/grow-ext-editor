@@ -1,11 +1,11 @@
 develop:
 	cd editor \
 	  && yarn install
+	grow install -f example
 
 watch:
 	cd editor \
 	  && yarn run watch
 
 run:
-	grow install -f example
 	grow run example
