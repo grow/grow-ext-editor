@@ -22,7 +22,7 @@ make watch
 ```
 cd <repo>
 rm -rf extensions/editor
-ln -s ../grow-ext-editor/editor/ extensions/editor
+ln -s ../../grow-ext-editor/editor/ extensions/editor
 ```
 
 3. Run the Grow development server and iterate.
