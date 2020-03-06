@@ -8780,7 +8780,6 @@ class Editor {
   }
 
   handleLoadRoutes(response) {
-    console.log(response);
     this._routes = response['routes'];
     this.listeners.trigger('load.routes', {
       pod_paths: this._routes
@@ -8836,11 +8835,10 @@ class Editor {
     if (newPath == this.servingPath) {
       // Check if the user navigated to the same page.
       return;
-    }
-
-    console.log('Handling preview iframe navigation.'); // Mark the path as the latest path to check once the routes have loaded.
+    } // Mark the path as the latest path to check once the routes have loaded.
     // This allows the user to navigate a couple of times while the code is
     // waiting for the routes info to load and only update to the latest path.
+
 
     this._unverifiedServingPath = newPath; // User has navigated to a new page on the same host.
     // If there is a document that has the same serving path switch the editor.

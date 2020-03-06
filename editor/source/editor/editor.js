@@ -334,7 +334,6 @@ export default class Editor {
   }
 
   handleLoadRoutes(response) {
-    console.log(response);
     this._routes = response['routes']
     this.listeners.trigger('load.routes', {
       pod_paths: this._routes,
@@ -389,8 +388,6 @@ export default class Editor {
       // Check if the user navigated to the same page.
       return
     }
-
-    console.log('Handling preview iframe navigation.');
 
     // Mark the path as the latest path to check once the routes have loaded.
     // This allows the user to navigate a couple of times while the code is
