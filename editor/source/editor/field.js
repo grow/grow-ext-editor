@@ -12,6 +12,24 @@ import {
   Fields,
 } from 'selective-edit'
 
+export class DocumentField extends Field {
+  constructor(config) {
+    super(config)
+    this.fieldType = 'document'
+
+    this.template = (editor, field, data) => html`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
+      <label for="${field.getUid()}">${field.label}</label>
+      <input type="text" id="${field.getUid()}" value="${field.valueFromData(data)['value'] || ''}" @input=${field.handleInput.bind(field)}>
+    </div>`
+  }
+
+  handleInput(evt) {
+    // Update the value to what is being typed.
+    // Helps mark the field as dirty.
+    this.value['value'] = evt.target.value
+  }
+}
+
 export class PartialsField extends ListField {
   constructor(config) {
     super(config)
@@ -326,6 +344,7 @@ class PartialFields extends Fields {
 
 
 export const defaultFields = {
+  'document': DocumentField,
   'partials': PartialsField,
   'list': ListField,
   'text': TextField,
