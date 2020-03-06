@@ -79,6 +79,9 @@
       background-image: url('data:image/svg+xml;utf8,<svg class="svg" width="12" height="12" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg"><path d="M5 5V0h1v5h5v1H6v5H5V6H0V5h5z" fill-rule="nonzero" fill-opacity="1" fill="%23000" stroke="none"></path></svg>')
       padding-right: $ge-pad * 3
 
+  .material-icons
+    font-size: $ge-font-size-icon
+
 .editor__edit
   flex-basis: 40%
   max-height: 100vh
@@ -106,7 +109,6 @@
 
   i
     cursor: pointer
-    font-size: 18px
     margin: 0 $ge-pad / 4
     opacity: 0.25
     transition: opacity $ge-speed-fast
@@ -156,11 +158,26 @@
 
   .editor--raw &
     flex-grow: 1
-  
+
   .editor--fullscreen &
     margin: $ge-pad auto
     max-width: calc(100% - #{$ge-pad})
     width: 50vh
+
+.editor__dev_tools
+  align-items: center
+  display: flex
+  flex-flow: row
+  justify-content: flex-end
+  margin: $ge-pad/2 $ge-pad
+
+.editor__dev_tools__icon
+  color: $ge-color-icon-on-back
+  cursor: pointer
+  padding: 0 $ge-pad/2
+
+  &--selected
+    color: $ge-color-icon-on-back-selected
 
 .editor__menu
   align-items: center

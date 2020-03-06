@@ -8500,11 +8500,11 @@ class Editor {
             @change=${editor.handlePodPathChange.bind(editor)}
             @input=${editor.handlePodPathInput.bind(editor)}>
           ${editor.isFullScreen ? '' : selective_edit__WEBPACK_IMPORTED_MODULE_4__["html"]`
-            <i class="material-icons" @click=${editor.handleMobileClick.bind(editor)}>devices</i>
-            <i class="material-icons editor--mobile-only" @click=${editor.handleMobileRotateClick.bind(editor)}>screen_rotation</i>
+            <i class="material-icons" @click=${editor.handleMobileClick.bind(editor)} title="Toggle mobile view">devices</i>
+            <i class="material-icons editor--mobile-only" @click=${editor.handleMobileRotateClick.bind(editor)} title="Rotate mobile view">screen_rotation</i>
           `}
-          <i class="material-icons" @click=${editor.handleFullScreenClick.bind(editor)}>${editor.isFullScreen ? 'fullscreen_exit' : 'fullscreen'}</i>
-          <i class="material-icons" @click=${editor.handleOpenInNew.bind(editor)}>open_in_new</i>
+          <i class="material-icons" @click=${editor.handleFullScreenClick.bind(editor)} title="Fullscreen">${editor.isFullScreen ? 'fullscreen_exit' : 'fullscreen'}</i>
+          <i class="material-icons" @click=${editor.handleOpenInNew.bind(editor)} title="Preview in new window">open_in_new</i>
         </div>
         <div class="editor__cards">
           <div class="editor__card">
@@ -8516,6 +8516,14 @@ class Editor {
               </div>
             </div>
             ${editor.templateEditorOrSource}
+          </div>
+          <div class="editor__dev_tools">
+            <i
+                class="editor__dev_tools__icon ${editor.isHightlighted ? 'editor__dev_tools__icon--selected' : ''} material-icons"
+                @click=${editor.handleHighlight.bind(editor)}
+                title="Highlight auto fields">
+              highlight
+            </i>
           </div>
         </div>
       </div>
@@ -8534,6 +8542,7 @@ class Editor {
 
     this._isEditingSource = localStorage.getItem('selective.isEditingSource') == 'true';
     this._isFullScreen = localStorage.getItem('selective.isFullScreen') == 'true';
+    this._isHightlighted = localStorage.getItem('selective.isHightlighted') == 'true';
     this._isMobileRotated = localStorage.getItem('selective.isMobileRotated') == 'true';
     this._isMobileView = localStorage.getItem('selective.isMobileView') == 'true';
     this._isLoading = {};
@@ -8564,6 +8573,10 @@ class Editor {
 
   get isFullScreen() {
     return this._isFullScreen;
+  }
+
+  get isHightlighted() {
+    return this._isHightlighted;
   }
 
   get isMobileRotated() {
@@ -8607,7 +8620,7 @@ class Editor {
 
     const urlParams = new URLSearchParams(window.location.search);
 
-    if (urlParams.has('highlight')) {
+    if (urlParams.has('highlight') || this.isHightlighted) {
       styles.push('editor--highlight');
     }
 
@@ -8634,6 +8647,11 @@ class Editor {
   set isFullScreen(value) {
     this._isFullScreen = value;
     localStorage.setItem('selective.isFullScreen', this._isFullScreen);
+  }
+
+  set isHightlighted(value) {
+    this._isHightlighted = value;
+    localStorage.setItem('selective.isHightlighted', this._isHightlighted);
   }
 
   set isMobileRotated(value) {
@@ -8697,6 +8715,11 @@ class Editor {
 
   handleFullScreenClick(evt) {
     this.isFullScreen = !this.isFullScreen;
+    this.render();
+  }
+
+  handleHighlight(evt) {
+    this.isHightlighted = !this.isHightlighted;
     this.render();
   }
 

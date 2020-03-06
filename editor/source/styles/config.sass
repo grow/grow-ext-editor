@@ -16,17 +16,19 @@ $ge-color-on-secondary-dark: #ffffff !default
 
 // Utility Colors
 $ge-color-text: #455a64 !default
-$ge-color-text-light: lighten($ge-color-text, 10%) !default
+$ge-color-text-light: lighten($ge-color-text, 15%) !default
 $ge-color-back: #ffffff !default
 $ge-color-back-light: #e5e5e5 !default
-$ge-color-back-dark: darken($ge-color-back, 10%) !default
+$ge-color-back-dark: darken($ge-color-back, 15%) !default
 $ge-color-back-highlight: #e1fc8d !default
 $ge-color-on-back: #000000 !default
 $ge-color-on-back-light: #455a64 !default
-$ge-color-on-back-dark: #455a64 !default
+$ge-color-on-back-dark: lighten($ge-color-on-back-light, 15%) !default
 
 $ge-color-light-border: rgba(0,0,0,0.3)
 $ge-color-bar: rgba(0,0,0,0.1)
+$ge-color-icon-on-back: darken($ge-color-back, 25%) !default
+$ge-color-icon-on-back-selected: darken($ge-color-icon-on-back, 25%) !default
 
 // Speeds
 $ge-speed-slow: 400ms !default
@@ -42,6 +44,7 @@ $ge-pad: 1em !default
 $ge-font-family: Roboto !default
 $ge-font-family-mono: "Roboto Mono", monospace !default
 $ge-font-size: 12px !default
+$ge-font-size-icon: 18px !default
 $ge-line-height: 14px !default
 
 // Shadows
