@@ -267,7 +267,9 @@ export class PartialsField extends ListField {
         ${partialItem['partialConfig']['label']}
       </div>
       ${previewField && deepObject ? this.renderListItemPreview(partialItem, deepObject) : ''}
-      `
+      <div class="selective__list__item__delete" data-index=${partialItem['index']} @click=${this.handleItemDelete.bind(this)}>
+        <i class="material-icons">delete</i>
+      </div>`
   }
 
   renderExpandedPartial(editor, partialItem) {
@@ -285,6 +287,9 @@ export class PartialsField extends ListField {
       <div class="selective__list__item__drag"><i class="material-icons">drag_indicator</i></div>
       <div class="selective__list__item__label" data-index=${partialItem['index']}>
         ${partialItem['partialConfig']['label'] || partialItem['partialKey']}
+      </div>
+      <div class="selective__list__item__delete" data-index=${partialItem['index']} @click=${this.handleItemDelete.bind(this)}>
+        <i class="material-icons">delete</i>
       </div>`
   }
 
