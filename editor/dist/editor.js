@@ -496,9 +496,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _fields__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./fields */ "../../../selective-edit/js/selective/fields.js");
 /* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utility/compose */ "../../../selective-edit/js/utility/compose.js");
 /* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
+/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utility/dom */ "../../../selective-edit/js/utility/dom.js");
 /**
  * Field defined for editing.
  */
+
 
 
 
@@ -609,21 +611,6 @@ class SortableField extends Field {
     </div>`;
   }
 
-  _findDraggable(target) {
-    // Use the event target to traverse until the draggable element is found.
-    let isDraggable = false;
-
-    while (target && !isDraggable) {
-      isDraggable = target.getAttribute('draggable') == 'true';
-
-      if (!isDraggable) {
-        target = target.parentElement;
-      }
-    }
-
-    return target;
-  }
-
   _reorderValues(currentIndex, startIndex) {
     // Dropped on self, ignore.
     if (currentIndex == startIndex) {
@@ -665,9 +652,7 @@ class SortableField extends Field {
 
   handleDragStart(evt) {
     evt.stopPropagation();
-
-    const target = this._findDraggable(evt.target);
-
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_7__["findParentDraggable"])(evt.target);
     this._dragOriginElement = target;
     evt.dataTransfer.setData('text/plain', evt.target.dataset.index);
     evt.dataTransfer.setData(`selective/${this.getUid()}`, evt.target.dataset.index);
@@ -682,7 +667,7 @@ class SortableField extends Field {
 
   handleDragEnter(evt) {
     if (this._shouldHandleDrag(evt)) {
-      const target = this._findDraggable(evt.target);
+      const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_7__["findParentDraggable"])(evt.target);
 
       if (!target) {
         return;
@@ -709,7 +694,7 @@ class SortableField extends Field {
 
   handleDragLeave(evt) {
     if (this._shouldHandleDrag(evt)) {
-      const target = this._findDraggable(evt.target);
+      const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_7__["findParentDraggable"])(evt.target);
 
       if (!target) {
         return;
@@ -741,9 +726,7 @@ class SortableField extends Field {
     }
 
     evt.stopPropagation();
-
-    const target = this._findDraggable(evt.target);
-
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_7__["findParentDraggable"])(evt.target);
     const currentIndex = parseInt(evt.target.dataset.index);
     const startIndex = parseInt(evt.dataTransfer.getData("text/plain")); // No longer hovering.
 
@@ -952,6 +935,44 @@ class ListField extends SortableField {
     }
   }
 
+  handleItemDelete(evt) {
+    evt.stopPropagation();
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_7__["findParentByClassname"])(evt.target, 'selective__list__item__delete');
+    const index = parseInt(target.dataset.index); // Clean up an expanded indexes.
+
+    const newExpanded = [];
+
+    for (const oldIndex of this._expandedIndexes) {
+      if (oldIndex == index) {
+        continue;
+      } else if (oldIndex > index) {
+        newExpanded.push(oldIndex - 1);
+      } else {
+        newExpanded.push(oldIndex);
+      }
+    }
+
+    this._expandedIndexes = newExpanded; // Clean up the items.
+
+    const newListItems = [];
+
+    for (const oldItem of this._listItems) {
+      if (oldItem['index'] == index) {
+        continue;
+      } else if (oldItem['index'] > index) {
+        oldItem['index'] = oldItem['index'] - 1;
+        newListItems.push(oldItem);
+      } else {
+        newListItems.push(oldItem);
+      }
+    }
+
+    this._listItems = newListItems; // Remove the value.
+
+    this.value.splice(index, 1);
+    document.dispatchEvent(new CustomEvent('selective.render'));
+  }
+
   handleItemExpand(evt) {
     const index = parseInt(evt.target.dataset.index);
 
@@ -1003,6 +1024,9 @@ class ListField extends SortableField {
       <div class="selective__list__item__drag"><i class="material-icons">drag_indicator</i></div>
       <div class="selective__list__item__preview sortable__preview" data-index=${listItem['index']} @click=${this.handleItemExpand.bind(this)}>
         ${this.renderPreview(listItem)}
+      </div>
+      <div class="selective__list__item__delete" data-index=${listItem['index']} @click=${this.handleItemDelete.bind(this)}>
+        <i class="material-icons">delete</i>
       </div>`;
   }
 
@@ -1431,6 +1455,47 @@ const autoDeepObject = value => {
 
   return new DeepObject(value);
 };
+
+/***/ }),
+
+/***/ "../../../selective-edit/js/utility/dom.js":
+/*!*****************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/utility/dom.js ***!
+  \*****************************************************************/
+/*! exports provided: findParentByClassname, findParentDraggable */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "findParentByClassname", function() { return findParentByClassname; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "findParentDraggable", function() { return findParentDraggable; });
+/**
+ *  DOM helper functions.
+ */
+const findParentByClassname = (element, classname) => {
+  while (element && !element.classList.contains(classname)) {
+    element = element.parentElement;
+  }
+
+  return element;
+};
+
+const findParentDraggable = target => {
+  // Use the event target to traverse until the draggable element is found.
+  let isDraggable = false;
+
+  while (target && !isDraggable) {
+    isDraggable = target.getAttribute('draggable') == 'true';
+
+    if (!isDraggable) {
+      target = target.parentElement;
+    }
+  }
+
+  return target;
+};
+
+
 
 /***/ }),
 
