@@ -8503,12 +8503,12 @@ class Editor {
     this.podPath = this.containerEl.dataset.defaultPath || this.config.get('defaultPath', '');
     this.repo = null;
     this.document = null;
-    this.autosaveID = null; // TODO: Read initial values from local storage.
+    this.autosaveID = null; // Persistent settings in local storage.
 
-    this._isEditingSource = false;
-    this._isFullScreen = false;
-    this._isMobileRotated = false;
-    this._isMobileView = false;
+    this._isEditingSource = localStorage.getItem('selective.isEditingSource') || false;
+    this._isFullScreen = localStorage.getItem('selective.isFullScreen') || false;
+    this._isMobileRotated = localStorage.getItem('selective.isMobileRotated') || false;
+    this._isMobileView = localStorage.getItem('selective.isMobileView') || false;
     this._isLoading = {};
     this.selective = new selective_edit__WEBPACK_IMPORTED_MODULE_4__["default"](null, {}); // Add the editor extension default field types.
 
@@ -8594,19 +8594,23 @@ class Editor {
   }
 
   set isEditingSource(value) {
-    this._isEditingSource = value; // TODO: Save to local storage.
+    this._isEditingSource = value;
+    localStorage.setItem('selective.isEditingSource', this._isEditingSource);
   }
 
   set isFullScreen(value) {
-    this._isFullScreen = value; // TODO: Save to local storage.
+    this._isFullScreen = value;
+    localStorage.setItem('selective.isFullScreen', this._isFullScreen);
   }
 
   set isMobileRotated(value) {
-    this._isMobileRotated = value; // TODO: Save to local storage.
+    this._isMobileRotated = value;
+    localStorage.setItem('selective.isMobileRotated', this._isMobileRotated);
   }
 
   set isMobileView(value) {
-    this._isMobileView = value; // TODO: Save to local storage.
+    this._isMobileView = value;
+    localStorage.setItem('selective.isMobileView', this._isMobileView);
   }
 
   bindEvents() {

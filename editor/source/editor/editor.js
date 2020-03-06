@@ -62,11 +62,11 @@ export default class Editor {
     this.document = null
     this.autosaveID = null
 
-    // TODO: Read initial values from local storage.
-    this._isEditingSource = false
-    this._isFullScreen = false
-    this._isMobileRotated = false
-    this._isMobileView = false
+    // Persistent settings in local storage.
+    this._isEditingSource = localStorage.getItem('selective.isEditingSource') || false
+    this._isFullScreen = localStorage.getItem('selective.isFullScreen') || false
+    this._isMobileRotated = localStorage.getItem('selective.isMobileRotated') || false
+    this._isMobileView = localStorage.getItem('selective.isMobileView') || false
 
     this._isLoading = {}
 
@@ -158,22 +158,22 @@ export default class Editor {
 
   set isEditingSource(value) {
     this._isEditingSource = value
-    // TODO: Save to local storage.
+    localStorage.setItem('selective.isEditingSource', this._isEditingSource)
   }
 
   set isFullScreen(value) {
     this._isFullScreen = value
-    // TODO: Save to local storage.
+    localStorage.setItem('selective.isFullScreen', this._isFullScreen)
   }
 
   set isMobileRotated(value) {
     this._isMobileRotated = value
-    // TODO: Save to local storage.
+    localStorage.setItem('selective.isMobileRotated', this._isMobileRotated)
   }
 
   set isMobileView(value) {
     this._isMobileView = value
-    // TODO: Save to local storage.
+    localStorage.setItem('selective.isMobileView', this._isMobileView)
   }
 
   bindEvents() {
