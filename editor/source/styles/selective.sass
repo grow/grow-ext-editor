@@ -57,13 +57,6 @@
       margin: -1px -1px 1px -1px
       width: calc(100% + 2px)
 
-.selective__list__items
-  // Flex flow when using full screen.
-  .editor--fullscreen &
-    display: flex
-    flex-flow: row
-    flex-wrap: wrap
-
 .selective__list__item
   align-items: center
   background: rgba($ge-color-back-light, .5)
@@ -78,17 +71,6 @@
 
   &:hover
     box-shadow: 0 0 0 1px rgba(0, 0, 0, .3)
-
-  // Flex flow when using full screen.
-  .editor--fullscreen &
-    align-items: flex-start
-    flex-basis: unquote("calc(33% - #{$ge-pad/2})")
-    flex-grow: 1
-    margin-right: $ge-pad/2
-
-    &:nth-child(3n),
-    &:last-child
-      margin-right: 0
 
   // Invert the item for every other layer.
   & .selective__list__item
