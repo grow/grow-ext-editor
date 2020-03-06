@@ -234,7 +234,7 @@ export class PartialsField extends ListField {
 
   renderActionsFooter(editor, field, data) {
     return html`<div class="selective__actions">
-      <select @change=${(evt) => {field.handleAddItem(evt, editor)}}>
+      <select class="selective__actions__add" @change=${(evt) => {field.handleAddItem(evt, editor)}}>
         <option value="">${field.options['addLabel'] || 'Add section'}</option>
         ${repeat(Object.entries(field.partialTypes), (item) => item[0], (item, index) => html`
           <option value="${item[1]['key']}">${item[1]['label']}</option>

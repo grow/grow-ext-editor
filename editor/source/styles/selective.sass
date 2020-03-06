@@ -91,7 +91,7 @@
       margin-right: 0
 
   // Invert the item for every other layer.
-  .selective__list__item &
+  & .selective__list__item
     background-color: $ge-color-back
 
     .selective__fields &
@@ -101,6 +101,10 @@
 
       button
         background: $ge-color-back
+
+    // For two levels deep, when expanded, add a light border.
+  & .selective__list__item--expanded .selective__list__item--expanded
+    box-shadow: 0 0 0 1px rgba($ge-color-back-light, 1)
 
   // Invert the styling for each layer.
   .selective__field__partials &
