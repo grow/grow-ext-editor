@@ -21,7 +21,7 @@ make watch
 
 ```
 cd <repo>
-rm -rf ext/editor
+rm -rf extensions/editor
 ln -s ../grow-ext-editor/editor/ extensions/editor
 ```
 
