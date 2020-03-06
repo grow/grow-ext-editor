@@ -50,6 +50,19 @@ export class DocumentField extends ConstructorField {
   }
 }
 
+// TODO: Use a full markdown editor.
+export class MarkdownField extends Field {
+  constructor(config) {
+    super(config)
+    this.fieldType = 'markdown'
+
+    this.template = (editor, field, data) => html`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
+      <label for="${field.getUid()}">${field.label}</label>
+      <textarea id="${field.getUid()}" rows="${field.options.rows || 6}" @input=${field.handleInput.bind(field)}>${field.valueFromData(data) || ' '}</textarea>
+    </div>`
+  }
+}
+
 export class PartialsField extends ListField {
   constructor(config) {
     super(config)
@@ -380,6 +393,7 @@ export const defaultFields = {
   'document': DocumentField,
   'partials': PartialsField,
   'list': ListField,
+  'markdown': MarkdownField,
   'text': TextField,
   'textarea': TextareaField,
   'yaml': YamlField,

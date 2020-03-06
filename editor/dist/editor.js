@@ -8954,13 +8954,14 @@ class EditorApi extends _utility_api__WEBPACK_IMPORTED_MODULE_0__["default"] {
 /*!********************************!*\
   !*** ./source/editor/field.js ***!
   \********************************/
-/*! exports provided: ConstructorField, DocumentField, PartialsField, TextField, TextareaField, YamlField, defaultFields */
+/*! exports provided: ConstructorField, DocumentField, MarkdownField, PartialsField, TextField, TextareaField, YamlField, defaultFields */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ConstructorField", function() { return ConstructorField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DocumentField", function() { return DocumentField; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MarkdownField", function() { return MarkdownField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PartialsField", function() { return PartialsField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TextField", function() { return TextField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TextareaField", function() { return TextareaField; });
@@ -9011,6 +9012,19 @@ class DocumentField extends ConstructorField {
     super(config);
     this.fieldType = 'document';
     this.tag = '!g.doc';
+  }
+
+} // TODO: Use a full markdown editor.
+
+class MarkdownField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
+  constructor(config) {
+    super(config);
+    this.fieldType = 'markdown';
+
+    this.template = (editor, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
+      <label for="${field.getUid()}">${field.label}</label>
+      <textarea id="${field.getUid()}" rows="${field.options.rows || 6}" @input=${field.handleInput.bind(field)}>${field.valueFromData(data) || ' '}</textarea>
+    </div>`;
   }
 
 }
@@ -9340,6 +9354,7 @@ const defaultFields = {
   'document': DocumentField,
   'partials': PartialsField,
   'list': selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListField"],
+  'markdown': MarkdownField,
   'text': TextField,
   'textarea': TextareaField,
   'yaml': YamlField
