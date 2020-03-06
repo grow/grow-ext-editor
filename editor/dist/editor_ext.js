@@ -8533,7 +8533,7 @@ class Editor {
         </div>
       </div>
       ${editor.isFullScreen ? '' : selective_edit__WEBPACK_IMPORTED_MODULE_4__["html"]`<div class="editor__preview">
-        <iframe src="${editor.servingPath}"></iframe>
+        <iframe src="${editor.servingPath}" @load=${editor.handlePreviewIframeNavigation.bind(editor)}></iframe>
       </div>`}
     </div>`;
 
@@ -8551,6 +8551,10 @@ class Editor {
     this._isMobileRotated = localStorage.getItem('selective.isMobileRotated') == 'true';
     this._isMobileView = localStorage.getItem('selective.isMobileView') == 'true';
     this._isLoading = {};
+    this._podPaths = null;
+    this._routes = null; // Track the serving path of the iframe when it is different.
+
+    this._unverifiedServingPath = null;
     this.selective = new selective_edit__WEBPACK_IMPORTED_MODULE_4__["default"](null, {}); // Add the editor extension default field types.
 
     for (const key of Object.keys(_field__WEBPACK_IMPORTED_MODULE_5__["defaultFields"])) {
@@ -8680,7 +8684,9 @@ class Editor {
       const podPath = evt.detail['path'];
       this.podPath = podPath;
       this.load(podPath);
-    });
+    }); // Check for navigated iframe when the routes load.
+
+    this.listeners.add('load.routes', this.verifyPreviewIframe.bind(this));
   }
 
   bindKeyboard() {
@@ -8782,9 +8788,16 @@ class Editor {
   }
 
   handleLoadPodPaths(response) {
-    this._pod_paths = response['pod_paths'];
+    this._podPaths = response['pod_paths'];
     this.listeners.trigger('load.podPaths', {
-      pod_paths: this._pod_paths
+      pod_paths: this._podPaths
+    });
+  }
+
+  handleLoadRoutes(response) {
+    this._routes = response['routes'];
+    this.listeners.trigger('load.routes', {
+      pod_paths: this._routes
     });
   }
 
@@ -8822,6 +8835,33 @@ class Editor {
 
   handlePodPathInput(evt) {
     this.delayPodPath(evt.target.value);
+  }
+
+  handlePreviewIframeNavigation(evt) {
+    const newLocation = evt.target.contentWindow.location;
+
+    if (window.location.host != newLocation.host) {
+      // Navigated away from the current site, ignore them.
+      return;
+    }
+
+    const newPath = newLocation.pathname;
+
+    if (newPath == this.servingPath) {
+      // Check if the user navigated to the same page.
+      return;
+    } // Mark the path as the latest path to check once the routes have loaded.
+    // This allows the user to navigate a couple of times while the code is
+    // waiting for the routes info to load and only update to the latest path.
+
+
+    this._unverifiedServingPath = newPath; // User has navigated to a new page on the same host.
+    // If there is a document that has the same serving path switch the editor.
+
+    this.verifyPreviewIframe(); // Load the routes info if it has not loaded already.
+    // The verify method is already bound to the loaded routes listener.
+
+    this.loadRoutes();
   }
 
   handleRawInput(evt) {
@@ -8863,6 +8903,16 @@ class Editor {
 
   loadRepo() {
     this.api.getRepo().then(this.handleLoadRepo.bind(this));
+  }
+
+  loadRoutes(force) {
+    if (!force && this._isLoading['routes']) {
+      // Already loading the pod paths, do not re-request.
+      return;
+    }
+
+    this._isLoading['routes'] = true;
+    this.api.getRoutes().then(this.handleLoadRoutes.bind(this));
   }
 
   loadSource(podPath) {
@@ -8930,6 +8980,17 @@ class Editor {
     }
   }
 
+  verifyPreviewIframe() {
+    if (!this._unverifiedServingPath || !this._routes) {
+      return;
+    }
+
+    if (this._unverifiedServingPath in this._routes) {
+      const match = this._routes[this._unverifiedServingPath];
+      this.load(match['pod_path']);
+    }
+  }
+
 }
 
 /***/ }),
@@ -8966,9 +9027,9 @@ class EditorApi extends _utility_api__WEBPACK_IMPORTED_MODULE_0__["default"] {
     return result.promise;
   }
 
-  getDocuments(podPath) {
+  getRoutes(podPath) {
     const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
-    this.request.get(this.apiPath('documents')).then(res => {
+    this.request.get(this.apiPath('routes')).then(res => {
       result.resolve(res.body);
     });
     return result.promise;

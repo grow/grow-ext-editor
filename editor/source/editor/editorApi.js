@@ -22,10 +22,10 @@ export default class EditorApi extends Api {
     return result.promise
   }
 
-  getDocuments(podPath) {
+  getRoutes(podPath) {
     const result = new Defer()
 
-    this.request.get(this.apiPath('documents'))
+    this.request.get(this.apiPath('routes'))
       .then((res) => {
         result.resolve(res.body)
       })
