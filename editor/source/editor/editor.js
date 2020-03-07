@@ -38,7 +38,12 @@ export default class Editor {
         <div class="editor__cards">
           <div class="editor__card">
             <div class="editor__menu">
-              <button class="editor__save editor--primary" @click=${() => editor.save()}>Save</button>
+              <button
+                  ?disabled=${editor._isSaving}
+                  class="editor__save editor--primary ${editor._isSaving ? 'editor__save--saving' : ''}"
+                  @click=${() => editor.save()}>
+                ${editor._isSaving ? 'Saving...' : 'Save'}
+              </button>
               <div class="editor__actions">
                 <button class="editor__style__fields editor--secondary editor--selected" @click=${editor.handleFieldsClick.bind(editor)}>Fields</button>
                 <button class="editor__style__raw editor--secondary" @click=${editor.handleSourceClick.bind(editor)}>Raw</button>
@@ -80,6 +85,7 @@ export default class Editor {
     this._isFullMarkdownEditor = false;
 
     this._isLoading = {}
+    this._isSaving = false
 
     this._podPaths = null
     this._routes = null
@@ -423,6 +429,7 @@ export default class Editor {
       response['default_locale'],
       response['content'])
 
+    this._isSaving = false
     this.listeners.trigger('save.response', response, isAutosave)
 
     this.render(true)
@@ -499,6 +506,9 @@ export default class Editor {
       // Already saved with no new changes.
       return
     }
+
+    this._isSaving = true
+    this.render()
 
     this.listeners.trigger('save.start', {
       isEditingSource: this.isEditingSource,
