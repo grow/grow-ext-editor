@@ -1,5 +1,26 @@
 @import "selective-edit/sass/selective-core"
 
+.selective
+  .editor--markdown &
+    display: flex
+    flex-grow: 1
+
+.selective__fields
+  .editor--markdown &
+    display: flex
+    flex-direction: column
+    flex-grow: 1
+
+// Document-level Markdown field (content body).
+.selective__fields > .selective__field__markdown
+  .editor--markdown &
+    display: flex
+    flex-direction: column
+    flex-grow: 1
+    textarea
+      flex-grow: 1
+      min-height: 500px
+
 .selective__field__partials
   border-bottom: 3px solid transparent
   border-radius: $ge-radius-2

@@ -88,6 +88,7 @@
   max-width: $ge-edit-column-max-width
   min-width: $ge-edit-column-min-width
 
+  .editor--markdown &,
   .editor--raw &
     display: flex
     flex-flow: column
@@ -156,6 +157,7 @@
     border-top-left-radius: 0
     border-top-right-radius: 0
 
+  .editor--markdown &,
   .editor--raw &
     flex-grow: 1
 
@@ -202,6 +204,10 @@
 .editor__source,
 .editor__selective
   padding: $ge-pad*2
+
+  .editor--markdown &
+    display: flex
+    flex-grow: 1
 
 .editor__source
   display: flex

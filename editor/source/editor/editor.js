@@ -77,6 +77,7 @@ export default class Editor {
     this._isHightlighted = localStorage.getItem('selective.isHightlighted') == 'true'
     this._isMobileRotated = localStorage.getItem('selective.isMobileRotated') == 'true'
     this._isMobileView = localStorage.getItem('selective.isMobileView') == 'true'
+    this._isFullMarkdownEditor = false;
 
     this._isLoading = {}
 
@@ -160,6 +161,10 @@ export default class Editor {
 
     if (this.isFullScreen) {
       styles.push('editor--fullscreen')
+    }
+
+    if (this._isFullMarkdownEditor) {
+      styles.push('editor--markdown')
     }
 
     const urlParams = new URLSearchParams(window.location.search)
@@ -275,6 +280,7 @@ export default class Editor {
 
   handleLoadFieldsResponse(response) {
     this._isEditingSource = false
+    this._isFullMarkdownEditor = false
     this.documentFromResponse(response)
     this.pushState(this.document.podPath)
 
@@ -314,11 +320,12 @@ export default class Editor {
       let contentType = 'textarea'
       if (this.document.podPath.endsWith('.md')) {
         contentType = 'markdown'
+        this._isFullMarkdownEditor = true
       }
       this.selective.addField({
         type: contentType,
         key: CONTENT_KEY,
-        label: 'Content',
+        label: 'Content (Markdown)',
         api: this.api,
       })
     }
