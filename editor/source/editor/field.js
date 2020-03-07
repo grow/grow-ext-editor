@@ -10,6 +10,7 @@ import {
   Field,
   ListField,
   Fields,
+  AutoFields,
 } from 'selective-edit'
 
 export class ConstructorField extends Field {
@@ -87,11 +88,21 @@ export class PartialsField extends ListField {
       return []
     }
 
+    const autoGuessMissing = this.getConfig().get('autoGuess', true)
+
     let index = 0
     const items = []
     for (const itemData of this.value) {
       const partialKey = itemData['partial']
-      const partialConfig = this.partialTypes[partialKey]
+      let partialConfig = this.partialTypes[partialKey]
+
+      // If allowed to guess use a stub of the partial config.
+      if (!partialConfig && autoGuessMissing) {
+        partialConfig = {
+          'label': partialKey,
+          fields: [],
+        }
+      }
 
       // Skip missing partials.
       // TODO: Make this work with placeholders.
@@ -105,6 +116,7 @@ export class PartialsField extends ListField {
           'itemFields': [],
           'isExpanded': false,
           'isHidden': true,
+          'useAutoFields': false,
         })
 
         index += 1
@@ -116,7 +128,16 @@ export class PartialsField extends ListField {
       })
       itemFields.valueFromData(itemData)
 
-      const fieldConfigs = partialConfig.fields
+      let fieldConfigs = partialConfig.fields
+      const useAutoFields = fieldConfigs.length == 0
+
+      if (useAutoFields) {
+        // Auto guess the fields if they are not defined.
+        fieldConfigs = new AutoFields(itemData, {
+          ignoredKeys: ['partial'],
+        }).config['fields']
+      }
+
       for (const fieldConfig of fieldConfigs || []) {
         itemFields.addField(fieldConfig)
       }
@@ -135,6 +156,7 @@ export class PartialsField extends ListField {
         'itemFields': itemFields,
         'isExpanded': false,
         'isHidden': false,
+        'useAutoFields': useAutoFields,
       })
 
       index += 1
@@ -319,7 +341,7 @@ export class PartialsField extends ListField {
     }
 
     return html`${repeat(this._listItems, (listItem) => listItem['id'], (listItem, index) => html`
-      <div class="selective__list__item selective__list__item--${listItem['isExpanded'] ? 'expanded' : listItem['isHidden'] ? 'hidden' : 'collapsed'}"
+      <div class="selective__list__item selective__list__item--${listItem['isExpanded'] ? 'expanded' : listItem['isHidden'] ? 'hidden' : 'collapsed'} ${listItem['useAutoFields'] ? 'selective__list__item--auto' : ''}"
           draggable="true"
           data-index=${listItem['index']}
           @dragenter=${this.handleDragEnter.bind(this)}

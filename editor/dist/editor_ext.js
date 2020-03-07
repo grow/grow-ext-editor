@@ -155,7 +155,7 @@ const UidMixin = superclass => class extends superclass {
 /*!***************************************************************!*\
   !*** /Users/randy/code/blinkk/selective-edit/js/selective.js ***!
   \***************************************************************/
-/*! exports provided: default, Field, SortableField, ListField, Fields, html, repeat, render, autoDeepObject */
+/*! exports provided: default, Field, SortableField, ListField, Fields, AutoFields, html, repeat, render, autoDeepObject */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -179,12 +179,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _selective_fields__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./selective/fields */ "../../../selective-edit/js/selective/fields.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Fields", function() { return _selective_fields__WEBPACK_IMPORTED_MODULE_4__["default"]; });
 
-/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "autoDeepObject", function() { return _utility_deepObject__WEBPACK_IMPORTED_MODULE_5__["autoDeepObject"]; });
+/* harmony import */ var _selective_autoFields__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./selective/autoFields */ "../../../selective-edit/js/selective/autoFields.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AutoFields", function() { return _selective_autoFields__WEBPACK_IMPORTED_MODULE_5__["default"]; });
+
+/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "autoDeepObject", function() { return _utility_deepObject__WEBPACK_IMPORTED_MODULE_6__["autoDeepObject"]; });
 
 /**
  * Selective structure content editor.
  */
+
 
 
 
@@ -208,24 +212,40 @@ const Selective = _selective_editor__WEBPACK_IMPORTED_MODULE_2__["default"];
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return AutoFields; });
-/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
-/* harmony import */ var _utility_dataType__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utility/dataType */ "../../../selective-edit/js/utility/dataType.js");
+/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../mixin/config */ "../../../selective-edit/js/mixin/config.js");
+/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utility/compose */ "../../../selective-edit/js/utility/compose.js");
+/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
+/* harmony import */ var _utility_dataType__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utility/dataType */ "../../../selective-edit/js/utility/dataType.js");
 /**
  * Automatically guess the field configuration from data.
  */
 
 
-class AutoFields {
-  constructor(data) {
+
+
+class AutoFields extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_1__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_0__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_1__["Base"]) {
+  constructor(data, config) {
+    super();
     this.data = data;
-    this._data = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_0__["autoDeepObject"])(data);
-    this.dataType = new _utility_dataType__WEBPACK_IMPORTED_MODULE_1__["default"]();
+    this._data = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_2__["autoDeepObject"])(data);
+    this.dataType = new _utility_dataType__WEBPACK_IMPORTED_MODULE_3__["default"]();
+    this.setConfig(config);
+    this._ignoredKeys = null;
   }
 
   get config() {
     return {
       'fields': this.guessAll()
     };
+  }
+
+  get ignoredKeys() {
+    if (this._ignoredKeys == null) {
+      const config = this.getConfig();
+      this._ignoredKeys = config.get('ignoredKeys', []);
+    }
+
+    return this._ignoredKeys;
   }
 
   _deepGuess(data, keyBase) {
@@ -246,7 +266,12 @@ class AutoFields {
         if (this.dataType.isObject(data[key])) {
           fields = fields.concat(this._deepGuess(data[key], newKeyBase));
         } else {
-          const fullKey = newKeyBase.join('.');
+          const fullKey = newKeyBase.join('.'); // Skip ignored keys.
+
+          if (this.ignoredKeys.includes(key)) {
+            continue;
+          }
+
           fields.push(this._fieldConfig(fullKey, data[key]));
         }
       }
@@ -9190,13 +9215,22 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListFie
       return [];
     }
 
+    const autoGuessMissing = this.getConfig().get('autoGuess', true);
     let index = 0;
     const items = [];
 
     for (const itemData of this.value) {
       const partialKey = itemData['partial'];
-      const partialConfig = this.partialTypes[partialKey]; // Skip missing partials.
+      let partialConfig = this.partialTypes[partialKey]; // If allowed to guess use a stub of the partial config.
+
+      if (!partialConfig && autoGuessMissing) {
+        partialConfig = {
+          'label': partialKey,
+          fields: []
+        };
+      } // Skip missing partials.
       // TODO: Make this work with placeholders.
+
 
       if (!partialConfig) {
         // Add as a hidden partial.
@@ -9207,7 +9241,8 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListFie
           'partialKey': partialKey,
           'itemFields': [],
           'isExpanded': false,
-          'isHidden': true
+          'isHidden': true,
+          'useAutoFields': false
         });
         index += 1;
         continue;
@@ -9217,7 +9252,15 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListFie
         'partial': partialConfig
       });
       itemFields.valueFromData(itemData);
-      const fieldConfigs = partialConfig.fields;
+      let fieldConfigs = partialConfig.fields;
+      const useAutoFields = fieldConfigs.length == 0;
+
+      if (useAutoFields) {
+        // Auto guess the fields if they are not defined.
+        fieldConfigs = new selective_edit__WEBPACK_IMPORTED_MODULE_1__["AutoFields"](itemData, {
+          ignoredKeys: ['partial']
+        }).config['fields'];
+      }
 
       for (const fieldConfig of fieldConfigs || []) {
         itemFields.addField(fieldConfig);
@@ -9236,7 +9279,8 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListFie
         'partialKey': partialKey,
         'itemFields': itemFields,
         'isExpanded': false,
-        'isHidden': false
+        'isHidden': false,
+        'useAutoFields': useAutoFields
       });
       index += 1;
     }
@@ -9423,7 +9467,7 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListFie
     }
 
     return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`${Object(selective_edit__WEBPACK_IMPORTED_MODULE_1__["repeat"])(this._listItems, listItem => listItem['id'], (listItem, index) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
-      <div class="selective__list__item selective__list__item--${listItem['isExpanded'] ? 'expanded' : listItem['isHidden'] ? 'hidden' : 'collapsed'}"
+      <div class="selective__list__item selective__list__item--${listItem['isExpanded'] ? 'expanded' : listItem['isHidden'] ? 'hidden' : 'collapsed'} ${listItem['useAutoFields'] ? 'selective__list__item--auto' : ''}"
           draggable="true"
           data-index=${listItem['index']}
           @dragenter=${this.handleDragEnter.bind(this)}
