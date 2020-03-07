@@ -9,6 +9,7 @@ from grow.common import json_encoder
 from grow.common import utils
 from grow.common import yaml_utils
 from grow.documents import document_front_matter
+from grow.documents import document_format
 from grow.routing import router as grow_router
 
 
@@ -275,20 +276,24 @@ class PodApi(object):
 
         pod_path = self.request.POST['pod_path']
         doc = self.pod.get_doc(pod_path)
-        if 'raw_front_matter' in self.request.POST:
-            doc.format.front_matter.update_raw_front_matter(
-                self.request.POST['raw_front_matter'])
-            doc.write()
-        elif 'front_matter' in self.request.POST:
-            fields = json.loads(self.request.POST['front_matter'])
-            fields = self._convert_fields(fields)
-
-            # TODO: Array updates don't work well.
-            doc.format.front_matter.update_fields(fields)
-            if 'content' in self.request.POST:
-                doc.write(body=self.request.POST['content'])
-            else:
+        try:
+            if 'raw_front_matter' in self.request.POST:
+                doc.format.front_matter.update_raw_front_matter(
+                    self.request.POST['raw_front_matter'])
                 doc.write()
+            elif 'front_matter' in self.request.POST:
+                fields = json.loads(self.request.POST['front_matter'])
+                fields = self._convert_fields(fields)
+
+                # TODO: Array updates don't work well.
+                doc.format.front_matter.update_fields(fields)
+                if 'content' in self.request.POST:
+                    doc.write(body=self.request.POST['content'])
+                else:
+                    doc.write()
+        except document_format.BadFormatError as e:
+            # TODO: Communicate error back to client with a 400.
+            raise
 
         self.pod.podcache.document_cache.remove(doc)
         self.data = self._load_doc(pod_path)
