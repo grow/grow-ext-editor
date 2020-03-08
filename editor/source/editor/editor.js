@@ -123,7 +123,14 @@ export default class Editor {
   }
 
   get isFullScreen() {
-    return this._isFullScreen
+    // Default to full-screen mode for documents without serving paths.
+    // TODO: We probably want to add a new checkbox to "disable the link"
+    // between the preview and the editor. When the preview is disabled,
+    // we do not want to override the full-screen setting. The goal is to
+    // allow the user to be editing a partial document and then refresh the
+    // full preview (corresponding to another doc), without having to
+    // toggle the full-screen view.
+    return this._isFullScreen || !this.servingPath
   }
 
   get isHightlighted() {

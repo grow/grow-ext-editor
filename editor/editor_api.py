@@ -26,7 +26,9 @@ class PodApi(object):
     IGNORED_EXTS = (
         '.pyc',
     )
+    # TODO: Make this user configurable.
     IGNORED_DIRS = (
+        '/backend/',
         '/build/',
         '/ext/',
         '/extensions/',
