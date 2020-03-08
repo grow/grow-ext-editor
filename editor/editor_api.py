@@ -8,6 +8,7 @@ from werkzeug import wrappers
 from grow.common import json_encoder
 from grow.common import utils
 from grow.common import yaml_utils
+from grow.documents import document
 from grow.documents import document_front_matter
 from grow.routing import router as grow_router
 
@@ -105,9 +106,16 @@ class PodApi(object):
             }
 
         serving_paths = {}
-        serving_paths[str(doc.default_locale)] = doc.get_serving_path()
-        for key, value in doc.get_serving_paths_localized().items():
-            serving_paths[str(key)] = value
+        try:
+            serving_path = doc.get_serving_path()
+            serving_paths[str(doc.default_locale)] = serving_path
+            for key, value in doc.get_serving_paths_localized().items():
+                serving_paths[str(key)] = value
+        except document.PathFormatError:
+            # Document is just a partial content file, or has no serving path,
+            # or has an error with its serving path.
+            serving_path = None
+            serving_paths = {}
 
         raw_front_matter = doc.format.front_matter.export()
         front_matter = yaml.load(
