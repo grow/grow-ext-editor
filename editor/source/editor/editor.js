@@ -63,7 +63,7 @@ export default class Editor {
         </div>
       </div>
       ${editor.isFullScreen ? '' : html`<div class="editor__preview">
-        <iframe src="${editor.servingPath}" @load=${editor.handlePreviewIframeNavigation.bind(editor)}></iframe>
+        <iframe ?hidden=${!editor.servingPath} src="${editor.servingPath}" @load=${editor.handlePreviewIframeNavigation.bind(editor)}></iframe>
       </div>`}
     </div>`
 
