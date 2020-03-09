@@ -235,6 +235,16 @@ class PodApi(object):
         if not repo:
             return {}
         branch = str(repo.active_branch)
+        revision = repo.git.rev_list('--count', 'HEAD')
+        remote_url = None
+        web_url = None
+        if repo.remotes and repo.remotes[0]:
+            urls = list(repo.remotes[0].urls)
+            remote_url = urls and urls[0]
+            # TODO(jeremydw): Genericize this.
+            web_url = remote_url and remote_url.replace('git@github.com:', 'https://www.github.com/')
+            if web_url and web_url.endswith('.git'):
+                web_url = web_url[:-4]
         commits = []
         # Handle repo with no commits.
         if repo.head.ref:
@@ -250,6 +260,9 @@ class PodApi(object):
                 })
         self.data = {
             'repo': {
+                'web_url': web_url,
+                'remote_url': remote_url,
+                'revision': revision,
                 'branch': branch,
                 'commits': commits,
             },
