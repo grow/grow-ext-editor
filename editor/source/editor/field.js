@@ -51,6 +51,54 @@ export class DocumentField extends ConstructorField {
   }
 }
 
+export class ImageField extends Field {
+  constructor(config) {
+    super(config)
+    this.fieldType = 'image'
+
+    // Set the api if it was provided
+    this._api = null
+    if (this.getConfig().get('api')) {
+      this.api = this.getConfig().get('api')
+    }
+
+    this.template = (editor, field, data) => html`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
+      <label for="${field.getUid()}">${field.label}</label>
+      <input type="text" id="${field.getUid()}" value="${field.valueFromData(data) || ''}" @input=${field.handleInput.bind(field)}>
+      <input type="file" id="${field.getUid()}_file" placeholder="Upload new image" @change=${field.handleFileInput.bind(field)}>
+      ${field.valueFromData(data).startsWith('https://') ? this.renderImagePreview(editor, field, data) : ''}
+    </div>`
+  }
+
+  renderImagePreview(editor, field, data) {
+    return html`
+      <div class="selective__field__${field.fieldType}__preview">
+        <a href="${field.valueFromData(data)}"><img src="${field.valueFromData(data)}"></a>
+      </div>
+    `
+  }
+
+  handleFileInput(evt) {
+    // TODO: Probably move this to a centralized api.js file?
+    const formData  = new FormData();
+    formData.append('file', evt.target.files[0]);
+    // NOTE: Need to move the URL to config, or better yet just pull it from
+    // podspec since it uses the extension we have configured there already.
+    fetch('https://ext-cloud-images-dot-betterplaceforests-website.appspot.com/_api/upload_file', {
+      method: 'POST',
+      body: formData
+    })
+    .then((response) => {
+      return response.json()
+    })
+    .then((data) => {
+      this.value = data['url']
+      // Re-render output.
+      document.dispatchEvent(new CustomEvent('selective.render'))
+    })
+  }
+}
+
 // TODO: Use a full markdown editor.
 export class MarkdownField extends Field {
   constructor(config) {
@@ -425,6 +473,7 @@ export class YamlField extends ConstructorField {
 
 export const defaultFields = {
   'document': DocumentField,
+  'image': ImageField,
   'partials': PartialsField,
   'list': ListField,
   'markdown': MarkdownField,

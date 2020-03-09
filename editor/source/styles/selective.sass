@@ -54,6 +54,7 @@
     font-weight: bold
 
 .selective__field__document,
+.selective__field__image,
 .selective__field__text
   input
     border: 1px solid transparent
@@ -78,6 +79,16 @@
       +field-control-focus
       margin: -1px -1px 1px -1px
       width: calc(100% + 2px)
+
+.selective__field__image__preview
+  background: rgba($ge-color-back-light, .5)
+  border-radius: $ge-radius-2
+  line-height: 0
+  margin-bottom: $ge-pad
+  padding: $ge-pad/2
+  img
+    max-height: 100px
+    max-width: 100px
 
 .selective__list__item
   align-items: center
