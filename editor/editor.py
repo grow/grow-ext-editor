@@ -12,7 +12,7 @@ class EditorDevHandlerHook(hooks.DevHandlerHook):
     """Handle the dev handler hook."""
 
     # pylint: disable=arguments-differ
-    def trigger(self, previous_result, routes, host, port, *_args, **_kwargs):
+    def trigger(self, previous_result, routes, host='localhost', port=8080, *_args, **_kwargs):
         """Execute dev handler modification."""
         routes.add('/_grow/api/editor/*path', grow_router.RouteInfo('console', meta={
             'handler': editor_api.serve_api,
