@@ -63,7 +63,7 @@ export default class Editor {
         </div>
       </div>
       ${editor.isFullScreen ? '' : html`<div class="editor__preview">
-        <iframe src="${editor.servingPath}" @load=${editor.handlePreviewIframeNavigation.bind(editor)}></iframe>
+        <iframe src="${editor.previewUrl}" @load=${editor.handlePreviewIframeNavigation.bind(editor)}></iframe>
       </div>`}
     </div>`
 
@@ -146,7 +146,8 @@ export default class Editor {
   }
 
   get previewUrl() {
-    return this.servingPath
+    const params = '?editor=true'
+    return `${this.servingPath}${params}`
   }
 
   get servingPath() {
@@ -386,7 +387,7 @@ export default class Editor {
   }
 
   handleOpenInNew(evt) {
-    window.open(this.servingPath, '_blank')
+    window.open(this.previewUrl, '_blank')
   }
 
   handlePodPathChange(evt) {

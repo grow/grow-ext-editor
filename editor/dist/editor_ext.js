@@ -8572,7 +8572,7 @@ class Editor {
         </div>
       </div>
       ${editor.isFullScreen ? '' : selective_edit__WEBPACK_IMPORTED_MODULE_4__["html"]`<div class="editor__preview">
-        <iframe src="${editor.servingPath}" @load=${editor.handlePreviewIframeNavigation.bind(editor)}></iframe>
+        <iframe src="${editor.previewUrl}" @load=${editor.handlePreviewIframeNavigation.bind(editor)}></iframe>
       </div>`}
     </div>`;
 
@@ -8645,7 +8645,8 @@ class Editor {
   }
 
   get previewUrl() {
-    return this.servingPath;
+    const params = '?editor=true';
+    return `${this.servingPath}${params}`;
   }
 
   get servingPath() {
@@ -8881,7 +8882,7 @@ class Editor {
   }
 
   handleOpenInNew(evt) {
-    window.open(this.servingPath, '_blank');
+    window.open(this.previewUrl, '_blank');
   }
 
   handlePodPathChange(evt) {
