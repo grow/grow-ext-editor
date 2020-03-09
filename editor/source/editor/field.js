@@ -149,7 +149,7 @@ export class GoogleImageField extends ImageField {
 
   renderImagePreview(editor, field, data) {
     // Ignore the field values that are resource paths.
-    if (field.value.startsWith('http')) {
+    if (field.value && field.value.startsWith('http')) {
       field.previewUrl = field.value
     }
 
