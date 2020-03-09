@@ -19,14 +19,13 @@ class PodApi(object):
     EDITOR_FILE_NAME = '_editor.yaml'
     PARTIALS_VIEWS_PATH = '/views/partials'
     STRINGS_PATH = '/content/strings'
-    IGNORED_PREFIXS = (
+    IGNORED_PREFIXES = (
         '.',
         '_',
     )
     IGNORED_EXTS = (
         '.pyc',
     )
-    # TODO: Make this user configurable.
     IGNORED_DIRS = (
         '/backend/',
         '/build/',
@@ -40,6 +39,12 @@ class PodApi(object):
         self.request = request
         self.matched = matched
         self.data = {}
+        try:
+            self.ext_config = self.pod.extensions_controller.extension_config(
+                'extensions.editor.EditorExtension')
+        except AttributeError:
+            # TODO: Remove when Grow > 0.8.20
+            self.ext_config = {}
         self.handle_request()
 
     @property
@@ -94,6 +99,21 @@ class PodApi(object):
             return yaml.load(self.pod.read_file(editor_path), Loader=yaml.FullLoader) or {}
         return {}
 
+    def _is_ignored_dir(self, full_path):
+        ignored_dirs = self.ext_config.get('ignored_dirs', tuple())
+        if full_path.startswith(self.IGNORED_DIRS + ignored_dirs):
+            return True
+        return False
+
+    def _is_ignored_name(self, file_name):
+        ignored_prefixes = self.ext_config.get('ignored_prefixes', tuple())
+        ignored_exts = self.ext_config.get('ignored_exts', tuple())
+        if file_name.startswith(self.IGNORED_PREFIXES + ignored_prefixes):
+            return True
+        if file_name.endswith(self.IGNORED_EXTS + ignored_exts):
+            return True
+        return False
+
     def _load_doc(self, pod_path):
         doc = self.pod.get_doc(pod_path)
         if not doc.exists:
@@ -142,12 +162,10 @@ class PodApi(object):
                     dirs.remove(directory)
             pod_dir = root.replace(self.pod.root, '')
             for file_name in files:
-                if file_name.startswith(self.IGNORED_PREFIXS):
-                    continue
-                if file_name.endswith(self.IGNORED_EXTS):
+                if self._is_ignored_name(file_name):
                     continue
                 full_path = os.path.join(pod_dir, file_name)
-                if full_path.startswith(self.IGNORED_DIRS):
+                if self._is_ignored_dir(full_path):
                     continue
                 pod_paths.append(full_path)
 
@@ -219,7 +237,7 @@ class PodApi(object):
         for root, dirs, files in self.pod.walk(self.STRINGS_PATH):
             pod_dir = root.replace(self.pod.root, '')
             for file_name in files:
-                if not file_name.startswith(self.IGNORED_PREFIXS):
+                if not file_name.startswith(self.IGNORED_PREFIXES):
                     pod_paths.append(os.path.join(pod_dir, file_name))
 
         for pod_path in pod_paths:
