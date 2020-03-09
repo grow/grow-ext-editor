@@ -427,6 +427,12 @@ export default class Editor {
     this.document.rawFrontMatter = evt.target.value
   }
 
+  handleSaveError(err) {
+    this._isSaving = false
+    this.listeners.trigger('save.error', err)
+    this.render()
+  }
+
   handleSaveResponse(response, isAutosave) {
     this.document.update(
       response['pod_path'],
@@ -524,6 +530,7 @@ export default class Editor {
       const result = this.api.saveDocumentSource(
         this.podPath, this.document.rawFrontMatter)
       result.then((response) => this.handleSaveResponse(response, isAutosave))
+      result.catch((err) => this.handleSaveError(err))
     } else {
       const newFrontMatter = this.selective.value
       const content = newFrontMatter[CONTENT_KEY]
@@ -531,6 +538,7 @@ export default class Editor {
       const result = this.api.saveDocumentFields(
         this.podPath, newFrontMatter, this.document.locale, content)
       result.then((response) => this.handleSaveResponse(response, isAutosave))
+      result.catch((err) => this.handleSaveError(err))
     }
   }
 

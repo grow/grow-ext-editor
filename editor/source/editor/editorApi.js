@@ -81,6 +81,9 @@ export default class EditorApi extends Api {
       .then((res) => {
         result.resolve(res.body)
       })
+      .catch((err) => {
+        result.reject(err)
+      })
 
     return result.promise
   }
@@ -97,6 +100,9 @@ export default class EditorApi extends Api {
       .send(saveRequest)
       .then((res) => {
         result.resolve(res.body)
+      })
+      .catch((err) => {
+        result.reject(err)
       })
 
     return result.promise
