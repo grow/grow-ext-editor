@@ -178,6 +178,19 @@ class PodApi(object):
         pod_path = self.request.params.get('pod_path')
         self.data = self._load_doc(pod_path)
 
+    def get_extension_config(self):
+        """Handle the request for editor content."""
+        extension_path = self.request.params.get('extension_path')
+
+        try:
+            ext_config = self.pod.extensions_controller.extension_config(
+                extension_path)
+        except AttributeError:
+            # TODO: Remove when Grow > 0.8.20
+            ext_config = {}
+
+        self.data = ext_config
+
     def get_partials(self):
         """Handle the request for editor content."""
         partials = {}
@@ -294,6 +307,9 @@ class PodApi(object):
                 self.get_editor_content()
             elif method == 'POST':
                 self.post_editor_content()
+        elif path == 'extension/config':
+            if method == 'GET':
+                self.get_extension_config()
         elif path == 'partials':
             if method == 'GET':
                 self.get_partials()

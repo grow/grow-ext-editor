@@ -22,6 +22,18 @@ export default class EditorApi extends Api {
     return result.promise
   }
 
+  getExtensionConfig(extension_path) {
+    const result = new Defer()
+
+    this.request.get(this.apiPath('extension/config'))
+      .query({ 'extension_path': extension_path })
+      .then((res) => {
+        result.resolve(res.body)
+      })
+
+    return result.promise
+  }
+
   getRoutes(podPath) {
     const result = new Defer()
 
@@ -98,6 +110,42 @@ export default class EditorApi extends Api {
     this.request.post(this.apiPath('content'))
       .type('form')
       .send(saveRequest)
+      .then((res) => {
+        result.resolve(res.body)
+      })
+      .catch((err) => {
+        result.reject(err)
+      })
+
+    return result.promise
+  }
+
+  // TODO: Move to the google image extension.
+  saveGoogleImage(imageFile, uploadUrl) {
+    const result = new Defer()
+    const formData  = new FormData()
+    formData.append('file', imageFile)
+
+    this.request.post(uploadUrl)
+      .send(formData)
+      .then((res) => {
+        result.resolve(res.body)
+      })
+      .catch((err) => {
+        result.reject(err)
+      })
+
+    return result.promise
+  }
+
+  saveImage(imageFile, destination) {
+    const result = new Defer()
+    const formData  = new FormData()
+    formData.append('file', imageFile)
+    formData.append('destination', destination)
+
+    this.request.post(this.apiPath('image'))
+      .send(formData)
       .then((res) => {
         result.resolve(res.body)
       })

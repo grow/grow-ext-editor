@@ -155,7 +155,7 @@ const UidMixin = superclass => class extends superclass {
 /*!***************************************************************!*\
   !*** /Users/randy/code/blinkk/selective-edit/js/selective.js ***!
   \***************************************************************/
-/*! exports provided: default, Field, SortableField, ListField, Fields, AutoFields, html, repeat, render, autoDeepObject */
+/*! exports provided: default, Field, SortableField, ListField, Fields, AutoFields, html, repeat, render, autoConfig, autoDeepObject */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -182,12 +182,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _selective_autoFields__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./selective/autoFields */ "../../../selective-edit/js/selective/autoFields.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AutoFields", function() { return _selective_autoFields__WEBPACK_IMPORTED_MODULE_5__["default"]; });
 
-/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "autoDeepObject", function() { return _utility_deepObject__WEBPACK_IMPORTED_MODULE_6__["autoDeepObject"]; });
+/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./utility/config */ "../../../selective-edit/js/utility/config.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "autoConfig", function() { return _utility_config__WEBPACK_IMPORTED_MODULE_6__["autoConfig"]; });
+
+/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "autoDeepObject", function() { return _utility_deepObject__WEBPACK_IMPORTED_MODULE_7__["autoDeepObject"]; });
 
 /**
  * Selective structure content editor.
  */
+
 
 
 
@@ -524,11 +528,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _fields__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./fields */ "../../../selective-edit/js/selective/fields.js");
 /* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./autoFields */ "../../../selective-edit/js/selective/autoFields.js");
 /* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utility/compose */ "../../../selective-edit/js/utility/compose.js");
-/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
-/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../utility/dom */ "../../../selective-edit/js/utility/dom.js");
+/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utility/config */ "../../../selective-edit/js/utility/config.js");
+/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
+/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../utility/dom */ "../../../selective-edit/js/utility/dom.js");
 /**
  * Field defined for editing.
  */
+
 
 
 
@@ -542,9 +548,10 @@ __webpack_require__.r(__webpack_exports__);
 // ========================================
 
 class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_6__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_2__["default"], _mixin_uid__WEBPACK_IMPORTED_MODULE_3__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_6__["Base"]) {
-  constructor(config) {
+  constructor(config, extendedConfig) {
     super();
     this.fieldType = 'Field';
+    this.extendedConfig = extendedConfig || {};
     this.setConfig(config);
     this._dataValue = undefined;
     this.value = undefined;
@@ -591,7 +598,7 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_6__["compos
     let newDataValue = data;
 
     if (typeof data === 'object' && data !== null) {
-      data = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_7__["autoDeepObject"])(data);
+      data = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_8__["autoDeepObject"])(data);
       newDataValue = data.get(this.key);
     }
 
@@ -629,8 +636,8 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_6__["compos
 //
 
 class SortableField extends Field {
-  constructor(config) {
-    super(config);
+  constructor(config, extendedConfig) {
+    super(config, extendedConfig);
     this.fieldType = 'sortable';
     this._dragOriginElement = null;
     this._dragHoverElement = null;
@@ -682,7 +689,7 @@ class SortableField extends Field {
 
   handleDragStart(evt) {
     evt.stopPropagation();
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_8__["findParentDraggable"])(evt.target);
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_9__["findParentDraggable"])(evt.target);
     this._dragOriginElement = target;
     evt.dataTransfer.setData('text/plain', evt.target.dataset.index);
     evt.dataTransfer.setData(`selective/${this.getUid()}`, evt.target.dataset.index);
@@ -697,7 +704,7 @@ class SortableField extends Field {
 
   handleDragEnter(evt) {
     if (this._shouldHandleDrag(evt)) {
-      const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_8__["findParentDraggable"])(evt.target);
+      const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_9__["findParentDraggable"])(evt.target);
 
       if (!target) {
         return;
@@ -724,7 +731,7 @@ class SortableField extends Field {
 
   handleDragLeave(evt) {
     if (this._shouldHandleDrag(evt)) {
-      const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_8__["findParentDraggable"])(evt.target);
+      const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_9__["findParentDraggable"])(evt.target);
 
       if (!target) {
         return;
@@ -756,7 +763,7 @@ class SortableField extends Field {
     }
 
     evt.stopPropagation();
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_8__["findParentDraggable"])(evt.target);
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_9__["findParentDraggable"])(evt.target);
     const currentIndex = parseInt(evt.target.dataset.index);
     const startIndex = parseInt(evt.dataTransfer.getData("text/plain")); // No longer hovering.
 
@@ -778,8 +785,8 @@ class SortableField extends Field {
 // ========================================
 
 class ListField extends SortableField {
-  constructor(config) {
-    super(config);
+  constructor(config, extendedConfig) {
+    super(config, extendedConfig);
     this.fieldType = 'list';
     this._listItems = [];
     this._isExpanded = false;
@@ -911,8 +918,9 @@ class ListField extends SortableField {
         fieldConfigs = new _autoFields__WEBPACK_IMPORTED_MODULE_5__["default"](itemData).config['fields'];
       }
 
-      for (const fieldConfig of fieldConfigs || []) {
-        itemFields.addField(fieldConfig);
+      for (let fieldConfig of fieldConfigs || []) {
+        fieldConfig = Object(_utility_config__WEBPACK_IMPORTED_MODULE_7__["autoConfig"])(fieldConfig, this.extendedConfig);
+        itemFields.addField(fieldConfig, this.extendedConfig);
       } // When a partial is not expanded it does not get the value
       // updated correctly so we need to manually call the data update.
 
@@ -940,7 +948,7 @@ class ListField extends SortableField {
     let previewValue = itemValue;
 
     if (previewField || defaultPreviewField) {
-      previewValue = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_7__["autoDeepObject"])(itemValue).get(previewField || defaultPreviewField);
+      previewValue = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_8__["autoDeepObject"])(itemValue).get(previewField || defaultPreviewField);
     } // Do not try to show preview for complex values.
 
 
@@ -957,8 +965,9 @@ class ListField extends SortableField {
 
     const fieldConfigs = this.getConfig().get('fields', []);
 
-    for (const fieldConfig of fieldConfigs || []) {
-      itemFields.addField(fieldConfig);
+    for (let fieldConfig of fieldConfigs || []) {
+      fieldConfig = Object(_utility_config__WEBPACK_IMPORTED_MODULE_7__["autoConfig"])(fieldConfig, this.extendedConfig);
+      itemFields.addField(fieldConfig, this.extendedConfig);
     }
 
     if (fieldConfigs.length > 1) {
@@ -995,7 +1004,7 @@ class ListField extends SortableField {
 
   handleItemDelete(evt) {
     evt.stopPropagation();
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_8__["findParentByClassname"])(evt.target, 'selective__list__item__delete');
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_9__["findParentByClassname"])(evt.target, 'selective__list__item__delete');
     const index = parseInt(target.dataset.index); // Clean up an expanded indexes.
 
     const newExpanded = [];
@@ -1257,9 +1266,9 @@ class Fields extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_5__["compo
   set value(value) {// Setting value doesn't actually do anything.
   }
 
-  addField(fieldConfig) {
-    fieldConfig = Object(_utility_config__WEBPACK_IMPORTED_MODULE_6__["autoConfig"])(fieldConfig);
-    const newField = this.fieldTypes.newField(fieldConfig.type, fieldConfig);
+  addField(fieldConfig, extendedConfig) {
+    fieldConfig = Object(_utility_config__WEBPACK_IMPORTED_MODULE_6__["autoConfig"])(fieldConfig, extendedConfig);
+    const newField = this.fieldTypes.newField(fieldConfig.type, fieldConfig, extendedConfig);
 
     if (newField) {
       this.fields.push(newField);
@@ -1360,12 +1369,12 @@ class Config {
   }
 
 }
-const autoConfig = value => {
+const autoConfig = (value, defaultValues) => {
   if (value instanceof Config) {
     return value;
   }
 
-  return new Config(value);
+  return new Config(value, defaultValues);
 };
 
 /***/ }),
@@ -8792,9 +8801,9 @@ class Editor {
     }
 
     for (const fieldConfig of fieldConfigs) {
-      // Allow the fields to use the API if needed.
-      fieldConfig['api'] = this.api;
-      this.selective.addField(fieldConfig);
+      this.selective.addField(fieldConfig, {
+        api: this.api
+      });
     } // Add the ability to edit the document body.
 
 
@@ -8809,7 +8818,8 @@ class Editor {
       this.selective.addField({
         type: contentType,
         key: CONTENT_KEY,
-        label: 'Content (Markdown)',
+        label: 'Content (Markdown)'
+      }, {
         api: this.api
       });
     }
@@ -9068,6 +9078,16 @@ class EditorApi extends _utility_api__WEBPACK_IMPORTED_MODULE_0__["default"] {
     return result.promise;
   }
 
+  getExtensionConfig(extension_path) {
+    const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
+    this.request.get(this.apiPath('extension/config')).query({
+      'extension_path': extension_path
+    }).then(res => {
+      result.resolve(res.body);
+    });
+    return result.promise;
+  }
+
   getRoutes(podPath) {
     const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
     this.request.get(this.apiPath('routes')).then(res => {
@@ -9128,6 +9148,32 @@ class EditorApi extends _utility_api__WEBPACK_IMPORTED_MODULE_0__["default"] {
       result.reject(err);
     });
     return result.promise;
+  } // TODO: Move to the google image extension.
+
+
+  saveGoogleImage(imageFile, uploadUrl) {
+    const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
+    const formData = new FormData();
+    formData.append('file', imageFile);
+    this.request.post(uploadUrl).send(formData).then(res => {
+      result.resolve(res.body);
+    }).catch(err => {
+      result.reject(err);
+    });
+    return result.promise;
+  }
+
+  saveImage(imageFile, destination) {
+    const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
+    const formData = new FormData();
+    formData.append('file', imageFile);
+    formData.append('destination', destination);
+    this.request.post(this.apiPath('image')).send(formData).then(res => {
+      result.resolve(res.body);
+    }).catch(err => {
+      result.reject(err);
+    });
+    return result.promise;
   }
 
 }
@@ -9138,13 +9184,15 @@ class EditorApi extends _utility_api__WEBPACK_IMPORTED_MODULE_0__["default"] {
 /*!********************************!*\
   !*** ./source/editor/field.js ***!
   \********************************/
-/*! exports provided: ConstructorField, DocumentField, MarkdownField, PartialsField, TextField, TextareaField, YamlField, defaultFields */
+/*! exports provided: ConstructorField, DocumentField, ImageField, GoogleImageField, MarkdownField, PartialsField, TextField, TextareaField, YamlField, defaultFields */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ConstructorField", function() { return ConstructorField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DocumentField", function() { return DocumentField; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ImageField", function() { return ImageField; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GoogleImageField", function() { return GoogleImageField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MarkdownField", function() { return MarkdownField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PartialsField", function() { return PartialsField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TextField", function() { return TextField; });
@@ -9160,8 +9208,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 class ConstructorField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
-  constructor(config) {
-    super(config);
+  constructor(config, extendedConfig) {
+    super(config, extendedConfig);
     this.fieldType = 'constructor';
     this.tag = '!g.*';
 
@@ -9192,17 +9240,116 @@ class ConstructorField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Fiel
 
 }
 class DocumentField extends ConstructorField {
-  constructor(config) {
-    super(config);
+  constructor(config, extendedConfig) {
+    super(config, extendedConfig);
     this.fieldType = 'document';
     this.tag = '!g.doc';
+  }
+
+}
+class ImageField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
+  constructor(config, extendedConfig) {
+    super(config, extendedConfig);
+    this.fieldType = 'image';
+    this.previewUrl = ''; // Set the api if it was provided
+
+    this.api = this.getConfig().get('api');
+
+    this.template = (editor, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
+      <label for="${field.getUid()}">${field.label}</label>
+      <input type="text" id="${field.getUid()}" value="${field.valueFromData(data) || ''}" @input=${field.handleInput.bind(field)}>
+      <input type="file" id="${field.getUid()}_file" placeholder="Upload new image" @change=${field.handleFileInput.bind(field)}>
+      ${this.renderImagePreview(editor, field, data)}
+    </div>`;
+  }
+
+  renderImagePreview(editor, field, data) {
+    if (field.previewUrl == '') {
+      return '';
+    }
+
+    return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
+      <div class="selective__field__${field.fieldType}__preview">
+        <a href="${field.previewUrl}"><img src="${field.previewUrl}"></a>
+      </div>`;
+  }
+
+  handleFileInput(evt) {
+    if (!this.api) {
+      console.error('Missing api for image field.');
+      return;
+    }
+
+    const destination = this.getConfig().get('destination', '/static/img/upload');
+    this.api.saveImage(evt.target.files[0], destination).then(result => {
+      this.value = result;
+      this.previewUrl = result;
+      document.dispatchEvent(new CustomEvent('selective.render'));
+    });
+  }
+
+} // TODO: Move into the google image extension.
+
+class GoogleImageField extends ImageField {
+  constructor(config, extendedConfig) {
+    super(config, extendedConfig);
+    this.fieldType = 'google_image'; // TODO: Change to use the API after the extension is updated to the new
+    // Extension style.
+    // this._extension_config_promise = this.api.getExtensionConfig(
+    //   'extensions.google_cloud_images.GoogleCloudImageExtension')
+
+    this._extension_config_promise = this.api.getExtensionConfig('extensions.editor.EditorExtension'); // Wait for the config promise to return.
+
+    this._extension_config_promise.then(result => {
+      let previewPrefix = result['googleImagePreviewPrefix']; // TODO: Remove once grow > 0.8.20
+
+      if (!previewPrefix) {
+        console.log('Hardcoded image preview URL.');
+        previewPrefix = 'https://ext-cloud-images-dot-betterplaceforests-website.appspot.com';
+      }
+
+      this.previewPrefix = previewPrefix;
+      document.dispatchEvent(new CustomEvent('selective.render'));
+    });
+  }
+
+  handleFileInput(evt) {
+    if (!this.api) {
+      console.error('Missing api for image field.');
+      return;
+    } // Wait for the url promise to return.
+
+
+    this._extension_config_promise.then(result => {
+      let uploadUrl = result['googleImageUploadUrl']; // TODO: Remove once grow > 0.8.20
+
+      if (!uploadUrl) {
+        console.log('Hardcoded image upload URL.');
+        uploadUrl = 'https://ext-cloud-images-dot-betterplaceforests-website.appspot.com/_api/upload_file';
+      }
+
+      this.api.saveGoogleImage(evt.target.files[0], uploadUrl).then(result => {
+        this.value = result['url'];
+        this.previewUrl = result['url'];
+        document.dispatchEvent(new CustomEvent('selective.render'));
+      });
+    });
+  }
+
+  renderImagePreview(editor, field, data) {
+    // Ignore the field values that are resource paths.
+    if (field.value.startsWith('http')) {
+      field.previewUrl = field.value;
+    }
+
+    return super.renderImagePreview(editor, field, data);
   }
 
 } // TODO: Use a full markdown editor.
 
 class MarkdownField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
-  constructor(config) {
-    super(config);
+  constructor(config, extendedConfig) {
+    super(config, extendedConfig);
     this.fieldType = 'markdown';
 
     this.template = (editor, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
@@ -9213,8 +9360,8 @@ class MarkdownField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"]
 
 }
 class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListField"] {
-  constructor(config) {
-    super(config);
+  constructor(config, extendedConfig) {
+    super(config, extendedConfig);
     this.fieldType = 'partials';
     this.partialTypes = {};
     this._api = null; // Set the api if it was provided
@@ -9245,7 +9392,7 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListFie
 
       if (!partialConfig && autoGuessMissing) {
         partialConfig = {
-          'label': partialKey,
+          label: partialKey,
           fields: []
         };
       } // Skip missing partials.
@@ -9282,8 +9429,9 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListFie
         }).config['fields'];
       }
 
-      for (const fieldConfig of fieldConfigs || []) {
-        itemFields.addField(fieldConfig);
+      for (let fieldConfig of fieldConfigs || []) {
+        fieldConfig = Object(selective_edit__WEBPACK_IMPORTED_MODULE_1__["autoConfig"])(fieldConfig, this.extendedConfig);
+        itemFields.addField(fieldConfig, this.extendedConfig);
       } // When a partial is not expanded and not hidden it does not get the value
       // updated correctly so we need to manually call the data update.
 
@@ -9375,8 +9523,9 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListFie
     });
     const fieldConfigs = partialConfig.fields;
 
-    for (const fieldConfig of fieldConfigs || []) {
-      itemFields.addField(fieldConfig);
+    for (let fieldConfig of fieldConfigs || []) {
+      fieldConfig = Object(selective_edit__WEBPACK_IMPORTED_MODULE_1__["autoConfig"])(fieldConfig, this.extendedConfig);
+      itemFields.addField(fieldConfig, this.extendedConfig);
     }
 
     this._listItems.push({
@@ -9518,8 +9667,8 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListFie
 
 }
 class TextField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
-  constructor(config) {
-    super(config);
+  constructor(config, extendedConfig) {
+    super(config, extendedConfig);
     this.fieldType = 'text';
 
     this.template = (editor, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
@@ -9530,8 +9679,8 @@ class TextField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
 
 }
 class TextareaField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
-  constructor(config) {
-    super(config);
+  constructor(config, extendedConfig) {
+    super(config, extendedConfig);
     this.fieldType = 'textarea';
 
     this.template = (editor, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
@@ -9558,8 +9707,8 @@ class PartialFields extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Fields"
 }
 
 class YamlField extends ConstructorField {
-  constructor(config) {
-    super(config);
+  constructor(config, extendedConfig) {
+    super(config, extendedConfig);
     this.fieldType = 'yaml';
     this.tag = '!g.yaml';
   }
@@ -9567,6 +9716,8 @@ class YamlField extends ConstructorField {
 }
 const defaultFields = {
   'document': DocumentField,
+  'image': ImageField,
+  'google_image': GoogleImageField,
   'partials': PartialsField,
   'list': selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListField"],
   'markdown': MarkdownField,

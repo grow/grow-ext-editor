@@ -323,9 +323,9 @@ export default class Editor {
     }
 
     for (const fieldConfig of fieldConfigs) {
-      // Allow the fields to use the API if needed.
-      fieldConfig['api'] = this.api
-      this.selective.addField(fieldConfig)
+      this.selective.addField(fieldConfig, {
+        api: this.api,
+      })
     }
 
     // Add the ability to edit the document body.
@@ -339,6 +339,7 @@ export default class Editor {
         type: contentType,
         key: CONTENT_KEY,
         label: 'Content (Markdown)',
+      }, {
         api: this.api,
       })
     }
