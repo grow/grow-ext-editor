@@ -8437,6 +8437,34 @@ new _editor__WEBPACK_IMPORTED_MODULE_0__["default"](document.querySelector('.con
 
 /***/ }),
 
+/***/ "./source/editor/autoFields.js":
+/*!*************************************!*\
+  !*** ./source/editor/autoFields.js ***!
+  \*************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return EditorAutoFields; });
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/**
+ * Automatically guess the field configuration from data.
+ */
+
+class EditorAutoFields extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["AutoFields"] {
+  /**
+   * From a value, guess the type of field.
+   */
+  typeFromValue(value) {
+    console.log('Guessing', value);
+    return super.typeFromValue(value);
+  }
+
+}
+
+/***/ }),
+
 /***/ "./source/editor/document.js":
 /*!***********************************!*\
   !*** ./source/editor/document.js ***!
@@ -9234,9 +9262,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! deep-extend */ "./node_modules/deep-extend/lib/deep-extend.js");
 /* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(deep_extend__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./autoFields */ "./source/editor/autoFields.js");
 /**
  * Field types for the editor extension.
  */
+
 
 
 class ConstructorField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
@@ -9428,7 +9458,7 @@ class GroupField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
 
     if (useAutoFields) {
       // Auto guess the fields if they are not defined.
-      fieldConfigs = new selective_edit__WEBPACK_IMPORTED_MODULE_1__["AutoFields"](this.value).config['fields'];
+      fieldConfigs = new AutoFields(this.value).config['fields'];
     }
 
     for (let fieldConfig of fieldConfigs || []) {
@@ -9542,7 +9572,7 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListFie
 
       if (useAutoFields) {
         // Auto guess the fields if they are not defined.
-        fieldConfigs = new selective_edit__WEBPACK_IMPORTED_MODULE_1__["AutoFields"](itemData, {
+        fieldConfigs = new _autoFields__WEBPACK_IMPORTED_MODULE_2__["default"](itemData, {
           ignoredKeys: ['partial']
         }).config['fields'];
       }

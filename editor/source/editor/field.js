@@ -12,8 +12,8 @@ import {
   Field,
   ListField,
   Fields,
-  AutoFields,
 } from 'selective-edit'
+import EditorAutoFields from './autoFields'
 
 export class ConstructorField extends Field {
   constructor(config, extendedConfig) {
@@ -333,7 +333,7 @@ export class PartialsField extends ListField {
 
       if (useAutoFields) {
         // Auto guess the fields if they are not defined.
-        fieldConfigs = new AutoFields(itemData, {
+        fieldConfigs = new EditorAutoFields(itemData, {
           ignoredKeys: ['partial'],
         }).config['fields']
       }
