@@ -114,7 +114,7 @@ export class GoogleImageField extends ImageField {
 
       // TODO: Remove once grow > 0.8.20
       if (!previewPrefix) {
-        console.log('Hardcoded image preview URL.');
+        console.warn('Hardcoded image preview URL.');
         previewPrefix = 'https://ext-cloud-images-dot-betterplaceforests-website.appspot.com'
       }
 
@@ -135,7 +135,7 @@ export class GoogleImageField extends ImageField {
 
       // TODO: Remove once grow > 0.8.20
       if (!uploadUrl) {
-        console.log('Hardcoded image upload URL.');
+        console.warn('Hardcoded image upload URL.');
         uploadUrl = 'https://ext-cloud-images-dot-betterplaceforests-website.appspot.com/_api/upload_file'
       }
 
@@ -154,6 +154,63 @@ export class GoogleImageField extends ImageField {
     }
 
     return super.renderImagePreview(editor, field, data)
+  }
+}
+
+export class GroupField extends Field {
+  constructor(config, extendedConfig) {
+    super(config, extendedConfig)
+    this.fieldType = 'group'
+    this.fields = null
+    this.isExpanded = false
+    this.template = (editor, field, data) => html`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
+      ${field.updateFromData(data)}
+      <div class="selective__field__${field.fieldType}__handle" @click=${field.handleToggleExpand.bind(field)}>
+        <i class="material-icons">${field.isExpanded ? 'expand_less' : 'expand_more'}</i>
+        <div class="selective__field__${field.fieldType}__label">${field.label}</div>
+      </div>
+      ${field.renderFields(editor, data)}
+    </div>`
+  }
+
+  _createFields(editor, data) {
+    const fields = new Fields(editor.fieldTypes)
+    fields.valueFromData(this.value)
+
+    let fieldConfigs = this.getConfig().get('fields', [])
+    const useAutoFields = fieldConfigs.length == 0
+
+    if (useAutoFields) {
+      // Auto guess the fields if they are not defined.
+      fieldConfigs = new AutoFields(this.value).config['fields']
+    }
+
+    for (let fieldConfig of fieldConfigs || []) {
+      fieldConfig = autoConfig(fieldConfig, this.extendedConfig)
+      fields.addField(fieldConfig, this.extendedConfig)
+    }
+
+    return fields
+  }
+
+  handleToggleExpand(evt) {
+    this.isExpanded = !this.isExpanded
+    document.dispatchEvent(new CustomEvent('selective.render'))
+  }
+
+  renderFields(editor, data) {
+    // If the sub fields have not been created create them now.
+    if (!this.fields) {
+      this.fields = this._createFields(editor, data)
+    }
+
+    if (!this.isExpanded) {
+      return ''
+    }
+
+    return html`<div class="selective__group">
+      ${this.fields.template(editor, this.fields, this.value)}
+    </div>`
   }
 }
 
@@ -533,11 +590,12 @@ export class YamlField extends ConstructorField {
 
 export const defaultFields = {
   'document': DocumentField,
-  'image': ImageField,
   'google_image': GoogleImageField,
-  'partials': PartialsField,
+  'group': GroupField,
+  'image': ImageField,
   'list': ListField,
   'markdown': MarkdownField,
+  'partials': PartialsField,
   'text': TextField,
   'textarea': TextareaField,
   'yaml': YamlField,
