@@ -4,6 +4,7 @@
 
 import * as extend from 'deep-extend'
 import {
+  autoConfig,
   autoDeepObject,
   html,
   repeat,
@@ -14,8 +15,8 @@ import {
 } from 'selective-edit'
 
 export class ConstructorField extends Field {
-  constructor(config) {
-    super(config)
+  constructor(config, extendedConfig) {
+    super(config, extendedConfig)
     this.fieldType = 'constructor'
     this.tag = '!g.*'
 
@@ -44,59 +45,122 @@ export class ConstructorField extends Field {
 }
 
 export class DocumentField extends ConstructorField {
-  constructor(config) {
-    super(config)
+  constructor(config, extendedConfig) {
+    super(config, extendedConfig)
     this.fieldType = 'document'
     this.tag = '!g.doc'
   }
 }
 
 export class ImageField extends Field {
-  constructor(config) {
-    super(config)
+  constructor(config, extendedConfig) {
+    super(config, extendedConfig)
     this.fieldType = 'image'
+    this.previewUrl = ''
+
+    // Set the api if it was provided
+    this.api = this.getConfig().get('api')
 
     this.template = (editor, field, data) => html`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
       <label for="${field.getUid()}">${field.label}</label>
       <input type="text" id="${field.getUid()}" value="${field.valueFromData(data) || ''}" @input=${field.handleInput.bind(field)}>
       <input type="file" id="${field.getUid()}_file" placeholder="Upload new image" @change=${field.handleFileInput.bind(field)}>
-      ${field.valueFromData(data).startsWith('https://') ? this.renderImagePreview(editor, field, data) : ''}
+      ${this.renderImagePreview(editor, field, data)}
     </div>`
   }
 
   renderImagePreview(editor, field, data) {
+    if (field.previewUrl == '') {
+      return ''
+    }
+
     return html`
       <div class="selective__field__${field.fieldType}__preview">
-        <a href="${field.valueFromData(data)}"><img src="${field.valueFromData(data)}"></a>
-      </div>
-    `
+        <a href="${field.previewUrl}"><img src="${field.previewUrl}"></a>
+      </div>`
   }
 
   handleFileInput(evt) {
-    // TODO: Probably move this to a centralized api.js file?
-    const formData  = new FormData();
-    formData.append('file', evt.target.files[0]);
-    // NOTE: Need to move the URL to config, or better yet just pull it from
-    // podspec since it uses the extension we have configured there already.
-    fetch('https://ext-cloud-images-dot-betterplaceforests-website.appspot.com/_api/upload_file', {
-      method: 'POST',
-      body: formData
-    })
-    .then((response) => {
-      return response.json()
-    })
-    .then((data) => {
-      this.value = data['url']
-      // Re-render output.
+    if (!this.api) {
+      console.error('Missing api for image field.')
+      return
+    }
+
+    const destination = this.getConfig().get('destination', '/static/img/upload')
+    this.api.saveImage(evt.target.files[0], destination).then((result) => {
+      this.value = result
+      this.previewUrl = result
       document.dispatchEvent(new CustomEvent('selective.render'))
     })
   }
 }
 
+// TODO: Move into the google image extension.
+export class GoogleImageField extends ImageField {
+  constructor(config, extendedConfig) {
+    super(config, extendedConfig)
+    this.fieldType = 'google_image'
+
+    // TODO: Change to use the API after the extension is updated to the new
+    // Extension style.
+    // this._extension_config_promise = this.api.getExtensionConfig(
+    //   'extensions.google_cloud_images.GoogleCloudImageExtension')
+    this._extension_config_promise = this.api.getExtensionConfig(
+      'extensions.editor.EditorExtension')
+
+    // Wait for the config promise to return.
+    this._extension_config_promise.then((result) => {
+      let previewPrefix = result['googleImagePreviewPrefix']
+
+      // TODO: Remove once grow > 0.8.20
+      if (!previewPrefix) {
+        console.log('Hardcoded image preview URL.');
+        previewPrefix = 'https://ext-cloud-images-dot-betterplaceforests-website.appspot.com'
+      }
+
+      this.previewPrefix = previewPrefix
+      document.dispatchEvent(new CustomEvent('selective.render'))
+    })
+  }
+
+  handleFileInput(evt) {
+    if (!this.api) {
+      console.error('Missing api for image field.')
+      return
+    }
+
+    // Wait for the url promise to return.
+    this._extension_config_promise.then((result) => {
+      let uploadUrl = result['googleImageUploadUrl']
+
+      // TODO: Remove once grow > 0.8.20
+      if (!uploadUrl) {
+        console.log('Hardcoded image upload URL.');
+        uploadUrl = 'https://ext-cloud-images-dot-betterplaceforests-website.appspot.com/_api/upload_file'
+      }
+
+      this.api.saveGoogleImage(evt.target.files[0], uploadUrl).then((result) => {
+        this.value = result['url']
+        this.previewUrl = result['url']
+        document.dispatchEvent(new CustomEvent('selective.render'))
+      })
+    })
+  }
+
+  renderImagePreview(editor, field, data) {
+    // Ignore the field values that are resource paths.
+    if (field.value.startsWith('http')) {
+      field.previewUrl = field.value
+    }
+
+    return super.renderImagePreview(editor, field, data)
+  }
+}
+
 // TODO: Use a full markdown editor.
 export class MarkdownField extends Field {
-  constructor(config) {
-    super(config)
+  constructor(config, extendedConfig) {
+    super(config, extendedConfig)
     this.fieldType = 'markdown'
 
     this.template = (editor, field, data) => html`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
@@ -107,8 +171,8 @@ export class MarkdownField extends Field {
 }
 
 export class PartialsField extends ListField {
-  constructor(config) {
-    super(config)
+  constructor(config, extendedConfig) {
+    super(config, extendedConfig)
     this.fieldType = 'partials'
     this.partialTypes = {}
     this._api = null
@@ -141,7 +205,7 @@ export class PartialsField extends ListField {
       // If allowed to guess use a stub of the partial config.
       if (!partialConfig && autoGuessMissing) {
         partialConfig = {
-          'label': partialKey,
+          label: partialKey,
           fields: [],
         }
       }
@@ -180,8 +244,9 @@ export class PartialsField extends ListField {
         }).config['fields']
       }
 
-      for (const fieldConfig of fieldConfigs || []) {
-        itemFields.addField(fieldConfig)
+      for (let fieldConfig of fieldConfigs || []) {
+        fieldConfig = autoConfig(fieldConfig, this.extendedConfig)
+        itemFields.addField(fieldConfig, this.extendedConfig)
       }
 
       // When a partial is not expanded and not hidden it does not get the value
@@ -272,8 +337,9 @@ export class PartialsField extends ListField {
     })
 
     const fieldConfigs = partialConfig.fields
-    for (const fieldConfig of fieldConfigs || []) {
-      itemFields.addField(fieldConfig)
+    for (let fieldConfig of fieldConfigs || []) {
+      fieldConfig = autoConfig(fieldConfig, this.extendedConfig)
+      itemFields.addField(fieldConfig, this.extendedConfig)
     }
 
     this._listItems.push({
@@ -418,8 +484,8 @@ export class PartialsField extends ListField {
 }
 
 export class TextField extends Field {
-  constructor(config) {
-    super(config)
+  constructor(config, extendedConfig) {
+    super(config, extendedConfig)
     this.fieldType = 'text'
 
     this.template = (editor, field, data) => html`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
@@ -430,8 +496,8 @@ export class TextField extends Field {
 }
 
 export class TextareaField extends Field {
-  constructor(config) {
-    super(config)
+  constructor(config, extendedConfig) {
+    super(config, extendedConfig)
     this.fieldType = 'textarea'
 
     this.template = (editor, field, data) => html`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
@@ -457,8 +523,8 @@ class PartialFields extends Fields {
 }
 
 export class YamlField extends ConstructorField {
-  constructor(config) {
-    super(config)
+  constructor(config, extendedConfig) {
+    super(config, extendedConfig)
     this.fieldType = 'yaml'
     this.tag = '!g.yaml'
   }
@@ -468,6 +534,7 @@ export class YamlField extends ConstructorField {
 export const defaultFields = {
   'document': DocumentField,
   'image': ImageField,
+  'google_image': GoogleImageField,
   'partials': PartialsField,
   'list': ListField,
   'markdown': MarkdownField,
