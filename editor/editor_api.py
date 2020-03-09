@@ -117,7 +117,6 @@ class PodApi(object):
             # Document is just a partial content file, or has no serving path,
             # or has an error with its serving path.
             serving_path = None
-            serving_paths = {}
 
         raw_front_matter = doc.format.front_matter.export()
         front_matter = yaml.load(
