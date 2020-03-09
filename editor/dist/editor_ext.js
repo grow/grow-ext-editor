@@ -86,16 +86,16 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "../../selective-edit/js/mixin/config.js":
-/*!*************************************************************!*\
-  !*** /Users/jeremydw/git/selective-edit/js/mixin/config.js ***!
-  \*************************************************************/
+/***/ "../../../selective-edit/js/mixin/config.js":
+/*!******************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/mixin/config.js ***!
+  \******************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utility/config */ "../../selective-edit/js/utility/config.js");
+/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utility/config */ "../../../selective-edit/js/utility/config.js");
 /**
  * Config mixin for adding configuration options to a class.
  */
@@ -121,16 +121,16 @@ const ConfigMixin = superclass => class extends superclass {
 
 /***/ }),
 
-/***/ "../../selective-edit/js/mixin/uid.js":
-/*!**********************************************************!*\
-  !*** /Users/jeremydw/git/selective-edit/js/mixin/uid.js ***!
-  \**********************************************************/
+/***/ "../../../selective-edit/js/mixin/uid.js":
+/*!***************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/mixin/uid.js ***!
+  \***************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _utility_uuid__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utility/uuid */ "../../selective-edit/js/utility/uuid.js");
+/* harmony import */ var _utility_uuid__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utility/uuid */ "../../../selective-edit/js/utility/uuid.js");
 /**
  * UID mixin for adding unique id to a class.
  */
@@ -151,41 +151,41 @@ const UidMixin = superclass => class extends superclass {
 
 /***/ }),
 
-/***/ "../../selective-edit/js/selective.js":
-/*!**********************************************************!*\
-  !*** /Users/jeremydw/git/selective-edit/js/selective.js ***!
-  \**********************************************************/
+/***/ "../../../selective-edit/js/selective.js":
+/*!***************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/selective.js ***!
+  \***************************************************************/
 /*! exports provided: default, Field, SortableField, ListField, Fields, AutoFields, html, repeat, render, autoConfig, autoDeepObject */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lit-html */ "../../selective-edit/node_modules/lit-html/lit-html.js");
+/* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lit-html */ "../../../selective-edit/node_modules/lit-html/lit-html.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "html", function() { return lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return lit_html__WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony import */ var lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lit-html/directives/repeat */ "../../selective-edit/node_modules/lit-html/directives/repeat.js");
+/* harmony import */ var lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lit-html/directives/repeat */ "../../../selective-edit/node_modules/lit-html/directives/repeat.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "repeat", function() { return lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_1__["repeat"]; });
 
-/* harmony import */ var _selective_editor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./selective/editor */ "../../selective-edit/js/selective/editor.js");
-/* harmony import */ var _selective_field__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./selective/field */ "../../selective-edit/js/selective/field.js");
+/* harmony import */ var _selective_editor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./selective/editor */ "../../../selective-edit/js/selective/editor.js");
+/* harmony import */ var _selective_field__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./selective/field */ "../../../selective-edit/js/selective/field.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Field", function() { return _selective_field__WEBPACK_IMPORTED_MODULE_3__["default"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SortableField", function() { return _selective_field__WEBPACK_IMPORTED_MODULE_3__["SortableField"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ListField", function() { return _selective_field__WEBPACK_IMPORTED_MODULE_3__["ListField"]; });
 
-/* harmony import */ var _selective_fields__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./selective/fields */ "../../selective-edit/js/selective/fields.js");
+/* harmony import */ var _selective_fields__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./selective/fields */ "../../../selective-edit/js/selective/fields.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Fields", function() { return _selective_fields__WEBPACK_IMPORTED_MODULE_4__["default"]; });
 
-/* harmony import */ var _selective_autoFields__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./selective/autoFields */ "../../selective-edit/js/selective/autoFields.js");
+/* harmony import */ var _selective_autoFields__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./selective/autoFields */ "../../../selective-edit/js/selective/autoFields.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AutoFields", function() { return _selective_autoFields__WEBPACK_IMPORTED_MODULE_5__["default"]; });
 
-/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./utility/config */ "../../selective-edit/js/utility/config.js");
+/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./utility/config */ "../../../selective-edit/js/utility/config.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "autoConfig", function() { return _utility_config__WEBPACK_IMPORTED_MODULE_6__["autoConfig"]; });
 
-/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./utility/deepObject */ "../../selective-edit/js/utility/deepObject.js");
+/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "autoDeepObject", function() { return _utility_deepObject__WEBPACK_IMPORTED_MODULE_7__["autoDeepObject"]; });
 
 /**
@@ -206,20 +206,20 @@ const Selective = _selective_editor__WEBPACK_IMPORTED_MODULE_2__["default"];
 
 /***/ }),
 
-/***/ "../../selective-edit/js/selective/autoFields.js":
-/*!*********************************************************************!*\
-  !*** /Users/jeremydw/git/selective-edit/js/selective/autoFields.js ***!
-  \*********************************************************************/
+/***/ "../../../selective-edit/js/selective/autoFields.js":
+/*!**************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/selective/autoFields.js ***!
+  \**************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return AutoFields; });
-/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../mixin/config */ "../../selective-edit/js/mixin/config.js");
-/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utility/compose */ "../../selective-edit/js/utility/compose.js");
-/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utility/deepObject */ "../../selective-edit/js/utility/deepObject.js");
-/* harmony import */ var _utility_dataType__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utility/dataType */ "../../selective-edit/js/utility/dataType.js");
+/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../mixin/config */ "../../../selective-edit/js/mixin/config.js");
+/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utility/compose */ "../../../selective-edit/js/utility/compose.js");
+/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
+/* harmony import */ var _utility_dataType__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utility/dataType */ "../../../selective-edit/js/utility/dataType.js");
 /**
  * Automatically guess the field configuration from data.
  */
@@ -341,7 +341,7 @@ class AutoFields extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_1__["c
       return 'list';
     }
 
-    if (value.length > 150) {
+    if (value.length > 75) {
       return 'textarea';
     }
 
@@ -352,23 +352,23 @@ class AutoFields extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_1__["c
 
 /***/ }),
 
-/***/ "../../selective-edit/js/selective/editor.js":
-/*!*****************************************************************!*\
-  !*** /Users/jeremydw/git/selective-edit/js/selective/editor.js ***!
-  \*****************************************************************/
+/***/ "../../../selective-edit/js/selective/editor.js":
+/*!**********************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/selective/editor.js ***!
+  \**********************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Editor; });
-/* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lit-html */ "../../selective-edit/node_modules/lit-html/lit-html.js");
-/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../mixin/config */ "../../selective-edit/js/mixin/config.js");
-/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utility/deepObject */ "../../selective-edit/js/utility/deepObject.js");
-/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utility/compose */ "../../selective-edit/js/utility/compose.js");
-/* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./autoFields */ "../../selective-edit/js/selective/autoFields.js");
-/* harmony import */ var _fields__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./fields */ "../../selective-edit/js/selective/fields.js");
-/* harmony import */ var _fieldTypes__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./fieldTypes */ "../../selective-edit/js/selective/fieldTypes.js");
+/* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lit-html */ "../../../selective-edit/node_modules/lit-html/lit-html.js");
+/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../mixin/config */ "../../../selective-edit/js/mixin/config.js");
+/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
+/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utility/compose */ "../../../selective-edit/js/utility/compose.js");
+/* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./autoFields */ "../../../selective-edit/js/selective/autoFields.js");
+/* harmony import */ var _fields__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./fields */ "../../../selective-edit/js/selective/fields.js");
+/* harmony import */ var _fieldTypes__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./fieldTypes */ "../../../selective-edit/js/selective/fieldTypes.js");
 /**
  * Selective content editor.
  *
@@ -509,10 +509,10 @@ class Editor extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["compo
 
 /***/ }),
 
-/***/ "../../selective-edit/js/selective/field.js":
-/*!****************************************************************!*\
-  !*** /Users/jeremydw/git/selective-edit/js/selective/field.js ***!
-  \****************************************************************/
+/***/ "../../../selective-edit/js/selective/field.js":
+/*!*********************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/selective/field.js ***!
+  \*********************************************************************/
 /*! exports provided: default, SortableField, ListField */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -521,16 +521,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Field; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SortableField", function() { return SortableField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ListField", function() { return ListField; });
-/* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lit-html */ "../../selective-edit/node_modules/lit-html/lit-html.js");
-/* harmony import */ var lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lit-html/directives/repeat */ "../../selective-edit/node_modules/lit-html/directives/repeat.js");
-/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../mixin/config */ "../../selective-edit/js/mixin/config.js");
-/* harmony import */ var _mixin_uid__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../mixin/uid */ "../../selective-edit/js/mixin/uid.js");
-/* harmony import */ var _fields__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./fields */ "../../selective-edit/js/selective/fields.js");
-/* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./autoFields */ "../../selective-edit/js/selective/autoFields.js");
-/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utility/compose */ "../../selective-edit/js/utility/compose.js");
-/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utility/config */ "../../selective-edit/js/utility/config.js");
-/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../utility/deepObject */ "../../selective-edit/js/utility/deepObject.js");
-/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../utility/dom */ "../../selective-edit/js/utility/dom.js");
+/* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lit-html */ "../../../selective-edit/node_modules/lit-html/lit-html.js");
+/* harmony import */ var lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lit-html/directives/repeat */ "../../../selective-edit/node_modules/lit-html/directives/repeat.js");
+/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../mixin/config */ "../../../selective-edit/js/mixin/config.js");
+/* harmony import */ var _mixin_uid__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../mixin/uid */ "../../../selective-edit/js/mixin/uid.js");
+/* harmony import */ var _fields__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./fields */ "../../../selective-edit/js/selective/fields.js");
+/* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./autoFields */ "../../../selective-edit/js/selective/autoFields.js");
+/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utility/compose */ "../../../selective-edit/js/utility/compose.js");
+/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utility/config */ "../../../selective-edit/js/utility/config.js");
+/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
+/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../utility/dom */ "../../../selective-edit/js/utility/dom.js");
 /**
  * Field defined for editing.
  */
@@ -1151,18 +1151,18 @@ class ListField extends SortableField {
 
 /***/ }),
 
-/***/ "../../selective-edit/js/selective/fieldTypes.js":
-/*!*********************************************************************!*\
-  !*** /Users/jeremydw/git/selective-edit/js/selective/fieldTypes.js ***!
-  \*********************************************************************/
+/***/ "../../../selective-edit/js/selective/fieldTypes.js":
+/*!**************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/selective/fieldTypes.js ***!
+  \**************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return FieldTypes; });
-/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../mixin/config */ "../../selective-edit/js/mixin/config.js");
-/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utility/compose */ "../../selective-edit/js/utility/compose.js");
+/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../mixin/config */ "../../../selective-edit/js/mixin/config.js");
+/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utility/compose */ "../../../selective-edit/js/utility/compose.js");
 /**
  * Fields types defined for editing.
  */
@@ -1196,25 +1196,25 @@ class FieldTypes extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_1__["c
 
 /***/ }),
 
-/***/ "../../selective-edit/js/selective/fields.js":
-/*!*****************************************************************!*\
-  !*** /Users/jeremydw/git/selective-edit/js/selective/fields.js ***!
-  \*****************************************************************/
+/***/ "../../../selective-edit/js/selective/fields.js":
+/*!**********************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/selective/fields.js ***!
+  \**********************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Fields; });
-/* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! deep-extend */ "../../selective-edit/node_modules/deep-extend/lib/deep-extend.js");
+/* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! deep-extend */ "../../../selective-edit/node_modules/deep-extend/lib/deep-extend.js");
 /* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(deep_extend__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lit-html */ "../../selective-edit/node_modules/lit-html/lit-html.js");
-/* harmony import */ var lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lit-html/directives/repeat */ "../../selective-edit/node_modules/lit-html/directives/repeat.js");
-/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../mixin/config */ "../../selective-edit/js/mixin/config.js");
-/* harmony import */ var _mixin_uid__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../mixin/uid */ "../../selective-edit/js/mixin/uid.js");
-/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utility/compose */ "../../selective-edit/js/utility/compose.js");
-/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utility/config */ "../../selective-edit/js/utility/config.js");
-/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utility/deepObject */ "../../selective-edit/js/utility/deepObject.js");
+/* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lit-html */ "../../../selective-edit/node_modules/lit-html/lit-html.js");
+/* harmony import */ var lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lit-html/directives/repeat */ "../../../selective-edit/node_modules/lit-html/directives/repeat.js");
+/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../mixin/config */ "../../../selective-edit/js/mixin/config.js");
+/* harmony import */ var _mixin_uid__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../mixin/uid */ "../../../selective-edit/js/mixin/uid.js");
+/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utility/compose */ "../../../selective-edit/js/utility/compose.js");
+/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utility/config */ "../../../selective-edit/js/utility/config.js");
+/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
 /**
  * Fields defined for editing.
  */
@@ -1294,10 +1294,10 @@ class Fields extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_5__["compo
 
 /***/ }),
 
-/***/ "../../selective-edit/js/utility/compose.js":
-/*!****************************************************************!*\
-  !*** /Users/jeremydw/git/selective-edit/js/utility/compose.js ***!
-  \****************************************************************/
+/***/ "../../../selective-edit/js/utility/compose.js":
+/*!*********************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/utility/compose.js ***!
+  \*********************************************************************/
 /*! exports provided: Base, compose */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1331,10 +1331,10 @@ class Base {}
 
 /***/ }),
 
-/***/ "../../selective-edit/js/utility/config.js":
-/*!***************************************************************!*\
-  !*** /Users/jeremydw/git/selective-edit/js/utility/config.js ***!
-  \***************************************************************/
+/***/ "../../../selective-edit/js/utility/config.js":
+/*!********************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/utility/config.js ***!
+  \********************************************************************/
 /*! exports provided: default, autoConfig */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1379,10 +1379,10 @@ const autoConfig = (value, defaultValues) => {
 
 /***/ }),
 
-/***/ "../../selective-edit/js/utility/dataType.js":
-/*!*****************************************************************!*\
-  !*** /Users/jeremydw/git/selective-edit/js/utility/dataType.js ***!
-  \*****************************************************************/
+/***/ "../../../selective-edit/js/utility/dataType.js":
+/*!**********************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/utility/dataType.js ***!
+  \**********************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1445,10 +1445,10 @@ class DataType {
 
 /***/ }),
 
-/***/ "../../selective-edit/js/utility/deepObject.js":
-/*!*******************************************************************!*\
-  !*** /Users/jeremydw/git/selective-edit/js/utility/deepObject.js ***!
-  \*******************************************************************/
+/***/ "../../../selective-edit/js/utility/deepObject.js":
+/*!************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/utility/deepObject.js ***!
+  \************************************************************************/
 /*! exports provided: default, autoDeepObject */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1523,10 +1523,10 @@ const autoDeepObject = value => {
 
 /***/ }),
 
-/***/ "../../selective-edit/js/utility/dom.js":
-/*!************************************************************!*\
-  !*** /Users/jeremydw/git/selective-edit/js/utility/dom.js ***!
-  \************************************************************/
+/***/ "../../../selective-edit/js/utility/dom.js":
+/*!*****************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/utility/dom.js ***!
+  \*****************************************************************/
 /*! exports provided: findParentByClassname, findParentDraggable */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1564,10 +1564,10 @@ const findParentDraggable = target => {
 
 /***/ }),
 
-/***/ "../../selective-edit/js/utility/uuid.js":
-/*!*************************************************************!*\
-  !*** /Users/jeremydw/git/selective-edit/js/utility/uuid.js ***!
-  \*************************************************************/
+/***/ "../../../selective-edit/js/utility/uuid.js":
+/*!******************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/utility/uuid.js ***!
+  \******************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1592,10 +1592,10 @@ const generateUUID = () => {
 
 /***/ }),
 
-/***/ "../../selective-edit/node_modules/deep-extend/lib/deep-extend.js":
-/*!**************************************************************************************!*\
-  !*** /Users/jeremydw/git/selective-edit/node_modules/deep-extend/lib/deep-extend.js ***!
-  \**************************************************************************************/
+/***/ "../../../selective-edit/node_modules/deep-extend/lib/deep-extend.js":
+/*!*******************************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/node_modules/deep-extend/lib/deep-extend.js ***!
+  \*******************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1751,21 +1751,21 @@ var deepExtend = module.exports = function (/*obj_1, [obj_2], [obj_N]*/) {
 	return target;
 };
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../grow-ext-editor/editor/node_modules/buffer/index.js */ "./node_modules/buffer/index.js").Buffer))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../ext/editor/editor/node_modules/buffer/index.js */ "./node_modules/buffer/index.js").Buffer))
 
 /***/ }),
 
-/***/ "../../selective-edit/node_modules/lit-html/directives/repeat.js":
-/*!*************************************************************************************!*\
-  !*** /Users/jeremydw/git/selective-edit/node_modules/lit-html/directives/repeat.js ***!
-  \*************************************************************************************/
+/***/ "../../../selective-edit/node_modules/lit-html/directives/repeat.js":
+/*!******************************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/node_modules/lit-html/directives/repeat.js ***!
+  \******************************************************************************************/
 /*! exports provided: repeat */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "repeat", function() { return repeat; });
-/* harmony import */ var _lit_html_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../lit-html.js */ "../../selective-edit/node_modules/lit-html/lit-html.js");
+/* harmony import */ var _lit_html_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../lit-html.js */ "../../../selective-edit/node_modules/lit-html/lit-html.js");
 /**
  * @license
  * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
@@ -2184,10 +2184,10 @@ const repeat = Object(_lit_html_js__WEBPACK_IMPORTED_MODULE_0__["directive"])((i
 
 /***/ }),
 
-/***/ "../../selective-edit/node_modules/lit-html/lib/default-template-processor.js":
-/*!**************************************************************************************************!*\
-  !*** /Users/jeremydw/git/selective-edit/node_modules/lit-html/lib/default-template-processor.js ***!
-  \**************************************************************************************************/
+/***/ "../../../selective-edit/node_modules/lit-html/lib/default-template-processor.js":
+/*!*******************************************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/node_modules/lit-html/lib/default-template-processor.js ***!
+  \*******************************************************************************************************/
 /*! exports provided: DefaultTemplateProcessor, defaultTemplateProcessor */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2195,7 +2195,7 @@ const repeat = Object(_lit_html_js__WEBPACK_IMPORTED_MODULE_0__["directive"])((i
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DefaultTemplateProcessor", function() { return DefaultTemplateProcessor; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "defaultTemplateProcessor", function() { return defaultTemplateProcessor; });
-/* harmony import */ var _parts_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./parts.js */ "../../selective-edit/node_modules/lit-html/lib/parts.js");
+/* harmony import */ var _parts_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./parts.js */ "../../../selective-edit/node_modules/lit-html/lib/parts.js");
 /**
  * @license
  * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
@@ -2251,10 +2251,10 @@ const defaultTemplateProcessor = new DefaultTemplateProcessor();
 
 /***/ }),
 
-/***/ "../../selective-edit/node_modules/lit-html/lib/directive.js":
-/*!*********************************************************************************!*\
-  !*** /Users/jeremydw/git/selective-edit/node_modules/lit-html/lib/directive.js ***!
-  \*********************************************************************************/
+/***/ "../../../selective-edit/node_modules/lit-html/lib/directive.js":
+/*!**************************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/node_modules/lit-html/lib/directive.js ***!
+  \**************************************************************************************/
 /*! exports provided: directive, isDirective */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2328,10 +2328,10 @@ const isDirective = (o) => {
 
 /***/ }),
 
-/***/ "../../selective-edit/node_modules/lit-html/lib/dom.js":
-/*!***************************************************************************!*\
-  !*** /Users/jeremydw/git/selective-edit/node_modules/lit-html/lib/dom.js ***!
-  \***************************************************************************/
+/***/ "../../../selective-edit/node_modules/lit-html/lib/dom.js":
+/*!********************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/node_modules/lit-html/lib/dom.js ***!
+  \********************************************************************************/
 /*! exports provided: isCEPolyfill, reparentNodes, removeNodes */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2386,10 +2386,10 @@ const removeNodes = (container, start, end = null) => {
 
 /***/ }),
 
-/***/ "../../selective-edit/node_modules/lit-html/lib/part.js":
-/*!****************************************************************************!*\
-  !*** /Users/jeremydw/git/selective-edit/node_modules/lit-html/lib/part.js ***!
-  \****************************************************************************/
+/***/ "../../../selective-edit/node_modules/lit-html/lib/part.js":
+/*!*********************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/node_modules/lit-html/lib/part.js ***!
+  \*********************************************************************************/
 /*! exports provided: noChange, nothing */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2423,10 +2423,10 @@ const nothing = {};
 
 /***/ }),
 
-/***/ "../../selective-edit/node_modules/lit-html/lib/parts.js":
-/*!*****************************************************************************!*\
-  !*** /Users/jeremydw/git/selective-edit/node_modules/lit-html/lib/parts.js ***!
-  \*****************************************************************************/
+/***/ "../../../selective-edit/node_modules/lit-html/lib/parts.js":
+/*!**********************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/node_modules/lit-html/lib/parts.js ***!
+  \**********************************************************************************/
 /*! exports provided: isPrimitive, isIterable, AttributeCommitter, AttributePart, NodePart, BooleanAttributePart, PropertyCommitter, PropertyPart, EventPart */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2441,12 +2441,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PropertyCommitter", function() { return PropertyCommitter; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PropertyPart", function() { return PropertyPart; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EventPart", function() { return EventPart; });
-/* harmony import */ var _directive_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./directive.js */ "../../selective-edit/node_modules/lit-html/lib/directive.js");
-/* harmony import */ var _dom_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./dom.js */ "../../selective-edit/node_modules/lit-html/lib/dom.js");
-/* harmony import */ var _part_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./part.js */ "../../selective-edit/node_modules/lit-html/lib/part.js");
-/* harmony import */ var _template_instance_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./template-instance.js */ "../../selective-edit/node_modules/lit-html/lib/template-instance.js");
-/* harmony import */ var _template_result_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./template-result.js */ "../../selective-edit/node_modules/lit-html/lib/template-result.js");
-/* harmony import */ var _template_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./template.js */ "../../selective-edit/node_modules/lit-html/lib/template.js");
+/* harmony import */ var _directive_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./directive.js */ "../../../selective-edit/node_modules/lit-html/lib/directive.js");
+/* harmony import */ var _dom_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./dom.js */ "../../../selective-edit/node_modules/lit-html/lib/dom.js");
+/* harmony import */ var _part_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./part.js */ "../../../selective-edit/node_modules/lit-html/lib/part.js");
+/* harmony import */ var _template_instance_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./template-instance.js */ "../../../selective-edit/node_modules/lit-html/lib/template-instance.js");
+/* harmony import */ var _template_result_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./template-result.js */ "../../../selective-edit/node_modules/lit-html/lib/template-result.js");
+/* harmony import */ var _template_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./template.js */ "../../../selective-edit/node_modules/lit-html/lib/template.js");
 /**
  * @license
  * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
@@ -2898,10 +2898,10 @@ const getOptions = (o) => o &&
 
 /***/ }),
 
-/***/ "../../selective-edit/node_modules/lit-html/lib/render.js":
-/*!******************************************************************************!*\
-  !*** /Users/jeremydw/git/selective-edit/node_modules/lit-html/lib/render.js ***!
-  \******************************************************************************/
+/***/ "../../../selective-edit/node_modules/lit-html/lib/render.js":
+/*!***********************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/node_modules/lit-html/lib/render.js ***!
+  \***********************************************************************************/
 /*! exports provided: parts, render */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2909,9 +2909,9 @@ const getOptions = (o) => o &&
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parts", function() { return parts; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
-/* harmony import */ var _dom_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dom.js */ "../../selective-edit/node_modules/lit-html/lib/dom.js");
-/* harmony import */ var _parts_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./parts.js */ "../../selective-edit/node_modules/lit-html/lib/parts.js");
-/* harmony import */ var _template_factory_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./template-factory.js */ "../../selective-edit/node_modules/lit-html/lib/template-factory.js");
+/* harmony import */ var _dom_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dom.js */ "../../../selective-edit/node_modules/lit-html/lib/dom.js");
+/* harmony import */ var _parts_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./parts.js */ "../../../selective-edit/node_modules/lit-html/lib/parts.js");
+/* harmony import */ var _template_factory_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./template-factory.js */ "../../../selective-edit/node_modules/lit-html/lib/template-factory.js");
 /**
  * @license
  * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
@@ -2961,10 +2961,10 @@ const render = (result, container, options) => {
 
 /***/ }),
 
-/***/ "../../selective-edit/node_modules/lit-html/lib/template-factory.js":
-/*!****************************************************************************************!*\
-  !*** /Users/jeremydw/git/selective-edit/node_modules/lit-html/lib/template-factory.js ***!
-  \****************************************************************************************/
+/***/ "../../../selective-edit/node_modules/lit-html/lib/template-factory.js":
+/*!*********************************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/node_modules/lit-html/lib/template-factory.js ***!
+  \*********************************************************************************************/
 /*! exports provided: templateFactory, templateCaches */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2972,7 +2972,7 @@ const render = (result, container, options) => {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "templateFactory", function() { return templateFactory; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "templateCaches", function() { return templateCaches; });
-/* harmony import */ var _template_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./template.js */ "../../selective-edit/node_modules/lit-html/lib/template.js");
+/* harmony import */ var _template_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./template.js */ "../../../selective-edit/node_modules/lit-html/lib/template.js");
 /**
  * @license
  * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
@@ -3024,18 +3024,18 @@ const templateCaches = new Map();
 
 /***/ }),
 
-/***/ "../../selective-edit/node_modules/lit-html/lib/template-instance.js":
-/*!*****************************************************************************************!*\
-  !*** /Users/jeremydw/git/selective-edit/node_modules/lit-html/lib/template-instance.js ***!
-  \*****************************************************************************************/
+/***/ "../../../selective-edit/node_modules/lit-html/lib/template-instance.js":
+/*!**********************************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/node_modules/lit-html/lib/template-instance.js ***!
+  \**********************************************************************************************/
 /*! exports provided: TemplateInstance */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TemplateInstance", function() { return TemplateInstance; });
-/* harmony import */ var _dom_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dom.js */ "../../selective-edit/node_modules/lit-html/lib/dom.js");
-/* harmony import */ var _template_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./template.js */ "../../selective-edit/node_modules/lit-html/lib/template.js");
+/* harmony import */ var _dom_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dom.js */ "../../../selective-edit/node_modules/lit-html/lib/dom.js");
+/* harmony import */ var _template_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./template.js */ "../../../selective-edit/node_modules/lit-html/lib/template.js");
 /**
  * @license
  * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
@@ -3176,10 +3176,10 @@ class TemplateInstance {
 
 /***/ }),
 
-/***/ "../../selective-edit/node_modules/lit-html/lib/template-result.js":
-/*!***************************************************************************************!*\
-  !*** /Users/jeremydw/git/selective-edit/node_modules/lit-html/lib/template-result.js ***!
-  \***************************************************************************************/
+/***/ "../../../selective-edit/node_modules/lit-html/lib/template-result.js":
+/*!********************************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/node_modules/lit-html/lib/template-result.js ***!
+  \********************************************************************************************/
 /*! exports provided: TemplateResult, SVGTemplateResult */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3187,8 +3187,8 @@ class TemplateInstance {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TemplateResult", function() { return TemplateResult; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SVGTemplateResult", function() { return SVGTemplateResult; });
-/* harmony import */ var _dom_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dom.js */ "../../selective-edit/node_modules/lit-html/lib/dom.js");
-/* harmony import */ var _template_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./template.js */ "../../selective-edit/node_modules/lit-html/lib/template.js");
+/* harmony import */ var _dom_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dom.js */ "../../../selective-edit/node_modules/lit-html/lib/dom.js");
+/* harmony import */ var _template_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./template.js */ "../../../selective-edit/node_modules/lit-html/lib/template.js");
 /**
  * @license
  * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
@@ -3305,10 +3305,10 @@ class SVGTemplateResult extends TemplateResult {
 
 /***/ }),
 
-/***/ "../../selective-edit/node_modules/lit-html/lib/template.js":
-/*!********************************************************************************!*\
-  !*** /Users/jeremydw/git/selective-edit/node_modules/lit-html/lib/template.js ***!
-  \********************************************************************************/
+/***/ "../../../selective-edit/node_modules/lit-html/lib/template.js":
+/*!*************************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/node_modules/lit-html/lib/template.js ***!
+  \*************************************************************************************/
 /*! exports provided: marker, nodeMarker, markerRegex, boundAttributeSuffix, Template, isTemplatePartActive, createMarker, lastAttributeNameRegex */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3538,10 +3538,10 @@ const lastAttributeNameRegex = /([ \x09\x0a\x0c\x0d])([^\0-\x1F\x7F-\x9F "'>=/]+
 
 /***/ }),
 
-/***/ "../../selective-edit/node_modules/lit-html/lit-html.js":
-/*!****************************************************************************!*\
-  !*** /Users/jeremydw/git/selective-edit/node_modules/lit-html/lit-html.js ***!
-  \****************************************************************************/
+/***/ "../../../selective-edit/node_modules/lit-html/lit-html.js":
+/*!*********************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/node_modules/lit-html/lit-html.js ***!
+  \*********************************************************************************/
 /*! exports provided: DefaultTemplateProcessor, defaultTemplateProcessor, directive, isDirective, removeNodes, reparentNodes, noChange, nothing, AttributeCommitter, AttributePart, BooleanAttributePart, EventPart, isIterable, isPrimitive, NodePart, PropertyCommitter, PropertyPart, parts, render, templateCaches, templateFactory, TemplateInstance, SVGTemplateResult, TemplateResult, createMarker, isTemplatePartActive, Template, html, svg */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3549,28 +3549,28 @@ const lastAttributeNameRegex = /([ \x09\x0a\x0c\x0d])([^\0-\x1F\x7F-\x9F "'>=/]+
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "html", function() { return html; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "svg", function() { return svg; });
-/* harmony import */ var _lib_default_template_processor_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./lib/default-template-processor.js */ "../../selective-edit/node_modules/lit-html/lib/default-template-processor.js");
-/* harmony import */ var _lib_template_result_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./lib/template-result.js */ "../../selective-edit/node_modules/lit-html/lib/template-result.js");
+/* harmony import */ var _lib_default_template_processor_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./lib/default-template-processor.js */ "../../../selective-edit/node_modules/lit-html/lib/default-template-processor.js");
+/* harmony import */ var _lib_template_result_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./lib/template-result.js */ "../../../selective-edit/node_modules/lit-html/lib/template-result.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DefaultTemplateProcessor", function() { return _lib_default_template_processor_js__WEBPACK_IMPORTED_MODULE_0__["DefaultTemplateProcessor"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "defaultTemplateProcessor", function() { return _lib_default_template_processor_js__WEBPACK_IMPORTED_MODULE_0__["defaultTemplateProcessor"]; });
 
-/* harmony import */ var _lib_directive_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./lib/directive.js */ "../../selective-edit/node_modules/lit-html/lib/directive.js");
+/* harmony import */ var _lib_directive_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./lib/directive.js */ "../../../selective-edit/node_modules/lit-html/lib/directive.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "directive", function() { return _lib_directive_js__WEBPACK_IMPORTED_MODULE_2__["directive"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isDirective", function() { return _lib_directive_js__WEBPACK_IMPORTED_MODULE_2__["isDirective"]; });
 
-/* harmony import */ var _lib_dom_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./lib/dom.js */ "../../selective-edit/node_modules/lit-html/lib/dom.js");
+/* harmony import */ var _lib_dom_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./lib/dom.js */ "../../../selective-edit/node_modules/lit-html/lib/dom.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "removeNodes", function() { return _lib_dom_js__WEBPACK_IMPORTED_MODULE_3__["removeNodes"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "reparentNodes", function() { return _lib_dom_js__WEBPACK_IMPORTED_MODULE_3__["reparentNodes"]; });
 
-/* harmony import */ var _lib_part_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./lib/part.js */ "../../selective-edit/node_modules/lit-html/lib/part.js");
+/* harmony import */ var _lib_part_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./lib/part.js */ "../../../selective-edit/node_modules/lit-html/lib/part.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "noChange", function() { return _lib_part_js__WEBPACK_IMPORTED_MODULE_4__["noChange"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "nothing", function() { return _lib_part_js__WEBPACK_IMPORTED_MODULE_4__["nothing"]; });
 
-/* harmony import */ var _lib_parts_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./lib/parts.js */ "../../selective-edit/node_modules/lit-html/lib/parts.js");
+/* harmony import */ var _lib_parts_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./lib/parts.js */ "../../../selective-edit/node_modules/lit-html/lib/parts.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AttributeCommitter", function() { return _lib_parts_js__WEBPACK_IMPORTED_MODULE_5__["AttributeCommitter"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AttributePart", function() { return _lib_parts_js__WEBPACK_IMPORTED_MODULE_5__["AttributePart"]; });
@@ -3589,24 +3589,24 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "PropertyPart", function() { return _lib_parts_js__WEBPACK_IMPORTED_MODULE_5__["PropertyPart"]; });
 
-/* harmony import */ var _lib_render_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./lib/render.js */ "../../selective-edit/node_modules/lit-html/lib/render.js");
+/* harmony import */ var _lib_render_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./lib/render.js */ "../../../selective-edit/node_modules/lit-html/lib/render.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "parts", function() { return _lib_render_js__WEBPACK_IMPORTED_MODULE_6__["parts"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _lib_render_js__WEBPACK_IMPORTED_MODULE_6__["render"]; });
 
-/* harmony import */ var _lib_template_factory_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./lib/template-factory.js */ "../../selective-edit/node_modules/lit-html/lib/template-factory.js");
+/* harmony import */ var _lib_template_factory_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./lib/template-factory.js */ "../../../selective-edit/node_modules/lit-html/lib/template-factory.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "templateCaches", function() { return _lib_template_factory_js__WEBPACK_IMPORTED_MODULE_7__["templateCaches"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "templateFactory", function() { return _lib_template_factory_js__WEBPACK_IMPORTED_MODULE_7__["templateFactory"]; });
 
-/* harmony import */ var _lib_template_instance_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./lib/template-instance.js */ "../../selective-edit/node_modules/lit-html/lib/template-instance.js");
+/* harmony import */ var _lib_template_instance_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./lib/template-instance.js */ "../../../selective-edit/node_modules/lit-html/lib/template-instance.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TemplateInstance", function() { return _lib_template_instance_js__WEBPACK_IMPORTED_MODULE_8__["TemplateInstance"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SVGTemplateResult", function() { return _lib_template_result_js__WEBPACK_IMPORTED_MODULE_1__["SVGTemplateResult"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TemplateResult", function() { return _lib_template_result_js__WEBPACK_IMPORTED_MODULE_1__["TemplateResult"]; });
 
-/* harmony import */ var _lib_template_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./lib/template.js */ "../../selective-edit/node_modules/lit-html/lib/template.js");
+/* harmony import */ var _lib_template_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./lib/template.js */ "../../../selective-edit/node_modules/lit-html/lib/template.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createMarker", function() { return _lib_template_js__WEBPACK_IMPORTED_MODULE_9__["createMarker"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isTemplatePartActive", function() { return _lib_template_js__WEBPACK_IMPORTED_MODULE_9__["isTemplatePartActive"]; });
@@ -8511,7 +8511,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utility_listeners__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utility/listeners */ "./source/utility/listeners.js");
 /* harmony import */ var _document__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./document */ "./source/editor/document.js");
 /* harmony import */ var _editorApi__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./editorApi */ "./source/editor/editorApi.js");
-/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! selective-edit */ "../../selective-edit/js/selective.js");
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
 /* harmony import */ var _field__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./field */ "./source/editor/field.js");
 /* harmony import */ var _utility_expandObject__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utility/expandObject */ "./source/utility/expandObject.js");
 /**
@@ -9199,7 +9199,7 @@ class EditorApi extends _utility_api__WEBPACK_IMPORTED_MODULE_0__["default"] {
 /*!********************************!*\
   !*** ./source/editor/field.js ***!
   \********************************/
-/*! exports provided: ConstructorField, DocumentField, ImageField, GoogleImageField, MarkdownField, PartialsField, TextField, TextareaField, YamlField, defaultFields */
+/*! exports provided: ConstructorField, DocumentField, ImageField, GoogleImageField, GroupField, MarkdownField, PartialsField, TextField, TextareaField, YamlField, defaultFields */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9208,6 +9208,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DocumentField", function() { return DocumentField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ImageField", function() { return ImageField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GoogleImageField", function() { return GoogleImageField; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GroupField", function() { return GroupField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MarkdownField", function() { return MarkdownField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PartialsField", function() { return PartialsField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TextField", function() { return TextField; });
@@ -9216,7 +9217,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "defaultFields", function() { return defaultFields; });
 /* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! deep-extend */ "./node_modules/deep-extend/lib/deep-extend.js");
 /* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(deep_extend__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! selective-edit */ "../../selective-edit/js/selective.js");
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
 /**
  * Field types for the editor extension.
  */
@@ -9319,7 +9320,7 @@ class GoogleImageField extends ImageField {
       let previewPrefix = result['googleImagePreviewPrefix']; // TODO: Remove once grow > 0.8.20
 
       if (!previewPrefix) {
-        console.log('Hardcoded image preview URL.');
+        console.warn('Hardcoded image preview URL.');
         previewPrefix = 'https://ext-cloud-images-dot-betterplaceforests-website.appspot.com';
       }
 
@@ -9339,7 +9340,7 @@ class GoogleImageField extends ImageField {
       let uploadUrl = result['googleImageUploadUrl']; // TODO: Remove once grow > 0.8.20
 
       if (!uploadUrl) {
-        console.log('Hardcoded image upload URL.');
+        console.warn('Hardcoded image upload URL.');
         uploadUrl = 'https://ext-cloud-images-dot-betterplaceforests-website.appspot.com/_api/upload_file';
       }
 
@@ -9358,6 +9359,63 @@ class GoogleImageField extends ImageField {
     }
 
     return super.renderImagePreview(editor, field, data);
+  }
+
+}
+class GroupField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
+  constructor(config, extendedConfig) {
+    super(config, extendedConfig);
+    this.fieldType = 'group';
+    this.fields = null;
+    this.isExpanded = false;
+
+    this.template = (editor, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
+      ${field.updateFromData(data)}
+      <div class="selective__field__${field.fieldType}__handle" @click=${field.handleToggleExpand.bind(field)}>
+        <i class="material-icons">${field.isExpanded ? 'expand_less' : 'expand_more'}</i>
+        <div class="selective__field__${field.fieldType}__label">${field.label}</div>
+      </div>
+      ${field.renderFields(editor, data)}
+    </div>`;
+  }
+
+  _createFields(editor, data) {
+    const fields = new selective_edit__WEBPACK_IMPORTED_MODULE_1__["Fields"](editor.fieldTypes);
+    fields.valueFromData(this.value);
+    let fieldConfigs = this.getConfig().get('fields', []);
+    const useAutoFields = fieldConfigs.length == 0;
+
+    if (useAutoFields) {
+      // Auto guess the fields if they are not defined.
+      fieldConfigs = new selective_edit__WEBPACK_IMPORTED_MODULE_1__["AutoFields"](this.value).config['fields'];
+    }
+
+    for (let fieldConfig of fieldConfigs || []) {
+      fieldConfig = Object(selective_edit__WEBPACK_IMPORTED_MODULE_1__["autoConfig"])(fieldConfig, this.extendedConfig);
+      fields.addField(fieldConfig, this.extendedConfig);
+    }
+
+    return fields;
+  }
+
+  handleToggleExpand(evt) {
+    this.isExpanded = !this.isExpanded;
+    document.dispatchEvent(new CustomEvent('selective.render'));
+  }
+
+  renderFields(editor, data) {
+    // If the sub fields have not been created create them now.
+    if (!this.fields) {
+      this.fields = this._createFields(editor, data);
+    }
+
+    if (!this.isExpanded) {
+      return '';
+    }
+
+    return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__group">
+      ${this.fields.template(editor, this.fields, this.value)}
+    </div>`;
   }
 
 } // TODO: Use a full markdown editor.
@@ -9731,11 +9789,12 @@ class YamlField extends ConstructorField {
 }
 const defaultFields = {
   'document': DocumentField,
-  'image': ImageField,
   'google_image': GoogleImageField,
-  'partials': PartialsField,
+  'group': GroupField,
+  'image': ImageField,
   'list': selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListField"],
   'markdown': MarkdownField,
+  'partials': PartialsField,
   'text': TextField,
   'textarea': TextareaField,
   'yaml': YamlField
