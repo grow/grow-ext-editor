@@ -299,8 +299,9 @@ class PodApi(object):
         pod_path = self.request.POST['pod_path']
         doc = self.pod.get_doc(pod_path)
         if 'raw_front_matter' in self.request.POST:
-            doc.format.front_matter.update_raw_front_matter(
-                self.request.POST['raw_front_matter'])
+            front_matter_content = self.request.POST['raw_front_matter']
+            front_matter_content = front_matter_content.encode('utf-8')
+            doc.format.front_matter.update_raw_front_matter(front_matter_content)
             doc.write()
         elif 'front_matter' in self.request.POST:
             fields = json.loads(self.request.POST['front_matter'])
@@ -309,7 +310,9 @@ class PodApi(object):
             # TODO: Array updates don't work well.
             doc.format.front_matter.update_fields(fields)
             if 'content' in self.request.POST:
-                doc.write(body=self.request.POST['content'])
+                content = self.request.POST['content']
+                content = content.encode('utf-8')
+                doc.write(body=content)
             else:
                 doc.write()
 
