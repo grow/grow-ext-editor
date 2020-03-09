@@ -341,7 +341,7 @@ class AutoFields extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_1__["c
       return 'list';
     }
 
-    if (value.length > 150) {
+    if (value.length > 75) {
       return 'textarea';
     }
 
