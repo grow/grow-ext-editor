@@ -8877,6 +8877,12 @@ class Editor {
     this.document.rawFrontMatter = evt.target.value;
   }
 
+  handleSaveError(err) {
+    this._isSaving = false;
+    this.listeners.trigger('save.error', err);
+    this.render();
+  }
+
   handleSaveResponse(response, isAutosave) {
     this.document.update(response['pod_path'], response['front_matter'], response['raw_front_matter'], response['serving_paths'], response['default_locale'], response['content']);
     this._isSaving = false;
@@ -8967,12 +8973,14 @@ class Editor {
     if (this.isEditingSource) {
       const result = this.api.saveDocumentSource(this.podPath, this.document.rawFrontMatter);
       result.then(response => this.handleSaveResponse(response, isAutosave));
+      result.catch(err => this.handleSaveError(err));
     } else {
       const newFrontMatter = this.selective.value;
       const content = newFrontMatter[CONTENT_KEY];
       delete newFrontMatter[CONTENT_KEY];
       const result = this.api.saveDocumentFields(this.podPath, newFrontMatter, this.document.locale, content);
       result.then(response => this.handleSaveResponse(response, isAutosave));
+      result.catch(err => this.handleSaveError(err));
     }
   }
 
@@ -9081,6 +9089,8 @@ class EditorApi extends _utility_api__WEBPACK_IMPORTED_MODULE_0__["default"] {
     };
     this.request.post(this.apiPath('content')).type('form').send(saveRequest).then(res => {
       result.resolve(res.body);
+    }).catch(err => {
+      result.reject(err);
     });
     return result.promise;
   }
@@ -9093,6 +9103,8 @@ class EditorApi extends _utility_api__WEBPACK_IMPORTED_MODULE_0__["default"] {
     };
     this.request.post(this.apiPath('content')).type('form').send(saveRequest).then(res => {
       result.resolve(res.body);
+    }).catch(err => {
+      result.reject(err);
     });
     return result.promise;
   }
