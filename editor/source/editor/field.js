@@ -56,12 +56,6 @@ export class ImageField extends Field {
     super(config)
     this.fieldType = 'image'
 
-    // Set the api if it was provided
-    this._api = null
-    if (this.getConfig().get('api')) {
-      this.api = this.getConfig().get('api')
-    }
-
     this.template = (editor, field, data) => html`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
       <label for="${field.getUid()}">${field.label}</label>
       <input type="text" id="${field.getUid()}" value="${field.valueFromData(data) || ''}" @input=${field.handleInput.bind(field)}>
