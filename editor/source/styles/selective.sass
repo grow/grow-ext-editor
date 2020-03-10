@@ -233,7 +233,10 @@
 
 .selective__field__group
   margin-bottom: $ge-pad
-  margin-top: $ge-pad
+  margin-top: $ge-pad/2
+
+  &:last-child
+    margin-bottom: 0
 
 .selective__field__group__handle
   align-items: center
@@ -243,6 +246,7 @@
 
 .selective__field__group__label
   flex-grow: 1
+  font-weight: bold
 
 .selective__group
   margin: $ge-pad 0 $ge-pad $ge-pad
