@@ -215,7 +215,7 @@ export class GroupField extends Field {
 
     if (useAutoFields) {
       // Auto guess the fields if they are not defined.
-      fieldConfigs = new AutoFields(this.value).config['fields']
+      fieldConfigs = new EditorAutoFields(this.value).config['fields']
     }
 
     for (let fieldConfig of fieldConfigs || []) {
