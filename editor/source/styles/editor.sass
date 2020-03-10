@@ -277,7 +277,7 @@
           opacity: 1
 
 .editor__preview__header__label
-  font-weight: 700  
+  font-weight: 700
 
 .editor__preview__frame
   align-items: stretch
@@ -328,17 +328,37 @@
   display: inline-block
   width: $ge-loading-size
   height: $ge-loading-size
+  position: relative
 
   &:after
-    content: " "
-    display: block
-    width: $ge-loading-size - ($ge-loading-border-size * 4)
-    height: $ge-loading-size - ($ge-loading-border-size * 4)
-    margin: $ge-loading-border-size
-    border-radius: 50%
+    animation: editor__loading $ge-speed-slower linear infinite
     border: $ge-loading-border-size solid $ge-color-secondary
     border-color: $ge-color-secondary transparent $ge-color-secondary transparent
-    animation: editor__loading $ge-speed-slower linear infinite
+    border-radius: 50%
+    content: " "
+    display: block
+    height: $ge-loading-size - ($ge-loading-border-size * 4)
+    margin: $ge-loading-border-size
+    position: absolute
+    width: $ge-loading-size - ($ge-loading-border-size * 4)
+
+  &:before
+    animation: editor__loading__inner $ge-speed-slower linear infinite
+    border: $ge-loading-border-size solid $ge-color-secondary
+    border-color: $ge-color-primary transparent $ge-color-primary transparent
+    border-radius: 50%
+    content: " "
+    display: block
+    height: $ge-loading-size - ($ge-loading-border-size * 8)
+    margin: $ge-loading-border-size * 3
+    position: absolute
+    width: $ge-loading-size - ($ge-loading-border-size * 8)
+
+@keyframes editor__loading__inner
+  0%
+    transform: rotate(0deg)
+  100%
+    transform: rotate(-360deg)
 
 @keyframes editor__loading
   0%
