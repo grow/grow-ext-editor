@@ -289,7 +289,7 @@ export class PartialsField extends ListField {
     let index = 0
     const items = []
     for (const itemData of this.value) {
-      const partialKey = itemData['partial']
+      let partialKey = itemData['partial']
       let partialConfig = this.partialTypes[partialKey]
 
       // If allowed to guess use a stub of the partial config.
@@ -298,6 +298,10 @@ export class PartialsField extends ListField {
           label: partialKey,
           fields: [],
         }
+      }
+
+      if (!partialKey && itemData['tag'] == '!g.yaml' || itemData['tag'] == '!g.doc') {
+        partialKey = `${itemData['tag']} ${itemData['value']}`
       }
 
       // Skip missing partials.
@@ -489,7 +493,7 @@ export class PartialsField extends ListField {
     return html`
       <div class="selective__list__item__drag"><i class="material-icons">drag_indicator</i></div>
       <div class="selective__list__item__label" data-index=${partialItem['index']} @click=${this.handleItemExpand.bind(this)}>
-        ${partialItem['partialConfig']['label']}
+        ${partialItem['partialConfig']['label'] || partialItem['partialKey']}
       </div>
       ${this.renderPreview(partialItem)}
       <div
@@ -505,7 +509,7 @@ export class PartialsField extends ListField {
     const fields = partialItem.itemFields
     return html`
       <div class="selective__list__item__label" data-index=${partialItem['index']} @click=${this.handleItemCollapse.bind(this)}>
-        ${partialItem['partialConfig']['label']}
+        ${partialItem['partialConfig']['label'] || partialItem['partialKey']}
       </div>
       ${fields.template(editor, fields, this.value[partialItem['index']])}`
     return
