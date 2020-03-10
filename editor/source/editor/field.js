@@ -6,6 +6,7 @@ import * as extend from 'deep-extend'
 import {
   autoConfig,
   autoDeepObject,
+  directive,
   html,
   repeat,
   Field,
@@ -74,9 +75,22 @@ export class ImageField extends Field {
       return ''
     }
 
+    // Depends on image element, so needs to run after image has loaded.
+    const imageSizeDirective = directive((field) => (part) => {
+      setTimeout(() => {
+        let el = document.getElementById(`${field.getUid()}_preview`);
+        let imageEl = el.querySelector('img');
+        imageEl.addEventListener('load', () => {
+          part.setValue(`Aspect ratio: ${imageEl.naturalWidth}x${imageEl.naturalHeight}`);
+          part.commit();
+        })
+      });
+    })
+
     return html`
-      <div class="selective__field__${field.fieldType}__preview">
-        <a href="${field.previewUrl}"><img src="${field.previewUrl}"></a>
+      <div class="selective__field__${field.fieldType}__preview" id="${field.getUid()}_preview">
+        <div class="selective__field__${field.fieldType}__preview__image"><a href="${field.previewUrl}"><img src="${field.previewUrl}"></a></div>
+        <div class="selective__field__${field.fieldType}__preview__meta">${imageSizeDirective(field)}</div>
       </div>`
   }
 
