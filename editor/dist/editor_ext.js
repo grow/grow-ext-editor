@@ -949,6 +949,7 @@ class ListField extends SortableField {
         'id': `${this.getUid()}-${index}`,
         'index': index,
         'itemFields': itemFields,
+        'fieldConfigs': fieldConfigs,
         'isExpanded': false
       });
       index += 1;
@@ -979,7 +980,11 @@ class ListField extends SortableField {
     const index = this.value ? this.value.length : 0;
     const itemFields = new _fields__WEBPACK_IMPORTED_MODULE_4__["default"](editor.fieldTypes); // Use the field config for the list items to create the correct field types.
 
-    const fieldConfigs = this.getConfig().get('fields', []);
+    let fieldConfigs = this.getConfig().get('fields', []); // If no field configs, use the last item config if availble.
+
+    if (!fieldConfigs.length && index > 0) {
+      fieldConfigs = this._listItems[index - 1].fieldConfigs;
+    }
 
     for (let fieldConfig of fieldConfigs || []) {
       fieldConfig = Object(_utility_config__WEBPACK_IMPORTED_MODULE_7__["autoConfig"])(fieldConfig, this.extendedConfig);
@@ -996,6 +1001,7 @@ class ListField extends SortableField {
       'id': `${this.getUid()}-${index}`,
       'index': index,
       'itemFields': itemFields,
+      'fieldConfigs': fieldConfigs,
       'isExpanded': false
     }); // Expanded by default.
 
