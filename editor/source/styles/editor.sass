@@ -33,7 +33,7 @@
 
     &:focus
       outline: none
-      box-shadow: $focus-shadow-secondary
+      box-shadow: $ge-focus-shadow-secondary
 
     &.editor--primary
       background: $ge-color-primary
@@ -43,7 +43,7 @@
 
       &:focus
         outline: none
-        box-shadow: $focus-shadow-primary
+        box-shadow: $ge-focus-shadow-primary
 
     &.editor--secondary
       background: none
@@ -71,7 +71,7 @@
 
     &:focus
       outline: none
-      box-shadow: $focus-shadow-secondary
+      box-shadow: $ge-focus-shadow-secondary
 
     &:hover
       background: $ge-color-back-light
@@ -260,3 +260,25 @@
   font-size: $ge-font-size
   margin-bottom: $ge-pad/2
   padding-top: $ge-pad/2
+
+.editor__loading
+  display: inline-block
+  width: $ge-loading-size
+  height: $ge-loading-size
+
+  &:after
+    content: " "
+    display: block
+    width: $ge-loading-size - ($ge-loading-border-size * 4)
+    height: $ge-loading-size - ($ge-loading-border-size * 4)
+    margin: $ge-loading-border-size
+    border-radius: 50%
+    border: $ge-loading-border-size solid $ge-color-secondary
+    border-color: $ge-color-secondary transparent $ge-color-secondary transparent
+    animation: editor__loading $ge-speed-slower linear infinite
+
+@keyframes editor__loading
+  0%
+    transform: rotate(0deg)
+  100%
+    transform: rotate(360deg)

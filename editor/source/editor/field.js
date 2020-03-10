@@ -67,17 +67,17 @@ export class ImageField extends Field {
       <label for="${field.getUid()}">${field.label}</label>
       <input type="text" id="${field.getUid()}" value="${field.valueFromData(data) || ''}" @input=${field.handleInput.bind(field)} ?disabled="${field.isLoading}">
       <input type="file" id="${field.getUid()}_file" placeholder="Upload new image" @change=${field.handleFileInput.bind(field)} ?disabled="${field.isLoading}">
-      ${field.isLoading ?
-        html`<div class="selective__field__${field.fieldType}__preview">Working...</div>`
-        :
-        this.renderImagePreview(editor, field, data)
-      }
+      ${this.renderImagePreview(editor, field, data)}
     </div>`
   }
 
   renderImagePreview(editor, field, data) {
     if (field.previewUrl == '') {
       return ''
+    }
+
+    if (field.isLoading) {
+      return html`<div class="selective__field__${field.fieldType}__preview"><div class="editor__loading" title="Loading..."></div></div>`
     }
 
     // Depends on image element, so needs to run after image has loaded.
