@@ -139,8 +139,13 @@ class PodApi(object):
             serving_path = None
 
         raw_front_matter = doc.format.front_matter.export()
-        front_matter = yaml.load(
-            raw_front_matter, Loader=yaml_utils.PlainTextYamlLoader)
+
+        # No front matter, just plain HTML or Markdown.
+        if raw_front_matter:
+            front_matter = yaml.load(
+                raw_front_matter, Loader=yaml_utils.PlainTextYamlLoader)
+        else:
+            front_matter = {}
 
         return {
             'pod_path': doc.pod_path,
