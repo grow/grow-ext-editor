@@ -8574,6 +8574,7 @@ class Editor {
         </div>
       </div>
       ${editor.isFullScreen ? '' : selective_edit__WEBPACK_IMPORTED_MODULE_4__["html"]`<div class="editor__preview">
+        ${editor.previewSize ? selective_edit__WEBPACK_IMPORTED_MODULE_4__["html"]`<div class="editor__preview__size">${editor.previewSize}</div>` : ''}
         <iframe src="${editor.previewUrl}" @load=${editor.handlePreviewIframeNavigation.bind(editor)}></iframe>
       </div>`}
     </div>`;
@@ -8608,6 +8609,18 @@ class Editor {
     this.bindKeyboard();
     this.load(this.podPath); // TODO Start the autosave depending on local storage.
     // this.startAutosave()
+  }
+
+  get previewSize() {
+    if (!this._isMobileView) {
+      return;
+    }
+
+    if (this._isMobileRotated) {
+      return '731x411';
+    } else {
+      return '411x731';
+    }
   }
 
   get autosave() {
