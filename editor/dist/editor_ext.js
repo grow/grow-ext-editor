@@ -8592,10 +8592,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _editorApi__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./editorApi */ "./source/editor/editorApi.js");
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
 /* harmony import */ var _field__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./field */ "./source/editor/field.js");
-/* harmony import */ var _utility_expandObject__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utility/expandObject */ "./source/utility/expandObject.js");
+/* harmony import */ var _zoomIframe__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./zoomIframe */ "./source/editor/zoomIframe.js");
+/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utility/dom */ "./source/utility/dom.js");
+/* harmony import */ var _utility_expandObject__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../utility/expandObject */ "./source/utility/expandObject.js");
 /**
  * Content editor.
  */
+
+
 
 
 
@@ -8611,45 +8615,7 @@ class Editor {
     this.config = new _utility_config__WEBPACK_IMPORTED_MODULE_0__["default"](config || {});
 
     this.template = (editor, selective) => selective_edit__WEBPACK_IMPORTED_MODULE_4__["html"]`<div class="editor ${editor.stylesEditor}">
-      <div class="editor__edit">
-        <div class="editor__pod_path">
-          <input type="text" value="${editor.podPath}"
-            @change=${editor.handlePodPathChange.bind(editor)}
-            @input=${editor.handlePodPathInput.bind(editor)}>
-          ${editor.isFullScreen ? '' : selective_edit__WEBPACK_IMPORTED_MODULE_4__["html"]`
-            <i class="material-icons" @click=${editor.handleDeviceClick.bind(editor)} title="Toggle device view">devices</i>
-            <i class="material-icons editor--device-only" @click=${editor.handleDeviceRotateClick.bind(editor)} title="Rotate device view">screen_rotation</i>
-          `}
-          <i class="material-icons" @click=${editor.handleFullScreenClick.bind(editor)} title="Fullscreen">${editor.isFullScreen ? 'fullscreen_exit' : 'fullscreen'}</i>
-          <i class="material-icons" @click=${editor.handleOpenInNew.bind(editor)} title="Preview in new window">open_in_new</i>
-        </div>
-        <div class="editor__cards">
-          <div class="editor__card">
-            <div class="editor__menu">
-              <button
-                  ?disabled=${editor._isSaving}
-                  class="editor__save editor--primary ${editor._isSaving ? 'editor__save--saving' : ''}"
-                  @click=${() => editor.save()}>
-                ${editor._isSaving ? 'Saving...' : 'Save'}
-              </button>
-              <div class="editor__actions">
-                <button class="editor__style__fields editor--secondary editor--selected" @click=${editor.handleFieldsClick.bind(editor)}>Fields</button>
-                <button class="editor__style__raw editor--secondary" @click=${editor.handleSourceClick.bind(editor)}>Raw</button>
-              </div>
-            </div>
-            ${editor.templateEditorOrSource}
-          </div>
-          <div class="editor__dev_tools">
-            <div>Developer tools:</div>
-            <i
-                class="editor__dev_tools__icon ${editor.isHightlighted ? 'editor__dev_tools__icon--selected' : ''} material-icons"
-                @click=${editor.handleHighlight.bind(editor)}
-                title="Highlight auto fields">
-              highlight
-            </i>
-          </div>
-        </div>
-      </div>
+      ${editor.renderEditor(editor, selective)}
       ${editor.renderPreview(editor, selective)}
     </div>`;
 
@@ -8659,7 +8625,25 @@ class Editor {
     this.podPath = this.containerEl.dataset.defaultPath || this.config.get('defaultPath', '');
     this.repo = null;
     this.document = null;
-    this.autosaveID = null; // Persistent settings in local storage.
+    this.autosaveID = null; // TODO: Make devices configurable.
+
+    this.devices = {
+      desktop: {
+        label: 'Desktop',
+        width: 1024
+      },
+      tablet: {
+        label: 'Tablet',
+        width: 768
+      },
+      phone: {
+        label: 'Phone',
+        width: 411,
+        height: 731
+      }
+    };
+    this._defaultDevice = 'desktop';
+    this._device = localStorage.getItem('selective.device') || this._defaultDevice; // Persistent settings in local storage.
 
     this._isEditingSource = localStorage.getItem('selective.isEditingSource') == 'true';
     this._isFullScreen = localStorage.getItem('selective.isFullScreen') == 'true';
@@ -8685,16 +8669,8 @@ class Editor {
     // this.startAutosave()
   }
 
-  get previewSize() {
-    if (!this._isDeviceView) {
-      return;
-    }
-
-    if (this._isDeviceRotated) {
-      return '731x411';
-    } else {
-      return '411x731';
-    }
+  get device() {
+    return this._device;
   }
 
   get autosave() {
@@ -8790,6 +8766,11 @@ class Editor {
     </div>`;
   }
 
+  set device(value) {
+    this._device = value;
+    localStorage.setItem('selective.device', this._device);
+  }
+
   set isEditingSource(value) {
     this._isEditingSource = value;
     localStorage.setItem('selective.isEditingSource', this._isEditingSource);
@@ -8813,6 +8794,24 @@ class Editor {
   set isDeviceView(value) {
     this._isDeviceView = value;
     localStorage.setItem('selective.isDeviceView', this._isDeviceView);
+  }
+
+  _sizeLabel(device, rotate) {
+    if (device.width && device.height) {
+      if (rotate) {
+        return `${device.height} x ${device.width}`;
+      }
+
+      return `${device.width} x ${device.height}`;
+    }
+
+    return device.width || device.height;
+  }
+
+  adjustIframeSize() {
+    const iframeContainerEl = this.containerEl.querySelector('.editor__preview__frame');
+    const iframeEl = this.containerEl.querySelector('.editor__preview iframe');
+    Object(_zoomIframe__WEBPACK_IMPORTED_MODULE_6__["zoomIframe"])(iframeContainerEl, iframeEl, this.isDeviceView, this.isDeviceRotated, this.devices[this.device], 'editor__preview__frame--contained');
   }
 
   bindEvents() {
@@ -8965,7 +8964,13 @@ class Editor {
     this.render();
   }
 
-  handleDeviceClick(evt) {
+  handleDeviceSwitchClick(evt) {
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_7__["findParentByClassname"])(evt.target, 'editor__preview__size');
+    this.device = target.dataset.device;
+    this.render();
+  }
+
+  handleDeviceToggleClick(evt) {
     this.isDeviceView = !this.isDeviceView;
     this.render();
   }
@@ -9083,7 +9088,9 @@ class Editor {
   }
 
   render(force) {
-    Object(selective_edit__WEBPACK_IMPORTED_MODULE_4__["render"])(this.template(this, this.selective), this.containerEl); // Allow selective to run its post render process.
+    Object(selective_edit__WEBPACK_IMPORTED_MODULE_4__["render"])(this.template(this, this.selective), this.containerEl); // Adjust the iframe size.
+
+    this.adjustIframeSize(); // Allow selective to run its post render process.
 
     this.selective.postRender(this.containerEl);
 
@@ -9094,13 +9101,79 @@ class Editor {
     }
   }
 
+  renderEditor(editor, selective) {
+    return selective_edit__WEBPACK_IMPORTED_MODULE_4__["html"]`<div class="editor__edit">
+      <div class="editor__pod_path">
+        <input type="text" value="${editor.podPath}"
+          @change=${editor.handlePodPathChange.bind(editor)}
+          @input=${editor.handlePodPathInput.bind(editor)}>
+        <i class="material-icons" @click=${editor.handleFullScreenClick.bind(editor)} title="Fullscreen">${editor.isFullScreen ? 'fullscreen_exit' : 'fullscreen'}</i>
+      </div>
+      <div class="editor__cards">
+        <div class="editor__card">
+          <div class="editor__menu">
+            <button
+                ?disabled=${editor._isSaving}
+                class="editor__save editor--primary ${editor._isSaving ? 'editor__save--saving' : ''}"
+                @click=${() => editor.save()}>
+              ${editor._isSaving ? 'Saving...' : 'Save'}
+            </button>
+            <div class="editor__actions">
+              <button class="editor__style__fields editor--secondary editor--selected" @click=${editor.handleFieldsClick.bind(editor)}>Fields</button>
+              <button class="editor__style__raw editor--secondary" @click=${editor.handleSourceClick.bind(editor)}>Raw</button>
+            </div>
+          </div>
+          ${editor.templateEditorOrSource}
+        </div>
+        <div class="editor__dev_tools">
+          <div>Developer tools:</div>
+          <i
+              class="editor__dev_tools__icon ${editor.isHightlighted ? 'editor__dev_tools__icon--selected' : ''} material-icons"
+              @click=${editor.handleHighlight.bind(editor)}
+              title="Highlight auto fields">
+            highlight
+          </i>
+        </div>
+      </div>
+    </div>`;
+  }
+
   renderPreview(editor, selective) {
     if (editor.isFullScreen) {
       return '';
     }
 
+    let previewSizes = '';
+
+    if (editor.isDeviceView) {
+      previewSizes = selective_edit__WEBPACK_IMPORTED_MODULE_4__["html"]`<div class="editor__preview__sizes">
+        ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_4__["repeat"])(Object.entries(this.devices), device => device[0], (device, index) => selective_edit__WEBPACK_IMPORTED_MODULE_4__["html"]`
+          <div
+              class="editor__preview__size ${editor.device == device[0] ? 'editor__preview__size--selected' : ''}"
+              data-device="${device[0]}"
+              @click=${editor.handleDeviceSwitchClick.bind(editor)}>
+            ${device[1].label}
+            <span class="editor__preview__size__dimension">
+              (${editor._sizeLabel(device[1], editor.isDeviceRotated)})
+            </span>
+          </div>`)}
+      </div>`;
+    }
+
     return selective_edit__WEBPACK_IMPORTED_MODULE_4__["html"]`<div class="editor__preview">
-      ${editor.previewSize ? selective_edit__WEBPACK_IMPORTED_MODULE_4__["html"]`<div class="editor__preview__size">${editor.previewSize}</div>` : ''}
+      <div class="editor__preview__header">
+        <div class="editor__preview__header__label">
+          Preview
+        </div>
+        ${previewSizes}
+        <div class="editor__preview__header__icons">
+          ${editor.isFullScreen ? '' : selective_edit__WEBPACK_IMPORTED_MODULE_4__["html"]`
+            <i class="material-icons" @click=${editor.handleDeviceToggleClick.bind(editor)} title="Toggle device view">devices</i>
+            <i class="material-icons editor--device-only" @click=${editor.handleDeviceRotateClick.bind(editor)} title="Rotate device view">screen_rotation</i>
+          `}
+          <i class="material-icons" @click=${editor.handleOpenInNew.bind(editor)} title="Preview in new window">open_in_new</i>
+        </div>
+      </div>
       <div class="editor__preview__frame">
         <iframe src="${editor.previewUrl}" @load=${editor.handlePreviewIframeNavigation.bind(editor)}></iframe>
       </div>
@@ -9836,7 +9909,12 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListFie
   }
 
   renderItems(editor, data) {
-    // If the sub fields have not been created create them now.
+    // No partials loaded yet.
+    if (!Object.keys(this.partialTypes).length) {
+      return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="editor__loading" title="Loading partial configurations"></div>`;
+    } // If the sub fields have not been created create them now.
+
+
     if (!this._listItems.length) {
       this._listItems = this._createItems(editor, data);
     } // Update the expanded state each render.
@@ -9937,6 +10015,107 @@ const defaultFields = {
   'text': TextField,
   'textarea': TextareaField,
   'yaml': YamlField
+};
+
+/***/ }),
+
+/***/ "./source/editor/zoomIframe.js":
+/*!*************************************!*\
+  !*** ./source/editor/zoomIframe.js ***!
+  \*************************************/
+/*! exports provided: zoomIframe */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "zoomIframe", function() { return zoomIframe; });
+const zoomIframe = (containerEl, iframeEl, isDeviceView, isRotated, device, containedClass) => {
+  if (!iframeEl) {
+    return;
+  } // Reset styling to grab correct container bounds.
+
+
+  iframeEl.style.height = '100px';
+  iframeEl.style.transform = `scale(1)`;
+  iframeEl.style.width = '100px';
+  containerEl.style.maxHeight = 'auto';
+  containerEl.style.maxWidth = 'auto';
+  containerEl.classList.remove(containedClass); // Default adjustments to reset the iframeEl.
+
+  let adjustHeight = 'auto';
+  let adjustMaxHeight = 'auto';
+  let adjustScale = 1;
+  let adjustWidth = 'auto';
+
+  if (isDeviceView) {
+    const containerHeight = containerEl.offsetHeight;
+    const containerWidth = containerEl.offsetWidth;
+    let deviceHeight = device['height'];
+    let deviceWidth = device['width'];
+
+    if (deviceWidth && deviceHeight) {
+      containerEl.classList.add(containedClass); // Adjust for rotated device.
+
+      deviceHeight = isRotated ? device['width'] : device['height'];
+      deviceWidth = isRotated ? device['height'] : device['width']; // Constant ratio.
+
+      const fitsWidth = deviceWidth <= containerWidth;
+      const fitsHeight = deviceHeight <= containerHeight;
+
+      if (fitsWidth && fitsHeight) {
+        // No need to do scaling, just adjust the size of the iframe.
+        adjustHeight = deviceHeight;
+        adjustMaxHeight = deviceHeight;
+        adjustWidth = deviceWidth;
+      } else if (fitsWidth) {
+        // Height does not fit. Scale down.
+        adjustHeight = deviceHeight;
+        adjustMaxHeight = deviceHeight;
+        adjustWidth = deviceWidth * (deviceHeight / containerHeight);
+        adjustScale = containerHeight / deviceHeight;
+      } else {
+        // Width does not fit. Scale down.
+        adjustHeight = deviceHeight * (deviceWidth / containerWidth);
+        adjustMaxHeight = deviceHeight * (deviceWidth / containerWidth);
+        adjustWidth = deviceWidth;
+        adjustScale = containerWidth / deviceWidth;
+      }
+    } else if (deviceWidth) {
+      // Scale width and auto adjust height.
+      const fitsWidth = deviceWidth <= containerWidth;
+
+      if (fitsWidth) {
+        containerEl.classList.add(containedClass);
+        adjustWidth = deviceWidth;
+      } else {
+        adjustHeight = containerHeight * (deviceWidth / containerWidth);
+        adjustMaxHeight = containerHeight * (deviceWidth / containerWidth);
+        adjustWidth = deviceWidth;
+        adjustScale = containerWidth / deviceWidth;
+      }
+    } else {
+      // Scale height and auto adjust width.
+      const fitsHeight = deviceHeight <= containerHeight;
+
+      if (fitsHeight) {
+        adjustHeight = deviceHeight;
+      } else {
+        adjustHeight = deviceHeight;
+        adjustMaxHeight = containerWidth * (deviceHeight / containerHeight);
+        adjustWidth = containerWidth * (deviceHeight / containerHeight);
+        adjustScale = containerHeight / deviceHeight;
+      }
+    } // Make sure that the framing container does not expand.
+    // containerEl.style.maxHeight = `${containerHeight}px`
+
+
+    containerEl.style.maxWidth = `${containerWidth}px`;
+  }
+
+  iframeEl.style.height = adjustHeight == 'auto' ? 'auto' : `${adjustHeight}px`;
+  iframeEl.style.maxHeight = adjustMaxHeight == 'auto' ? null : `${adjustMaxHeight}px`;
+  iframeEl.style.transform = `scale(${adjustScale})`;
+  iframeEl.style.width = adjustWidth == 'auto' ? 'auto' : `${adjustWidth}px`;
 };
 
 /***/ }),
@@ -10124,6 +10303,31 @@ class Defer {
   }
 
 }
+
+/***/ }),
+
+/***/ "./source/utility/dom.js":
+/*!*******************************!*\
+  !*** ./source/utility/dom.js ***!
+  \*******************************/
+/*! exports provided: findParentByClassname */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "findParentByClassname", function() { return findParentByClassname; });
+/**
+ *  DOM helper functions.
+ */
+const findParentByClassname = (element, classname) => {
+  while (element && !element.classList.contains(classname)) {
+    element = element.parentElement;
+  }
+
+  return element;
+};
+
+
 
 /***/ }),
 

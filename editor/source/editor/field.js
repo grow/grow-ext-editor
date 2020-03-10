@@ -531,6 +531,11 @@ export class PartialsField extends ListField {
   }
 
   renderItems(editor, data) {
+    // No partials loaded yet.
+    if (!Object.keys(this.partialTypes).length) {
+      return html`<div class="editor__loading" title="Loading partial configurations"></div>`
+    }
+
     // If the sub fields have not been created create them now.
     if (!this._listItems.length) {
       this._listItems = this._createItems(editor, data)
