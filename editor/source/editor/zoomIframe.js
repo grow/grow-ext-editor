@@ -11,7 +11,7 @@ export const zoomIframe = (containerEl, iframeEl, isDeviceView, isRotated, devic
   containerEl.style.maxWidth = 'auto'
   containerEl.classList.remove(containedClass)
 
-  // Adjustments to apply to the iframeEl.
+  // Default adjustments to reset the iframeEl.
   let adjustHeight = 'auto'
   let adjustMaxHeight = 'auto'
   let adjustScale = 1
@@ -27,16 +27,17 @@ export const zoomIframe = (containerEl, iframeEl, isDeviceView, isRotated, devic
       containerEl.classList.add(containedClass)
 
       // Adjust for rotated device.
-      deviceHeight = isRotated ? deviceWidth : deviceHeight
-      deviceWidth = isRotated ? deviceHeight : deviceWidth
+      deviceHeight = isRotated ? device['width'] : device['height']
+      deviceWidth = isRotated ? device['height'] : device['width']
 
       // Constant ratio.
       const fitsWidth = deviceWidth <= containerWidth
       const fitsHeight = deviceHeight <= containerHeight
       if (fitsWidth && fitsHeight) {
         // No need to do scaling, just adjust the size of the iframe.
-        adjustWidth = deviceWidth
         adjustHeight = deviceHeight
+        adjustMaxHeight = deviceHeight
+        adjustWidth = deviceWidth
       } else if (fitsWidth) {
         // Height does not fit. Scale down.
         adjustHeight = deviceHeight
@@ -78,13 +79,10 @@ export const zoomIframe = (containerEl, iframeEl, isDeviceView, isRotated, devic
     // Make sure that the framing container does not expand.
     // containerEl.style.maxHeight = `${containerHeight}px`
     containerEl.style.maxWidth = `${containerWidth}px`
-  } else {
-    adjustWidth = 'auto'
-    adjustHeight = 'auto'
   }
 
   iframeEl.style.height = adjustHeight == 'auto' ? 'auto' : `${adjustHeight}px`
-  iframeEl.style.maxHeight = adjustHeight == 'auto' ? 'auto' : `${adjustHeight}px`
+  iframeEl.style.maxHeight = adjustMaxHeight == 'auto' ? null : `${adjustMaxHeight}px`
   iframeEl.style.transform = `scale(${adjustScale})`
   iframeEl.style.width = adjustWidth == 'auto' ? 'auto' : `${adjustWidth}px`
 }

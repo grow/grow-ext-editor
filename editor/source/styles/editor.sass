@@ -107,7 +107,7 @@
   color: $ge-color-on-secondary
   display: flex
   flex-flow: row
-  height: $ge-edit-header-height
+  height: $ge-header-height
   padding: $ge-pad / 2
   z-index: 15
 
@@ -134,17 +134,15 @@
         cursor: default
         opacity: 0.25
 
-.editor--device
-  .editor__pod_path:hover
-    i.editor--device-only
-      cursor: pointer
-      opacity: 1
+        .editor--device &
+          cursor: pointer
+          opacity: 1
 
 .editor__cards
   display: flex
   flex-flow: column
   flex-grow: 1
-  height: calc(100vh - #{$ge-edit-header-height})
+  height: calc(100vh - #{$ge-header-height})
   overflow-y: auto
 
 .editor__card
@@ -237,6 +235,50 @@
   .editor--device &
     align-items: center
 
+.editor__preview__header
+  align-items: center
+  background: $ge-color-back
+  color: $ge-color-on-back
+  display: flex
+  flex-flow: row
+  height: $ge-header-height
+  justify-content: space-between
+  padding: $ge-pad / 2
+  position: sticky
+  top: 0
+  width: 100%
+  z-index: 15
+
+  i
+    cursor: pointer
+    margin: 0 $ge-pad / 4
+    opacity: 0.25
+    transition: opacity $ge-speed-fast
+
+  input
+    background: transparent
+    border: none
+    color: $ge-color-on-secondary
+    flex-grow: 1
+    font-weight: bold
+    padding: $ge-pad/2
+    width: 100%
+
+  &:hover
+    i
+      opacity: 1
+
+      &.editor--device-only
+        cursor: default
+        opacity: 0.25
+
+        .editor--device &
+          cursor: pointer
+          opacity: 1
+
+.editor__preview__header__label
+  font-weight: 700  
+
 .editor__preview__frame
   align-items: stretch
   display: flex
@@ -269,9 +311,6 @@
   color: $ge-color-secondary
   display: flex
   flex-flow: row
-  margin: $ge-pad / 2 0
-  position: sticky
-  top: $ge-pad / 2
   z-index: 10
 
 .editor__preview__size

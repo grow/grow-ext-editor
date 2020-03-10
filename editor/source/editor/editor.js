@@ -26,45 +26,7 @@ export default class Editor {
     this.containerEl = containerEl
     this.config = new Config(config || {})
     this.template = (editor, selective) => html`<div class="editor ${editor.stylesEditor}">
-      <div class="editor__edit">
-        <div class="editor__pod_path">
-          <input type="text" value="${editor.podPath}"
-            @change=${editor.handlePodPathChange.bind(editor)}
-            @input=${editor.handlePodPathInput.bind(editor)}>
-          ${editor.isFullScreen ? '' : html`
-            <i class="material-icons" @click=${editor.handleDeviceToggleClick.bind(editor)} title="Toggle device view">devices</i>
-            <i class="material-icons editor--device-only" @click=${editor.handleDeviceRotateClick.bind(editor)} title="Rotate device view">screen_rotation</i>
-          `}
-          <i class="material-icons" @click=${editor.handleFullScreenClick.bind(editor)} title="Fullscreen">${editor.isFullScreen ? 'fullscreen_exit' : 'fullscreen'}</i>
-          <i class="material-icons" @click=${editor.handleOpenInNew.bind(editor)} title="Preview in new window">open_in_new</i>
-        </div>
-        <div class="editor__cards">
-          <div class="editor__card">
-            <div class="editor__menu">
-              <button
-                  ?disabled=${editor._isSaving}
-                  class="editor__save editor--primary ${editor._isSaving ? 'editor__save--saving' : ''}"
-                  @click=${() => editor.save()}>
-                ${editor._isSaving ? 'Saving...' : 'Save'}
-              </button>
-              <div class="editor__actions">
-                <button class="editor__style__fields editor--secondary editor--selected" @click=${editor.handleFieldsClick.bind(editor)}>Fields</button>
-                <button class="editor__style__raw editor--secondary" @click=${editor.handleSourceClick.bind(editor)}>Raw</button>
-              </div>
-            </div>
-            ${editor.templateEditorOrSource}
-          </div>
-          <div class="editor__dev_tools">
-            <div>Developer tools:</div>
-            <i
-                class="editor__dev_tools__icon ${editor.isHightlighted ? 'editor__dev_tools__icon--selected': ''} material-icons"
-                @click=${editor.handleHighlight.bind(editor)}
-                title="Highlight auto fields">
-              highlight
-            </i>
-          </div>
-        </div>
-      </div>
+      ${editor.renderEditor(editor, selective)}
       ${editor.renderPreview(editor, selective)}
     </div>`
 
@@ -572,6 +534,43 @@ export default class Editor {
     }
   }
 
+  renderEditor(editor, selective) {
+    return html`<div class="editor__edit">
+      <div class="editor__pod_path">
+        <input type="text" value="${editor.podPath}"
+          @change=${editor.handlePodPathChange.bind(editor)}
+          @input=${editor.handlePodPathInput.bind(editor)}>
+        <i class="material-icons" @click=${editor.handleFullScreenClick.bind(editor)} title="Fullscreen">${editor.isFullScreen ? 'fullscreen_exit' : 'fullscreen'}</i>
+      </div>
+      <div class="editor__cards">
+        <div class="editor__card">
+          <div class="editor__menu">
+            <button
+                ?disabled=${editor._isSaving}
+                class="editor__save editor--primary ${editor._isSaving ? 'editor__save--saving' : ''}"
+                @click=${() => editor.save()}>
+              ${editor._isSaving ? 'Saving...' : 'Save'}
+            </button>
+            <div class="editor__actions">
+              <button class="editor__style__fields editor--secondary editor--selected" @click=${editor.handleFieldsClick.bind(editor)}>Fields</button>
+              <button class="editor__style__raw editor--secondary" @click=${editor.handleSourceClick.bind(editor)}>Raw</button>
+            </div>
+          </div>
+          ${editor.templateEditorOrSource}
+        </div>
+        <div class="editor__dev_tools">
+          <div>Developer tools:</div>
+          <i
+              class="editor__dev_tools__icon ${editor.isHightlighted ? 'editor__dev_tools__icon--selected': ''} material-icons"
+              @click=${editor.handleHighlight.bind(editor)}
+              title="Highlight auto fields">
+            highlight
+          </i>
+        </div>
+      </div>
+    </div>`
+  }
+
   renderPreview(editor, selective) {
     if (editor.isFullScreen) {
       return ''
@@ -594,7 +593,19 @@ export default class Editor {
     }
 
     return html`<div class="editor__preview">
-      ${previewSizes}
+      <div class="editor__preview__header">
+        <div class="editor__preview__header__label">
+          Preview
+        </div>
+        ${previewSizes}
+        <div class="editor__preview__header__icons">
+          ${editor.isFullScreen ? '' : html`
+            <i class="material-icons" @click=${editor.handleDeviceToggleClick.bind(editor)} title="Toggle device view">devices</i>
+            <i class="material-icons editor--device-only" @click=${editor.handleDeviceRotateClick.bind(editor)} title="Rotate device view">screen_rotation</i>
+          `}
+          <i class="material-icons" @click=${editor.handleOpenInNew.bind(editor)} title="Preview in new window">open_in_new</i>
+        </div>
+      </div>
       <div class="editor__preview__frame">
         <iframe src="${editor.previewUrl}" @load=${editor.handlePreviewIframeNavigation.bind(editor)}></iframe>
       </div>

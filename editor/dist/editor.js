@@ -8600,45 +8600,7 @@ class Editor {
     this.config = new _utility_config__WEBPACK_IMPORTED_MODULE_0__["default"](config || {});
 
     this.template = (editor, selective) => selective_edit__WEBPACK_IMPORTED_MODULE_4__["html"]`<div class="editor ${editor.stylesEditor}">
-      <div class="editor__edit">
-        <div class="editor__pod_path">
-          <input type="text" value="${editor.podPath}"
-            @change=${editor.handlePodPathChange.bind(editor)}
-            @input=${editor.handlePodPathInput.bind(editor)}>
-          ${editor.isFullScreen ? '' : selective_edit__WEBPACK_IMPORTED_MODULE_4__["html"]`
-            <i class="material-icons" @click=${editor.handleDeviceToggleClick.bind(editor)} title="Toggle device view">devices</i>
-            <i class="material-icons editor--device-only" @click=${editor.handleDeviceRotateClick.bind(editor)} title="Rotate device view">screen_rotation</i>
-          `}
-          <i class="material-icons" @click=${editor.handleFullScreenClick.bind(editor)} title="Fullscreen">${editor.isFullScreen ? 'fullscreen_exit' : 'fullscreen'}</i>
-          <i class="material-icons" @click=${editor.handleOpenInNew.bind(editor)} title="Preview in new window">open_in_new</i>
-        </div>
-        <div class="editor__cards">
-          <div class="editor__card">
-            <div class="editor__menu">
-              <button
-                  ?disabled=${editor._isSaving}
-                  class="editor__save editor--primary ${editor._isSaving ? 'editor__save--saving' : ''}"
-                  @click=${() => editor.save()}>
-                ${editor._isSaving ? 'Saving...' : 'Save'}
-              </button>
-              <div class="editor__actions">
-                <button class="editor__style__fields editor--secondary editor--selected" @click=${editor.handleFieldsClick.bind(editor)}>Fields</button>
-                <button class="editor__style__raw editor--secondary" @click=${editor.handleSourceClick.bind(editor)}>Raw</button>
-              </div>
-            </div>
-            ${editor.templateEditorOrSource}
-          </div>
-          <div class="editor__dev_tools">
-            <div>Developer tools:</div>
-            <i
-                class="editor__dev_tools__icon ${editor.isHightlighted ? 'editor__dev_tools__icon--selected' : ''} material-icons"
-                @click=${editor.handleHighlight.bind(editor)}
-                title="Highlight auto fields">
-              highlight
-            </i>
-          </div>
-        </div>
-      </div>
+      ${editor.renderEditor(editor, selective)}
       ${editor.renderPreview(editor, selective)}
     </div>`;
 
@@ -9124,6 +9086,43 @@ class Editor {
     }
   }
 
+  renderEditor(editor, selective) {
+    return selective_edit__WEBPACK_IMPORTED_MODULE_4__["html"]`<div class="editor__edit">
+      <div class="editor__pod_path">
+        <input type="text" value="${editor.podPath}"
+          @change=${editor.handlePodPathChange.bind(editor)}
+          @input=${editor.handlePodPathInput.bind(editor)}>
+        <i class="material-icons" @click=${editor.handleFullScreenClick.bind(editor)} title="Fullscreen">${editor.isFullScreen ? 'fullscreen_exit' : 'fullscreen'}</i>
+      </div>
+      <div class="editor__cards">
+        <div class="editor__card">
+          <div class="editor__menu">
+            <button
+                ?disabled=${editor._isSaving}
+                class="editor__save editor--primary ${editor._isSaving ? 'editor__save--saving' : ''}"
+                @click=${() => editor.save()}>
+              ${editor._isSaving ? 'Saving...' : 'Save'}
+            </button>
+            <div class="editor__actions">
+              <button class="editor__style__fields editor--secondary editor--selected" @click=${editor.handleFieldsClick.bind(editor)}>Fields</button>
+              <button class="editor__style__raw editor--secondary" @click=${editor.handleSourceClick.bind(editor)}>Raw</button>
+            </div>
+          </div>
+          ${editor.templateEditorOrSource}
+        </div>
+        <div class="editor__dev_tools">
+          <div>Developer tools:</div>
+          <i
+              class="editor__dev_tools__icon ${editor.isHightlighted ? 'editor__dev_tools__icon--selected' : ''} material-icons"
+              @click=${editor.handleHighlight.bind(editor)}
+              title="Highlight auto fields">
+            highlight
+          </i>
+        </div>
+      </div>
+    </div>`;
+  }
+
   renderPreview(editor, selective) {
     if (editor.isFullScreen) {
       return '';
@@ -9147,7 +9146,19 @@ class Editor {
     }
 
     return selective_edit__WEBPACK_IMPORTED_MODULE_4__["html"]`<div class="editor__preview">
-      ${previewSizes}
+      <div class="editor__preview__header">
+        <div class="editor__preview__header__label">
+          Preview
+        </div>
+        ${previewSizes}
+        <div class="editor__preview__header__icons">
+          ${editor.isFullScreen ? '' : selective_edit__WEBPACK_IMPORTED_MODULE_4__["html"]`
+            <i class="material-icons" @click=${editor.handleDeviceToggleClick.bind(editor)} title="Toggle device view">devices</i>
+            <i class="material-icons editor--device-only" @click=${editor.handleDeviceRotateClick.bind(editor)} title="Rotate device view">screen_rotation</i>
+          `}
+          <i class="material-icons" @click=${editor.handleOpenInNew.bind(editor)} title="Preview in new window">open_in_new</i>
+        </div>
+      </div>
       <div class="editor__preview__frame">
         <iframe src="${editor.previewUrl}" @load=${editor.handlePreviewIframeNavigation.bind(editor)}></iframe>
       </div>
@@ -9883,7 +9894,12 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListFie
   }
 
   renderItems(editor, data) {
-    // If the sub fields have not been created create them now.
+    // No partials loaded yet.
+    if (!Object.keys(this.partialTypes).length) {
+      return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="editor__loading" title="Loading partial configurations"></div>`;
+    } // If the sub fields have not been created create them now.
+
+
     if (!this._listItems.length) {
       this._listItems = this._createItems(editor, data);
     } // Update the expanded state each render.
@@ -10009,7 +10025,7 @@ const zoomIframe = (containerEl, iframeEl, isDeviceView, isRotated, device, cont
   iframeEl.style.width = '100px';
   containerEl.style.maxHeight = 'auto';
   containerEl.style.maxWidth = 'auto';
-  containerEl.classList.remove(containedClass); // Adjustments to apply to the iframeEl.
+  containerEl.classList.remove(containedClass); // Default adjustments to reset the iframeEl.
 
   let adjustHeight = 'auto';
   let adjustMaxHeight = 'auto';
@@ -10025,16 +10041,17 @@ const zoomIframe = (containerEl, iframeEl, isDeviceView, isRotated, device, cont
     if (deviceWidth && deviceHeight) {
       containerEl.classList.add(containedClass); // Adjust for rotated device.
 
-      deviceHeight = isRotated ? deviceWidth : deviceHeight;
-      deviceWidth = isRotated ? deviceHeight : deviceWidth; // Constant ratio.
+      deviceHeight = isRotated ? device['width'] : device['height'];
+      deviceWidth = isRotated ? device['height'] : device['width']; // Constant ratio.
 
       const fitsWidth = deviceWidth <= containerWidth;
       const fitsHeight = deviceHeight <= containerHeight;
 
       if (fitsWidth && fitsHeight) {
         // No need to do scaling, just adjust the size of the iframe.
-        adjustWidth = deviceWidth;
         adjustHeight = deviceHeight;
+        adjustMaxHeight = deviceHeight;
+        adjustWidth = deviceWidth;
       } else if (fitsWidth) {
         // Height does not fit. Scale down.
         adjustHeight = deviceHeight;
@@ -10078,13 +10095,10 @@ const zoomIframe = (containerEl, iframeEl, isDeviceView, isRotated, device, cont
 
 
     containerEl.style.maxWidth = `${containerWidth}px`;
-  } else {
-    adjustWidth = 'auto';
-    adjustHeight = 'auto';
   }
 
   iframeEl.style.height = adjustHeight == 'auto' ? 'auto' : `${adjustHeight}px`;
-  iframeEl.style.maxHeight = adjustHeight == 'auto' ? 'auto' : `${adjustHeight}px`;
+  iframeEl.style.maxHeight = adjustMaxHeight == 'auto' ? null : `${adjustMaxHeight}px`;
   iframeEl.style.transform = `scale(${adjustScale})`;
   iframeEl.style.width = adjustWidth == 'auto' ? 'auto' : `${adjustWidth}px`;
 };
