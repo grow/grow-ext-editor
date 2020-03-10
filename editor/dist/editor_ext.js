@@ -8617,8 +8617,8 @@ class Editor {
             @change=${editor.handlePodPathChange.bind(editor)}
             @input=${editor.handlePodPathInput.bind(editor)}>
           ${editor.isFullScreen ? '' : selective_edit__WEBPACK_IMPORTED_MODULE_4__["html"]`
-            <i class="material-icons" @click=${editor.handleMobileClick.bind(editor)} title="Toggle mobile view">devices</i>
-            <i class="material-icons editor--mobile-only" @click=${editor.handleMobileRotateClick.bind(editor)} title="Rotate mobile view">screen_rotation</i>
+            <i class="material-icons" @click=${editor.handleDeviceClick.bind(editor)} title="Toggle device view">devices</i>
+            <i class="material-icons editor--device-only" @click=${editor.handleDeviceRotateClick.bind(editor)} title="Rotate device view">screen_rotation</i>
           `}
           <i class="material-icons" @click=${editor.handleFullScreenClick.bind(editor)} title="Fullscreen">${editor.isFullScreen ? 'fullscreen_exit' : 'fullscreen'}</i>
           <i class="material-icons" @click=${editor.handleOpenInNew.bind(editor)} title="Preview in new window">open_in_new</i>
@@ -8664,8 +8664,8 @@ class Editor {
     this._isEditingSource = localStorage.getItem('selective.isEditingSource') == 'true';
     this._isFullScreen = localStorage.getItem('selective.isFullScreen') == 'true';
     this._isHightlighted = localStorage.getItem('selective.isHightlighted') == 'true';
-    this._isMobileRotated = localStorage.getItem('selective.isMobileRotated') == 'true';
-    this._isMobileView = localStorage.getItem('selective.isMobileView') == 'true';
+    this._isDeviceRotated = localStorage.getItem('selective.isDeviceRotated') == 'true';
+    this._isDeviceView = localStorage.getItem('selective.isDeviceView') == 'true';
     this._isFullMarkdownEditor = false;
     this._isLoading = {};
     this._isSaving = false;
@@ -8686,11 +8686,11 @@ class Editor {
   }
 
   get previewSize() {
-    if (!this._isMobileView) {
+    if (!this._isDeviceView) {
       return;
     }
 
-    if (this._isMobileRotated) {
+    if (this._isDeviceRotated) {
       return '731x411';
     } else {
       return '411x731';
@@ -8725,12 +8725,12 @@ class Editor {
     return this._isHightlighted;
   }
 
-  get isMobileRotated() {
-    return this._isMobileRotated;
+  get isDeviceRotated() {
+    return this._isDeviceRotated;
   }
 
-  get isMobileView() {
-    return this._isMobileView;
+  get isDeviceView() {
+    return this._isDeviceView;
   }
 
   get previewUrl() {
@@ -8749,10 +8749,10 @@ class Editor {
   get stylesEditor() {
     const styles = [];
 
-    if (this.isMobileView) {
-      styles.push('editor--mobile'); // Only allow the rotated when in mobile view.
+    if (this.isDeviceView) {
+      styles.push('editor--device'); // Only allow the rotated when in device view.
 
-      if (this.isMobileRotated) {
+      if (this.isDeviceRotated) {
         styles.push('editor--rotated');
       }
     }
@@ -8805,14 +8805,14 @@ class Editor {
     localStorage.setItem('selective.isHightlighted', this._isHightlighted);
   }
 
-  set isMobileRotated(value) {
-    this._isMobileRotated = value;
-    localStorage.setItem('selective.isMobileRotated', this._isMobileRotated);
+  set isDeviceRotated(value) {
+    this._isDeviceRotated = value;
+    localStorage.setItem('selective.isDeviceRotated', this._isDeviceRotated);
   }
 
-  set isMobileView(value) {
-    this._isMobileView = value;
-    localStorage.setItem('selective.isMobileView', this._isMobileView);
+  set isDeviceView(value) {
+    this._isDeviceView = value;
+    localStorage.setItem('selective.isDeviceView', this._isDeviceView);
   }
 
   bindEvents() {
@@ -8960,13 +8960,13 @@ class Editor {
     this.render();
   }
 
-  handleMobileRotateClick(evt) {
-    this.isMobileRotated = !this.isMobileRotated;
+  handleDeviceRotateClick(evt) {
+    this.isDeviceRotated = !this.isDeviceRotated;
     this.render();
   }
 
-  handleMobileClick(evt) {
-    this.isMobileView = !this.isMobileView;
+  handleDeviceClick(evt) {
+    this.isDeviceView = !this.isDeviceView;
     this.render();
   }
 
