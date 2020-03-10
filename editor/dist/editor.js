@@ -10023,8 +10023,8 @@ const zoomIframe = (containerEl, iframeEl, isDeviceView, isRotated, device, cont
   iframeEl.style.height = '100px';
   iframeEl.style.transform = `scale(1)`;
   iframeEl.style.width = '100px';
-  containerEl.style.maxHeight = 'auto';
-  containerEl.style.maxWidth = 'auto';
+  containerEl.style.maxHeight = null;
+  containerEl.style.maxWidth = null;
   containerEl.classList.remove(containedClass); // Default adjustments to reset the iframeEl.
 
   let adjustHeight = 'auto';
@@ -10091,9 +10091,9 @@ const zoomIframe = (containerEl, iframeEl, isDeviceView, isRotated, device, cont
         adjustScale = containerHeight / deviceHeight;
       }
     } // Make sure that the framing container does not expand.
-    // containerEl.style.maxHeight = `${containerHeight}px`
 
 
+    containerEl.style.maxHeight = `${containerHeight}px`;
     containerEl.style.maxWidth = `${containerWidth}px`;
   }
 
