@@ -262,28 +262,42 @@ class AutoFields extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_1__["c
       const firstValue = data.length ? data[0] : null;
       fields.push(this._fieldConfig('', firstValue));
     } else {
-      for (const key in data) {
-        if (!data.hasOwnProperty(key)) {
-          continue;
-        }
+      fields = fields.concat(this._deepGuessObject(data, keyBase));
+    }
 
-        const newKeyBase = keyBase.concat([key]);
+    return fields;
+  }
 
-        if (this.dataType.isObject(data[key])) {
-          fields = fields.concat(this._deepGuess(data[key], newKeyBase));
-        } else {
-          const fullKey = newKeyBase.join('.'); // Skip ignored keys.
+  _deepGuessObject(data, keyBase) {
+    let fields = [];
+    keyBase = keyBase || [];
 
-          if (this.ignoredKeys.includes(key)) {
-            continue;
-          }
+    for (const key in data) {
+      if (!data.hasOwnProperty(key)) {
+        continue;
+      } // Skip ignored keys.
 
-          fields.push(this._fieldConfig(fullKey, data[key]));
-        }
+
+      if (this.ignoredKeys.includes(key)) {
+        continue;
+      }
+
+      const newKeyBase = keyBase.concat([key]);
+      const newData = data[key];
+
+      if (this.dataType.isObject(newData)) {
+        fields = fields.concat(this._deepGuessObject(newData, newKeyBase));
+      } else {
+        fields.push(this._deepGuessSimple(data[key], newKeyBase));
       }
     }
 
     return fields;
+  }
+
+  _deepGuessSimple(data, keyBase) {
+    const fullKey = keyBase.join('.');
+    return this._fieldConfig(fullKey, data);
   }
 
   _fieldConfig(key, value) {
@@ -1471,6 +1485,10 @@ class DeepObject {
   get(key) {
     let root = this.obj;
 
+    if (!key) {
+      return root;
+    }
+
     for (const part of key.split('.')) {
       if (!root) {
         return undefined;
@@ -1487,6 +1505,11 @@ class DeepObject {
   }
 
   set(key, value) {
+    if (!key) {
+      this.obj = value;
+      return;
+    }
+
     let root = this.obj;
     const parts = key.split('.');
 
@@ -8437,6 +8460,60 @@ new _editor__WEBPACK_IMPORTED_MODULE_0__["default"](document.querySelector('.con
 
 /***/ }),
 
+/***/ "./source/editor/autoFields.js":
+/*!*************************************!*\
+  !*** ./source/editor/autoFields.js ***!
+  \*************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return EditorAutoFields; });
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/**
+ * Automatically guess the field configuration from data.
+ */
+
+class EditorAutoFields extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["AutoFields"] {
+  _deepGuessObject(data, keyBase) {
+    // Handle the `!g.*` constructors.
+    if (this._isConstructor(data)) {
+      const fullKey = keyBase.join('.');
+      return [this._fieldConfig(fullKey, data)];
+    }
+
+    return super._deepGuessObject(data, keyBase);
+  }
+
+  _isConstructor(data) {
+    return data['tag'] && data['value'] && data['tag'].startsWith('!g.');
+  }
+  /**
+   * From a value, guess the type of field.
+   */
+
+
+  typeFromValue(value) {
+    if (this.dataType.isObject(value) && this._isConstructor(value)) {
+      switch (value['tag']) {
+        case '!g.doc':
+          return 'document';
+          break;
+
+        case '!g.yaml':
+          return 'yaml';
+          break;
+      }
+    }
+
+    return super.typeFromValue(value);
+  }
+
+}
+
+/***/ }),
+
 /***/ "./source/editor/document.js":
 /*!***********************************!*\
   !*** ./source/editor/document.js ***!
@@ -9234,9 +9311,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! deep-extend */ "./node_modules/deep-extend/lib/deep-extend.js");
 /* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(deep_extend__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./autoFields */ "./source/editor/autoFields.js");
 /**
  * Field types for the editor extension.
  */
+
 
 
 class ConstructorField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
@@ -9428,7 +9507,7 @@ class GroupField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
 
     if (useAutoFields) {
       // Auto guess the fields if they are not defined.
-      fieldConfigs = new selective_edit__WEBPACK_IMPORTED_MODULE_1__["AutoFields"](this.value).config['fields'];
+      fieldConfigs = new _autoFields__WEBPACK_IMPORTED_MODULE_2__["default"](this.value).config['fields'];
     }
 
     for (let fieldConfig of fieldConfigs || []) {
@@ -9542,7 +9621,7 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListFie
 
       if (useAutoFields) {
         // Auto guess the fields if they are not defined.
-        fieldConfigs = new selective_edit__WEBPACK_IMPORTED_MODULE_1__["AutoFields"](itemData, {
+        fieldConfigs = new _autoFields__WEBPACK_IMPORTED_MODULE_2__["default"](itemData, {
           ignoredKeys: ['partial']
         }).config['fields'];
       }
@@ -9945,6 +10024,10 @@ class DeepObject {
   get(key) {
     let root = this.obj;
 
+    if (!key) {
+      return root;
+    }
+
     for (const part of key.split('.')) {
       if (!root) {
         return undefined;
@@ -9961,6 +10044,11 @@ class DeepObject {
   }
 
   set(key, value) {
+    if (!key) {
+      this.obj = value;
+      return;
+    }
+
     let root = this.obj;
     const parts = key.split('.');
 
@@ -9979,8 +10067,16 @@ class DeepObject {
 
 }
 const autoDeepObject = value => {
-  // Allow for duck typing and external objects that define a get.
-  const has_get = value.get && typeof value.get === 'function';
+  if (value === undefined) {
+    return value;
+  }
+
+  let has_get = false;
+
+  if (value.get && typeof value.get === 'function') {
+    has_get = true;
+  } // Allow for duck typing and external objects that define a get.
+
 
   if (has_get || value instanceof DeepObject) {
     return value;
