@@ -213,7 +213,8 @@ class PodApi(object):
             partial_key, _ = os.path.splitext(os.path.basename(view_pod_path))
             front_matter, _ = split_front_matter(self.pod.read_file(view_pod_path))
             if front_matter:
-                editor_config = yaml.load(front_matter, Loader=yaml.FullLoader) or {}
+                editor_config = utils.parse_yaml(
+                    front_matter, pod=self.pod, locale=None) or {}
                 partials[partial_key] = editor_config.get('editor', {})
 
         self.data = {
