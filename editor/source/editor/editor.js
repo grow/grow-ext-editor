@@ -9,9 +9,11 @@ import EditorApi from './editorApi'
 import {
   html,
   render,
+  repeat,
 } from 'selective-edit'
 import Selective from 'selective-edit'
 import { defaultFields } from './field'
+import { findParentByClassname } from '../utility/dom'
 import expandObject from '../utility/expandObject'
 
 
@@ -29,7 +31,7 @@ export default class Editor {
             @change=${editor.handlePodPathChange.bind(editor)}
             @input=${editor.handlePodPathInput.bind(editor)}>
           ${editor.isFullScreen ? '' : html`
-            <i class="material-icons" @click=${editor.handleDeviceClick.bind(editor)} title="Toggle device view">devices</i>
+            <i class="material-icons" @click=${editor.handleDeviceToggleClick.bind(editor)} title="Toggle device view">devices</i>
             <i class="material-icons editor--device-only" @click=${editor.handleDeviceRotateClick.bind(editor)} title="Rotate device view">screen_rotation</i>
           `}
           <i class="material-icons" @click=${editor.handleFullScreenClick.bind(editor)} title="Fullscreen">${editor.isFullScreen ? 'fullscreen_exit' : 'fullscreen'}</i>
@@ -82,7 +84,7 @@ export default class Editor {
       },
       tablet: {
         label: 'Tablet',
-        width: 769,
+        width: 768,
       },
       phone: {
         label: 'Phone',
@@ -128,17 +130,6 @@ export default class Editor {
 
   get device() {
     return this._device
-  }
-
-  get previewSize() {
-    if (!this._isDeviceView) {
-      return;
-    }
-    if (this._isDeviceRotated) {
-      return '731x411';
-    } else {
-      return '411x731';
-    }
   }
 
   get autosave() {
@@ -262,6 +253,16 @@ export default class Editor {
     localStorage.setItem('selective.isDeviceView', this._isDeviceView)
   }
 
+  _sizeLabel(device, rotate) {
+    if (device.width && device.height) {
+      if (rotate) {
+        return `${device.height} x ${device.width}`
+      }
+      return `${device.width} x ${device.height}`
+    }
+    return device.width || device.height
+  }
+
   adjustIframeSize() {
     const iframe = this.containerEl.querySelector('.editor__preview iframe')
 
@@ -279,59 +280,78 @@ export default class Editor {
 
     // Reset styling to grab correct bounds.
     iframe.style.height = '100px'
-    iframe.style.maxHeight = '100px'
     iframe.style.transform = `scale(1)`
     iframe.style.width = '100px'
     iframeContainerEl.style.maxHeight = 'auto'
     iframeContainerEl.style.maxWidth = 'auto'
+    iframeContainerEl.classList.remove('editor__preview__frame--contained')
 
     if (this.isDeviceView) {
-      const containerSize = {
-        height: iframeContainerEl.offsetHeight,
-        width: iframeContainerEl.offsetWidth,
-      }
-
+      const containerHeight = iframeContainerEl.offsetHeight
+      const containerWidth = iframeContainerEl.offsetWidth
       const device = this.devices[this.device]
-      if (device['width'] && device['height']) {
+      let deviceHeight = device['height']
+      let deviceWidth = device['width']
+
+      if (deviceWidth && deviceHeight) {
+        iframeContainerEl.classList.add('editor__preview__frame--contained')
+
+        // Adjust for rotated device.
+        let deviceHeight = this.isDeviceRotated ? device['width'] : device['height']
+        let deviceWidth = this.isDeviceRotated ? device['height'] : device['width']
+
         // Constant ratio.
-        const fitsWidth = device['width'] <= containerSize['width']
-        const fitsHeight = device['height'] <= containerSize['height']
+        const fitsWidth = deviceWidth <= containerWidth
+        const fitsHeight = deviceHeight <= containerHeight
         if (fitsWidth && fitsHeight) {
           // No need to do scaling, just adjust the size of the iframe.
-          adjustments['width'] = device['width']
-          adjustments['height'] = device['height']
+          adjustments['width'] = deviceWidth
+          adjustments['height'] = deviceHeight
         } else if (fitsWidth) {
           // Height does not fit. Scale down.
-          console.warn('TODO: Scale height');
+          adjustments['height'] = deviceHeight
+          adjustments['maxHeight'] = deviceHeight
+          adjustments['width'] = deviceWidth * (deviceHeight / containerHeight)
+          adjustments['scale'] = containerHeight / deviceHeight
         } else {
           // Width does not fit. Scale down.
-          console.warn('TODO: Scale width');
+          adjustments['height'] = deviceHeight * (deviceWidth / containerWidth)
+          adjustments['maxHeight'] = deviceHeight * (deviceWidth / containerWidth)
+          adjustments['width'] = deviceWidth
+          adjustments['scale'] = containerWidth / deviceWidth
         }
-      } else if (device['width']) {
+      } else if (deviceWidth) {
         // Scale width and auto adjust height.
-        const fitsWidth = device['width'] <= containerSize['width']
+        const fitsWidth = deviceWidth <= containerWidth
         if (fitsWidth) {
-          adjustments['width'] = device['width']
+          iframeContainerEl.classList.add('editor__preview__frame--contained')
+          adjustments['width'] = deviceWidth
         } else {
-          adjustments['height'] = containerSize['height'] * (device['width'] / containerSize['width'])
-          adjustments['maxHeight'] = containerSize['height'] * (device['width'] / containerSize['width'])
-          adjustments['width'] = device['width']
-          adjustments['scale'] = containerSize['width'] / device['width']
+          adjustments['height'] = containerHeight * (deviceWidth / containerWidth)
+          adjustments['maxHeight'] = containerHeight * (deviceWidth / containerWidth)
+          adjustments['width'] = deviceWidth
+          adjustments['scale'] = containerWidth / deviceWidth
         }
       } else {
         // Scale height and auto adjust width.
+        const fitsHeight = deviceHeight <= containerHeight
+        if (fitsHeight) {
+          adjustments['height'] = deviceHeight
+        } else {
+          adjustments['height'] = deviceHeight
+          adjustments['maxHeight'] = containerWidth * (deviceHeight / containerHeight)
+          adjustments['width'] = containerWidth * (deviceHeight / containerHeight)
+          adjustments['scale'] = containerHeight / deviceHeight
+        }
       }
 
       // Make sure that the framing container does not expand.
-      // iframeContainerEl.style.maxHeight = `${containerSize['height']}px`
-      iframeContainerEl.style.maxWidth = `${containerSize['width']}px`
-      console.log('containerSize', containerSize);
+      // iframeContainerEl.style.maxHeight = `${containerHeight}px`
+      iframeContainerEl.style.maxWidth = `${containerWidth}px`
     } else {
       adjustments['width'] = 'auto'
       adjustments['height'] = 'auto'
     }
-
-    console.log('adjustments', adjustments);
 
     iframe.style.height = adjustments['height'] == 'auto' ? 'auto' : `${adjustments['height']}px`
     iframe.style.maxHeight = adjustments['height'] == 'auto' ? 'auto' : `${adjustments['height']}px`
@@ -495,7 +515,13 @@ export default class Editor {
     this.render()
   }
 
-  handleDeviceClick(evt) {
+  handleDeviceSwitchClick(evt) {
+    const target = findParentByClassname(evt.target, 'editor__preview__size')
+    this.device = target.dataset.device
+    this.render()
+  }
+
+  handleDeviceToggleClick(evt) {
     this.isDeviceView = !this.isDeviceView
     this.render()
   }
@@ -638,8 +664,24 @@ export default class Editor {
       return ''
     }
 
+    let previewSizes = ''
+    if (editor.isDeviceView) {
+      previewSizes = html`<div class="editor__preview__sizes">
+        ${repeat(Object.entries(this.devices), (device) => device[0], (device, index) => html`
+          <div
+              class="editor__preview__size ${editor.device == device[0] ? 'editor__preview__size--selected' : ''}"
+              data-device="${device[0]}"
+              @click=${editor.handleDeviceSwitchClick.bind(editor)}>
+            ${device[1].label}
+            <span class="editor__preview__size__dimension">
+              (${editor._sizeLabel(device[1], editor.isDeviceRotated)})
+            </span>
+          </div>`)}
+      </div>`
+    }
+
     return html`<div class="editor__preview">
-      ${editor.previewSize ? html`<div class="editor__preview__size">${editor.previewSize}</div>` : ''}
+      ${previewSizes}
       <div class="editor__preview__frame">
         <iframe src="${editor.previewUrl}" @load=${editor.handlePreviewIframeNavigation.bind(editor)}></iframe>
       </div>

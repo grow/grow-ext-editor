@@ -237,10 +237,6 @@
   .editor--device &
     align-items: center
 
-.editor__preview__size
-  position: sticky
-  top: 0
-
 .editor__preview__frame
   align-items: stretch
   display: flex
@@ -256,16 +252,38 @@
     color: $ge-color-on-back-light
     flex-grow: 1
     transform-origin: center left
+    z-index: 5
 
   .editor--device &
+    &--contained
+      align-items: center
+      justify-content: center
+
+      iframe
+        transform-origin: center center
+
     iframe
       box-shadow: $ge-shadow-3
 
-.editor__preview__size
+.editor__preview__sizes
   color: $ge-color-secondary
-  font-size: $ge-font-size
-  margin-bottom: $ge-pad/2
-  padding-top: $ge-pad/2
+  display: flex
+  flex-flow: row
+  margin: $ge-pad / 2 0
+  position: sticky
+  top: $ge-pad / 2
+  z-index: 10
+
+.editor__preview__size
+  padding: $ge-pad/2 $ge-pad
+  cursor: pointer
+
+  &:hover,
+  &--selected
+    color: $ge-color-primary
+
+.editor__preview__size__dimension
+  font-size: $ge-font-size * .8
 
 .editor__loading
   display: inline-block
