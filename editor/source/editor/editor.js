@@ -74,6 +74,25 @@ export default class Editor {
     this.document = null
     this.autosaveID = null
 
+    // TODO: Make devices configurable.
+    this.devices = {
+      desktop: {
+        label: 'Desktop',
+        width: 1024,
+      },
+      tablet: {
+        label: 'Tablet',
+        width: 769,
+      },
+      phone: {
+        label: 'Phone',
+        width: 411,
+        height: 731,
+      },
+    }
+    this._defaultDevice = 'desktop'
+    this._device = localStorage.getItem('selective.device') || this._defaultDevice
+
     // Persistent settings in local storage.
     this._isEditingSource = localStorage.getItem('selective.isEditingSource') == 'true'
     this._isFullScreen = localStorage.getItem('selective.isFullScreen') == 'true'
@@ -105,6 +124,10 @@ export default class Editor {
 
     // TODO Start the autosave depending on local storage.
     // this.startAutosave()
+  }
+
+  get device() {
+    return this._device
   }
 
   get previewSize() {
@@ -209,6 +232,11 @@ export default class Editor {
     </div>`
   }
 
+  set device(value) {
+    this._device = value
+    localStorage.setItem('selective.device', this._device)
+  }
+
   set isEditingSource(value) {
     this._isEditingSource = value
     localStorage.setItem('selective.isEditingSource', this._isEditingSource)
@@ -232,6 +260,83 @@ export default class Editor {
   set isDeviceView(value) {
     this._isDeviceView = value
     localStorage.setItem('selective.isDeviceView', this._isDeviceView)
+  }
+
+  adjustIframeSize() {
+    const iframe = this.containerEl.querySelector('.editor__preview iframe')
+
+    if (!iframe) {
+      return
+    }
+
+    const iframeContainerEl = this.containerEl.querySelector('.editor__preview__frame')
+    const adjustments = {
+      height: 'auto',
+      maxHeight: 'auto',
+      scale: 1,
+      width: 'auto',
+    }
+
+    // Reset styling to grab correct bounds.
+    iframe.style.height = '100px'
+    iframe.style.maxHeight = '100px'
+    iframe.style.transform = `scale(1)`
+    iframe.style.width = '100px'
+    iframeContainerEl.style.maxHeight = 'auto'
+    iframeContainerEl.style.maxWidth = 'auto'
+
+    if (this.isDeviceView) {
+      const containerSize = {
+        height: iframeContainerEl.offsetHeight,
+        width: iframeContainerEl.offsetWidth,
+      }
+
+      const device = this.devices[this.device]
+      if (device['width'] && device['height']) {
+        // Constant ratio.
+        const fitsWidth = device['width'] <= containerSize['width']
+        const fitsHeight = device['height'] <= containerSize['height']
+        if (fitsWidth && fitsHeight) {
+          // No need to do scaling, just adjust the size of the iframe.
+          adjustments['width'] = device['width']
+          adjustments['height'] = device['height']
+        } else if (fitsWidth) {
+          // Height does not fit. Scale down.
+          console.warn('TODO: Scale height');
+        } else {
+          // Width does not fit. Scale down.
+          console.warn('TODO: Scale width');
+        }
+      } else if (device['width']) {
+        // Scale width and auto adjust height.
+        const fitsWidth = device['width'] <= containerSize['width']
+        if (fitsWidth) {
+          adjustments['width'] = device['width']
+        } else {
+          adjustments['height'] = containerSize['height'] * (device['width'] / containerSize['width'])
+          adjustments['maxHeight'] = containerSize['height'] * (device['width'] / containerSize['width'])
+          adjustments['width'] = device['width']
+          adjustments['scale'] = containerSize['width'] / device['width']
+        }
+      } else {
+        // Scale height and auto adjust width.
+      }
+
+      // Make sure that the framing container does not expand.
+      // iframeContainerEl.style.maxHeight = `${containerSize['height']}px`
+      iframeContainerEl.style.maxWidth = `${containerSize['width']}px`
+      console.log('containerSize', containerSize);
+    } else {
+      adjustments['width'] = 'auto'
+      adjustments['height'] = 'auto'
+    }
+
+    console.log('adjustments', adjustments);
+
+    iframe.style.height = adjustments['height'] == 'auto' ? 'auto' : `${adjustments['height']}px`
+    iframe.style.maxHeight = adjustments['height'] == 'auto' ? 'auto' : `${adjustments['height']}px`
+    iframe.style.transform = `scale(${adjustments['scale']})`
+    iframe.style.width = adjustments['width'] == 'auto' ? 'auto' : `${adjustments['width']}px`
   }
 
   bindEvents() {
@@ -514,6 +619,9 @@ export default class Editor {
 
   render(force) {
     render(this.template(this, this.selective), this.containerEl)
+
+    // Adjust the iframe size.
+    this.adjustIframeSize()
 
     // Allow selective to run its post render process.
     this.selective.postRender(this.containerEl)

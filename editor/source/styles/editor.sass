@@ -230,43 +230,36 @@
   justify-content: center
   flex-direction: column
   max-height: 100vh
+  overflow: hidden
   position: sticky
   top: 0
 
   .editor--device &
     align-items: center
 
+.editor__preview__size
+  position: sticky
+  top: 0
+
 .editor__preview__frame
   align-items: stretch
   display: flex
   flex-grow: 1
-  flex-shrink: 1
-  justify-content: center
+  justify-content: stretch
   flex-direction: column
-  height: 100vh
-  position: sticky
-  top: 0
+  position: relative
+  width: 100%
 
   iframe
     background-color: $ge-color-back-light
     border: none
     color: $ge-color-on-back-light
     flex-grow: 1
-    transform-origin: 0 0
+    transform-origin: center left
 
   .editor--device &
     iframe
       box-shadow: $ge-shadow-3
-      height: $ge-device-height
-      max-height: $ge-device-height
-      width: $ge-device-width
-
-  .editor--rotated &
-    iframe
-      // Reverse the width/height for device view.
-      height: $ge-device-width
-      max-height: $ge-device-width
-      width: $ge-device-height
 
 .editor__preview__size
   color: $ge-color-secondary
