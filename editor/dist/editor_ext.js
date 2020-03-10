@@ -9501,7 +9501,7 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListFie
     const items = [];
 
     for (const itemData of this.value) {
-      const partialKey = itemData['partial'];
+      let partialKey = itemData['partial'];
       let partialConfig = this.partialTypes[partialKey]; // If allowed to guess use a stub of the partial config.
 
       if (!partialConfig && autoGuessMissing) {
@@ -9509,6 +9509,10 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListFie
           label: partialKey,
           fields: []
         };
+      }
+
+      if (!partialKey && itemData['tag'] == '!g.yaml' || itemData['tag'] == '!g.doc') {
+        partialKey = `${itemData['tag']} ${itemData['value']}`;
       } // Skip missing partials.
       // TODO: Make this work with placeholders.
 
@@ -9700,7 +9704,7 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListFie
     return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
       <div class="selective__list__item__drag"><i class="material-icons">drag_indicator</i></div>
       <div class="selective__list__item__label" data-index=${partialItem['index']} @click=${this.handleItemExpand.bind(this)}>
-        ${partialItem['partialConfig']['label']}
+        ${partialItem['partialConfig']['label'] || partialItem['partialKey']}
       </div>
       ${this.renderPreview(partialItem)}
       <div
@@ -9716,7 +9720,7 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListFie
     const fields = partialItem.itemFields;
     return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
       <div class="selective__list__item__label" data-index=${partialItem['index']} @click=${this.handleItemCollapse.bind(this)}>
-        ${partialItem['partialConfig']['label']}
+        ${partialItem['partialConfig']['label'] || partialItem['partialKey']}
       </div>
       ${fields.template(editor, fields, this.value[partialItem['index']])}`;
     return;
