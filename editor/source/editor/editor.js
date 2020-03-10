@@ -63,6 +63,7 @@ export default class Editor {
         </div>
       </div>
       ${editor.isFullScreen ? '' : html`<div class="editor__preview">
+        ${editor.previewSize ? html`<div class="editor__preview__size">${editor.previewSize}</div>` : ''}
         <iframe src="${editor.previewUrl}" @load=${editor.handlePreviewIframeNavigation.bind(editor)}></iframe>
       </div>`}
     </div>`
@@ -107,6 +108,17 @@ export default class Editor {
 
     // TODO Start the autosave depending on local storage.
     // this.startAutosave()
+  }
+
+  get previewSize() {
+    if (!this._isMobileView) {
+      return;
+    }
+    if (this._isMobileRotated) {
+      return '731x411';
+    } else {
+      return '411x731';
+    }
   }
 
   get autosave() {

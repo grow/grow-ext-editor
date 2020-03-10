@@ -228,6 +228,7 @@
   flex-grow: 1
   flex-shrink: 1
   justify-content: center
+  flex-direction: column
   max-height: 100vh
   position: sticky
   top: 0
@@ -245,11 +246,17 @@
       box-shadow: $ge-shadow-3
       height: $ge-mobile-height
       max-height: $ge-mobile-height
-      max-width: $ge-mobile-width
+      width: $ge-mobile-width
 
   .editor--rotated &
     iframe
       // Reverse the width/height for mobile view.
       height: $ge-mobile-width
       max-height: $ge-mobile-width
-      max-width: $ge-mobile-height
+      width: $ge-mobile-height
+
+.editor__preview__size
+  color: $ge-color-secondary
+  font-size: $ge-font-size
+  margin-bottom: $ge-pad/2
+  padding-top: $ge-pad/2
