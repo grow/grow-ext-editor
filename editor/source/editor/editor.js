@@ -13,6 +13,7 @@ import {
 } from 'selective-edit'
 import Selective from 'selective-edit'
 import { defaultFields } from './field'
+import { zoomIframe } from './zoomIframe'
 import { findParentByClassname } from '../utility/dom'
 import expandObject from '../utility/expandObject'
 
@@ -264,99 +265,11 @@ export default class Editor {
   }
 
   adjustIframeSize() {
-    const iframe = this.containerEl.querySelector('.editor__preview iframe')
-
-    if (!iframe) {
-      return
-    }
-
     const iframeContainerEl = this.containerEl.querySelector('.editor__preview__frame')
-    const adjustments = {
-      height: 'auto',
-      maxHeight: 'auto',
-      scale: 1,
-      width: 'auto',
-    }
-
-    // Reset styling to grab correct bounds.
-    iframe.style.height = '100px'
-    iframe.style.transform = `scale(1)`
-    iframe.style.width = '100px'
-    iframeContainerEl.style.maxHeight = 'auto'
-    iframeContainerEl.style.maxWidth = 'auto'
-    iframeContainerEl.classList.remove('editor__preview__frame--contained')
-
-    if (this.isDeviceView) {
-      const containerHeight = iframeContainerEl.offsetHeight
-      const containerWidth = iframeContainerEl.offsetWidth
-      const device = this.devices[this.device]
-      let deviceHeight = device['height']
-      let deviceWidth = device['width']
-
-      if (deviceWidth && deviceHeight) {
-        iframeContainerEl.classList.add('editor__preview__frame--contained')
-
-        // Adjust for rotated device.
-        let deviceHeight = this.isDeviceRotated ? device['width'] : device['height']
-        let deviceWidth = this.isDeviceRotated ? device['height'] : device['width']
-
-        // Constant ratio.
-        const fitsWidth = deviceWidth <= containerWidth
-        const fitsHeight = deviceHeight <= containerHeight
-        if (fitsWidth && fitsHeight) {
-          // No need to do scaling, just adjust the size of the iframe.
-          adjustments['width'] = deviceWidth
-          adjustments['height'] = deviceHeight
-        } else if (fitsWidth) {
-          // Height does not fit. Scale down.
-          adjustments['height'] = deviceHeight
-          adjustments['maxHeight'] = deviceHeight
-          adjustments['width'] = deviceWidth * (deviceHeight / containerHeight)
-          adjustments['scale'] = containerHeight / deviceHeight
-        } else {
-          // Width does not fit. Scale down.
-          adjustments['height'] = deviceHeight * (deviceWidth / containerWidth)
-          adjustments['maxHeight'] = deviceHeight * (deviceWidth / containerWidth)
-          adjustments['width'] = deviceWidth
-          adjustments['scale'] = containerWidth / deviceWidth
-        }
-      } else if (deviceWidth) {
-        // Scale width and auto adjust height.
-        const fitsWidth = deviceWidth <= containerWidth
-        if (fitsWidth) {
-          iframeContainerEl.classList.add('editor__preview__frame--contained')
-          adjustments['width'] = deviceWidth
-        } else {
-          adjustments['height'] = containerHeight * (deviceWidth / containerWidth)
-          adjustments['maxHeight'] = containerHeight * (deviceWidth / containerWidth)
-          adjustments['width'] = deviceWidth
-          adjustments['scale'] = containerWidth / deviceWidth
-        }
-      } else {
-        // Scale height and auto adjust width.
-        const fitsHeight = deviceHeight <= containerHeight
-        if (fitsHeight) {
-          adjustments['height'] = deviceHeight
-        } else {
-          adjustments['height'] = deviceHeight
-          adjustments['maxHeight'] = containerWidth * (deviceHeight / containerHeight)
-          adjustments['width'] = containerWidth * (deviceHeight / containerHeight)
-          adjustments['scale'] = containerHeight / deviceHeight
-        }
-      }
-
-      // Make sure that the framing container does not expand.
-      // iframeContainerEl.style.maxHeight = `${containerHeight}px`
-      iframeContainerEl.style.maxWidth = `${containerWidth}px`
-    } else {
-      adjustments['width'] = 'auto'
-      adjustments['height'] = 'auto'
-    }
-
-    iframe.style.height = adjustments['height'] == 'auto' ? 'auto' : `${adjustments['height']}px`
-    iframe.style.maxHeight = adjustments['height'] == 'auto' ? 'auto' : `${adjustments['height']}px`
-    iframe.style.transform = `scale(${adjustments['scale']})`
-    iframe.style.width = adjustments['width'] == 'auto' ? 'auto' : `${adjustments['width']}px`
+    const iframeEl = this.containerEl.querySelector('.editor__preview iframe')
+    zoomIframe(
+      iframeContainerEl, iframeEl, this.isDeviceView, this.isDeviceRotated,
+      this.devices[this.device], 'editor__preview__frame--contained')
   }
 
   bindEvents() {

@@ -8577,11 +8577,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _editorApi__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./editorApi */ "./source/editor/editorApi.js");
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
 /* harmony import */ var _field__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./field */ "./source/editor/field.js");
-/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utility/dom */ "./source/utility/dom.js");
-/* harmony import */ var _utility_expandObject__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utility/expandObject */ "./source/utility/expandObject.js");
+/* harmony import */ var _zoomIframe__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./zoomIframe */ "./source/editor/zoomIframe.js");
+/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utility/dom */ "./source/utility/dom.js");
+/* harmony import */ var _utility_expandObject__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../utility/expandObject */ "./source/utility/expandObject.js");
 /**
  * Content editor.
  */
+
 
 
 
@@ -8830,99 +8832,9 @@ class Editor {
   }
 
   adjustIframeSize() {
-    const iframe = this.containerEl.querySelector('.editor__preview iframe');
-
-    if (!iframe) {
-      return;
-    }
-
     const iframeContainerEl = this.containerEl.querySelector('.editor__preview__frame');
-    const adjustments = {
-      height: 'auto',
-      maxHeight: 'auto',
-      scale: 1,
-      width: 'auto'
-    }; // Reset styling to grab correct bounds.
-
-    iframe.style.height = '100px';
-    iframe.style.transform = `scale(1)`;
-    iframe.style.width = '100px';
-    iframeContainerEl.style.maxHeight = 'auto';
-    iframeContainerEl.style.maxWidth = 'auto';
-    iframeContainerEl.classList.remove('editor__preview__frame--contained');
-
-    if (this.isDeviceView) {
-      const containerHeight = iframeContainerEl.offsetHeight;
-      const containerWidth = iframeContainerEl.offsetWidth;
-      const device = this.devices[this.device];
-      let deviceHeight = device['height'];
-      let deviceWidth = device['width'];
-
-      if (deviceWidth && deviceHeight) {
-        iframeContainerEl.classList.add('editor__preview__frame--contained'); // Adjust for rotated device.
-
-        let deviceHeight = this.isDeviceRotated ? device['width'] : device['height'];
-        let deviceWidth = this.isDeviceRotated ? device['height'] : device['width']; // Constant ratio.
-
-        const fitsWidth = deviceWidth <= containerWidth;
-        const fitsHeight = deviceHeight <= containerHeight;
-
-        if (fitsWidth && fitsHeight) {
-          // No need to do scaling, just adjust the size of the iframe.
-          adjustments['width'] = deviceWidth;
-          adjustments['height'] = deviceHeight;
-        } else if (fitsWidth) {
-          // Height does not fit. Scale down.
-          adjustments['height'] = deviceHeight;
-          adjustments['maxHeight'] = deviceHeight;
-          adjustments['width'] = deviceWidth * (deviceHeight / containerHeight);
-          adjustments['scale'] = containerHeight / deviceHeight;
-        } else {
-          // Width does not fit. Scale down.
-          adjustments['height'] = deviceHeight * (deviceWidth / containerWidth);
-          adjustments['maxHeight'] = deviceHeight * (deviceWidth / containerWidth);
-          adjustments['width'] = deviceWidth;
-          adjustments['scale'] = containerWidth / deviceWidth;
-        }
-      } else if (deviceWidth) {
-        // Scale width and auto adjust height.
-        const fitsWidth = deviceWidth <= containerWidth;
-
-        if (fitsWidth) {
-          iframeContainerEl.classList.add('editor__preview__frame--contained');
-          adjustments['width'] = deviceWidth;
-        } else {
-          adjustments['height'] = containerHeight * (deviceWidth / containerWidth);
-          adjustments['maxHeight'] = containerHeight * (deviceWidth / containerWidth);
-          adjustments['width'] = deviceWidth;
-          adjustments['scale'] = containerWidth / deviceWidth;
-        }
-      } else {
-        // Scale height and auto adjust width.
-        const fitsHeight = deviceHeight <= containerHeight;
-
-        if (fitsHeight) {
-          adjustments['height'] = deviceHeight;
-        } else {
-          adjustments['height'] = deviceHeight;
-          adjustments['maxHeight'] = containerWidth * (deviceHeight / containerHeight);
-          adjustments['width'] = containerWidth * (deviceHeight / containerHeight);
-          adjustments['scale'] = containerHeight / deviceHeight;
-        }
-      } // Make sure that the framing container does not expand.
-      // iframeContainerEl.style.maxHeight = `${containerHeight}px`
-
-
-      iframeContainerEl.style.maxWidth = `${containerWidth}px`;
-    } else {
-      adjustments['width'] = 'auto';
-      adjustments['height'] = 'auto';
-    }
-
-    iframe.style.height = adjustments['height'] == 'auto' ? 'auto' : `${adjustments['height']}px`;
-    iframe.style.maxHeight = adjustments['height'] == 'auto' ? 'auto' : `${adjustments['height']}px`;
-    iframe.style.transform = `scale(${adjustments['scale']})`;
-    iframe.style.width = adjustments['width'] == 'auto' ? 'auto' : `${adjustments['width']}px`;
+    const iframeEl = this.containerEl.querySelector('.editor__preview iframe');
+    Object(_zoomIframe__WEBPACK_IMPORTED_MODULE_6__["zoomIframe"])(iframeContainerEl, iframeEl, this.isDeviceView, this.isDeviceRotated, this.devices[this.device], 'editor__preview__frame--contained');
   }
 
   bindEvents() {
@@ -9076,7 +8988,7 @@ class Editor {
   }
 
   handleDeviceSwitchClick(evt) {
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_6__["findParentByClassname"])(evt.target, 'editor__preview__size');
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_7__["findParentByClassname"])(evt.target, 'editor__preview__size');
     this.device = target.dataset.device;
     this.render();
   }
@@ -10072,6 +9984,109 @@ const defaultFields = {
   'text': TextField,
   'textarea': TextareaField,
   'yaml': YamlField
+};
+
+/***/ }),
+
+/***/ "./source/editor/zoomIframe.js":
+/*!*************************************!*\
+  !*** ./source/editor/zoomIframe.js ***!
+  \*************************************/
+/*! exports provided: zoomIframe */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "zoomIframe", function() { return zoomIframe; });
+const zoomIframe = (containerEl, iframeEl, isDeviceView, isRotated, device, containedClass) => {
+  if (!iframeEl) {
+    return;
+  } // Reset styling to grab correct container bounds.
+
+
+  iframeEl.style.height = '100px';
+  iframeEl.style.transform = `scale(1)`;
+  iframeEl.style.width = '100px';
+  containerEl.style.maxHeight = 'auto';
+  containerEl.style.maxWidth = 'auto';
+  containerEl.classList.remove(containedClass); // Adjustments to apply to the iframeEl.
+
+  let adjustHeight = 'auto';
+  let adjustMaxHeight = 'auto';
+  let adjustScale = 1;
+  let adjustWidth = 'auto';
+
+  if (isDeviceView) {
+    const containerHeight = containerEl.offsetHeight;
+    const containerWidth = containerEl.offsetWidth;
+    let deviceHeight = device['height'];
+    let deviceWidth = device['width'];
+
+    if (deviceWidth && deviceHeight) {
+      containerEl.classList.add(containedClass); // Adjust for rotated device.
+
+      deviceHeight = isRotated ? deviceWidth : deviceHeight;
+      deviceWidth = isRotated ? deviceHeight : deviceWidth; // Constant ratio.
+
+      const fitsWidth = deviceWidth <= containerWidth;
+      const fitsHeight = deviceHeight <= containerHeight;
+
+      if (fitsWidth && fitsHeight) {
+        // No need to do scaling, just adjust the size of the iframe.
+        adjustWidth = deviceWidth;
+        adjustHeight = deviceHeight;
+      } else if (fitsWidth) {
+        // Height does not fit. Scale down.
+        adjustHeight = deviceHeight;
+        adjustMaxHeight = deviceHeight;
+        adjustWidth = deviceWidth * (deviceHeight / containerHeight);
+        adjustScale = containerHeight / deviceHeight;
+      } else {
+        // Width does not fit. Scale down.
+        adjustHeight = deviceHeight * (deviceWidth / containerWidth);
+        adjustMaxHeight = deviceHeight * (deviceWidth / containerWidth);
+        adjustWidth = deviceWidth;
+        adjustScale = containerWidth / deviceWidth;
+      }
+    } else if (deviceWidth) {
+      // Scale width and auto adjust height.
+      const fitsWidth = deviceWidth <= containerWidth;
+
+      if (fitsWidth) {
+        containerEl.classList.add(containedClass);
+        adjustWidth = deviceWidth;
+      } else {
+        adjustHeight = containerHeight * (deviceWidth / containerWidth);
+        adjustMaxHeight = containerHeight * (deviceWidth / containerWidth);
+        adjustWidth = deviceWidth;
+        adjustScale = containerWidth / deviceWidth;
+      }
+    } else {
+      // Scale height and auto adjust width.
+      const fitsHeight = deviceHeight <= containerHeight;
+
+      if (fitsHeight) {
+        adjustHeight = deviceHeight;
+      } else {
+        adjustHeight = deviceHeight;
+        adjustMaxHeight = containerWidth * (deviceHeight / containerHeight);
+        adjustWidth = containerWidth * (deviceHeight / containerHeight);
+        adjustScale = containerHeight / deviceHeight;
+      }
+    } // Make sure that the framing container does not expand.
+    // containerEl.style.maxHeight = `${containerHeight}px`
+
+
+    containerEl.style.maxWidth = `${containerWidth}px`;
+  } else {
+    adjustWidth = 'auto';
+    adjustHeight = 'auto';
+  }
+
+  iframeEl.style.height = adjustHeight == 'auto' ? 'auto' : `${adjustHeight}px`;
+  iframeEl.style.maxHeight = adjustHeight == 'auto' ? 'auto' : `${adjustHeight}px`;
+  iframeEl.style.transform = `scale(${adjustScale})`;
+  iframeEl.style.width = adjustWidth == 'auto' ? 'auto' : `${adjustWidth}px`;
 };
 
 /***/ }),
