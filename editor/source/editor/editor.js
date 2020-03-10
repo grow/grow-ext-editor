@@ -579,7 +579,8 @@ export default class Editor {
 
     if (this._unverifiedServingPath in this._routes) {
       const match = this._routes[this._unverifiedServingPath]
-      this.load(match['pod_path'])
+      this.podPath = match['pod_path']
+      this.load(this.podPath)
     }
   }
 }
