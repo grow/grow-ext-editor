@@ -9270,15 +9270,16 @@ class ImageField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
     this.fieldType = 'image';
-    this.previewUrl = ''; // Set the api if it was provided
+    this.previewUrl = '';
+    this.isLoading = false; // Set the api if it was provided
 
     this.api = this.getConfig().get('api');
 
     this.template = (editor, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
       <label for="${field.getUid()}">${field.label}</label>
-      <input type="text" id="${field.getUid()}" value="${field.valueFromData(data) || ''}" @input=${field.handleInput.bind(field)}>
-      <input type="file" id="${field.getUid()}_file" placeholder="Upload new image" @change=${field.handleFileInput.bind(field)}>
-      ${this.renderImagePreview(editor, field, data)}
+      <input type="text" id="${field.getUid()}" value="${field.valueFromData(data) || ''}" @input=${field.handleInput.bind(field)} ?disabled="${field.isLoading}">
+      <input type="file" id="${field.getUid()}_file" placeholder="Upload new image" @change=${field.handleFileInput.bind(field)} ?disabled="${field.isLoading}">
+      ${field.isLoading ? selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field__${field.fieldType}__preview">Working...</div>` : this.renderImagePreview(editor, field, data)}
     </div>`;
   }
 
@@ -9313,10 +9314,16 @@ class ImageField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
 
     const destination = this.getConfig().get('destination', '/static/img/upload');
     this.api.saveImage(evt.target.files[0], destination).then(result => {
+      this.isLoading = false;
       this.value = result;
       this.previewUrl = result;
       document.dispatchEvent(new CustomEvent('selective.render'));
+    }).catch(err => {
+      this.isLoading = false;
+      document.dispatchEvent(new CustomEvent('selective.render'));
     });
+    this.isLoading = true;
+    document.dispatchEvent(new CustomEvent('selective.render'));
   }
 
 } // TODO: Move into the google image extension.
@@ -9362,8 +9369,14 @@ class GoogleImageField extends ImageField {
       this.api.saveGoogleImage(evt.target.files[0], uploadUrl).then(result => {
         this.value = result['url'];
         this.previewUrl = result['url'];
+        this.isLoading = false;
+        document.dispatchEvent(new CustomEvent('selective.render'));
+      }).catch(err => {
+        this.isLoading = false;
         document.dispatchEvent(new CustomEvent('selective.render'));
       });
+      this.isLoading = true;
+      document.dispatchEvent(new CustomEvent('selective.render'));
     });
   }
 
