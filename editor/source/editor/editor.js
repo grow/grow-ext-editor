@@ -62,10 +62,7 @@ export default class Editor {
           </div>
         </div>
       </div>
-      ${editor.isFullScreen ? '' : html`<div class="editor__preview">
-        ${editor.previewSize ? html`<div class="editor__preview__size">${editor.previewSize}</div>` : ''}
-        <iframe src="${editor.previewUrl}" @load=${editor.handlePreviewIframeNavigation.bind(editor)}></iframe>
-      </div>`}
+      ${editor.renderPreview(editor, selective)}
     </div>`
 
     const EditorApiCls = this.config.get('EditorApiCls', EditorApi)
@@ -526,6 +523,19 @@ export default class Editor {
       const iframe = this.containerEl.querySelector('iframe')
       iframe.contentWindow.location.reload(true)
     }
+  }
+
+  renderPreview(editor, selective) {
+    if (editor.isFullScreen) {
+      return ''
+    }
+
+    return html`<div class="editor__preview">
+      ${editor.previewSize ? html`<div class="editor__preview__size">${editor.previewSize}</div>` : ''}
+      <div class="editor__preview__frame">
+        <iframe src="${editor.previewUrl}" @load=${editor.handlePreviewIframeNavigation.bind(editor)}></iframe>
+      </div>
+    </div>`
   }
 
   save(force, isAutosave) {

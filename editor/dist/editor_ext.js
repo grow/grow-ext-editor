@@ -8650,10 +8650,7 @@ class Editor {
           </div>
         </div>
       </div>
-      ${editor.isFullScreen ? '' : selective_edit__WEBPACK_IMPORTED_MODULE_4__["html"]`<div class="editor__preview">
-        ${editor.previewSize ? selective_edit__WEBPACK_IMPORTED_MODULE_4__["html"]`<div class="editor__preview__size">${editor.previewSize}</div>` : ''}
-        <iframe src="${editor.previewUrl}" @load=${editor.handlePreviewIframeNavigation.bind(editor)}></iframe>
-      </div>`}
+      ${editor.renderPreview(editor, selective)}
     </div>`;
 
     const EditorApiCls = this.config.get('EditorApiCls', _editorApi__WEBPACK_IMPORTED_MODULE_3__["default"]);
@@ -9095,6 +9092,19 @@ class Editor {
       const iframe = this.containerEl.querySelector('iframe');
       iframe.contentWindow.location.reload(true);
     }
+  }
+
+  renderPreview(editor, selective) {
+    if (editor.isFullScreen) {
+      return '';
+    }
+
+    return selective_edit__WEBPACK_IMPORTED_MODULE_4__["html"]`<div class="editor__preview">
+      ${editor.previewSize ? selective_edit__WEBPACK_IMPORTED_MODULE_4__["html"]`<div class="editor__preview__size">${editor.previewSize}</div>` : ''}
+      <div class="editor__preview__frame">
+        <iframe src="${editor.previewUrl}" @load=${editor.handlePreviewIframeNavigation.bind(editor)}></iframe>
+      </div>
+    </div>`;
   }
 
   save(force, isAutosave) {

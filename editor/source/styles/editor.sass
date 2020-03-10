@@ -233,15 +233,28 @@
   position: sticky
   top: 0
 
+  .editor--mobile &
+    align-items: center
+
+.editor__preview__frame
+  align-items: stretch
+  display: flex
+  flex-grow: 1
+  flex-shrink: 1
+  justify-content: center
+  flex-direction: column
+  height: 100vh
+  position: sticky
+  top: 0
+
   iframe
     background-color: $ge-color-back-light
     border: none
     color: $ge-color-on-back-light
     flex-grow: 1
+    transform-origin: 0 0
 
   .editor--mobile &
-    align-items: center
-
     iframe
       box-shadow: $ge-shadow-3
       height: $ge-mobile-height
