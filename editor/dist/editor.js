@@ -339,7 +339,10 @@ class AutoFields extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_1__["c
 
 
   labelFromKey(key) {
-    return key.replace('.', ' ').split(' ').map(function (word) {
+    key = key.replace(/\./g, ' ');
+    key = key.replace(/\-/g, ' ');
+    key = key.replace(/\_/g, ' ');
+    return key.split(' ').map(function (word) {
       return word.charAt(0).toUpperCase() + word.slice(1);
     }).join(' ');
   }
