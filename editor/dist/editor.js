@@ -8613,6 +8613,7 @@ class Editor {
     const EditorApiCls = this.config.get('EditorApiCls', _editorApi__WEBPACK_IMPORTED_MODULE_3__["default"]);
     this.api = new EditorApiCls();
     this.listeners = new _utility_listeners__WEBPACK_IMPORTED_MODULE_1__["default"]();
+    this._podPath = null;
     this.podPath = this.containerEl.dataset.defaultPath || this.config.get('defaultPath', '');
     this.repo = null;
     this.document = null;
@@ -8700,6 +8701,10 @@ class Editor {
     return this._isDeviceView;
   }
 
+  get podPath() {
+    return this._podPath;
+  }
+
   get previewUrl() {
     const params = '?editor=true';
     return `${this.servingPath}${params}`;
@@ -8785,6 +8790,11 @@ class Editor {
   set isDeviceView(value) {
     this._isDeviceView = value;
     localStorage.setItem('selective.isDeviceView', this._isDeviceView);
+  }
+
+  set podPath(value) {
+    this._podPath = value;
+    this.listeners.trigger('podPath', this._podPath);
   }
 
   _sizeLabel(device, rotate) {

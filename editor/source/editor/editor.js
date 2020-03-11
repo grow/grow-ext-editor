@@ -34,6 +34,7 @@ export default class Editor {
     this.api = new EditorApiCls()
     this.listeners = new Listeners()
 
+    this._podPath = null
     this.podPath = this.containerEl.dataset.defaultPath || this.config.get('defaultPath', '')
     this.repo = null
     this.document = null
@@ -131,6 +132,10 @@ export default class Editor {
     return this._isDeviceView
   }
 
+  get podPath() {
+    return this._podPath
+  }
+
   get previewUrl() {
     const params = '?editor=true'
     return `${this.servingPath}${params}`
@@ -214,6 +219,11 @@ export default class Editor {
   set isDeviceView(value) {
     this._isDeviceView = value
     localStorage.setItem('selective.isDeviceView', this._isDeviceView)
+  }
+
+  set podPath(value) {
+    this._podPath = value
+    this.listeners.trigger('podPath', this._podPath)
   }
 
   _sizeLabel(device, rotate) {
