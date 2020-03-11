@@ -577,6 +577,10 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_6__["compos
     </div>`;
   }
 
+  get default() {
+    return this.getConfig().default;
+  }
+
   get help() {
     return this.getConfig().help;
   }
@@ -632,6 +636,15 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_6__["compos
     if (typeof data === 'object' && data !== null) {
       data = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_8__["autoDeepObject"])(data);
       newDataValue = data.get(this.key);
+    } // Allow for using the config default value.
+
+
+    if (newDataValue == undefined) {
+      const defaultValue = this.default;
+
+      if (defaultValue != undefined) {
+        newDataValue = defaultValue;
+      }
     }
 
     if (!this.isClean) {
