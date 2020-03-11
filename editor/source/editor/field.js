@@ -103,12 +103,14 @@ export class ImageField extends Field {
     // Depends on image element, so needs to run after image has loaded.
     const imageSizeDirective = directive((field) => (part) => {
       setTimeout(() => {
-        let el = document.getElementById(`${field.getUid()}_preview`);
-        let imageEl = el.querySelector('img');
-        imageEl.addEventListener('load', () => {
+        let el = document.getElementById(`${field.getUid()}_preview`)
+        let imageEl = el.querySelector('img')
+        const updateImage = (() => {
           part.setValue(`Aspect ratio: ${imageEl.naturalWidth}x${imageEl.naturalHeight}`);
           part.commit();
         })
+        // If the image has already loaded.
+        imageEl.complete ? updateImage() : imageEl.addEventListener('load', updateImage)
       });
     })
 
