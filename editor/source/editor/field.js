@@ -623,7 +623,7 @@ export class SelectField extends Field {
       <div class="selective__field__select__options">
         ${repeat(field.options, (option) => option.value, (option, index) => html`
           <div class="selective__field__select__value" data-value="${option.value}" @click=${field.handleInput.bind(field)}>
-            <div class="selective__field__select__option">
+            <div class="selective__field__select__option ${field._isSelected(option.value) ? 'selective__field__select__option--checked' : ''}">
               <i class="material-icons">${field._isSelected(option.value) ? field.icons[1] : field.icons[0] }</i>
               ${option.label || '(None)'}
             </div>

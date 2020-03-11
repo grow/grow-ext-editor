@@ -181,7 +181,7 @@
   display: flex
   flex-shrink: 1
 
-  i
+  .material-icons
     font-size: $ge-font-size
     margin-right: $ge-pad / 2
 
@@ -204,7 +204,7 @@
   cursor: pointer
   padding-left: $ge-pad/2
 
-  i
+  .material-icons
     font-size: $ge-font-size
     color: $ge-color-text-light
 
@@ -229,7 +229,7 @@
   justify-content: flex-end
   margin: $ge-pad/2 0
 
-  i
+  .material-icons
     margin-right: $ge-pad/2
 
 .selective__field__select__label
@@ -257,10 +257,16 @@
   &:hover
     +field-control-hover
 
+  &--checked
+    color: $ge-color-primary
+
+    .material-icons
+      color: $ge-color-primary !important
+
   .selective__field__select--list &
     margin: $ge-pad/2 0
 
-  i
+  .material-icons
     margin-right: $ge-pad/4
 
 .selective__header,
