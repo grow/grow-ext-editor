@@ -26,6 +26,7 @@ export class CheckboxField extends Field {
         data-field-type="${field.fieldType}" @click=${field.handleInput.bind(field)}>
       <div class="selective__field__checkbox__label">${field.label}</div>
       <i class="material-icons">${this.value ? 'check_box' : 'check_box_outline_blank'}</i>
+      ${field.renderHelp(editor, field, data)}
     </div>`
   }
 
@@ -43,7 +44,13 @@ export class ConstructorField extends Field {
 
     this.template = (editor, field, data) => html`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
       <label for="${field.getUid()}">${field.label}</label>
-      <input type="text" id="${field.getUid()}" value="${field.valueFromData(data)}" @input=${field.handleInput.bind(field)}>
+      <input
+        type="text"
+        id="${field.getUid()}"
+        placeholder="${field.placeholder}"
+        value="${field.valueFromData(data)}"
+        @input=${field.handleInput.bind(field)}>
+      ${field.renderHelp(editor, field, data)}
     </div>`
   }
 
@@ -85,9 +92,21 @@ export class ImageField extends Field {
 
     this.template = (editor, field, data) => html`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
       <label for="${field.getUid()}">${field.label}</label>
-      <input type="text" id="${field.getUid()}" value="${field.valueFromData(data) || ''}" @input=${field.handleInput.bind(field)} ?disabled="${field.isLoading}">
-      <input type="file" id="${field.getUid()}_file" placeholder="Upload new image" @change=${field.handleFileInput.bind(field)} ?disabled="${field.isLoading}">
-      ${this.renderImagePreview(editor, field, data)}
+      <input
+        id="${field.getUid()}"
+        type="text"
+        placeholder="${field.placeholder}"
+        value="${field.valueFromData(data) || ''}"
+        @input=${field.handleInput.bind(field)}
+        ?disabled="${field.isLoading}">
+      <input
+        type="file"
+        id="${field.getUid()}_file"
+        placeholder="Upload new image"
+        @change=${field.handleFileInput.bind(field)}
+        ?disabled="${field.isLoading}">
+      ${field.renderImagePreview(editor, field, data)}
+      ${field.renderHelp(editor, field, data)}
     </div>`
   }
 
@@ -225,6 +244,7 @@ export class GroupField extends Field {
         <div class="selective__field__${field.fieldType}__label">${field.label}</div>
       </div>
       ${field.renderFields(editor, data)}
+      ${field.renderHelp(editor, field, data)}
     </div>`
   }
 
@@ -278,6 +298,7 @@ export class MarkdownField extends Field {
     this.template = (editor, field, data) => html`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
       <label for="${field.getUid()}">${field.label}</label>
       <textarea id="${field.getUid()}" rows="${field.options.rows || 6}" @input=${field.handleInput.bind(field)}>${field.valueFromData(data) || ' '}</textarea>
+      ${field.renderHelp(editor, field, data)}
     </div>`
   }
 }
@@ -630,6 +651,7 @@ export class SelectField extends Field {
           </div>
         `)}
       </div>
+      ${field.renderHelp(editor, field, data)}
     </div>`
   }
 
@@ -687,7 +709,13 @@ export class TextField extends Field {
 
     this.template = (editor, field, data) => html`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
       <label for="${field.getUid()}">${field.label}</label>
-      <input type="text" id="${field.getUid()}" value="${field.valueFromData(data) || ''}" @input=${field.handleInput.bind(field)}>
+      <input
+        type="text"
+        id="${field.getUid()}"
+        value="${field.valueFromData(data) || ''}"
+        placeholder="${field.placeholder}"
+        @input=${field.handleInput.bind(field)}>
+      ${field.renderHelp(editor, field, data)}
     </div>`
   }
 }
@@ -700,6 +728,7 @@ export class TextareaField extends Field {
     this.template = (editor, field, data) => html`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
       <label for="${field.getUid()}">${field.label}</label>
       <textarea id="${field.getUid()}" rows="${field.options.rows || 6}" @input=${field.handleInput.bind(field)}>${field.valueFromData(data) || ' '}</textarea>
+      ${field.renderHelp(editor, field, data)}
     </div>`
   }
 }

@@ -577,6 +577,10 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_6__["compos
     </div>`;
   }
 
+  get help() {
+    return this.getConfig().help;
+  }
+
   get isClean() {
     return this._dataValue == this.value;
   }
@@ -593,6 +597,10 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_6__["compos
     return this.getConfig().options || {};
   }
 
+  get placeholder() {
+    return this.getConfig().placeholder;
+  }
+
   handleInput(evt) {
     // Update the value to what is being typed.
     // Helps mark the field as dirty.
@@ -600,6 +608,14 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_6__["compos
   }
 
   static initialize(containerEl) {// Pass.
+  }
+
+  renderHelp(editor, field, data) {
+    if (!field.help) {
+      return '';
+    }
+
+    return lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__field__help">${field.help}</div>`;
   }
 
   postRender(containerEl) {// Pass.
@@ -9417,6 +9433,7 @@ class CheckboxField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"]
         data-field-type="${field.fieldType}" @click=${field.handleInput.bind(field)}>
       <div class="selective__field__checkbox__label">${field.label}</div>
       <i class="material-icons">${this.value ? 'check_box' : 'check_box_outline_blank'}</i>
+      ${field.renderHelp(editor, field, data)}
     </div>`;
   }
 
@@ -9434,7 +9451,13 @@ class ConstructorField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Fiel
 
     this.template = (editor, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
       <label for="${field.getUid()}">${field.label}</label>
-      <input type="text" id="${field.getUid()}" value="${field.valueFromData(data)}" @input=${field.handleInput.bind(field)}>
+      <input
+        type="text"
+        id="${field.getUid()}"
+        placeholder="${field.placeholder}"
+        value="${field.valueFromData(data)}"
+        @input=${field.handleInput.bind(field)}>
+      ${field.renderHelp(editor, field, data)}
     </div>`;
   }
 
@@ -9477,9 +9500,21 @@ class ImageField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
 
     this.template = (editor, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
       <label for="${field.getUid()}">${field.label}</label>
-      <input type="text" id="${field.getUid()}" value="${field.valueFromData(data) || ''}" @input=${field.handleInput.bind(field)} ?disabled="${field.isLoading}">
-      <input type="file" id="${field.getUid()}_file" placeholder="Upload new image" @change=${field.handleFileInput.bind(field)} ?disabled="${field.isLoading}">
-      ${this.renderImagePreview(editor, field, data)}
+      <input
+        id="${field.getUid()}"
+        type="text"
+        placeholder="${field.placeholder}"
+        value="${field.valueFromData(data) || ''}"
+        @input=${field.handleInput.bind(field)}
+        ?disabled="${field.isLoading}">
+      <input
+        type="file"
+        id="${field.getUid()}_file"
+        placeholder="Upload new image"
+        @change=${field.handleFileInput.bind(field)}
+        ?disabled="${field.isLoading}">
+      ${field.renderImagePreview(editor, field, data)}
+      ${field.renderHelp(editor, field, data)}
     </div>`;
   }
 
@@ -9612,6 +9647,7 @@ class GroupField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
         <div class="selective__field__${field.fieldType}__label">${field.label}</div>
       </div>
       ${field.renderFields(editor, data)}
+      ${field.renderHelp(editor, field, data)}
     </div>`;
   }
 
@@ -9664,6 +9700,7 @@ class MarkdownField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"]
     this.template = (editor, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
       <label for="${field.getUid()}">${field.label}</label>
       <textarea id="${field.getUid()}" rows="${field.options.rows || 6}" @input=${field.handleInput.bind(field)}>${field.valueFromData(data) || ' '}</textarea>
+      ${field.renderHelp(editor, field, data)}
     </div>`;
   }
 
@@ -10007,6 +10044,7 @@ class SelectField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
           </div>
         `)}
       </div>
+      ${field.renderHelp(editor, field, data)}
     </div>`;
   }
 
@@ -10064,7 +10102,13 @@ class TextField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
 
     this.template = (editor, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
       <label for="${field.getUid()}">${field.label}</label>
-      <input type="text" id="${field.getUid()}" value="${field.valueFromData(data) || ''}" @input=${field.handleInput.bind(field)}>
+      <input
+        type="text"
+        id="${field.getUid()}"
+        value="${field.valueFromData(data) || ''}"
+        placeholder="${field.placeholder}"
+        @input=${field.handleInput.bind(field)}>
+      ${field.renderHelp(editor, field, data)}
     </div>`;
   }
 
@@ -10077,6 +10121,7 @@ class TextareaField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"]
     this.template = (editor, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
       <label for="${field.getUid()}">${field.label}</label>
       <textarea id="${field.getUid()}" rows="${field.options.rows || 6}" @input=${field.handleInput.bind(field)}>${field.valueFromData(data) || ' '}</textarea>
+      ${field.renderHelp(editor, field, data)}
     </div>`;
   }
 
