@@ -232,6 +232,34 @@
   i
     margin-right: $ge-pad/2
 
+.selective__field__select__options
+  display: grid
+  grid-template-columns: 1fr 1fr 1fr
+  margin: $ge-pad/2 0
+
+  .selective__field__select--list &
+    display: block
+    max-height: $ge-pad * 10
+    overflow-y: auto
+
+.selective__field__select__option
+  align-items: center
+  border: 1px solid transparent
+  border-radius: $ge-radius-2
+  cursor: pointer
+  display: flex
+  flex-flow: row
+  padding: $ge-pad/2
+
+  &:hover
+    +field-control-hover
+
+  .selective__field__select--list &
+    margin: $ge-pad/2 0
+
+  i
+    margin-right: $ge-pad/4
+
 .selective__header,
 .selective__footer
   align-items: center

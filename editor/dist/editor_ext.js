@@ -9392,7 +9392,7 @@ class EditorApi extends _utility_api__WEBPACK_IMPORTED_MODULE_0__["default"] {
 /*!********************************!*\
   !*** ./source/editor/field.js ***!
   \********************************/
-/*! exports provided: CheckboxField, ConstructorField, DocumentField, ImageField, GoogleImageField, GroupField, MarkdownField, PartialsField, TextField, TextareaField, YamlField, defaultFields */
+/*! exports provided: CheckboxField, ConstructorField, DocumentField, ImageField, GoogleImageField, GroupField, MarkdownField, PartialsField, SelectField, TextField, TextareaField, YamlField, defaultFields */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9405,6 +9405,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GroupField", function() { return GroupField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MarkdownField", function() { return MarkdownField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PartialsField", function() { return PartialsField; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SelectField", function() { return SelectField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TextField", function() { return TextField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TextareaField", function() { return TextareaField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "YamlField", function() { return YamlField; });
@@ -9994,6 +9995,79 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListFie
   }
 
 }
+class SelectField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
+  constructor(config, extendedConfig) {
+    super(config, extendedConfig);
+    this.fieldType = 'select';
+    this.threshold = 12; // Determine which icons to use
+
+    this.useMulti = this.getConfig().get('multi', false);
+    this.icons = this.useMulti ? ['check_box_outline_blank', 'check_box'] : ['radio_button_unchecked', 'radio_button_checked'];
+
+    this.template = (editor, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div
+        class="selective__field selective__field__${field.fieldType} ${field.options.length > field.threshold ? `selective__field__${field.fieldType}--list` : ''}"
+        data-field-type="${field.fieldType}" >
+      <div class="selective__field__select__label">${field.label}</div>
+      <div class="selective__field__select__options">
+        ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_1__["repeat"])(field.options, option => option.value, (option, index) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
+          <div class="selective__field__select__value" data-value="${option.value}" @click=${field.handleInput.bind(field)}>
+            <div class="selective__field__select__option">
+              <i class="material-icons">${field._isSelected(option.value) ? field.icons[1] : field.icons[0]}</i>
+              ${option.label || '(None)'}
+            </div>
+          </div>
+        `)}
+      </div>
+    </div>`;
+  }
+
+  _isSelected(optionValue) {
+    let value = this.value;
+
+    if (!this.useMulti) {
+      return value == '' ? optionValue == null : optionValue == value;
+    } // Reset when converting between non-array values.
+
+
+    if (!Array.isArray(value)) {
+      value = [];
+    }
+
+    return (value || []).includes(optionValue);
+  }
+
+  handleInput(evt) {
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_3__["findParentByClassname"])(evt.target, 'selective__field__select__value');
+    const value = target.dataset.value == 'null' ? null : target.dataset.value;
+
+    if (!this.useMulti) {
+      this.value = value;
+      document.dispatchEvent(new CustomEvent('selective.render'));
+      return;
+    }
+
+    if (!value) {
+      return;
+    } // Adjust the list if using multi value
+
+
+    let newValue = this.value || []; // Reset when converting between non-array values.
+
+    if (!Array.isArray(newValue)) {
+      newValue = [];
+    }
+
+    if (newValue.includes(value)) {
+      newValue = newValue.filter(item => item !== value);
+    } else {
+      newValue.push(value);
+    }
+
+    this.value = newValue;
+    document.dispatchEvent(new CustomEvent('selective.render'));
+  }
+
+}
 class TextField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
@@ -10051,6 +10125,7 @@ const defaultFields = {
   'list': selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListField"],
   'markdown': MarkdownField,
   'partials': PartialsField,
+  'select': SelectField,
   'text': TextField,
   'textarea': TextareaField,
   'yaml': YamlField
