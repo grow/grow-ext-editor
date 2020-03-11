@@ -248,6 +248,29 @@ export class GroupField extends Field {
     </div>`
   }
 
+  get isClean() {
+    // TODO: Better complex comparisons?
+    return JSON.stringify(this._dataValue) == JSON.stringify(this.value)
+  }
+
+  get value() {
+    if (!this.fields) {
+      return this._dataValue
+    }
+
+    const value = autoDeepObject({})
+
+    for (const field of this.fields.fields) {
+      value.set(field.key, field.value)
+    }
+
+    return value.obj
+  }
+
+  set value(value) {
+    // no-op
+  }
+
   _createFields(editor, data) {
     const fields = new Fields(editor.fieldTypes)
     fields.valueFromData(this.value)
@@ -263,6 +286,12 @@ export class GroupField extends Field {
     for (let fieldConfig of fieldConfigs || []) {
       fieldConfig = autoConfig(fieldConfig, this.extendedConfig)
       fields.addField(fieldConfig, this.extendedConfig)
+    }
+
+    // When a not expanded it does not get the value updated correctly
+    // so we need to manually call the data update.
+    for (const field of fields.fields) {
+      field.updateFromData(this.value || {})
     }
 
     return fields
@@ -286,6 +315,28 @@ export class GroupField extends Field {
     return html`<div class="selective__group">
       ${this.fields.template(editor, this.fields, this.value)}
     </div>`
+  }
+
+  valueFromData(data) {
+    if (this.key) {
+      return super.valueFromData(data)
+    }
+
+    // Nothing to do without fields.
+    if (!this.fields) {
+      this._dataValue = data
+      return this.value
+    }
+
+    const newDataValue = autoDeepObject({})
+
+    for (const field of this.fields.fields) {
+      newDataValue.set(field.key, field.value)
+    }
+
+    this._dataValue = newDataValue.obj
+
+    return this.value
   }
 }
 

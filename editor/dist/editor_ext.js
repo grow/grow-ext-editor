@@ -1308,7 +1308,12 @@ class Fields extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_5__["compo
     const value = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_7__["autoDeepObject"])({});
 
     for (const field of this.fields) {
-      value.set(field.key, field.value);
+      // When using field without a key it returns a subset of the data.
+      if (!field.key) {
+        value.update(field.value);
+      } else {
+        value.set(field.key, field.value);
+      }
     }
 
     return deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, this._dataValue.obj, value.obj);
@@ -1559,6 +1564,16 @@ class DeepObject {
     }
 
     root[parts[parts.length - 1]] = value;
+  }
+
+  update(value) {
+    if (!value) {
+      return;
+    }
+
+    for (const key of Object.keys(value)) {
+      this.set(key, value[key]);
+    }
   }
 
 }
@@ -9679,6 +9694,28 @@ class GroupField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
     </div>`;
   }
 
+  get isClean() {
+    // TODO: Better complex comparisons?
+    return JSON.stringify(this._dataValue) == JSON.stringify(this.value);
+  }
+
+  get value() {
+    if (!this.fields) {
+      return this._dataValue;
+    }
+
+    const value = Object(selective_edit__WEBPACK_IMPORTED_MODULE_1__["autoDeepObject"])({});
+
+    for (const field of this.fields.fields) {
+      value.set(field.key, field.value);
+    }
+
+    return value.obj;
+  }
+
+  set value(value) {// no-op
+  }
+
   _createFields(editor, data) {
     const fields = new selective_edit__WEBPACK_IMPORTED_MODULE_1__["Fields"](editor.fieldTypes);
     fields.valueFromData(this.value);
@@ -9693,6 +9730,12 @@ class GroupField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
     for (let fieldConfig of fieldConfigs || []) {
       fieldConfig = Object(selective_edit__WEBPACK_IMPORTED_MODULE_1__["autoConfig"])(fieldConfig, this.extendedConfig);
       fields.addField(fieldConfig, this.extendedConfig);
+    } // When a not expanded it does not get the value updated correctly
+    // so we need to manually call the data update.
+
+
+    for (const field of fields.fields) {
+      field.updateFromData(this.value || {});
     }
 
     return fields;
@@ -9716,6 +9759,27 @@ class GroupField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
     return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__group">
       ${this.fields.template(editor, this.fields, this.value)}
     </div>`;
+  }
+
+  valueFromData(data) {
+    if (this.key) {
+      return super.valueFromData(data);
+    } // Nothing to do without fields.
+
+
+    if (!this.fields) {
+      this._dataValue = data;
+      return this.value;
+    }
+
+    const newDataValue = Object(selective_edit__WEBPACK_IMPORTED_MODULE_1__["autoDeepObject"])({});
+
+    for (const field of this.fields.fields) {
+      newDataValue.set(field.key, field.value);
+    }
+
+    this._dataValue = newDataValue.obj;
+    return this.value;
   }
 
 } // TODO: Use a full markdown editor.
