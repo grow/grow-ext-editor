@@ -126,7 +126,8 @@
     color: $ge-color-icon-on-back-light
 
   // Invert the item for every other layer.
-  & .selective__list__item
+  & .selective__list__item,
+  & .selective__list__item .selective__list__item .selective__list__item
     background-color: $ge-color-back
 
     .material-icons
@@ -139,6 +140,22 @@
 
       button
         background: $ge-color-back
+
+  // Invert the item for every other layer.
+  & .selective__list__item .selective__list__item,
+  & .selective__list__item .selective__list__item .selective__list__item .selective__list__item
+    background-color: rgba($ge-color-back-light, .5)
+
+    .material-icons
+      color: $ge-color-icon-on-back-light
+
+    .selective__fields &
+      input,
+      textarea
+        background: $ge-color-back
+
+      button
+        background: $ge-color-back-light
 
     // For two levels deep, when expanded, add a light border.
   & .selective__list__item--expanded .selective__list__item--expanded
