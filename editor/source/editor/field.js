@@ -297,7 +297,13 @@ export class MarkdownField extends Field {
 
     this.template = (editor, field, data) => html`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
       <label for="${field.getUid()}">${field.label}</label>
-      <textarea id="${field.getUid()}" rows="${field.options.rows || 6}" @input=${field.handleInput.bind(field)}>${field.valueFromData(data) || ' '}</textarea>
+      <textarea
+          id="${field.getUid()}"
+          rows="${field.getConfig().rows || 6}"
+          placeholder="${field.placeholder}"
+          @input=${field.handleInput.bind(field)}>
+        ${field.valueFromData(data) || ' '}
+      </textarea>
       ${field.renderHelp(editor, field, data)}
     </div>`
   }
@@ -727,7 +733,13 @@ export class TextareaField extends Field {
 
     this.template = (editor, field, data) => html`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
       <label for="${field.getUid()}">${field.label}</label>
-      <textarea id="${field.getUid()}" rows="${field.options.rows || 6}" @input=${field.handleInput.bind(field)}>${field.valueFromData(data) || ' '}</textarea>
+      <textarea
+          id="${field.getUid()}"
+          rows="${field.getConfig().rows || 6}"
+          placeholder="${field.placeholder}"
+          @input=${field.handleInput.bind(field)}>
+        ${field.valueFromData(data) || ' '}
+      </textarea>
       ${field.renderHelp(editor, field, data)}
     </div>`
   }
