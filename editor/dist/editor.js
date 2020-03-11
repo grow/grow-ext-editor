@@ -598,7 +598,7 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_6__["compos
   }
 
   get placeholder() {
-    return this.getConfig().placeholder;
+    return this.getConfig().placeholder || '';
   }
 
   handleInput(evt) {
