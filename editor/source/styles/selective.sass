@@ -137,7 +137,7 @@
 
     // For two levels deep, when expanded, add a light border.
   & .selective__list__item--expanded .selective__list__item--expanded
-    box-shadow: 0 0 0 1px rgba($ge-color-back-light, 1)
+    box-shadow: $ge-shadow-1
 
   // Invert the styling for each layer.
   .selective__field__partials &
@@ -220,6 +220,17 @@
     margin-left: -$ge-pad
     margin-bottom: $ge-pad
     width: calc(100% + #{$ge-pad*2})
+
+.selective__field__checkbox
+  align-items: center
+  cursor: pointer
+  display: flex
+  flex-flow: row-reverse
+  justify-content: flex-end
+  margin: $ge-pad/2 0
+
+  i
+    margin-right: $ge-pad/2
 
 .selective__header,
 .selective__footer

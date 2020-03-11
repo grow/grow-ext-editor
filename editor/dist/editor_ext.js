@@ -9392,11 +9392,12 @@ class EditorApi extends _utility_api__WEBPACK_IMPORTED_MODULE_0__["default"] {
 /*!********************************!*\
   !*** ./source/editor/field.js ***!
   \********************************/
-/*! exports provided: ConstructorField, DocumentField, ImageField, GoogleImageField, GroupField, MarkdownField, PartialsField, TextField, TextareaField, YamlField, defaultFields */
+/*! exports provided: CheckboxField, ConstructorField, DocumentField, ImageField, GoogleImageField, GroupField, MarkdownField, PartialsField, TextField, TextareaField, YamlField, defaultFields */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CheckboxField", function() { return CheckboxField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ConstructorField", function() { return ConstructorField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DocumentField", function() { return DocumentField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ImageField", function() { return ImageField; });
@@ -9412,12 +9413,33 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(deep_extend__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
 /* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./autoFields */ "./source/editor/autoFields.js");
+/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utility/dom */ "./source/utility/dom.js");
 /**
  * Field types for the editor extension.
  */
 
 
 
+
+class CheckboxField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
+  constructor(config, extendedConfig) {
+    super(config, extendedConfig);
+    this.fieldType = 'checkbox';
+
+    this.template = (editor, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div
+        class="selective__field selective__field__${field.fieldType} ${field.valueFromData(data) ? 'selective__field__checkbox--checked' : ''}"
+        data-field-type="${field.fieldType}" @click=${field.handleInput.bind(field)}>
+      <div class="selective__field__checkbox__label">${field.label}</div>
+      <i class="material-icons">${this.value ? 'check_box' : 'check_box_outline_blank'}</i>
+    </div>`;
+  }
+
+  handleInput(evt) {
+    this.value = !this.value;
+    document.dispatchEvent(new CustomEvent('selective.render'));
+  }
+
+}
 class ConstructorField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
@@ -10021,6 +10043,7 @@ class YamlField extends ConstructorField {
 
 }
 const defaultFields = {
+  'checkbox': CheckboxField,
   'document': DocumentField,
   'google_image': GoogleImageField,
   'group': GroupField,

@@ -14,6 +14,26 @@ import {
   Fields,
 } from 'selective-edit'
 import EditorAutoFields from './autoFields'
+import { findParentByClassname } from '../utility/dom'
+
+export class CheckboxField extends Field {
+  constructor(config, extendedConfig) {
+    super(config, extendedConfig)
+    this.fieldType = 'checkbox'
+
+    this.template = (editor, field, data) => html`<div
+        class="selective__field selective__field__${field.fieldType} ${field.valueFromData(data) ? 'selective__field__checkbox--checked' : ''}"
+        data-field-type="${field.fieldType}" @click=${field.handleInput.bind(field)}>
+      <div class="selective__field__checkbox__label">${field.label}</div>
+      <i class="material-icons">${this.value ? 'check_box' : 'check_box_outline_blank'}</i>
+    </div>`
+  }
+
+  handleInput(evt) {
+    this.value = !this.value
+    document.dispatchEvent(new CustomEvent('selective.render'))
+  }
+}
 
 export class ConstructorField extends Field {
   constructor(config, extendedConfig) {
@@ -631,6 +651,7 @@ export class YamlField extends ConstructorField {
 
 
 export const defaultFields = {
+  'checkbox': CheckboxField,
   'document': DocumentField,
   'google_image': GoogleImageField,
   'group': GroupField,
