@@ -8542,6 +8542,10 @@ class EditorAutoFields extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Auto
       }
     }
 
+    if (typeof value == 'boolean') {
+      return 'checkbox';
+    }
+
     return super.typeFromValue(value);
   }
 

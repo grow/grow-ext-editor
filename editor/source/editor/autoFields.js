@@ -33,6 +33,11 @@ export default class EditorAutoFields extends AutoFields {
           break
       }
     }
+
+    if (typeof value == 'boolean') {
+      return 'checkbox'
+    }
+
     return super.typeFromValue(value)
   }
 }
