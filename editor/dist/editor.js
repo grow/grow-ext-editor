@@ -9468,13 +9468,14 @@ class EditorApi extends _utility_api__WEBPACK_IMPORTED_MODULE_0__["default"] {
 /*!********************************!*\
   !*** ./source/editor/field.js ***!
   \********************************/
-/*! exports provided: CheckboxField, ConstructorField, DocumentField, ImageField, GoogleImageField, GroupField, MarkdownField, PartialsField, SelectField, TextField, TextareaField, YamlField, defaultFields */
+/*! exports provided: CheckboxField, ConstructorField, ConstructorFileField, DocumentField, ImageField, GoogleImageField, GroupField, MarkdownField, PartialsField, SelectField, TextField, TextareaField, YamlField, defaultFields */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CheckboxField", function() { return CheckboxField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ConstructorField", function() { return ConstructorField; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ConstructorFileField", function() { return ConstructorFileField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DocumentField", function() { return DocumentField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ImageField", function() { return ImageField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GoogleImageField", function() { return GoogleImageField; });
@@ -9526,12 +9527,14 @@ class ConstructorField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Fiel
 
     this.template = (editor, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
       <label for="${field.getUid()}">${field.label}</label>
-      <input
-        type="text"
-        id="${field.getUid()}"
-        placeholder="${field.placeholder}"
-        value="${field.valueFromData(data)}"
-        @input=${field.handleInput.bind(field)}>
+      <div class="selective__field__${field.fieldType}__input">
+        <input
+          type="text"
+          id="${field.getUid()}"
+          placeholder="${field.placeholder}"
+          value="${field.valueFromData(data)}"
+          @input=${field.handleInput.bind(field)}>
+      </div>
       ${field.renderHelp(editor, field, data)}
     </div>`;
   }
@@ -9556,7 +9559,28 @@ class ConstructorField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Fiel
   }
 
 }
-class DocumentField extends ConstructorField {
+class ConstructorFileField extends ConstructorField {
+  constructor(config, extendedConfig) {
+    super(config, extendedConfig);
+    this.fieldType = 'constructorFile';
+
+    this.template = (editor, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
+      <label for="${field.getUid()}">${field.label}</label>
+      <div class="selective__field__${field.fieldType}__input">
+        <input
+          type="text"
+          id="${field.getUid()}"
+          placeholder="${field.placeholder}"
+          value="${field.valueFromData(data)}"
+          @input=${field.handleInput.bind(field)}>
+        <i class="material-icons">list</i>
+      </div>
+      ${field.renderHelp(editor, field, data)}
+    </div>`;
+  }
+
+}
+class DocumentField extends ConstructorFileField {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
     this.fieldType = 'document';
@@ -10329,7 +10353,7 @@ class PartialFields extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Fields"
 
 }
 
-class YamlField extends ConstructorField {
+class YamlField extends ConstructorFileField {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
     this.fieldType = 'yaml';

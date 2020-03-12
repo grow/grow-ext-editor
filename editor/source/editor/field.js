@@ -44,12 +44,14 @@ export class ConstructorField extends Field {
 
     this.template = (editor, field, data) => html`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
       <label for="${field.getUid()}">${field.label}</label>
-      <input
-        type="text"
-        id="${field.getUid()}"
-        placeholder="${field.placeholder}"
-        value="${field.valueFromData(data)}"
-        @input=${field.handleInput.bind(field)}>
+      <div class="selective__field__${field.fieldType}__input">
+        <input
+          type="text"
+          id="${field.getUid()}"
+          placeholder="${field.placeholder}"
+          value="${field.valueFromData(data)}"
+          @input=${field.handleInput.bind(field)}>
+      </div>
       ${field.renderHelp(editor, field, data)}
     </div>`
   }
@@ -72,7 +74,28 @@ export class ConstructorField extends Field {
   }
 }
 
-export class DocumentField extends ConstructorField {
+export class ConstructorFileField extends ConstructorField {
+  constructor(config, extendedConfig) {
+    super(config, extendedConfig)
+    this.fieldType = 'constructorFile'
+
+    this.template = (editor, field, data) => html`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
+      <label for="${field.getUid()}">${field.label}</label>
+      <div class="selective__field__${field.fieldType}__input">
+        <input
+          type="text"
+          id="${field.getUid()}"
+          placeholder="${field.placeholder}"
+          value="${field.valueFromData(data)}"
+          @input=${field.handleInput.bind(field)}>
+        <i class="material-icons">list</i>
+      </div>
+      ${field.renderHelp(editor, field, data)}
+    </div>`
+  }
+}
+
+export class DocumentField extends ConstructorFileField {
   constructor(config, extendedConfig) {
     super(config, extendedConfig)
     this.fieldType = 'document'
@@ -865,7 +888,7 @@ class PartialFields extends Fields {
   }
 }
 
-export class YamlField extends ConstructorField {
+export class YamlField extends ConstructorFileField {
   constructor(config, extendedConfig) {
     super(config, extendedConfig)
     this.fieldType = 'yaml'
