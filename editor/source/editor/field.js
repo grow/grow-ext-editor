@@ -508,8 +508,13 @@ export class PartialsField extends ListField {
   }
 
   get isExpanded() {
-    // Count all partials that are not hidden.
     if (this._listItems) {
+      // If there is only one partial, expand it.
+      if (this._listItems.length == 1) {
+        return true
+      }
+
+      // Count all partials that are not hidden.
       let nonHiddenItemCount = 0
       for (const item of this._listItems) {
         if (!item['isHidden']) {
@@ -679,10 +684,7 @@ export class PartialsField extends ListField {
       return html`<div class="editor__loading" title="Loading partial configurations"></div>`
     }
 
-    // If the sub fields have not been created create them now.
-    if (!this._listItems.length) {
-      this._listItems = this._createItems(editor, data)
-    }
+    this.ensureItems(editor, data)
 
     // Update the expanded state each render.
     for (const listItem of this._listItems) {

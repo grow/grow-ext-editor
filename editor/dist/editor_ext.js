@@ -9995,8 +9995,13 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListFie
   }
 
   get isExpanded() {
-    // Count all partials that are not hidden.
     if (this._listItems) {
+      // If there is only one partial, expand it.
+      if (this._listItems.length == 1) {
+        return true;
+      } // Count all partials that are not hidden.
+
+
       let nonHiddenItemCount = 0;
 
       for (const item of this._listItems) {
@@ -10166,13 +10171,9 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListFie
     // No partials loaded yet.
     if (!Object.keys(this.partialTypes).length) {
       return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="editor__loading" title="Loading partial configurations"></div>`;
-    } // If the sub fields have not been created create them now.
+    }
 
-
-    if (!this._listItems.length) {
-      this._listItems = this._createItems(editor, data);
-    } // Update the expanded state each render.
-
+    this.ensureItems(editor, data); // Update the expanded state each render.
 
     for (const listItem of this._listItems) {
       const inIndex = this._expandedIndexes.indexOf(listItem['index']) > -1;
