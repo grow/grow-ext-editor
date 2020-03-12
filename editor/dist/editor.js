@@ -562,7 +562,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
- // ========================================
+
+const WHITESPACE_RE = /^[\s]+|[\s]+$/g; // ========================================
 // === Base Field
 // ========================================
 
@@ -611,7 +612,8 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_6__["compos
   handleInput(evt) {
     // Update the value to what is being typed.
     // Helps mark the field as dirty.
-    this.value = evt.target.value;
+    // Strip the whitespace as well.
+    this.value = evt.target.value.replace(WHITESPACE_RE, '');
   }
 
   static initialize(containerEl) {// Pass.
