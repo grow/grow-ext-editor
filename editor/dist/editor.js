@@ -847,6 +847,7 @@ class ListField extends SortableField {
       <div
           class="selective__field selective__field__${field.fieldType}"
           data-field-type="${field.fieldType}">
+        ${field.ensureItems(editor, data)}
         ${field.updateFromData(data)}
         <div class="selective__header">
           <div class="selective__field__label">${field.label}</div>
@@ -929,6 +930,11 @@ class ListField extends SortableField {
   get isExpanded() {
     // If all of the items are in the expanded list then consider it expanded.
     if (this._listItems.length == this._expandedIndexes.length) {
+      return true;
+    } // Expand if there is only one item.
+
+
+    if (this._listItems.length == 1) {
       return true;
     }
 
@@ -1018,6 +1024,13 @@ class ListField extends SortableField {
     }
 
     return previewValue;
+  }
+
+  ensureItems(editor, data) {
+    // If the sub fields have not been created create them now.
+    if (!this._listItems.length) {
+      this._listItems = this._createItems(editor, data);
+    }
   }
 
   handleAddItem(evt, editor) {
@@ -1138,9 +1151,14 @@ class ListField extends SortableField {
 
   renderActionsHeader(editor, field, data) {
     // No expand toggle action to render if there is only 1 sub field config.
-    const fieldConfigs = this.getConfig().get('fields', []);
+    const fieldConfigs = this.getConfig().get('fields', []); // No need to expand/collapse when there is only one field config.
 
     if (fieldConfigs.length <= 1) {
+      return '';
+    } // Hide when there are no values to expand/collapse.
+
+
+    if ((this.value || []).length == 0) {
       return '';
     } // Allow collapsing and expanding of sub fields.
 
@@ -1180,11 +1198,7 @@ class ListField extends SortableField {
   }
 
   renderItems(editor, data) {
-    // If the sub fields have not been created create them now.
-    if (!this._listItems.length) {
-      this._listItems = this._createItems(editor, data);
-    } // Update the expanded state each render.
-
+    this.ensureItems(editor, data); // Update the expanded state each render.
 
     for (const listItem of this._listItems) {
       const inIndex = this._expandedIndexes.indexOf(listItem['index']) > -1;
@@ -10230,17 +10244,55 @@ class TextField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
     this.fieldType = 'text';
+    this.threshold = this.getConfig().threshold || 75;
+    this._isSwitching = false;
 
     this.template = (editor, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
       <label for="${field.getUid()}">${field.label}</label>
+      ${field.updateFromData(data)}
+      ${field.renderInput(editor, field, data)}
+      ${field.renderHelp(editor, field, data)}
+    </div>`;
+  }
+
+  handleInput(evt) {
+    super.handleInput(evt); // Check if the threshold has been reached.
+
+    const isInput = evt.target.tagName.toLowerCase() == 'input';
+
+    if (isInput && this.value.length > this.threshold && !this._isSwitching) {
+      // Only trigger switch once.
+      this._isSwitching = true;
+      const id = evt.target.id;
+      document.dispatchEvent(new CustomEvent('selective.render')); // Trigger auto focus after a delay for rendering.
+
+      window.setTimeout(() => {
+        const inputEl = document.getElementById(id);
+        inputEl.focus(); // Focus at the end to keep typing.
+
+        inputEl.selectionStart = inputEl.selectionEnd = inputEl.value.length;
+      }, 25);
+    }
+  }
+
+  renderInput(editor, field, data) {
+    // Switch to textarea if the length is long.
+    if ((this.value || '').length > this.threshold) {
+      return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
+        <textarea
+            id="${field.getUid()}"
+            rows="${field.getConfig().rows || 6}"
+            placeholder="${field.placeholder}"
+            @input=${field.handleInput.bind(field)}>${this.value || ' '}</textarea>`;
+    }
+
+    return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
       <input
         type="text"
         id="${field.getUid()}"
-        value="${field.valueFromData(data) || ''}"
+        value="${this.value || ''}"
         placeholder="${field.placeholder}"
-        @input=${field.handleInput.bind(field)}>
-      ${field.renderHelp(editor, field, data)}
-    </div>`;
+        @input=${field.handleInput.bind(field)}>`;
   }
 
 }
@@ -10255,9 +10307,7 @@ class TextareaField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"]
           id="${field.getUid()}"
           rows="${field.getConfig().rows || 6}"
           placeholder="${field.placeholder}"
-          @input=${field.handleInput.bind(field)}>
-        ${field.valueFromData(data) || ' '}
-      </textarea>
+          @input=${field.handleInput.bind(field)}>${field.valueFromData(data) || ' '}</textarea>
       ${field.renderHelp(editor, field, data)}
     </div>`;
   }

@@ -778,17 +778,58 @@ export class TextField extends Field {
   constructor(config, extendedConfig) {
     super(config, extendedConfig)
     this.fieldType = 'text'
+    this.threshold = this.getConfig().threshold || 75
+    this._isSwitching = false
 
     this.template = (editor, field, data) => html`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
       <label for="${field.getUid()}">${field.label}</label>
+      ${field.updateFromData(data)}
+      ${field.renderInput(editor, field, data)}
+      ${field.renderHelp(editor, field, data)}
+    </div>`
+  }
+
+  handleInput(evt) {
+    super.handleInput(evt)
+
+    // Check if the threshold has been reached.
+    const isInput = evt.target.tagName.toLowerCase() == 'input'
+    if (isInput && this.value.length > this.threshold && !this._isSwitching) {
+      // Only trigger switch once.
+      this._isSwitching = true
+
+      const id = evt.target.id
+      document.dispatchEvent(new CustomEvent('selective.render'))
+
+      // Trigger auto focus after a delay for rendering.
+      window.setTimeout(() => {
+        const inputEl = document.getElementById(id)
+        inputEl.focus()
+
+        // Focus at the end to keep typing.
+        inputEl.selectionStart = inputEl.selectionEnd = inputEl.value.length
+      }, 25)
+    }
+  }
+
+  renderInput(editor, field, data) {
+    // Switch to textarea if the length is long.
+    if ((this.value || '').length > this.threshold) {
+      return html`
+        <textarea
+            id="${field.getUid()}"
+            rows="${field.getConfig().rows || 6}"
+            placeholder="${field.placeholder}"
+            @input=${field.handleInput.bind(field)}>${this.value || ' '}</textarea>`
+    }
+
+    return html`
       <input
         type="text"
         id="${field.getUid()}"
-        value="${field.valueFromData(data) || ''}"
+        value="${this.value || ''}"
         placeholder="${field.placeholder}"
-        @input=${field.handleInput.bind(field)}>
-      ${field.renderHelp(editor, field, data)}
-    </div>`
+        @input=${field.handleInput.bind(field)}>`
   }
 }
 
@@ -803,9 +844,7 @@ export class TextareaField extends Field {
           id="${field.getUid()}"
           rows="${field.getConfig().rows || 6}"
           placeholder="${field.placeholder}"
-          @input=${field.handleInput.bind(field)}>
-        ${field.valueFromData(data) || ' '}
-      </textarea>
+          @input=${field.handleInput.bind(field)}>${field.valueFromData(data) || ' '}</textarea>
       ${field.renderHelp(editor, field, data)}
     </div>`
   }
