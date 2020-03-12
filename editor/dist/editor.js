@@ -9657,6 +9657,10 @@ class ConstructorFileField extends ConstructorField {
           ${podPath}
         </div>
       `)}
+      ${podPaths.length == 0 ? selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
+        <div class="selective__field__constructor__file selective__field__constructor__file--empty">
+          No matches found.
+        </div>` : ''}
       </div>
     </div>`;
   }

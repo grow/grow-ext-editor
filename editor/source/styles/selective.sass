@@ -332,7 +332,11 @@
   cursor: pointer
   padding: $ge-pad / 2 $ge-pad
 
-  &:hover
+  &--empty
+    cursor: default
+    font-weight: 700
+
+  &:hover:not(.selective__field__constructor__file--empty)
     background: $ge-color-back-light
 
 .selective__field__group

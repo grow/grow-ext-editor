@@ -176,6 +176,10 @@ export class ConstructorFileField extends ConstructorField {
           ${podPath}
         </div>
       `)}
+      ${podPaths.length == 0 ? html`
+        <div class="selective__field__constructor__file selective__field__constructor__file--empty">
+          No matches found.
+        </div>` : ''}
       </div>
     </div>`
   }
