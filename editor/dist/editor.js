@@ -10352,7 +10352,6 @@ const zoomIframe = (containerEl, iframeEl, isDeviceView, isRotated, device, cont
     } // Make sure that the framing container does not expand.
 
 
-    containerEl.style.maxHeight = `${containerHeight}px`;
     containerEl.style.maxWidth = `${containerWidth}px`;
   }
 
