@@ -619,6 +619,11 @@ export class PartialsField extends ListField {
   }
 
   renderActionsHeader(editor, field, data) {
+    // Hide when there are no values to expand/collapse.
+    if ((this.value || []).length == 0) {
+      return ''
+    }
+
     // Allow collapsing and expanding of sub fields.
     return html`<div class="selective__actions">
       <button class="selective__action__toggle" @click=${field.handleToggleExpand.bind(field)}>
