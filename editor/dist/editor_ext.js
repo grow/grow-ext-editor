@@ -9580,11 +9580,14 @@ class ConstructorFileField extends ConstructorField {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
     this.fieldType = 'constructorFile';
-    this._showFileList = true;
+    this._showFileList = false;
     this._podPaths = null;
     this._listeningForPodPaths = false;
 
-    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
+    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
+    <div
+        class="selective__field selective__field__${field.fieldType} ${field._showFileList ? 'selective__field__constructor__input--expanded' : ''}"
+        data-field-type="${field.fieldType}">
       ${field.bindListeners(selective)}
       <label for="${field.getUid()}">${field.label}</label>
       <div class="selective__field__constructor__input">
@@ -9594,7 +9597,7 @@ class ConstructorFileField extends ConstructorField {
           placeholder="${field.placeholder}"
           value="${field.valueFromData(data)}"
           @input=${field.handleInput.bind(field)}>
-        <i class="material-icons">list</i>
+        <i class="material-icons" @click=${field.handleFilesToggleClick.bind(field)}>list</i>
       </div>
       ${field.renderFileList(selective, data)}
       ${field.renderHelp(selective, field, data)}
@@ -9610,6 +9613,11 @@ class ConstructorFileField extends ConstructorField {
       });
       this._listeningForPodPaths = true;
     }
+  }
+
+  handleFilesToggleClick(evt) {
+    this._showFileList = !this._showFileList;
+    document.dispatchEvent(new CustomEvent('selective.render'));
   }
 
   renderFileList(selective, data) {
