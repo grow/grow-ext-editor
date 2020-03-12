@@ -603,7 +603,7 @@ export class PartialsField extends ListField {
     // no-op
   }
 
-  handleAddItem(evt, editor) {
+  handleAddItem(evt, selective) {
     const partialKey = evt.target.value
     const partialConfig = this.partialTypes[partialKey]
     const index = (this.value || []).length
@@ -655,7 +655,7 @@ export class PartialsField extends ListField {
 
   renderActionsFooter(selective, field, data) {
     return html`<div class="selective__actions">
-      <select class="selective__actions__add" @change=${(evt) => {field.handleAddItem(evt, editor)}}>
+      <select class="selective__actions__add" @change=${(evt) => {field.handleAddItem(evt, selective)}}>
         <option value="">${field.options['addLabel'] || 'Add section'}</option>
         ${repeat(Object.entries(field.partialTypes), (item) => item[0], (item, index) => html`
           <option value="${item[1]['key']}">${item[1]['label']}</option>
@@ -855,8 +855,8 @@ export class TextField extends Field {
     this.template = (selective, field, data) => html`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
       <label for="${field.getUid()}">${field.label}</label>
       ${field.updateFromData(data)}
-      ${field.renderInput(editor, field, data)}
-      ${field.renderHelp(editor, field, data)}
+      ${field.renderInput(selective, field, data)}
+      ${field.renderHelp(selective, field, data)}
     </div>`
   }
 
@@ -883,7 +883,7 @@ export class TextField extends Field {
     }
   }
 
-  renderInput(editor, field, data) {
+  renderInput(selective, field, data) {
     // Switch to textarea if the length is long.
     if ((this.value || '').length > this.threshold) {
       return html`
@@ -916,7 +916,7 @@ export class TextareaField extends Field {
           rows="${field.getConfig().rows || 6}"
           placeholder="${field.placeholder}"
           @input=${field.handleInput.bind(field)}>${field.valueFromData(data) || ' '}</textarea>
-      ${field.renderHelp(editor, field, data)}
+      ${field.renderHelp(selective, field, data)}
     </div>`
   }
 }

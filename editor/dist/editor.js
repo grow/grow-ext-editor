@@ -10078,7 +10078,7 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListFie
   set value(value) {// no-op
   }
 
-  handleAddItem(evt, editor) {
+  handleAddItem(evt, selective) {
     const partialKey = evt.target.value;
     const partialConfig = this.partialTypes[partialKey];
     const index = (this.value || []).length;
@@ -10130,7 +10130,7 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListFie
   renderActionsFooter(selective, field, data) {
     return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__actions">
       <select class="selective__actions__add" @change=${evt => {
-      field.handleAddItem(evt, editor);
+      field.handleAddItem(evt, selective);
     }}>
         <option value="">${field.options['addLabel'] || 'Add section'}</option>
         ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_1__["repeat"])(Object.entries(field.partialTypes), item => item[0], (item, index) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
@@ -10323,8 +10323,8 @@ class TextField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
     this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
       <label for="${field.getUid()}">${field.label}</label>
       ${field.updateFromData(data)}
-      ${field.renderInput(editor, field, data)}
-      ${field.renderHelp(editor, field, data)}
+      ${field.renderInput(selective, field, data)}
+      ${field.renderHelp(selective, field, data)}
     </div>`;
   }
 
@@ -10348,7 +10348,7 @@ class TextField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
     }
   }
 
-  renderInput(editor, field, data) {
+  renderInput(selective, field, data) {
     // Switch to textarea if the length is long.
     if ((this.value || '').length > this.threshold) {
       return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
@@ -10381,7 +10381,7 @@ class TextareaField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"]
           rows="${field.getConfig().rows || 6}"
           placeholder="${field.placeholder}"
           @input=${field.handleInput.bind(field)}>${field.valueFromData(data) || ' '}</textarea>
-      ${field.renderHelp(editor, field, data)}
+      ${field.renderHelp(selective, field, data)}
     </div>`;
   }
 
