@@ -308,19 +308,32 @@
       color: $ge-color-primary
 
 .selective__field__constructor__files
+  border: 1px solid $ge-color-back-light
+  border-radius: $ge-radius-4
+
+  input
+    border-radius: $ge-radius-4 $ge-radius-4 0 0
+    margin: 0
+    padding: $ge-pad/2 $ge-pad
+
+    &:focus
+      border-radius: $ge-radius-4 $ge-radius-4 0 0
+      border: 1px solid $ge-color-primary
+      margin: 0
+      outline: none
+      width: 100%
+
+.selective__field__constructor__file__list
   height: $ge-pad * 20
-  margin: $ge-pad/2 0
+  padding: $ge-pad/2 0
   overflow: auto
 
-.selective__header,
-.selective__footer
-  align-items: center
-  display: flex
-  flex-flow: row
-  justify-content: space-between
+.selective__field__constructor__file
+  cursor: pointer
+  padding: $ge-pad / 2 $ge-pad
 
-.selective__header
-  margin-top: $ge-pad/2
+  &:hover
+    background: $ge-color-back-light
 
 .selective__field__group
   margin-bottom: $ge-pad
@@ -341,3 +354,13 @@
 
 .selective__group
   margin: $ge-pad 0 $ge-pad $ge-pad
+
+.selective__header,
+.selective__footer
+  align-items: center
+  display: flex
+  flex-flow: row
+  justify-content: space-between
+
+.selective__header
+  margin-top: $ge-pad/2

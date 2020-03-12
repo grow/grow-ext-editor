@@ -9509,9 +9509,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
 /* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./autoFields */ "./source/editor/autoFields.js");
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utility/dom */ "./source/utility/dom.js");
+/* harmony import */ var _utility_filter__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utility/filter */ "./source/utility/filter.js");
 /**
  * Field types for the editor extension.
  */
+
 
 
 
@@ -9583,6 +9585,10 @@ class ConstructorFileField extends ConstructorField {
     this._showFileList = false;
     this._podPaths = null;
     this._listeningForPodPaths = false;
+    this._filterValue = '';
+    this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_4__["createWhiteBlackFilter"])( // Whitelist.
+    [], // Blacklist.
+    []);
 
     this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
     <div
@@ -9608,7 +9614,7 @@ class ConstructorFileField extends ConstructorField {
     // Bind the field to the pod path loading.
     if (!this._listeningForPodPaths) {
       selective.editor.listeners.add('load.podPaths', response => {
-        this._podPaths = response.pod_paths.sort();
+        this._podPaths = response.pod_paths.sort().filter(this.filterFunc);
         document.dispatchEvent(new CustomEvent('selective.render'));
       });
       this._listeningForPodPaths = true;
@@ -9620,6 +9626,20 @@ class ConstructorFileField extends ConstructorField {
     document.dispatchEvent(new CustomEvent('selective.render'));
   }
 
+  handleFileClick(evt) {
+    const podPath = evt.target.dataset.podPath;
+    this.value = Object.assign({}, this.value, {
+      value: podPath
+    });
+    this._showFileList = false;
+    document.dispatchEvent(new CustomEvent('selective.render'));
+  }
+
+  handleInputFilter(evt) {
+    this._filterValue = evt.target.value;
+    document.dispatchEvent(new CustomEvent('selective.render'));
+  }
+
   renderFileList(selective, data) {
     if (!this._showFileList) {
       return '';
@@ -9628,12 +9648,31 @@ class ConstructorFileField extends ConstructorField {
 
     if (!this._podPaths) {
       return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field__constructor__files">
-        <div class="editor__loading editor__loading--small"></div>
+        <input type="text" @input=${this.handleInputFilter.bind(this)} placeholder="Filter..." />
+        <div class="selective__field__constructor__file__list">
+          <div class="editor__loading editor__loading--small editor__loading--pad"></div>
+        </div>
       </div>`;
     }
 
+    let podPaths = this._podPaths; // Allow the current value to also filter the pod paths.
+
+    if (this._filterValue != '') {
+      podPaths = podPaths.filter(Object(_utility_filter__WEBPACK_IMPORTED_MODULE_4__["createValueFilter"])(this._filterValue));
+    }
+
     return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field__constructor__files">
-      ${this._podPaths}
+      <input type="text" @input=${this.handleInputFilter.bind(this)} placeholder="Filter..." />
+      <div class="selective__field__constructor__file__list">
+      ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_1__["repeat"])(podPaths, podPath => podPath, (podPath, index) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
+        <div
+            class="selective__field__constructor__file"
+            data-pod-path=${podPath}
+            @click=${this.handleFileClick.bind(this)}>
+          ${podPath}
+        </div>
+      `)}
+      </div>
     </div>`;
   }
 
@@ -9643,6 +9682,9 @@ class DocumentField extends ConstructorFileField {
     super(config, extendedConfig);
     this.fieldType = 'document';
     this.tag = '!g.doc';
+    this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_4__["createWhiteBlackFilter"])( // Whitelist.
+    [/^\/content\//], // Blacklist.
+    []);
   }
 
 }
@@ -10422,6 +10464,9 @@ class YamlField extends ConstructorFileField {
     super(config, extendedConfig);
     this.fieldType = 'yaml';
     this.tag = '!g.yaml';
+    this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_4__["createWhiteBlackFilter"])( // Whitelist.
+    [/^\/content\//, /^\/data\//, /\.yaml$/], // Blacklist.
+    []);
   }
 
 }
@@ -10806,6 +10851,55 @@ function deepExpandArray(arr) {
     }
   }
 }
+
+/***/ }),
+
+/***/ "./source/utility/filter.js":
+/*!**********************************!*\
+  !*** ./source/utility/filter.js ***!
+  \**********************************/
+/*! exports provided: createWhiteBlackFilter, createValueFilter */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createWhiteBlackFilter", function() { return createWhiteBlackFilter; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createValueFilter", function() { return createValueFilter; });
+// Creates a filter that uses a whitelist and blacklist of regex to filter.
+const createWhiteBlackFilter = (whitelist, blacklist) => {
+  whitelist = whitelist || [];
+  blacklist = blacklist || [];
+  return value => {
+    // Test against the whitelist.
+    let meetsWhitelist = false;
+
+    for (const exp of whitelist) {
+      if (exp.test(value)) {
+        meetsWhitelist = true;
+        break;
+      }
+    }
+
+    if (!meetsWhitelist) {
+      return false;
+    } // Test against the blacklist.
+
+
+    for (const exp of blacklist) {
+      if (exp.test(value)) {
+        return false;
+      }
+    }
+
+    return true;
+  };
+}; // Creates a filter that uses a value to filter.
+
+const createValueFilter = filterValue => {
+  return value => {
+    return value.includes(filterValue);
+  };
+};
 
 /***/ }),
 

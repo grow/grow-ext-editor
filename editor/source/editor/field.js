@@ -15,6 +15,10 @@ import {
 } from 'selective-edit'
 import EditorAutoFields from './autoFields'
 import { findParentByClassname } from '../utility/dom'
+import {
+  createWhiteBlackFilter,
+  createValueFilter,
+} from '../utility/filter'
 
 export class CheckboxField extends Field {
   constructor(config, extendedConfig) {
@@ -81,6 +85,13 @@ export class ConstructorFileField extends ConstructorField {
     this._showFileList = false
     this._podPaths = null
     this._listeningForPodPaths = false
+    this._filterValue = ''
+    this.filterFunc = createWhiteBlackFilter(
+      // Whitelist.
+      [],
+      // Blacklist.
+      [],
+    )
 
     this.template = (selective, field, data) => html`
     <div
@@ -106,7 +117,7 @@ export class ConstructorFileField extends ConstructorField {
     // Bind the field to the pod path loading.
     if (!this._listeningForPodPaths) {
       selective.editor.listeners.add('load.podPaths', (response) => {
-        this._podPaths = response.pod_paths.sort()
+        this._podPaths = response.pod_paths.sort().filter(this.filterFunc)
         document.dispatchEvent(new CustomEvent('selective.render'))
       })
       this._listeningForPodPaths = true
@@ -118,6 +129,20 @@ export class ConstructorFileField extends ConstructorField {
     document.dispatchEvent(new CustomEvent('selective.render'))
   }
 
+  handleFileClick(evt) {
+    const podPath = evt.target.dataset.podPath
+    this.value = Object.assign({}, this.value, {
+      value: podPath,
+    })
+    this._showFileList = false
+    document.dispatchEvent(new CustomEvent('selective.render'))
+  }
+
+  handleInputFilter(evt) {
+    this._filterValue = evt.target.value
+    document.dispatchEvent(new CustomEvent('selective.render'))
+  }
+
   renderFileList(selective, data) {
     if (!this._showFileList) {
       return ''
@@ -126,12 +151,32 @@ export class ConstructorFileField extends ConstructorField {
     // If the pod paths have not loaded, show the loading status.
     if (!this._podPaths) {
       return html`<div class="selective__field__constructor__files">
-        <div class="editor__loading editor__loading--small"></div>
+        <input type="text" @input=${this.handleInputFilter.bind(this)} placeholder="Filter..." />
+        <div class="selective__field__constructor__file__list">
+          <div class="editor__loading editor__loading--small editor__loading--pad"></div>
+        </div>
       </div>`
     }
 
+    let podPaths = this._podPaths
+
+    // Allow the current value to also filter the pod paths.
+    if (this._filterValue != '') {
+      podPaths = podPaths.filter(createValueFilter(this._filterValue))
+    }
+
     return html`<div class="selective__field__constructor__files">
-      ${this._podPaths}
+      <input type="text" @input=${this.handleInputFilter.bind(this)} placeholder="Filter..." />
+      <div class="selective__field__constructor__file__list">
+      ${repeat(podPaths, (podPath) => podPath, (podPath, index) => html`
+        <div
+            class="selective__field__constructor__file"
+            data-pod-path=${podPath}
+            @click=${this.handleFileClick.bind(this)}>
+          ${podPath}
+        </div>
+      `)}
+      </div>
     </div>`
   }
 }
@@ -141,6 +186,12 @@ export class DocumentField extends ConstructorFileField {
     super(config, extendedConfig)
     this.fieldType = 'document'
     this.tag = '!g.doc'
+    this.filterFunc = createWhiteBlackFilter(
+      // Whitelist.
+      [/^\/content\//],
+      // Blacklist.
+      [],
+    )
   }
 }
 
@@ -941,6 +992,12 @@ export class YamlField extends ConstructorFileField {
     super(config, extendedConfig)
     this.fieldType = 'yaml'
     this.tag = '!g.yaml'
+    this.filterFunc = createWhiteBlackFilter(
+      // Whitelist.
+      [/^\/content\//, /^\/data\//, /\.yaml$/],
+      // Blacklist.
+      [],
+    )
   }
 }
 
