@@ -245,6 +245,11 @@ export default class Editor {
   }
 
   bindEvents() {
+    // Rerender when window resizes.
+    window.addEventListener('resize', (evt) => {
+      this.render()
+    })
+
     // Allow triggering a re-render.
     document.addEventListener('selective.render', (evt) => {
       const forceReload = (evt.detail && evt.detail['force'] == true)
