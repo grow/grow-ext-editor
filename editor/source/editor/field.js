@@ -238,6 +238,7 @@ export class GroupField extends Field {
     this.fields = null
     this.isExpanded = false
     this.template = (editor, field, data) => html`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
+      ${field.ensureFields(editor, data)}
       ${field.updateFromData(data)}
       <div class="selective__field__${field.fieldType}__handle" @click=${field.handleToggleExpand.bind(field)}>
         <i class="material-icons">${field.isExpanded ? 'expand_less' : 'expand_more'}</i>
@@ -249,8 +250,16 @@ export class GroupField extends Field {
   }
 
   get isClean() {
-    // TODO: Better complex comparisons?
-    return JSON.stringify(this._dataValue) == JSON.stringify(this.value)
+    // If there are no fields, nothing has changed.
+    if (!this.fields) {
+      return true
+    }
+
+    for (const field of this.fields.fields) {
+      if (!field.isClean) {
+        return false
+      }
+    }
   }
 
   get value() {
@@ -297,16 +306,22 @@ export class GroupField extends Field {
     return fields
   }
 
+  // Ensure that fields are created so they can be populated and the keyless
+  // groups can correctly return the partial value.
+  ensureFields(editor, data) {
+    // If the sub fields have not been created create them now.
+    if (!this.fields) {
+      this.fields = this._createFields(editor, data)
+    }
+  }
+
   handleToggleExpand(evt) {
     this.isExpanded = !this.isExpanded
     document.dispatchEvent(new CustomEvent('selective.render'))
   }
 
   renderFields(editor, data) {
-    // If the sub fields have not been created create them now.
-    if (!this.fields) {
-      this.fields = this._createFields(editor, data)
-    }
+    this.ensureFields()
 
     if (!this.isExpanded) {
       return ''

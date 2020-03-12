@@ -912,8 +912,18 @@ class ListField extends SortableField {
   }
 
   get isClean() {
-    // TODO: Better array comparisons?
-    return JSON.stringify(this._dataValue) == JSON.stringify(this.value);
+    // If there are no list items, it has not been changed.
+    if (!this._listItems || this._listItems.length < 1) {
+      return true;
+    }
+
+    for (const item of this._listItems) {
+      if (!item['itemFields'].isClean) {
+        return false;
+      }
+    }
+
+    return true;
   }
 
   get isExpanded() {
@@ -1311,12 +1321,22 @@ class Fields extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_5__["compo
 
   get value() {
     const value = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_7__["autoDeepObject"])({});
+    const setKeys = [];
 
     for (const field of this.fields) {
       // When using field without a key it returns a subset of the data.
       if (!field.key) {
         value.update(field.value);
       } else {
+        // If a field is reusing a key combine the existing values
+        // and the new values. New values will overwrite conflicting keys.
+        if (setKeys.includes(field.key)) {
+          value.set(field.key, deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, value.get(field.key), field.value));
+          continue;
+        } // Mark that the field key was set.
+
+
+        setKeys.push(field.key);
         value.set(field.key, field.value);
       }
     }
@@ -9697,6 +9717,7 @@ class GroupField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
     this.isExpanded = false;
 
     this.template = (editor, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
+      ${field.ensureFields(editor, data)}
       ${field.updateFromData(data)}
       <div class="selective__field__${field.fieldType}__handle" @click=${field.handleToggleExpand.bind(field)}>
         <i class="material-icons">${field.isExpanded ? 'expand_less' : 'expand_more'}</i>
@@ -9708,8 +9729,16 @@ class GroupField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
   }
 
   get isClean() {
-    // TODO: Better complex comparisons?
-    return JSON.stringify(this._dataValue) == JSON.stringify(this.value);
+    // If there are no fields, nothing has changed.
+    if (!this.fields) {
+      return true;
+    }
+
+    for (const field of this.fields.fields) {
+      if (!field.isClean) {
+        return false;
+      }
+    }
   }
 
   get value() {
@@ -9752,6 +9781,15 @@ class GroupField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
     }
 
     return fields;
+  } // Ensure that fields are created so they can be populated and the keyless
+  // groups can correctly return the partial value.
+
+
+  ensureFields(editor, data) {
+    // If the sub fields have not been created create them now.
+    if (!this.fields) {
+      this.fields = this._createFields(editor, data);
+    }
   }
 
   handleToggleExpand(evt) {
@@ -9760,10 +9798,7 @@ class GroupField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
   }
 
   renderFields(editor, data) {
-    // If the sub fields have not been created create them now.
-    if (!this.fields) {
-      this.fields = this._createFields(editor, data);
-    }
+    this.ensureFields();
 
     if (!this.isExpanded) {
       return '';
