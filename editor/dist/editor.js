@@ -9960,7 +9960,7 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListFie
   handleAddItem(evt, editor) {
     const partialKey = evt.target.value;
     const partialConfig = this.partialTypes[partialKey];
-    const index = this.value.length;
+    const index = (this.value || []).length;
     const itemFields = new PartialFields(editor.fieldTypes, {
       'partial': partialConfig
     });
