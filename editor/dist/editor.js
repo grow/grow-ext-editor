@@ -10099,7 +10099,7 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListFie
 
   renderActionsHeader(editor, field, data) {
     // Hide when there are no values to expand/collapse.
-    if ((this.value || []).length == 0) {
+    if ((this.value || []).length <= 1) {
       return '';
     } // Allow collapsing and expanding of sub fields.
 

@@ -625,7 +625,7 @@ export class PartialsField extends ListField {
 
   renderActionsHeader(editor, field, data) {
     // Hide when there are no values to expand/collapse.
-    if ((this.value || []).length == 0) {
+    if ((this.value || []).length <= 1) {
       return ''
     }
 
