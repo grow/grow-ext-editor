@@ -109,7 +109,7 @@ export class ConstructorFileField extends ConstructorField {
           placeholder="${field.placeholder}"
           value="${field.valueFromData(data)}"
           @input=${field.handleInput.bind(field)}>
-        <i class="material-icons" title="Select pod path" @click=${field.handleFilesToggleClick.bind(field)}>list</i>
+        <i class="material-icons" title="Select pod path" @click=${field.handleFilesToggleClick.bind(field)}>list_alt</i>
       </div>
       ${field.renderFileList(selective, data)}
       ${field.renderHelp(selective, field, data)}
