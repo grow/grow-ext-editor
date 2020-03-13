@@ -9485,7 +9485,7 @@ class EditorApi extends _utility_api__WEBPACK_IMPORTED_MODULE_0__["default"] {
 /*!********************************!*\
   !*** ./source/editor/field.js ***!
   \********************************/
-/*! exports provided: CheckboxField, ConstructorField, ConstructorFileField, DocumentField, ImageField, GoogleImageField, GroupField, MarkdownField, PartialsField, SelectField, TextField, TextareaField, YamlField, defaultFields */
+/*! exports provided: CheckboxField, ConstructorField, ConstructorFileField, DateField, DateTimeField, DocumentField, ImageField, GoogleImageField, GroupField, MarkdownField, PartialsField, SelectField, TextField, TextareaField, YamlField, defaultFields */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9493,6 +9493,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CheckboxField", function() { return CheckboxField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ConstructorField", function() { return ConstructorField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ConstructorFileField", function() { return ConstructorFileField; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DateField", function() { return DateField; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DateTimeField", function() { return DateTimeField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DocumentField", function() { return DocumentField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ImageField", function() { return ImageField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GoogleImageField", function() { return GoogleImageField; });
@@ -9695,6 +9697,42 @@ class ConstructorFileField extends ConstructorField {
           No matches found.
         </div>` : ''}
       </div>
+    </div>`;
+  }
+
+}
+class DateField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
+  constructor(config, extendedConfig) {
+    super(config, extendedConfig);
+    this.fieldType = 'date';
+
+    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
+      <label for="${field.getUid()}">${field.label}</label>
+      <input
+          id="${field.getUid()}"
+          type="date"
+          placeholder="${field.placeholder}"
+          @input=${field.handleInput.bind(field)}
+          value=${field.valueFromData(data) || ''} />
+      ${field.renderHelp(selective, field, data)}
+    </div>`;
+  }
+
+}
+class DateTimeField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
+  constructor(config, extendedConfig) {
+    super(config, extendedConfig);
+    this.fieldType = 'datetime';
+
+    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
+      <label for="${field.getUid()}">${field.label}</label>
+      <input
+          id="${field.getUid()}"
+          type="datetime-local"
+          placeholder="${field.placeholder}"
+          @input=${field.handleInput.bind(field)}
+          value=${field.valueFromData(data) || ''} />
+      ${field.renderHelp(selective, field, data)}
     </div>`;
   }
 
@@ -10491,6 +10529,8 @@ class YamlField extends ConstructorFileField {
 }
 const defaultFields = {
   'checkbox': CheckboxField,
+  'date': DateField,
+  'datetime': DateTimeField,
   'document': DocumentField,
   'google_image': GoogleImageField,
   'group': GroupField,

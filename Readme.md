@@ -134,6 +134,8 @@ editor:
 The following field types are currently available for use in the editor configurations:
 
 - `checkbox` - Checkbox boolean field.
+- `date` - Date field.
+- `datetime` - Datetime field.
 - `document` - Grow document reference. Appears as `!g.doc ...` in the yaml.
 - `google_image` - Image field for uploading an image to Google Cloud Storage. (Requires configuration.)
 - `group` - Groups together other fields to make them expand/collapse in a group.

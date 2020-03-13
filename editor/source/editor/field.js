@@ -208,6 +208,42 @@ export class ConstructorFileField extends ConstructorField {
   }
 }
 
+export class DateField extends Field {
+  constructor(config, extendedConfig) {
+    super(config, extendedConfig)
+    this.fieldType = 'date'
+
+    this.template = (selective, field, data) => html`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
+      <label for="${field.getUid()}">${field.label}</label>
+      <input
+          id="${field.getUid()}"
+          type="date"
+          placeholder="${field.placeholder}"
+          @input=${field.handleInput.bind(field)}
+          value=${field.valueFromData(data) || ''} />
+      ${field.renderHelp(selective, field, data)}
+    </div>`
+  }
+}
+
+export class DateTimeField extends Field {
+  constructor(config, extendedConfig) {
+    super(config, extendedConfig)
+    this.fieldType = 'datetime'
+
+    this.template = (selective, field, data) => html`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
+      <label for="${field.getUid()}">${field.label}</label>
+      <input
+          id="${field.getUid()}"
+          type="datetime-local"
+          placeholder="${field.placeholder}"
+          @input=${field.handleInput.bind(field)}
+          value=${field.valueFromData(data) || ''} />
+      ${field.renderHelp(selective, field, data)}
+    </div>`
+  }
+}
+
 export class DocumentField extends ConstructorFileField {
   constructor(config, extendedConfig) {
     super(config, extendedConfig)
@@ -1027,6 +1063,8 @@ export class YamlField extends ConstructorFileField {
 
 export const defaultFields = {
   'checkbox': CheckboxField,
+  'date': DateField,
+  'datetime': DateTimeField,
   'document': DocumentField,
   'google_image': GoogleImageField,
   'group': GroupField,

@@ -1,8 +1,10 @@
 """API Handler for serving api requests."""
 
 from __future__ import print_function
+import datetime
 import json
 import os
+import re
 import yaml
 from werkzeug import wrappers
 from grow.common import json_encoder
@@ -16,6 +18,8 @@ from grow.routing import router as grow_router
 class PodApi(object):
     """Basic pod api."""
 
+    DATE_RE = re.compile(r'^[\d]{4}-[\d]{2}-[\d]{2}$')
+    DATETIME_RE = re.compile(r'^[\d]{4}-[\d]{2}-[\d]{2}T[\d]{2}:[\d]{2}$')
     EDITOR_FILE_NAME = '_editor.yaml'
     PARTIALS_VIEWS_PATH = '/views/partials'
     STRINGS_PATH = '/content/strings'
@@ -57,6 +61,20 @@ class PodApi(object):
         """Convert raw field data from submission to use objects when needed."""
         # Convert the !g constructors into their objects.
         def _walk_field(item, key, node, parent_node):
+            value = node[key]
+
+            # Convert dates.
+            try:
+                if self.DATETIME_RE.match(value):
+                    node[key] = datetime.datetime.strptime(value, "%Y-%m-%dT%H:%M")
+                elif self.DATE_RE.match(value):
+                    tempValue = datetime.datetime.strptime(value, "%Y-%m-%d")
+                    node[key] = datetime.date(tempValue.year, tempValue.month, tempValue.day)
+            except:
+                raise
+                pass
+
+            # Convert constructors.
             if key == 'tag' and item.startswith('!g.') and 'value' in node:
                 newValue = ConstructorReference(item, node['value'])
 
