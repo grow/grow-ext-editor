@@ -61,10 +61,9 @@ class PodApi(object):
         """Convert raw field data from submission to use objects when needed."""
         # Convert the !g constructors into their objects.
         def _walk_field(item, key, node, parent_node):
-            value = node[key]
-
             # Convert dates.
             try:
+                value = node[key]
                 if self.DATETIME_RE.match(value):
                     node[key] = datetime.datetime.strptime(value, "%Y-%m-%dT%H:%M")
                 elif self.DATE_RE.match(value):
