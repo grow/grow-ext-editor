@@ -150,6 +150,9 @@ export class ConstructorFileField extends ConstructorField {
 
     // If the pod paths have not loaded, show the loading status.
     if (!this._podPaths) {
+      // Editor ensures it only loads once.
+      selective.editor.loadPodPaths()
+
       return html`<div class="selective__field__constructor__files">
         <input type="text" @input=${this.handleInputFilter.bind(this)} placeholder="Filter..." />
         <div class="selective__field__constructor__file__list">

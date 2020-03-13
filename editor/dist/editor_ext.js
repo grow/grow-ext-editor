@@ -9647,6 +9647,8 @@ class ConstructorFileField extends ConstructorField {
 
 
     if (!this._podPaths) {
+      // Editor ensures it only loads once.
+      selective.editor.loadPodPaths();
       return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field__constructor__files">
         <input type="text" @input=${this.handleInputFilter.bind(this)} placeholder="Filter..." />
         <div class="selective__field__constructor__file__list">
