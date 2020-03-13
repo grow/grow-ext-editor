@@ -840,6 +840,7 @@ class ListField extends SortableField {
     super(config, extendedConfig);
     this.fieldType = 'list';
     this._listItems = [];
+    this._listIds = [];
     this._isExpanded = false;
     this._useAutoFields = false;
     this._expandedIndexes = [];
@@ -863,6 +864,16 @@ class ListField extends SortableField {
           ${field.renderActionsFooter(editor, field, data)}
         </div>
       </div>`;
+  }
+
+  _idsFromList(itemList) {
+    const ids = [];
+
+    for (const item of itemList) {
+      ids.push(item.id);
+    }
+
+    return ids;
   }
 
   _reorderValues(currentIndex, startIndex) {
@@ -917,12 +928,21 @@ class ListField extends SortableField {
     // If there are no list items, it has not been changed.
     if (!this._listItems || this._listItems.length < 1) {
       return true;
-    }
+    } // Check each item to see if it is clean.
+
 
     for (const item of this._listItems) {
       if (!item['itemFields'].isClean) {
         return false;
       }
+    } // Check if the ids on the item list have changed.
+
+
+    const originalIds = JSON.stringify(this._listIds);
+    const currentIds = JSON.stringify(this._idsFromList(this._listItems));
+
+    if (originalIds != currentIds) {
+      return false;
     }
 
     return true;
@@ -943,7 +963,7 @@ class ListField extends SortableField {
   }
 
   get value() {
-    if (!this._listItems || this._listItems.length < 1) {
+    if (!this._listItems || !this._listItems.length) {
       return this._dataValue;
     } // Loop through each fields and get the values.
 
@@ -1031,6 +1051,7 @@ class ListField extends SortableField {
     // If the sub fields have not been created create them now.
     if (!this._listItems.length) {
       this._listItems = this._createItems(editor, data);
+      this._listIds = this._idsFromList(this._listItems);
     }
   }
 
