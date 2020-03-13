@@ -9783,7 +9783,7 @@ class ImageField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
     }
 
     if (field.isLoading) {
-      return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field__${field.fieldType}__preview"><div class="editor__loading" title="Loading..."></div></div>`;
+      return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field__${field.fieldType}__preview"><div class="editor__loading editor__loading--small" title="Loading..."></div></div>`;
     } // Depends on image element, so needs to run after image has loaded.
 
 
@@ -9874,6 +9874,7 @@ class GoogleImageField extends ImageField {
         this.isLoading = false;
         document.dispatchEvent(new CustomEvent('selective.render'));
       }).catch(err => {
+        console.error(err);
         this.isLoading = false;
         document.dispatchEvent(new CustomEvent('selective.render'));
       });

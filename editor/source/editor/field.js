@@ -294,7 +294,7 @@ export class ImageField extends Field {
     }
 
     if (field.isLoading) {
-      return html`<div class="selective__field__${field.fieldType}__preview"><div class="editor__loading" title="Loading..."></div></div>`
+      return html`<div class="selective__field__${field.fieldType}__preview"><div class="editor__loading editor__loading--small" title="Loading..."></div></div>`
     }
 
     // Depends on image element, so needs to run after image has loaded.
@@ -390,6 +390,7 @@ export class GoogleImageField extends ImageField {
         this.isLoading = false
         document.dispatchEvent(new CustomEvent('selective.render'))
       }).catch((err) => {
+        console.error(err)
         this.isLoading = false
         document.dispatchEvent(new CustomEvent('selective.render'))
       })
