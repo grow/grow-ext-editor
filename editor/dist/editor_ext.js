@@ -9603,7 +9603,7 @@ class ConstructorFileField extends ConstructorField {
           placeholder="${field.placeholder}"
           value="${field.valueFromData(data)}"
           @input=${field.handleInput.bind(field)}>
-        <i class="material-icons" @click=${field.handleFilesToggleClick.bind(field)}>list</i>
+        <i class="material-icons" title="Select pod path" @click=${field.handleFilesToggleClick.bind(field)}>list</i>
       </div>
       ${field.renderFileList(selective, data)}
       ${field.renderHelp(selective, field, data)}
@@ -9616,6 +9616,9 @@ class ConstructorFileField extends ConstructorField {
       selective.editor.listeners.add('load.podPaths', response => {
         this._podPaths = response.pod_paths.sort().filter(this.filterFunc);
         document.dispatchEvent(new CustomEvent('selective.render'));
+        window.setTimeout(() => {
+          Object(_utility_dom__WEBPACK_IMPORTED_MODULE_3__["inputFocusAtEnd"])(`${this.getUid()}-filter`);
+        }, 25);
       });
       this._listeningForPodPaths = true;
     }
@@ -9623,7 +9626,13 @@ class ConstructorFileField extends ConstructorField {
 
   handleFilesToggleClick(evt) {
     this._showFileList = !this._showFileList;
-    document.dispatchEvent(new CustomEvent('selective.render'));
+    document.dispatchEvent(new CustomEvent('selective.render')); // Auto focus on the filter when showing the list.
+
+    if (this._showFileList) {
+      window.setTimeout(() => {
+        Object(_utility_dom__WEBPACK_IMPORTED_MODULE_3__["inputFocusAtEnd"])(`${this.getUid()}-filter`);
+      }, 25);
+    }
   }
 
   handleFileClick(evt) {
@@ -9650,7 +9659,11 @@ class ConstructorFileField extends ConstructorField {
       // Editor ensures it only loads once.
       selective.editor.loadPodPaths();
       return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field__constructor__files">
-        <input type="text" @input=${this.handleInputFilter.bind(this)} placeholder="Filter..." />
+        <input
+          id="${this.getUid()}-filter"
+          type="text"
+          @input=${this.handleInputFilter.bind(this)}
+          placeholder="Filter..." />
         <div class="selective__field__constructor__file__list">
           <div class="editor__loading editor__loading--small editor__loading--pad"></div>
         </div>
@@ -9664,7 +9677,10 @@ class ConstructorFileField extends ConstructorField {
     }
 
     return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field__constructor__files">
-      <input type="text" @input=${this.handleInputFilter.bind(this)} placeholder="Filter..." />
+      <input type="text"
+        id="${this.getUid()}-filter"
+        @input=${this.handleInputFilter.bind(this)}
+        placeholder="Filter..." />
       <div class="selective__field__constructor__file__list">
       ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_1__["repeat"])(podPaths, podPath => podPath, (podPath, index) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
         <div
@@ -10403,10 +10419,7 @@ class TextField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
       document.dispatchEvent(new CustomEvent('selective.render')); // Trigger auto focus after a delay for rendering.
 
       window.setTimeout(() => {
-        const inputEl = document.getElementById(id);
-        inputEl.focus(); // Focus at the end to keep typing.
-
-        inputEl.selectionStart = inputEl.selectionEnd = inputEl.value.length;
+        Object(_utility_dom__WEBPACK_IMPORTED_MODULE_3__["inputFocusAtEnd"])(id);
       }, 25);
     }
   }
@@ -10783,12 +10796,13 @@ class Defer {
 /*!*******************************!*\
   !*** ./source/utility/dom.js ***!
   \*******************************/
-/*! exports provided: findParentByClassname */
+/*! exports provided: findParentByClassname, inputFocusAtEnd */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "findParentByClassname", function() { return findParentByClassname; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "inputFocusAtEnd", function() { return inputFocusAtEnd; });
 /**
  *  DOM helper functions.
  */
@@ -10799,8 +10813,17 @@ const findParentByClassname = (element, classname) => {
 
   return element;
 };
+const inputFocusAtEnd = elementId => {
+  const inputEl = document.getElementById(elementId);
 
+  if (!inputEl) {
+    return;
+  }
 
+  inputEl.focus(); // Focus at the end to keep typing.
+
+  inputEl.selectionStart = inputEl.selectionEnd = inputEl.value.length;
+};
 
 /***/ }),
 

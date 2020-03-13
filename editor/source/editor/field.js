@@ -14,7 +14,10 @@ import {
   Fields,
 } from 'selective-edit'
 import EditorAutoFields from './autoFields'
-import { findParentByClassname } from '../utility/dom'
+import {
+  findParentByClassname,
+  inputFocusAtEnd,
+} from '../utility/dom'
 import {
   createWhiteBlackFilter,
   createValueFilter,
@@ -106,7 +109,7 @@ export class ConstructorFileField extends ConstructorField {
           placeholder="${field.placeholder}"
           value="${field.valueFromData(data)}"
           @input=${field.handleInput.bind(field)}>
-        <i class="material-icons" @click=${field.handleFilesToggleClick.bind(field)}>list</i>
+        <i class="material-icons" title="Select pod path" @click=${field.handleFilesToggleClick.bind(field)}>list</i>
       </div>
       ${field.renderFileList(selective, data)}
       ${field.renderHelp(selective, field, data)}
@@ -119,6 +122,9 @@ export class ConstructorFileField extends ConstructorField {
       selective.editor.listeners.add('load.podPaths', (response) => {
         this._podPaths = response.pod_paths.sort().filter(this.filterFunc)
         document.dispatchEvent(new CustomEvent('selective.render'))
+        window.setTimeout(
+          () => { inputFocusAtEnd(`${this.getUid()}-filter`) },
+          25)
       })
       this._listeningForPodPaths = true
     }
@@ -127,6 +133,13 @@ export class ConstructorFileField extends ConstructorField {
   handleFilesToggleClick(evt) {
     this._showFileList = !this._showFileList
     document.dispatchEvent(new CustomEvent('selective.render'))
+
+    // Auto focus on the filter when showing the list.
+    if (this._showFileList) {
+      window.setTimeout(
+        () => { inputFocusAtEnd(`${this.getUid()}-filter`) },
+        25)
+    }
   }
 
   handleFileClick(evt) {
@@ -154,7 +167,11 @@ export class ConstructorFileField extends ConstructorField {
       selective.editor.loadPodPaths()
 
       return html`<div class="selective__field__constructor__files">
-        <input type="text" @input=${this.handleInputFilter.bind(this)} placeholder="Filter..." />
+        <input
+          id="${this.getUid()}-filter"
+          type="text"
+          @input=${this.handleInputFilter.bind(this)}
+          placeholder="Filter..." />
         <div class="selective__field__constructor__file__list">
           <div class="editor__loading editor__loading--small editor__loading--pad"></div>
         </div>
@@ -169,7 +186,10 @@ export class ConstructorFileField extends ConstructorField {
     }
 
     return html`<div class="selective__field__constructor__files">
-      <input type="text" @input=${this.handleInputFilter.bind(this)} placeholder="Filter..." />
+      <input type="text"
+        id="${this.getUid()}-filter"
+        @input=${this.handleInputFilter.bind(this)}
+        placeholder="Filter..." />
       <div class="selective__field__constructor__file__list">
       ${repeat(podPaths, (podPath) => podPath, (podPath, index) => html`
         <div
@@ -931,13 +951,9 @@ export class TextField extends Field {
       document.dispatchEvent(new CustomEvent('selective.render'))
 
       // Trigger auto focus after a delay for rendering.
-      window.setTimeout(() => {
-        const inputEl = document.getElementById(id)
-        inputEl.focus()
-
-        // Focus at the end to keep typing.
-        inputEl.selectionStart = inputEl.selectionEnd = inputEl.value.length
-      }, 25)
+      window.setTimeout(
+        () => { inputFocusAtEnd(id) },
+        25)
     }
   }
 

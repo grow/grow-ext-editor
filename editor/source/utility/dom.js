@@ -2,11 +2,22 @@
  *  DOM helper functions.
  */
 
-const findParentByClassname = (element, classname) => {
+export const findParentByClassname = (element, classname) => {
   while(element && !element.classList.contains(classname)) {
     element = element.parentElement
   }
   return element
 }
 
-export { findParentByClassname }
+export const inputFocusAtEnd = (elementId) => {
+  const inputEl = document.getElementById(elementId)
+
+  if (!inputEl) {
+    return
+  }
+
+  inputEl.focus()
+
+  // Focus at the end to keep typing.
+  inputEl.selectionStart = inputEl.selectionEnd = inputEl.value.length
+}
