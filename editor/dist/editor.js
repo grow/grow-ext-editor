@@ -5941,169 +5941,6 @@ Emitter.prototype.hasListeners = function(event){
 
 /***/ }),
 
-/***/ "./node_modules/deep-extend/lib/deep-extend.js":
-/*!*****************************************************!*\
-  !*** ./node_modules/deep-extend/lib/deep-extend.js ***!
-  \*****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(Buffer) {/*!
- * @description Recursive object extending
- * @author Viacheslav Lotsmanov <lotsmanov89@gmail.com>
- * @license MIT
- *
- * The MIT License (MIT)
- *
- * Copyright (c) 2013-2018 Viacheslav Lotsmanov
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to
- * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
- * the Software, and to permit persons to whom the Software is furnished to do so,
- * subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
-
-
-
-function isSpecificValue(val) {
-	return (
-		val instanceof Buffer
-		|| val instanceof Date
-		|| val instanceof RegExp
-	) ? true : false;
-}
-
-function cloneSpecificValue(val) {
-	if (val instanceof Buffer) {
-		var x = Buffer.alloc
-			? Buffer.alloc(val.length)
-			: new Buffer(val.length);
-		val.copy(x);
-		return x;
-	} else if (val instanceof Date) {
-		return new Date(val.getTime());
-	} else if (val instanceof RegExp) {
-		return new RegExp(val);
-	} else {
-		throw new Error('Unexpected situation');
-	}
-}
-
-/**
- * Recursive cloning array.
- */
-function deepCloneArray(arr) {
-	var clone = [];
-	arr.forEach(function (item, index) {
-		if (typeof item === 'object' && item !== null) {
-			if (Array.isArray(item)) {
-				clone[index] = deepCloneArray(item);
-			} else if (isSpecificValue(item)) {
-				clone[index] = cloneSpecificValue(item);
-			} else {
-				clone[index] = deepExtend({}, item);
-			}
-		} else {
-			clone[index] = item;
-		}
-	});
-	return clone;
-}
-
-function safeGetProperty(object, property) {
-	return property === '__proto__' ? undefined : object[property];
-}
-
-/**
- * Extening object that entered in first argument.
- *
- * Returns extended object or false if have no target object or incorrect type.
- *
- * If you wish to clone source object (without modify it), just use empty new
- * object as first argument, like this:
- *   deepExtend({}, yourObj_1, [yourObj_N]);
- */
-var deepExtend = module.exports = function (/*obj_1, [obj_2], [obj_N]*/) {
-	if (arguments.length < 1 || typeof arguments[0] !== 'object') {
-		return false;
-	}
-
-	if (arguments.length < 2) {
-		return arguments[0];
-	}
-
-	var target = arguments[0];
-
-	// convert arguments to array and cut off target object
-	var args = Array.prototype.slice.call(arguments, 1);
-
-	var val, src, clone;
-
-	args.forEach(function (obj) {
-		// skip argument if isn't an object, is null, or is an array
-		if (typeof obj !== 'object' || obj === null || Array.isArray(obj)) {
-			return;
-		}
-
-		Object.keys(obj).forEach(function (key) {
-			src = safeGetProperty(target, key); // source value
-			val = safeGetProperty(obj, key); // new value
-
-			// recursion prevention
-			if (val === target) {
-				return;
-
-			/**
-			 * if new value isn't object then just overwrite by new value
-			 * instead of extending.
-			 */
-			} else if (typeof val !== 'object' || val === null) {
-				target[key] = val;
-				return;
-
-			// just clone arrays (and recursive clone objects inside)
-			} else if (Array.isArray(val)) {
-				target[key] = deepCloneArray(val);
-				return;
-
-			// custom cloning and overwrite for specific objects
-			} else if (isSpecificValue(val)) {
-				target[key] = cloneSpecificValue(val);
-				return;
-
-			// overwrite by new value if source isn't object or array
-			} else if (typeof src !== 'object' || src === null || Array.isArray(src)) {
-				target[key] = deepExtend({}, val);
-				return;
-
-			// source value and new value is objects both, extending...
-			} else {
-				target[key] = deepExtend(src, val);
-				return;
-			}
-		});
-	});
-
-	return target;
-};
-
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../buffer/index.js */ "./node_modules/buffer/index.js").Buffer))
-
-/***/ }),
-
 /***/ "./node_modules/fast-safe-stringify/index.js":
 /*!***************************************************!*\
   !*** ./node_modules/fast-safe-stringify/index.js ***!
@@ -9471,33 +9308,18 @@ class EditorApi extends _utility_api__WEBPACK_IMPORTED_MODULE_0__["default"] {
 /*!********************************!*\
   !*** ./source/editor/field.js ***!
   \********************************/
-/*! exports provided: CheckboxField, ConstructorField, ConstructorFileField, DateField, DateTimeField, DocumentField, ImageField, GoogleImageField, GroupField, MarkdownField, PartialsField, SelectField, TextField, TextareaField, YamlField, defaultFields */
+/*! exports provided: defaultFields */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CheckboxField", function() { return CheckboxField; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ConstructorField", function() { return ConstructorField; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ConstructorFileField", function() { return ConstructorFileField; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DateField", function() { return DateField; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DateTimeField", function() { return DateTimeField; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DocumentField", function() { return DocumentField; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ImageField", function() { return ImageField; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GoogleImageField", function() { return GoogleImageField; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GroupField", function() { return GroupField; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MarkdownField", function() { return MarkdownField; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PartialsField", function() { return PartialsField; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SelectField", function() { return SelectField; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TextField", function() { return TextField; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TextareaField", function() { return TextareaField; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "YamlField", function() { return YamlField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "defaultFields", function() { return defaultFields; });
-/* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! deep-extend */ "./node_modules/deep-extend/lib/deep-extend.js");
-/* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(deep_extend__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
-/* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./autoFields */ "./source/editor/autoFields.js");
-/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utility/dom */ "./source/utility/dom.js");
-/* harmony import */ var _utility_filter__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utility/filter */ "./source/utility/filter.js");
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var _field_constructor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./field/constructor */ "./source/editor/field/constructor.js");
+/* harmony import */ var _field_structure__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./field/structure */ "./source/editor/field/structure.js");
+/* harmony import */ var _field_image__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./field/image */ "./source/editor/field/image.js");
+/* harmony import */ var _field_partials__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./field/partials */ "./source/editor/field/partials.js");
+/* harmony import */ var _field_standard__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./field/standard */ "./source/editor/field/standard.js");
 /**
  * Field types for the editor extension.
  */
@@ -9506,33 +9328,55 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class CheckboxField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig);
-    this.fieldType = 'checkbox';
 
-    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div
-        class="selective__field selective__field__${field.fieldType} ${field.valueFromData(data) ? 'selective__field__checkbox--checked' : ''}"
-        data-field-type="${field.fieldType}" @click=${field.handleInput.bind(field)}>
-      <div class="selective__field__checkbox__label">${field.label}</div>
-      <i class="material-icons">${this.value ? 'check_box' : 'check_box_outline_blank'}</i>
-      ${field.renderHelp(selective, field, data)}
-    </div>`;
-  }
+const defaultFields = {
+  'checkbox': _field_standard__WEBPACK_IMPORTED_MODULE_5__["CheckboxField"],
+  'date': _field_standard__WEBPACK_IMPORTED_MODULE_5__["DateField"],
+  'datetime': _field_standard__WEBPACK_IMPORTED_MODULE_5__["DateTimeField"],
+  'document': _field_constructor__WEBPACK_IMPORTED_MODULE_1__["DocumentField"],
+  'google_image': _field_image__WEBPACK_IMPORTED_MODULE_3__["GoogleImageField"],
+  'group': _field_structure__WEBPACK_IMPORTED_MODULE_2__["GroupField"],
+  'image': _field_image__WEBPACK_IMPORTED_MODULE_3__["ImageField"],
+  'list': selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListField"],
+  'markdown': _field_standard__WEBPACK_IMPORTED_MODULE_5__["MarkdownField"],
+  'partials': _field_partials__WEBPACK_IMPORTED_MODULE_4__["PartialsField"],
+  'select': _field_standard__WEBPACK_IMPORTED_MODULE_5__["SelectField"],
+  'text': _field_standard__WEBPACK_IMPORTED_MODULE_5__["TextField"],
+  'textarea': _field_standard__WEBPACK_IMPORTED_MODULE_5__["TextareaField"],
+  'yaml': _field_constructor__WEBPACK_IMPORTED_MODULE_1__["YamlField"]
+};
 
-  handleInput(evt) {
-    this.value = !this.value;
-    document.dispatchEvent(new CustomEvent('selective.render'));
-  }
+/***/ }),
 
-}
-class ConstructorField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
+/***/ "./source/editor/field/constructor.js":
+/*!********************************************!*\
+  !*** ./source/editor/field/constructor.js ***!
+  \********************************************/
+/*! exports provided: ConstructorField, ConstructorFileField, DocumentField, YamlField */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ConstructorField", function() { return ConstructorField; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ConstructorFileField", function() { return ConstructorFileField; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DocumentField", function() { return DocumentField; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "YamlField", function() { return YamlField; });
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
+/* harmony import */ var _utility_filter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/filter */ "./source/utility/filter.js");
+/**
+ * Constructor field types for the editor extension.
+ */
+
+
+
+class ConstructorField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
     this.fieldType = 'constructor';
     this.tag = '!g.*';
 
-    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
+    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
       <label for="${field.getUid()}">${field.label}</label>
       <div class="selective__field__${field.fieldType}__input">
         <input
@@ -9574,11 +9418,11 @@ class ConstructorFileField extends ConstructorField {
     this._podPaths = null;
     this._listeningForPodPaths = false;
     this._filterValue = '';
-    this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_4__["createWhiteBlackFilter"])( // Whitelist.
+    this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createWhiteBlackFilter"])( // Whitelist.
     [], // Blacklist.
     []);
 
-    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
+    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
     <div
         class="selective__field selective__field__${field.fieldType} ${field._showFileList ? 'selective__field__constructor__input--expanded' : ''}"
         data-field-type="${field.fieldType}">
@@ -9605,7 +9449,7 @@ class ConstructorFileField extends ConstructorField {
         this._podPaths = response.pod_paths.sort().filter(this.filterFunc);
         document.dispatchEvent(new CustomEvent('selective.render'));
         window.setTimeout(() => {
-          Object(_utility_dom__WEBPACK_IMPORTED_MODULE_3__["inputFocusAtEnd"])(`${this.getUid()}-filter`);
+          Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["inputFocusAtEnd"])(`${this.getUid()}-filter`);
         }, 25);
       });
       this._listeningForPodPaths = true;
@@ -9618,7 +9462,7 @@ class ConstructorFileField extends ConstructorField {
 
     if (this._showFileList) {
       window.setTimeout(() => {
-        Object(_utility_dom__WEBPACK_IMPORTED_MODULE_3__["inputFocusAtEnd"])(`${this.getUid()}-filter`);
+        Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["inputFocusAtEnd"])(`${this.getUid()}-filter`);
       }, 25);
     }
   }
@@ -9646,7 +9490,7 @@ class ConstructorFileField extends ConstructorField {
     if (!this._podPaths) {
       // Editor ensures it only loads once.
       selective.editor.loadPodPaths();
-      return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field__constructor__files">
+      return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__field__constructor__files">
         <input
           id="${this.getUid()}-filter"
           type="text"
@@ -9661,16 +9505,16 @@ class ConstructorFileField extends ConstructorField {
     let podPaths = this._podPaths; // Allow the current value to also filter the pod paths.
 
     if (this._filterValue != '') {
-      podPaths = podPaths.filter(Object(_utility_filter__WEBPACK_IMPORTED_MODULE_4__["createValueFilter"])(this._filterValue));
+      podPaths = podPaths.filter(Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createValueFilter"])(this._filterValue));
     }
 
-    return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field__constructor__files">
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__field__constructor__files">
       <input type="text"
         id="${this.getUid()}-filter"
         @input=${this.handleInputFilter.bind(this)}
         placeholder="Filter..." />
       <div class="selective__field__constructor__file__list">
-      ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_1__["repeat"])(podPaths, podPath => podPath, (podPath, index) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
+      ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(podPaths, podPath => podPath, (podPath, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
         <div
             class="selective__field__constructor__file"
             data-pod-path=${podPath}
@@ -9678,47 +9522,11 @@ class ConstructorFileField extends ConstructorField {
           ${podPath}
         </div>
       `)}
-      ${podPaths.length == 0 ? selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
+      ${podPaths.length == 0 ? selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
         <div class="selective__field__constructor__file selective__field__constructor__file--empty">
           No matches found.
         </div>` : ''}
       </div>
-    </div>`;
-  }
-
-}
-class DateField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig);
-    this.fieldType = 'date';
-
-    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
-      <label for="${field.getUid()}">${field.label}</label>
-      <input
-          id="${field.getUid()}"
-          type="date"
-          placeholder="${field.placeholder}"
-          @input=${field.handleInput.bind(field)}
-          value=${field.valueFromData(data) || ''} />
-      ${field.renderHelp(selective, field, data)}
-    </div>`;
-  }
-
-}
-class DateTimeField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig);
-    this.fieldType = 'datetime';
-
-    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
-      <label for="${field.getUid()}">${field.label}</label>
-      <input
-          id="${field.getUid()}"
-          type="datetime-local"
-          placeholder="${field.placeholder}"
-          @input=${field.handleInput.bind(field)}
-          value=${field.valueFromData(data) || ''} />
-      ${field.renderHelp(selective, field, data)}
     </div>`;
   }
 
@@ -9728,13 +9536,43 @@ class DocumentField extends ConstructorFileField {
     super(config, extendedConfig);
     this.fieldType = 'document';
     this.tag = '!g.doc';
-    this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_4__["createWhiteBlackFilter"])( // Whitelist.
+    this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createWhiteBlackFilter"])( // Whitelist.
     [/^\/content\//], // Blacklist.
     []);
   }
 
 }
-class ImageField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
+class YamlField extends ConstructorFileField {
+  constructor(config, extendedConfig) {
+    super(config, extendedConfig);
+    this.fieldType = 'yaml';
+    this.tag = '!g.yaml';
+    this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createWhiteBlackFilter"])( // Whitelist.
+    [/^\/content\//, /^\/data\//, /\.yaml$/], // Blacklist.
+    []);
+  }
+
+}
+
+/***/ }),
+
+/***/ "./source/editor/field/image.js":
+/*!**************************************!*\
+  !*** ./source/editor/field/image.js ***!
+  \**************************************/
+/*! exports provided: ImageField, GoogleImageField */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ImageField", function() { return ImageField; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GoogleImageField", function() { return GoogleImageField; });
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/**
+ * Image field types for the editor extension.
+ */
+
+class ImageField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
     this.fieldType = 'image';
@@ -9743,7 +9581,7 @@ class ImageField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
 
     this.api = this.getConfig().get('api');
 
-    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
+    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
       <label for="${field.getUid()}">${field.label}</label>
       <input
         id="${field.getUid()}"
@@ -9769,11 +9607,11 @@ class ImageField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
     }
 
     if (field.isLoading) {
-      return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field__${field.fieldType}__preview"><div class="editor__loading editor__loading--small" title="Loading..."></div></div>`;
+      return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__field__${field.fieldType}__preview"><div class="editor__loading editor__loading--small" title="Loading..."></div></div>`;
     } // Depends on image element, so needs to run after image has loaded.
 
 
-    const imageSizeDirective = Object(selective_edit__WEBPACK_IMPORTED_MODULE_1__["directive"])(field => part => {
+    const imageSizeDirective = Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["directive"])(field => part => {
       setTimeout(() => {
         let el = document.getElementById(`${field.getUid()}_preview`);
         let imageEl = el.querySelector('img');
@@ -9787,7 +9625,7 @@ class ImageField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
         imageEl.complete ? updateImage() : imageEl.addEventListener('load', updateImage);
       });
     });
-    return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
       <div class="selective__field__${field.fieldType}__preview" id="${field.getUid()}_preview">
         <div class="selective__field__${field.fieldType}__preview__image"><a href="${field.previewUrl}"><img src="${field.previewUrl}"></a></div>
         <div class="selective__field__${field.fieldType}__preview__meta">${imageSizeDirective(field)}</div>
@@ -9879,149 +9717,43 @@ class GoogleImageField extends ImageField {
   }
 
 }
-class GroupField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig);
-    this.fieldType = 'group';
-    this.fields = null;
-    this.isExpanded = false;
 
-    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
-      ${field.ensureFields(selective, data)}
-      ${field.updateFromData(data)}
-      <div class="selective__field__${field.fieldType}__handle" @click=${field.handleToggleExpand.bind(field)}>
-        <i class="material-icons">${field.isExpanded ? 'expand_less' : 'expand_more'}</i>
-        <div class="selective__field__${field.fieldType}__label">${field.label}</div>
-      </div>
-      ${field.renderFields(selective, data)}
-      ${field.renderHelp(selective, field, data)}
-    </div>`;
-  }
+/***/ }),
 
-  get isClean() {
-    // If there are no fields, nothing has changed.
-    if (!this.fields) {
-      return true;
-    }
+/***/ "./source/editor/field/partials.js":
+/*!*****************************************!*\
+  !*** ./source/editor/field/partials.js ***!
+  \*****************************************/
+/*! exports provided: PartialsField */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-    for (const field of this.fields.fields) {
-      if (!field.isClean) {
-        return false;
-      }
-    }
-  }
-
-  get value() {
-    if (!this.fields) {
-      return this._dataValue;
-    }
-
-    const value = Object(selective_edit__WEBPACK_IMPORTED_MODULE_1__["autoDeepObject"])({});
-
-    for (const field of this.fields.fields) {
-      value.set(field.key, field.value);
-    }
-
-    return value.obj;
-  }
-
-  set value(value) {// no-op
-  }
-
-  _createFields(selective, data) {
-    const fields = new selective_edit__WEBPACK_IMPORTED_MODULE_1__["Fields"](selective.fieldTypes);
-    fields.valueFromData(this.value);
-    let fieldConfigs = this.getConfig().get('fields', []);
-    const useAutoFields = fieldConfigs.length == 0;
-
-    if (useAutoFields) {
-      // Auto guess the fields if they are not defined.
-      fieldConfigs = new _autoFields__WEBPACK_IMPORTED_MODULE_2__["default"](this.value).config['fields'];
-    }
-
-    for (let fieldConfig of fieldConfigs || []) {
-      fieldConfig = Object(selective_edit__WEBPACK_IMPORTED_MODULE_1__["autoConfig"])(fieldConfig, this.extendedConfig);
-      fields.addField(fieldConfig, this.extendedConfig);
-    } // When a not expanded it does not get the value updated correctly
-    // so we need to manually call the data update.
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PartialsField", function() { return PartialsField; });
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../autoFields */ "./source/editor/autoFields.js");
+/**
+ * Partials field types for the editor extension.
+ */
 
 
-    for (const field of fields.fields) {
-      field.updateFromData(this.value || {});
-    }
 
-    return fields;
-  } // Ensure that fields are created so they can be populated and the keyless
-  // groups can correctly return the partial value.
+class PartialFields extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Fields"] {
+  constructor(fieldTypes, config, partialKey) {
+    super(fieldTypes, config);
+    this.label = this.getConfig().get('partial', {})['label'] || 'Partial';
+    this.partialKey = partialKey;
 
-
-  ensureFields(selective, data) {
-    // If the sub fields have not been created create them now.
-    if (!this.fields) {
-      this.fields = this._createFields(selective, data);
-    }
-  }
-
-  handleToggleExpand(evt) {
-    this.isExpanded = !this.isExpanded;
-    document.dispatchEvent(new CustomEvent('selective.render'));
-  }
-
-  renderFields(selective, data) {
-    this.ensureFields();
-
-    if (!this.isExpanded) {
-      return '';
-    }
-
-    return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__group">
-      ${this.fields.template(selective, this.fields, this.value)}
-    </div>`;
-  }
-
-  valueFromData(data) {
-    if (this.key) {
-      return super.valueFromData(data);
-    } // Nothing to do without fields.
-
-
-    if (!this.fields) {
-      this._dataValue = data;
-      return this.value;
-    }
-
-    const newDataValue = Object(selective_edit__WEBPACK_IMPORTED_MODULE_1__["autoDeepObject"])({});
-
-    for (const field of this.fields.fields) {
-      newDataValue.set(field.key, field.value);
-    }
-
-    this._dataValue = newDataValue.obj;
-    return this.value;
-  }
-
-} // TODO: Use a full markdown editor.
-
-class MarkdownField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig);
-    this.fieldType = 'markdown';
-
-    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
-      <label for="${field.getUid()}">${field.label}</label>
-      <textarea
-          id="${field.getUid()}"
-          rows="${field.getConfig().rows || 6}"
-          placeholder="${field.placeholder}"
-          @input=${field.handleInput.bind(field)}>
-        ${field.valueFromData(data) || ' '}
-      </textarea>
-      ${field.renderHelp(selective, field, data)}
-    </div>`;
+    this.template = (selective, fields, data) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      ${fields.valueFromData(data)}
+      ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(fields.fields, field => field.getUid(), (field, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+        ${field.template(selective, field, data)}
+      `)}`;
   }
 
 }
-class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListField"] {
+
+class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListField"] {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
     this.fieldType = 'partials';
@@ -10090,13 +9822,13 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListFie
 
       if (useAutoFields) {
         // Auto guess the fields if they are not defined.
-        fieldConfigs = new _autoFields__WEBPACK_IMPORTED_MODULE_2__["default"](itemData, {
+        fieldConfigs = new _autoFields__WEBPACK_IMPORTED_MODULE_1__["default"](itemData, {
           ignoredKeys: ['partial']
         }).config['fields'];
       }
 
       for (let fieldConfig of fieldConfigs || []) {
-        fieldConfig = Object(selective_edit__WEBPACK_IMPORTED_MODULE_1__["autoConfig"])(fieldConfig, this.extendedConfig);
+        fieldConfig = Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["autoConfig"])(fieldConfig, this.extendedConfig);
         itemFields.addField(fieldConfig, this.extendedConfig);
       } // When a partial is not expanded and not hidden it does not get the value
       // updated correctly so we need to manually call the data update.
@@ -10195,7 +9927,7 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListFie
     const fieldConfigs = partialConfig.fields;
 
     for (let fieldConfig of fieldConfigs || []) {
-      fieldConfig = Object(selective_edit__WEBPACK_IMPORTED_MODULE_1__["autoConfig"])(fieldConfig, this.extendedConfig);
+      fieldConfig = Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["autoConfig"])(fieldConfig, this.extendedConfig);
       itemFields.addField(fieldConfig, this.extendedConfig);
     }
 
@@ -10232,12 +9964,12 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListFie
   }
 
   renderActionsFooter(selective, field, data) {
-    return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__actions">
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__actions">
       <select class="selective__actions__add" @change=${evt => {
       field.handleAddItem(evt, selective);
     }}>
         <option value="">${field.options['addLabel'] || 'Add section'}</option>
-        ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_1__["repeat"])(Object.entries(field.partialTypes), item => item[0], (item, index) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
+        ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(Object.entries(field.partialTypes), item => item[0], (item, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
           <option value="${item[1]['key']}">${item[1]['label']}</option>
         `)}
       </select>
@@ -10251,7 +9983,7 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListFie
     } // Allow collapsing and expanding of sub fields.
 
 
-    return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__actions">
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__actions">
       <button class="selective__action__toggle" @click=${field.handleToggleExpand.bind(field)}>
         ${field.isExpanded ? 'Collapse' : 'Expand'}
       </button>
@@ -10259,7 +9991,7 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListFie
   }
 
   renderCollapsedPartial(selective, partialItem) {
-    return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
       <div class="selective__list__item__drag"><i class="material-icons">drag_indicator</i></div>
       <div class="selective__list__item__label" data-index=${partialItem['index']} @click=${this.handleItemExpand.bind(this)}>
         ${partialItem['partialConfig']['label']}
@@ -10276,7 +10008,7 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListFie
 
   renderExpandedPartial(selective, partialItem) {
     const fields = partialItem.itemFields;
-    return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
       <div class="selective__list__item__label" data-index=${partialItem['index']} @click=${this.handleItemCollapse.bind(this)}>
         ${partialItem['partialConfig']['label']}
       </div>
@@ -10285,7 +10017,7 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListFie
   }
 
   renderHiddenPartial(selective, partialItem) {
-    return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
       <div class="selective__list__item__drag"><i class="material-icons">drag_indicator</i></div>
       <div class="selective__list__item__label" data-index=${partialItem['index']}>
         ${partialItem['partialConfig']['label'] || partialItem['partialKey']}
@@ -10302,7 +10034,7 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListFie
   renderItems(selective, data) {
     // No partials loaded yet.
     if (!Object.keys(this.partialTypes).length) {
-      return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="editor__loading" title="Loading partial configurations"></div>`;
+      return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="editor__loading" title="Loading partial configurations"></div>`;
     }
 
     this.ensureItems(selective, data); // Update the expanded state each render.
@@ -10312,7 +10044,7 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListFie
       listItem['isExpanded'] = !listItem['isHidden'] && (this.isExpanded || inIndex);
     }
 
-    return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`${Object(selective_edit__WEBPACK_IMPORTED_MODULE_1__["repeat"])(this._listItems, listItem => listItem['id'], (listItem, index) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(this._listItems, listItem => listItem['id'], (listItem, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
       <div class="selective__list__item selective__list__item--${listItem['isExpanded'] ? 'expanded' : listItem['isHidden'] ? 'hidden' : 'collapsed'} ${listItem['useAutoFields'] ? 'selective__list__item--auto' : ''}"
           draggable="true"
           data-index=${listItem['index']}
@@ -10333,7 +10065,7 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListFie
       return '';
     }
 
-    return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__list__item__preview" data-index=${partialItem['index']} @click=${this.handleItemExpand.bind(this)}>
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__list__item__preview" data-index=${partialItem['index']} @click=${this.handleItemExpand.bind(this)}>
       ${previewValue}
     </div>`;
   }
@@ -10343,7 +10075,109 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListFie
   }
 
 }
-class SelectField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
+
+/***/ }),
+
+/***/ "./source/editor/field/standard.js":
+/*!*****************************************!*\
+  !*** ./source/editor/field/standard.js ***!
+  \*****************************************/
+/*! exports provided: CheckboxField, DateField, DateTimeField, MarkdownField, SelectField, TextField, TextareaField */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CheckboxField", function() { return CheckboxField; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DateField", function() { return DateField; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DateTimeField", function() { return DateTimeField; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MarkdownField", function() { return MarkdownField; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SelectField", function() { return SelectField; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TextField", function() { return TextField; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TextareaField", function() { return TextareaField; });
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
+/**
+ * Standard field types for the editor extension.
+ */
+
+
+class CheckboxField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
+  constructor(config, extendedConfig) {
+    super(config, extendedConfig);
+    this.fieldType = 'checkbox';
+
+    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div
+        class="selective__field selective__field__${field.fieldType} ${field.valueFromData(data) ? 'selective__field__checkbox--checked' : ''}"
+        data-field-type="${field.fieldType}" @click=${field.handleInput.bind(field)}>
+      <div class="selective__field__checkbox__label">${field.label}</div>
+      <i class="material-icons">${this.value ? 'check_box' : 'check_box_outline_blank'}</i>
+      ${field.renderHelp(selective, field, data)}
+    </div>`;
+  }
+
+  handleInput(evt) {
+    this.value = !this.value;
+    document.dispatchEvent(new CustomEvent('selective.render'));
+  }
+
+}
+class DateField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
+  constructor(config, extendedConfig) {
+    super(config, extendedConfig);
+    this.fieldType = 'date';
+
+    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
+      <label for="${field.getUid()}">${field.label}</label>
+      <input
+          id="${field.getUid()}"
+          type="date"
+          placeholder="${field.placeholder}"
+          @input=${field.handleInput.bind(field)}
+          value=${field.valueFromData(data) || ''} />
+      ${field.renderHelp(selective, field, data)}
+    </div>`;
+  }
+
+}
+class DateTimeField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
+  constructor(config, extendedConfig) {
+    super(config, extendedConfig);
+    this.fieldType = 'datetime';
+
+    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
+      <label for="${field.getUid()}">${field.label}</label>
+      <input
+          id="${field.getUid()}"
+          type="datetime-local"
+          placeholder="${field.placeholder}"
+          @input=${field.handleInput.bind(field)}
+          value=${field.valueFromData(data) || ''} />
+      ${field.renderHelp(selective, field, data)}
+    </div>`;
+  }
+
+} // TODO: Use a full markdown editor.
+
+class MarkdownField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
+  constructor(config, extendedConfig) {
+    super(config, extendedConfig);
+    this.fieldType = 'markdown';
+
+    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
+      <label for="${field.getUid()}">${field.label}</label>
+      <textarea
+          id="${field.getUid()}"
+          rows="${field.getConfig().rows || 6}"
+          placeholder="${field.placeholder}"
+          @input=${field.handleInput.bind(field)}>
+        ${field.valueFromData(data) || ' '}
+      </textarea>
+      ${field.renderHelp(selective, field, data)}
+    </div>`;
+  }
+
+}
+class SelectField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
     this.fieldType = 'select';
@@ -10352,12 +10186,12 @@ class SelectField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
     this.useMulti = this.getConfig().get('multi', false);
     this.icons = this.useMulti ? ['check_box_outline_blank', 'check_box'] : ['radio_button_unchecked', 'radio_button_checked'];
 
-    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div
+    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div
         class="selective__field selective__field__${field.fieldType} ${field.options.length > field.threshold ? `selective__field__${field.fieldType}--list` : ''}"
         data-field-type="${field.fieldType}" >
       <div class="selective__field__select__label">${field.label}</div>
       <div class="selective__field__select__options">
-        ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_1__["repeat"])(field.options, option => option.value, (option, index) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
+        ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(field.options, option => option.value, (option, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
           <div class="selective__field__select__value" data-value="${option.value}" @click=${field.handleInput.bind(field)}>
             <div class="selective__field__select__option ${field._isSelected(option.value) ? 'selective__field__select__option--checked' : ''}">
               <i class="material-icons">${field._isSelected(option.value) ? field.icons[1] : field.icons[0]}</i>
@@ -10386,7 +10220,7 @@ class SelectField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
   }
 
   handleInput(evt) {
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_3__["findParentByClassname"])(evt.target, 'selective__field__select__value');
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'selective__field__select__value');
     const value = target.dataset.value == 'null' ? null : target.dataset.value;
 
     if (!this.useMulti) {
@@ -10417,14 +10251,14 @@ class SelectField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
   }
 
 }
-class TextField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
+class TextField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
     this.fieldType = 'text';
     this.threshold = this.getConfig().threshold || 75;
     this._isSwitching = false;
 
-    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
+    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
       <label for="${field.getUid()}">${field.label}</label>
       ${field.updateFromData(data)}
       ${field.renderInput(selective, field, data)}
@@ -10444,7 +10278,7 @@ class TextField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
       document.dispatchEvent(new CustomEvent('selective.render')); // Trigger auto focus after a delay for rendering.
 
       window.setTimeout(() => {
-        Object(_utility_dom__WEBPACK_IMPORTED_MODULE_3__["inputFocusAtEnd"])(id);
+        Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["inputFocusAtEnd"])(id);
       }, 25);
     }
   }
@@ -10452,7 +10286,7 @@ class TextField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
   renderInput(selective, field, data) {
     // Switch to textarea if the length is long.
     if ((this.value || '').length > this.threshold) {
-      return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
+      return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
         <textarea
             id="${field.getUid()}"
             rows="${field.getConfig().rows || 6}"
@@ -10460,7 +10294,7 @@ class TextField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
             @input=${field.handleInput.bind(field)}>${this.value || ' '}</textarea>`;
     }
 
-    return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
       <input
         type="text"
         id="${field.getUid()}"
@@ -10470,12 +10304,12 @@ class TextField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
   }
 
 }
-class TextareaField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
+class TextareaField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
     this.fieldType = 'textarea';
 
-    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
+    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
       <label for="${field.getUid()}">${field.label}</label>
       <textarea
           id="${field.getUid()}"
@@ -10488,48 +10322,147 @@ class TextareaField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"]
 
 }
 
-class PartialFields extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Fields"] {
-  constructor(fieldTypes, config, partialKey) {
-    super(fieldTypes, config);
-    this.label = this.getConfig().get('partial', {})['label'] || 'Partial';
-    this.partialKey = partialKey;
+/***/ }),
 
-    this.template = (selective, fields, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
-      ${fields.valueFromData(data)}
-      ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_1__["repeat"])(fields.fields, field => field.getUid(), (field, index) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
-        ${field.template(selective, field, data)}
-      `)}`;
-  }
+/***/ "./source/editor/field/structure.js":
+/*!******************************************!*\
+  !*** ./source/editor/field/structure.js ***!
+  \******************************************/
+/*! exports provided: GroupField */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-}
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GroupField", function() { return GroupField; });
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../autoFields */ "./source/editor/autoFields.js");
+/**
+ * Structure field types for the editor extension.
+ */
 
-class YamlField extends ConstructorFileField {
+
+class GroupField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
-    this.fieldType = 'yaml';
-    this.tag = '!g.yaml';
-    this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_4__["createWhiteBlackFilter"])( // Whitelist.
-    [/^\/content\//, /^\/data\//, /\.yaml$/], // Blacklist.
-    []);
+    this.fieldType = 'group';
+    this.fields = null;
+    this.isExpanded = false;
+
+    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
+      ${field.ensureFields(selective, data)}
+      ${field.updateFromData(data)}
+      <div class="selective__field__${field.fieldType}__handle" @click=${field.handleToggleExpand.bind(field)}>
+        <i class="material-icons">${field.isExpanded ? 'expand_less' : 'expand_more'}</i>
+        <div class="selective__field__${field.fieldType}__label">${field.label}</div>
+      </div>
+      ${field.renderFields(selective, data)}
+      ${field.renderHelp(selective, field, data)}
+    </div>`;
+  }
+
+  get isClean() {
+    // If there are no fields, nothing has changed.
+    if (!this.fields) {
+      return true;
+    }
+
+    for (const field of this.fields.fields) {
+      if (!field.isClean) {
+        return false;
+      }
+    }
+  }
+
+  get value() {
+    if (!this.fields) {
+      return this._dataValue;
+    }
+
+    const value = Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["autoDeepObject"])({});
+
+    for (const field of this.fields.fields) {
+      value.set(field.key, field.value);
+    }
+
+    return value.obj;
+  }
+
+  set value(value) {// no-op
+  }
+
+  _createFields(selective, data) {
+    const fields = new selective_edit__WEBPACK_IMPORTED_MODULE_0__["Fields"](selective.fieldTypes);
+    fields.valueFromData(this.value);
+    let fieldConfigs = this.getConfig().get('fields', []);
+    const useAutoFields = fieldConfigs.length == 0;
+
+    if (useAutoFields) {
+      // Auto guess the fields if they are not defined.
+      fieldConfigs = new _autoFields__WEBPACK_IMPORTED_MODULE_1__["default"](this.value).config['fields'];
+    }
+
+    for (let fieldConfig of fieldConfigs || []) {
+      fieldConfig = Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["autoConfig"])(fieldConfig, this.extendedConfig);
+      fields.addField(fieldConfig, this.extendedConfig);
+    } // When a not expanded it does not get the value updated correctly
+    // so we need to manually call the data update.
+
+
+    for (const field of fields.fields) {
+      field.updateFromData(this.value || {});
+    }
+
+    return fields;
+  } // Ensure that fields are created so they can be populated and the keyless
+  // groups can correctly return the partial value.
+
+
+  ensureFields(selective, data) {
+    // If the sub fields have not been created create them now.
+    if (!this.fields) {
+      this.fields = this._createFields(selective, data);
+    }
+  }
+
+  handleToggleExpand(evt) {
+    this.isExpanded = !this.isExpanded;
+    document.dispatchEvent(new CustomEvent('selective.render'));
+  }
+
+  renderFields(selective, data) {
+    this.ensureFields();
+
+    if (!this.isExpanded) {
+      return '';
+    }
+
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__group">
+      ${this.fields.template(selective, this.fields, this.value)}
+    </div>`;
+  }
+
+  valueFromData(data) {
+    if (this.key) {
+      return super.valueFromData(data);
+    } // Nothing to do without fields.
+
+
+    if (!this.fields) {
+      this._dataValue = data;
+      return this.value;
+    }
+
+    const newDataValue = Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["autoDeepObject"])({});
+
+    for (const field of this.fields.fields) {
+      newDataValue.set(field.key, field.value);
+    }
+
+    this._dataValue = newDataValue.obj;
+    return this.value;
   }
 
 }
-const defaultFields = {
-  'checkbox': CheckboxField,
-  'date': DateField,
-  'datetime': DateTimeField,
-  'document': DocumentField,
-  'google_image': GoogleImageField,
-  'group': GroupField,
-  'image': ImageField,
-  'list': selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListField"],
-  'markdown': MarkdownField,
-  'partials': PartialsField,
-  'select': SelectField,
-  'text': TextField,
-  'textarea': TextareaField,
-  'yaml': YamlField
-};
 
 /***/ }),
 
