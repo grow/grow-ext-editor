@@ -71,7 +71,6 @@ class PodApi(object):
                     tempValue = datetime.datetime.strptime(value, "%Y-%m-%d")
                     node[key] = datetime.date(tempValue.year, tempValue.month, tempValue.day)
             except:
-                raise
                 pass
 
             # Convert constructors.
