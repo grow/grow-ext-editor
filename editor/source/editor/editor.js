@@ -564,10 +564,10 @@ export default class Editor {
         <div class="editor__card">
           <div class="editor__menu">
             <button
-                ?disabled=${editor._isSaving}
+                ?disabled=${editor._isSaving || editor.isClean}
                 class="editor__save editor--primary ${editor._isSaving ? 'editor__save--saving' : ''}"
                 @click=${() => editor.save()}>
-              ${editor._isSaving ? 'Saving...' : 'Save'}
+              ${editor.isClean ? 'No changes' : editor._isSaving ? 'Saving...' : 'Save'}
             </button>
             <div class="editor__actions">
               <button class="editor__style__fields editor--secondary editor--selected" @click=${editor.handleFieldsClick.bind(editor)}>Fields</button>
