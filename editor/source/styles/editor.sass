@@ -326,9 +326,9 @@
 
 .editor__loading
   display: inline-block
-  width: $ge-loading-size
   height: $ge-loading-size
   position: relative
+  width: $ge-loading-size
 
   &:after
     animation: editor__loading $ge-speed-slower linear infinite
@@ -353,6 +353,25 @@
     margin: $ge-loading-border-size * 3
     position: absolute
     width: $ge-loading-size - ($ge-loading-border-size * 8)
+
+  &--pad
+    margin: $ge-pad
+
+  &--small
+    height: $ge-loading-size
+    width: $ge-loading-size
+
+    &:after
+      border-width: $ge-loading-border-size / 2
+      height: ($ge-loading-size - ($ge-loading-border-size * 4)) / 2
+      margin: $ge-loading-border-size / 2
+      width: ($ge-loading-size - ($ge-loading-border-size * 4)) / 2
+
+    &:before
+      border-width: $ge-loading-border-size / 2
+      height: ($ge-loading-size - ($ge-loading-border-size * 8)) / 2
+      margin: $ge-loading-border-size * 3 / 2
+      width: ($ge-loading-size - ($ge-loading-border-size * 8)) / 2
 
 @keyframes editor__loading__inner
   0%

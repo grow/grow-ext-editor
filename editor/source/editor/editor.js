@@ -78,6 +78,9 @@ export default class Editor {
 
     this.selective = new Selective(null, {})
 
+    // Add the editor reference to the selective object for field access.
+    this.selective.editor = this
+
     // Add the editor extension default field types.
     for (const key of Object.keys(defaultFields)) {
       this.selective.addFieldType(key, defaultFields[key])

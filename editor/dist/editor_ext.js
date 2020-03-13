@@ -8751,7 +8751,9 @@ class Editor {
     this._routes = null; // Track the serving path of the iframe when it is different.
 
     this._unverifiedServingPath = null;
-    this.selective = new selective_edit__WEBPACK_IMPORTED_MODULE_4__["default"](null, {}); // Add the editor extension default field types.
+    this.selective = new selective_edit__WEBPACK_IMPORTED_MODULE_4__["default"](null, {}); // Add the editor reference to the selective object for field access.
+
+    this.selective.editor = this; // Add the editor extension default field types.
 
     for (const key of Object.keys(_field__WEBPACK_IMPORTED_MODULE_5__["defaultFields"])) {
       this.selective.addFieldType(key, _field__WEBPACK_IMPORTED_MODULE_5__["defaultFields"][key]);
@@ -9483,13 +9485,14 @@ class EditorApi extends _utility_api__WEBPACK_IMPORTED_MODULE_0__["default"] {
 /*!********************************!*\
   !*** ./source/editor/field.js ***!
   \********************************/
-/*! exports provided: CheckboxField, ConstructorField, DocumentField, ImageField, GoogleImageField, GroupField, MarkdownField, PartialsField, SelectField, TextField, TextareaField, YamlField, defaultFields */
+/*! exports provided: CheckboxField, ConstructorField, ConstructorFileField, DocumentField, ImageField, GoogleImageField, GroupField, MarkdownField, PartialsField, SelectField, TextField, TextareaField, YamlField, defaultFields */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CheckboxField", function() { return CheckboxField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ConstructorField", function() { return ConstructorField; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ConstructorFileField", function() { return ConstructorFileField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DocumentField", function() { return DocumentField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ImageField", function() { return ImageField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GoogleImageField", function() { return GoogleImageField; });
@@ -9506,9 +9509,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
 /* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./autoFields */ "./source/editor/autoFields.js");
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utility/dom */ "./source/utility/dom.js");
+/* harmony import */ var _utility_filter__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utility/filter */ "./source/utility/filter.js");
 /**
  * Field types for the editor extension.
  */
+
 
 
 
@@ -9518,12 +9523,12 @@ class CheckboxField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"]
     super(config, extendedConfig);
     this.fieldType = 'checkbox';
 
-    this.template = (editor, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div
+    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div
         class="selective__field selective__field__${field.fieldType} ${field.valueFromData(data) ? 'selective__field__checkbox--checked' : ''}"
         data-field-type="${field.fieldType}" @click=${field.handleInput.bind(field)}>
       <div class="selective__field__checkbox__label">${field.label}</div>
       <i class="material-icons">${this.value ? 'check_box' : 'check_box_outline_blank'}</i>
-      ${field.renderHelp(editor, field, data)}
+      ${field.renderHelp(selective, field, data)}
     </div>`;
   }
 
@@ -9539,15 +9544,17 @@ class ConstructorField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Fiel
     this.fieldType = 'constructor';
     this.tag = '!g.*';
 
-    this.template = (editor, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
+    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
       <label for="${field.getUid()}">${field.label}</label>
-      <input
-        type="text"
-        id="${field.getUid()}"
-        placeholder="${field.placeholder}"
-        value="${field.valueFromData(data)}"
-        @input=${field.handleInput.bind(field)}>
-      ${field.renderHelp(editor, field, data)}
+      <div class="selective__field__${field.fieldType}__input">
+        <input
+          type="text"
+          id="${field.getUid()}"
+          placeholder="${field.placeholder}"
+          value="${field.valueFromData(data)}"
+          @input=${field.handleInput.bind(field)}>
+      </div>
+      ${field.renderHelp(selective, field, data)}
     </div>`;
   }
 
@@ -9571,11 +9578,119 @@ class ConstructorField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Fiel
   }
 
 }
-class DocumentField extends ConstructorField {
+class ConstructorFileField extends ConstructorField {
+  constructor(config, extendedConfig) {
+    super(config, extendedConfig);
+    this.fieldType = 'constructorFile';
+    this._showFileList = false;
+    this._podPaths = null;
+    this._listeningForPodPaths = false;
+    this._filterValue = '';
+    this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_4__["createWhiteBlackFilter"])( // Whitelist.
+    [], // Blacklist.
+    []);
+
+    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
+    <div
+        class="selective__field selective__field__${field.fieldType} ${field._showFileList ? 'selective__field__constructor__input--expanded' : ''}"
+        data-field-type="${field.fieldType}">
+      ${field.bindListeners(selective)}
+      <label for="${field.getUid()}">${field.label}</label>
+      <div class="selective__field__constructor__input">
+        <input
+          type="text"
+          id="${field.getUid()}"
+          placeholder="${field.placeholder}"
+          value="${field.valueFromData(data)}"
+          @input=${field.handleInput.bind(field)}>
+        <i class="material-icons" @click=${field.handleFilesToggleClick.bind(field)}>list</i>
+      </div>
+      ${field.renderFileList(selective, data)}
+      ${field.renderHelp(selective, field, data)}
+    </div>`;
+  }
+
+  bindListeners(selective) {
+    // Bind the field to the pod path loading.
+    if (!this._listeningForPodPaths) {
+      selective.editor.listeners.add('load.podPaths', response => {
+        this._podPaths = response.pod_paths.sort().filter(this.filterFunc);
+        document.dispatchEvent(new CustomEvent('selective.render'));
+      });
+      this._listeningForPodPaths = true;
+    }
+  }
+
+  handleFilesToggleClick(evt) {
+    this._showFileList = !this._showFileList;
+    document.dispatchEvent(new CustomEvent('selective.render'));
+  }
+
+  handleFileClick(evt) {
+    const podPath = evt.target.dataset.podPath;
+    this.value = Object.assign({}, this.value, {
+      value: podPath
+    });
+    this._showFileList = false;
+    document.dispatchEvent(new CustomEvent('selective.render'));
+  }
+
+  handleInputFilter(evt) {
+    this._filterValue = evt.target.value;
+    document.dispatchEvent(new CustomEvent('selective.render'));
+  }
+
+  renderFileList(selective, data) {
+    if (!this._showFileList) {
+      return '';
+    } // If the pod paths have not loaded, show the loading status.
+
+
+    if (!this._podPaths) {
+      // Editor ensures it only loads once.
+      selective.editor.loadPodPaths();
+      return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field__constructor__files">
+        <input type="text" @input=${this.handleInputFilter.bind(this)} placeholder="Filter..." />
+        <div class="selective__field__constructor__file__list">
+          <div class="editor__loading editor__loading--small editor__loading--pad"></div>
+        </div>
+      </div>`;
+    }
+
+    let podPaths = this._podPaths; // Allow the current value to also filter the pod paths.
+
+    if (this._filterValue != '') {
+      podPaths = podPaths.filter(Object(_utility_filter__WEBPACK_IMPORTED_MODULE_4__["createValueFilter"])(this._filterValue));
+    }
+
+    return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field__constructor__files">
+      <input type="text" @input=${this.handleInputFilter.bind(this)} placeholder="Filter..." />
+      <div class="selective__field__constructor__file__list">
+      ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_1__["repeat"])(podPaths, podPath => podPath, (podPath, index) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
+        <div
+            class="selective__field__constructor__file"
+            data-pod-path=${podPath}
+            @click=${this.handleFileClick.bind(this)}>
+          ${podPath}
+        </div>
+      `)}
+      ${podPaths.length == 0 ? selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
+        <div class="selective__field__constructor__file selective__field__constructor__file--empty">
+          No matches found.
+        </div>` : ''}
+      </div>
+    </div>`;
+  }
+
+}
+class DocumentField extends ConstructorFileField {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
     this.fieldType = 'document';
     this.tag = '!g.doc';
+    this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_4__["createWhiteBlackFilter"])( // Whitelist.
+    [/^\/content\//], // Blacklist.
+    []);
   }
 
 }
@@ -9588,7 +9703,7 @@ class ImageField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
 
     this.api = this.getConfig().get('api');
 
-    this.template = (editor, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
+    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
       <label for="${field.getUid()}">${field.label}</label>
       <input
         id="${field.getUid()}"
@@ -9603,12 +9718,12 @@ class ImageField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
         placeholder="Upload new image"
         @change=${field.handleFileInput.bind(field)}
         ?disabled="${field.isLoading}">
-      ${field.renderImagePreview(editor, field, data)}
-      ${field.renderHelp(editor, field, data)}
+      ${field.renderImagePreview(selective, field, data)}
+      ${field.renderHelp(selective, field, data)}
     </div>`;
   }
 
-  renderImagePreview(editor, field, data) {
+  renderImagePreview(selective, field, data) {
     if (field.previewUrl == '') {
       return '';
     }
@@ -9713,13 +9828,13 @@ class GoogleImageField extends ImageField {
     });
   }
 
-  renderImagePreview(editor, field, data) {
+  renderImagePreview(selective, field, data) {
     // Ignore the field values that are resource paths.
     if (field.value && field.value.startsWith('http')) {
       field.previewUrl = field.value;
     }
 
-    return super.renderImagePreview(editor, field, data);
+    return super.renderImagePreview(selective, field, data);
   }
 
 }
@@ -9730,15 +9845,15 @@ class GroupField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
     this.fields = null;
     this.isExpanded = false;
 
-    this.template = (editor, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
-      ${field.ensureFields(editor, data)}
+    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
+      ${field.ensureFields(selective, data)}
       ${field.updateFromData(data)}
       <div class="selective__field__${field.fieldType}__handle" @click=${field.handleToggleExpand.bind(field)}>
         <i class="material-icons">${field.isExpanded ? 'expand_less' : 'expand_more'}</i>
         <div class="selective__field__${field.fieldType}__label">${field.label}</div>
       </div>
-      ${field.renderFields(editor, data)}
-      ${field.renderHelp(editor, field, data)}
+      ${field.renderFields(selective, data)}
+      ${field.renderHelp(selective, field, data)}
     </div>`;
   }
 
@@ -9772,8 +9887,8 @@ class GroupField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
   set value(value) {// no-op
   }
 
-  _createFields(editor, data) {
-    const fields = new selective_edit__WEBPACK_IMPORTED_MODULE_1__["Fields"](editor.fieldTypes);
+  _createFields(selective, data) {
+    const fields = new selective_edit__WEBPACK_IMPORTED_MODULE_1__["Fields"](selective.fieldTypes);
     fields.valueFromData(this.value);
     let fieldConfigs = this.getConfig().get('fields', []);
     const useAutoFields = fieldConfigs.length == 0;
@@ -9799,10 +9914,10 @@ class GroupField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
   // groups can correctly return the partial value.
 
 
-  ensureFields(editor, data) {
+  ensureFields(selective, data) {
     // If the sub fields have not been created create them now.
     if (!this.fields) {
-      this.fields = this._createFields(editor, data);
+      this.fields = this._createFields(selective, data);
     }
   }
 
@@ -9811,7 +9926,7 @@ class GroupField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
     document.dispatchEvent(new CustomEvent('selective.render'));
   }
 
-  renderFields(editor, data) {
+  renderFields(selective, data) {
     this.ensureFields();
 
     if (!this.isExpanded) {
@@ -9819,7 +9934,7 @@ class GroupField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
     }
 
     return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__group">
-      ${this.fields.template(editor, this.fields, this.value)}
+      ${this.fields.template(selective, this.fields, this.value)}
     </div>`;
   }
 
@@ -9851,7 +9966,7 @@ class MarkdownField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"]
     super(config, extendedConfig);
     this.fieldType = 'markdown';
 
-    this.template = (editor, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
+    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
       <label for="${field.getUid()}">${field.label}</label>
       <textarea
           id="${field.getUid()}"
@@ -9860,7 +9975,7 @@ class MarkdownField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"]
           @input=${field.handleInput.bind(field)}>
         ${field.valueFromData(data) || ' '}
       </textarea>
-      ${field.renderHelp(editor, field, data)}
+      ${field.renderHelp(selective, field, data)}
     </div>`;
   }
 
@@ -9877,7 +9992,7 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListFie
     }
   }
 
-  _createItems(editor, data) {
+  _createItems(selective, data) {
     // No value yet.
     if (!this.value) {
       return [];
@@ -9925,7 +10040,7 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListFie
         continue;
       }
 
-      const itemFields = new PartialFields(editor.fieldTypes, {
+      const itemFields = new PartialFields(selective.fieldTypes, {
         'partial': partialConfig
       });
       itemFields.valueFromData(itemData);
@@ -9971,8 +10086,13 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListFie
   }
 
   get isExpanded() {
-    // Count all partials that are not hidden.
     if (this._listItems) {
+      // If there is only one partial, expand it.
+      if (this._listItems.length == 1) {
+        return true;
+      } // Count all partials that are not hidden.
+
+
       let nonHiddenItemCount = 0;
 
       for (const item of this._listItems) {
@@ -10021,11 +10141,11 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListFie
   set value(value) {// no-op
   }
 
-  handleAddItem(evt, editor) {
+  handleAddItem(evt, selective) {
     const partialKey = evt.target.value;
     const partialConfig = this.partialTypes[partialKey];
     const index = (this.value || []).length;
-    const itemFields = new PartialFields(editor.fieldTypes, {
+    const itemFields = new PartialFields(selective.fieldTypes, {
       'partial': partialConfig
     });
     itemFields.valueFromData({
@@ -10070,10 +10190,10 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListFie
     document.dispatchEvent(new CustomEvent('selective.render'));
   }
 
-  renderActionsFooter(editor, field, data) {
+  renderActionsFooter(selective, field, data) {
     return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__actions">
       <select class="selective__actions__add" @change=${evt => {
-      field.handleAddItem(evt, editor);
+      field.handleAddItem(evt, selective);
     }}>
         <option value="">${field.options['addLabel'] || 'Add section'}</option>
         ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_1__["repeat"])(Object.entries(field.partialTypes), item => item[0], (item, index) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
@@ -10083,8 +10203,13 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListFie
     </div>`;
   }
 
-  renderActionsHeader(editor, field, data) {
-    // Allow collapsing and expanding of sub fields.
+  renderActionsHeader(selective, field, data) {
+    // Hide when there are no values to expand/collapse.
+    if ((this.value || []).length <= 1) {
+      return '';
+    } // Allow collapsing and expanding of sub fields.
+
+
     return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__actions">
       <button class="selective__action__toggle" @click=${field.handleToggleExpand.bind(field)}>
         ${field.isExpanded ? 'Collapse' : 'Expand'}
@@ -10092,7 +10217,7 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListFie
     </div>`;
   }
 
-  renderCollapsedPartial(editor, partialItem) {
+  renderCollapsedPartial(selective, partialItem) {
     return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
       <div class="selective__list__item__drag"><i class="material-icons">drag_indicator</i></div>
       <div class="selective__list__item__label" data-index=${partialItem['index']} @click=${this.handleItemExpand.bind(this)}>
@@ -10108,17 +10233,17 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListFie
       </div>`;
   }
 
-  renderExpandedPartial(editor, partialItem) {
+  renderExpandedPartial(selective, partialItem) {
     const fields = partialItem.itemFields;
     return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
       <div class="selective__list__item__label" data-index=${partialItem['index']} @click=${this.handleItemCollapse.bind(this)}>
         ${partialItem['partialConfig']['label']}
       </div>
-      ${fields.template(editor, fields, this.value[partialItem['index']])}`;
+      ${fields.template(selective, fields, this.value[partialItem['index']])}`;
     return;
   }
 
-  renderHiddenPartial(editor, partialItem) {
+  renderHiddenPartial(selective, partialItem) {
     return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
       <div class="selective__list__item__drag"><i class="material-icons">drag_indicator</i></div>
       <div class="selective__list__item__label" data-index=${partialItem['index']}>
@@ -10133,17 +10258,13 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListFie
       </div>`;
   }
 
-  renderItems(editor, data) {
+  renderItems(selective, data) {
     // No partials loaded yet.
     if (!Object.keys(this.partialTypes).length) {
       return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="editor__loading" title="Loading partial configurations"></div>`;
-    } // If the sub fields have not been created create them now.
+    }
 
-
-    if (!this._listItems.length) {
-      this._listItems = this._createItems(editor, data);
-    } // Update the expanded state each render.
-
+    this.ensureItems(selective, data); // Update the expanded state each render.
 
     for (const listItem of this._listItems) {
       const inIndex = this._expandedIndexes.indexOf(listItem['index']) > -1;
@@ -10159,7 +10280,7 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["ListFie
           @dragover=${this.handleDragOver.bind(this)}
           @dragstart=${this.handleDragStart.bind(this)}
           @drop=${this.handleDrop.bind(this)}>
-        ${listItem['isExpanded'] ? this.renderExpandedPartial(editor, listItem) : listItem['isHidden'] ? this.renderHiddenPartial(editor, listItem) : this.renderCollapsedPartial(editor, listItem)}
+        ${listItem['isExpanded'] ? this.renderExpandedPartial(selective, listItem) : listItem['isHidden'] ? this.renderHiddenPartial(selective, listItem) : this.renderCollapsedPartial(selective, listItem)}
       </div>
     `)}`;
   }
@@ -10190,7 +10311,7 @@ class SelectField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
     this.useMulti = this.getConfig().get('multi', false);
     this.icons = this.useMulti ? ['check_box_outline_blank', 'check_box'] : ['radio_button_unchecked', 'radio_button_checked'];
 
-    this.template = (editor, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div
+    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div
         class="selective__field selective__field__${field.fieldType} ${field.options.length > field.threshold ? `selective__field__${field.fieldType}--list` : ''}"
         data-field-type="${field.fieldType}" >
       <div class="selective__field__select__label">${field.label}</div>
@@ -10204,7 +10325,7 @@ class SelectField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
           </div>
         `)}
       </div>
-      ${field.renderHelp(editor, field, data)}
+      ${field.renderHelp(selective, field, data)}
     </div>`;
   }
 
@@ -10262,11 +10383,11 @@ class TextField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
     this.threshold = this.getConfig().threshold || 75;
     this._isSwitching = false;
 
-    this.template = (editor, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
+    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
       <label for="${field.getUid()}">${field.label}</label>
       ${field.updateFromData(data)}
-      ${field.renderInput(editor, field, data)}
-      ${field.renderHelp(editor, field, data)}
+      ${field.renderInput(selective, field, data)}
+      ${field.renderHelp(selective, field, data)}
     </div>`;
   }
 
@@ -10290,7 +10411,7 @@ class TextField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
     }
   }
 
-  renderInput(editor, field, data) {
+  renderInput(selective, field, data) {
     // Switch to textarea if the length is long.
     if ((this.value || '').length > this.threshold) {
       return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
@@ -10316,14 +10437,14 @@ class TextareaField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"]
     super(config, extendedConfig);
     this.fieldType = 'textarea';
 
-    this.template = (editor, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
+    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
       <label for="${field.getUid()}">${field.label}</label>
       <textarea
           id="${field.getUid()}"
           rows="${field.getConfig().rows || 6}"
           placeholder="${field.placeholder}"
           @input=${field.handleInput.bind(field)}>${field.valueFromData(data) || ' '}</textarea>
-      ${field.renderHelp(editor, field, data)}
+      ${field.renderHelp(selective, field, data)}
     </div>`;
   }
 
@@ -10335,20 +10456,23 @@ class PartialFields extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Fields"
     this.label = this.getConfig().get('partial', {})['label'] || 'Partial';
     this.partialKey = partialKey;
 
-    this.template = (editor, fields, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
+    this.template = (selective, fields, data) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
       ${fields.valueFromData(data)}
       ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_1__["repeat"])(fields.fields, field => field.getUid(), (field, index) => selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
-        ${field.template(editor, field, data)}
+        ${field.template(selective, field, data)}
       `)}`;
   }
 
 }
 
-class YamlField extends ConstructorField {
+class YamlField extends ConstructorFileField {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
     this.fieldType = 'yaml';
     this.tag = '!g.yaml';
+    this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_4__["createWhiteBlackFilter"])( // Whitelist.
+    [/^\/content\//, /^\/data\//, /\.yaml$/], // Blacklist.
+    []);
   }
 
 }
@@ -10733,6 +10857,55 @@ function deepExpandArray(arr) {
     }
   }
 }
+
+/***/ }),
+
+/***/ "./source/utility/filter.js":
+/*!**********************************!*\
+  !*** ./source/utility/filter.js ***!
+  \**********************************/
+/*! exports provided: createWhiteBlackFilter, createValueFilter */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createWhiteBlackFilter", function() { return createWhiteBlackFilter; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createValueFilter", function() { return createValueFilter; });
+// Creates a filter that uses a whitelist and blacklist of regex to filter.
+const createWhiteBlackFilter = (whitelist, blacklist) => {
+  whitelist = whitelist || [];
+  blacklist = blacklist || [];
+  return value => {
+    // Test against the whitelist.
+    let meetsWhitelist = false;
+
+    for (const exp of whitelist) {
+      if (exp.test(value)) {
+        meetsWhitelist = true;
+        break;
+      }
+    }
+
+    if (!meetsWhitelist) {
+      return false;
+    } // Test against the blacklist.
+
+
+    for (const exp of blacklist) {
+      if (exp.test(value)) {
+        return false;
+      }
+    }
+
+    return true;
+  };
+}; // Creates a filter that uses a value to filter.
+
+const createValueFilter = filterValue => {
+  return value => {
+    return value.includes(filterValue);
+  };
+};
 
 /***/ }),
 

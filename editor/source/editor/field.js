@@ -15,18 +15,22 @@ import {
 } from 'selective-edit'
 import EditorAutoFields from './autoFields'
 import { findParentByClassname } from '../utility/dom'
+import {
+  createWhiteBlackFilter,
+  createValueFilter,
+} from '../utility/filter'
 
 export class CheckboxField extends Field {
   constructor(config, extendedConfig) {
     super(config, extendedConfig)
     this.fieldType = 'checkbox'
 
-    this.template = (editor, field, data) => html`<div
+    this.template = (selective, field, data) => html`<div
         class="selective__field selective__field__${field.fieldType} ${field.valueFromData(data) ? 'selective__field__checkbox--checked' : ''}"
         data-field-type="${field.fieldType}" @click=${field.handleInput.bind(field)}>
       <div class="selective__field__checkbox__label">${field.label}</div>
       <i class="material-icons">${this.value ? 'check_box' : 'check_box_outline_blank'}</i>
-      ${field.renderHelp(editor, field, data)}
+      ${field.renderHelp(selective, field, data)}
     </div>`
   }
 
@@ -42,15 +46,17 @@ export class ConstructorField extends Field {
     this.fieldType = 'constructor'
     this.tag = '!g.*'
 
-    this.template = (editor, field, data) => html`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
+    this.template = (selective, field, data) => html`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
       <label for="${field.getUid()}">${field.label}</label>
-      <input
-        type="text"
-        id="${field.getUid()}"
-        placeholder="${field.placeholder}"
-        value="${field.valueFromData(data)}"
-        @input=${field.handleInput.bind(field)}>
-      ${field.renderHelp(editor, field, data)}
+      <div class="selective__field__${field.fieldType}__input">
+        <input
+          type="text"
+          id="${field.getUid()}"
+          placeholder="${field.placeholder}"
+          value="${field.valueFromData(data)}"
+          @input=${field.handleInput.bind(field)}>
+      </div>
+      ${field.renderHelp(selective, field, data)}
     </div>`
   }
 
@@ -72,11 +78,127 @@ export class ConstructorField extends Field {
   }
 }
 
-export class DocumentField extends ConstructorField {
+export class ConstructorFileField extends ConstructorField {
+  constructor(config, extendedConfig) {
+    super(config, extendedConfig)
+    this.fieldType = 'constructorFile'
+    this._showFileList = false
+    this._podPaths = null
+    this._listeningForPodPaths = false
+    this._filterValue = ''
+    this.filterFunc = createWhiteBlackFilter(
+      // Whitelist.
+      [],
+      // Blacklist.
+      [],
+    )
+
+    this.template = (selective, field, data) => html`
+    <div
+        class="selective__field selective__field__${field.fieldType} ${field._showFileList ? 'selective__field__constructor__input--expanded' : ''}"
+        data-field-type="${field.fieldType}">
+      ${field.bindListeners(selective)}
+      <label for="${field.getUid()}">${field.label}</label>
+      <div class="selective__field__constructor__input">
+        <input
+          type="text"
+          id="${field.getUid()}"
+          placeholder="${field.placeholder}"
+          value="${field.valueFromData(data)}"
+          @input=${field.handleInput.bind(field)}>
+        <i class="material-icons" @click=${field.handleFilesToggleClick.bind(field)}>list</i>
+      </div>
+      ${field.renderFileList(selective, data)}
+      ${field.renderHelp(selective, field, data)}
+    </div>`
+  }
+
+  bindListeners(selective) {
+    // Bind the field to the pod path loading.
+    if (!this._listeningForPodPaths) {
+      selective.editor.listeners.add('load.podPaths', (response) => {
+        this._podPaths = response.pod_paths.sort().filter(this.filterFunc)
+        document.dispatchEvent(new CustomEvent('selective.render'))
+      })
+      this._listeningForPodPaths = true
+    }
+  }
+
+  handleFilesToggleClick(evt) {
+    this._showFileList = !this._showFileList
+    document.dispatchEvent(new CustomEvent('selective.render'))
+  }
+
+  handleFileClick(evt) {
+    const podPath = evt.target.dataset.podPath
+    this.value = Object.assign({}, this.value, {
+      value: podPath,
+    })
+    this._showFileList = false
+    document.dispatchEvent(new CustomEvent('selective.render'))
+  }
+
+  handleInputFilter(evt) {
+    this._filterValue = evt.target.value
+    document.dispatchEvent(new CustomEvent('selective.render'))
+  }
+
+  renderFileList(selective, data) {
+    if (!this._showFileList) {
+      return ''
+    }
+
+    // If the pod paths have not loaded, show the loading status.
+    if (!this._podPaths) {
+      // Editor ensures it only loads once.
+      selective.editor.loadPodPaths()
+
+      return html`<div class="selective__field__constructor__files">
+        <input type="text" @input=${this.handleInputFilter.bind(this)} placeholder="Filter..." />
+        <div class="selective__field__constructor__file__list">
+          <div class="editor__loading editor__loading--small editor__loading--pad"></div>
+        </div>
+      </div>`
+    }
+
+    let podPaths = this._podPaths
+
+    // Allow the current value to also filter the pod paths.
+    if (this._filterValue != '') {
+      podPaths = podPaths.filter(createValueFilter(this._filterValue))
+    }
+
+    return html`<div class="selective__field__constructor__files">
+      <input type="text" @input=${this.handleInputFilter.bind(this)} placeholder="Filter..." />
+      <div class="selective__field__constructor__file__list">
+      ${repeat(podPaths, (podPath) => podPath, (podPath, index) => html`
+        <div
+            class="selective__field__constructor__file"
+            data-pod-path=${podPath}
+            @click=${this.handleFileClick.bind(this)}>
+          ${podPath}
+        </div>
+      `)}
+      ${podPaths.length == 0 ? html`
+        <div class="selective__field__constructor__file selective__field__constructor__file--empty">
+          No matches found.
+        </div>` : ''}
+      </div>
+    </div>`
+  }
+}
+
+export class DocumentField extends ConstructorFileField {
   constructor(config, extendedConfig) {
     super(config, extendedConfig)
     this.fieldType = 'document'
     this.tag = '!g.doc'
+    this.filterFunc = createWhiteBlackFilter(
+      // Whitelist.
+      [/^\/content\//],
+      // Blacklist.
+      [],
+    )
   }
 }
 
@@ -90,7 +212,7 @@ export class ImageField extends Field {
     // Set the api if it was provided
     this.api = this.getConfig().get('api')
 
-    this.template = (editor, field, data) => html`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
+    this.template = (selective, field, data) => html`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
       <label for="${field.getUid()}">${field.label}</label>
       <input
         id="${field.getUid()}"
@@ -105,12 +227,12 @@ export class ImageField extends Field {
         placeholder="Upload new image"
         @change=${field.handleFileInput.bind(field)}
         ?disabled="${field.isLoading}">
-      ${field.renderImagePreview(editor, field, data)}
-      ${field.renderHelp(editor, field, data)}
+      ${field.renderImagePreview(selective, field, data)}
+      ${field.renderHelp(selective, field, data)}
     </div>`
   }
 
-  renderImagePreview(editor, field, data) {
+  renderImagePreview(selective, field, data) {
     if (field.previewUrl == '') {
       return ''
     }
@@ -221,13 +343,13 @@ export class GoogleImageField extends ImageField {
     })
   }
 
-  renderImagePreview(editor, field, data) {
+  renderImagePreview(selective, field, data) {
     // Ignore the field values that are resource paths.
     if (field.value && field.value.startsWith('http')) {
       field.previewUrl = field.value
     }
 
-    return super.renderImagePreview(editor, field, data)
+    return super.renderImagePreview(selective, field, data)
   }
 }
 
@@ -237,15 +359,15 @@ export class GroupField extends Field {
     this.fieldType = 'group'
     this.fields = null
     this.isExpanded = false
-    this.template = (editor, field, data) => html`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
-      ${field.ensureFields(editor, data)}
+    this.template = (selective, field, data) => html`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
+      ${field.ensureFields(selective, data)}
       ${field.updateFromData(data)}
       <div class="selective__field__${field.fieldType}__handle" @click=${field.handleToggleExpand.bind(field)}>
         <i class="material-icons">${field.isExpanded ? 'expand_less' : 'expand_more'}</i>
         <div class="selective__field__${field.fieldType}__label">${field.label}</div>
       </div>
-      ${field.renderFields(editor, data)}
-      ${field.renderHelp(editor, field, data)}
+      ${field.renderFields(selective, data)}
+      ${field.renderHelp(selective, field, data)}
     </div>`
   }
 
@@ -280,8 +402,8 @@ export class GroupField extends Field {
     // no-op
   }
 
-  _createFields(editor, data) {
-    const fields = new Fields(editor.fieldTypes)
+  _createFields(selective, data) {
+    const fields = new Fields(selective.fieldTypes)
     fields.valueFromData(this.value)
 
     let fieldConfigs = this.getConfig().get('fields', [])
@@ -308,10 +430,10 @@ export class GroupField extends Field {
 
   // Ensure that fields are created so they can be populated and the keyless
   // groups can correctly return the partial value.
-  ensureFields(editor, data) {
+  ensureFields(selective, data) {
     // If the sub fields have not been created create them now.
     if (!this.fields) {
-      this.fields = this._createFields(editor, data)
+      this.fields = this._createFields(selective, data)
     }
   }
 
@@ -320,7 +442,7 @@ export class GroupField extends Field {
     document.dispatchEvent(new CustomEvent('selective.render'))
   }
 
-  renderFields(editor, data) {
+  renderFields(selective, data) {
     this.ensureFields()
 
     if (!this.isExpanded) {
@@ -328,7 +450,7 @@ export class GroupField extends Field {
     }
 
     return html`<div class="selective__group">
-      ${this.fields.template(editor, this.fields, this.value)}
+      ${this.fields.template(selective, this.fields, this.value)}
     </div>`
   }
 
@@ -361,7 +483,7 @@ export class MarkdownField extends Field {
     super(config, extendedConfig)
     this.fieldType = 'markdown'
 
-    this.template = (editor, field, data) => html`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
+    this.template = (selective, field, data) => html`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
       <label for="${field.getUid()}">${field.label}</label>
       <textarea
           id="${field.getUid()}"
@@ -370,7 +492,7 @@ export class MarkdownField extends Field {
           @input=${field.handleInput.bind(field)}>
         ${field.valueFromData(data) || ' '}
       </textarea>
-      ${field.renderHelp(editor, field, data)}
+      ${field.renderHelp(selective, field, data)}
     </div>`
   }
 }
@@ -388,7 +510,7 @@ export class PartialsField extends ListField {
     }
   }
 
-  _createItems(editor, data) {
+  _createItems(selective, data) {
     // No value yet.
     if (!this.value) {
       return []
@@ -438,7 +560,7 @@ export class PartialsField extends ListField {
         continue
       }
 
-      const itemFields = new PartialFields(editor.fieldTypes, {
+      const itemFields = new PartialFields(selective.fieldTypes, {
         'partial': partialConfig,
       })
       itemFields.valueFromData(itemData)
@@ -485,8 +607,13 @@ export class PartialsField extends ListField {
   }
 
   get isExpanded() {
-    // Count all partials that are not hidden.
     if (this._listItems) {
+      // If there is only one partial, expand it.
+      if (this._listItems.length == 1) {
+        return true
+      }
+
+      // Count all partials that are not hidden.
       let nonHiddenItemCount = 0
       for (const item of this._listItems) {
         if (!item['isHidden']) {
@@ -534,11 +661,11 @@ export class PartialsField extends ListField {
     // no-op
   }
 
-  handleAddItem(evt, editor) {
+  handleAddItem(evt, selective) {
     const partialKey = evt.target.value
     const partialConfig = this.partialTypes[partialKey]
     const index = (this.value || []).length
-    const itemFields = new PartialFields(editor.fieldTypes, {
+    const itemFields = new PartialFields(selective.fieldTypes, {
       'partial': partialConfig,
     })
     itemFields.valueFromData({
@@ -584,9 +711,9 @@ export class PartialsField extends ListField {
     document.dispatchEvent(new CustomEvent('selective.render'))
   }
 
-  renderActionsFooter(editor, field, data) {
+  renderActionsFooter(selective, field, data) {
     return html`<div class="selective__actions">
-      <select class="selective__actions__add" @change=${(evt) => {field.handleAddItem(evt, editor)}}>
+      <select class="selective__actions__add" @change=${(evt) => {field.handleAddItem(evt, selective)}}>
         <option value="">${field.options['addLabel'] || 'Add section'}</option>
         ${repeat(Object.entries(field.partialTypes), (item) => item[0], (item, index) => html`
           <option value="${item[1]['key']}">${item[1]['label']}</option>
@@ -595,7 +722,12 @@ export class PartialsField extends ListField {
     </div>`
   }
 
-  renderActionsHeader(editor, field, data) {
+  renderActionsHeader(selective, field, data) {
+    // Hide when there are no values to expand/collapse.
+    if ((this.value || []).length <= 1) {
+      return ''
+    }
+
     // Allow collapsing and expanding of sub fields.
     return html`<div class="selective__actions">
       <button class="selective__action__toggle" @click=${field.handleToggleExpand.bind(field)}>
@@ -604,7 +736,7 @@ export class PartialsField extends ListField {
     </div>`
   }
 
-  renderCollapsedPartial(editor, partialItem) {
+  renderCollapsedPartial(selective, partialItem) {
     return html`
       <div class="selective__list__item__drag"><i class="material-icons">drag_indicator</i></div>
       <div class="selective__list__item__label" data-index=${partialItem['index']} @click=${this.handleItemExpand.bind(this)}>
@@ -620,17 +752,17 @@ export class PartialsField extends ListField {
       </div>`
   }
 
-  renderExpandedPartial(editor, partialItem) {
+  renderExpandedPartial(selective, partialItem) {
     const fields = partialItem.itemFields
     return html`
       <div class="selective__list__item__label" data-index=${partialItem['index']} @click=${this.handleItemCollapse.bind(this)}>
         ${partialItem['partialConfig']['label']}
       </div>
-      ${fields.template(editor, fields, this.value[partialItem['index']])}`
+      ${fields.template(selective, fields, this.value[partialItem['index']])}`
     return
   }
 
-  renderHiddenPartial(editor, partialItem) {
+  renderHiddenPartial(selective, partialItem) {
     return html`
       <div class="selective__list__item__drag"><i class="material-icons">drag_indicator</i></div>
       <div class="selective__list__item__label" data-index=${partialItem['index']}>
@@ -645,16 +777,13 @@ export class PartialsField extends ListField {
       </div>`
   }
 
-  renderItems(editor, data) {
+  renderItems(selective, data) {
     // No partials loaded yet.
     if (!Object.keys(this.partialTypes).length) {
       return html`<div class="editor__loading" title="Loading partial configurations"></div>`
     }
 
-    // If the sub fields have not been created create them now.
-    if (!this._listItems.length) {
-      this._listItems = this._createItems(editor, data)
-    }
+    this.ensureItems(selective, data)
 
     // Update the expanded state each render.
     for (const listItem of this._listItems) {
@@ -672,10 +801,10 @@ export class PartialsField extends ListField {
           @dragstart=${this.handleDragStart.bind(this)}
           @drop=${this.handleDrop.bind(this)}>
         ${listItem['isExpanded']
-          ? this.renderExpandedPartial(editor, listItem)
+          ? this.renderExpandedPartial(selective, listItem)
           : listItem['isHidden']
-            ? this.renderHiddenPartial(editor, listItem)
-            : this.renderCollapsedPartial(editor, listItem)}
+            ? this.renderHiddenPartial(selective, listItem)
+            : this.renderCollapsedPartial(selective, listItem)}
       </div>
     `)}`
   }
@@ -709,7 +838,7 @@ export class SelectField extends Field {
       ? ['check_box_outline_blank', 'check_box']
       : ['radio_button_unchecked', 'radio_button_checked'])
 
-    this.template = (editor, field, data) => html`<div
+    this.template = (selective, field, data) => html`<div
         class="selective__field selective__field__${field.fieldType} ${field.options.length > field.threshold ? `selective__field__${field.fieldType}--list` : ''}"
         data-field-type="${field.fieldType}" >
       <div class="selective__field__select__label">${field.label}</div>
@@ -723,7 +852,7 @@ export class SelectField extends Field {
           </div>
         `)}
       </div>
-      ${field.renderHelp(editor, field, data)}
+      ${field.renderHelp(selective, field, data)}
     </div>`
   }
 
@@ -781,11 +910,11 @@ export class TextField extends Field {
     this.threshold = this.getConfig().threshold || 75
     this._isSwitching = false
 
-    this.template = (editor, field, data) => html`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
+    this.template = (selective, field, data) => html`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
       <label for="${field.getUid()}">${field.label}</label>
       ${field.updateFromData(data)}
-      ${field.renderInput(editor, field, data)}
-      ${field.renderHelp(editor, field, data)}
+      ${field.renderInput(selective, field, data)}
+      ${field.renderHelp(selective, field, data)}
     </div>`
   }
 
@@ -812,7 +941,7 @@ export class TextField extends Field {
     }
   }
 
-  renderInput(editor, field, data) {
+  renderInput(selective, field, data) {
     // Switch to textarea if the length is long.
     if ((this.value || '').length > this.threshold) {
       return html`
@@ -838,14 +967,14 @@ export class TextareaField extends Field {
     super(config, extendedConfig)
     this.fieldType = 'textarea'
 
-    this.template = (editor, field, data) => html`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
+    this.template = (selective, field, data) => html`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
       <label for="${field.getUid()}">${field.label}</label>
       <textarea
           id="${field.getUid()}"
           rows="${field.getConfig().rows || 6}"
           placeholder="${field.placeholder}"
           @input=${field.handleInput.bind(field)}>${field.valueFromData(data) || ' '}</textarea>
-      ${field.renderHelp(editor, field, data)}
+      ${field.renderHelp(selective, field, data)}
     </div>`
   }
 }
@@ -857,19 +986,25 @@ class PartialFields extends Fields {
     this.label = this.getConfig().get('partial', {})['label'] || 'Partial'
     this.partialKey = partialKey
 
-    this.template = (editor, fields, data) => html`
+    this.template = (selective, fields, data) => html`
       ${fields.valueFromData(data)}
       ${repeat(fields.fields, (field) => field.getUid(), (field, index) => html`
-        ${field.template(editor, field, data)}
+        ${field.template(selective, field, data)}
       `)}`
   }
 }
 
-export class YamlField extends ConstructorField {
+export class YamlField extends ConstructorFileField {
   constructor(config, extendedConfig) {
     super(config, extendedConfig)
     this.fieldType = 'yaml'
     this.tag = '!g.yaml'
+    this.filterFunc = createWhiteBlackFilter(
+      // Whitelist.
+      [/^\/content\//, /^\/data\//, /\.yaml$/],
+      // Blacklist.
+      [],
+    )
   }
 }
 
