@@ -133,10 +133,18 @@ editor:
 
 The following field types are currently available for use in the editor configurations:
 
-- `text` - Standard text field.
-- `textarea` - Standard textarea field.
-- `markdown` - Uses a markdown editor to work with the content.
+- `checkbox` - Checkbox boolean field.
+- `document` - Grow document reference. Appears as `!g.doc ...` in the yaml.
+- `google_image` - Image field for uploading an image to Google Cloud Storage. (Requires configuration.)
+- `group` - Groups together other fields to make them expand/collapse in a group.
+- `image` - Image field for uploading an image to the local filesystem. (In development.)
+- `list` - List field for controlling lists of values.
+- `markdown` - Uses a markdown editor to work with the content. (In development.)
 - `partials` - shows the fields for all partials when editor configuration is defined.
+- `select` - Ability to provide a list of options to choose between. Also works as a multi-select.
+- `text` - Standard text field. Converts from input to textarea when text becomes longer.
+- `textarea` - Standard textarea field.
+- `yaml` - Grow yaml file reference. Appears as `!g.yaml ...` in the yaml.
 
 ## Development
 
@@ -152,8 +160,8 @@ yarn run watch
 To test the changes in another tab run:
 
 ```sh
-cd example
-grow run
+grow install example
+grow run example
 ```
 
 And visit [/_grow/editor/](http://localhost:8080/_grow/editor/)
