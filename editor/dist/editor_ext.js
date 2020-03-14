@@ -1423,9 +1423,8 @@ class FieldRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__[
     if (!selective.localize) {
       // TODO: render just a single input.
       return this.renderInput(selective, data);
-    }
+    } // Render the localization grid.
 
-    this.defaultLocale = selective.config.defaultLocale || 'en'; // Render the localization grid.
 
     return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
       <div class="selective__field__localization">
@@ -1462,7 +1461,8 @@ class FieldRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__[
     }
 
     const isClean = this.isClean;
-    this.isLocalized = selective.localize; // Only if the field is clean, update the value.
+    this.isLocalized = selective.localize;
+    this.defaultLocale = selective.config.defaultLocale || 'en'; // Only if the field is clean, update the value.
 
     if (isClean) {
       this.value = newValue;
@@ -1481,6 +1481,10 @@ class FieldRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__[
         data = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_4__["autoDeepObject"])(data);
 
         for (const locale of selective.config.locales || ['en', 'es']) {
+          if (locale == this.defaultLocale) {
+            continue;
+          }
+
           const localeKey = this.keyForLocale(locale);
           newValues[localeKey] = data.get(localeKey);
         }
@@ -10691,11 +10695,51 @@ class SelectField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
 class TextField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRewrite"] {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
-    this.fieldType = 'text';
+    this.fieldType = 'text'; // When the text field is too long, convert input to a textarea.
+
+    this.threshold = this.config.threshold || 75;
+    this._switched = {};
+  }
+
+  handleInput(evt) {
+    // Check if the threshold has been reached.
+    const target = evt.target;
+    const locale = target.dataset.locale;
+    const isInput = target.tagName.toLowerCase() == 'input';
+    const isOverThreshold = target.value.length > this.threshold;
+    const hasSwitched = this._switched[locale];
+
+    if (isInput && isOverThreshold && !hasSwitched) {
+      const id = target.id;
+      const position = target.selectionStart; // Trigger auto focus after a delay for rendering.
+
+      window.setTimeout(() => {
+        Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["inputFocusAtPosition"])(id, position);
+      }, 25);
+    } // Handle input after the check is complete for length.
+    // Prevents the re-render before the check is done.
+
+
+    super.handleInput(evt);
   }
 
   renderInput(selective, data, locale) {
     const value = this.getValueForLocale(locale) || '';
+
+    if (value.length > this.threshold) {
+      this._switched[locale] = true;
+    }
+
+    if (this._switched[locale]) {
+      return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+        <textarea
+          id="${this.uid}${locale}"
+          rows=${this.config.rows || 6}
+          placeholder=${this.config.placeholder}
+          data-locale=${locale || ''}
+          @input=${this.handleInput.bind(this)}>${value}</textarea>`;
+    }
+
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
       <input
         id="${this.uid}${locale}"
@@ -11158,13 +11202,14 @@ class Defer {
 /*!*******************************!*\
   !*** ./source/utility/dom.js ***!
   \*******************************/
-/*! exports provided: findParentByClassname, inputFocusAtEnd */
+/*! exports provided: findParentByClassname, inputFocusAtEnd, inputFocusAtPosition */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "findParentByClassname", function() { return findParentByClassname; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "inputFocusAtEnd", function() { return inputFocusAtEnd; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "inputFocusAtPosition", function() { return inputFocusAtPosition; });
 /**
  *  DOM helper functions.
  */
@@ -11185,6 +11230,17 @@ const inputFocusAtEnd = elementId => {
   inputEl.focus(); // Focus at the end to keep typing.
 
   inputEl.selectionStart = inputEl.selectionEnd = inputEl.value.length;
+};
+const inputFocusAtPosition = (elementId, position) => {
+  const inputEl = document.getElementById(elementId);
+
+  if (!inputEl) {
+    return;
+  }
+
+  inputEl.focus(); // Focus at the end to keep typing.
+
+  inputEl.selectionStart = inputEl.selectionEnd = position;
 };
 
 /***/ }),

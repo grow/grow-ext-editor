@@ -11,6 +11,7 @@ import {
 import {
   findParentByClassname,
   inputFocusAtEnd,
+  inputFocusAtPosition,
 } from '../../utility/dom'
 
 export class CheckboxField extends Field {
@@ -170,10 +171,49 @@ export class TextField extends FieldRewrite {
   constructor(config, extendedConfig) {
     super(config, extendedConfig)
     this.fieldType = 'text'
+
+    // When the text field is too long, convert input to a textarea.
+    this.threshold = this.config.threshold || 75
+    this._switched = {}
+  }
+
+  handleInput(evt) {
+    // Check if the threshold has been reached.
+    const target = evt.target
+    const locale = target.dataset.locale
+    const isInput = target.tagName.toLowerCase() == 'input'
+    const isOverThreshold = target.value.length > this.threshold
+    const hasSwitched = this._switched[locale]
+    if (isInput && isOverThreshold && !hasSwitched) {
+      const id = target.id
+      const position = target.selectionStart
+
+      // Trigger auto focus after a delay for rendering.
+      window.setTimeout(() => { inputFocusAtPosition(id, position) }, 25)
+    }
+
+    // Handle input after the check is complete for length.
+    // Prevents the re-render before the check is done.
+    super.handleInput(evt)
   }
 
   renderInput(selective, data, locale) {
     const value = this.getValueForLocale(locale) || ''
+
+    if (value.length > this.threshold) {
+      this._switched[locale] = true
+    }
+
+    if (this._switched[locale]) {
+      return html`
+        <textarea
+          id="${this.uid}${locale}"
+          rows=${this.config.rows || 6}
+          placeholder=${this.config.placeholder}
+          data-locale=${locale || ''}
+          @input=${this.handleInput.bind(this)}>${value}</textarea>`
+    }
+
     return html`
       <input
         id="${this.uid}${locale}"
