@@ -9084,7 +9084,7 @@ class Editor {
             <button
                 ?disabled=${editor._isSaving || editor.isClean}
                 class="editor__save editor--primary ${editor._isSaving ? 'editor__save--saving' : ''}"
-                @click=${() => editor.save()}>
+                @click=${editor.save.bind(editor)}>
               ${editor.isClean ? 'No changes' : editor._isSaving ? 'Saving...' : 'Save'}
             </button>
             <div class="editor__actions">
