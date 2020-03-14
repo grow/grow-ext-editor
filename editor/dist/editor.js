@@ -155,7 +155,7 @@ const UidMixin = superclass => class extends superclass {
 /*!***************************************************************!*\
   !*** /Users/randy/code/blinkk/selective-edit/js/selective.js ***!
   \***************************************************************/
-/*! exports provided: default, Field, SortableField, ListField, Fields, AutoFields, directive, html, repeat, render, autoConfig, autoDeepObject */
+/*! exports provided: default, Field, FieldRewrite, SortableField, ListField, Fields, FieldsRewrite, AutoFields, directive, html, repeat, render, autoConfig, autoDeepObject */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -174,25 +174,33 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _selective_field__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./selective/field */ "../../../selective-edit/js/selective/field.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Field", function() { return _selective_field__WEBPACK_IMPORTED_MODULE_3__["default"]; });
 
+/* harmony import */ var _selective_field_field__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./selective/field/field */ "../../../selective-edit/js/selective/field/field.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "FieldRewrite", function() { return _selective_field_field__WEBPACK_IMPORTED_MODULE_4__["default"]; });
+
+/* harmony import */ var _selective_fields_fields__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./selective/fields/fields */ "../../../selective-edit/js/selective/fields/fields.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "FieldsRewrite", function() { return _selective_fields_fields__WEBPACK_IMPORTED_MODULE_5__["default"]; });
+
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SortableField", function() { return _selective_field__WEBPACK_IMPORTED_MODULE_3__["SortableField"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ListField", function() { return _selective_field__WEBPACK_IMPORTED_MODULE_3__["ListField"]; });
 
-/* harmony import */ var _selective_fields__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./selective/fields */ "../../../selective-edit/js/selective/fields.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Fields", function() { return _selective_fields__WEBPACK_IMPORTED_MODULE_4__["default"]; });
+/* harmony import */ var _selective_fields__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./selective/fields */ "../../../selective-edit/js/selective/fields.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Fields", function() { return _selective_fields__WEBPACK_IMPORTED_MODULE_6__["default"]; });
 
-/* harmony import */ var _selective_autoFields__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./selective/autoFields */ "../../../selective-edit/js/selective/autoFields.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AutoFields", function() { return _selective_autoFields__WEBPACK_IMPORTED_MODULE_5__["default"]; });
+/* harmony import */ var _selective_autoFields__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./selective/autoFields */ "../../../selective-edit/js/selective/autoFields.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AutoFields", function() { return _selective_autoFields__WEBPACK_IMPORTED_MODULE_7__["default"]; });
 
-/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./utility/config */ "../../../selective-edit/js/utility/config.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "autoConfig", function() { return _utility_config__WEBPACK_IMPORTED_MODULE_6__["autoConfig"]; });
+/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./utility/config */ "../../../selective-edit/js/utility/config.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "autoConfig", function() { return _utility_config__WEBPACK_IMPORTED_MODULE_8__["autoConfig"]; });
 
-/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "autoDeepObject", function() { return _utility_deepObject__WEBPACK_IMPORTED_MODULE_7__["autoDeepObject"]; });
+/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "autoDeepObject", function() { return _utility_deepObject__WEBPACK_IMPORTED_MODULE_9__["autoDeepObject"]; });
 
 /**
  * Selective structure content editor.
  */
+
+
 
 
 
@@ -387,7 +395,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utility/compose */ "../../../selective-edit/js/utility/compose.js");
 /* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./autoFields */ "../../../selective-edit/js/selective/autoFields.js");
 /* harmony import */ var _fields__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./fields */ "../../../selective-edit/js/selective/fields.js");
-/* harmony import */ var _fieldTypes__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./fieldTypes */ "../../../selective-edit/js/selective/fieldTypes.js");
+/* harmony import */ var _fields_fields__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./fields/fields */ "../../../selective-edit/js/selective/fields/fields.js");
+/* harmony import */ var _fieldTypes__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./fieldTypes */ "../../../selective-edit/js/selective/fieldTypes.js");
 /**
  * Selective content editor.
  *
@@ -401,21 +410,27 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 class Editor extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_1__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["Base"]) {
   constructor(containerEl, config) {
     super();
     this.containerEl = containerEl;
-    this.fieldTypes = new _fieldTypes__WEBPACK_IMPORTED_MODULE_6__["default"]();
+    this.fieldTypes = new _fieldTypes__WEBPACK_IMPORTED_MODULE_7__["default"]();
+    this.localize = false;
     this._fields = null;
     this._data = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_2__["autoDeepObject"])({}); // Needs to be defined before the config is set.
 
     this.template = (editor, data) => lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective">
-      ${editor.fields.template(editor, editor.fields, data)}
+      ${editor.fields.template(editor, data)}
     </div>`;
 
     this.setConfig(config);
     this.bindEvents();
     this.render();
+  }
+
+  get config() {
+    return this.getConfig();
   }
 
   get data() {
@@ -424,7 +439,7 @@ class Editor extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["compo
 
   get fields() {
     if (!this._fields) {
-      const FieldsCls = this.getConfig().get('FieldsCls', _fields__WEBPACK_IMPORTED_MODULE_5__["default"]);
+      const FieldsCls = this.getConfig().get('FieldsCls', _fields_fields__WEBPACK_IMPORTED_MODULE_6__["default"]);
       this._fields = new FieldsCls(this.fieldTypes);
     }
 
@@ -1253,6 +1268,252 @@ class ListField extends SortableField {
 
 /***/ }),
 
+/***/ "../../../selective-edit/js/selective/field/field.js":
+/*!***************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/selective/field/field.js ***!
+  \***************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return FieldRewrite; });
+/* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! deep-extend */ "../../../selective-edit/node_modules/deep-extend/lib/deep-extend.js");
+/* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(deep_extend__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lit-html */ "../../../selective-edit/node_modules/lit-html/lit-html.js");
+/* harmony import */ var lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lit-html/directives/repeat */ "../../../selective-edit/node_modules/lit-html/directives/repeat.js");
+/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utility/compose */ "../../../selective-edit/js/utility/compose.js");
+/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
+/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../mixin/config */ "../../../selective-edit/js/mixin/config.js");
+/* harmony import */ var _mixin_uid__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../mixin/uid */ "../../../selective-edit/js/mixin/uid.js");
+/**
+ * Base field.
+ */
+
+
+
+
+
+
+
+class FieldRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_5__["default"], _mixin_uid__WEBPACK_IMPORTED_MODULE_6__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["Base"]) {
+  constructor(config, globalConfig) {
+    super();
+    this.fieldType = 'Field';
+    this.globalConfig = globalConfig || {};
+    this.isLocalized = false;
+    this.defaultLocale = 'en';
+    this.setConfig(config);
+    this._originalValue = undefined;
+    this.value = undefined; // Localization requires multiple values for one field.
+
+    this._originalValues = {};
+    this.values = {};
+  } // TODO: Remove.
+
+
+  static initialize(containerEl) {// Pass.
+  }
+
+  get config() {
+    return this.getConfig();
+  }
+
+  get classesField() {
+    const classes = ['selective__field', `selective__field__${this.fieldType}`];
+    return classes.join(' ');
+  }
+
+  get isClean() {
+    if (this.isLocalized) {
+      if (JSON.stringify(this.values) != JSON.stringify(this._originalValues)) {
+        return false;
+      }
+    }
+
+    return this._originalValue == this.value;
+  }
+
+  get key() {
+    return this.config.key;
+  }
+
+  get localizedValues() {
+    const localizedValues = {};
+
+    for (const key of Object.keys(this.values)) {
+      localizedValues[key] = this.values[key];
+    } // Set after the localized values are updated.
+
+
+    localizedValues[this.key] = this.value;
+    return deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, this._originalValues, localizedValues);
+  }
+
+  get template() {
+    return (selective, data) => lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
+      ${this.updateOriginal(selective, data)}
+      <div
+          class=${this.classesField}
+          data-field-type="${this.fieldType}">
+        ${this.renderField(selective, data)}
+      </div>`;
+  }
+
+  get uid() {
+    return this.getUid();
+  }
+
+  getValueForLocale(locale) {
+    if (!locale || locale == this.defaultLocale) {
+      return this.value;
+    }
+
+    return this.values[this.keyForLocale(locale)];
+  }
+
+  handleInput(evt) {
+    const value = evt.target.value;
+    const locale = evt.target.dataset.locale;
+    this.setValueForLocale(locale, value);
+  }
+
+  keyForLocale(locale) {
+    // Default locale does not get tagged.
+    if (locale == this.defaultLocale || !locale || locale == undefined) {
+      return this.key;
+    }
+
+    return `${this.key}@${locale}`;
+  } // TODO: Remove? Directives?
+
+
+  postRender(containerEl) {}
+
+  renderField(selective, data) {
+    return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
+      ${this.renderLabel(selective, data)}
+      ${this.renderLocalization(selective, data)}
+      ${this.renderHelp(selective, data)}`;
+  }
+
+  renderHelp(selective, data) {
+    if (!this.config.help) {
+      return '';
+    }
+
+    return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field__help">${this.config.help}</div>`;
+  }
+
+  renderInput(selective, data, locale) {
+    return 'Input not defined.';
+  }
+
+  renderLabel(selective, data) {
+    if (!this.config.label) {
+      return '';
+    }
+
+    return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field__label">
+      <label for="${this.uid}">${this.config.label}</label>
+    </div>`;
+  }
+
+  renderLocalization(selective, data) {
+    if (!selective.localize) {
+      // TODO: render just a single input.
+      return this.renderInput(selective, data);
+    }
+
+    this.defaultLocale = selective.config.defaultLocale || 'en'; // Render the localization grid.
+
+    return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
+      <div class="selective__field__localization">
+        ${Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__["repeat"])(selective.config.locales || ['en', 'es'], locale => locale, (locale, index) => lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
+            <div class="selective__field__localization__locale">
+              <label for="${this.uid}${locale}">${locale}</label>
+            </div>
+            <div class="selective__field__localization__input">
+              ${this.renderInput(selective, data, locale)}
+            </div>
+          `)}
+      </div>`;
+  }
+
+  setValueForLocale(locale, value) {
+    if (!locale || locale == undefined || locale == this.defaultLocale) {
+      this.value = value;
+    } else {
+      const localeKey = this.keyForLocale(locale);
+      this.values[localeKey] = value;
+    }
+
+    document.dispatchEvent(new CustomEvent('selective.render'));
+  } // Use the data passed to render to update the original value.
+  // Also update the clean value when applicable.
+
+
+  updateOriginal(selective, data) {
+    let newValue = data;
+
+    if (typeof data === 'object' && data !== null) {
+      data = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_4__["autoDeepObject"])(data);
+      newValue = data.get(this.key);
+    }
+
+    const isClean = this.isClean;
+    this.isLocalized = selective.localize; // Only if the field is clean, update the value.
+
+    if (isClean) {
+      this.value = newValue;
+
+      if (this.value == undefined) {
+        this.value = this.config.default;
+      }
+    }
+
+    this._originalValue = newValue; // Pull in localized values.
+
+    if (this.isLocalized) {
+      const newValues = {};
+
+      if (typeof data === 'object' && data !== null) {
+        data = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_4__["autoDeepObject"])(data);
+
+        for (const locale of selective.config.locales || ['en', 'es']) {
+          const localeKey = this.keyForLocale(locale);
+          newValues[localeKey] = data.get(localeKey);
+        }
+      } // Only if the field is clean, update the value.
+
+
+      if (isClean) {
+        // Copy the values to prevent shared pointer.
+        this.values = deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, newValues);
+      }
+
+      this._originalValues = newValues;
+    }
+
+    if (isClean != this.isClean) {
+      // Clean state has changed. Rerender.
+      document.dispatchEvent(new CustomEvent('selective.render'));
+    }
+  }
+
+  valueForLocale(selective, locale) {
+    // Default locale is the normal value.
+    if (!locale || locale == this.defaultLocale) {
+      return this.value;
+    }
+
+    return this.values[this.keyForLocale(locale)];
+  }
+
+}
+
+/***/ }),
+
 /***/ "../../../selective-edit/js/selective/fieldTypes.js":
 /*!**************************************************************************!*\
   !*** /Users/randy/code/blinkk/selective-edit/js/selective/fieldTypes.js ***!
@@ -1405,6 +1666,135 @@ class Fields extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_5__["compo
 
   valueFromData(data) {
     this._dataValue = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_7__["autoDeepObject"])(data);
+  }
+
+}
+
+/***/ }),
+
+/***/ "../../../selective-edit/js/selective/fields/fields.js":
+/*!*****************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/selective/fields/fields.js ***!
+  \*****************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return FieldsRewrite; });
+/* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! deep-extend */ "../../../selective-edit/node_modules/deep-extend/lib/deep-extend.js");
+/* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(deep_extend__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lit-html */ "../../../selective-edit/node_modules/lit-html/lit-html.js");
+/* harmony import */ var lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lit-html/directives/repeat */ "../../../selective-edit/node_modules/lit-html/directives/repeat.js");
+/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utility/compose */ "../../../selective-edit/js/utility/compose.js");
+/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../mixin/config */ "../../../selective-edit/js/mixin/config.js");
+/* harmony import */ var _mixin_uid__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../mixin/uid */ "../../../selective-edit/js/mixin/uid.js");
+/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../utility/config */ "../../../selective-edit/js/utility/config.js");
+/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
+/**
+ * Base fields.
+ */
+
+
+
+
+
+
+
+
+class FieldsRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_4__["default"], _mixin_uid__WEBPACK_IMPORTED_MODULE_5__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["Base"]) {
+  constructor(fieldTypes, config) {
+    super();
+    this._originalValue = undefined;
+    this._value = undefined;
+    this.fieldTypes = fieldTypes;
+    this.fields = [];
+    this.setConfig(config);
+  }
+
+  get config() {
+    return this.getConfig();
+  }
+
+  get isClean() {
+    for (const field of this.fields) {
+      if (!field.isClean) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  get template() {
+    return (selective, data) => lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__fields">
+      ${this.updateOriginal(selective, data)}
+      ${Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__["repeat"])(this.fields, field => field.uid, (field, index) => lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
+        ${field.template(selective, data)}
+      `)}
+    </div>`;
+  }
+
+  get value() {
+    const value = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_7__["autoDeepObject"])({});
+    const keySet = [];
+
+    for (const field of this.fields) {
+      if (!field.key) {
+        // When using field without a key it returns a subset of the data.
+        value.update(field.value);
+      } else {
+        if (field.isLocalized) {
+          // Mark that the field key was set.
+          keySet.push(field.key); // Localized fields return an object of keys and values.
+
+          value.update(field.localizedValues);
+        } else {
+          // If a field is reusing a key combine the existing values
+          // and the new values. New values will overwrite conflicting keys.
+          if (keySet.includes(field.key)) {
+            value.set(field.key, deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, value.get(field.key), field.value));
+            continue;
+          } // Mark that the field key was set.
+
+
+          keySet.push(field.key);
+          value.set(field.key, field.value);
+        }
+      }
+    }
+
+    return deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, this._originalValue.obj, value.obj);
+  }
+
+  set value(value) {
+    // Setting value doesn't actually do anything.
+    console.warn('Set a value on the fields, that is a no-op.');
+  }
+
+  addField(fieldConfig, globalConfig) {
+    fieldConfig = Object(_utility_config__WEBPACK_IMPORTED_MODULE_6__["autoConfig"])(fieldConfig, globalConfig);
+    const newField = this.fieldTypes.newField(fieldConfig.type, fieldConfig, globalConfig); // TODO: Handle placeholders.
+
+    if (newField) {
+      this.fields.push(newField);
+    }
+  } // TODO: look into directives.
+
+
+  postRender(containerEl) {
+    // Pass it along to the fields.
+    for (const field of this.fields) {
+      field.postRender(containerEl);
+    }
+  }
+
+  reset() {
+    this.fields = [];
+  }
+
+  updateOriginal(selective, data) {
+    this._originalValue = data;
   }
 
 }
@@ -8507,6 +8897,7 @@ class Document {
     this.defaultLocale = defaultLocale;
     this.locale = defaultLocale;
     this.content = content;
+    this._rawFrontMatter = rawFrontMatter;
   }
 
 }
@@ -8597,7 +8988,9 @@ class Editor {
     this._unverifiedServingPath = null;
     this.selective = new selective_edit__WEBPACK_IMPORTED_MODULE_4__["default"](null, {}); // Add the editor reference to the selective object for field access.
 
-    this.selective.editor = this; // Add the editor extension default field types.
+    this.selective.editor = this; // Load the selective editor preference for localize.
+
+    this.selective.localize = localStorage.getItem('selective.localize') == 'true'; // Add the editor extension default field types.
 
     for (const key of Object.keys(_field__WEBPACK_IMPORTED_MODULE_5__["defaultFields"])) {
       this.selective.addFieldType(key, _field__WEBPACK_IMPORTED_MODULE_5__["defaultFields"][key]);
@@ -8928,6 +9321,12 @@ class Editor {
     this.render();
   }
 
+  handleLocalize(evt) {
+    this.selective.localize = !this.selective.localize;
+    localStorage.setItem('selective.localize', this.selective.localize);
+    this.render();
+  }
+
   handleOpenInNew(evt) {
     window.open(this.previewUrl, '_blank');
   }
@@ -8979,6 +9378,7 @@ class Editor {
 
   handleSaveResponse(response, isAutosave) {
     this.document.update(response['pod_path'], response['front_matter'], response['raw_front_matter'], response['serving_paths'], response['default_locale'], response['content']);
+    this.selective.data = this.document.data;
     this._isSaving = false;
     this.listeners.trigger('save.response', response, isAutosave);
     this.render(true);
@@ -9060,6 +9460,7 @@ class Editor {
         <input type="text" value="${editor.podPath}"
           @change=${editor.handlePodPathChange.bind(editor)}
           @input=${editor.handlePodPathInput.bind(editor)}>
+        <i class="material-icons" @click=${editor.handleLocalize.bind(editor)} title="Localize content">translate</i>
         <i class="material-icons" @click=${editor.handleFullScreenClick.bind(editor)} title="Fullscreen">${editor.isFullScreen ? 'fullscreen_exit' : 'fullscreen'}</i>
       </div>
       <div class="editor__cards">
@@ -10272,56 +10673,21 @@ class SelectField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
   }
 
 }
-class TextField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
+class TextField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRewrite"] {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
     this.fieldType = 'text';
-    this.threshold = this.getConfig().threshold || 75;
-    this._isSwitching = false;
-
-    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
-      <label for="${field.getUid()}">${field.label}</label>
-      ${field.updateFromData(data)}
-      ${field.renderInput(selective, field, data)}
-      ${field.renderHelp(selective, field, data)}
-    </div>`;
   }
 
-  handleInput(evt) {
-    super.handleInput(evt); // Check if the threshold has been reached.
-
-    const isInput = evt.target.tagName.toLowerCase() == 'input';
-
-    if (isInput && this.value.length > this.threshold && !this._isSwitching) {
-      // Only trigger switch once.
-      this._isSwitching = true;
-      const id = evt.target.id;
-      document.dispatchEvent(new CustomEvent('selective.render')); // Trigger auto focus after a delay for rendering.
-
-      window.setTimeout(() => {
-        Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["inputFocusAtEnd"])(id);
-      }, 25);
-    }
-  }
-
-  renderInput(selective, field, data) {
-    // Switch to textarea if the length is long.
-    if ((this.value || '').length > this.threshold) {
-      return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-        <textarea
-            id="${field.getUid()}"
-            rows="${field.getConfig().rows || 6}"
-            placeholder="${field.placeholder}"
-            @input=${field.handleInput.bind(field)}>${this.value || ' '}</textarea>`;
-    }
-
+  renderInput(selective, data, locale) {
+    const value = this.getValueForLocale(locale) || '';
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
       <input
-        type="text"
-        id="${field.getUid()}"
-        value="${this.value || ''}"
-        placeholder="${field.placeholder}"
-        @input=${field.handleInput.bind(field)}>`;
+        id="${this.uid}${locale}"
+        placeholder=${this.config.placeholder || ''}
+        data-locale=${locale || ''}
+        @input=${this.handleInput.bind(this)}
+        value=${value} />`;
   }
 
 }

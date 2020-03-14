@@ -81,6 +81,9 @@ export default class Editor {
     // Add the editor reference to the selective object for field access.
     this.selective.editor = this
 
+    // Load the selective editor preference for localize.
+    this.selective.localize = localStorage.getItem('selective.localize') == 'true'
+
     // Add the editor extension default field types.
     for (const key of Object.keys(defaultFields)) {
       this.selective.addFieldType(key, defaultFields[key])
@@ -419,6 +422,12 @@ export default class Editor {
     this.render()
   }
 
+  handleLocalize(evt) {
+    this.selective.localize = !this.selective.localize
+    localStorage.setItem('selective.localize', this.selective.localize)
+    this.render()
+  }
+
   handleOpenInNew(evt) {
     window.open(this.previewUrl, '_blank')
   }
@@ -476,6 +485,7 @@ export default class Editor {
       response['serving_paths'],
       response['default_locale'],
       response['content'])
+    this.selective.data = this.document.data
 
     this._isSaving = false
     this.listeners.trigger('save.response', response, isAutosave)
@@ -558,6 +568,7 @@ export default class Editor {
         <input type="text" value="${editor.podPath}"
           @change=${editor.handlePodPathChange.bind(editor)}
           @input=${editor.handlePodPathInput.bind(editor)}>
+        <i class="material-icons" @click=${editor.handleLocalize.bind(editor)} title="Localize content">translate</i>
         <i class="material-icons" @click=${editor.handleFullScreenClick.bind(editor)} title="Fullscreen">${editor.isFullScreen ? 'fullscreen_exit' : 'fullscreen'}</i>
       </div>
       <div class="editor__cards">

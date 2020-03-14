@@ -6,6 +6,7 @@ import {
   html,
   repeat,
   Field,
+  FieldRewrite,
 } from 'selective-edit'
 import {
   findParentByClassname,
@@ -165,58 +166,21 @@ export class SelectField extends Field {
   }
 }
 
-export class TextField extends Field {
+export class TextField extends FieldRewrite {
   constructor(config, extendedConfig) {
     super(config, extendedConfig)
     this.fieldType = 'text'
-    this.threshold = this.getConfig().threshold || 75
-    this._isSwitching = false
-
-    this.template = (selective, field, data) => html`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
-      <label for="${field.getUid()}">${field.label}</label>
-      ${field.updateFromData(data)}
-      ${field.renderInput(selective, field, data)}
-      ${field.renderHelp(selective, field, data)}
-    </div>`
   }
 
-  handleInput(evt) {
-    super.handleInput(evt)
-
-    // Check if the threshold has been reached.
-    const isInput = evt.target.tagName.toLowerCase() == 'input'
-    if (isInput && this.value.length > this.threshold && !this._isSwitching) {
-      // Only trigger switch once.
-      this._isSwitching = true
-
-      const id = evt.target.id
-      document.dispatchEvent(new CustomEvent('selective.render'))
-
-      // Trigger auto focus after a delay for rendering.
-      window.setTimeout(
-        () => { inputFocusAtEnd(id) },
-        25)
-    }
-  }
-
-  renderInput(selective, field, data) {
-    // Switch to textarea if the length is long.
-    if ((this.value || '').length > this.threshold) {
-      return html`
-        <textarea
-            id="${field.getUid()}"
-            rows="${field.getConfig().rows || 6}"
-            placeholder="${field.placeholder}"
-            @input=${field.handleInput.bind(field)}>${this.value || ' '}</textarea>`
-    }
-
+  renderInput(selective, data, locale) {
+    const value = this.getValueForLocale(locale) || ''
     return html`
       <input
-        type="text"
-        id="${field.getUid()}"
-        value="${this.value || ''}"
-        placeholder="${field.placeholder}"
-        @input=${field.handleInput.bind(field)}>`
+        id="${this.uid}${locale}"
+        placeholder=${this.config.placeholder || ''}
+        data-locale=${locale || ''}
+        @input=${this.handleInput.bind(this)}
+        value=${value} />`
   }
 }
 

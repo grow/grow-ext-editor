@@ -46,5 +46,6 @@ export default class Document {
     this.defaultLocale = defaultLocale
     this.locale = defaultLocale
     this.content = content
+    this._rawFrontMatter = rawFrontMatter
   }
 }
