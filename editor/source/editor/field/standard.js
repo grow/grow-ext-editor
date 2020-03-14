@@ -143,8 +143,22 @@ export class SelectField extends FieldRewrite {
     // Original values need to be sorted when doing multi.
     if (this.config.multi) {
       value = value || []
+
+      // Convert multi to be an array if it was not before.
+      if (!Array.isArray(value)) {
+        value = [value]
+      }
+
       value.sort()
+      return value
     }
+
+    // Convert from an array if it was before.
+    if (Array.isArray(value)) {
+      // Use the first value of the existing array.
+      value = value[0]
+    }
+
     return value
   }
 

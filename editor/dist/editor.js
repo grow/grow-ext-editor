@@ -10677,8 +10677,20 @@ class SelectField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRewr
   _cleanOriginalValue(value) {
     // Original values need to be sorted when doing multi.
     if (this.config.multi) {
-      value = value || [];
+      value = value || []; // Convert multi to be an array if it was not before.
+
+      if (!Array.isArray(value)) {
+        value = [value];
+      }
+
       value.sort();
+      return value;
+    } // Convert from an array if it was before.
+
+
+    if (Array.isArray(value)) {
+      // Use the first value of the existing array.
+      value = value[0];
     }
 
     return value;
