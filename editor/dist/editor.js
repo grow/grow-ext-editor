@@ -9492,8 +9492,8 @@ class Editor {
               ${editor.isClean ? 'No changes' : editor._isSaving ? 'Saving...' : 'Save'}
             </button>
             <div class="editor__actions">
-              <button class="editor__style__fields editor--secondary editor--selected" @click=${editor.handleFieldsClick.bind(editor)}>Fields</button>
-              <button class="editor__style__raw editor--secondary" @click=${editor.handleSourceClick.bind(editor)}>Raw</button>
+              <button class="editor__style__fields editor--secondary ${this.isEditingSource ? '' : 'editor--selected'}" @click=${editor.handleFieldsClick.bind(editor)}>Fields</button>
+              <button class="editor__style__raw editor--secondary ${this.isEditingSource ? 'editor--selected' : ''}" @click=${editor.handleSourceClick.bind(editor)}>Raw</button>
             </div>
           </div>
           ${editor.templateEditorOrSource}
