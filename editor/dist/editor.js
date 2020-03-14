@@ -1593,8 +1593,6 @@ class GroupField extends _field__WEBPACK_IMPORTED_MODULE_7__["default"] {
     this.fieldType = 'group';
     this.fields = null;
     this.isExpanded = false;
-    this.isExpanded = true; // TODO: remove
-
     this.ignoreLocalize = true;
   }
 
@@ -1618,36 +1616,7 @@ class GroupField extends _field__WEBPACK_IMPORTED_MODULE_7__["default"] {
       return this.originalValue;
     }
 
-    const value = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_4__["autoDeepObject"])({}); // TODO: this logic is shared with the Fields class.
-
-    const keySet = [];
-
-    for (const field of this.fields.fields) {
-      if (!field.key) {
-        // When using field without a key it returns a subset of the data.
-        value.update(field.value);
-      } else {
-        if (field.isLocalized) {
-          // Mark that the field key was set.
-          keySet.push(field.key); // Localized fields return an object of keys and values.
-
-          value.update(field.localizedValues);
-        } else {
-          // If a field is reusing a key combine the existing values
-          // and the new values. New values will overwrite conflicting keys.
-          if (keySet.includes(field.key)) {
-            value.set(field.key, deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, value.get(field.key), field.value));
-            continue;
-          } // Mark that the field key was set.
-
-
-          keySet.push(field.key);
-          value.set(field.key, field.value);
-        }
-      }
-    }
-
-    return deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, this.originalValue, value.obj);
+    return deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, this.originalValue, this.fields.value);
   }
 
   set value(value) {// Ignore.
@@ -1938,8 +1907,7 @@ class FieldsRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__
   }
 
   get value() {
-    const value = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_7__["autoDeepObject"])({}); // TODO: this logic is shared with the Groups class.
-
+    const value = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_7__["autoDeepObject"])({});
     const keySet = [];
 
     for (const field of this.fields) {
