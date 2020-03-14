@@ -13,79 +13,116 @@ import {
   inputFocusAtPosition,
 } from '../../utility/dom'
 
-export class CheckboxField extends Field {
+export class CheckboxField extends FieldRewrite {
   constructor(config, extendedConfig) {
     super(config, extendedConfig)
     this.fieldType = 'checkbox'
+  }
 
-    this.template = (selective, field, data) => html`<div
-        class="selective__field selective__field__${field.fieldType} ${field.valueFromData(data) ? 'selective__field__checkbox--checked' : ''}"
-        data-field-type="${field.fieldType}" @click=${field.handleInput.bind(field)}>
-      <div class="selective__field__checkbox__label">${field.label}</div>
-      <i class="material-icons">${this.value ? 'check_box' : 'check_box_outline_blank'}</i>
-      ${field.renderHelp(selective, field, data)}
-    </div>`
+  get classesLabel() {
+    const classes = [
+      'selective__field__checkbox__label',
+    ]
+
+    return classes.join(' ')
   }
 
   handleInput(evt) {
-    this.value = !this.value
-    document.dispatchEvent(new CustomEvent('selective.render'))
+    const locale = evt.target.dataset.locale
+    const value = !(this.getValueForLocale(locale) || false)
+    this.setValueForLocale(locale, value)
+  }
+
+  renderInput(selective, data, locale) {
+    const value = this.getValueForLocale(locale) || false
+
+    return html`
+      <div
+          class=${this.classesLabel}
+          data-locale=${locale || ''}
+          @click=${this.handleInput.bind(this)}>
+        ${this.config.label}
+      </div>
+      <i
+          class="material-icons"
+          data-locale=${locale || ''}
+          @click=${this.handleInput.bind(this)}>
+        ${value ? 'check_box' : 'check_box_outline_blank'}
+      </i>`
+  }
+
+  // Label is shown by the individual input.
+  renderLabel(selective, data) {
+    return ''
   }
 }
 
-export class DateField extends Field {
+export class DateField extends FieldRewrite {
   constructor(config, extendedConfig) {
     super(config, extendedConfig)
     this.fieldType = 'date'
+  }
 
-    this.template = (selective, field, data) => html`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
-      <label for="${field.getUid()}">${field.label}</label>
+  renderInput(selective, data, locale) {
+    const value = this.getValueForLocale(locale) || ''
+
+    return html`
       <input
-          id="${field.getUid()}"
-          type="date"
-          placeholder="${field.placeholder}"
-          @input=${field.handleInput.bind(field)}
-          value=${field.valueFromData(data) || ''} />
-      ${field.renderHelp(selective, field, data)}
-    </div>`
+        id="${this.uid}${locale}"
+        type="date"
+        placeholder=${this.config.placeholder || ''}
+        data-locale=${locale || ''}
+        @input=${this.handleInput.bind(this)}
+        value=${value} />`
   }
 }
 
-export class DateTimeField extends Field {
+export class DateTimeField extends FieldRewrite {
   constructor(config, extendedConfig) {
     super(config, extendedConfig)
     this.fieldType = 'datetime'
+  }
 
-    this.template = (selective, field, data) => html`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
-      <label for="${field.getUid()}">${field.label}</label>
+  // Original values may contain seconds which the datetime ignores.
+  _cleanOriginalValue(value) {
+    if (value.length > 16) {
+      value = value.slice(0, 16)
+    }
+    return value
+  }
+
+  renderInput(selective, data, locale) {
+    const value = this.getValueForLocale(locale) || ''
+
+    return html`
       <input
-          id="${field.getUid()}"
-          type="datetime-local"
-          placeholder="${field.placeholder}"
-          @input=${field.handleInput.bind(field)}
-          value=${field.valueFromData(data) || ''} />
-      ${field.renderHelp(selective, field, data)}
-    </div>`
+        id="${this.uid}${locale}"
+        type="datetime-local"
+        placeholder=${this.config.placeholder || ''}
+        data-locale=${locale || ''}
+        @input=${this.handleInput.bind(this)}
+        value=${value} />`
   }
 }
 
-// TODO: Use a full markdown editor.
-export class MarkdownField extends Field {
+// TODO: Add a WYSIWYG editor.
+// TODO: Ability to switch between markdown and WYSIWYG.
+export class MarkdownField extends FieldRewrite {
   constructor(config, extendedConfig) {
     super(config, extendedConfig)
     this.fieldType = 'markdown'
+  }
 
-    this.template = (selective, field, data) => html`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
-      <label for="${field.getUid()}">${field.label}</label>
+  renderInput(selective, data, locale) {
+    const value = this.getValueForLocale(locale) || ''
+
+    return html`
       <textarea
-          id="${field.getUid()}"
-          rows="${field.getConfig().rows || 6}"
-          placeholder="${field.placeholder}"
-          @input=${field.handleInput.bind(field)}>
-        ${field.valueFromData(data) || ' '}
-      </textarea>
-      ${field.renderHelp(selective, field, data)}
-    </div>`
+        id="${this.uid}${locale}"
+        rows=${this.config.rows || 6}
+        placeholder=${this.config.placeholder || ''}
+        data-locale=${locale || ''}
+        @input=${this.handleInput.bind(this)}>${value}</textarea>`
   }
 }
 

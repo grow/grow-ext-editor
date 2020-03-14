@@ -1331,7 +1331,7 @@ class FieldRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__[
       }
     }
 
-    return this._originalValue == this.value;
+    return this.originalValue == this.value;
   }
 
   get key() {
@@ -1348,6 +1348,10 @@ class FieldRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__[
 
     localizedValues[this.key] = this.value;
     return deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, this._originalValues, localizedValues);
+  }
+
+  get originalValue() {
+    return this._originalValue;
   }
 
   get template() {
@@ -1370,6 +1374,15 @@ class FieldRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__[
     }
 
     return this.values[this.keyForLocale(locale)];
+  }
+
+  set originalValue(value) {
+    this._originalValue = value;
+  } // Original values may come back in a bad format for the editor.
+
+
+  _cleanOriginalValue(value) {
+    return value;
   }
 
   handleInput(evt) {
@@ -1462,7 +1475,9 @@ class FieldRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__[
 
     const isClean = this.isClean;
     this.isLocalized = selective.localize;
-    this.defaultLocale = selective.config.defaultLocale || 'en'; // Only if the field is clean, update the value.
+    this.defaultLocale = selective.config.defaultLocale || 'en'; // Certain formats in the data may need to be cleaned up
+
+    newValue = this._cleanOriginalValue(newValue); // Only if the field is clean, update the value.
 
     if (isClean) {
       this.value = newValue;
@@ -1472,7 +1487,7 @@ class FieldRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__[
       }
     }
 
-    this._originalValue = newValue; // Pull in localized values.
+    this.originalValue = newValue; // Pull in localized values.
 
     if (this.isLocalized) {
       const newValues = {};
@@ -1486,7 +1501,7 @@ class FieldRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__[
           }
 
           const localeKey = this.keyForLocale(locale);
-          newValues[localeKey] = data.get(localeKey);
+          newValues[localeKey] = this._cleanOriginalValue(data.get(localeKey));
         }
       } // Only if the field is clean, update the value.
 
@@ -10542,79 +10557,110 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 
-class CheckboxField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
+class CheckboxField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRewrite"] {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
     this.fieldType = 'checkbox';
+  }
 
-    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div
-        class="selective__field selective__field__${field.fieldType} ${field.valueFromData(data) ? 'selective__field__checkbox--checked' : ''}"
-        data-field-type="${field.fieldType}" @click=${field.handleInput.bind(field)}>
-      <div class="selective__field__checkbox__label">${field.label}</div>
-      <i class="material-icons">${this.value ? 'check_box' : 'check_box_outline_blank'}</i>
-      ${field.renderHelp(selective, field, data)}
-    </div>`;
+  get classesLabel() {
+    const classes = ['selective__field__checkbox__label'];
+    return classes.join(' ');
   }
 
   handleInput(evt) {
-    this.value = !this.value;
-    document.dispatchEvent(new CustomEvent('selective.render'));
+    const locale = evt.target.dataset.locale;
+    const value = !(this.getValueForLocale(locale) || false);
+    this.setValueForLocale(locale, value);
+  }
+
+  renderInput(selective, data, locale) {
+    const value = this.getValueForLocale(locale) || false;
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <div
+          class=${this.classesLabel}
+          data-locale=${locale || ''}
+          @click=${this.handleInput.bind(this)}>
+        ${this.config.label}
+      </div>
+      <i
+          class="material-icons"
+          data-locale=${locale || ''}
+          @click=${this.handleInput.bind(this)}>
+        ${value ? 'check_box' : 'check_box_outline_blank'}
+      </i>`;
+  } // Label is shown by the individual input.
+
+
+  renderLabel(selective, data) {
+    return '';
   }
 
 }
-class DateField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
+class DateField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRewrite"] {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
     this.fieldType = 'date';
+  }
 
-    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
-      <label for="${field.getUid()}">${field.label}</label>
+  renderInput(selective, data, locale) {
+    const value = this.getValueForLocale(locale) || '';
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
       <input
-          id="${field.getUid()}"
-          type="date"
-          placeholder="${field.placeholder}"
-          @input=${field.handleInput.bind(field)}
-          value=${field.valueFromData(data) || ''} />
-      ${field.renderHelp(selective, field, data)}
-    </div>`;
+        id="${this.uid}${locale}"
+        type="date"
+        placeholder=${this.config.placeholder || ''}
+        data-locale=${locale || ''}
+        @input=${this.handleInput.bind(this)}
+        value=${value} />`;
   }
 
 }
-class DateTimeField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
+class DateTimeField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRewrite"] {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
     this.fieldType = 'datetime';
+  } // Original values may contain seconds which the datetime ignores.
 
-    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
-      <label for="${field.getUid()}">${field.label}</label>
-      <input
-          id="${field.getUid()}"
-          type="datetime-local"
-          placeholder="${field.placeholder}"
-          @input=${field.handleInput.bind(field)}
-          value=${field.valueFromData(data) || ''} />
-      ${field.renderHelp(selective, field, data)}
-    </div>`;
+
+  _cleanOriginalValue(value) {
+    if (value.length > 16) {
+      value = value.slice(0, 16);
+    }
+
+    return value;
   }
 
-} // TODO: Use a full markdown editor.
+  renderInput(selective, data, locale) {
+    const value = this.getValueForLocale(locale) || '';
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <input
+        id="${this.uid}${locale}"
+        type="datetime-local"
+        placeholder=${this.config.placeholder || ''}
+        data-locale=${locale || ''}
+        @input=${this.handleInput.bind(this)}
+        value=${value} />`;
+  }
 
-class MarkdownField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
+} // TODO: Add a WYSIWYG editor.
+// TODO: Ability to switch between markdown and WYSIWYG.
+
+class MarkdownField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRewrite"] {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
     this.fieldType = 'markdown';
+  }
 
-    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
-      <label for="${field.getUid()}">${field.label}</label>
+  renderInput(selective, data, locale) {
+    const value = this.getValueForLocale(locale) || '';
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
       <textarea
-          id="${field.getUid()}"
-          rows="${field.getConfig().rows || 6}"
-          placeholder="${field.placeholder}"
-          @input=${field.handleInput.bind(field)}>
-        ${field.valueFromData(data) || ' '}
-      </textarea>
-      ${field.renderHelp(selective, field, data)}
-    </div>`;
+        id="${this.uid}${locale}"
+        rows=${this.config.rows || 6}
+        placeholder=${this.config.placeholder || ''}
+        data-locale=${locale || ''}
+        @input=${this.handleInput.bind(this)}>${value}</textarea>`;
   }
 
 }
