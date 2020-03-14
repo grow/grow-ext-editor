@@ -58,8 +58,19 @@
 .selective__field__label
   padding: $ge-pad/2 0
 
+  &--action
+    cursor: pointer
+
+  &--strong
+    font-weight: 700
+
   .selective__field__partials &
     font-weight: bold
+
+.selective__field__label__actions
+  align-items: center
+  display: flex
+  flex-flow: row
 
 .selective__field__date,
 .selective__field__datetime,
@@ -349,8 +360,7 @@
     background: $ge-color-back-light
 
 .selective__field__group
-  margin-bottom: $ge-pad
-  margin-top: $ge-pad/2
+  margin: $ge-pad/2 0
 
   &:last-child
     margin-bottom: 0

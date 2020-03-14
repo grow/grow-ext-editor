@@ -155,7 +155,7 @@ const UidMixin = superclass => class extends superclass {
 /*!***************************************************************!*\
   !*** /Users/randy/code/blinkk/selective-edit/js/selective.js ***!
   \***************************************************************/
-/*! exports provided: default, Field, FieldRewrite, SortableField, ListField, Fields, FieldsRewrite, AutoFields, directive, html, repeat, render, autoConfig, autoDeepObject */
+/*! exports provided: default, Field, FieldRewrite, GroupField, SortableField, ListField, Fields, FieldsRewrite, AutoFields, directive, html, repeat, render, autoConfig, autoDeepObject */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -177,28 +177,32 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _selective_field_field__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./selective/field/field */ "../../../selective-edit/js/selective/field/field.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "FieldRewrite", function() { return _selective_field_field__WEBPACK_IMPORTED_MODULE_4__["default"]; });
 
-/* harmony import */ var _selective_fields_fields__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./selective/fields/fields */ "../../../selective-edit/js/selective/fields/fields.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "FieldsRewrite", function() { return _selective_fields_fields__WEBPACK_IMPORTED_MODULE_5__["default"]; });
+/* harmony import */ var _selective_field_structure__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./selective/field/structure */ "../../../selective-edit/js/selective/field/structure.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "GroupField", function() { return _selective_field_structure__WEBPACK_IMPORTED_MODULE_5__["GroupField"]; });
+
+/* harmony import */ var _selective_fields_fields__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./selective/fields/fields */ "../../../selective-edit/js/selective/fields/fields.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "FieldsRewrite", function() { return _selective_fields_fields__WEBPACK_IMPORTED_MODULE_6__["default"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SortableField", function() { return _selective_field__WEBPACK_IMPORTED_MODULE_3__["SortableField"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ListField", function() { return _selective_field__WEBPACK_IMPORTED_MODULE_3__["ListField"]; });
 
-/* harmony import */ var _selective_fields__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./selective/fields */ "../../../selective-edit/js/selective/fields.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Fields", function() { return _selective_fields__WEBPACK_IMPORTED_MODULE_6__["default"]; });
+/* harmony import */ var _selective_fields__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./selective/fields */ "../../../selective-edit/js/selective/fields.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Fields", function() { return _selective_fields__WEBPACK_IMPORTED_MODULE_7__["default"]; });
 
-/* harmony import */ var _selective_autoFields__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./selective/autoFields */ "../../../selective-edit/js/selective/autoFields.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AutoFields", function() { return _selective_autoFields__WEBPACK_IMPORTED_MODULE_7__["default"]; });
+/* harmony import */ var _selective_autoFields__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./selective/autoFields */ "../../../selective-edit/js/selective/autoFields.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AutoFields", function() { return _selective_autoFields__WEBPACK_IMPORTED_MODULE_8__["default"]; });
 
-/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./utility/config */ "../../../selective-edit/js/utility/config.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "autoConfig", function() { return _utility_config__WEBPACK_IMPORTED_MODULE_8__["autoConfig"]; });
+/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./utility/config */ "../../../selective-edit/js/utility/config.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "autoConfig", function() { return _utility_config__WEBPACK_IMPORTED_MODULE_9__["autoConfig"]; });
 
-/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "autoDeepObject", function() { return _utility_deepObject__WEBPACK_IMPORTED_MODULE_9__["autoDeepObject"]; });
+/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "autoDeepObject", function() { return _utility_deepObject__WEBPACK_IMPORTED_MODULE_10__["autoDeepObject"]; });
 
 /**
  * Selective structure content editor.
  */
+
 
 
 
@@ -1302,6 +1306,7 @@ class FieldRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__[
     this.fieldType = 'Field';
     this.globalConfig = globalConfig || {};
     this.isLocalized = false;
+    this.ignoreLocalize = false;
     this.defaultLocale = 'en';
     this.setConfig(config);
     this._originalValue = undefined;
@@ -1408,6 +1413,11 @@ class FieldRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__[
 
   postRender(containerEl) {}
 
+  render() {
+    // Trigger a render event.
+    document.dispatchEvent(new CustomEvent('selective.render'));
+  }
+
   renderField(selective, data) {
     return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
       ${this.renderLabel(selective, data)}
@@ -1438,8 +1448,7 @@ class FieldRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__[
   }
 
   renderLocalization(selective, data) {
-    if (!selective.localize) {
-      // TODO: render just a single input.
+    if (this.ignoreLocalize || !selective.localize) {
       return this.renderInput(selective, data);
     } // Render the localization grid.
 
@@ -1465,7 +1474,7 @@ class FieldRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__[
       this.values[localeKey] = value;
     }
 
-    document.dispatchEvent(new CustomEvent('selective.render'));
+    this.render();
   } // Use the data passed to render to update the original value.
   // Also update the clean value when applicable.
 
@@ -1531,7 +1540,7 @@ class FieldRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__[
 
     if (isClean != this.isClean) {
       // Clean state has changed. Rerender.
-      document.dispatchEvent(new CustomEvent('selective.render'));
+      this.render();
     }
   }
 
@@ -1542,6 +1551,165 @@ class FieldRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__[
     }
 
     return this.values[this.keyForLocale(locale)];
+  }
+
+}
+
+/***/ }),
+
+/***/ "../../../selective-edit/js/selective/field/structure.js":
+/*!*******************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/selective/field/structure.js ***!
+  \*******************************************************************************/
+/*! exports provided: GroupField */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GroupField", function() { return GroupField; });
+/* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! deep-extend */ "../../../selective-edit/node_modules/deep-extend/lib/deep-extend.js");
+/* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(deep_extend__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lit-html */ "../../../selective-edit/node_modules/lit-html/lit-html.js");
+/* harmony import */ var lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lit-html/directives/repeat */ "../../../selective-edit/node_modules/lit-html/directives/repeat.js");
+/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utility/config */ "../../../selective-edit/js/utility/config.js");
+/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
+/* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../autoFields */ "../../../selective-edit/js/selective/autoFields.js");
+/* harmony import */ var _fields_fields__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../fields/fields */ "../../../selective-edit/js/selective/fields/fields.js");
+/* harmony import */ var _field__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./field */ "../../../selective-edit/js/selective/field/field.js");
+/**
+ * Structure fields for controlling the flow of fields.
+ */
+
+
+
+
+
+
+
+
+class GroupField extends _field__WEBPACK_IMPORTED_MODULE_7__["default"] {
+  constructor(config, globalConfig) {
+    super(config, globalConfig);
+    this.fieldType = 'group';
+    this.fields = null;
+    this.isExpanded = false;
+    this.isExpanded = true; // TODO: remove
+
+    this.ignoreLocalize = true;
+  }
+
+  get isClean() {
+    // If there are no fields, nothing has changed.
+    if (!this.fields) {
+      return true;
+    }
+
+    for (const field of this.fields.fields) {
+      if (!field.isClean) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  get value() {
+    if (!this.fields) {
+      return this.originalValue;
+    }
+
+    const value = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_4__["autoDeepObject"])({}); // TODO: this logic is shared with the Fields class.
+
+    const keySet = [];
+
+    for (const field of this.fields.fields) {
+      if (!field.key) {
+        // When using field without a key it returns a subset of the data.
+        value.update(field.value);
+      } else {
+        if (field.isLocalized) {
+          // Mark that the field key was set.
+          keySet.push(field.key); // Localized fields return an object of keys and values.
+
+          value.update(field.localizedValues);
+        } else {
+          // If a field is reusing a key combine the existing values
+          // and the new values. New values will overwrite conflicting keys.
+          if (keySet.includes(field.key)) {
+            value.set(field.key, deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, value.get(field.key), field.value));
+            continue;
+          } // Mark that the field key was set.
+
+
+          keySet.push(field.key);
+          value.set(field.key, field.value);
+        }
+      }
+    }
+
+    return deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, this.originalValue, value.obj);
+  }
+
+  set value(value) {// Ignore.
+  }
+
+  _createFields(selective, data) {
+    const FieldsCls = this.config.get('FieldsCls', _fields_fields__WEBPACK_IMPORTED_MODULE_6__["default"]);
+    const fields = new FieldsCls(selective.fieldTypes);
+    fields.updateOriginal(this.originalValue);
+    let fieldConfigs = this.config.fields || [];
+    const useAutoFields = fieldConfigs.length == 0;
+
+    if (useAutoFields) {
+      // Auto guess the fields if they are not defined.
+      const AutoFieldsCls = this.config.get('AutoFieldsCls', _autoFields__WEBPACK_IMPORTED_MODULE_5__["default"]);
+      fieldConfigs = new AutoFieldsCls(this.originalValue).config['fields'];
+    }
+
+    for (let fieldConfig of fieldConfigs || []) {
+      fieldConfig = Object(_utility_config__WEBPACK_IMPORTED_MODULE_3__["autoConfig"])(fieldConfig, this.globalConfig);
+      fields.addField(fieldConfig, this.globalConfig);
+    }
+
+    for (const field of fields.fields) {
+      field.updateOriginal(selective, this.originalValue);
+    }
+
+    return fields;
+  }
+
+  ensureFields(selective, data) {
+    if (!this.fields) {
+      this.fields = this._createFields(selective, data);
+    }
+  }
+
+  handleExpandToggle(evt) {
+    this.isExpanded = !this.isExpanded;
+    this.render();
+  }
+
+  renderInput(selective, data, locale) {
+    if (!this.isExpanded) {
+      return '';
+    }
+
+    this.ensureFields(selective, data);
+    return this.fields.template(selective, this.originalValue);
+  }
+
+  renderLabel(selective, data) {
+    return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
+      <div
+          class="selective__field__label selective__field__label--action selective__field__label--strong"
+          @click=${this.handleExpandToggle.bind(this)}>
+        <div class="selective__field__label__actions">
+          <i class="material-icons">
+            ${this.isExpanded ? 'expand_less' : 'expand_more'}
+          </i>
+          <label>${this.config.label || '(Group)'}</label>
+        </div>
+      </div>`;
   }
 
 }
@@ -1770,7 +1938,8 @@ class FieldsRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__
   }
 
   get value() {
-    const value = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_7__["autoDeepObject"])({});
+    const value = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_7__["autoDeepObject"])({}); // TODO: this logic is shared with the Groups class.
+
     const keySet = [];
 
     for (const field of this.fields) {
@@ -9772,10 +9941,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "defaultFields", function() { return defaultFields; });
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
 /* harmony import */ var _field_constructor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./field/constructor */ "./source/editor/field/constructor.js");
-/* harmony import */ var _field_structure__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./field/structure */ "./source/editor/field/structure.js");
-/* harmony import */ var _field_image__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./field/image */ "./source/editor/field/image.js");
-/* harmony import */ var _field_partials__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./field/partials */ "./source/editor/field/partials.js");
-/* harmony import */ var _field_standard__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./field/standard */ "./source/editor/field/standard.js");
+/* harmony import */ var _field_image__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./field/image */ "./source/editor/field/image.js");
+/* harmony import */ var _field_partials__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./field/partials */ "./source/editor/field/partials.js");
+/* harmony import */ var _field_standard__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./field/standard */ "./source/editor/field/standard.js");
 /**
  * Field types for the editor extension.
  */
@@ -9784,21 +9952,20 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 const defaultFields = {
-  'checkbox': _field_standard__WEBPACK_IMPORTED_MODULE_5__["CheckboxField"],
-  'date': _field_standard__WEBPACK_IMPORTED_MODULE_5__["DateField"],
-  'datetime': _field_standard__WEBPACK_IMPORTED_MODULE_5__["DateTimeField"],
+  'checkbox': _field_standard__WEBPACK_IMPORTED_MODULE_4__["CheckboxField"],
+  'date': _field_standard__WEBPACK_IMPORTED_MODULE_4__["DateField"],
+  'datetime': _field_standard__WEBPACK_IMPORTED_MODULE_4__["DateTimeField"],
   'document': _field_constructor__WEBPACK_IMPORTED_MODULE_1__["DocumentField"],
-  'google_image': _field_image__WEBPACK_IMPORTED_MODULE_3__["GoogleImageField"],
-  'group': _field_structure__WEBPACK_IMPORTED_MODULE_2__["GroupField"],
-  'image': _field_image__WEBPACK_IMPORTED_MODULE_3__["ImageField"],
+  'google_image': _field_image__WEBPACK_IMPORTED_MODULE_2__["GoogleImageField"],
+  'group': selective_edit__WEBPACK_IMPORTED_MODULE_0__["GroupField"],
+  'image': _field_image__WEBPACK_IMPORTED_MODULE_2__["ImageField"],
   'list': selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListField"],
-  'markdown': _field_standard__WEBPACK_IMPORTED_MODULE_5__["MarkdownField"],
-  'partials': _field_partials__WEBPACK_IMPORTED_MODULE_4__["PartialsField"],
-  'select': _field_standard__WEBPACK_IMPORTED_MODULE_5__["SelectField"],
-  'text': _field_standard__WEBPACK_IMPORTED_MODULE_5__["TextField"],
-  'textarea': _field_standard__WEBPACK_IMPORTED_MODULE_5__["TextareaField"],
+  'markdown': _field_standard__WEBPACK_IMPORTED_MODULE_4__["MarkdownField"],
+  'partials': _field_partials__WEBPACK_IMPORTED_MODULE_3__["PartialsField"],
+  'select': _field_standard__WEBPACK_IMPORTED_MODULE_4__["SelectField"],
+  'text': _field_standard__WEBPACK_IMPORTED_MODULE_4__["TextField"],
+  'textarea': _field_standard__WEBPACK_IMPORTED_MODULE_4__["TextareaField"],
   'yaml': _field_constructor__WEBPACK_IMPORTED_MODULE_1__["YamlField"]
 };
 
@@ -10823,148 +10990,6 @@ class TextareaField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRe
         placeholder=${this.config.placeholder || ''}
         data-locale=${locale || ''}
         @input=${this.handleInput.bind(this)}>${value}</textarea>`;
-  }
-
-}
-
-/***/ }),
-
-/***/ "./source/editor/field/structure.js":
-/*!******************************************!*\
-  !*** ./source/editor/field/structure.js ***!
-  \******************************************/
-/*! exports provided: GroupField */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GroupField", function() { return GroupField; });
-/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
-/* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../autoFields */ "./source/editor/autoFields.js");
-/**
- * Structure field types for the editor extension.
- */
-
-
-class GroupField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig);
-    this.fieldType = 'group';
-    this.fields = null;
-    this.isExpanded = false;
-
-    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
-      ${field.ensureFields(selective, data)}
-      ${field.updateFromData(data)}
-      <div class="selective__field__${field.fieldType}__handle" @click=${field.handleToggleExpand.bind(field)}>
-        <i class="material-icons">${field.isExpanded ? 'expand_less' : 'expand_more'}</i>
-        <div class="selective__field__${field.fieldType}__label">${field.label}</div>
-      </div>
-      ${field.renderFields(selective, data)}
-      ${field.renderHelp(selective, field, data)}
-    </div>`;
-  }
-
-  get isClean() {
-    // If there are no fields, nothing has changed.
-    if (!this.fields) {
-      return true;
-    }
-
-    for (const field of this.fields.fields) {
-      if (!field.isClean) {
-        return false;
-      }
-    }
-  }
-
-  get value() {
-    if (!this.fields) {
-      return this._dataValue;
-    }
-
-    const value = Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["autoDeepObject"])({});
-
-    for (const field of this.fields.fields) {
-      value.set(field.key, field.value);
-    }
-
-    return value.obj;
-  }
-
-  set value(value) {// no-op
-  }
-
-  _createFields(selective, data) {
-    const fields = new selective_edit__WEBPACK_IMPORTED_MODULE_0__["Fields"](selective.fieldTypes);
-    fields.valueFromData(this.value);
-    let fieldConfigs = this.getConfig().get('fields', []);
-    const useAutoFields = fieldConfigs.length == 0;
-
-    if (useAutoFields) {
-      // Auto guess the fields if they are not defined.
-      fieldConfigs = new _autoFields__WEBPACK_IMPORTED_MODULE_1__["default"](this.value).config['fields'];
-    }
-
-    for (let fieldConfig of fieldConfigs || []) {
-      fieldConfig = Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["autoConfig"])(fieldConfig, this.extendedConfig);
-      fields.addField(fieldConfig, this.extendedConfig);
-    } // When a not expanded it does not get the value updated correctly
-    // so we need to manually call the data update.
-
-
-    for (const field of fields.fields) {
-      field.updateFromData(this.value || {});
-    }
-
-    return fields;
-  } // Ensure that fields are created so they can be populated and the keyless
-  // groups can correctly return the partial value.
-
-
-  ensureFields(selective, data) {
-    // If the sub fields have not been created create them now.
-    if (!this.fields) {
-      this.fields = this._createFields(selective, data);
-    }
-  }
-
-  handleToggleExpand(evt) {
-    this.isExpanded = !this.isExpanded;
-    document.dispatchEvent(new CustomEvent('selective.render'));
-  }
-
-  renderFields(selective, data) {
-    this.ensureFields();
-
-    if (!this.isExpanded) {
-      return '';
-    }
-
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__group">
-      ${this.fields.template(selective, this.fields, this.value)}
-    </div>`;
-  }
-
-  valueFromData(data) {
-    if (this.key) {
-      return super.valueFromData(data);
-    } // Nothing to do without fields.
-
-
-    if (!this.fields) {
-      this._dataValue = data;
-      return this.value;
-    }
-
-    const newDataValue = Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["autoDeepObject"])({});
-
-    for (const field of this.fields.fields) {
-      newDataValue.set(field.key, field.value);
-    }
-
-    this._dataValue = newDataValue.obj;
-    return this.value;
   }
 
 }

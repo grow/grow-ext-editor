@@ -3,15 +3,13 @@
  */
 
 import {
+  GroupField,
   ListField,
 } from 'selective-edit'
 import {
   DocumentField,
   YamlField,
 } from './field/constructor'
-import {
-  GroupField,
-} from './field/structure'
 import {
   ImageField,
   GoogleImageField,
