@@ -126,80 +126,76 @@ export class MarkdownField extends FieldRewrite {
   }
 }
 
-export class SelectField extends Field {
+export class SelectField extends FieldRewrite {
   constructor(config, extendedConfig) {
     super(config, extendedConfig)
     this.fieldType = 'select'
-    this.threshold = 12
+    this.threshold = this.config.threshold || 12
 
-    // Determine which icons to use
-    this.useMulti = this.getConfig().get('multi', false)
-    this.icons = (this.useMulti
+    // [0]: Unselected
+    // [1]: Selected
+    this.icons = (this.config.multi
       ? ['check_box_outline_blank', 'check_box']
       : ['radio_button_unchecked', 'radio_button_checked'])
+  }
 
-    this.template = (selective, field, data) => html`<div
-        class="selective__field selective__field__${field.fieldType} ${field.options.length > field.threshold ? `selective__field__${field.fieldType}--list` : ''}"
-        data-field-type="${field.fieldType}" >
-      <div class="selective__field__select__label">${field.label}</div>
+  _cleanOriginalValue(value) {
+    // Original values need to be sorted when doing multi.
+    if (this.config.multi) {
+      value = value || []
+      value.sort()
+    }
+    return value
+  }
+
+  handleInput(evt) {
+    const target = findParentByClassname(evt.target, 'selective__field__select__option')
+    const locale = target.dataset.locale
+    let value = target.dataset.value
+
+    if (this.config.multi) {
+      let existingValue = this.getValueForLocale(locale) || []
+      if (existingValue.includes(value)) {
+        existingValue = existingValue.filter(item => item !== value)
+      } else {
+        existingValue.push(value)
+      }
+      existingValue.sort()
+
+      // Save the updated value array.
+      value = existingValue
+    }
+
+    this.setValueForLocale(locale, value)
+  }
+
+  renderInput(selective, data, locale) {
+    const value = this.getValueForLocale(locale) || ''
+    const options = this.config.options
+    const isOptionSelected = (optionValue) => {
+      if (this.config.multi) {
+        return value.includes(optionValue)
+      }
+      return value == optionValue
+    }
+
+    return html`
       <div class="selective__field__select__options">
-        ${repeat(field.options, (option) => option.value, (option, index) => html`
-          <div class="selective__field__select__value" data-value="${option.value}" @click=${field.handleInput.bind(field)}>
-            <div class="selective__field__select__option ${field._isSelected(option.value) ? 'selective__field__select__option--checked' : ''}">
-              <i class="material-icons">${field._isSelected(option.value) ? field.icons[1] : field.icons[0] }</i>
+        ${repeat(options, (option) => option.value, (option, index) => html`
+          <div
+              class="selective__field__select__option ${isOptionSelected(option.value) ? 'selective__field__select__option--checked' : ''}"
+              data-locale=${locale || ''}
+              data-value=${option.value || ''}
+              @click=${this.handleInput.bind(this)}>
+            <i class="material-icons">
+              ${isOptionSelected(option.value) ? this.icons[1] : this.icons[0] }
+            </i>
+            <div>
               ${option.label || '(None)'}
             </div>
           </div>
         `)}
-      </div>
-      ${field.renderHelp(selective, field, data)}
-    </div>`
-  }
-
-  _isSelected(optionValue) {
-    let value = this.value
-
-    if (!this.useMulti) {
-      return value == '' ? optionValue == null : optionValue == value
-    }
-
-    // Reset when converting between non-array values.
-    if (!Array.isArray(value)) {
-      value = []
-    }
-
-    return (value || []).includes(optionValue)
-  }
-
-  handleInput(evt) {
-    const target = findParentByClassname(evt.target, 'selective__field__select__value')
-    const value = target.dataset.value == 'null' ? null : target.dataset.value
-
-    if (!this.useMulti) {
-      this.value = value
-      document.dispatchEvent(new CustomEvent('selective.render'))
-      return
-    }
-
-    if (!value) {
-      return
-    }
-
-    // Adjust the list if using multi value
-    let newValue = this.value || []
-
-    // Reset when converting between non-array values.
-    if (!Array.isArray(newValue)) {
-      newValue = []
-    }
-
-    if (newValue.includes(value)) {
-      newValue = newValue.filter(item => item !== value)
-    } else {
-      newValue.push(value)
-    }
-    this.value = newValue
-    document.dispatchEvent(new CustomEvent('selective.render'))
+      </div>`
   }
 }
 

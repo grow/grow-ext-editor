@@ -1309,7 +1309,7 @@ class FieldRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__[
 
     this._originalValues = {};
     this.values = {};
-  } // TODO: Remove.
+  } // TODO: Remove. Look into directives.
 
 
   static initialize(containerEl) {// Pass.
@@ -1329,6 +1329,11 @@ class FieldRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__[
       if (JSON.stringify(this.values) != JSON.stringify(this._originalValues)) {
         return false;
       }
+    } // Handle complex value.
+
+
+    if (Array.isArray(this.originalValue) || Array.isArray(this.value)) {
+      return JSON.stringify(this.value) == JSON.stringify(this.originalValue);
     }
 
     return this.originalValue == this.value;
@@ -1480,11 +1485,21 @@ class FieldRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__[
     newValue = this._cleanOriginalValue(newValue); // Only if the field is clean, update the value.
 
     if (isClean) {
+      // Copy the array to prevent shared array.
+      if (Array.isArray(newValue)) {
+        newValue = [...newValue];
+      }
+
       this.value = newValue;
 
       if (this.value == undefined) {
         this.value = this.config.default;
       }
+    } // Copy the array to prevent shared array.
+
+
+    if (Array.isArray(newValue)) {
+      newValue = [...newValue];
     }
 
     this.originalValue = newValue; // Pull in localized values.
@@ -10649,77 +10664,77 @@ class MarkdownField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRe
   }
 
 }
-class SelectField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
+class SelectField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRewrite"] {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
     this.fieldType = 'select';
-    this.threshold = 12; // Determine which icons to use
+    this.threshold = this.config.threshold || 12; // [0]: Unselected
+    // [1]: Selected
 
-    this.useMulti = this.getConfig().get('multi', false);
-    this.icons = this.useMulti ? ['check_box_outline_blank', 'check_box'] : ['radio_button_unchecked', 'radio_button_checked'];
+    this.icons = this.config.multi ? ['check_box_outline_blank', 'check_box'] : ['radio_button_unchecked', 'radio_button_checked'];
+  }
 
-    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div
-        class="selective__field selective__field__${field.fieldType} ${field.options.length > field.threshold ? `selective__field__${field.fieldType}--list` : ''}"
-        data-field-type="${field.fieldType}" >
-      <div class="selective__field__select__label">${field.label}</div>
+  _cleanOriginalValue(value) {
+    // Original values need to be sorted when doing multi.
+    if (this.config.multi) {
+      value = value || [];
+      value.sort();
+    }
+
+    return value;
+  }
+
+  handleInput(evt) {
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'selective__field__select__option');
+    const locale = target.dataset.locale;
+    let value = target.dataset.value;
+
+    if (this.config.multi) {
+      let existingValue = this.getValueForLocale(locale) || [];
+
+      if (existingValue.includes(value)) {
+        existingValue = existingValue.filter(item => item !== value);
+      } else {
+        existingValue.push(value);
+      }
+
+      existingValue.sort(); // Save the updated value array.
+
+      value = existingValue;
+    }
+
+    this.setValueForLocale(locale, value);
+  }
+
+  renderInput(selective, data, locale) {
+    const value = this.getValueForLocale(locale) || '';
+    const options = this.config.options;
+
+    const isOptionSelected = optionValue => {
+      if (this.config.multi) {
+        return value.includes(optionValue);
+      }
+
+      return value == optionValue;
+    };
+
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
       <div class="selective__field__select__options">
-        ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(field.options, option => option.value, (option, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-          <div class="selective__field__select__value" data-value="${option.value}" @click=${field.handleInput.bind(field)}>
-            <div class="selective__field__select__option ${field._isSelected(option.value) ? 'selective__field__select__option--checked' : ''}">
-              <i class="material-icons">${field._isSelected(option.value) ? field.icons[1] : field.icons[0]}</i>
+        ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(options, option => option.value, (option, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+          <div
+              class="selective__field__select__option ${isOptionSelected(option.value) ? 'selective__field__select__option--checked' : ''}"
+              data-locale=${locale || ''}
+              data-value=${option.value || ''}
+              @click=${this.handleInput.bind(this)}>
+            <i class="material-icons">
+              ${isOptionSelected(option.value) ? this.icons[1] : this.icons[0]}
+            </i>
+            <div>
               ${option.label || '(None)'}
             </div>
           </div>
         `)}
-      </div>
-      ${field.renderHelp(selective, field, data)}
-    </div>`;
-  }
-
-  _isSelected(optionValue) {
-    let value = this.value;
-
-    if (!this.useMulti) {
-      return value == '' ? optionValue == null : optionValue == value;
-    } // Reset when converting between non-array values.
-
-
-    if (!Array.isArray(value)) {
-      value = [];
-    }
-
-    return (value || []).includes(optionValue);
-  }
-
-  handleInput(evt) {
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'selective__field__select__value');
-    const value = target.dataset.value == 'null' ? null : target.dataset.value;
-
-    if (!this.useMulti) {
-      this.value = value;
-      document.dispatchEvent(new CustomEvent('selective.render'));
-      return;
-    }
-
-    if (!value) {
-      return;
-    } // Adjust the list if using multi value
-
-
-    let newValue = this.value || []; // Reset when converting between non-array values.
-
-    if (!Array.isArray(newValue)) {
-      newValue = [];
-    }
-
-    if (newValue.includes(value)) {
-      newValue = newValue.filter(item => item !== value);
-    } else {
-      newValue.push(value);
-    }
-
-    this.value = newValue;
-    document.dispatchEvent(new CustomEvent('selective.render'));
+      </div>`;
   }
 
 }
