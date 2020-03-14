@@ -10735,7 +10735,7 @@ class TextField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRewrit
         <textarea
           id="${this.uid}${locale}"
           rows=${this.config.rows || 6}
-          placeholder=${this.config.placeholder}
+          placeholder=${this.config.placeholder || ''}
           data-locale=${locale || ''}
           @input=${this.handleInput.bind(this)}>${value}</textarea>`;
     }
@@ -10750,20 +10750,21 @@ class TextField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRewrit
   }
 
 }
-class TextareaField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
+class TextareaField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRewrite"] {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
     this.fieldType = 'textarea';
+  }
 
-    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
-      <label for="${field.getUid()}">${field.label}</label>
+  renderInput(selective, data, locale) {
+    const value = this.getValueForLocale(locale) || '';
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
       <textarea
-          id="${field.getUid()}"
-          rows="${field.getConfig().rows || 6}"
-          placeholder="${field.placeholder}"
-          @input=${field.handleInput.bind(field)}>${field.valueFromData(data) || ' '}</textarea>
-      ${field.renderHelp(selective, field, data)}
-    </div>`;
+        id="${this.uid}${locale}"
+        rows=${this.config.rows || 6}
+        placeholder=${this.config.placeholder || ''}
+        data-locale=${locale || ''}
+        @input=${this.handleInput.bind(this)}>${value}</textarea>`;
   }
 
 }
