@@ -547,8 +547,9 @@ export default class Editor {
 
     if (force === true) {
       // Force a reload when neccesary.
+      // Test for iframe first, as it may be hidden.
       const iframe = this.containerEl.querySelector('iframe')
-      iframe.contentWindow.location.reload(true)
+      iframe && iframe.contentWindow.location.reload(true)
     }
   }
 
