@@ -11,6 +11,9 @@ import {
   findParentByClassname,
   inputFocusAtEnd,
 } from '../../utility/dom'
+import pell from 'pell'
+import showdown from 'showdown'
+
 
 export class CheckboxField extends Field {
   constructor(config, extendedConfig) {
@@ -73,18 +76,34 @@ export class MarkdownField extends Field {
   constructor(config, extendedConfig) {
     super(config, extendedConfig)
     this.fieldType = 'markdown'
+    this.showdown = new showdown.Converter()
 
     this.template = (selective, field, data) => html`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
       <label for="${field.getUid()}">${field.label}</label>
-      <textarea
-          id="${field.getUid()}"
-          rows="${field.getConfig().rows || 6}"
-          placeholder="${field.placeholder}"
-          @input=${field.handleInput.bind(field)}>
-        ${field.valueFromData(data) || ' '}
-      </textarea>
+      <div id="${field.getUid()}" class="pell">${field.updateFromData(data)}</div>
       ${field.renderHelp(selective, field, data)}
     </div>`
+  }
+
+  postRender(containerEl) {
+    const actions = this.getConfig().get('pellActions', [
+      'bold', 'italic', 'heading1', 'heading2', 'olist', 'ulist', 'link'])
+    const fieldInstances = containerEl.querySelectorAll('.selective__field__markdown')
+    for (const fieldInstance of fieldInstances) {
+      if (!fieldInstance.pellEditor) {
+        const pellEl = fieldInstance.querySelector('.pell')
+
+        fieldInstance.pellEditor = pell.init({
+          element: pellEl,
+          actions: actions,
+          onChange: (html) => {
+            this.value = this.showdown.makeMarkdown(html)
+          }
+        })
+      }
+
+      fieldInstance.pellEditor.content.innerHTML = this.showdown.makeHtml(this.value || '')
+    }
   }
 }
 
