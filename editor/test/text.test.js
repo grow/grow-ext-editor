@@ -1,4 +1,5 @@
 const defaults = require('./defaults')
+const { percySnapshot } = require('@percy/puppeteer')
 const path = require('path')
 
 const newValue = 'Trombone'
@@ -69,5 +70,7 @@ describe('text field', () => {
       return window.editorInst.isClean
     })
     expect(isClean).toBe(true)
+
+    await percySnapshot(page, 'Text field after save')
   })
 })

@@ -4,5 +4,6 @@ example/dist
 example/extensions
 example/build
 node_modules
+junit.xml
 **.pyc
 **.mo
