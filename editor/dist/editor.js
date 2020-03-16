@@ -9094,9 +9094,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _zoomIframe__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./zoomIframe */ "./source/editor/zoomIframe.js");
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utility/dom */ "./source/utility/dom.js");
 /* harmony import */ var _utility_expandObject__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../utility/expandObject */ "./source/utility/expandObject.js");
+/* harmony import */ var _utility_storage__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../utility/storage */ "./source/utility/storage.js");
 /**
  * Content editor.
  */
+
 
 
 
@@ -9118,6 +9120,7 @@ class Editor {
       ${editor.renderPreview(editor, selective)}
     </div>`;
 
+    this.storage = new _utility_storage__WEBPACK_IMPORTED_MODULE_9__["default"](this.isTesting);
     const EditorApiCls = this.config.get('EditorApiCls', _editorApi__WEBPACK_IMPORTED_MODULE_3__["default"]);
     this.api = new EditorApiCls();
     this.listeners = new _utility_listeners__WEBPACK_IMPORTED_MODULE_1__["default"]();
@@ -9143,13 +9146,13 @@ class Editor {
       }
     };
     this._defaultDevice = 'desktop';
-    this._device = localStorage.getItem('selective.device') || this._defaultDevice; // Persistent settings in local storage.
+    this._device = this.storage.getItem('selective.device') || this._defaultDevice; // Persistent settings in local storage.
 
-    this._isEditingSource = localStorage.getItem('selective.isEditingSource') == 'true';
-    this._isFullScreen = localStorage.getItem('selective.isFullScreen') == 'true';
-    this._isHightlighted = localStorage.getItem('selective.isHightlighted') == 'true';
-    this._isDeviceRotated = localStorage.getItem('selective.isDeviceRotated') == 'true';
-    this._isDeviceView = localStorage.getItem('selective.isDeviceView') == 'true';
+    this._isEditingSource = this.storage.getItem('selective.isEditingSource') == 'true';
+    this._isFullScreen = this.storage.getItem('selective.isFullScreen') == 'true';
+    this._isHightlighted = this.storage.getItem('selective.isHightlighted') == 'true';
+    this._isDeviceRotated = this.storage.getItem('selective.isDeviceRotated') == 'true';
+    this._isDeviceView = this.storage.getItem('selective.isDeviceView') == 'true';
     this._isFullMarkdownEditor = false;
     this._isLoading = {};
     this._isSaving = false;
@@ -9161,7 +9164,7 @@ class Editor {
 
     this.selective.editor = this; // Load the selective editor preference for localize.
 
-    this.selective.localize = localStorage.getItem('selective.localize') == 'true'; // Add the editor extension default field types.
+    this.selective.localize = this.storage.getItem('selective.localize') == 'true'; // Add the editor extension default field types.
 
     for (const key of Object.keys(_field__WEBPACK_IMPORTED_MODULE_5__["defaultFields"])) {
       this.selective.addFieldType(key, _field__WEBPACK_IMPORTED_MODULE_5__["defaultFields"][key]);
@@ -9280,32 +9283,32 @@ class Editor {
 
   set device(value) {
     this._device = value;
-    localStorage.setItem('selective.device', this._device);
+    this.storage.setItem('selective.device', this._device);
   }
 
   set isEditingSource(value) {
     this._isEditingSource = value;
-    localStorage.setItem('selective.isEditingSource', this._isEditingSource);
+    this.storage.setItem('selective.isEditingSource', this._isEditingSource);
   }
 
   set isFullScreen(value) {
     this._isFullScreen = value;
-    localStorage.setItem('selective.isFullScreen', this._isFullScreen);
+    this.storage.setItem('selective.isFullScreen', this._isFullScreen);
   }
 
   set isHightlighted(value) {
     this._isHightlighted = value;
-    localStorage.setItem('selective.isHightlighted', this._isHightlighted);
+    this.storage.setItem('selective.isHightlighted', this._isHightlighted);
   }
 
   set isDeviceRotated(value) {
     this._isDeviceRotated = value;
-    localStorage.setItem('selective.isDeviceRotated', this._isDeviceRotated);
+    this.storage.setItem('selective.isDeviceRotated', this._isDeviceRotated);
   }
 
   set isDeviceView(value) {
     this._isDeviceView = value;
-    localStorage.setItem('selective.isDeviceView', this._isDeviceView);
+    this.storage.setItem('selective.isDeviceView', this._isDeviceView);
   }
 
   set podPath(value) {
@@ -9498,7 +9501,7 @@ class Editor {
 
   handleLocalize(evt) {
     this.selective.localize = !this.selective.localize;
-    localStorage.setItem('selective.localize', this.selective.localize);
+    this.storage.setItem('selective.localize', this.selective.localize);
     this.render();
   }
 
@@ -11441,6 +11444,57 @@ class Listeners {
     for (const listener of this.listenersForEvent(eventName)) {
       listener(...data);
     }
+  }
+
+}
+
+/***/ }),
+
+/***/ "./source/utility/storage.js":
+/*!***********************************!*\
+  !*** ./source/utility/storage.js ***!
+  \***********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Storage; });
+class Storage {
+  constructor(isTesting) {
+    this.isTesting = isTesting;
+  }
+
+  clear() {
+    if (this.isTesting) {
+      return undefined;
+    }
+
+    return localstorage.clear();
+  }
+
+  getItem(...args) {
+    if (this.isTesting) {
+      return null;
+    }
+
+    return localstorage.getItem(...args);
+  }
+
+  removeItem(...args) {
+    if (this.isTesting) {
+      return undefined;
+    }
+
+    return localstorage.removeItem(...args);
+  }
+
+  setItem(...args) {
+    if (this.isTesting) {
+      return undefined;
+    }
+
+    return localstorage.setItem(...args);
   }
 
 }
