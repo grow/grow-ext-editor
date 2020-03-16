@@ -103,7 +103,7 @@ describe('checkbox field', () => {
     })
     expect(isClean).toBe(true)
 
-    await percySnapshot(page, 'Checkbox field checked after save')
+    await percySnapshot(page, 'Checkbox field checked after save', defaults.snapshotOptions)
 
     // Uncheck!
 
@@ -137,7 +137,7 @@ describe('checkbox field', () => {
     })
     expect(isClean).toBe(true)
 
-    await percySnapshot(page, 'Checkbox field unchecked after save')
+    await percySnapshot(page, 'Checkbox field unchecked after save', defaults.snapshotOptions)
   })
 
   it('should be checked and unchecked on localization', async () => {
@@ -192,7 +192,7 @@ describe('checkbox field', () => {
     })
     expect(isClean).toBe(true)
 
-    await percySnapshot(page, 'Checkbox field checked after localization save')
+    await percySnapshot(page, 'Checkbox field checked after localization save', defaults.snapshotOptions)
 
     // Uncheck!
 
@@ -230,6 +230,6 @@ describe('checkbox field', () => {
     })
     expect(isClean).toBe(true)
 
-    await percySnapshot(page, 'Checkbox field unchecked after localization save')
+    await percySnapshot(page, 'Checkbox field unchecked after localization save', defaults.snapshotOptions)
   })
 })

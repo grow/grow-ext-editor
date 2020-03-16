@@ -101,7 +101,7 @@ describe('text field', () => {
     })
     expect(isClean).toBe(true)
 
-    await percySnapshot(page, 'Text field after save')
+    await percySnapshot(page, 'Text field after save', defaults.snapshotOptions)
   })
 
   it('should accept input on localization', async () => {
@@ -156,7 +156,7 @@ describe('text field', () => {
     })
     expect(isClean).toBe(true)
 
-    await percySnapshot(page, 'Text field after localization save')
+    await percySnapshot(page, 'Text field after localization save', defaults.snapshotOptions)
   })
 
   it('should expand to textarea on localization', async () => {
@@ -227,6 +227,6 @@ describe('text field', () => {
     })
     expect(isClean).toBe(true)
 
-    await percySnapshot(page, 'Text field expanded after localization save')
+    await percySnapshot(page, 'Text field expanded after localization save', defaults.snapshotOptions)
   })
 })

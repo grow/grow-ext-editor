@@ -9,5 +9,8 @@ module.exports = {
     },
     'pod_path': '/content/test/test.yaml',
     'editor': {}
-  }
+  },
+  snapshotOptions: {
+    widths: [1280],
+  },
 }
