@@ -1,0 +1,29 @@
+version: 2
+
+jobs:
+  test:
+    working_directory: ~/grow
+    docker:
+    - image: circleci/node:lts-browsers
+    steps:
+    - checkout
+    - restore_cache:
+        keys:
+        - &cache_key cache-{{ .Branch }}-{{ checksum "editor/package.json" }}-{{ checksum "editor/yarn.lock" }}
+    - run:
+        name: Yarn Install
+        command: cd editor && yarn install
+    - run:
+        name: Test
+        command: cd editor && yarn run test
+    - save_cache:
+        key: *cache_key
+        paths:
+        - node_modules
+
+workflows:
+  version: 2
+
+  test:
+    jobs:
+    - test
