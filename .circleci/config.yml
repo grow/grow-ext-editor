@@ -23,7 +23,7 @@ jobs:
     - save_cache:
         key: *cache_key
         paths:
-        - node_modules
+        - editor/node_modules
 
 workflows:
   version: 2
