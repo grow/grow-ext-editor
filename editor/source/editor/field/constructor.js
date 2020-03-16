@@ -118,6 +118,7 @@ export class ConstructorFileField extends ConstructorField {
     const podPath = evt.target.dataset.podPath
     this.value = Object.assign({}, this.value, {
       value: podPath,
+      tag: this.tag,
     })
     this._showFileList = false
     document.dispatchEvent(new CustomEvent('selective.render'))
