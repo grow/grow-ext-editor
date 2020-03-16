@@ -9201,6 +9201,14 @@ class Editor {
     return this.document.isClean && this.selective.isClean;
   }
 
+  get isDeviceRotated() {
+    return this._isDeviceRotated;
+  }
+
+  get isDeviceView() {
+    return this._isDeviceView;
+  }
+
   get isEditingSource() {
     return this._isEditingSource;
   }
@@ -9220,12 +9228,8 @@ class Editor {
     return this._isHightlighted;
   }
 
-  get isDeviceRotated() {
-    return this._isDeviceRotated;
-  }
-
-  get isDeviceView() {
-    return this._isDeviceView;
+  get isTesting() {
+    return this.config.get('testing', false);
   }
 
   get podPath() {
@@ -9621,7 +9625,7 @@ class Editor {
     const origPath = window.location.pathname;
     const newPath = `${basePath}${podPath}`;
 
-    if (origPath != newPath) {
+    if (origPath != newPath && !this.testing) {
       history.pushState({}, '', newPath);
     }
   }
