@@ -62,7 +62,7 @@ describe('checkbox field', () => {
     await page.waitForSelector('.selective__fields')
   })
 
-  it('should accept being checked and unchecked', async () => {
+  it('should be checked and unchecked', async () => {
     const newValue = true
 
     // Editor starts out clean.
@@ -108,7 +108,6 @@ describe('checkbox field', () => {
     // Uncheck!
 
     // Change the checked state.
-    checkboxLabel = await page.$('.selective__field__checkbox__label')
     await checkboxLabel.click()
     await page.waitForSelector('.selective__field__checkbox__label:not(.selective__field__checkbox__label--checked)')
 
@@ -141,7 +140,7 @@ describe('checkbox field', () => {
     await percySnapshot(page, 'Checkbox field unchecked after save')
   })
 
-  it('should accept input on localization', async () => {
+  it('should be checked and unchecked on localization', async () => {
     const newValue = true
     const newValueEs = true
 
@@ -157,12 +156,12 @@ describe('checkbox field', () => {
     await page.waitForSelector('.selective__field__checkbox__label[data-locale=en]')
 
     // Change the en checked state.
-    const checkboxLabelEn = await page.$('.selective__field__checkbox__label[data-locale=en]')
+    let checkboxLabelEn = await page.$('.selective__field__checkbox__label[data-locale=en]')
     await checkboxLabelEn.click()
-    await page.waitForSelector('.selective__field__checkbox__label--checked')
+    await page.waitForSelector('.selective__field__checkbox__label--checked[data-locale=en]')
 
     // Change the es checked state.
-    const checkboxLabelEs = await page.$('.selective__field__checkbox__label[data-locale=es]')
+    let checkboxLabelEs = await page.$('.selective__field__checkbox__label[data-locale=es]')
     await checkboxLabelEs.click()
     await page.waitForSelector('.selective__field__checkbox__label--checked[data-locale=es]')
 
@@ -179,7 +178,7 @@ describe('checkbox field', () => {
     await page.waitForSelector('.editor__save:not(.editor__save--saving)')
 
     // Verify the new value was saved.
-    const value = await page.evaluate(_ => {
+    let value = await page.evaluate(_ => {
       return window.editorInst.selective.value
     })
     expect(value).toMatchObject({
@@ -193,6 +192,44 @@ describe('checkbox field', () => {
     })
     expect(isClean).toBe(true)
 
-    await percySnapshot(page, 'Checkbox field after localization save')
+    await percySnapshot(page, 'Checkbox field checked after localization save')
+
+    // Uncheck!
+
+    // Change the en checked state.
+    await checkboxLabelEn.click()
+    await page.waitForSelector('.selective__field__checkbox__label:not(.selective__field__checkbox__label--checked)[data-locale=en]')
+
+    // Change the es checked state.
+    await checkboxLabelEs.click()
+    await page.waitForSelector('.selective__field__checkbox__label:not(.selective__field__checkbox__label--checked)[data-locale=es]')
+
+    // Editor should now be dirty.
+    isClean = await page.evaluate(_ => {
+      return window.editorInst.isClean
+    })
+    expect(isClean).toBe(false)
+
+    // Save the changes.
+    await saveButton.click()
+    await page.waitForSelector('.editor__save--saving')
+    await page.waitForSelector('.editor__save:not(.editor__save--saving)')
+
+    // Verify the new value was saved.
+    value = await page.evaluate(_ => {
+      return window.editorInst.selective.value
+    })
+    expect(value).toMatchObject({
+      'is_required': !newValue,
+      'is_required@es': !newValueEs,
+    })
+
+    // After saving the editor should be clean.
+    isClean = await page.evaluate(_ => {
+      return window.editorInst.isClean
+    })
+    expect(isClean).toBe(true)
+
+    await percySnapshot(page, 'Checkbox field unchecked after localization save')
   })
 })
