@@ -19,10 +19,27 @@ export class CheckboxField extends FieldRewrite {
     this.fieldType = 'checkbox'
   }
 
-  get classesLabel() {
+  classesIcon(value) {
+    const classes = [
+      'material-icons',
+      'selective__field__checkbox__icon',
+    ]
+
+    if (value) {
+      classes.push('selective__field__checkbox__icon--checked')
+    }
+
+    return classes.join(' ')
+  }
+
+  classesLabel(value) {
     const classes = [
       'selective__field__checkbox__label',
     ]
+
+    if (value) {
+      classes.push('selective__field__checkbox__label--checked')
+    }
 
     return classes.join(' ')
   }
@@ -38,13 +55,13 @@ export class CheckboxField extends FieldRewrite {
 
     return html`
       <div
-          class=${this.classesLabel}
+          class=${this.classesLabel(value)}
           data-locale=${locale || ''}
           @click=${this.handleInput.bind(this)}>
         ${this.config.label}
       </div>
       <i
-          class="material-icons"
+          class=${this.classesIcon(value)}
           data-locale=${locale || ''}
           @click=${this.handleInput.bind(this)}>
         ${value ? 'check_box' : 'check_box_outline_blank'}

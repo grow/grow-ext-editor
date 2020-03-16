@@ -10720,8 +10720,23 @@ class CheckboxField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRe
     this.fieldType = 'checkbox';
   }
 
-  get classesLabel() {
+  classesIcon(value) {
+    const classes = ['material-icons', 'selective__field__checkbox__icon'];
+
+    if (value) {
+      classes.push('selective__field__checkbox__icon--checked');
+    }
+
+    return classes.join(' ');
+  }
+
+  classesLabel(value) {
     const classes = ['selective__field__checkbox__label'];
+
+    if (value) {
+      classes.push('selective__field__checkbox__label--checked');
+    }
+
     return classes.join(' ');
   }
 
@@ -10735,13 +10750,13 @@ class CheckboxField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRe
     const value = this.getValueForLocale(locale) || false;
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
       <div
-          class=${this.classesLabel}
+          class=${this.classesLabel(value)}
           data-locale=${locale || ''}
           @click=${this.handleInput.bind(this)}>
         ${this.config.label}
       </div>
       <i
-          class="material-icons"
+          class=${this.classesIcon(value)}
           data-locale=${locale || ''}
           @click=${this.handleInput.bind(this)}>
         ${value ? 'check_box' : 'check_box_outline_blank'}
@@ -11485,7 +11500,7 @@ class Storage {
       return undefined;
     }
 
-    return localstorage.clear();
+    return localStorage.clear();
   }
 
   getItem(...args) {
@@ -11493,7 +11508,7 @@ class Storage {
       return null;
     }
 
-    return localstorage.getItem(...args);
+    return localStorage.getItem(...args);
   }
 
   removeItem(...args) {
@@ -11501,7 +11516,7 @@ class Storage {
       return undefined;
     }
 
-    return localstorage.removeItem(...args);
+    return localStorage.removeItem(...args);
   }
 
   setItem(...args) {
@@ -11509,7 +11524,7 @@ class Storage {
       return undefined;
     }
 
-    return localstorage.setItem(...args);
+    return localStorage.setItem(...args);
   }
 
 }

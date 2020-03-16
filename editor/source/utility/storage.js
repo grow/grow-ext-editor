@@ -8,7 +8,7 @@ export default class Storage {
       return undefined
     }
 
-    return localstorage.clear()
+    return localStorage.clear()
   }
 
   getItem(...args) {
@@ -16,7 +16,7 @@ export default class Storage {
       return null
     }
 
-    return localstorage.getItem(...args)
+    return localStorage.getItem(...args)
   }
 
   removeItem(...args) {
@@ -24,7 +24,7 @@ export default class Storage {
       return undefined
     }
 
-    return localstorage.removeItem(...args)
+    return localStorage.removeItem(...args)
   }
 
   setItem(...args) {
@@ -32,6 +32,6 @@ export default class Storage {
       return undefined
     }
 
-    return localstorage.setItem(...args)
+    return localStorage.setItem(...args)
   }
 }

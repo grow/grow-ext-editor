@@ -8,14 +8,6 @@ module.exports = {
       'es': '/es/',
     },
     'pod_path': '/content/test/test.yaml',
-    'editor': {
-      'fields': [
-        {
-          'type': 'text',
-          'key': 'title',
-          'label': 'Title',
-        }
-      ]
-    }
+    'editor': {}
   }
 }
