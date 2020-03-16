@@ -14566,7 +14566,7 @@ class ConstructorField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Fiel
           type="text"
           id="${field.getUid()}"
           placeholder="${field.placeholder}"
-          value="${field.valueFromData(data)}"
+          value="${field.valueFromData(data) || ''}"
           @input=${field.handleInput.bind(field)}>
       </div>
       ${field.renderHelp(selective, field, data)}
@@ -14616,7 +14616,7 @@ class ConstructorFileField extends ConstructorField {
           type="text"
           id="${field.getUid()}"
           placeholder="${field.placeholder}"
-          value="${field.valueFromData(data)}"
+          value="${field.valueFromData(data) || ''}"
           @input=${field.handleInput.bind(field)}>
         <i class="material-icons" title="Select pod path" @click=${field.handleFilesToggleClick.bind(field)}>list_alt</i>
       </div>
@@ -14625,17 +14625,42 @@ class ConstructorFileField extends ConstructorField {
     </div>`;
   }
 
+  configList(listKey, defaults) {
+    const list = [];
+    const rawList = this.getConfig().get(listKey, []);
+
+    for (const value of rawList) {
+      list.push(new RegExp(value, 'gi'));
+    }
+
+    if (!list.length) {
+      return defaults || [];
+    }
+
+    return list;
+  }
+
   bindListeners(selective) {
     // Bind the field to the pod path loading.
     if (!this._listeningForPodPaths) {
-      selective.editor.listeners.add('load.podPaths', response => {
+      this._listeningForPodPaths = true;
+
+      const handlePodPaths = response => {
         this._podPaths = response.pod_paths.sort().filter(this.filterFunc);
         document.dispatchEvent(new CustomEvent('selective.render'));
         window.setTimeout(() => {
           Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["inputFocusAtEnd"])(`${this.getUid()}-filter`);
         }, 25);
-      });
-      this._listeningForPodPaths = true;
+      }; // Check if the pod paths are already loaded.
+
+
+      if (selective.editor._podPaths) {
+        handlePodPaths({
+          pod_paths: selective.editor._podPaths
+        });
+      }
+
+      selective.editor.listeners.add('load.podPaths', handlePodPaths);
     }
   }
 
@@ -14721,8 +14746,8 @@ class DocumentField extends ConstructorFileField {
     this.fieldType = 'document';
     this.tag = '!g.doc';
     this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createWhiteBlackFilter"])( // Whitelist.
-    [/^\/content\//], // Blacklist.
-    []);
+    this.configList('whitelist', [/^\/content\//]), // Blacklist.
+    this.configList('blacklist'));
   }
 
 }
@@ -14732,8 +14757,8 @@ class YamlField extends ConstructorFileField {
     this.fieldType = 'yaml';
     this.tag = '!g.yaml';
     this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createWhiteBlackFilter"])( // Whitelist.
-    [/^\/content\//, /^\/data\//, /\.yaml$/], // Blacklist.
-    []);
+    this.configList('whitelist', [/^\/content\//, /^\/data\//, /\.yaml$/]), // Blacklist.
+    this.configList('blacklist'));
   }
 
 }
