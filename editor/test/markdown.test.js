@@ -12,10 +12,10 @@ const editorConfig = {
     }
   ]
 }
-const defaultEn = 'But why is the toilet paper gone?'
-const defaultEs = '¿Pero por qué se fue el papel higiénico?'
-let newValueEn = 'Toilet paper is the new gold currency.'
-let newValueEs = 'El papel higiénico es la nueva moneda de oro.'
+const defaultEn = '# But why is the toilet paper gone?'
+const defaultEs = '# ¿Pero por qué se fue el papel higiénico?'
+let newValueEn = '## Toilet paper is the new gold currency.'
+let newValueEs = '## El papel higiénico es la nueva moneda de oro.'
 
 describe('markdown field', () => {
   beforeEach(async () => {
