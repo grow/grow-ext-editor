@@ -10068,7 +10068,8 @@ class ConstructorFileField extends ConstructorField {
   handleFileClick(evt) {
     const podPath = evt.target.dataset.podPath;
     this.value = Object.assign({}, this.value, {
-      value: podPath
+      value: podPath,
+      tag: this.tag
     });
     this._showFileList = false;
     document.dispatchEvent(new CustomEvent('selective.render'));
