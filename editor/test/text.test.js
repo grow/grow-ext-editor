@@ -215,6 +215,6 @@ describe('text field', () => {
     })
     expect(isClean).toBe(true)
 
-    await percySnapshot(page, 'Text field after localization save')
+    await percySnapshot(page, 'Text field expanded after localization save')
   })
 })
