@@ -6,18 +6,22 @@ const qs = require('querystring')
 const editorConfig = {
   'fields': [
     {
-      'type': 'textarea',
-      'key': 'description',
-      'label': 'Description',
+      'type': 'date',
+      'key': 'published',
+      'label': 'Published',
     }
   ]
 }
-const defaultEn = 'But why is the toilet paper gone?'
-const defaultEs = '¿Pero por qué se fue el papel higiénico?'
-let newValueEn = 'Toilet paper is the new gold currency.'
-let newValueEs = 'El papel higiénico es la nueva moneda de oro.'
+const defaultEn = '2020-03-01'
+const defaultEs = '2022-05-03'
+let newValueEn = '2021-04-02'
+let newValueEs = '2020-07-25'
 
-describe('textarea field', () => {
+// Format the typing for the order that the field shows in en_US.
+let newValueTypeEn = '04-02-2021'
+let newValueTypeEs = '07-25-2020'
+
+describe('date field', () => {
   beforeEach(async () => {
     // Need a new page to prevent requests already being handled.
     page = await browser.newPage()
@@ -43,8 +47,8 @@ describe('textarea field', () => {
             contentType: 'application/json',
             body: JSON.stringify(Object.assign({}, defaults.documentResponse, {
               'front_matter': {
-                'description': defaultEn,
-                'description@es': defaultEs,
+                'published': defaultEn,
+                'published@es': defaultEs,
               },
               'editor': editorConfig,
             }))
@@ -72,9 +76,9 @@ describe('textarea field', () => {
     expect(isClean).toBe(true)
 
     // Change the title.
-    await page.click('.selective__field__textarea textarea', {clickCount: 3})
+    await page.click('.selective__field__date input', {clickCount: 3})
     await page.keyboard.press('Backspace')
-    await page.keyboard.type(newValueEn)
+    await page.keyboard.type(newValueTypeEn.replace('-', ''))
 
     // Editor should now be dirty.
     isClean = await page.evaluate(_ => {
@@ -93,8 +97,8 @@ describe('textarea field', () => {
       return window.editorInst.selective.value
     })
     expect(value).toMatchObject({
-      'description': newValueEn,
-      'description@es': defaultEs,
+      'published': newValueEn,
+      'published@es': defaultEs,
     })
 
     // After saving the editor should be clean.
@@ -103,7 +107,7 @@ describe('textarea field', () => {
     })
     expect(isClean).toBe(true)
 
-    await percySnapshot(page, 'Textarea field after save', defaults.snapshotOptions)
+    await percySnapshot(page, 'Date field after save', defaults.snapshotOptions)
   })
 
   it('should accept input on localization', async () => {
@@ -116,17 +120,17 @@ describe('textarea field', () => {
     // Enable localization.
     const localizationIcon = await page.$('i[title="Localize content"]')
     await localizationIcon.click()
-    await page.waitForSelector('.selective__field__textarea textarea[data-locale=en]')
+    await page.waitForSelector('.selective__field__date input[data-locale=en]')
 
     // Change the en title.
-    await page.click('.selective__field__textarea textarea[data-locale=en]', {clickCount: 3})
+    await page.click('.selective__field__date input[data-locale=en]', {clickCount: 3})
     await page.keyboard.press('Backspace')
-    await page.keyboard.type(newValueEn)
+    await page.keyboard.type(newValueTypeEn.replace('-', ''))
 
     // Change the es title.
-    await page.click('.selective__field__textarea textarea[data-locale=es]', {clickCount: 3})
+    await page.click('.selective__field__date input[data-locale=es]', {clickCount: 3})
     await page.keyboard.press('Backspace')
-    await page.keyboard.type(newValueEs)
+    await page.keyboard.type(newValueTypeEs.replace('-', ''))
 
     // Editor should now be dirty.
     isClean = await page.evaluate(_ => {
@@ -145,8 +149,8 @@ describe('textarea field', () => {
       return window.editorInst.selective.value
     })
     expect(value).toMatchObject({
-      'description': newValueEn,
-      'description@es': newValueEs,
+      'published': newValueEn,
+      'published@es': newValueEs,
     })
 
     // After saving the editor should be clean.
@@ -155,6 +159,6 @@ describe('textarea field', () => {
     })
     expect(isClean).toBe(true)
 
-    await percySnapshot(page, 'Textarea field after localization save', defaults.snapshotOptions)
+    await percySnapshot(page, 'Date field after localization save', defaults.snapshotOptions)
   })
 })

@@ -14,6 +14,8 @@ const editorConfig = {
 }
 const defaultEn = 'Trumpet'
 const defaultEs = 'Trompeta'
+let newValueEn = 'Trombone'
+let newValueEs = 'Trombón'
 
 describe('text field', () => {
   beforeEach(async () => {
@@ -49,7 +51,7 @@ describe('text field', () => {
           })
         }
       } else {
-        console.log('Piped request', request.url(), request.method())
+        // console.log('Piped request', request.url(), request.method())
         request.continue()
       }
     })
@@ -63,8 +65,6 @@ describe('text field', () => {
   })
 
   it('should accept input', async () => {
-    const newValue = 'Trombone'
-
     // Editor starts out clean.
     let isClean = await page.evaluate(_ => {
       return window.editorInst.isClean
@@ -74,7 +74,7 @@ describe('text field', () => {
     // Change the title.
     await page.click('.selective__field__text input', {clickCount: 3})
     await page.keyboard.press('Backspace')
-    await page.keyboard.type(newValue)
+    await page.keyboard.type(newValueEn)
 
     // Editor should now be dirty.
     isClean = await page.evaluate(_ => {
@@ -93,7 +93,7 @@ describe('text field', () => {
       return window.editorInst.selective.value
     })
     expect(value).toMatchObject({
-      'title': newValue,
+      'title': newValueEn,
       'title@es': defaultEs,
     })
 
@@ -107,9 +107,6 @@ describe('text field', () => {
   })
 
   it('should accept input on localization', async () => {
-    const newValue = 'Trombone'
-    const newValueEs = 'Trombón'
-
     // Editor starts out clean.
     let isClean = await page.evaluate(_ => {
       return window.editorInst.isClean
@@ -124,7 +121,7 @@ describe('text field', () => {
     // Change the en title.
     await page.click('.selective__field__text input[data-locale=en]', {clickCount: 3})
     await page.keyboard.press('Backspace')
-    await page.keyboard.type(newValue)
+    await page.keyboard.type(newValueEn)
 
     // Change the es title.
     await page.click('.selective__field__text input[data-locale=es]', {clickCount: 3})
@@ -148,7 +145,7 @@ describe('text field', () => {
       return window.editorInst.selective.value
     })
     expect(value).toMatchObject({
-      'title': newValue,
+      'title': newValueEn,
       'title@es': newValueEs,
     })
 
@@ -162,8 +159,8 @@ describe('text field', () => {
   })
 
   it('should expand to textarea on localization', async () => {
-    const newValue = 'Seventy six trombones led the big parade with a hundred and ten cornets close at hand.'
-    const newValueEs = 'Setenta y seis trombones encabezaron el gran desfile con ciento diez cornetas al alcance de la mano.'
+    newValueEn = 'Seventy six trombones led the big parade with a hundred and ten cornets close at hand.'
+    newValueEs = 'Setenta y seis trombones encabezaron el gran desfile con ciento diez cornetas al alcance de la mano.'
 
     // Editor starts out clean.
     let isClean = await page.evaluate(_ => {
@@ -180,12 +177,12 @@ describe('text field', () => {
     await page.click('.selective__field__text input[data-locale=en]', {clickCount: 3})
     await page.keyboard.press('Backspace')
     // Need to delay input waiting for the input adjustment to propagate.
-    await page.keyboard.type(newValue, {delay: 1})
+    await page.keyboard.type(newValueEn, {delay: 1})
 
     // Change the en title to make sure it got all of the value.
     await page.click('.selective__field__text textarea[data-locale=en]', {clickCount: 3})
     await page.keyboard.press('Backspace')
-    await page.keyboard.type(newValue)
+    await page.keyboard.type(newValueEn)
 
     // Change the es title.
     await page.click('.selective__field__text input[data-locale=es]', {clickCount: 3})
@@ -219,7 +216,7 @@ describe('text field', () => {
       return window.editorInst.selective.value
     })
     expect(value).toMatchObject({
-      'title': newValue,
+      'title': newValueEn,
       'title@es': newValueEs,
     })
 

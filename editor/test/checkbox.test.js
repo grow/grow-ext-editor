@@ -14,6 +14,8 @@ const editorConfig = {
 }
 const defaultEn = false
 const defaultEs = false
+let newValueEn = true
+let newValueEs = true
 
 describe('checkbox field', () => {
   beforeEach(async () => {
@@ -49,7 +51,7 @@ describe('checkbox field', () => {
           })
         }
       } else {
-        console.log('Piped request', request.url(), request.method())
+        // console.log('Piped request', request.url(), request.method())
         request.continue()
       }
     })
@@ -93,7 +95,7 @@ describe('checkbox field', () => {
       return window.editorInst.selective.value
     })
     expect(value).toMatchObject({
-      'is_required': newValue,
+      'is_required': newValueEn,
       'is_required@es': defaultEs,
     })
 
@@ -127,7 +129,7 @@ describe('checkbox field', () => {
       return window.editorInst.selective.value
     })
     expect(value).toMatchObject({
-      'is_required': !newValue,
+      'is_required': !newValueEn,
       'is_required@es': defaultEs,
     })
 
@@ -141,9 +143,6 @@ describe('checkbox field', () => {
   })
 
   it('should be checked and unchecked on localization', async () => {
-    const newValue = true
-    const newValueEs = true
-
     // Editor starts out clean.
     let isClean = await page.evaluate(_ => {
       return window.editorInst.isClean
@@ -182,7 +181,7 @@ describe('checkbox field', () => {
       return window.editorInst.selective.value
     })
     expect(value).toMatchObject({
-      'is_required': newValue,
+      'is_required': newValueEn,
       'is_required@es': newValueEs,
     })
 
@@ -220,7 +219,7 @@ describe('checkbox field', () => {
       return window.editorInst.selective.value
     })
     expect(value).toMatchObject({
-      'is_required': !newValue,
+      'is_required': !newValueEn,
       'is_required@es': !newValueEs,
     })
 
