@@ -6,16 +6,18 @@ const qs = require('querystring')
 const editorConfig = {
   'fields': [
     {
-      'type': 'text',
-      'key': 'title',
-      'label': 'Title',
+      'type': 'textarea',
+      'key': 'description',
+      'label': 'Description',
     }
   ]
 }
-const defaultEn = 'Trumpet'
-const defaultEs = 'Trompeta'
+const defaultEn = 'But why is the toilet paper gone?'
+const defaultEs = '¿Pero por qué se fue el papel higiénico?'
+const newValueEn = 'Toilet paper is the new gold currency.'
+const newValueEs = 'El papel higiénico es la nueva moneda de oro.'
 
-describe('text field', () => {
+describe('textarea field', () => {
   beforeEach(async () => {
     // Need a new page to prevent requests already being handled.
     page = await browser.newPage()
@@ -41,8 +43,8 @@ describe('text field', () => {
             contentType: 'application/json',
             body: JSON.stringify(Object.assign({}, defaults.documentResponse, {
               'front_matter': {
-                'title': defaultEn,
-                'title@es': defaultEs,
+                'description': defaultEn,
+                'description@es': defaultEs,
               },
               'editor': editorConfig,
             }))
@@ -63,8 +65,6 @@ describe('text field', () => {
   })
 
   it('should accept input', async () => {
-    const newValue = 'Trombone'
-
     // Editor starts out clean.
     let isClean = await page.evaluate(_ => {
       return window.editorInst.isClean
@@ -72,9 +72,9 @@ describe('text field', () => {
     expect(isClean).toBe(true)
 
     // Change the title.
-    await page.click('.selective__field__text input', {clickCount: 3})
+    await page.click('.selective__field__textarea textarea', {clickCount: 3})
     await page.keyboard.press('Backspace')
-    await page.keyboard.type(newValue)
+    await page.keyboard.type(newValueEn)
 
     // Editor should now be dirty.
     isClean = await page.evaluate(_ => {
@@ -93,8 +93,8 @@ describe('text field', () => {
       return window.editorInst.selective.value
     })
     expect(value).toMatchObject({
-      'title': newValue,
-      'title@es': defaultEs,
+      'description': newValueEn,
+      'description@es': defaultEs,
     })
 
     // After saving the editor should be clean.
@@ -103,13 +103,10 @@ describe('text field', () => {
     })
     expect(isClean).toBe(true)
 
-    await percySnapshot(page, 'Text field after save', defaults.snapshotOptions)
+    await percySnapshot(page, 'Textarea field after save', defaults.snapshotOptions)
   })
 
   it('should accept input on localization', async () => {
-    const newValue = 'Trombone'
-    const newValueEs = 'Trombón'
-
     // Editor starts out clean.
     let isClean = await page.evaluate(_ => {
       return window.editorInst.isClean
@@ -119,15 +116,15 @@ describe('text field', () => {
     // Enable localization.
     const localizationIcon = await page.$('i[title="Localize content"]')
     await localizationIcon.click()
-    await page.waitForSelector('.selective__field__text input[data-locale=en]')
+    await page.waitForSelector('.selective__field__textarea textarea[data-locale=en]')
 
     // Change the en title.
-    await page.click('.selective__field__text input[data-locale=en]', {clickCount: 3})
+    await page.click('.selective__field__textarea textarea[data-locale=en]', {clickCount: 3})
     await page.keyboard.press('Backspace')
-    await page.keyboard.type(newValue)
+    await page.keyboard.type(newValueEn)
 
     // Change the es title.
-    await page.click('.selective__field__text input[data-locale=es]', {clickCount: 3})
+    await page.click('.selective__field__textarea textarea[data-locale=es]', {clickCount: 3})
     await page.keyboard.press('Backspace')
     await page.keyboard.type(newValueEs)
 
@@ -148,8 +145,8 @@ describe('text field', () => {
       return window.editorInst.selective.value
     })
     expect(value).toMatchObject({
-      'title': newValue,
-      'title@es': newValueEs,
+      'description': newValueEn,
+      'description@es': newValueEs,
     })
 
     // After saving the editor should be clean.
@@ -158,77 +155,6 @@ describe('text field', () => {
     })
     expect(isClean).toBe(true)
 
-    await percySnapshot(page, 'Text field after localization save', defaults.snapshotOptions)
-  })
-
-  it('should expand to textarea on localization', async () => {
-    const newValue = 'Seventy six trombones led the big parade with a hundred and ten cornets close at hand.'
-    const newValueEs = 'Setenta y seis trombones encabezaron el gran desfile con ciento diez cornetas al alcance de la mano.'
-
-    // Editor starts out clean.
-    let isClean = await page.evaluate(_ => {
-      return window.editorInst.isClean
-    })
-    expect(isClean).toBe(true)
-
-    // Enable localization.
-    const localizationIcon = await page.$('i[title="Localize content"]')
-    await localizationIcon.click()
-    await page.waitForSelector('.selective__field__text input[data-locale=en]')
-
-    // Change the en title.
-    await page.click('.selective__field__text input[data-locale=en]', {clickCount: 3})
-    await page.keyboard.press('Backspace')
-    // Need to delay input waiting for the input adjustment to propagate.
-    await page.keyboard.type(newValue, {delay: 1})
-
-    // Change the en title to make sure it got all of the value.
-    await page.click('.selective__field__text textarea[data-locale=en]', {clickCount: 3})
-    await page.keyboard.press('Backspace')
-    await page.keyboard.type(newValue)
-
-    // Change the es title.
-    await page.click('.selective__field__text input[data-locale=es]', {clickCount: 3})
-    await page.keyboard.press('Backspace')
-    // Need to delay input waiting for the input adjustment to propagate.
-    await page.keyboard.type(newValueEs, {delay: 1})
-
-    // Change the en title to make sure it got all of the value.
-    await page.click('.selective__field__text textarea[data-locale=es]', {clickCount: 3})
-    await page.keyboard.press('Backspace')
-    await page.keyboard.type(newValueEs)
-
-    // Check for textareas.
-    await expect(page).toMatchElement('.selective__field__text textarea[data-locale=en]')
-    await expect(page).toMatchElement('.selective__field__text textarea[data-locale=es]')
-
-    // Editor should now be dirty.
-    isClean = await page.evaluate(_ => {
-      return window.editorInst.isClean
-    })
-    expect(isClean).toBe(false)
-
-    // Save the changes.
-    const saveButton = await page.$('.editor__save')
-    await saveButton.click()
-    await page.waitForSelector('.editor__save--saving')
-    await page.waitForSelector('.editor__save:not(.editor__save--saving)')
-
-    // Verify the new value was saved.
-    const value = await page.evaluate(_ => {
-      return window.editorInst.selective.value
-    })
-    expect(value).toMatchObject({
-      'title': newValue,
-      'title@es': newValueEs,
-    })
-
-    // After saving the editor should be clean.
-    isClean = await page.evaluate(_ => {
-      return window.editorInst.isClean
-    })
-    expect(isClean).toBe(true)
-
-    await percySnapshot(page, 'Text field expanded after localization save', defaults.snapshotOptions)
+    await percySnapshot(page, 'Textarea field after localization save', defaults.snapshotOptions)
   })
 })
