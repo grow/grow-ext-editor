@@ -4,7 +4,8 @@ module.exports = {
     'front_matter': {},
     'default_locale': 'en',
     'serving_paths': {
-      'en': '/'
+      'en': '/',
+      'es': '/es/',
     },
     'pod_path': '/content/test/test.yaml',
     'editor': {
@@ -12,7 +13,7 @@ module.exports = {
         {
           'type': 'text',
           'key': 'title',
-          'label': 'Title'
+          'label': 'Title',
         }
       ]
     }
