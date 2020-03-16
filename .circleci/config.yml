@@ -18,6 +18,8 @@ jobs:
         command: cd editor && yarn run test:ci
         environment:
           JEST_JUNIT_OUTPUT_DIR: "reports/junit/js-test-results.xml"
+    - store_test_results:
+        path: reports/junit
     - save_cache:
         key: *cache_key
         paths:
