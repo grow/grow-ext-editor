@@ -178,6 +178,7 @@ describe('text field', () => {
     await page.keyboard.press('Backspace')
     // Need to delay input waiting for the input adjustment to propagate.
     await page.keyboard.type(newValueEn, {delay: 1})
+    await page.waitFor(100)  // Wait for 100 ms to make sure textarea is ready.
 
     // Change the en title to make sure it got all of the value.
     await page.click('.selective__field__text textarea[data-locale=en]', {clickCount: 3})
@@ -189,6 +190,7 @@ describe('text field', () => {
     await page.keyboard.press('Backspace')
     // Need to delay input waiting for the input adjustment to propagate.
     await page.keyboard.type(newValueEs, {delay: 1})
+    await page.waitFor(100)  // Wait for 100 ms to make sure textarea is ready.
 
     // Change the en title to make sure it got all of the value.
     await page.click('.selective__field__text textarea[data-locale=es]', {clickCount: 3})
