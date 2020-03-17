@@ -973,11 +973,6 @@ class ListField extends SortableField {
     // If all of the items are in the expanded list then consider it expanded.
     if (this._listItems.length == this._expandedIndexes.length) {
       return true;
-    } // Expand if there is only one item.
-
-
-    if (this._listItems.length == 1) {
-      return true;
     }
 
     return this._isExpanded;
@@ -1071,7 +1066,12 @@ class ListField extends SortableField {
   ensureItems(editor, data) {
     // If the sub fields have not been created create them now.
     if (!this._listItems.length) {
-      this._listItems = this._createItems(editor, data);
+      this._listItems = this._createItems(editor, data); // Expand by default if there is only one item.
+
+      if (this._listItems.length == 1) {
+        this._expandedIndexes = [0];
+      }
+
       this._listIds = this._idsFromList(this._listItems);
     }
   }
@@ -1197,6 +1197,11 @@ class ListField extends SortableField {
     const fieldConfigs = this.getConfig().get('fields', []); // No need to expand/collapse when there is only one field config.
 
     if (fieldConfigs.length <= 1) {
+      return '';
+    } // No need to expand/collapse when there is only one list item.
+
+
+    if (this._listItems && this._listItems.length <= 1) {
       return '';
     } // Hide when there are no values to expand/collapse.
 
@@ -15174,7 +15179,7 @@ class Editor {
       this.selective.addField({
         type: contentType,
         key: CONTENT_KEY,
-        label: 'Content (Markdown)'
+        label: 'Content'
       }, {
         api: this.api
       });
@@ -17183,22 +17188,24 @@ const createWhiteBlackFilter = (whitelist, blacklist) => {
   blacklist = blacklist || [];
   return value => {
     // Test against the whitelist.
-    let meetsWhitelist = false;
+    if (whitelist.length) {
+      let meetsWhitelist = false;
 
-    for (const exp of whitelist) {
-      if (exp.test(value)) {
-        meetsWhitelist = true;
-        break;
+      for (const exp of whitelist) {
+        if (value.match(exp)) {
+          meetsWhitelist = true;
+          break;
+        }
       }
-    }
 
-    if (!meetsWhitelist) {
-      return false;
+      if (!meetsWhitelist) {
+        return false;
+      }
     } // Test against the blacklist.
 
 
     for (const exp of blacklist) {
-      if (exp.test(value)) {
+      if (value.match(exp)) {
         return false;
       }
     }
