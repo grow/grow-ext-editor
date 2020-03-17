@@ -563,8 +563,9 @@ export default class Editor {
 
     if (force === true) {
       // Force a reload when neccesary.
+      // Test for iframe first, as it may be hidden.
       const iframe = this.containerEl.querySelector('iframe')
-      iframe.contentWindow.location.reload(true)
+      iframe && iframe.contentWindow.location.reload(true)
     }
   }
 
@@ -583,7 +584,7 @@ export default class Editor {
             <button
                 ?disabled=${editor._isSaving || editor.isClean}
                 class="editor__save editor--primary ${editor._isSaving ? 'editor__save--saving' : ''}"
-                @click=${() => editor.save()}>
+                @click=${editor.save.bind(editor)}>
               ${editor.isClean ? 'No changes' : editor._isSaving ? 'Saving...' : 'Save'}
             </button>
             <div class="editor__actions">

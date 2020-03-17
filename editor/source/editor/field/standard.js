@@ -12,6 +12,9 @@ import {
   findParentByClassname,
   inputFocusAtPosition,
 } from '../../utility/dom'
+import pell from 'pell'
+import showdown from 'showdown'
+
 
 export class CheckboxField extends FieldRewrite {
   constructor(config, extendedConfig) {
@@ -102,7 +105,7 @@ export class DateTimeField extends FieldRewrite {
 
   // Original values may contain seconds which the datetime ignores.
   _cleanOriginalValue(value) {
-    if (value.length > 16) {
+    if (value && value.length > 16) {
       value = value.slice(0, 16)
     }
     return value
@@ -128,18 +131,34 @@ export class MarkdownField extends FieldRewrite {
   constructor(config, extendedConfig) {
     super(config, extendedConfig)
     this.fieldType = 'markdown'
+    this.showdown = new showdown.Converter()
   }
 
   renderInput(selective, data, locale) {
-    const value = this.getValueForLocale(locale) || ''
+    return html`<div id="${field.getUid()}" class="pell" data-locale=${locale}></div>`
+  }
 
-    return html`
-      <textarea
-        id="${this.uid}${locale}"
-        rows=${this.config.rows || 6}
-        placeholder=${this.config.placeholder || ''}
-        data-locale=${locale || ''}
-        @input=${this.handleInput.bind(this)}>${value}</textarea>`
+  postRender(containerEl) {
+    const actions = this.getConfig().get('pellActions', [
+      'bold', 'italic', 'heading1', 'heading2', 'olist', 'ulist', 'link'])
+    const fieldInstances = containerEl.querySelectorAll('.selective__field__markdown')
+    for (const fieldInstance of fieldInstances) {
+      const pellEl = fieldInstance.querySelector('.pell')
+      const locale = pellEl.dataset.locale
+      const value = this.getValueForLocale(locale) || ''
+
+      if (!fieldInstance.pellEditor) {
+        fieldInstance.pellEditor = pell.init({
+          element: pellEl,
+          actions: actions,
+          onChange: (html) => {
+            this.value = this.showdown.makeMarkdown(html)
+          }
+        })
+      }
+
+      fieldInstance.pellEditor.content.innerHTML = this.showdown.makeHtml(value || '')
+    }
   }
 }
 

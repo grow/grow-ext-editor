@@ -90,7 +90,6 @@
       margin: -1px -1px 1px -1px
       width: calc(100% + 2px)
 
-.selective__field__markdown,
 .selective__field__text,
 .selective__field__textarea
   textarea
@@ -358,6 +357,35 @@
 
   &:hover:not(.selective__field__constructor__file--empty)
     background: $ge-color-back-light
+
+// Pell Editor
+$pell-content-height: 20vh
+
+@import '../../node_modules/pell/src/pell'
+
+.selective__field__markdown
+  position: relative
+
+  .pell
+    border-color: $ge-color-back-light
+    border-radius: $ge-radius-2
+
+  .pell-actionbar
+    button
+      padding: $ge-pad/2
+      border: none
+
+  .pell-content
+    height: 30vh
+    padding: 0px 16px 8px 16px
+    overflow-x: auto
+    width: 100%
+
+    iframe
+      max-width: 100%
+
+    img
+      max-width: 100%
 
 .selective__field__group
   margin: $ge-pad/2 0

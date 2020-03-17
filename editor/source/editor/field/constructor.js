@@ -28,7 +28,7 @@ export class ConstructorField extends Field {
           type="text"
           id="${field.getUid()}"
           placeholder="${field.placeholder}"
-          value="${field.valueFromData(data)}"
+          value="${field.valueFromData(data) || ''}"
           @input=${field.handleInput.bind(field)}>
       </div>
       ${field.renderHelp(selective, field, data)}
@@ -79,7 +79,7 @@ export class ConstructorFileField extends ConstructorField {
           type="text"
           id="${field.getUid()}"
           placeholder="${field.placeholder}"
-          value="${field.valueFromData(data)}"
+          value="${field.valueFromData(data) || ''}"
           @input=${field.handleInput.bind(field)}>
         <i class="material-icons" title="Select pod path" @click=${field.handleFilesToggleClick.bind(field)}>list_alt</i>
       </div>
@@ -88,17 +88,41 @@ export class ConstructorFileField extends ConstructorField {
     </div>`
   }
 
+  configList(listKey, defaults) {
+    const list = []
+    const rawList = this.getConfig().get(listKey, [])
+    for (const value of rawList) {
+      list.push(new RegExp(value, 'gi'))
+    }
+
+    if (!list.length) {
+      return defaults || []
+    }
+
+    return list
+  }
+
   bindListeners(selective) {
     // Bind the field to the pod path loading.
     if (!this._listeningForPodPaths) {
-      selective.editor.listeners.add('load.podPaths', (response) => {
+      this._listeningForPodPaths = true
+
+      const handlePodPaths = (response) => {
         this._podPaths = response.pod_paths.sort().filter(this.filterFunc)
         document.dispatchEvent(new CustomEvent('selective.render'))
         window.setTimeout(
           () => { inputFocusAtEnd(`${this.getUid()}-filter`) },
           25)
-      })
-      this._listeningForPodPaths = true
+      }
+
+      // Check if the pod paths are already loaded.
+      if (selective.editor._podPaths) {
+        handlePodPaths({
+          pod_paths: selective.editor._podPaths,
+        })
+      }
+
+      selective.editor.listeners.add('load.podPaths', handlePodPaths)
     }
   }
 
@@ -188,9 +212,9 @@ export class DocumentField extends ConstructorFileField {
     this.tag = '!g.doc'
     this.filterFunc = createWhiteBlackFilter(
       // Whitelist.
-      [/^\/content\//],
+      this.configList('whitelist', [/^\/content\//]),
       // Blacklist.
-      [],
+      this.configList('blacklist'),
     )
   }
 }
@@ -202,9 +226,9 @@ export class YamlField extends ConstructorFileField {
     this.tag = '!g.yaml'
     this.filterFunc = createWhiteBlackFilter(
       // Whitelist.
-      [/^\/content\//, /^\/data\//, /\.yaml$/],
+      this.configList('whitelist', [/^\/content\//, /^\/data\//, /\.yaml$/]),
       // Blacklist.
-      [],
+      this.configList('blacklist'),
     )
   }
 }
