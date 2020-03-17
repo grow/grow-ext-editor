@@ -14036,7 +14036,7 @@ class Editor {
       this.selective.addField({
         type: contentType,
         key: CONTENT_KEY,
-        label: 'Content (Markdown)'
+        label: 'Content'
       }, {
         api: this.api
       });
