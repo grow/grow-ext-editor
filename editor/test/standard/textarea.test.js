@@ -1,4 +1,4 @@
-const defaults = require('./defaults')
+const defaults = require('../defaults')
 const { percySnapshot } = require('@percy/puppeteer')
 const path = require('path')
 const qs = require('querystring')
