@@ -135,7 +135,7 @@ export class MarkdownField extends FieldRewrite {
   }
 
   renderInput(selective, data, locale) {
-    return html`<div id="${field.getUid()}" class="pell" data-locale=${locale}></div>`
+    return html`<div id="${this.getUid()}" class="pell" data-locale=${locale || ''}></div>`
   }
 
   postRender(containerEl) {
@@ -143,21 +143,25 @@ export class MarkdownField extends FieldRewrite {
       'bold', 'italic', 'heading1', 'heading2', 'olist', 'ulist', 'link'])
     const fieldInstances = containerEl.querySelectorAll('.selective__field__markdown')
     for (const fieldInstance of fieldInstances) {
-      const pellEl = fieldInstance.querySelector('.pell')
-      const locale = pellEl.dataset.locale
-      const value = this.getValueForLocale(locale) || ''
+      const pellEls = fieldInstance.querySelectorAll('.pell')
+      for (const pellEl of pellEls) {
+        const locale = pellEl.dataset.locale
+        const value = this.getValueForLocale(locale) || ''
 
-      if (!fieldInstance.pellEditor) {
-        fieldInstance.pellEditor = pell.init({
-          element: pellEl,
-          actions: actions,
-          onChange: (html) => {
-            this.value = this.showdown.makeMarkdown(html)
-          }
-        })
+        if (!pellEl.pellEditor) {
+          pellEl.pellEditor = pell.init({
+            element: pellEl,
+            actions: actions,
+            onChange: (html) => {
+              this.setValueForLocale(locale, this.showdown.makeMarkdown(html).trim())
+            }
+          })
+        }
+
+        if (this.isClean) {
+          pellEl.pellEditor.content.innerHTML = this.showdown.makeHtml(value || '')
+        }
       }
-
-      fieldInstance.pellEditor.content.innerHTML = this.showdown.makeHtml(value || '')
     }
   }
 }

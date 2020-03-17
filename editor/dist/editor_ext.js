@@ -16596,7 +16596,7 @@ class MarkdownField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRe
   }
 
   renderInput(selective, data, locale) {
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div id="${field.getUid()}" class="pell" data-locale=${locale}></div>`;
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div id="${this.getUid()}" class="pell" data-locale=${locale || ''}></div>`;
   }
 
   postRender(containerEl) {
@@ -16604,21 +16604,26 @@ class MarkdownField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRe
     const fieldInstances = containerEl.querySelectorAll('.selective__field__markdown');
 
     for (const fieldInstance of fieldInstances) {
-      const pellEl = fieldInstance.querySelector('.pell');
-      const locale = pellEl.dataset.locale;
-      const value = this.getValueForLocale(locale) || '';
+      const pellEls = fieldInstance.querySelectorAll('.pell');
 
-      if (!fieldInstance.pellEditor) {
-        fieldInstance.pellEditor = pell__WEBPACK_IMPORTED_MODULE_2___default.a.init({
-          element: pellEl,
-          actions: actions,
-          onChange: html => {
-            this.value = this.showdown.makeMarkdown(html);
-          }
-        });
+      for (const pellEl of pellEls) {
+        const locale = pellEl.dataset.locale;
+        const value = this.getValueForLocale(locale) || '';
+
+        if (!pellEl.pellEditor) {
+          pellEl.pellEditor = pell__WEBPACK_IMPORTED_MODULE_2___default.a.init({
+            element: pellEl,
+            actions: actions,
+            onChange: html => {
+              this.setValueForLocale(locale, this.showdown.makeMarkdown(html).trim());
+            }
+          });
+        }
+
+        if (this.isClean) {
+          pellEl.pellEditor.content.innerHTML = this.showdown.makeHtml(value || '');
+        }
       }
-
-      fieldInstance.pellEditor.content.innerHTML = this.showdown.makeHtml(value || '');
     }
   }
 
