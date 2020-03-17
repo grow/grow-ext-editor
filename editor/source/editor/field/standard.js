@@ -98,11 +98,14 @@ export class MarkdownField extends Field {
           actions: actions,
           onChange: (html) => {
             this.value = this.showdown.makeMarkdown(html)
+            document.dispatchEvent(new CustomEvent('selective.render'))
           }
         })
       }
 
-      fieldInstance.pellEditor.content.innerHTML = this.showdown.makeHtml(this.value || '')
+      if (this.isClean) {
+        fieldInstance.pellEditor.content.innerHTML = this.showdown.makeHtml(this.value || '')
+      }
     }
   }
 }
