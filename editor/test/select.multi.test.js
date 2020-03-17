@@ -7,8 +7,9 @@ const editorConfig = {
   'fields': [
     {
       'type': 'select',
-      'key': 'color',
-      'label': 'Favorite Color',
+      'key': 'colors',
+      'label': 'Favorite Colors',
+      'multi': true,
       'options': [
         {
           'label': 'Blue',
@@ -22,16 +23,20 @@ const editorConfig = {
           'label': 'Yellow',
           'value': 'yellow',
         },
+        {
+          'label': 'Green',
+          'value': 'green',
+        },
       ],
     }
   ]
 }
-const defaultEn = 'blue'
-const defaultEs = 'red'
-let newValueEn = 'yellow'
-let newValueEs = 'blue'
+const defaultEn = ['blue']
+const defaultEs = ['red']
+let newValueEn = ['red', 'yellow']
+let newValueEs = ['blue', 'green']
 
-describe('select single field', () => {
+describe('select multi field', () => {
   beforeEach(async () => {
     // Need a new page to prevent requests already being handled.
     page = await browser.newPage()
@@ -57,8 +62,8 @@ describe('select single field', () => {
             contentType: 'application/json',
             body: JSON.stringify(Object.assign({}, defaults.documentResponse, {
               'front_matter': {
-                'color': defaultEn,
-                'color@es': defaultEs,
+                'colors': defaultEn,
+                'colors@es': defaultEs,
               },
               'editor': editorConfig,
             }))
@@ -78,7 +83,7 @@ describe('select single field', () => {
     await page.waitForSelector('.selective__fields')
   })
 
-  it('should be selected and changed', async () => {
+  it('should be selected and deselected', async () => {
     const newValue = true
 
     // Editor starts out clean.
@@ -87,10 +92,19 @@ describe('select single field', () => {
     })
     expect(isClean).toBe(true)
 
-    // Change the checked option.
-    let checkboxLabel = await page.$(`.selective__field__select__option[data-value=${newValueEn}]`)
-    await checkboxLabel.click()
-    await page.waitForSelector(`.selective__field__select__option--checked[data-value=${newValueEn}]`)
+    // Unselect the default options.
+    for (const value of defaultEn) {
+      let checkboxLabel = await page.$(`.selective__field__select__option[data-value=${value}]`)
+      await checkboxLabel.click()
+      await page.waitForSelector(`.selective__field__select__option:not(.selective__field__select__option--checked)[data-value=${value}]`)
+    }
+
+    // Select the new options.
+    for (const value of newValueEn) {
+      let checkboxLabel = await page.$(`.selective__field__select__option[data-value=${value}]`)
+      await checkboxLabel.click()
+      await page.waitForSelector(`.selective__field__select__option--checked[data-value=${value}]`)
+    }
 
     // Editor should now be dirty.
     isClean = await page.evaluate(_ => {
@@ -109,8 +123,8 @@ describe('select single field', () => {
       return window.editorInst.selective.value
     })
     expect(value).toMatchObject({
-      'color': newValueEn,
-      'color@es': defaultEs,
+      'colors': newValueEn,
+      'colors@es': defaultEs,
     })
 
     // After saving the editor should be clean.
@@ -119,14 +133,23 @@ describe('select single field', () => {
     })
     expect(isClean).toBe(true)
 
-    await percySnapshot(page, 'Select single field checked after save', defaults.snapshotOptions)
+    await percySnapshot(page, 'Select multi field selected after save', defaults.snapshotOptions)
 
     // Uncheck!
 
-    // Change the checked option.
-    checkboxLabel = await page.$(`.selective__field__select__option[data-value=${defaultEn}]`)
-    await checkboxLabel.click()
-    await page.waitForSelector(`.selective__field__select__option--checked[data-value=${defaultEn}]`)
+    // Unselect the new options.
+    for (const value of newValueEn) {
+      let checkboxLabel = await page.$(`.selective__field__select__option[data-value=${value}]`)
+      await checkboxLabel.click()
+      await page.waitForSelector(`.selective__field__select__option:not(.selective__field__select__option--checked)[data-value=${value}]`)
+    }
+
+    // Select the default options.
+    for (const value of defaultEn) {
+      let checkboxLabel = await page.$(`.selective__field__select__option[data-value=${value}]`)
+      await checkboxLabel.click()
+      await page.waitForSelector(`.selective__field__select__option--checked[data-value=${value}]`)
+    }
 
     // Editor should now be dirty.
     isClean = await page.evaluate(_ => {
@@ -144,8 +167,8 @@ describe('select single field', () => {
       return window.editorInst.selective.value
     })
     expect(value).toMatchObject({
-      'color': defaultEn,
-      'color@es': defaultEs,
+      'colors': defaultEn,
+      'colors@es': defaultEs,
     })
 
     // After saving the editor should be clean.
@@ -154,10 +177,10 @@ describe('select single field', () => {
     })
     expect(isClean).toBe(true)
 
-    await percySnapshot(page, 'Select single field unselected after save', defaults.snapshotOptions)
+    await percySnapshot(page, 'Select multi field deselected after save', defaults.snapshotOptions)
   })
 
-  it('should be selected and changed on localization', async () => {
+  it('should be selected and deselected on localization', async () => {
     // Editor starts out clean.
     let isClean = await page.evaluate(_ => {
       return window.editorInst.isClean
@@ -169,15 +192,35 @@ describe('select single field', () => {
     await localizationIcon.click()
     await page.waitForSelector('.selective__field__select__option[data-locale=en]')
 
-    // Change the en checked option.
-    let checkboxLabel = await page.$(`.selective__field__select__option[data-value=${newValueEn}][data-locale=en]`)
-    await checkboxLabel.click()
-    await page.waitForSelector(`.selective__field__select__option--checked[data-value=${newValueEn}][data-locale=en]`)
+    // Change the en checked options.
+    // Unselect the default options.
+    for (const value of defaultEn) {
+      let checkboxLabel = await page.$(`.selective__field__select__option[data-value=${value}][data-locale=en]`)
+      await checkboxLabel.click()
+      await page.waitForSelector(`.selective__field__select__option:not(.selective__field__select__option--checked)[data-value=${value}][data-locale=en]`)
+    }
 
-    // Change the es checked option.
-    checkboxLabel = await page.$(`.selective__field__select__option[data-value=${newValueEs}][data-locale=es]`)
-    await checkboxLabel.click()
-    await page.waitForSelector(`.selective__field__select__option--checked[data-value=${newValueEs}][data-locale=es]`)
+    // Select the new options.
+    for (const value of newValueEn) {
+      let checkboxLabel = await page.$(`.selective__field__select__option[data-value=${value}][data-locale=en]`)
+      await checkboxLabel.click()
+      await page.waitForSelector(`.selective__field__select__option--checked[data-value=${value}][data-locale=en]`)
+    }
+
+    // Change the es checked options.
+    // Unselect the default options.
+    for (const value of defaultEs) {
+      let checkboxLabel = await page.$(`.selective__field__select__option[data-value=${value}][data-locale=es]`)
+      await checkboxLabel.click()
+      await page.waitForSelector(`.selective__field__select__option:not(.selective__field__select__option--checked)[data-value=${value}][data-locale=es]`)
+    }
+
+    // Select the new options.
+    for (const value of newValueEs) {
+      let checkboxLabel = await page.$(`.selective__field__select__option[data-value=${value}][data-locale=es]`)
+      await checkboxLabel.click()
+      await page.waitForSelector(`.selective__field__select__option--checked[data-value=${value}][data-locale=es]`)
+    }
 
     // Editor should now be dirty.
     isClean = await page.evaluate(_ => {
@@ -196,8 +239,8 @@ describe('select single field', () => {
       return window.editorInst.selective.value
     })
     expect(value).toMatchObject({
-      'color': newValueEn,
-      'color@es': newValueEs,
+      'colors': newValueEn,
+      'colors@es': newValueEs,
     })
 
     // After saving the editor should be clean.
@@ -206,19 +249,39 @@ describe('select single field', () => {
     })
     expect(isClean).toBe(true)
 
-    await percySnapshot(page, 'Select single field checked after localization save', defaults.snapshotOptions)
+    await percySnapshot(page, 'Select multi field selected after localization save', defaults.snapshotOptions)
 
     // Uncheck!
 
     // Change the en checked option.
-    checkboxLabel = await page.$(`.selective__field__select__option[data-value=${defaultEn}][data-locale=en]`)
-    await checkboxLabel.click()
-    await page.waitForSelector(`.selective__field__select__option--checked[data-value=${defaultEn}][data-locale=en]`)
+    // Unselect the new options.
+    for (const value of newValueEn) {
+      let checkboxLabel = await page.$(`.selective__field__select__option[data-value=${value}][data-locale=en]`)
+      await checkboxLabel.click()
+      await page.waitForSelector(`.selective__field__select__option:not(.selective__field__select__option--checked)[data-value=${value}][data-locale=en]`)
+    }
+
+    // Select the default options.
+    for (const value of defaultEn) {
+      let checkboxLabel = await page.$(`.selective__field__select__option[data-value=${value}][data-locale=en]`)
+      await checkboxLabel.click()
+      await page.waitForSelector(`.selective__field__select__option--checked[data-value=${value}][data-locale=en]`)
+    }
 
     // Change the es checked option.
-    checkboxLabel = await page.$(`.selective__field__select__option[data-value=${defaultEs}][data-locale=es]`)
-    await checkboxLabel.click()
-    await page.waitForSelector(`.selective__field__select__option--checked[data-value=${defaultEs}][data-locale=es]`)
+    // Unselect the new options.
+    for (const value of newValueEs) {
+      let checkboxLabel = await page.$(`.selective__field__select__option[data-value=${value}][data-locale=es]`)
+      await checkboxLabel.click()
+      await page.waitForSelector(`.selective__field__select__option:not(.selective__field__select__option--checked)[data-value=${value}][data-locale=es]`)
+    }
+
+    // Select the default options.
+    for (const value of defaultEs) {
+      let checkboxLabel = await page.$(`.selective__field__select__option[data-value=${value}][data-locale=es]`)
+      await checkboxLabel.click()
+      await page.waitForSelector(`.selective__field__select__option--checked[data-value=${value}][data-locale=es]`)
+    }
 
     // Editor should now be dirty.
     isClean = await page.evaluate(_ => {
@@ -236,8 +299,8 @@ describe('select single field', () => {
       return window.editorInst.selective.value
     })
     expect(value).toMatchObject({
-      'color': defaultEn,
-      'color@es': defaultEs,
+      'colors': defaultEn,
+      'colors@es': defaultEs,
     })
 
     // After saving the editor should be clean.
@@ -246,6 +309,6 @@ describe('select single field', () => {
     })
     expect(isClean).toBe(true)
 
-    await percySnapshot(page, 'Select single field unselected after localization save', defaults.snapshotOptions)
+    await percySnapshot(page, 'Select multi field deselected after localization save', defaults.snapshotOptions)
   })
 })
