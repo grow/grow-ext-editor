@@ -246,7 +246,6 @@ class AutoFields extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_1__["c
     super();
     this.data = data;
     this._data = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_2__["autoDeepObject"])(data);
-    this.dataType = new _utility_dataType__WEBPACK_IMPORTED_MODULE_3__["default"]();
     this.setConfig(config);
     this._ignoredKeys = null;
   }
@@ -270,7 +269,7 @@ class AutoFields extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_1__["c
     let fields = [];
     keyBase = keyBase || [];
 
-    if (this.dataType.isArray(data)) {
+    if (_utility_dataType__WEBPACK_IMPORTED_MODULE_3__["default"].isArray(data)) {
       const firstValue = data.length ? data[0] : null;
       fields.push(this._fieldConfig('', firstValue));
     } else {
@@ -297,7 +296,7 @@ class AutoFields extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_1__["c
       const newKeyBase = keyBase.concat([key]);
       const newData = data[key];
 
-      if (this.dataType.isObject(newData)) {
+      if (_utility_dataType__WEBPACK_IMPORTED_MODULE_3__["default"].isObject(newData)) {
         fields = fields.concat(this._deepGuessObject(newData, newKeyBase));
       } else {
         fields.push(this._deepGuessSimple(data[key], newKeyBase));
@@ -368,7 +367,7 @@ class AutoFields extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_1__["c
       return 'text';
     }
 
-    if (this.dataType.isArray(value)) {
+    if (_utility_dataType__WEBPACK_IMPORTED_MODULE_3__["default"].isArray(value)) {
       return 'list';
     }
 
@@ -559,19 +558,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Field; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SortableField", function() { return SortableField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ListField", function() { return ListField; });
-/* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lit-html */ "../../../selective-edit/node_modules/lit-html/lit-html.js");
-/* harmony import */ var lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lit-html/directives/repeat */ "../../../selective-edit/node_modules/lit-html/directives/repeat.js");
-/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../mixin/config */ "../../../selective-edit/js/mixin/config.js");
-/* harmony import */ var _mixin_uid__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../mixin/uid */ "../../../selective-edit/js/mixin/uid.js");
-/* harmony import */ var _fields__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./fields */ "../../../selective-edit/js/selective/fields.js");
-/* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./autoFields */ "../../../selective-edit/js/selective/autoFields.js");
-/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utility/compose */ "../../../selective-edit/js/utility/compose.js");
-/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utility/config */ "../../../selective-edit/js/utility/config.js");
-/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
-/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../utility/dom */ "../../../selective-edit/js/utility/dom.js");
+/* harmony import */ var json_stable_stringify__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! json-stable-stringify */ "../../../selective-edit/node_modules/json-stable-stringify/index.js");
+/* harmony import */ var json_stable_stringify__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(json_stable_stringify__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lit-html */ "../../../selective-edit/node_modules/lit-html/lit-html.js");
+/* harmony import */ var lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lit-html/directives/repeat */ "../../../selective-edit/node_modules/lit-html/directives/repeat.js");
+/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../mixin/config */ "../../../selective-edit/js/mixin/config.js");
+/* harmony import */ var _mixin_uid__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../mixin/uid */ "../../../selective-edit/js/mixin/uid.js");
+/* harmony import */ var _fields__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./fields */ "../../../selective-edit/js/selective/fields.js");
+/* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./autoFields */ "../../../selective-edit/js/selective/autoFields.js");
+/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utility/compose */ "../../../selective-edit/js/utility/compose.js");
+/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../utility/config */ "../../../selective-edit/js/utility/config.js");
+/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
+/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../utility/dom */ "../../../selective-edit/js/utility/dom.js");
 /**
  * Field defined for editing.
  */
+
 
 
 
@@ -586,7 +588,7 @@ const WHITESPACE_RE = /^[\s]+|[\s]+$/g; // =====================================
 // === Base Field
 // ========================================
 
-class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_6__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_2__["default"], _mixin_uid__WEBPACK_IMPORTED_MODULE_3__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_6__["Base"]) {
+class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_7__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_3__["default"], _mixin_uid__WEBPACK_IMPORTED_MODULE_4__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_7__["Base"]) {
   constructor(config, extendedConfig) {
     super();
     this.fieldType = 'Field';
@@ -595,7 +597,7 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_6__["compos
     this._dataValue = undefined;
     this.value = undefined;
 
-    this.template = (editor, field, data) => lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__field" data-field-type="${field.fieldType}">
+    this.template = (editor, field, data) => lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field" data-field-type="${field.fieldType}">
       Missing template.
     </div>`;
   }
@@ -644,7 +646,7 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_6__["compos
       return '';
     }
 
-    return lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__field__help">${field.help}</div>`;
+    return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field__help">${field.help}</div>`;
   }
 
   postRender(containerEl) {// Pass.
@@ -659,7 +661,7 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_6__["compos
     let newDataValue = data;
 
     if (typeof data === 'object' && data !== null) {
-      data = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_8__["autoDeepObject"])(data);
+      data = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_9__["autoDeepObject"])(data);
       newDataValue = data.get(this.key);
     } // Allow for using the config default value.
 
@@ -713,7 +715,7 @@ class SortableField extends Field {
     this._dragHoverElement = null;
     this._dataValue = [];
 
-    this.template = (editor, field, data) => lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`<div>
+    this.template = (editor, field, data) => lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`<div>
       Sortable Field sub class needs a custom template.
     </div>`;
   }
@@ -759,7 +761,7 @@ class SortableField extends Field {
 
   handleDragStart(evt) {
     evt.stopPropagation();
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_9__["findParentDraggable"])(evt.target);
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_10__["findParentDraggable"])(evt.target);
     this._dragOriginElement = target;
     evt.dataTransfer.setData('text/plain', evt.target.dataset.index);
     evt.dataTransfer.setData(`selective/${this.getUid()}`, evt.target.dataset.index);
@@ -774,7 +776,7 @@ class SortableField extends Field {
 
   handleDragEnter(evt) {
     if (this._shouldHandleDrag(evt)) {
-      const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_9__["findParentDraggable"])(evt.target);
+      const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_10__["findParentDraggable"])(evt.target);
 
       if (!target) {
         return;
@@ -801,7 +803,7 @@ class SortableField extends Field {
 
   handleDragLeave(evt) {
     if (this._shouldHandleDrag(evt)) {
-      const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_9__["findParentDraggable"])(evt.target);
+      const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_10__["findParentDraggable"])(evt.target);
 
       if (!target) {
         return;
@@ -833,7 +835,7 @@ class SortableField extends Field {
     }
 
     evt.stopPropagation();
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_9__["findParentDraggable"])(evt.target);
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_10__["findParentDraggable"])(evt.target);
     const currentIndex = parseInt(evt.target.dataset.index);
     const startIndex = parseInt(evt.dataTransfer.getData("text/plain")); // No longer hovering.
 
@@ -864,7 +866,7 @@ class ListField extends SortableField {
     this._useAutoFields = false;
     this._expandedIndexes = [];
 
-    this.template = (editor, field, data) => lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`
+    this.template = (editor, field, data) => lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
       <div
           class="selective__field selective__field__${field.fieldType}"
           data-field-type="${field.fieldType}">
@@ -957,8 +959,8 @@ class ListField extends SortableField {
     } // Check if the ids on the item list have changed.
 
 
-    const originalIds = JSON.stringify(this._listIds);
-    const currentIds = JSON.stringify(this._idsFromList(this._listItems));
+    const originalIds = json_stable_stringify__WEBPACK_IMPORTED_MODULE_0__(this._listIds);
+    const currentIds = json_stable_stringify__WEBPACK_IMPORTED_MODULE_0__(this._idsFromList(this._listItems));
 
     if (originalIds != currentIds) {
       return false;
@@ -1016,16 +1018,16 @@ class ListField extends SortableField {
     const items = [];
 
     for (const itemData of this.value) {
-      const itemFields = new _fields__WEBPACK_IMPORTED_MODULE_4__["default"](editor.fieldTypes);
+      const itemFields = new _fields__WEBPACK_IMPORTED_MODULE_5__["default"](editor.fieldTypes);
       itemFields.valueFromData(itemData || {});
 
       if (this._useAutoFields) {
         // Auto guess the fields if they are not defined.
-        fieldConfigs = new _autoFields__WEBPACK_IMPORTED_MODULE_5__["default"](itemData).config['fields'];
+        fieldConfigs = new _autoFields__WEBPACK_IMPORTED_MODULE_6__["default"](itemData).config['fields'];
       }
 
       for (let fieldConfig of fieldConfigs || []) {
-        fieldConfig = Object(_utility_config__WEBPACK_IMPORTED_MODULE_7__["autoConfig"])(fieldConfig, this.extendedConfig);
+        fieldConfig = Object(_utility_config__WEBPACK_IMPORTED_MODULE_8__["autoConfig"])(fieldConfig, this.extendedConfig);
         itemFields.addField(fieldConfig, this.extendedConfig);
       } // When a partial is not expanded it does not get the value
       // updated correctly so we need to manually call the data update.
@@ -1055,7 +1057,7 @@ class ListField extends SortableField {
     let previewValue = itemValue;
 
     if (previewField || defaultPreviewField) {
-      previewValue = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_8__["autoDeepObject"])(itemValue).get(previewField || defaultPreviewField);
+      previewValue = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_9__["autoDeepObject"])(itemValue).get(previewField || defaultPreviewField);
     } // Do not try to show preview for complex values.
 
 
@@ -1076,7 +1078,7 @@ class ListField extends SortableField {
 
   handleAddItem(evt, editor) {
     const index = this.value ? this.value.length : 0;
-    const itemFields = new _fields__WEBPACK_IMPORTED_MODULE_4__["default"](editor.fieldTypes); // Use the field config for the list items to create the correct field types.
+    const itemFields = new _fields__WEBPACK_IMPORTED_MODULE_5__["default"](editor.fieldTypes); // Use the field config for the list items to create the correct field types.
 
     let fieldConfigs = this.getConfig().get('fields', []); // If no field configs, use the last item config if availble.
 
@@ -1085,7 +1087,7 @@ class ListField extends SortableField {
     }
 
     for (let fieldConfig of fieldConfigs || []) {
-      fieldConfig = Object(_utility_config__WEBPACK_IMPORTED_MODULE_7__["autoConfig"])(fieldConfig, this.extendedConfig);
+      fieldConfig = Object(_utility_config__WEBPACK_IMPORTED_MODULE_8__["autoConfig"])(fieldConfig, this.extendedConfig);
       itemFields.addField(fieldConfig, this.extendedConfig);
     }
 
@@ -1124,7 +1126,7 @@ class ListField extends SortableField {
 
   handleItemDelete(evt) {
     evt.stopPropagation();
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_9__["findParentByClassname"])(evt.target, 'selective__list__item__delete');
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_10__["findParentByClassname"])(evt.target, 'selective__list__item__delete');
     const index = parseInt(target.dataset.index); // Clean up an expanded indexes.
 
     const newExpanded = [];
@@ -1181,7 +1183,7 @@ class ListField extends SortableField {
   }
 
   renderActionsFooter(editor, field, data) {
-    return lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__actions">
+    return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__actions">
       <button @click=${evt => {
       field.handleAddItem(evt, editor);
     }}>
@@ -1204,7 +1206,7 @@ class ListField extends SortableField {
     } // Allow collapsing and expanding of sub fields.
 
 
-    return lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__actions">
+    return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__actions">
       <button class="selective__action__toggle" @click=${field.handleToggleExpand.bind(field)}>
         ${field.isExpanded ? 'Collapse' : 'Expand'}
       </button>
@@ -1212,7 +1214,7 @@ class ListField extends SortableField {
   }
 
   renderCollapsedItem(editor, listItem) {
-    return lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`
+    return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
       <div class="selective__list__item__drag"><i class="material-icons">drag_indicator</i></div>
       <div class="selective__list__item__preview sortable__preview" data-index=${listItem['index']} @click=${this.handleItemExpand.bind(this)}>
         ${this.renderPreview(listItem)}
@@ -1227,7 +1229,7 @@ class ListField extends SortableField {
   }
 
   renderExpandedItem(editor, listItem) {
-    return lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`
+    return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
       <div class="selective__list__fields">
         <div class="selective__list__fields__label ${!listItem['itemFields'].label ? 'selective__list__fields__label--empty' : ''}"
             data-index=${listItem['index']}
@@ -1248,7 +1250,7 @@ class ListField extends SortableField {
       listItem['isExpanded'] = this.isExpanded || inIndex || isSimpleValue;
     }
 
-    return lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`${Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_1__["repeat"])(this._listItems, listItem => listItem['id'], (listItem, index) => lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`
+    return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`${Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__["repeat"])(this._listItems, listItem => listItem['id'], (listItem, index) => lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
       <div class="selective__list__item selective__list__item--${listItem['isExpanded'] ? 'expanded' : 'collapsed'} ${this._useAutoFields ? 'selective__list__item--auto' : ''}"
           draggable="true"
           data-index=${listItem['index']}
@@ -1284,12 +1286,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return FieldRewrite; });
 /* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! deep-extend */ "../../../selective-edit/node_modules/deep-extend/lib/deep-extend.js");
 /* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(deep_extend__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lit-html */ "../../../selective-edit/node_modules/lit-html/lit-html.js");
-/* harmony import */ var lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lit-html/directives/repeat */ "../../../selective-edit/node_modules/lit-html/directives/repeat.js");
-/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utility/compose */ "../../../selective-edit/js/utility/compose.js");
-/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
-/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../mixin/config */ "../../../selective-edit/js/mixin/config.js");
-/* harmony import */ var _mixin_uid__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../mixin/uid */ "../../../selective-edit/js/mixin/uid.js");
+/* harmony import */ var json_stable_stringify__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! json-stable-stringify */ "../../../selective-edit/node_modules/json-stable-stringify/index.js");
+/* harmony import */ var json_stable_stringify__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(json_stable_stringify__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lit-html */ "../../../selective-edit/node_modules/lit-html/lit-html.js");
+/* harmony import */ var lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lit-html/directives/repeat */ "../../../selective-edit/node_modules/lit-html/directives/repeat.js");
+/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../utility/compose */ "../../../selective-edit/js/utility/compose.js");
+/* harmony import */ var _utility_dataType__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../utility/dataType */ "../../../selective-edit/js/utility/dataType.js");
+/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
+/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../mixin/config */ "../../../selective-edit/js/mixin/config.js");
+/* harmony import */ var _mixin_uid__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../mixin/uid */ "../../../selective-edit/js/mixin/uid.js");
 /**
  * Base field.
  */
@@ -1300,7 +1305,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class FieldRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_5__["default"], _mixin_uid__WEBPACK_IMPORTED_MODULE_6__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["Base"]) {
+
+
+class FieldRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_7__["default"], _mixin_uid__WEBPACK_IMPORTED_MODULE_8__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["Base"]) {
   constructor(config, globalConfig) {
     super();
     this.fieldType = 'Field';
@@ -1331,14 +1338,17 @@ class FieldRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__[
 
   get isClean() {
     if (this.isLocalized) {
-      if (JSON.stringify(this.values) != JSON.stringify(this._originalValues)) {
+      if (json_stable_stringify__WEBPACK_IMPORTED_MODULE_1__(this.values) != json_stable_stringify__WEBPACK_IMPORTED_MODULE_1__(this._originalValues)) {
         return false;
       }
     } // Handle complex value.
 
 
-    if (Array.isArray(this.originalValue) || Array.isArray(this.value)) {
-      return JSON.stringify(this.value) == JSON.stringify(this.originalValue);
+    const isArray = _utility_dataType__WEBPACK_IMPORTED_MODULE_5__["default"].isArray(this.originalValue) || _utility_dataType__WEBPACK_IMPORTED_MODULE_5__["default"].isArray(this.value);
+    const isObject = _utility_dataType__WEBPACK_IMPORTED_MODULE_5__["default"].isObject(this.originalValue) || _utility_dataType__WEBPACK_IMPORTED_MODULE_5__["default"].isObject(this.value);
+
+    if (isArray || isObject) {
+      return json_stable_stringify__WEBPACK_IMPORTED_MODULE_1__(this.value) == json_stable_stringify__WEBPACK_IMPORTED_MODULE_1__(this.originalValue);
     }
 
     return this.originalValue == this.value;
@@ -1365,7 +1375,7 @@ class FieldRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__[
   }
 
   get template() {
-    return (selective, data) => lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
+    return (selective, data) => lit_html__WEBPACK_IMPORTED_MODULE_2__["html"]`
       ${this.updateOriginal(selective, data)}
       <div
           class=${this.classesField}
@@ -1419,7 +1429,7 @@ class FieldRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__[
   }
 
   renderField(selective, data) {
-    return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
+    return lit_html__WEBPACK_IMPORTED_MODULE_2__["html"]`
       ${this.renderLabel(selective, data)}
       ${this.renderLocalization(selective, data)}
       ${this.renderHelp(selective, data)}`;
@@ -1430,7 +1440,7 @@ class FieldRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__[
       return '';
     }
 
-    return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field__help">${this.config.help}</div>`;
+    return lit_html__WEBPACK_IMPORTED_MODULE_2__["html"]`<div class="selective__field__help">${this.config.help}</div>`;
   }
 
   renderInput(selective, data, locale) {
@@ -1442,7 +1452,7 @@ class FieldRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__[
       return '';
     }
 
-    return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field__label">
+    return lit_html__WEBPACK_IMPORTED_MODULE_2__["html"]`<div class="selective__field__label">
       <label for="${this.uid}">${this.config.label}</label>
     </div>`;
   }
@@ -1453,9 +1463,9 @@ class FieldRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__[
     } // Render the localization grid.
 
 
-    return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
+    return lit_html__WEBPACK_IMPORTED_MODULE_2__["html"]`
       <div class="selective__field__localization">
-        ${Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__["repeat"])(selective.config.locales || ['en', 'es'], locale => locale, (locale, index) => lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
+        ${Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_3__["repeat"])(selective.config.locales || ['en', 'es'], locale => locale, (locale, index) => lit_html__WEBPACK_IMPORTED_MODULE_2__["html"]`
             <div class="selective__field__localization__locale">
               <label for="${this.uid}${locale}">${locale}</label>
             </div>
@@ -1483,7 +1493,7 @@ class FieldRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__[
     let newValue = data;
 
     if (typeof data === 'object' && data !== null) {
-      data = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_4__["autoDeepObject"])(data);
+      data = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_6__["autoDeepObject"])(data);
       newValue = data.get(this.key);
     }
 
@@ -1517,7 +1527,7 @@ class FieldRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__[
       const newValues = {};
 
       if (typeof data === 'object' && data !== null) {
-        data = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_4__["autoDeepObject"])(data);
+        data = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_6__["autoDeepObject"])(data);
 
         for (const locale of selective.config.locales || ['en', 'es']) {
           if (locale == this.defaultLocale) {
@@ -2071,7 +2081,7 @@ __webpack_require__.r(__webpack_exports__);
  * Utility for determining the type of a data value.
  */
 class DataType {
-  isArray(value) {
+  static isArray(value) {
     if (Array.isArray) {
       return Array.isArray(value);
     }
@@ -2079,43 +2089,43 @@ class DataType {
     return value && typeof value === 'object' && value.constructor === Array;
   }
 
-  isBoolean(value) {
+  static isBoolean(value) {
     return typeof value === 'boolean';
   }
 
-  isDate(value) {
+  static isDate(value) {
     return value instanceof Date;
   }
 
-  isFunction(value) {
+  static isFunction(value) {
     return typeof value === 'function';
   }
 
-  isNumber(value) {
+  static isNumber(value) {
     return typeof value === 'number' && isFinite(value);
   }
 
-  isNull(value) {
+  static isNull(value) {
     return value === null;
   }
 
-  isObject(value) {
+  static isObject(value) {
     return value && typeof value === 'object' && value.constructor === Object;
   }
 
-  isRegExp(value) {
+  static isRegExp(value) {
     return value && typeof value === 'object' && value.constructor === RegExp;
   }
 
-  isString(value) {
+  static isString(value) {
     return typeof value === 'string' || value instanceof String;
   }
 
-  isSymbol(value) {
+  static isSymbol(value) {
     return typeof value === 'symbol';
   }
 
-  isUndefined(value) {
+  static isUndefined(value) {
     return typeof value === 'undefined';
   }
 
@@ -2449,6 +2459,563 @@ var deepExtend = module.exports = function (/*obj_1, [obj_2], [obj_N]*/) {
 };
 
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../ext/editor/editor/node_modules/buffer/index.js */ "./node_modules/buffer/index.js").Buffer))
+
+/***/ }),
+
+/***/ "../../../selective-edit/node_modules/json-stable-stringify/index.js":
+/*!*******************************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/node_modules/json-stable-stringify/index.js ***!
+  \*******************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var json = typeof JSON !== 'undefined' ? JSON : __webpack_require__(/*! jsonify */ "../../../selective-edit/node_modules/jsonify/index.js");
+
+module.exports = function (obj, opts) {
+    if (!opts) opts = {};
+    if (typeof opts === 'function') opts = { cmp: opts };
+    var space = opts.space || '';
+    if (typeof space === 'number') space = Array(space+1).join(' ');
+    var cycles = (typeof opts.cycles === 'boolean') ? opts.cycles : false;
+    var replacer = opts.replacer || function(key, value) { return value; };
+
+    var cmp = opts.cmp && (function (f) {
+        return function (node) {
+            return function (a, b) {
+                var aobj = { key: a, value: node[a] };
+                var bobj = { key: b, value: node[b] };
+                return f(aobj, bobj);
+            };
+        };
+    })(opts.cmp);
+
+    var seen = [];
+    return (function stringify (parent, key, node, level) {
+        var indent = space ? ('\n' + new Array(level + 1).join(space)) : '';
+        var colonSeparator = space ? ': ' : ':';
+
+        if (node && node.toJSON && typeof node.toJSON === 'function') {
+            node = node.toJSON();
+        }
+
+        node = replacer.call(parent, key, node);
+
+        if (node === undefined) {
+            return;
+        }
+        if (typeof node !== 'object' || node === null) {
+            return json.stringify(node);
+        }
+        if (isArray(node)) {
+            var out = [];
+            for (var i = 0; i < node.length; i++) {
+                var item = stringify(node, i, node[i], level+1) || json.stringify(null);
+                out.push(indent + space + item);
+            }
+            return '[' + out.join(',') + indent + ']';
+        }
+        else {
+            if (seen.indexOf(node) !== -1) {
+                if (cycles) return json.stringify('__cycle__');
+                throw new TypeError('Converting circular structure to JSON');
+            }
+            else seen.push(node);
+
+            var keys = objectKeys(node).sort(cmp && cmp(node));
+            var out = [];
+            for (var i = 0; i < keys.length; i++) {
+                var key = keys[i];
+                var value = stringify(node, key, node[key], level+1);
+
+                if(!value) continue;
+
+                var keyValue = json.stringify(key)
+                    + colonSeparator
+                    + value;
+                ;
+                out.push(indent + space + keyValue);
+            }
+            seen.splice(seen.indexOf(node), 1);
+            return '{' + out.join(',') + indent + '}';
+        }
+    })({ '': obj }, '', obj, 0);
+};
+
+var isArray = Array.isArray || function (x) {
+    return {}.toString.call(x) === '[object Array]';
+};
+
+var objectKeys = Object.keys || function (obj) {
+    var has = Object.prototype.hasOwnProperty || function () { return true };
+    var keys = [];
+    for (var key in obj) {
+        if (has.call(obj, key)) keys.push(key);
+    }
+    return keys;
+};
+
+
+/***/ }),
+
+/***/ "../../../selective-edit/node_modules/jsonify/index.js":
+/*!*****************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/node_modules/jsonify/index.js ***!
+  \*****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports.parse = __webpack_require__(/*! ./lib/parse */ "../../../selective-edit/node_modules/jsonify/lib/parse.js");
+exports.stringify = __webpack_require__(/*! ./lib/stringify */ "../../../selective-edit/node_modules/jsonify/lib/stringify.js");
+
+
+/***/ }),
+
+/***/ "../../../selective-edit/node_modules/jsonify/lib/parse.js":
+/*!*********************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/node_modules/jsonify/lib/parse.js ***!
+  \*********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var at, // The index of the current character
+    ch, // The current character
+    escapee = {
+        '"':  '"',
+        '\\': '\\',
+        '/':  '/',
+        b:    '\b',
+        f:    '\f',
+        n:    '\n',
+        r:    '\r',
+        t:    '\t'
+    },
+    text,
+
+    error = function (m) {
+        // Call error when something is wrong.
+        throw {
+            name:    'SyntaxError',
+            message: m,
+            at:      at,
+            text:    text
+        };
+    },
+    
+    next = function (c) {
+        // If a c parameter is provided, verify that it matches the current character.
+        if (c && c !== ch) {
+            error("Expected '" + c + "' instead of '" + ch + "'");
+        }
+        
+        // Get the next character. When there are no more characters,
+        // return the empty string.
+        
+        ch = text.charAt(at);
+        at += 1;
+        return ch;
+    },
+    
+    number = function () {
+        // Parse a number value.
+        var number,
+            string = '';
+        
+        if (ch === '-') {
+            string = '-';
+            next('-');
+        }
+        while (ch >= '0' && ch <= '9') {
+            string += ch;
+            next();
+        }
+        if (ch === '.') {
+            string += '.';
+            while (next() && ch >= '0' && ch <= '9') {
+                string += ch;
+            }
+        }
+        if (ch === 'e' || ch === 'E') {
+            string += ch;
+            next();
+            if (ch === '-' || ch === '+') {
+                string += ch;
+                next();
+            }
+            while (ch >= '0' && ch <= '9') {
+                string += ch;
+                next();
+            }
+        }
+        number = +string;
+        if (!isFinite(number)) {
+            error("Bad number");
+        } else {
+            return number;
+        }
+    },
+    
+    string = function () {
+        // Parse a string value.
+        var hex,
+            i,
+            string = '',
+            uffff;
+        
+        // When parsing for string values, we must look for " and \ characters.
+        if (ch === '"') {
+            while (next()) {
+                if (ch === '"') {
+                    next();
+                    return string;
+                } else if (ch === '\\') {
+                    next();
+                    if (ch === 'u') {
+                        uffff = 0;
+                        for (i = 0; i < 4; i += 1) {
+                            hex = parseInt(next(), 16);
+                            if (!isFinite(hex)) {
+                                break;
+                            }
+                            uffff = uffff * 16 + hex;
+                        }
+                        string += String.fromCharCode(uffff);
+                    } else if (typeof escapee[ch] === 'string') {
+                        string += escapee[ch];
+                    } else {
+                        break;
+                    }
+                } else {
+                    string += ch;
+                }
+            }
+        }
+        error("Bad string");
+    },
+
+    white = function () {
+
+// Skip whitespace.
+
+        while (ch && ch <= ' ') {
+            next();
+        }
+    },
+
+    word = function () {
+
+// true, false, or null.
+
+        switch (ch) {
+        case 't':
+            next('t');
+            next('r');
+            next('u');
+            next('e');
+            return true;
+        case 'f':
+            next('f');
+            next('a');
+            next('l');
+            next('s');
+            next('e');
+            return false;
+        case 'n':
+            next('n');
+            next('u');
+            next('l');
+            next('l');
+            return null;
+        }
+        error("Unexpected '" + ch + "'");
+    },
+
+    value,  // Place holder for the value function.
+
+    array = function () {
+
+// Parse an array value.
+
+        var array = [];
+
+        if (ch === '[') {
+            next('[');
+            white();
+            if (ch === ']') {
+                next(']');
+                return array;   // empty array
+            }
+            while (ch) {
+                array.push(value());
+                white();
+                if (ch === ']') {
+                    next(']');
+                    return array;
+                }
+                next(',');
+                white();
+            }
+        }
+        error("Bad array");
+    },
+
+    object = function () {
+
+// Parse an object value.
+
+        var key,
+            object = {};
+
+        if (ch === '{') {
+            next('{');
+            white();
+            if (ch === '}') {
+                next('}');
+                return object;   // empty object
+            }
+            while (ch) {
+                key = string();
+                white();
+                next(':');
+                if (Object.hasOwnProperty.call(object, key)) {
+                    error('Duplicate key "' + key + '"');
+                }
+                object[key] = value();
+                white();
+                if (ch === '}') {
+                    next('}');
+                    return object;
+                }
+                next(',');
+                white();
+            }
+        }
+        error("Bad object");
+    };
+
+value = function () {
+
+// Parse a JSON value. It could be an object, an array, a string, a number,
+// or a word.
+
+    white();
+    switch (ch) {
+    case '{':
+        return object();
+    case '[':
+        return array();
+    case '"':
+        return string();
+    case '-':
+        return number();
+    default:
+        return ch >= '0' && ch <= '9' ? number() : word();
+    }
+};
+
+// Return the json_parse function. It will have access to all of the above
+// functions and variables.
+
+module.exports = function (source, reviver) {
+    var result;
+    
+    text = source;
+    at = 0;
+    ch = ' ';
+    result = value();
+    white();
+    if (ch) {
+        error("Syntax error");
+    }
+
+    // If there is a reviver function, we recursively walk the new structure,
+    // passing each name/value pair to the reviver function for possible
+    // transformation, starting with a temporary root object that holds the result
+    // in an empty key. If there is not a reviver function, we simply return the
+    // result.
+
+    return typeof reviver === 'function' ? (function walk(holder, key) {
+        var k, v, value = holder[key];
+        if (value && typeof value === 'object') {
+            for (k in value) {
+                if (Object.prototype.hasOwnProperty.call(value, k)) {
+                    v = walk(value, k);
+                    if (v !== undefined) {
+                        value[k] = v;
+                    } else {
+                        delete value[k];
+                    }
+                }
+            }
+        }
+        return reviver.call(holder, key, value);
+    }({'': result}, '')) : result;
+};
+
+
+/***/ }),
+
+/***/ "../../../selective-edit/node_modules/jsonify/lib/stringify.js":
+/*!*************************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/node_modules/jsonify/lib/stringify.js ***!
+  \*************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var cx = /[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,
+    escapable = /[\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,
+    gap,
+    indent,
+    meta = {    // table of character substitutions
+        '\b': '\\b',
+        '\t': '\\t',
+        '\n': '\\n',
+        '\f': '\\f',
+        '\r': '\\r',
+        '"' : '\\"',
+        '\\': '\\\\'
+    },
+    rep;
+
+function quote(string) {
+    // If the string contains no control characters, no quote characters, and no
+    // backslash characters, then we can safely slap some quotes around it.
+    // Otherwise we must also replace the offending characters with safe escape
+    // sequences.
+    
+    escapable.lastIndex = 0;
+    return escapable.test(string) ? '"' + string.replace(escapable, function (a) {
+        var c = meta[a];
+        return typeof c === 'string' ? c :
+            '\\u' + ('0000' + a.charCodeAt(0).toString(16)).slice(-4);
+    }) + '"' : '"' + string + '"';
+}
+
+function str(key, holder) {
+    // Produce a string from holder[key].
+    var i,          // The loop counter.
+        k,          // The member key.
+        v,          // The member value.
+        length,
+        mind = gap,
+        partial,
+        value = holder[key];
+    
+    // If the value has a toJSON method, call it to obtain a replacement value.
+    if (value && typeof value === 'object' &&
+            typeof value.toJSON === 'function') {
+        value = value.toJSON(key);
+    }
+    
+    // If we were called with a replacer function, then call the replacer to
+    // obtain a replacement value.
+    if (typeof rep === 'function') {
+        value = rep.call(holder, key, value);
+    }
+    
+    // What happens next depends on the value's type.
+    switch (typeof value) {
+        case 'string':
+            return quote(value);
+        
+        case 'number':
+            // JSON numbers must be finite. Encode non-finite numbers as null.
+            return isFinite(value) ? String(value) : 'null';
+        
+        case 'boolean':
+        case 'null':
+            // If the value is a boolean or null, convert it to a string. Note:
+            // typeof null does not produce 'null'. The case is included here in
+            // the remote chance that this gets fixed someday.
+            return String(value);
+            
+        case 'object':
+            if (!value) return 'null';
+            gap += indent;
+            partial = [];
+            
+            // Array.isArray
+            if (Object.prototype.toString.apply(value) === '[object Array]') {
+                length = value.length;
+                for (i = 0; i < length; i += 1) {
+                    partial[i] = str(i, value) || 'null';
+                }
+                
+                // Join all of the elements together, separated with commas, and
+                // wrap them in brackets.
+                v = partial.length === 0 ? '[]' : gap ?
+                    '[\n' + gap + partial.join(',\n' + gap) + '\n' + mind + ']' :
+                    '[' + partial.join(',') + ']';
+                gap = mind;
+                return v;
+            }
+            
+            // If the replacer is an array, use it to select the members to be
+            // stringified.
+            if (rep && typeof rep === 'object') {
+                length = rep.length;
+                for (i = 0; i < length; i += 1) {
+                    k = rep[i];
+                    if (typeof k === 'string') {
+                        v = str(k, value);
+                        if (v) {
+                            partial.push(quote(k) + (gap ? ': ' : ':') + v);
+                        }
+                    }
+                }
+            }
+            else {
+                // Otherwise, iterate through all of the keys in the object.
+                for (k in value) {
+                    if (Object.prototype.hasOwnProperty.call(value, k)) {
+                        v = str(k, value);
+                        if (v) {
+                            partial.push(quote(k) + (gap ? ': ' : ':') + v);
+                        }
+                    }
+                }
+            }
+            
+        // Join all of the member texts together, separated with commas,
+        // and wrap them in braces.
+
+        v = partial.length === 0 ? '{}' : gap ?
+            '{\n' + gap + partial.join(',\n' + gap) + '\n' + mind + '}' :
+            '{' + partial.join(',') + '}';
+        gap = mind;
+        return v;
+    }
+}
+
+module.exports = function (value, replacer, space) {
+    var i;
+    gap = '';
+    indent = '';
+    
+    // If the space parameter is a number, make an indent string containing that
+    // many spaces.
+    if (typeof space === 'number') {
+        for (i = 0; i < space; i += 1) {
+            indent += ' ';
+        }
+    }
+    // If the space parameter is a string, it will be used as the indent string.
+    else if (typeof space === 'string') {
+        indent = space;
+    }
+
+    // If there is a replacer, it must be a function or an array.
+    // Otherwise, throw an error.
+    rep = replacer;
+    if (replacer && typeof replacer !== 'function'
+    && (typeof replacer !== 'object' || typeof replacer.length !== 'number')) {
+        throw new Error('JSON.stringify');
+    }
+    
+    // Make a fake root object containing our value under the key of ''.
+    // Return the result of stringifying the value.
+    return str('', {'': value});
+};
+
 
 /***/ }),
 
@@ -15145,78 +15712,36 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class ConstructorField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
+class ConstructorField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRewrite"] {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
     this.fieldType = 'constructor';
     this.tag = '!g.*';
-
-    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
-      <label for="${field.getUid()}">${field.label}</label>
-      <div class="selective__field__${field.fieldType}__input">
-        <input
-          type="text"
-          id="${field.getUid()}"
-          placeholder="${field.placeholder}"
-          value="${field.valueFromData(data) || ''}"
-          @input=${field.handleInput.bind(field)}>
-      </div>
-      ${field.renderHelp(selective, field, data)}
-    </div>`;
   }
 
   handleInput(evt) {
-    // Update the value to what is being typed.
-    // Helps mark the field as dirty.
-    this.value = {
+    const locale = evt.target.dataset.locale; // Constructors are represented as objects in json.
+
+    const value = {
       'value': evt.target.value,
       'tag': this.tag
     };
+    this.setValueForLocale(locale, value);
   }
 
-  valueFromData(data) {
-    const value = super.valueFromData(data);
-
-    if (value) {
-      return value['value'];
-    }
-
-    return '';
+  renderInput(selective, data, locale) {
+    const value = this.getValueForLocale(locale) || {};
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <input
+        id="${this.uid}${locale}"
+        placeholder=${this.config.placeholder || ''}
+        data-locale=${locale || ''}
+        @input=${this.handleInput.bind(this)}
+        value=${value.value || ''} />`;
   }
 
 }
 class ConstructorFileField extends ConstructorField {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig);
-    this.fieldType = 'constructorFile';
-    this._showFileList = false;
-    this._podPaths = null;
-    this._listeningForPodPaths = false;
-    this._filterValue = '';
-    this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createWhiteBlackFilter"])( // Whitelist.
-    [], // Blacklist.
-    []);
-
-    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-    <div
-        class="selective__field selective__field__${field.fieldType} ${field._showFileList ? 'selective__field__constructor__input--expanded' : ''}"
-        data-field-type="${field.fieldType}">
-      ${field.bindListeners(selective)}
-      <label for="${field.getUid()}">${field.label}</label>
-      <div class="selective__field__constructor__input">
-        <input
-          type="text"
-          id="${field.getUid()}"
-          placeholder="${field.placeholder}"
-          value="${field.valueFromData(data) || ''}"
-          @input=${field.handleInput.bind(field)}>
-        <i class="material-icons" title="Select pod path" @click=${field.handleFilesToggleClick.bind(field)}>list_alt</i>
-      </div>
-      ${field.renderFileList(selective, data)}
-      ${field.renderHelp(selective, field, data)}
-    </div>`;
-  }
-
   configList(listKey, defaults) {
     const list = [];
     const rawList = this.getConfig().get(listKey, []);
@@ -15230,105 +15755,6 @@ class ConstructorFileField extends ConstructorField {
     }
 
     return list;
-  }
-
-  bindListeners(selective) {
-    // Bind the field to the pod path loading.
-    if (!this._listeningForPodPaths) {
-      this._listeningForPodPaths = true;
-
-      const handlePodPaths = response => {
-        this._podPaths = response.pod_paths.sort().filter(this.filterFunc);
-        document.dispatchEvent(new CustomEvent('selective.render'));
-        window.setTimeout(() => {
-          Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["inputFocusAtEnd"])(`${this.getUid()}-filter`);
-        }, 25);
-      }; // Check if the pod paths are already loaded.
-
-
-      if (selective.editor._podPaths) {
-        handlePodPaths({
-          pod_paths: selective.editor._podPaths
-        });
-      }
-
-      selective.editor.listeners.add('load.podPaths', handlePodPaths);
-    }
-  }
-
-  handleFilesToggleClick(evt) {
-    this._showFileList = !this._showFileList;
-    document.dispatchEvent(new CustomEvent('selective.render')); // Auto focus on the filter when showing the list.
-
-    if (this._showFileList) {
-      window.setTimeout(() => {
-        Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["inputFocusAtEnd"])(`${this.getUid()}-filter`);
-      }, 25);
-    }
-  }
-
-  handleFileClick(evt) {
-    const podPath = evt.target.dataset.podPath;
-    this.value = Object.assign({}, this.value, {
-      value: podPath,
-      tag: this.tag
-    });
-    this._showFileList = false;
-    document.dispatchEvent(new CustomEvent('selective.render'));
-  }
-
-  handleInputFilter(evt) {
-    this._filterValue = evt.target.value;
-    document.dispatchEvent(new CustomEvent('selective.render'));
-  }
-
-  renderFileList(selective, data) {
-    if (!this._showFileList) {
-      return '';
-    } // If the pod paths have not loaded, show the loading status.
-
-
-    if (!this._podPaths) {
-      // Editor ensures it only loads once.
-      selective.editor.loadPodPaths();
-      return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__field__constructor__files">
-        <input
-          id="${this.getUid()}-filter"
-          type="text"
-          @input=${this.handleInputFilter.bind(this)}
-          placeholder="Filter..." />
-        <div class="selective__field__constructor__file__list">
-          <div class="editor__loading editor__loading--small editor__loading--pad"></div>
-        </div>
-      </div>`;
-    }
-
-    let podPaths = this._podPaths; // Allow the current value to also filter the pod paths.
-
-    if (this._filterValue != '') {
-      podPaths = podPaths.filter(Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createValueFilter"])(this._filterValue));
-    }
-
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__field__constructor__files">
-      <input type="text"
-        id="${this.getUid()}-filter"
-        @input=${this.handleInputFilter.bind(this)}
-        placeholder="Filter..." />
-      <div class="selective__field__constructor__file__list">
-      ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(podPaths, podPath => podPath, (podPath, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-        <div
-            class="selective__field__constructor__file"
-            data-pod-path=${podPath}
-            @click=${this.handleFileClick.bind(this)}>
-          ${podPath}
-        </div>
-      `)}
-      ${podPaths.length == 0 ? selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-        <div class="selective__field__constructor__file selective__field__constructor__file--empty">
-          No matches found.
-        </div>` : ''}
-      </div>
-    </div>`;
   }
 
 }
@@ -15353,7 +15779,157 @@ class YamlField extends ConstructorFileField {
     this.configList('blacklist'));
   }
 
-}
+} // export class ConstructorFileField extends ConstructorField {
+//   constructor(config, extendedConfig) {
+//     super(config, extendedConfig)
+//     this.fieldType = 'constructorFile'
+//     this._showFileList = false
+//     this._podPaths = null
+//     this._listeningForPodPaths = false
+//     this._filterValue = ''
+//     this.filterFunc = createWhiteBlackFilter(
+//       // Whitelist.
+//       [],
+//       // Blacklist.
+//       [],
+//     )
+//
+//     this.template = (selective, field, data) => html`
+//     <div
+//         class="selective__field selective__field__${field.fieldType} ${field._showFileList ? 'selective__field__constructor__input--expanded' : ''}"
+//         data-field-type="${field.fieldType}">
+//       ${field.bindListeners(selective)}
+//       <label for="${field.getUid()}">${field.label}</label>
+//       <div class="selective__field__constructor__input">
+//         <input
+//           type="text"
+//           id="${field.getUid()}"
+//           placeholder="${field.placeholder}"
+//           value="${field.valueFromData(data) || ''}"
+//           @input=${field.handleInput.bind(field)}>
+//         <i class="material-icons" title="Select pod path" @click=${field.handleFilesToggleClick.bind(field)}>list_alt</i>
+//       </div>
+//       ${field.renderFileList(selective, data)}
+//       ${field.renderHelp(selective, field, data)}
+//     </div>`
+//   }
+//
+//   configList(listKey, defaults) {
+//     const list = []
+//     const rawList = this.getConfig().get(listKey, [])
+//     for (const value of rawList) {
+//       list.push(new RegExp(value, 'gi'))
+//     }
+//
+//     if (!list.length) {
+//       return defaults || []
+//     }
+//
+//     return list
+//   }
+//
+//   bindListeners(selective) {
+//     // Bind the field to the pod path loading.
+//     if (!this._listeningForPodPaths) {
+//       this._listeningForPodPaths = true
+//
+//       const handlePodPaths = (response) => {
+//         this._podPaths = response.pod_paths.sort().filter(this.filterFunc)
+//         document.dispatchEvent(new CustomEvent('selective.render'))
+//         window.setTimeout(
+//           () => { inputFocusAtEnd(`${this.getUid()}-filter`) },
+//           25)
+//       }
+//
+//       // Check if the pod paths are already loaded.
+//       if (selective.editor._podPaths) {
+//         handlePodPaths({
+//           pod_paths: selective.editor._podPaths,
+//         })
+//       }
+//
+//       selective.editor.listeners.add('load.podPaths', handlePodPaths)
+//     }
+//   }
+//
+//   handleFilesToggleClick(evt) {
+//     this._showFileList = !this._showFileList
+//     document.dispatchEvent(new CustomEvent('selective.render'))
+//
+//     // Auto focus on the filter when showing the list.
+//     if (this._showFileList) {
+//       window.setTimeout(
+//         () => { inputFocusAtEnd(`${this.getUid()}-filter`) },
+//         25)
+//     }
+//   }
+//
+//   handleFileClick(evt) {
+//     const podPath = evt.target.dataset.podPath
+//     this.value = Object.assign({}, this.value, {
+//       value: podPath,
+//       tag: this.tag,
+//     })
+//     this._showFileList = false
+//     document.dispatchEvent(new CustomEvent('selective.render'))
+//   }
+//
+//   handleInputFilter(evt) {
+//     this._filterValue = evt.target.value
+//     document.dispatchEvent(new CustomEvent('selective.render'))
+//   }
+//
+//   renderFileList(selective, data) {
+//     if (!this._showFileList) {
+//       return ''
+//     }
+//
+//     // If the pod paths have not loaded, show the loading status.
+//     if (!this._podPaths) {
+//       // Editor ensures it only loads once.
+//       selective.editor.loadPodPaths()
+//
+//       return html`<div class="selective__field__constructor__files">
+//         <input
+//           id="${this.getUid()}-filter"
+//           type="text"
+//           @input=${this.handleInputFilter.bind(this)}
+//           placeholder="Filter..." />
+//         <div class="selective__field__constructor__file__list">
+//           <div class="editor__loading editor__loading--small editor__loading--pad"></div>
+//         </div>
+//       </div>`
+//     }
+//
+//     let podPaths = this._podPaths
+//
+//     // Allow the current value to also filter the pod paths.
+//     if (this._filterValue != '') {
+//       podPaths = podPaths.filter(createValueFilter(this._filterValue))
+//     }
+//
+//     return html`<div class="selective__field__constructor__files">
+//       <input type="text"
+//         id="${this.getUid()}-filter"
+//         @input=${this.handleInputFilter.bind(this)}
+//         placeholder="Filter..." />
+//       <div class="selective__field__constructor__file__list">
+//       ${repeat(podPaths, (podPath) => podPath, (podPath, index) => html`
+//         <div
+//             class="selective__field__constructor__file"
+//             data-pod-path=${podPath}
+//             @click=${this.handleFileClick.bind(this)}>
+//           ${podPath}
+//         </div>
+//       `)}
+//       ${podPaths.length == 0 ? html`
+//         <div class="selective__field__constructor__file selective__field__constructor__file--empty">
+//           No matches found.
+//         </div>` : ''}
+//       </div>
+//     </div>`
+//   }
+// }
 
 /***/ }),
 
