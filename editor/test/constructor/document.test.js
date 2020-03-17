@@ -56,8 +56,22 @@ describe('document field', () => {
             }))
           })
         }
+      } else if (request.url().includes('/_grow/api/editor/pod_paths')) {
+        console.log('Intercepted content', request.url(), request.method())
+        request.respond({
+          contentType: 'application/json',
+          body: JSON.stringify({
+            'pod_paths': [
+              '/content/pages/en.yaml',
+              '/content/pages/es.yaml',
+              '/content/pages/en_new.yaml',
+              '/content/pages/es_new.yaml',
+              '/content/pages/index.html',
+            ],
+          })
+        })
       } else {
-        // console.log('Piped request', request.url(), request.method())
+        console.log('Piped request', request.url(), request.method())
         request.continue()
       }
     })
@@ -118,6 +132,63 @@ describe('document field', () => {
     await percySnapshot(page, 'Document field after save', defaults.snapshotOptions)
   })
 
+  it('should work with file list', async () => {
+    // Editor starts out clean.
+    let isClean = await page.evaluate(_ => {
+      return window.editorInst.isClean
+    })
+    expect(isClean).toBe(true)
+
+    // Show the file list.
+    let fileListIcon = await page.$('.selective__field__document .selective__field__constructor__file_icon')
+    await fileListIcon.click()
+    await page.waitForSelector('.selective__field__constructor__file')
+
+    await percySnapshot(page, 'Document field after file list load', defaults.snapshotOptions)
+
+    // Click on a file in the list.
+    let listItem = await page.$(`.selective__field__constructor__file[data-pod-path="${newValueEn}"]`)
+    await listItem.click()
+    await page.waitForSelector('.selective__field__constructor__file', {
+      hidden: true,
+    })
+
+    // Editor should now be dirty.
+    isClean = await page.evaluate(_ => {
+      return window.editorInst.isClean
+    })
+    expect(isClean).toBe(false)
+
+    // Save the changes.
+    const saveButton = await page.$('.editor__save')
+    await saveButton.click()
+    await page.waitForSelector('.editor__save--saving')
+    await page.waitForSelector('.editor__save:not(.editor__save--saving)')
+
+    // Verify the new value was saved.
+    const value = await page.evaluate(_ => {
+      return window.editorInst.selective.value
+    })
+    expect(value).toMatchObject({
+      'doc': {
+        'tag': '!g.doc',
+        'value': newValueEn,
+      },
+      'doc@es': {
+        'tag': '!g.doc',
+        'value': defaultEs,
+      },
+    })
+
+    // After saving the editor should be clean.
+    isClean = await page.evaluate(_ => {
+      return window.editorInst.isClean
+    })
+    expect(isClean).toBe(true)
+
+    await percySnapshot(page, 'Document field after file list save', defaults.snapshotOptions)
+  })
+
   it('should accept input on localization', async () => {
     // Editor starts out clean.
     let isClean = await page.evaluate(_ => {
@@ -174,5 +245,81 @@ describe('document field', () => {
     expect(isClean).toBe(true)
 
     await percySnapshot(page, 'Document field after localization save', defaults.snapshotOptions)
+  })
+
+  it('should work with file list on localization', async () => {
+    // Editor starts out clean.
+    let isClean = await page.evaluate(_ => {
+      return window.editorInst.isClean
+    })
+    expect(isClean).toBe(true)
+
+    // Enable localization.
+    const localizationIcon = await page.$('i[title="Localize content"]')
+    await localizationIcon.click()
+    await page.waitForSelector('.selective__field__document input[data-locale=en]')
+
+    // Show the en file list.
+    let fileListIcon = await page.$('.selective__field__document .selective__field__constructor__file_icon[data-locale=en]')
+    await fileListIcon.click()
+    await page.waitForSelector('[data-locale=en] .selective__field__constructor__file')
+
+    await percySnapshot(page, 'Document field after file list on en localization load', defaults.snapshotOptions)
+
+    // Click on a file in the en list.
+    let listItem = await page.$(`[data-locale=en] .selective__field__constructor__file[data-pod-path="${newValueEn}"]`)
+    await listItem.click()
+    await page.waitForSelector('[data-locale=en] .selective__field__constructor__file', {
+      hidden: true,
+    })
+
+    // Show the es file list.
+    fileListIcon = await page.$('.selective__field__document .selective__field__constructor__file_icon[data-locale=es]')
+    await fileListIcon.click()
+    await page.waitForSelector('[data-locale=es] .selective__field__constructor__file')
+
+    await percySnapshot(page, 'Document field after file list on es localization load', defaults.snapshotOptions)
+
+    // Click on a file in the es list.
+    listItem = await page.$(`[data-locale=es] .selective__field__constructor__file[data-pod-path="${newValueEs}"]`)
+    await listItem.click()
+    await page.waitForSelector('[data-locale=es] .selective__field__constructor__file', {
+      hidden: true,
+    })
+
+    // Editor should now be dirty.
+    isClean = await page.evaluate(_ => {
+      return window.editorInst.isClean
+    })
+    expect(isClean).toBe(false)
+
+    // Save the changes.
+    const saveButton = await page.$('.editor__save')
+    await saveButton.click()
+    await page.waitForSelector('.editor__save--saving')
+    await page.waitForSelector('.editor__save:not(.editor__save--saving)')
+
+    // Verify the new value was saved.
+    const value = await page.evaluate(_ => {
+      return window.editorInst.selective.value
+    })
+    expect(value).toMatchObject({
+      'doc': {
+        'tag': '!g.doc',
+        'value': newValueEn,
+      },
+      'doc@es': {
+        'tag': '!g.doc',
+        'value': newValueEs,
+      },
+    })
+
+    // After saving the editor should be clean.
+    isClean = await page.evaluate(_ => {
+      return window.editorInst.isClean
+    })
+    expect(isClean).toBe(true)
+
+    await percySnapshot(page, 'Document field after file list localization save', defaults.snapshotOptions)
   })
 })
