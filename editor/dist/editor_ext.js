@@ -15833,10 +15833,6 @@ class ConstructorFileField extends ConstructorField {
     }
   }
 
-  keyForLocale(locale) {
-    return locale || '__default__';
-  }
-
   renderFileList(selective, data, locale) {
     const localeKey = this.keyForLocale(locale);
 
