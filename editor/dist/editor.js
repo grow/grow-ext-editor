@@ -16098,22 +16098,24 @@ const createWhiteBlackFilter = (whitelist, blacklist) => {
   blacklist = blacklist || [];
   return value => {
     // Test against the whitelist.
-    let meetsWhitelist = false;
+    if (whitelist.length) {
+      let meetsWhitelist = false;
 
-    for (const exp of whitelist) {
-      if (exp.test(value)) {
-        meetsWhitelist = true;
-        break;
+      for (const exp of whitelist) {
+        if (value.match(exp)) {
+          meetsWhitelist = true;
+          break;
+        }
       }
-    }
 
-    if (!meetsWhitelist) {
-      return false;
+      if (!meetsWhitelist) {
+        return false;
+      }
     } // Test against the blacklist.
 
 
     for (const exp of blacklist) {
-      if (exp.test(value)) {
+      if (value.match(exp)) {
         return false;
       }
     }
