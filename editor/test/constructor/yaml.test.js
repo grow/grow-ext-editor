@@ -66,7 +66,9 @@ describe('yaml field', () => {
               '/content/pages/es.yaml',
               '/content/pages/en_new.yaml',
               '/content/pages/es_new.yaml',
-              '/content/pages/index.html',
+              '/content/should/be/filtered.html',
+              '/content/should/be/filtered.md',
+              '/views/should/be/filtered.html',
             ],
           })
         })

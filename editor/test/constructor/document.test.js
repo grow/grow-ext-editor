@@ -67,6 +67,7 @@ describe('document field', () => {
               '/content/pages/en_new.yaml',
               '/content/pages/es_new.yaml',
               '/content/pages/index.html',
+              '/views/should/be/filtered.html',
             ],
           })
         })
