@@ -1386,11 +1386,7 @@ class FieldRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__[
   get template() {
     return (selective, data) => lit_html__WEBPACK_IMPORTED_MODULE_2__["html"]`
       ${this.updateOriginal(selective, data)}
-      <div
-          class=${this.classesField}
-          data-field-type="${this.fieldType}">
-        ${this.renderField(selective, data)}
-      </div>`;
+      ${this.renderWrapper(selective, data)}`;
   }
 
   get uid() {
@@ -1482,6 +1478,15 @@ class FieldRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__[
               ${this.renderInput(selective, data, locale)}
             </div>
           `)}
+      </div>`;
+  }
+
+  renderWrapper(selective, data) {
+    return lit_html__WEBPACK_IMPORTED_MODULE_2__["html"]`
+      <div
+          class=${this.classesField}
+          data-field-type="${this.fieldType}">
+        ${this.renderField(selective, data)}
       </div>`;
   }
 
@@ -15951,14 +15956,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LegacyImageField", function() { return LegacyImageField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GoogleImageField", function() { return GoogleImageField; });
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
-/* harmony import */ var _utility_filter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/filter */ "./source/utility/filter.js");
-/* harmony import */ var _ui_file__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../ui/file */ "./source/editor/ui/file.js");
+/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
+/* harmony import */ var _utility_filter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/filter */ "./source/utility/filter.js");
+/* harmony import */ var _ui_file__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../ui/file */ "./source/editor/ui/file.js");
 /**
  * Image field types for the editor extension.
  */
 
 
 
+
+const VALID_MIME_TYPES = ['image/jpeg', 'image/png', 'image/svg+xml', 'image/webp', 'image/gif'];
+const IMAGE_HOVER_CLASS = 'selective__image--hover';
 
 const fractReduce = (numerator, denominator) => {
   // Reduce a fraction by finding the Greatest Common Divisor and dividing by it.
@@ -15979,6 +15988,20 @@ class ImageField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRewri
     this._isLoading = {};
   }
 
+  _targetForDrop(evt) {
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, `selective__field__image_file__wrapper`);
+
+    if (!target) {
+      return false;
+    }
+
+    if (evt.dataTransfer.types.includes('Files')) {
+      evt.preventDefault();
+      evt.stopPropagation();
+      return target;
+    }
+  }
+
   delayedFocus(locale) {
     // Wait for the render then focus on the file input.
     // TODO: Add a listenOnce feature to the listeners with a
@@ -15992,6 +16015,48 @@ class ImageField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRewri
     return value;
   }
 
+  handleDragDrop(evt) {
+    const target = this._targetForDrop(evt);
+
+    target.classList.remove(IMAGE_HOVER_CLASS);
+    const files = evt.dataTransfer.files;
+    const validFiles = [];
+
+    for (const file of files) {
+      if (VALID_MIME_TYPES.includes(file.type)) {
+        validFiles.push(file);
+      }
+    }
+
+    if (validFiles.length < 1) {
+      return;
+    }
+
+    const locale = target.dataset.locale; // There can be only one.
+
+    this.uploadFile(validFiles[0], locale);
+  }
+
+  handleDragEnter(evt) {
+    const target = this._targetForDrop(evt);
+
+    target.classList.add(IMAGE_HOVER_CLASS);
+  }
+
+  handleDragLeave(evt) {
+    const target = this._targetForDrop(evt); // Only remove the hover class when the event comes from the actual target.
+    // Otherwise it is crazy to get the class due to bubbling.
+
+
+    if (evt.target === target) {
+      target.classList.remove(IMAGE_HOVER_CLASS);
+    }
+  }
+
+  handleDragOver(evt) {
+    this._targetForDrop(evt);
+  }
+
   handleFileInput(evt) {
     if (!this.api) {
       console.error('Missing api for image field.');
@@ -16000,18 +16065,7 @@ class ImageField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRewri
 
     const locale = evt.target.dataset.locale;
     const localeKey = this.keyForLocale(locale);
-    const destination = this.getConfig().get('destination', '/static/img/upload');
-    this.api.saveImage(evt.target.files[0], destination).then(result => {
-      this.value = result['pod_path'];
-      this._showFileInput[localeKey] = false;
-      this._isLoading[localeKey] = false;
-      this.render();
-    }).catch(err => {
-      console.error(err);
-      this._showFileInput[localeKey] = false;
-      this._isLoading[localeKey] = false;
-      this.render();
-    });
+    this.uploadFile(evt.target.files[0], locale);
     this._isLoading[localeKey] = true;
     this.render();
   }
@@ -16076,24 +16130,32 @@ class ImageField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRewri
     const value = this.getValueForLocale(locale) || '';
     const localeKey = this.keyForLocale(locale);
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <div class="selective__field__image_file__input">
-        <input
-          id="${this.uid}${locale}"
-          placeholder=${this.config.placeholder || ''}
-          data-locale=${locale || ''}
-          ?disabled=${this._isLoading[localeKey]}
-          @input=${this.handleInput.bind(this)}
-          value=${value || ''} />
-        <i
-            class="material-icons selective__field__image_file__file_input_icon"
-            title="Upload file"
+      <div
+          class="selective__field__image_file__wrapper"
+          @drop=${this.handleDragDrop.bind(this)}
+          @dragenter=${this.handleDragEnter.bind(this)}
+          @dragleave=${this.handleDragLeave.bind(this)}
+          @dragover=${this.handleDragOver.bind(this)}
+          data-locale=${locale || ''}>
+        <div class="selective__field__image_file__input">
+          <input
+            id="${this.uid}${locale}"
+            placeholder=${this.config.placeholder || ''}
             data-locale=${locale || ''}
-            @click=${this.handleFileInputToggleClick.bind(this)}>
-          attachment
-        </i>
-      </div>
-      ${this.renderFileInput(selective, data, locale)}
-      ${this.renderPreview(selective, data, locale)}`;
+            ?disabled=${this._isLoading[localeKey]}
+            @input=${this.handleInput.bind(this)}
+            value=${value || ''} />
+          <i
+              class="material-icons selective__field__image_file__file_input_icon"
+              title="Upload file"
+              data-locale=${locale || ''}
+              @click=${this.handleFileInputToggleClick.bind(this)}>
+            attachment
+          </i>
+        </div>
+        ${this.renderFileInput(selective, data, locale)}
+        ${this.renderPreview(selective, data, locale)}
+      </div>`;
   }
 
   renderPreview(selective, data, locale) {
@@ -16126,14 +16188,27 @@ class ImageField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRewri
       </div>`;
   }
 
+  uploadFile(file, locale) {
+    const destination = this.getConfig().get('destination', '/static/img/upload');
+    const localeKey = this.keyForLocale(locale);
+    this.api.saveImage(file, destination).then(result => {
+      this._showFileInput[localeKey] = false;
+      this._isLoading[localeKey] = false;
+      this.setValueForLocale(locale, result['pod_path']);
+    }).catch(err => {
+      console.error(err);
+      this.render();
+    });
+  }
+
 }
 class ImageFileField extends ImageField {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
     this.fieldType = 'image_file';
     this._fileListUi = {};
-    this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["createWhiteBlackFilter"])(Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(this.config.get('whitelist'), [/^\/static\/.*\.(jp[e]?g|png|svg|webp)$/]), // Whitelist.
-    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(this.config.get('blacklist')) // Blacklist.
+    this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createWhiteBlackFilter"])(Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["regexList"])(this.config.get('whitelist'), [/^\/static\/.*\.(jp[e]?g|png|svg|webp)$/]), // Whitelist.
+    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["regexList"])(this.config.get('blacklist')) // Blacklist.
     ); // Use the API to get serving paths for local images.
 
     this.api = this.getConfig().get('api');
@@ -16145,7 +16220,7 @@ class ImageFileField extends ImageField {
     const localeKey = this.keyForLocale(locale);
 
     if (!this._fileListUi[localeKey]) {
-      this._fileListUi[localeKey] = new _ui_file__WEBPACK_IMPORTED_MODULE_2__["FileListUI"]({
+      this._fileListUi[localeKey] = new _ui_file__WEBPACK_IMPORTED_MODULE_3__["FileListUI"]({
         'filterFunc': this.filterFunc
       }); // Bind the pod path listener event for the UI.
 
@@ -16197,31 +16272,39 @@ class ImageFileField extends ImageField {
     const value = this.getValueForLocale(locale) || '';
     const fileListUi = this.fileListUiForLocale(locale);
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <div class="selective__field__image_file__input">
-        <input
-          id="${this.uid}${locale}"
-          placeholder=${this.config.placeholder || ''}
-          data-locale=${locale || ''}
-          @input=${this.handleInput.bind(this)}
-          value=${value || ''} />
-        <i
-            class="material-icons selective__field__image_file__file_input_icon"
-            title="Upload file"
+      <div
+          class="selective__field__image_file__wrapper"
+          @drop=${this.handleDragDrop.bind(this)}
+          @dragenter=${this.handleDragEnter.bind(this)}
+          @dragleave=${this.handleDragLeave.bind(this)}
+          @dragover=${this.handleDragOver.bind(this)}
+          data-locale=${locale || ''}>
+        <div class="selective__field__image_file__input">
+          <input
+            id="${this.uid}${locale}"
+            placeholder=${this.config.placeholder || ''}
             data-locale=${locale || ''}
-            @click=${this.handleFileInputToggleClick.bind(this)}>
-          attachment
-        </i>
-        <i
-            class="material-icons selective__field__image_file__file_icon"
-            title="Select pod path"
-            data-locale=${locale || ''}
-            @click=${this.handleFilesToggleClick.bind(this)}>
-          list_alt
-        </i>
-      </div>
-      ${fileListUi.renderFileList(selective, data, locale)}
-      ${this.renderFileInput(selective, data, locale)}
-      ${this.renderPreview(selective, data, locale)}`;
+            @input=${this.handleInput.bind(this)}
+            value=${value || ''} />
+          <i
+              class="material-icons selective__field__image_file__file_input_icon"
+              title="Upload file"
+              data-locale=${locale || ''}
+              @click=${this.handleFileInputToggleClick.bind(this)}>
+            attachment
+          </i>
+          <i
+              class="material-icons selective__field__image_file__file_icon"
+              title="Select pod path"
+              data-locale=${locale || ''}
+              @click=${this.handleFilesToggleClick.bind(this)}>
+            list_alt
+          </i>
+        </div>
+        ${fileListUi.renderFileList(selective, data, locale)}
+        ${this.renderFileInput(selective, data, locale)}
+        ${this.renderPreview(selective, data, locale)}
+      </div>`;
   }
 
 }

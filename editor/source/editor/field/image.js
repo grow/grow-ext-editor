@@ -10,12 +10,21 @@ import {
   FieldRewrite,
 } from 'selective-edit'
 import {
+  findParentByClassname,
+} from '../../utility/dom'
+import {
   createWhiteBlackFilter,
   regexList,
 } from '../../utility/filter'
 import {
   FileListUI,
 } from '../ui/file'
+
+
+
+const VALID_MIME_TYPES = [
+  'image/jpeg', 'image/png', 'image/svg+xml', 'image/webp', 'image/gif']
+const IMAGE_HOVER_CLASS = 'selective__image--hover'
 
 
 const fractReduce = (numerator,denominator) => {
@@ -37,6 +46,21 @@ export class ImageField extends FieldRewrite {
     this._isLoading = {}
   }
 
+  _targetForDrop(evt) {
+    const target = findParentByClassname(
+      evt.target, `selective__field__image_file__wrapper`)
+
+    if (!target) {
+      return false
+    }
+
+    if (evt.dataTransfer.types.includes('Files')) {
+      evt.preventDefault()
+      evt.stopPropagation()
+      return target
+    }
+  }
+
   delayedFocus(locale) {
     // Wait for the render then focus on the file input.
     // TODO: Add a listenOnce feature to the listeners with a
@@ -52,6 +76,47 @@ export class ImageField extends FieldRewrite {
     return value
   }
 
+  handleDragDrop(evt) {
+    const target = this._targetForDrop(evt)
+    target.classList.remove(IMAGE_HOVER_CLASS)
+
+    const files = evt.dataTransfer.files
+    const validFiles = []
+    for (const file of files) {
+      if (VALID_MIME_TYPES.includes(file.type)) {
+        validFiles.push(file)
+      }
+    }
+
+    if (validFiles.length < 1) {
+      return
+    }
+
+    const locale = target.dataset.locale
+
+    // There can be only one.
+    this.uploadFile(validFiles[0], locale)
+  }
+
+  handleDragEnter(evt) {
+    const target = this._targetForDrop(evt)
+    target.classList.add(IMAGE_HOVER_CLASS)
+  }
+
+  handleDragLeave(evt) {
+    const target = this._targetForDrop(evt)
+
+    // Only remove the hover class when the event comes from the actual target.
+    // Otherwise it is crazy to get the class due to bubbling.
+    if (evt.target === target) {
+      target.classList.remove(IMAGE_HOVER_CLASS)
+    }
+  }
+
+  handleDragOver(evt) {
+    this._targetForDrop(evt)
+  }
+
   handleFileInput(evt) {
     if (!this.api) {
       console.error('Missing api for image field.')
@@ -60,20 +125,8 @@ export class ImageField extends FieldRewrite {
 
     const locale = evt.target.dataset.locale
     const localeKey = this.keyForLocale(locale)
-    const destination = this.getConfig().get('destination', '/static/img/upload')
 
-    this.api.saveImage(evt.target.files[0], destination).then((result) => {
-      this.value = result['pod_path']
-      this._showFileInput[localeKey] = false
-      this._isLoading[localeKey] = false
-      this.render()
-    }).catch((err) => {
-      console.error(err)
-      this._showFileInput[localeKey] = false
-      this._isLoading[localeKey] = false
-      this.render()
-    })
-
+    this.uploadFile(evt.target.files[0], locale)
     this._isLoading[localeKey] = true
     this.render()
   }
@@ -140,24 +193,32 @@ export class ImageField extends FieldRewrite {
     const localeKey = this.keyForLocale(locale)
 
     return html`
-      <div class="selective__field__image_file__input">
-        <input
-          id="${this.uid}${locale}"
-          placeholder=${this.config.placeholder || ''}
-          data-locale=${locale || ''}
-          ?disabled=${this._isLoading[localeKey]}
-          @input=${this.handleInput.bind(this)}
-          value=${value || ''} />
-        <i
-            class="material-icons selective__field__image_file__file_input_icon"
-            title="Upload file"
+      <div
+          class="selective__field__image_file__wrapper"
+          @drop=${this.handleDragDrop.bind(this)}
+          @dragenter=${this.handleDragEnter.bind(this)}
+          @dragleave=${this.handleDragLeave.bind(this)}
+          @dragover=${this.handleDragOver.bind(this)}
+          data-locale=${locale || ''}>
+        <div class="selective__field__image_file__input">
+          <input
+            id="${this.uid}${locale}"
+            placeholder=${this.config.placeholder || ''}
             data-locale=${locale || ''}
-            @click=${this.handleFileInputToggleClick.bind(this)}>
-          attachment
-        </i>
-      </div>
-      ${this.renderFileInput(selective, data, locale)}
-      ${this.renderPreview(selective, data, locale)}`
+            ?disabled=${this._isLoading[localeKey]}
+            @input=${this.handleInput.bind(this)}
+            value=${value || ''} />
+          <i
+              class="material-icons selective__field__image_file__file_input_icon"
+              title="Upload file"
+              data-locale=${locale || ''}
+              @click=${this.handleFileInputToggleClick.bind(this)}>
+            attachment
+          </i>
+        </div>
+        ${this.renderFileInput(selective, data, locale)}
+        ${this.renderPreview(selective, data, locale)}
+      </div>`
   }
 
   renderPreview(selective, data, locale) {
@@ -188,6 +249,20 @@ export class ImageField extends FieldRewrite {
           ${this.renderImageMeta(selective, data, locale)}
         </div>
       </div>`
+  }
+
+  uploadFile(file, locale) {
+    const destination = this.getConfig().get('destination', '/static/img/upload')
+    const localeKey = this.keyForLocale(locale)
+
+    this.api.saveImage(file, destination).then((result) => {
+      this._showFileInput[localeKey] = false
+      this._isLoading[localeKey] = false
+      this.setValueForLocale(locale, result['pod_path'])
+    }).catch((err) => {
+      console.error(err)
+      this.render()
+    })
   }
 }
 
@@ -265,31 +340,39 @@ export class ImageFileField extends ImageField {
     const fileListUi = this.fileListUiForLocale(locale)
 
     return html`
-      <div class="selective__field__image_file__input">
-        <input
-          id="${this.uid}${locale}"
-          placeholder=${this.config.placeholder || ''}
-          data-locale=${locale || ''}
-          @input=${this.handleInput.bind(this)}
-          value=${value || ''} />
-        <i
-            class="material-icons selective__field__image_file__file_input_icon"
-            title="Upload file"
+      <div
+          class="selective__field__image_file__wrapper"
+          @drop=${this.handleDragDrop.bind(this)}
+          @dragenter=${this.handleDragEnter.bind(this)}
+          @dragleave=${this.handleDragLeave.bind(this)}
+          @dragover=${this.handleDragOver.bind(this)}
+          data-locale=${locale || ''}>
+        <div class="selective__field__image_file__input">
+          <input
+            id="${this.uid}${locale}"
+            placeholder=${this.config.placeholder || ''}
             data-locale=${locale || ''}
-            @click=${this.handleFileInputToggleClick.bind(this)}>
-          attachment
-        </i>
-        <i
-            class="material-icons selective__field__image_file__file_icon"
-            title="Select pod path"
-            data-locale=${locale || ''}
-            @click=${this.handleFilesToggleClick.bind(this)}>
-          list_alt
-        </i>
-      </div>
-      ${fileListUi.renderFileList(selective, data, locale)}
-      ${this.renderFileInput(selective, data, locale)}
-      ${this.renderPreview(selective, data, locale)}`
+            @input=${this.handleInput.bind(this)}
+            value=${value || ''} />
+          <i
+              class="material-icons selective__field__image_file__file_input_icon"
+              title="Upload file"
+              data-locale=${locale || ''}
+              @click=${this.handleFileInputToggleClick.bind(this)}>
+            attachment
+          </i>
+          <i
+              class="material-icons selective__field__image_file__file_icon"
+              title="Select pod path"
+              data-locale=${locale || ''}
+              @click=${this.handleFilesToggleClick.bind(this)}>
+            list_alt
+          </i>
+        </div>
+        ${fileListUi.renderFileList(selective, data, locale)}
+        ${this.renderFileInput(selective, data, locale)}
+        ${this.renderPreview(selective, data, locale)}
+      </div>`
   }
 }
 

@@ -118,6 +118,7 @@
   line-height: 0
   padding: $ge-pad/2
   img
+    box-shadow: $ge-shadow-1
     max-height: 125px
     max-width: 100%
 
@@ -131,6 +132,18 @@
 
 .selective__image__preview__meta__label
   font-weight: 700
+
+.selective__image
+  &--hover
+    .selective__image__preview,
+    .selective__field__image_file__input input,
+    .selective__field__image__input input,
+    .selective__field__image_cloud__input input,
+      background-color: $ge-color-primary
+
+    // Prevent from crazy events.
+    *
+      pointer-events: none
 
 .selective__field__google_image__preview__meta
   margin-top: $ge-pad/2
