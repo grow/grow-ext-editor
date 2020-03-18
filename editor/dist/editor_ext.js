@@ -155,7 +155,7 @@ const UidMixin = superclass => class extends superclass {
 /*!***************************************************************!*\
   !*** /Users/randy/code/blinkk/selective-edit/js/selective.js ***!
   \***************************************************************/
-/*! exports provided: default, Field, FieldRewrite, GroupField, SortableField, ListField, Fields, FieldsRewrite, AutoFields, directive, html, repeat, render, autoConfig, autoDeepObject */
+/*! exports provided: default, Field, FieldRewrite, GroupField, SortableField, ListField, Fields, FieldsRewrite, AutoFields, UI, directive, html, repeat, render, autoConfig, autoDeepObject */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -177,31 +177,35 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _selective_field_field__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./selective/field/field */ "../../../selective-edit/js/selective/field/field.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "FieldRewrite", function() { return _selective_field_field__WEBPACK_IMPORTED_MODULE_4__["default"]; });
 
-/* harmony import */ var _selective_field_structure__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./selective/field/structure */ "../../../selective-edit/js/selective/field/structure.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "GroupField", function() { return _selective_field_structure__WEBPACK_IMPORTED_MODULE_5__["GroupField"]; });
+/* harmony import */ var _selective_ui_ui__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./selective/ui/ui */ "../../../selective-edit/js/selective/ui/ui.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "UI", function() { return _selective_ui_ui__WEBPACK_IMPORTED_MODULE_5__["default"]; });
 
-/* harmony import */ var _selective_fields_fields__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./selective/fields/fields */ "../../../selective-edit/js/selective/fields/fields.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "FieldsRewrite", function() { return _selective_fields_fields__WEBPACK_IMPORTED_MODULE_6__["default"]; });
+/* harmony import */ var _selective_field_structure__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./selective/field/structure */ "../../../selective-edit/js/selective/field/structure.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "GroupField", function() { return _selective_field_structure__WEBPACK_IMPORTED_MODULE_6__["GroupField"]; });
+
+/* harmony import */ var _selective_fields_fields__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./selective/fields/fields */ "../../../selective-edit/js/selective/fields/fields.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "FieldsRewrite", function() { return _selective_fields_fields__WEBPACK_IMPORTED_MODULE_7__["default"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SortableField", function() { return _selective_field__WEBPACK_IMPORTED_MODULE_3__["SortableField"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ListField", function() { return _selective_field__WEBPACK_IMPORTED_MODULE_3__["ListField"]; });
 
-/* harmony import */ var _selective_fields__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./selective/fields */ "../../../selective-edit/js/selective/fields.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Fields", function() { return _selective_fields__WEBPACK_IMPORTED_MODULE_7__["default"]; });
+/* harmony import */ var _selective_fields__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./selective/fields */ "../../../selective-edit/js/selective/fields.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Fields", function() { return _selective_fields__WEBPACK_IMPORTED_MODULE_8__["default"]; });
 
-/* harmony import */ var _selective_autoFields__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./selective/autoFields */ "../../../selective-edit/js/selective/autoFields.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AutoFields", function() { return _selective_autoFields__WEBPACK_IMPORTED_MODULE_8__["default"]; });
+/* harmony import */ var _selective_autoFields__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./selective/autoFields */ "../../../selective-edit/js/selective/autoFields.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AutoFields", function() { return _selective_autoFields__WEBPACK_IMPORTED_MODULE_9__["default"]; });
 
-/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./utility/config */ "../../../selective-edit/js/utility/config.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "autoConfig", function() { return _utility_config__WEBPACK_IMPORTED_MODULE_9__["autoConfig"]; });
+/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./utility/config */ "../../../selective-edit/js/utility/config.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "autoConfig", function() { return _utility_config__WEBPACK_IMPORTED_MODULE_10__["autoConfig"]; });
 
-/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "autoDeepObject", function() { return _utility_deepObject__WEBPACK_IMPORTED_MODULE_10__["autoDeepObject"]; });
+/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "autoDeepObject", function() { return _utility_deepObject__WEBPACK_IMPORTED_MODULE_11__["autoDeepObject"]; });
 
 /**
  * Selective structure content editor.
  */
+
 
 
 
@@ -1987,6 +1991,54 @@ class FieldsRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__
 
 /***/ }),
 
+/***/ "../../../selective-edit/js/selective/ui/ui.js":
+/*!*********************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/selective/ui/ui.js ***!
+  \*********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return UI; });
+/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../utility/compose */ "../../../selective-edit/js/utility/compose.js");
+/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../mixin/config */ "../../../selective-edit/js/mixin/config.js");
+/* harmony import */ var _mixin_uid__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../mixin/uid */ "../../../selective-edit/js/mixin/uid.js");
+/* harmony import */ var _utility_listeners__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utility/listeners */ "../../../selective-edit/js/utility/listeners.js");
+/**
+ * Base class for reusable UI elements.
+ */
+
+
+
+
+class UI extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_0__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_1__["default"], _mixin_uid__WEBPACK_IMPORTED_MODULE_2__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_0__["Base"]) {
+  constructor(config) {
+    super();
+    this.listeners = new _utility_listeners__WEBPACK_IMPORTED_MODULE_3__["default"]();
+  }
+
+  get config() {
+    return this.getConfig();
+  }
+
+  get template() {
+    return 'Missing template for UI.';
+  }
+
+  get uid() {
+    return this.getUid();
+  }
+
+  render() {
+    // Trigger a render event.
+    document.dispatchEvent(new CustomEvent('selective.render'));
+  }
+
+}
+
+/***/ }),
+
 /***/ "../../../selective-edit/js/utility/compose.js":
 /*!*********************************************************************!*\
   !*** /Users/randy/code/blinkk/selective-edit/js/utility/compose.js ***!
@@ -2273,6 +2325,47 @@ const findParentDraggable = target => {
 };
 
 
+
+/***/ }),
+
+/***/ "../../../selective-edit/js/utility/listeners.js":
+/*!***********************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/utility/listeners.js ***!
+  \***********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Listeners; });
+/**
+ * Utility class for allowing a class to bind listeners and trigger callbacks.
+ */
+class Listeners {
+  constructor() {
+    this._listeners = {};
+  }
+
+  add(eventName, callback) {
+    const listeners = this.listenersForEvent(eventName);
+    listeners.push(callback);
+  }
+
+  listenersForEvent(eventName) {
+    if (!this._listeners[eventName]) {
+      this._listeners[eventName] = [];
+    }
+
+    return this._listeners[eventName];
+  }
+
+  trigger(eventName, ...data) {
+    for (const listener of this.listenersForEvent(eventName)) {
+      listener(...data);
+    }
+  }
+
+}
 
 /***/ }),
 
@@ -15711,9 +15804,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
 /* harmony import */ var _utility_filter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/filter */ "./source/utility/filter.js");
+/* harmony import */ var _ui_file__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../ui/file */ "./source/editor/ui/file.js");
 /**
  * Constructor field types for the editor extension.
  */
+
 
 
 
@@ -15749,46 +15844,16 @@ class ConstructorField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Fiel
 class ConstructorFileField extends ConstructorField {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
+    this._fileListUi = {};
     this._showFileList = {};
-    this._podPaths = null;
-    this._listeningForPodPaths = false;
-    this._filterValue = {};
-    this._filterLocaleLatest = '';
     this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createWhiteBlackFilter"])( // Whitelist.
-    [], // Blacklist.
-    []);
+    this.configRegExpList('whitelist'), // Blacklist.
+    this.configRegExpList('blacklist'));
   }
 
-  bindListeners(selective) {
-    // Bind the field to the pod paths loading.
-    if (!this._listeningForPodPaths) {
-      this._listeningForPodPaths = true; // Check if the pod paths are already loaded.
-
-      if (selective.editor._podPaths) {
-        handlePodPaths({
-          pod_paths: selective.editor._podPaths
-        });
-      } // Bind even if we have the pod paths so that it updates with changes.
-
-
-      const handlePodPaths = response => {
-        this._podPaths = response.pod_paths.sort().filter(this.filterFunc);
-        this.render(); // Wait for the render then focus on the filter input.
-        // TODO: Add a listenOnce feature to the listeners with a
-        // post render event to trigger focus.
-
-        window.setTimeout(() => {
-          Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["inputFocusAtEnd"])(`${this.getUid()}${this._filterLocaleLatest}-filter`);
-        }, 25);
-      };
-
-      selective.editor.listeners.add('load.podPaths', handlePodPaths);
-    }
-  }
-
-  configList(listKey, defaults) {
+  configRegExpList(configKey, defaults) {
     const list = [];
-    const rawList = this.getConfig().get(listKey, []);
+    const rawList = this.getConfig().get(configKey, []);
 
     for (const value of rawList) {
       list.push(new RegExp(value, 'gi'));
@@ -15801,97 +15866,37 @@ class ConstructorFileField extends ConstructorField {
     return list;
   }
 
-  handleFileClick(evt) {
-    const localeTarget = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'selective__field__constructor__file__list');
-    const locale = localeTarget.dataset.locale;
+  fileListUiForLocale(locale) {
     const localeKey = this.keyForLocale(locale);
-    const podPath = evt.target.dataset.podPath;
-    const value = {
-      tag: this.tag,
-      value: podPath
-    };
-    this._showFileList[localeKey] = false;
-    this.setValueForLocale(locale, value);
-  }
 
-  handleInputFilter(evt) {
-    const locale = evt.target.dataset.locale;
-    const localeKey = this.keyForLocale(locale);
-    this._filterValue[localeKey] = evt.target.value;
-    this.render();
+    if (!this._fileListUi[localeKey]) {
+      this._fileListUi[localeKey] = new _ui_file__WEBPACK_IMPORTED_MODULE_3__["FileListUI"]({
+        'filterFunc': this.filterFunc
+      }); // Bind the pod path listener event for the UI.
+
+      this._fileListUi[localeKey].listeners.add('podPath', this.handlePodPath.bind(this));
+    }
+
+    return this._fileListUi[localeKey];
   }
 
   handleFilesToggleClick(evt) {
     const locale = evt.target.dataset.locale;
-    const localeKey = this.keyForLocale(locale);
-    this._filterLocaleLatest = locale;
-    this._showFileList[localeKey] = !(this._showFileList[localeKey] || false);
-    this.render(); // Auto focus on the filter when showing the list.
-
-    if (this._showFileList[localeKey] && this._podPaths) {
-      // Wait for the render then focus on the filter input.
-      // TODO: Add a listenOnce feature to the listeners with a
-      // post render event to trigger focus.
-      window.setTimeout(() => {
-        Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["inputFocusAtEnd"])(`${this.getUid()}${this._filterLocaleLatest}-filter`);
-      }, 25);
-    }
+    this.fileListUiForLocale(locale).toggle();
   }
 
-  renderFileList(selective, data, locale) {
+  handlePodPath(podPath, locale) {
     const localeKey = this.keyForLocale(locale);
-
-    if (!this._showFileList[localeKey]) {
-      return '';
-    } // If the pod paths have not loaded, show the loading status.
-
-
-    if (!this._podPaths) {
-      // Editor ensures it only loads once.
-      selective.editor.loadPodPaths();
-      return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__field__constructor__files">
-        <input
-          id="${this.getUid()}${locale || ''}-filter"
-          type="text"
-          @input=${this.handleInputFilter.bind(this)}
-          placeholder="Filter..." />
-        <div class="selective__field__constructor__file__list" data-locale=${locale || ''}>
-          <div class="editor__loading editor__loading--small editor__loading--pad"></div>
-        </div>
-      </div>`;
-    }
-
-    let podPaths = this._podPaths; // Allow the current value to also filter the pod paths.
-
-    if (this._filterValue[localeKey] && this._filterValue[localeKey] != '') {
-      podPaths = podPaths.filter(Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createValueFilter"])(this._filterValue[localeKey]));
-    }
-
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__field__constructor__files">
-      <input type="text"
-        id="${this.getUid()}${locale || ''}-filter"
-        @input=${this.handleInputFilter.bind(this)}
-        placeholder="Filter..." />
-      <div class="selective__field__constructor__file__list" data-locale=${locale || ''}>
-      ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(podPaths, podPath => podPath, (podPath, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-        <div
-            class="selective__field__constructor__file"
-            data-pod-path=${podPath}
-            @click=${this.handleFileClick.bind(this)}>
-          ${podPath}
-        </div>
-      `)}
-      ${podPaths.length == 0 ? selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-        <div class="selective__field__constructor__file selective__field__constructor__file--empty">
-          No matches found.
-        </div>` : ''}
-      </div>
-    </div>`;
+    const value = {
+      tag: this.tag,
+      value: podPath
+    };
+    this.setValueForLocale(locale, value);
   }
 
   renderInput(selective, data, locale) {
-    this.bindListeners(selective);
     const value = this.getValueForLocale(locale) || {};
+    const fileListUi = this.fileListUiForLocale(locale);
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
       <div class="selective__field__constructor__input">
         <input
@@ -15908,7 +15913,7 @@ class ConstructorFileField extends ConstructorField {
           list_alt
         </i>
       </div>
-      ${this.renderFileList(selective, data, locale)}`;
+      ${fileListUi.renderFileList(selective, data, locale)}`;
   }
 
 }
@@ -15918,8 +15923,8 @@ class DocumentField extends ConstructorFileField {
     this.fieldType = 'document';
     this.tag = '!g.doc';
     this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createWhiteBlackFilter"])( // Whitelist.
-    this.configList('whitelist', [/^\/content\//]), // Blacklist.
-    this.configList('blacklist'));
+    this.configRegExpList('whitelist', [/^\/content\//]), // Blacklist.
+    this.configRegExpList('blacklist'));
   }
 
 }
@@ -15929,8 +15934,8 @@ class YamlField extends ConstructorFileField {
     this.fieldType = 'yaml';
     this.tag = '!g.yaml';
     this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createWhiteBlackFilter"])( // Whitelist.
-    this.configList('whitelist', [/^\/content\/.*\.yaml$/, /^\/data\/.*\.yaml$/]), // Blacklist.
-    this.configList('blacklist'));
+    this.configRegExpList('whitelist', [/^\/content\/.*\.yaml$/, /^\/data\/.*\.yaml$/]), // Blacklist.
+    this.configRegExpList('blacklist'));
   }
 
 }
@@ -15941,19 +15946,38 @@ class YamlField extends ConstructorFileField {
 /*!**************************************!*\
   !*** ./source/editor/field/image.js ***!
   \**************************************/
-/*! exports provided: ImageField, GoogleImageField */
+/*! exports provided: ImageField, LegacyImageField, GoogleImageField */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ImageField", function() { return ImageField; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LegacyImageField", function() { return LegacyImageField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GoogleImageField", function() { return GoogleImageField; });
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
 /**
  * Image field types for the editor extension.
  */
 
-class ImageField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
+class ImageField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRewrite"] {
+  constructor(config, extendedConfig) {
+    super(config, extendedConfig);
+    this.fieldType = 'image';
+  }
+
+  renderInput(selective, data, locale) {
+    const value = this.getValueForLocale(locale) || '';
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <textarea
+        id="${this.uid}${locale}"
+        rows=${this.config.rows || 6}
+        placeholder=${this.config.placeholder || ''}
+        data-locale=${locale || ''}
+        @input=${this.handleInput.bind(this)}>${value}</textarea>`;
+  }
+
+}
+class LegacyImageField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
     this.fieldType = 'image';
@@ -16791,6 +16815,148 @@ class TextareaField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRe
         placeholder=${this.config.placeholder || ''}
         data-locale=${locale || ''}
         @input=${this.handleInput.bind(this)}>${value}</textarea>`;
+  }
+
+}
+
+/***/ }),
+
+/***/ "./source/editor/ui/file.js":
+/*!**********************************!*\
+  !*** ./source/editor/ui/file.js ***!
+  \**********************************/
+/*! exports provided: FileListUI */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FileListUI", function() { return FileListUI; });
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
+/* harmony import */ var _utility_filter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/filter */ "./source/utility/filter.js");
+/**
+ * UI elements for the working with files.
+ */
+
+
+
+class FileListUI extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["UI"] {
+  constructor(config) {
+    super();
+    this.setConfig(config);
+    this.filterFunc = this.config.get('filterFunc') || Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createWhiteBlackFilter"])([], // Whitelist.
+    [] // Blacklist.
+    );
+    this.podPaths = null;
+    this.filterValue = '';
+    this._listeningForPodPaths = false;
+    this._showFileList = false;
+  }
+
+  renderFilterInput(selective, data, locale) {
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <input
+        id="${this.uid}-filter"
+        type="text"
+        @input=${this.handleInputFilter.bind(this)}
+        placeholder="Filter..." />`;
+  }
+
+  renderFileList(selective, data, locale) {
+    this.bindListeners(selective);
+
+    if (!this._showFileList) {
+      return '';
+    } // If the pod paths have not loaded, show the loading status.
+
+
+    if (!this.podPaths) {
+      // Editor ensures it only loads once.
+      selective.editor.loadPodPaths();
+      return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__file_list">
+        ${this.renderFilterInput(selective, data, locale)}
+        <div class="selective__file_list__list" data-locale=${locale || ''}>
+          <div class="editor__loading editor__loading--small editor__loading--pad"></div>
+        </div>
+      </div>`;
+    }
+
+    let podPaths = this.podPaths; // Allow the current value to also filter the pod paths.
+
+    if (this.filterValue && this.filterValue != '') {
+      podPaths = podPaths.filter(Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createValueFilter"])(this.filterValue));
+    }
+
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__file_list">
+      ${this.renderFilterInput(selective, data, locale)}
+      <div class="selective__file_list__list" data-locale=${locale || ''}>
+        ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(podPaths, podPath => podPath, (podPath, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+          <div
+              class="selective__file_list__file"
+              data-pod-path=${podPath}
+              @click=${this.handleFileClick.bind(this)}>
+            ${podPath}
+          </div>
+        `)}
+        ${podPaths.length == 0 ? selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+          <div class="selective__field__constructor__file selective__field__constructor__file--empty">
+            No matches found.
+          </div>` : ''}
+      </div>
+    </div>`;
+  }
+
+  bindListeners(selective) {
+    // Bind the field to the pod paths loading.
+    if (!this._listeningForPodPaths) {
+      this._listeningForPodPaths = true; // Check if the pod paths are already loaded.
+
+      if (selective.editor._podPaths) {
+        this.handlePodPaths({
+          pod_paths: selective.editor._podPaths
+        });
+      } // Bind to the load event to listen for future changes to the pod paths.
+
+
+      selective.editor.listeners.add('load.podPaths', this.handlePodPaths.bind(this));
+    }
+  }
+
+  delayedFocus() {
+    // Wait for the render then focus on the filter input.
+    // TODO: Add a listenOnce feature to the listeners with a
+    // post render event to trigger focus.
+    window.setTimeout(() => {
+      Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["inputFocusAtEnd"])(`${this.uid}-filter`);
+    }, 25);
+  }
+
+  handleFileClick(evt) {
+    const localeTarget = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'selective__file_list__list');
+    const locale = localeTarget.dataset.locale;
+    const podPath = evt.target.dataset.podPath;
+    this._showFileList = false;
+    this.listeners.trigger('podPath', podPath, locale);
+  }
+
+  handleInputFilter(evt) {
+    this.filterValue = evt.target.value;
+    this.render();
+  }
+
+  handlePodPaths(response) {
+    this.podPaths = response.pod_paths.sort().filter(this.filterFunc);
+    this.render();
+    this.delayedFocus();
+  }
+
+  toggle() {
+    this._showFileList = !this._showFileList;
+    this.render();
+
+    if (this._showFileList) {
+      this.delayedFocus();
+    }
   }
 
 }

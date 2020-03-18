@@ -144,14 +144,14 @@ describe('yaml field', () => {
     // Show the file list.
     let fileListIcon = await page.$('.selective__field__yaml .selective__field__constructor__file_icon')
     await fileListIcon.click()
-    await page.waitForSelector('.selective__field__constructor__file')
+    await page.waitForSelector('.selective__file_list__file')
 
     await percySnapshot(page, 'Yaml field after file list load', defaults.snapshotOptions)
 
     // Click on a file in the list.
-    let listItem = await page.$(`.selective__field__constructor__file[data-pod-path="${newValueEn}"]`)
+    let listItem = await page.$(`.selective__file_list__file[data-pod-path="${newValueEn}"]`)
     await listItem.click()
-    await page.waitForSelector('.selective__field__constructor__file', {
+    await page.waitForSelector('.selective__file_list__file', {
       hidden: true,
     })
 
@@ -264,28 +264,28 @@ describe('yaml field', () => {
     // Show the en file list.
     let fileListIcon = await page.$('.selective__field__yaml .selective__field__constructor__file_icon[data-locale=en]')
     await fileListIcon.click()
-    await page.waitForSelector('[data-locale=en] .selective__field__constructor__file')
+    await page.waitForSelector('[data-locale=en] .selective__file_list__file')
 
     await percySnapshot(page, 'Yaml field after file list on en localization load', defaults.snapshotOptions)
 
     // Click on a file in the en list.
-    let listItem = await page.$(`[data-locale=en] .selective__field__constructor__file[data-pod-path="${newValueEn}"]`)
+    let listItem = await page.$(`[data-locale=en] .selective__file_list__file[data-pod-path="${newValueEn}"]`)
     await listItem.click()
-    await page.waitForSelector('[data-locale=en] .selective__field__constructor__file', {
+    await page.waitForSelector('[data-locale=en] .selective__file_list__file', {
       hidden: true,
     })
 
     // Show the es file list.
     fileListIcon = await page.$('.selective__field__yaml .selective__field__constructor__file_icon[data-locale=es]')
     await fileListIcon.click()
-    await page.waitForSelector('[data-locale=es] .selective__field__constructor__file')
+    await page.waitForSelector('[data-locale=es] .selective__file_list__file')
 
     await percySnapshot(page, 'Yaml field after file list on es localization load', defaults.snapshotOptions)
 
     // Click on a file in the es list.
-    listItem = await page.$(`[data-locale=es] .selective__field__constructor__file[data-pod-path="${newValueEs}"]`)
+    listItem = await page.$(`[data-locale=es] .selective__file_list__file[data-pod-path="${newValueEs}"]`)
     await listItem.click()
-    await page.waitForSelector('[data-locale=es] .selective__field__constructor__file', {
+    await page.waitForSelector('[data-locale=es] .selective__file_list__file', {
       hidden: true,
     })
 
