@@ -125,8 +125,44 @@ export class DateTimeField extends FieldRewrite {
   }
 }
 
-// TODO: Add a WYSIWYG editor.
-// TODO: Ability to switch between markdown and WYSIWYG.
+export class HtmlField extends FieldRewrite {
+  constructor(config, extendedConfig) {
+    super(config, extendedConfig)
+    this.fieldType = 'html'
+  }
+
+  renderInput(selective, data, locale) {
+    return html`<div id="${this.getUid()}" class="pell" data-locale=${locale || ''}></div>`
+  }
+
+  postRender(containerEl) {
+    const actions = this.getConfig().get('pellActions', [
+      'bold', 'italic', 'heading1', 'heading2', 'olist', 'ulist', 'link'])
+    const fieldInstances = containerEl.querySelectorAll('.selective__field__html')
+    for (const fieldInstance of fieldInstances) {
+      const pellEls = fieldInstance.querySelectorAll('.pell')
+      for (const pellEl of pellEls) {
+        const locale = pellEl.dataset.locale
+        const value = this.getValueForLocale(locale) || ''
+
+        if (!pellEl.pellEditor) {
+          pellEl.pellEditor = pell.init({
+            element: pellEl,
+            actions: actions,
+            onChange: (html) => {
+              this.setValueForLocale(locale, html.trim())
+            }
+          })
+        }
+
+        if (this.isClean) {
+          pellEl.pellEditor.content.innerHTML = value || ''
+        }
+      }
+    }
+  }
+}
+
 export class MarkdownField extends FieldRewrite {
   constructor(config, extendedConfig) {
     super(config, extendedConfig)

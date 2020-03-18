@@ -1200,7 +1200,7 @@ class ListField extends SortableField {
     // No expand toggle action to render if there is only 1 sub field config.
     const fieldConfigs = this.getConfig().get('fields', []); // No need to expand/collapse when there is only one field config.
 
-    if (fieldConfigs.length <= 1) {
+    if (fieldConfigs.length == 1) {
       return '';
     } // No need to expand/collapse when there is only one list item.
 
@@ -15267,6 +15267,9 @@ class Editor {
       if (this.document.podPath.endsWith('.md')) {
         contentType = 'markdown';
         this._isFullMarkdownEditor = true;
+      } else if (this.document.podPath.endsWith('.html')) {
+        contentType = 'html';
+        this._isFullMarkdownEditor = true;
       }
 
       this.selective.addField({
@@ -15773,6 +15776,7 @@ const defaultFields = {
   'group': selective_edit__WEBPACK_IMPORTED_MODULE_0__["GroupField"],
   'image': _field_image__WEBPACK_IMPORTED_MODULE_2__["ImageFileField"],
   'list': selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListField"],
+  'html': _field_standard__WEBPACK_IMPORTED_MODULE_4__["HtmlField"],
   'markdown': _field_standard__WEBPACK_IMPORTED_MODULE_4__["MarkdownField"],
   'partials': _field_partials__WEBPACK_IMPORTED_MODULE_3__["PartialsField"],
   'select': _field_standard__WEBPACK_IMPORTED_MODULE_4__["SelectField"],
@@ -16629,7 +16633,7 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListFie
 /*!*****************************************!*\
   !*** ./source/editor/field/standard.js ***!
   \*****************************************/
-/*! exports provided: CheckboxField, DateField, DateTimeField, MarkdownField, SelectField, TextField, TextareaField */
+/*! exports provided: CheckboxField, DateField, DateTimeField, HtmlField, MarkdownField, SelectField, TextField, TextareaField */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -16637,6 +16641,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CheckboxField", function() { return CheckboxField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DateField", function() { return DateField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DateTimeField", function() { return DateTimeField; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HtmlField", function() { return HtmlField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MarkdownField", function() { return MarkdownField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SelectField", function() { return SelectField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TextField", function() { return TextField; });
@@ -16755,9 +16760,46 @@ class DateTimeField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRe
         value=${value} />`;
   }
 
-} // TODO: Add a WYSIWYG editor.
-// TODO: Ability to switch between markdown and WYSIWYG.
+}
+class HtmlField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRewrite"] {
+  constructor(config, extendedConfig) {
+    super(config, extendedConfig);
+    this.fieldType = 'html';
+  }
 
+  renderInput(selective, data, locale) {
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div id="${this.getUid()}" class="pell" data-locale=${locale || ''}></div>`;
+  }
+
+  postRender(containerEl) {
+    const actions = this.getConfig().get('pellActions', ['bold', 'italic', 'heading1', 'heading2', 'olist', 'ulist', 'link']);
+    const fieldInstances = containerEl.querySelectorAll('.selective__field__html');
+
+    for (const fieldInstance of fieldInstances) {
+      const pellEls = fieldInstance.querySelectorAll('.pell');
+
+      for (const pellEl of pellEls) {
+        const locale = pellEl.dataset.locale;
+        const value = this.getValueForLocale(locale) || '';
+
+        if (!pellEl.pellEditor) {
+          pellEl.pellEditor = pell__WEBPACK_IMPORTED_MODULE_2___default.a.init({
+            element: pellEl,
+            actions: actions,
+            onChange: html => {
+              this.setValueForLocale(locale, html.trim());
+            }
+          });
+        }
+
+        if (this.isClean) {
+          pellEl.pellEditor.content.innerHTML = value || '';
+        }
+      }
+    }
+  }
+
+}
 class MarkdownField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRewrite"] {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
