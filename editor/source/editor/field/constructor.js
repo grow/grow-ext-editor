@@ -51,7 +51,6 @@ export class ConstructorFileField extends ConstructorField {
   constructor(config, extendedConfig) {
     super(config, extendedConfig)
     this._fileListUi = {}
-    this._showFileList = {}
     this.filterFunc = createWhiteBlackFilter(
       // Whitelist.
       regexList(this.config.get('whitelist')),

@@ -262,6 +262,16 @@ class PodApi(object):
             'routes': routes,
         }
 
+    def get_static_serving_path(self):
+        """Handle the request for pod path to serving path."""
+        pod_path = self.request.params.get('pod_path')
+        static_doc = self.pod.get_static(pod_path)
+
+        self.data = {
+            'pod_path': pod_path,
+            'serving_url': static_doc.url.path,
+        }
+
     def get_strings(self):
         """Handle the request for strings content for use with !g.string constructor."""
         strings = {
@@ -347,6 +357,9 @@ class PodApi(object):
         elif path == 'repo':
             if method == 'GET':
                 self.get_repo()
+        elif path == 'static_serving_path':
+            if method == 'GET':
+                self.get_static_serving_path()
 
     def post_editor_content(self):
         """Handle the request to save editor content."""

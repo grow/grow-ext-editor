@@ -104,6 +104,7 @@
       margin: -1px -1px 1px -1px
       width: calc(100% + 2px)
 
+.selective__image__preview,
 .selective__field__image__preview,
 .selective__field__google_image__preview
   background: rgba($ge-color-back-light, .5)
@@ -111,11 +112,23 @@
   margin-bottom: $ge-pad
   padding: $ge-pad/2
 
+.selective__image__preview__image,
 .selective__field__google_image__preview__image
   line-height: 0
+  padding: $ge-pad/2
   img
-    max-height: 100px
-    max-width: 100px
+    max-height: 125px
+    max-width: 100%
+
+.selective__image__preview__meta
+  display: flex
+  flex-flow: row
+
+  &> div
+    padding: $ge-pad/2
+
+.selective__image__preview__meta__label
+  font-weight: 700
 
 .selective__field__google_image__preview__meta
   margin-top: $ge-pad/2
@@ -331,6 +344,7 @@
 .selective__file_list
   border: 1px solid $ge-color-back-light
   border-radius: $ge-radius-4
+  margin-bottom: $ge-pad/2
 
   input
     border-radius: $ge-radius-4 $ge-radius-4 0 0

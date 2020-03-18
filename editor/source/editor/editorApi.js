@@ -34,7 +34,7 @@ export default class EditorApi extends Api {
     return result.promise
   }
 
-  getRoutes(podPath) {
+  getRoutes() {
     const result = new Defer()
 
     this.request.get(this.apiPath('routes'))
@@ -45,7 +45,7 @@ export default class EditorApi extends Api {
     return result.promise
   }
 
-  getPartials(podPath) {
+  getPartials() {
     const result = new Defer()
 
     this.request.get(this.apiPath('partials'))
@@ -71,6 +71,18 @@ export default class EditorApi extends Api {
     const result = new Defer()
 
     this.request.get(this.apiPath('repo'))
+      .then((res) => {
+        result.resolve(res.body)
+      })
+
+    return result.promise
+  }
+
+  getStaticServingPath(podPath) {
+    const result = new Defer()
+
+    this.request.get(this.apiPath('static_serving_path'))
+      .query({ 'pod_path': podPath })
       .then((res) => {
         result.resolve(res.body)
       })

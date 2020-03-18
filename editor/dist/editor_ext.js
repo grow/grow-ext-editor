@@ -15654,7 +15654,7 @@ class EditorApi extends _utility_api__WEBPACK_IMPORTED_MODULE_0__["default"] {
     return result.promise;
   }
 
-  getRoutes(podPath) {
+  getRoutes() {
     const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
     this.request.get(this.apiPath('routes')).then(res => {
       result.resolve(res.body);
@@ -15662,7 +15662,7 @@ class EditorApi extends _utility_api__WEBPACK_IMPORTED_MODULE_0__["default"] {
     return result.promise;
   }
 
-  getPartials(podPath) {
+  getPartials() {
     const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
     this.request.get(this.apiPath('partials')).then(res => {
       result.resolve(res.body);
@@ -15681,6 +15681,16 @@ class EditorApi extends _utility_api__WEBPACK_IMPORTED_MODULE_0__["default"] {
   getRepo() {
     const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
     this.request.get(this.apiPath('repo')).then(res => {
+      result.resolve(res.body);
+    });
+    return result.promise;
+  }
+
+  getStaticServingPath(podPath) {
+    const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
+    this.request.get(this.apiPath('static_serving_path')).query({
+      'pod_path': podPath
+    }).then(res => {
       result.resolve(res.body);
     });
     return result.promise;
@@ -15843,7 +15853,6 @@ class ConstructorFileField extends ConstructorField {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
     this._fileListUi = {};
-    this._showFileList = {};
     this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["createWhiteBlackFilter"])( // Whitelist.
     Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(this.config.get('whitelist')), // Blacklist.
     Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(this.config.get('blacklist')));
@@ -15946,6 +15955,17 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+const fractReduce = (numerator, denominator) => {
+  // Reduce a fraction by finding the Greatest Common Divisor and dividing by it.
+  const gcd = (a, b) => {
+    return b ? gcd(b, a % b) : a;
+  };
+
+  const fracGcd = gcd(numerator, denominator);
+  return [numerator / fracGcd, denominator / fracGcd];
+};
+
 class ImageField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRewrite"] {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
@@ -15969,10 +15989,14 @@ class ImageFileField extends ImageField {
     super(config, extendedConfig);
     this.fieldType = 'image_file';
     this._fileListUi = {};
-    this._showFileList = {};
     this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["createWhiteBlackFilter"])(Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(this.config.get('whitelist'), [/^\/static\/.*\.(jp[e]?g|png|svg|webp)$/]), // Whitelist.
     Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(this.config.get('blacklist')) // Blacklist.
-    );
+    ); // Use the API to get serving paths for local images.
+
+    this.api = this.getConfig().get('api');
+    this._servingPaths = {};
+    this._servingPathsLoading = {};
+    this._aspects = {};
   }
 
   fileListUiForLocale(locale) {
@@ -15994,9 +16018,62 @@ class ImageFileField extends ImageField {
     this.fileListUiForLocale(locale).toggle();
   }
 
+  handleImageLoad(evt) {
+    this._aspects[evt.target.dataset.servingPath] = {
+      height: evt.target.naturalHeight,
+      width: evt.target.naturalWidth
+    };
+    this.render();
+  }
+
   handlePodPath(podPath, locale) {
     const value = podPath;
     this.setValueForLocale(locale, value);
+  }
+
+  handleServingPathResponse(response) {
+    this._servingPaths[response.pod_path] = response.serving_url;
+    this.render();
+  }
+
+  loadPreview(value, locale) {
+    if (!value || value == '') {
+      return;
+    }
+
+    if (this._servingPaths[value]) {
+      return this._servingPaths[value];
+    }
+
+    if (this._servingPathsLoading[value]) {
+      return '';
+    } // Mark that the request has started to prevent duplicate requests.
+
+
+    this._servingPathsLoading[value] = true; // Have not loaded the serving url yet. Load it in.
+
+    this.api.getStaticServingPath(value).then(this.handleServingPathResponse.bind(this));
+  }
+
+  renderImageMeta(selective, data, locale) {
+    const value = this.getValueForLocale(locale) || '';
+    const servingPath = this.loadPreview(value, locale);
+    const aspect = this._aspects[servingPath];
+
+    if (!aspect) {
+      return '';
+    }
+
+    const ratio = fractReduce(aspect.width, aspect.height);
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <div class="selective__image__preview__meta__size">
+        <span class="selective__image__preview__meta__label">Size:</span>
+        <span class="selective__image__preview__meta__value">${aspect.width}x${aspect.height}</span>
+      </div>
+      <div class="selective__image__preview__meta__ratio">
+        <span class="selective__image__preview__meta__label">Ratio:</span>
+        <span class="selective__image__preview__meta__value">${ratio[0]}:${ratio[1]}</span>
+      </div>`;
   }
 
   renderInput(selective, data, locale) {
@@ -16018,10 +16095,46 @@ class ImageFileField extends ImageField {
           list_alt
         </i>
       </div>
-      ${fileListUi.renderFileList(selective, data, locale)}`;
+      ${fileListUi.renderFileList(selective, data, locale)}
+      ${this.renderPreview(selective, data, locale)}`;
   }
 
-}
+  renderPreview(selective, data, locale) {
+    const value = this.getValueForLocale(locale) || ''; // Check for update to the preview.
+
+    const servingPath = this.loadPreview(value, locale);
+
+    if (!servingPath && servingPath != '') {
+      return '';
+    }
+
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <div id="${this.uid}${locale}-preview" class="selective__image__preview">
+        <div class="selective__image__preview__image">
+          <img
+            data-serving-path=${servingPath}
+            @load=${this.handleImageLoad.bind(this)}
+            src="${servingPath}" />
+        </div>
+        <div class="selective__image__preview__meta">
+          ${this.renderImageMeta(selective, data, locale)}
+        </div>
+      </div>`;
+  }
+
+} // const imageSizeDirective = directive((field) => (part) => {
+//   // Depends on image element, so needs to run after image has loaded.
+//   setTimeout(() => {
+//     const imageEl = document.querySelector(`#${this.uid}${locale}-preview img`)
+//     const updateImage = () => {
+//       part.setValue(`Aspect ratio: ${imageEl.naturalWidth}x${imageEl.naturalHeight}`)
+//       part.commit()
+//     }
+//     // If the image has already loaded.
+//     imageEl.complete ? updateImage() : imageEl.addEventListener('load', updateImage)
+//   })
+// })
+
 class LegacyImageField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
