@@ -6,20 +6,20 @@ const qs = require('querystring')
 const editorConfig = {
   'fields': [
     {
-      'type': 'markdown',
+      'type': 'html',
       'key': 'content',
       'label': 'Content',
     }
   ]
 }
-const defaultEn = '# But why is the toilet paper gone?'
-const defaultEs = '# ¿Pero por qué se fue el papel higiénico?'
-let newValueEn = '# Toilet paper is the new gold currency.'
-let newValueEs = '# El papel higiénico es la nueva moneda de oro.'
+const defaultEn = '<div>But why is the toilet paper gone?</div>'
+const defaultEs = '<div>¿Pero por qué se fue el papel higiénico?</div>'
+let newValueEn = '<div>Toilet paper is the new gold currency.</div>'
+let newValueEs = '<div>El papel higiénico es la nueva moneda de oro.</div>'
 let newValueTypeEn = 'Toilet paper is the new gold currency.'
 let newValueTypeEs = 'El papel higiénico es la nueva moneda de oro.'
 
-describe('markdown field', () => {
+describe('html field', () => {
   beforeEach(async () => {
     // Need a new page to prevent requests already being handled.
     page = await browser.newPage()
@@ -74,7 +74,7 @@ describe('markdown field', () => {
     expect(isClean).toBe(true)
 
     // Change the title.
-    await page.click('.selective__field__markdown .pell-content', {clickCount: 3})
+    await page.click('.selective__field__html .pell-content', {clickCount: 3})
     await page.keyboard.press('Backspace')
     await page.keyboard.type(newValueTypeEn)
 
@@ -105,7 +105,7 @@ describe('markdown field', () => {
     })
     expect(isClean).toBe(true)
 
-    await percySnapshot(page, 'Markdown field after save', defaults.snapshotOptions)
+    await percySnapshot(page, 'Html field after save', defaults.snapshotOptions)
   })
 
   it('should accept input on localization', async () => {
@@ -118,15 +118,15 @@ describe('markdown field', () => {
     // Enable localization.
     const localizationIcon = await page.$('i[title="Localize content"]')
     await localizationIcon.click()
-    await page.waitForSelector('.selective__field__markdown .pell[data-locale=en] .pell-content')
+    await page.waitForSelector('.selective__field__html .pell[data-locale=en] .pell-content')
 
     // Change the en title.
-    await page.click('.selective__field__markdown .pell[data-locale=en] .pell-content', {clickCount: 3})
+    await page.click('.selective__field__html .pell[data-locale=en] .pell-content', {clickCount: 3})
     await page.keyboard.press('Backspace')
     await page.keyboard.type(newValueTypeEn)
 
     // Change the es title.
-    await page.click('.selective__field__markdown .pell[data-locale=es] .pell-content', {clickCount: 3})
+    await page.click('.selective__field__html .pell[data-locale=es] .pell-content', {clickCount: 3})
     await page.keyboard.press('Backspace')
     await page.keyboard.type(newValueTypeEs)
 
@@ -157,6 +157,6 @@ describe('markdown field', () => {
     })
     expect(isClean).toBe(true)
 
-    await percySnapshot(page, 'Markdown field after localization save', defaults.snapshotOptions)
+    await percySnapshot(page, 'Html field after localization save', defaults.snapshotOptions)
   })
 })
