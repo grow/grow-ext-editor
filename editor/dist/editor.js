@@ -15955,17 +15955,76 @@ class ImageField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRewri
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
     this.fieldType = 'image';
+    this._aspects = {};
+  }
+
+  getServingPath(value, locale) {
+    return value;
+  }
+
+  handleImageLoad(evt) {
+    this._aspects[evt.target.dataset.servingPath] = {
+      height: evt.target.naturalHeight,
+      width: evt.target.naturalWidth
+    };
+    this.render();
+  }
+
+  renderImageMeta(selective, data, locale) {
+    const value = this.getValueForLocale(locale) || '';
+    const servingPath = this.getServingPath(value, locale);
+    const aspect = this._aspects[servingPath];
+
+    if (!aspect) {
+      return '';
+    }
+
+    const ratio = fractReduce(aspect.width, aspect.height);
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <div class="selective__image__preview__meta__size">
+        <span class="selective__image__preview__meta__label">Size:</span>
+        <span class="selective__image__preview__meta__value">${aspect.width}x${aspect.height}</span>
+      </div>
+      <div class="selective__image__preview__meta__ratio">
+        <span class="selective__image__preview__meta__label">Ratio:</span>
+        <span class="selective__image__preview__meta__value">${ratio[0]}:${ratio[1]}</span>
+      </div>`;
   }
 
   renderInput(selective, data, locale) {
     const value = this.getValueForLocale(locale) || '';
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <input
-        id="${this.uid}${locale}"
-        placeholder=${this.config.placeholder || ''}
-        data-locale=${locale || ''}
-        @input=${this.handleInput.bind(this)}
-        value=${value} />`;
+      <div class="selective__field__image_file__input">
+        <input
+          id="${this.uid}${locale}"
+          placeholder=${this.config.placeholder || ''}
+          data-locale=${locale || ''}
+          @input=${this.handleInput.bind(this)}
+          value=${value || ''} />
+      </div>
+      ${this.renderPreview(selective, data, locale)}`;
+  }
+
+  renderPreview(selective, data, locale) {
+    const value = this.getValueForLocale(locale) || '';
+    const servingPath = this.getServingPath(value, locale);
+
+    if (!servingPath || servingPath == '') {
+      return '';
+    }
+
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <div id="${this.uid}${locale}-preview" class="selective__image__preview">
+        <div class="selective__image__preview__image">
+          <img
+            data-serving-path=${servingPath}
+            @load=${this.handleImageLoad.bind(this)}
+            src="${servingPath}" />
+        </div>
+        <div class="selective__image__preview__meta">
+          ${this.renderImageMeta(selective, data, locale)}
+        </div>
+      </div>`;
   }
 
 }
@@ -15998,17 +16057,13 @@ class ImageFileField extends ImageField {
     return this._fileListUi[localeKey];
   }
 
+  getServingPath(value, locale) {
+    return this.loadPreview(value, locale);
+  }
+
   handleFilesToggleClick(evt) {
     const locale = evt.target.dataset.locale;
     this.fileListUiForLocale(locale).toggle();
-  }
-
-  handleImageLoad(evt) {
-    this._aspects[evt.target.dataset.servingPath] = {
-      height: evt.target.naturalHeight,
-      width: evt.target.naturalWidth
-    };
-    this.render();
   }
 
   handlePodPath(podPath, locale) {
@@ -16040,27 +16095,6 @@ class ImageFileField extends ImageField {
     this.api.getStaticServingPath(value).then(this.handleServingPathResponse.bind(this));
   }
 
-  renderImageMeta(selective, data, locale) {
-    const value = this.getValueForLocale(locale) || '';
-    const servingPath = this.loadPreview(value, locale);
-    const aspect = this._aspects[servingPath];
-
-    if (!aspect) {
-      return '';
-    }
-
-    const ratio = fractReduce(aspect.width, aspect.height);
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <div class="selective__image__preview__meta__size">
-        <span class="selective__image__preview__meta__label">Size:</span>
-        <span class="selective__image__preview__meta__value">${aspect.width}x${aspect.height}</span>
-      </div>
-      <div class="selective__image__preview__meta__ratio">
-        <span class="selective__image__preview__meta__label">Ratio:</span>
-        <span class="selective__image__preview__meta__value">${ratio[0]}:${ratio[1]}</span>
-      </div>`;
-  }
-
   renderInput(selective, data, locale) {
     const value = this.getValueForLocale(locale) || '';
     const fileListUi = this.fileListUiForLocale(locale);
@@ -16084,42 +16118,7 @@ class ImageFileField extends ImageField {
       ${this.renderPreview(selective, data, locale)}`;
   }
 
-  renderPreview(selective, data, locale) {
-    const value = this.getValueForLocale(locale) || ''; // Check for update to the preview.
-
-    const servingPath = this.loadPreview(value, locale);
-
-    if (!servingPath && servingPath != '') {
-      return '';
-    }
-
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <div id="${this.uid}${locale}-preview" class="selective__image__preview">
-        <div class="selective__image__preview__image">
-          <img
-            data-serving-path=${servingPath}
-            @load=${this.handleImageLoad.bind(this)}
-            src="${servingPath}" />
-        </div>
-        <div class="selective__image__preview__meta">
-          ${this.renderImageMeta(selective, data, locale)}
-        </div>
-      </div>`;
-  }
-
-} // const imageSizeDirective = directive((field) => (part) => {
-//   // Depends on image element, so needs to run after image has loaded.
-//   setTimeout(() => {
-//     const imageEl = document.querySelector(`#${this.uid}${locale}-preview img`)
-//     const updateImage = () => {
-//       part.setValue(`Aspect ratio: ${imageEl.naturalWidth}x${imageEl.naturalHeight}`)
-//       part.commit()
-//     }
-//     // If the image has already loaded.
-//     imageEl.complete ? updateImage() : imageEl.addEventListener('load', updateImage)
-//   })
-// })
-
+}
 class LegacyImageField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
