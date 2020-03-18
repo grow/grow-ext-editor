@@ -44,7 +44,7 @@
     "dev": "webpack --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js",
     "watch": "webpack --config webpack.dev.js --watch",
-    "test": "jest",
+    "test": "jest --reporters=default",
     "test:ci": "percy exec -- jest --ci --runInBand --reporters=default --reporters=jest-junit"
   }
 }
