@@ -71,7 +71,43 @@ export class DateTimeField extends Field {
   }
 }
 
-// TODO: Use a full markdown editor.
+export class HtmlField extends Field {
+  constructor(config, extendedConfig) {
+    super(config, extendedConfig)
+    this.fieldType = 'html'
+
+    this.template = (selective, field, data) => html`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
+      <label for="${field.getUid()}">${field.label}</label>
+      <div id="${field.getUid()}" class="pell">${field.updateFromData(data)}</div>
+      ${field.renderHelp(selective, field, data)}
+    </div>`
+  }
+
+  postRender(containerEl) {
+    const actions = this.getConfig().get('pellActions', [
+      'bold', 'italic', 'heading1', 'heading2', 'olist', 'ulist', 'link'])
+    const fieldInstances = containerEl.querySelectorAll('.selective__field__html')
+    for (const fieldInstance of fieldInstances) {
+      if (!fieldInstance.pellEditor) {
+        const pellEl = fieldInstance.querySelector('.pell')
+
+        fieldInstance.pellEditor = pell.init({
+          element: pellEl,
+          actions: actions,
+          onChange: (html) => {
+            this.value = html
+            document.dispatchEvent(new CustomEvent('selective.render'))
+          }
+        })
+      }
+
+      if (this.isClean) {
+        fieldInstance.pellEditor.content.innerHTML = this.value || ''
+      }
+    }
+  }
+}
+
 export class MarkdownField extends Field {
   constructor(config, extendedConfig) {
     super(config, extendedConfig)

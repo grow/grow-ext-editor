@@ -362,6 +362,9 @@ export default class Editor {
       if (this.document.podPath.endsWith('.md')) {
         contentType = 'markdown'
         this._isFullMarkdownEditor = true
+      } else if (this.document.podPath.endsWith('.html')) {
+        contentType = 'html'
+        this._isFullMarkdownEditor = true
       }
       this.selective.addField({
         type: contentType,

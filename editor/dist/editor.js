@@ -1175,17 +1175,20 @@ class ListField extends SortableField {
     // No expand toggle action to render if there is only 1 sub field config.
     const fieldConfigs = this.getConfig().get('fields', []); // No need to expand/collapse when there is only one field config.
 
-    if (fieldConfigs.length <= 1) {
+    if (fieldConfigs.length == 1) {
       return '';
     } // No need to expand/collapse when there is only one list item.
 
 
     if (this._listItems && this._listItems.length <= 1) {
+      console.log(this._listItems);
+      console.log(2);
       return '';
     } // Hide when there are no values to expand/collapse.
 
 
     if ((this.value || []).length == 0) {
+      console.log(3);
       return '';
     } // Allow collapsing and expanding of sub fields.
 
@@ -14036,6 +14039,9 @@ class Editor {
       if (this.document.podPath.endsWith('.md')) {
         contentType = 'markdown';
         this._isFullMarkdownEditor = true;
+      } else if (this.document.podPath.endsWith('.html')) {
+        contentType = 'html';
+        this._isFullMarkdownEditor = true;
       }
 
       this.selective.addField({
@@ -14526,6 +14532,7 @@ const defaultFields = {
   'group': _field_structure__WEBPACK_IMPORTED_MODULE_2__["GroupField"],
   'image': _field_image__WEBPACK_IMPORTED_MODULE_3__["ImageField"],
   'list': selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListField"],
+  'html': _field_standard__WEBPACK_IMPORTED_MODULE_5__["HtmlField"],
   'markdown': _field_standard__WEBPACK_IMPORTED_MODULE_5__["MarkdownField"],
   'partials': _field_partials__WEBPACK_IMPORTED_MODULE_4__["PartialsField"],
   'select': _field_standard__WEBPACK_IMPORTED_MODULE_5__["SelectField"],
@@ -15296,7 +15303,7 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListFie
 /*!*****************************************!*\
   !*** ./source/editor/field/standard.js ***!
   \*****************************************/
-/*! exports provided: CheckboxField, DateField, DateTimeField, MarkdownField, SelectField, TextField, TextareaField */
+/*! exports provided: CheckboxField, DateField, DateTimeField, HtmlField, MarkdownField, SelectField, TextField, TextareaField */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -15304,6 +15311,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CheckboxField", function() { return CheckboxField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DateField", function() { return DateField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DateTimeField", function() { return DateTimeField; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HtmlField", function() { return HtmlField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MarkdownField", function() { return MarkdownField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SelectField", function() { return SelectField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TextField", function() { return TextField; });
@@ -15376,8 +15384,43 @@ class DateTimeField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"]
     </div>`;
   }
 
-} // TODO: Use a full markdown editor.
+}
+class HtmlField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
+  constructor(config, extendedConfig) {
+    super(config, extendedConfig);
+    this.fieldType = 'html';
 
+    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
+      <label for="${field.getUid()}">${field.label}</label>
+      <div id="${field.getUid()}" class="pell">${field.updateFromData(data)}</div>
+      ${field.renderHelp(selective, field, data)}
+    </div>`;
+  }
+
+  postRender(containerEl) {
+    const actions = this.getConfig().get('pellActions', ['bold', 'italic', 'heading1', 'heading2', 'olist', 'ulist', 'link']);
+    const fieldInstances = containerEl.querySelectorAll('.selective__field__html');
+
+    for (const fieldInstance of fieldInstances) {
+      if (!fieldInstance.pellEditor) {
+        const pellEl = fieldInstance.querySelector('.pell');
+        fieldInstance.pellEditor = pell__WEBPACK_IMPORTED_MODULE_2___default.a.init({
+          element: pellEl,
+          actions: actions,
+          onChange: html => {
+            this.value = html;
+            document.dispatchEvent(new CustomEvent('selective.render'));
+          }
+        });
+      }
+
+      if (this.isClean) {
+        fieldInstance.pellEditor.content.innerHTML = this.value || '';
+      }
+    }
+  }
+
+}
 class MarkdownField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
