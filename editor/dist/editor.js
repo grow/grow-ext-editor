@@ -15914,7 +15914,7 @@ class YamlField extends ConstructorFileField {
     this.fieldType = 'yaml';
     this.tag = '!g.yaml';
     this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createWhiteBlackFilter"])( // Whitelist.
-    this.configList('whitelist', [/^\/content\//, /^\/data\//, /\.yaml$/]), // Blacklist.
+    this.configList('whitelist', [/^\/content\/.*\.yaml$/, /^\/data\/.*\.yaml$/]), // Blacklist.
     this.configList('blacklist'));
   }
 

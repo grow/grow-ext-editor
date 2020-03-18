@@ -247,7 +247,7 @@ export class YamlField extends ConstructorFileField {
     this.tag = '!g.yaml'
     this.filterFunc = createWhiteBlackFilter(
       // Whitelist.
-      this.configList('whitelist', [/^\/content\//, /^\/data\//, /\.yaml$/]),
+      this.configList('whitelist', [/^\/content\/.*\.yaml$/, /^\/data\/.*\.yaml$/]),
       // Blacklist.
       this.configList('blacklist'),
     )
