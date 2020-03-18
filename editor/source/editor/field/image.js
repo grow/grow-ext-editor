@@ -33,10 +33,60 @@ export class ImageField extends FieldRewrite {
     super(config, extendedConfig)
     this.fieldType = 'image'
     this._aspects = {}
+    this._showFileInput = {}
+    this._isLoading = {}
+  }
+
+  delayedFocus(locale) {
+    // Wait for the render then focus on the file input.
+    // TODO: Add a listenOnce feature to the listeners with a
+    // post render event to trigger focus.
+    window.setTimeout(
+      () => {
+        document.getElementById(`${this.uid}${locale || ''}-file`).click()
+      },
+      25)
   }
 
   getServingPath(value, locale) {
     return value
+  }
+
+  handleFileInput(evt) {
+    if (!this.api) {
+      console.error('Missing api for image field.')
+      return
+    }
+
+    const locale = evt.target.dataset.locale
+    const localeKey = this.keyForLocale(locale)
+    const destination = this.getConfig().get('destination', '/static/img/upload')
+
+    this.api.saveImage(evt.target.files[0], destination).then((result) => {
+      this.value = result['pod_path']
+      this._showFileInput[localeKey] = false
+      this._isLoading[localeKey] = false
+      this.render()
+    }).catch((err) => {
+      console.error(err)
+      this._showFileInput[localeKey] = false
+      this._isLoading[localeKey] = false
+      this.render()
+    })
+
+    this._isLoading[localeKey] = true
+    this.render()
+  }
+
+  handleFileInputToggleClick(evt) {
+    const locale = evt.target.dataset.locale
+    const localeKey = this.keyForLocale(locale)
+    this._showFileInput[localeKey] = !(this._showFileInput[localeKey] || false)
+    this.render()
+
+    if (this._showFileInput[localeKey]) {
+      this.delayedFocus(locale)
+    }
   }
 
   handleImageLoad(evt) {
@@ -45,6 +95,22 @@ export class ImageField extends FieldRewrite {
       width: evt.target.naturalWidth,
     }
     this.render()
+  }
+
+  renderFileInput(selective, data, locale) {
+    const localeKey = this.keyForLocale(locale)
+
+    if (!this._showFileInput[localeKey]) {
+      return ''
+    }
+
+    return html`
+      <input
+        type="file"
+        id="${this.uid}${locale || ''}-file"
+        data-locale=${locale || ''}
+        ?disabled=${this._isLoading[localeKey]}
+        @input=${this.handleFileInput.bind(this)} />`
   }
 
   renderImageMeta(selective, data, locale) {
@@ -71,6 +137,7 @@ export class ImageField extends FieldRewrite {
 
   renderInput(selective, data, locale) {
     const value = this.getValueForLocale(locale) || ''
+    const localeKey = this.keyForLocale(locale)
 
     return html`
       <div class="selective__field__image_file__input">
@@ -78,15 +145,32 @@ export class ImageField extends FieldRewrite {
           id="${this.uid}${locale}"
           placeholder=${this.config.placeholder || ''}
           data-locale=${locale || ''}
+          ?disabled=${this._isLoading[localeKey]}
           @input=${this.handleInput.bind(this)}
           value=${value || ''} />
+        <i
+            class="material-icons selective__field__image_file__file_input_icon"
+            title="Upload file"
+            data-locale=${locale || ''}
+            @click=${this.handleFileInputToggleClick.bind(this)}>
+          attachment
+        </i>
       </div>
+      ${this.renderFileInput(selective, data, locale)}
       ${this.renderPreview(selective, data, locale)}`
   }
 
   renderPreview(selective, data, locale) {
     const value = this.getValueForLocale(locale) || ''
+    const localeKey = this.keyForLocale(locale)
     const servingPath = this.getServingPath(value, locale)
+
+    if (this._isLoading[localeKey]) {
+      return html`
+        <div id="${this.uid}${locale}-preview" class="selective__image__preview">
+          <div class="editor__loading editor__loading--small editor__loading--pad"></div>
+        </div>`
+    }
 
     if (!servingPath || servingPath == '') {
       return ''
@@ -121,7 +205,6 @@ export class ImageFileField extends ImageField {
     this.api = this.getConfig().get('api')
     this._servingPaths = {}
     this._servingPathsLoading = {}
-    this._aspects = {}
   }
 
   fileListUiForLocale(locale) {
@@ -190,6 +273,13 @@ export class ImageFileField extends ImageField {
           @input=${this.handleInput.bind(this)}
           value=${value || ''} />
         <i
+            class="material-icons selective__field__image_file__file_input_icon"
+            title="Upload file"
+            data-locale=${locale || ''}
+            @click=${this.handleFileInputToggleClick.bind(this)}>
+          attachment
+        </i>
+        <i
             class="material-icons selective__field__image_file__file_icon"
             title="Select pod path"
             data-locale=${locale || ''}
@@ -198,6 +288,7 @@ export class ImageFileField extends ImageField {
         </i>
       </div>
       ${fileListUi.renderFileList(selective, data, locale)}
+      ${this.renderFileInput(selective, data, locale)}
       ${this.renderPreview(selective, data, locale)}`
   }
 }

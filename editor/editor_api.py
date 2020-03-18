@@ -173,6 +173,13 @@ class PodApi(object):
             'content': doc.body,
         }
 
+    def _load_static_doc(self, pod_path):
+        static_doc = self.pod.get_static(pod_path)
+        return {
+            'pod_path': static_doc.pod_path,
+            'serving_url': static_doc.url.path,
+        }
+
     def get_pod_paths(self):
         """Handle the request for document and static info."""
         pod_paths = []
@@ -342,6 +349,9 @@ class PodApi(object):
         elif path == 'extension/config':
             if method == 'GET':
                 self.get_extension_config()
+        elif path == 'image':
+            if method == 'POST':
+                self.post_image()
         elif path == 'partials':
             if method == 'GET':
                 self.get_partials()
@@ -386,6 +396,14 @@ class PodApi(object):
 
         self.pod.podcache.document_cache.remove(doc)
         self.data = self._load_doc(pod_path)
+
+    def post_image(self):
+        """Handle the request to save an image."""
+        destination = self.request.POST['destination']
+        upload_file = self.request.POST['file']
+        pod_path = os.path.join(destination, upload_file.filename)
+        self.pod.write_file(pod_path, upload_file.file.read())
+        self.data = self._load_static_doc(pod_path)
 
 
 def serve_api(pod, request, matched, **_kwargs):
