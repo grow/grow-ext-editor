@@ -83,7 +83,7 @@ export class FileListUI extends UI {
           </div>
         `)}
         ${podPaths.length == 0 ? html`
-          <div class="selective__field__constructor__file selective__field__constructor__file--empty">
+          <div class="selective__file_list__file selective__file_list__file--empty">
             No matches found.
           </div>` : ''}
       </div>

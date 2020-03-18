@@ -11,7 +11,7 @@ import {
   YamlField,
 } from './field/constructor'
 import {
-  ImageField,
+  ImageFileField,
   GoogleImageField,
 } from './field/image'
 import {
@@ -34,7 +34,7 @@ export const defaultFields = {
   'document': DocumentField,
   'google_image': GoogleImageField,
   'group': GroupField,
-  'image': ImageField,
+  'image': ImageFileField,
   'list': ListField,
   'markdown': MarkdownField,
   'partials': PartialsField,

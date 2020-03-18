@@ -9,12 +9,8 @@ import {
   FieldRewrite,
 } from 'selective-edit'
 import {
-  findParentByClassname,
-  inputFocusAtEnd,
-} from '../../utility/dom'
-import {
   createWhiteBlackFilter,
-  createValueFilter,
+  regexList,
 } from '../../utility/filter'
 import {
   FileListUI,
@@ -58,24 +54,10 @@ export class ConstructorFileField extends ConstructorField {
     this._showFileList = {}
     this.filterFunc = createWhiteBlackFilter(
       // Whitelist.
-      this.configRegExpList('whitelist'),
+      regexList(this.config.get('whitelist')),
       // Blacklist.
-      this.configRegExpList('blacklist'),
+      regexList(this.config.get('blacklist')),
     )
-  }
-
-  configRegExpList(configKey, defaults) {
-    const list = []
-    const rawList = this.getConfig().get(configKey, [])
-    for (const value of rawList) {
-      list.push(new RegExp(value, 'gi'))
-    }
-
-    if (!list.length) {
-      return defaults || []
-    }
-
-    return list
   }
 
   fileListUiForLocale(locale) {
@@ -97,7 +79,6 @@ export class ConstructorFileField extends ConstructorField {
   }
 
   handlePodPath(podPath, locale) {
-    const localeKey = this.keyForLocale(locale)
     const value = {
       tag: this.tag,
       value: podPath,
@@ -136,9 +117,9 @@ export class DocumentField extends ConstructorFileField {
     this.tag = '!g.doc'
     this.filterFunc = createWhiteBlackFilter(
       // Whitelist.
-      this.configRegExpList('whitelist', [/^\/content\//]),
+      regexList(this.config.get('whitelist'), [/^\/content\//]),
       // Blacklist.
-      this.configRegExpList('blacklist'),
+      regexList(this.config.get('blacklist')),
     )
   }
 }
@@ -150,9 +131,9 @@ export class YamlField extends ConstructorFileField {
     this.tag = '!g.yaml'
     this.filterFunc = createWhiteBlackFilter(
       // Whitelist.
-      this.configRegExpList('whitelist', [/^\/content\/.*\.yaml$/, /^\/data\/.*\.yaml$/]),
+      regexList(this.config.get('whitelist'), [/^\/content\/.*\.yaml$/, /^\/data\/.*\.yaml$/]),
       // Blacklist.
-      this.configRegExpList('blacklist'),
+      regexList(this.config.get('blacklist')),
     )
   }
 }

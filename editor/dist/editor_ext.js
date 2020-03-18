@@ -15776,7 +15776,7 @@ const defaultFields = {
   'document': _field_constructor__WEBPACK_IMPORTED_MODULE_1__["DocumentField"],
   'google_image': _field_image__WEBPACK_IMPORTED_MODULE_2__["GoogleImageField"],
   'group': selective_edit__WEBPACK_IMPORTED_MODULE_0__["GroupField"],
-  'image': _field_image__WEBPACK_IMPORTED_MODULE_2__["ImageField"],
+  'image': _field_image__WEBPACK_IMPORTED_MODULE_2__["ImageFileField"],
   'list': selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListField"],
   'markdown': _field_standard__WEBPACK_IMPORTED_MODULE_4__["MarkdownField"],
   'partials': _field_partials__WEBPACK_IMPORTED_MODULE_3__["PartialsField"],
@@ -15802,13 +15802,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DocumentField", function() { return DocumentField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "YamlField", function() { return YamlField; });
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
-/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
-/* harmony import */ var _utility_filter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/filter */ "./source/utility/filter.js");
-/* harmony import */ var _ui_file__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../ui/file */ "./source/editor/ui/file.js");
+/* harmony import */ var _utility_filter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/filter */ "./source/utility/filter.js");
+/* harmony import */ var _ui_file__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../ui/file */ "./source/editor/ui/file.js");
 /**
  * Constructor field types for the editor extension.
  */
-
 
 
 
@@ -15846,31 +15844,16 @@ class ConstructorFileField extends ConstructorField {
     super(config, extendedConfig);
     this._fileListUi = {};
     this._showFileList = {};
-    this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createWhiteBlackFilter"])( // Whitelist.
-    this.configRegExpList('whitelist'), // Blacklist.
-    this.configRegExpList('blacklist'));
-  }
-
-  configRegExpList(configKey, defaults) {
-    const list = [];
-    const rawList = this.getConfig().get(configKey, []);
-
-    for (const value of rawList) {
-      list.push(new RegExp(value, 'gi'));
-    }
-
-    if (!list.length) {
-      return defaults || [];
-    }
-
-    return list;
+    this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["createWhiteBlackFilter"])( // Whitelist.
+    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(this.config.get('whitelist')), // Blacklist.
+    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(this.config.get('blacklist')));
   }
 
   fileListUiForLocale(locale) {
     const localeKey = this.keyForLocale(locale);
 
     if (!this._fileListUi[localeKey]) {
-      this._fileListUi[localeKey] = new _ui_file__WEBPACK_IMPORTED_MODULE_3__["FileListUI"]({
+      this._fileListUi[localeKey] = new _ui_file__WEBPACK_IMPORTED_MODULE_2__["FileListUI"]({
         'filterFunc': this.filterFunc
       }); // Bind the pod path listener event for the UI.
 
@@ -15886,7 +15869,6 @@ class ConstructorFileField extends ConstructorField {
   }
 
   handlePodPath(podPath, locale) {
-    const localeKey = this.keyForLocale(locale);
     const value = {
       tag: this.tag,
       value: podPath
@@ -15922,9 +15904,9 @@ class DocumentField extends ConstructorFileField {
     super(config, extendedConfig);
     this.fieldType = 'document';
     this.tag = '!g.doc';
-    this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createWhiteBlackFilter"])( // Whitelist.
-    this.configRegExpList('whitelist', [/^\/content\//]), // Blacklist.
-    this.configRegExpList('blacklist'));
+    this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["createWhiteBlackFilter"])( // Whitelist.
+    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(this.config.get('whitelist'), [/^\/content\//]), // Blacklist.
+    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(this.config.get('blacklist')));
   }
 
 }
@@ -15933,9 +15915,9 @@ class YamlField extends ConstructorFileField {
     super(config, extendedConfig);
     this.fieldType = 'yaml';
     this.tag = '!g.yaml';
-    this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createWhiteBlackFilter"])( // Whitelist.
-    this.configRegExpList('whitelist', [/^\/content\/.*\.yaml$/, /^\/data\/.*\.yaml$/]), // Blacklist.
-    this.configRegExpList('blacklist'));
+    this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["createWhiteBlackFilter"])( // Whitelist.
+    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(this.config.get('whitelist'), [/^\/content\/.*\.yaml$/, /^\/data\/.*\.yaml$/]), // Blacklist.
+    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(this.config.get('blacklist')));
   }
 
 }
@@ -15946,18 +15928,23 @@ class YamlField extends ConstructorFileField {
 /*!**************************************!*\
   !*** ./source/editor/field/image.js ***!
   \**************************************/
-/*! exports provided: ImageField, LegacyImageField, GoogleImageField */
+/*! exports provided: ImageField, ImageFileField, LegacyImageField, GoogleImageField */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ImageField", function() { return ImageField; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ImageFileField", function() { return ImageFileField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LegacyImageField", function() { return LegacyImageField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GoogleImageField", function() { return GoogleImageField; });
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var _utility_filter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/filter */ "./source/utility/filter.js");
+/* harmony import */ var _ui_file__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../ui/file */ "./source/editor/ui/file.js");
 /**
  * Image field types for the editor extension.
  */
+
+
 
 class ImageField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRewrite"] {
   constructor(config, extendedConfig) {
@@ -15968,12 +15955,70 @@ class ImageField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRewri
   renderInput(selective, data, locale) {
     const value = this.getValueForLocale(locale) || '';
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <textarea
+      <input
         id="${this.uid}${locale}"
-        rows=${this.config.rows || 6}
         placeholder=${this.config.placeholder || ''}
         data-locale=${locale || ''}
-        @input=${this.handleInput.bind(this)}>${value}</textarea>`;
+        @input=${this.handleInput.bind(this)}
+        value=${value} />`;
+  }
+
+}
+class ImageFileField extends ImageField {
+  constructor(config, extendedConfig) {
+    super(config, extendedConfig);
+    this.fieldType = 'image_file';
+    this._fileListUi = {};
+    this._showFileList = {};
+    this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["createWhiteBlackFilter"])(Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(this.config.get('whitelist'), [/^\/static\/.*\.(jp[e]?g|png|svg|webp)$/]), // Whitelist.
+    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(this.config.get('blacklist')) // Blacklist.
+    );
+  }
+
+  fileListUiForLocale(locale) {
+    const localeKey = this.keyForLocale(locale);
+
+    if (!this._fileListUi[localeKey]) {
+      this._fileListUi[localeKey] = new _ui_file__WEBPACK_IMPORTED_MODULE_2__["FileListUI"]({
+        'filterFunc': this.filterFunc
+      }); // Bind the pod path listener event for the UI.
+
+      this._fileListUi[localeKey].listeners.add('podPath', this.handlePodPath.bind(this));
+    }
+
+    return this._fileListUi[localeKey];
+  }
+
+  handleFilesToggleClick(evt) {
+    const locale = evt.target.dataset.locale;
+    this.fileListUiForLocale(locale).toggle();
+  }
+
+  handlePodPath(podPath, locale) {
+    const value = podPath;
+    this.setValueForLocale(locale, value);
+  }
+
+  renderInput(selective, data, locale) {
+    const value = this.getValueForLocale(locale) || '';
+    const fileListUi = this.fileListUiForLocale(locale);
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <div class="selective__field__image_file__input">
+        <input
+          id="${this.uid}${locale}"
+          placeholder=${this.config.placeholder || ''}
+          data-locale=${locale || ''}
+          @input=${this.handleInput.bind(this)}
+          value=${value || ''} />
+        <i
+            class="material-icons selective__field__image_file__file_icon"
+            title="Select pod path"
+            data-locale=${locale || ''}
+            @click=${this.handleFilesToggleClick.bind(this)}>
+          list_alt
+        </i>
+      </div>
+      ${fileListUi.renderFileList(selective, data, locale)}`;
   }
 
 }
@@ -16059,7 +16104,7 @@ class LegacyImageField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Fiel
 
 } // TODO: Move into the google image extension.
 
-class GoogleImageField extends ImageField {
+class GoogleImageField extends LegacyImageField {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
     this.fieldType = 'google_image'; // TODO: Change to use the API after the extension is updated to the new
@@ -16899,7 +16944,7 @@ class FileListUI extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["UI"] {
           </div>
         `)}
         ${podPaths.length == 0 ? selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-          <div class="selective__field__constructor__file selective__field__constructor__file--empty">
+          <div class="selective__file_list__file selective__file_list__file--empty">
             No matches found.
           </div>` : ''}
       </div>
@@ -17356,13 +17401,14 @@ function deepExpandArray(arr) {
 /*!**********************************!*\
   !*** ./source/utility/filter.js ***!
   \**********************************/
-/*! exports provided: createWhiteBlackFilter, createValueFilter */
+/*! exports provided: createWhiteBlackFilter, createValueFilter, regexList */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createWhiteBlackFilter", function() { return createWhiteBlackFilter; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createValueFilter", function() { return createValueFilter; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "regexList", function() { return regexList; });
 // Creates a filter that uses a whitelist and blacklist of regex to filter.
 const createWhiteBlackFilter = (whitelist, blacklist) => {
   whitelist = whitelist || [];
@@ -17399,6 +17445,20 @@ const createValueFilter = filterValue => {
   return value => {
     return value.includes(filterValue);
   };
+};
+const regexList = (rawList, defaults) => {
+  const list = [];
+  rawList = rawList || [];
+
+  for (const value of rawList) {
+    list.push(new RegExp(value, 'gi'));
+  }
+
+  if (!list.length) {
+    return defaults || [];
+  }
+
+  return list;
 };
 
 /***/ }),

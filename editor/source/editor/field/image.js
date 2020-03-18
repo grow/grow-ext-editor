@@ -7,9 +7,97 @@ import {
   html,
   repeat,
   Field,
+  FieldRewrite,
 } from 'selective-edit'
+import {
+  createWhiteBlackFilter,
+  regexList,
+} from '../../utility/filter'
+import {
+  FileListUI,
+} from '../ui/file'
 
-export class ImageField extends Field {
+
+export class ImageField extends FieldRewrite {
+  constructor(config, extendedConfig) {
+    super(config, extendedConfig)
+    this.fieldType = 'image'
+  }
+
+  renderInput(selective, data, locale) {
+    const value = this.getValueForLocale(locale) || ''
+
+    return html`
+      <input
+        id="${this.uid}${locale}"
+        placeholder=${this.config.placeholder || ''}
+        data-locale=${locale || ''}
+        @input=${this.handleInput.bind(this)}
+        value=${value} />`
+  }
+}
+
+export class ImageFileField extends ImageField {
+  constructor(config, extendedConfig) {
+    super(config, extendedConfig)
+    this.fieldType = 'image_file'
+    this._fileListUi = {}
+    this._showFileList = {}
+    this.filterFunc = createWhiteBlackFilter(
+      regexList(this.config.get('whitelist'), [/^\/static\/.*\.(jp[e]?g|png|svg|webp)$/]),  // Whitelist.
+      regexList(this.config.get('blacklist')),  // Blacklist.
+    )
+  }
+
+  fileListUiForLocale(locale) {
+    const localeKey = this.keyForLocale(locale)
+    if (!this._fileListUi[localeKey]) {
+      this._fileListUi[localeKey] = new FileListUI({
+        'filterFunc': this.filterFunc,
+      })
+
+      // Bind the pod path listener event for the UI.
+      this._fileListUi[localeKey].listeners.add('podPath', this.handlePodPath.bind(this))
+    }
+    return this._fileListUi[localeKey]
+  }
+
+  handleFilesToggleClick(evt) {
+    const locale = evt.target.dataset.locale
+    this.fileListUiForLocale(locale).toggle()
+  }
+
+  handlePodPath(podPath, locale) {
+    const value = podPath
+    this.setValueForLocale(locale, value)
+  }
+
+  renderInput(selective, data, locale) {
+    const value = this.getValueForLocale(locale) || ''
+    const fileListUi = this.fileListUiForLocale(locale)
+
+    return html`
+      <div class="selective__field__image_file__input">
+        <input
+          id="${this.uid}${locale}"
+          placeholder=${this.config.placeholder || ''}
+          data-locale=${locale || ''}
+          @input=${this.handleInput.bind(this)}
+          value=${value || ''} />
+        <i
+            class="material-icons selective__field__image_file__file_icon"
+            title="Select pod path"
+            data-locale=${locale || ''}
+            @click=${this.handleFilesToggleClick.bind(this)}>
+          list_alt
+        </i>
+      </div>
+      ${fileListUi.renderFileList(selective, data, locale)}`
+  }
+}
+
+
+export class LegacyImageField extends Field {
   constructor(config, extendedConfig) {
     super(config, extendedConfig)
     this.fieldType = 'image'
@@ -92,7 +180,7 @@ export class ImageField extends Field {
 }
 
 // TODO: Move into the google image extension.
-export class GoogleImageField extends ImageField {
+export class GoogleImageField extends LegacyImageField {
   constructor(config, extendedConfig) {
     super(config, extendedConfig)
     this.fieldType = 'google_image'
