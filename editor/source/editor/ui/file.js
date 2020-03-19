@@ -19,9 +19,7 @@ import {
 
 export class FileListUI extends UI {
   constructor(config) {
-    super()
-
-    this.setConfig(config)
+    super(config)
 
     this.filterFunc = this.config.get('filterFunc') || createWhiteBlackFilter(
       [],  // Whitelist.

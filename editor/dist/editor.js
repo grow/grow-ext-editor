@@ -180,31 +180,33 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _selective_ui_ui__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./selective/ui/ui */ "../../../selective-edit/js/selective/ui/ui.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "UI", function() { return _selective_ui_ui__WEBPACK_IMPORTED_MODULE_5__["default"]; });
 
-/* harmony import */ var _selective_field_structure__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./selective/field/structure */ "../../../selective-edit/js/selective/field/structure.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "GroupField", function() { return _selective_field_structure__WEBPACK_IMPORTED_MODULE_6__["GroupField"]; });
+/* harmony import */ var _selective_field_list__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./selective/field/list */ "../../../selective-edit/js/selective/field/list.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ListField", function() { return _selective_field_list__WEBPACK_IMPORTED_MODULE_6__["ListField"]; });
 
-/* harmony import */ var _selective_fields_fields__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./selective/fields/fields */ "../../../selective-edit/js/selective/fields/fields.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "FieldsRewrite", function() { return _selective_fields_fields__WEBPACK_IMPORTED_MODULE_7__["default"]; });
+/* harmony import */ var _selective_field_structure__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./selective/field/structure */ "../../../selective-edit/js/selective/field/structure.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "GroupField", function() { return _selective_field_structure__WEBPACK_IMPORTED_MODULE_7__["GroupField"]; });
+
+/* harmony import */ var _selective_fields_fields__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./selective/fields/fields */ "../../../selective-edit/js/selective/fields/fields.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "FieldsRewrite", function() { return _selective_fields_fields__WEBPACK_IMPORTED_MODULE_8__["default"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SortableField", function() { return _selective_field__WEBPACK_IMPORTED_MODULE_3__["SortableField"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ListField", function() { return _selective_field__WEBPACK_IMPORTED_MODULE_3__["ListField"]; });
+/* harmony import */ var _selective_fields__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./selective/fields */ "../../../selective-edit/js/selective/fields.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Fields", function() { return _selective_fields__WEBPACK_IMPORTED_MODULE_9__["default"]; });
 
-/* harmony import */ var _selective_fields__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./selective/fields */ "../../../selective-edit/js/selective/fields.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Fields", function() { return _selective_fields__WEBPACK_IMPORTED_MODULE_8__["default"]; });
+/* harmony import */ var _selective_autoFields__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./selective/autoFields */ "../../../selective-edit/js/selective/autoFields.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AutoFields", function() { return _selective_autoFields__WEBPACK_IMPORTED_MODULE_10__["default"]; });
 
-/* harmony import */ var _selective_autoFields__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./selective/autoFields */ "../../../selective-edit/js/selective/autoFields.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AutoFields", function() { return _selective_autoFields__WEBPACK_IMPORTED_MODULE_9__["default"]; });
+/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./utility/config */ "../../../selective-edit/js/utility/config.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "autoConfig", function() { return _utility_config__WEBPACK_IMPORTED_MODULE_11__["autoConfig"]; });
 
-/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./utility/config */ "../../../selective-edit/js/utility/config.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "autoConfig", function() { return _utility_config__WEBPACK_IMPORTED_MODULE_10__["autoConfig"]; });
-
-/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "autoDeepObject", function() { return _utility_deepObject__WEBPACK_IMPORTED_MODULE_11__["autoDeepObject"]; });
+/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "autoDeepObject", function() { return _utility_deepObject__WEBPACK_IMPORTED_MODULE_12__["autoDeepObject"]; });
 
 /**
  * Selective structure content editor.
  */
+
 
 
 
@@ -1593,6 +1595,398 @@ class FieldRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__[
 
 /***/ }),
 
+/***/ "../../../selective-edit/js/selective/field/list.js":
+/*!**************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/selective/field/list.js ***!
+  \**************************************************************************/
+/*! exports provided: ListField, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ListField", function() { return ListField; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ListItem; });
+/* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lit-html */ "../../../selective-edit/node_modules/lit-html/lit-html.js");
+/* harmony import */ var lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lit-html/directives/repeat */ "../../../selective-edit/node_modules/lit-html/directives/repeat.js");
+/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/compose */ "../../../selective-edit/js/utility/compose.js");
+/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../mixin/config */ "../../../selective-edit/js/mixin/config.js");
+/* harmony import */ var _mixin_uid__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../mixin/uid */ "../../../selective-edit/js/mixin/uid.js");
+/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../utility/config */ "../../../selective-edit/js/utility/config.js");
+/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
+/* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../autoFields */ "../../../selective-edit/js/selective/autoFields.js");
+/* harmony import */ var _fields_fields__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../fields/fields */ "../../../selective-edit/js/selective/fields/fields.js");
+/* harmony import */ var _ui_sortable__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../ui/sortable */ "../../../selective-edit/js/selective/ui/sortable.js");
+/* harmony import */ var _field__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./field */ "../../../selective-edit/js/selective/field/field.js");
+/**
+ * List fields for controlling the lists of fields.
+ */
+
+
+
+
+
+
+
+
+
+
+
+class ListField extends _field__WEBPACK_IMPORTED_MODULE_10__["default"] {
+  constructor(config, globalConfig) {
+    super(config, globalConfig);
+    this.fieldType = 'list';
+    this._listItems = {};
+    this._useAutoFields = false;
+    this._sortableUi = new _ui_sortable__WEBPACK_IMPORTED_MODULE_9__["SortableUI"]();
+
+    this._sortableUi.listeners.add('sort', this.handleSort.bind(this));
+  }
+
+  _createFields(fieldTypes, config) {
+    const FieldsCls = this.config.get('FieldsCls', _fields_fields__WEBPACK_IMPORTED_MODULE_8__["default"]);
+    return new FieldsCls(fieldTypes, config);
+  }
+
+  _createItems(selective, data, locale) {
+    const value = this.getValueForLocale(locale) || [];
+    const localeKey = this.keyForLocale(locale);
+
+    if (this._listItems[localeKey] != null || !value.length) {
+      return;
+    } // Use the config to find the field configs.
+
+
+    let fieldConfigs = this.config.get('fields', []);
+    this._useAutoFields = !fieldConfigs.length;
+    const items = [];
+
+    for (const itemData of value) {
+      const fields = this._createFields(selective.fieldTypes);
+
+      fields.updateOriginal(selective, itemData); // Auto guess the fields if they are not defined.
+
+      if (this._useAutoFields) {
+        const AutoFieldsCls = this.config.get('AutoFieldsCls', _autoFields__WEBPACK_IMPORTED_MODULE_7__["default"]);
+        fieldConfigs = new AutoFieldsCls(this.originalValue).config['fields'];
+      } // Create the fields based on the config.
+
+
+      for (let fieldConfig of fieldConfigs || []) {
+        fieldConfig = Object(_utility_config__WEBPACK_IMPORTED_MODULE_5__["autoConfig"])(fieldConfig, this.extendedConfig);
+        fields.addField(fieldConfig, this.extendedConfig);
+      } // When an is not expanded it does not get the value
+      // updated correctly so we need to manually call the data update.
+
+
+      for (const field of fields.fields) {
+        field.updateOriginal(selective, itemData || {});
+      }
+
+      items.push(new ListItem({
+        'fields': fieldConfigs
+      }, fields));
+    }
+
+    this._listItems[localeKey] = items;
+  }
+
+  _getListItemsForLocale(locale) {
+    const localeKey = this.keyForLocale(locale);
+    return this._listItems[localeKey];
+  }
+
+  handleAddItem(evt, selective) {
+    const locale = evt.target.dataset.locale;
+
+    const listItems = this._getListItemsForLocale(locale);
+
+    const fields = this._createFields(selective.fieldTypes); // Use the field config for the list items to create the correct field types.
+
+
+    let fieldConfigs = this.config.get('fields', []); // If no field configs, use the last item config if availble.
+
+    if (!fieldConfigs.length && listItems.length > 0) {
+      fieldConfigs = listItems[listItems.length - 1].config.fields;
+    } // Create the fields based on the config.
+
+
+    for (let fieldConfig of fieldConfigs || []) {
+      fieldConfig = Object(_utility_config__WEBPACK_IMPORTED_MODULE_5__["autoConfig"])(fieldConfig, this.extendedConfig);
+      fields.addField(fieldConfig, this.extendedConfig);
+    } // If there is multiple fields it should be an object.
+
+
+    if (fieldConfigs.length > 1) {
+      fields.updateOriginal({});
+    } else {
+      fields.updateOriginal('');
+    }
+
+    const listItem = new ListItem({
+      'fields': fieldConfigs
+    }, fields);
+    listItem.isExpanded = true;
+    listItems.push(listItem); // TODO: Focus on the input after rendering.
+
+    this.render();
+  }
+
+  handleCollapseAll(evt) {
+    const locale = evt.target.dataset.locale;
+
+    const listItems = this._getListItemsForLocale(locale);
+
+    for (const item of listItems) {
+      item.isExpanded = false;
+    }
+
+    this.render();
+  }
+
+  handleCollapseItem(evt) {
+    const uid = evt.target.dataset.itemUid;
+    const locale = evt.target.dataset.locale;
+
+    const listItems = this._getListItemsForLocale(locale);
+
+    for (const item of listItems) {
+      if (item.uid == uid) {
+        item.isExpanded = false;
+        break;
+      }
+    }
+
+    this.render();
+  }
+
+  handleExpandAll(evt) {
+    const locale = evt.target.dataset.locale;
+
+    const listItems = this._getListItemsForLocale(locale);
+
+    for (const item of listItems) {
+      item.isExpanded = true;
+    }
+
+    this.render();
+  }
+
+  handleExpandItem(evt) {
+    const uid = evt.target.dataset.itemUid;
+    const locale = evt.target.dataset.locale;
+
+    const listItems = this._getListItemsForLocale(locale);
+
+    for (const item of listItems) {
+      if (item.uid == uid) {
+        item.isExpanded = true;
+        break;
+      }
+    }
+
+    this.render();
+  }
+
+  handleDeleteItem(evt) {
+    console.log('TODO: delete item');
+  }
+
+  handleSort(startIndex, endIndex) {
+    console.log('TODO: sort', startIndex, endIndex);
+  }
+
+  renderActionsFooter(selective, data, locale) {
+    return lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__actions">
+      <button
+          data-locale=${locale || ''}
+          @click=${evt => {
+      this.handleAddItem(evt, selective);
+    }}>
+        Add
+      </button>
+    </div>`;
+  }
+
+  renderActionsHeader(selective, data, locale) {
+    const isCollapsed = false;
+    const isExpanded = false;
+    const actions = []; // Determine if no actions should be shown.
+
+    const value = this.getValueForLocale(locale) || [];
+
+    if (!value.length) {
+      return '';
+    }
+
+    actions.push(lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <button
+          ?disabled=${isExpanded}
+          class="selective__action__expand"
+          data-locale=${locale || ''}
+          @click=${this.handleExpandAll.bind(this)}>
+        Expand All
+      </button>`);
+    actions.push(lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <button
+          ?disabled=${isCollapsed}
+          class="selective__action__collapse"
+          data-locale=${locale || ''}
+          @click=${this.handleCollapseAll.bind(this)}>
+        Collapse All
+      </button>`);
+    return lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__actions">
+      ${actions}
+    </div>`;
+  }
+
+  renderInput(selective, data, locale) {
+    this._createItems(selective, data, locale);
+
+    const localeKey = this.keyForLocale(locale);
+    const items = this._listItems[localeKey];
+    const value = this.getValueForLocale(locale) || [];
+    return lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <div class="selective__list">
+        ${Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_1__["repeat"])(items, item => item.uid, (item, index) => this.renderItem(selective, value[index], item, index, locale))}
+      </div>
+      ${this.renderActionsFooter(selective, data, locale)}`;
+  }
+
+  renderItem(selective, data, item, index, locale) {
+    if (item.fields.isSimpleField) {
+      return this.renderItemSimple(selective, data, item, index, locale);
+    } else if (item.isExpanded) {
+      return this.renderItemExpanded(selective, data, item, index, locale);
+    }
+
+    return this.renderItemCollapsed(selective, data, item, index, locale);
+  }
+
+  renderItemCollapsed(selective, data, item, index, locale) {
+    return lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <div class="selective__list__item selective__list__item--collapsed selective__sortable"
+          draggable="true"
+          data-index=${index}
+          data-locale=${locale || ''}
+          @dragenter=${this._sortableUi.handleDragEnter.bind(this._sortableUi)}
+          @dragleave=${this._sortableUi.handleDragLeave.bind(this._sortableUi)}
+          @dragover=${this._sortableUi.handleDragOver.bind(this._sortableUi)}
+          @dragstart=${this._sortableUi.handleDragStart.bind(this._sortableUi)}
+          @drop=${this._sortableUi.handleDrop.bind(this._sortableUi)}>
+        <div class="selective__list__item__drag"><i class="material-icons">drag_indicator</i></div>
+        <div
+            class="selective__list__item__preview"
+            data-item-uid=${item.uid}
+            data-locale=${locale || ''}
+            @click=${this.handleExpandItem.bind(this)}>
+          ${this.renderPreview(item, index)}
+        </div>
+        <div
+            class="selective__list__item__delete"
+            data-item-uid=${item.uid}
+            data-locale=${locale || ''}
+            @click=${this.handleDeleteItem.bind(this)}
+            title="Delete item">
+          <i class="material-icons">delete</i>
+        </div>
+      </div>`;
+  }
+
+  renderItemExpanded(selective, data, item, index, locale) {
+    return lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <div class="selective__list__item selective__sortable"
+          draggable="true"
+          data-index=${index}
+          data-locale=${locale || ''}
+          @dragenter=${this._sortableUi.handleDragEnter.bind(this._sortableUi)}
+          @dragleave=${this._sortableUi.handleDragLeave.bind(this._sortableUi)}
+          @dragover=${this._sortableUi.handleDragOver.bind(this._sortableUi)}
+          @dragstart=${this._sortableUi.handleDragStart.bind(this._sortableUi)}
+          @drop=${this._sortableUi.handleDrop.bind(this._sortableUi)}>
+        <div class="selective__list__fields__label ${!item.fields.label ? 'selective__list__fields__label--empty' : ''}"
+            data-item-uid=${item.uid}
+            data-locale=${locale || ''}
+            @click=${this.handleCollapseItem.bind(this)}>
+          ${item.fields.label}
+        </div>
+        ${item.fields.template(selective, data)}
+      </div>`;
+  }
+
+  renderItemSimple(selective, data, item, index, locale) {
+    return lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <div class="selective__list__item selective__list__item--simple selective__sortable"
+          draggable="true"
+          data-index=${index}
+          data-locale=${locale || ''}
+          @dragenter=${this._sortableUi.handleDragEnter.bind(this._sortableUi)}
+          @dragleave=${this._sortableUi.handleDragLeave.bind(this._sortableUi)}
+          @dragover=${this._sortableUi.handleDragOver.bind(this._sortableUi)}
+          @dragstart=${this._sortableUi.handleDragStart.bind(this._sortableUi)}
+          @drop=${this._sortableUi.handleDrop.bind(this._sortableUi)}>
+        <div class="selective__list__item__drag">
+          <i class="material-icons">drag_indicator</i>
+        </div>
+        ${item.fields.template(selective, data)}
+        <div
+            class="selective__list__item__delete"
+            data-item-uid=${item.uid}
+            data-locale=${locale || ''}
+            @click=${this.handleDeleteItem.bind(this)}
+            title="Delete item">
+          <i class="material-icons">delete</i>
+        </div>
+      </div>`;
+  }
+
+  renderLabel(selective, data) {
+    return lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <div class="selective__actions__wrapper">
+        <div class="selective__field__label">
+          <label>${this.config.label}</label>
+        </div>
+        ${this.renderActionsHeader(selective, data)}
+      </div>`;
+  }
+
+  renderPreview(item, index) {
+    const defaultPreviewField = this.config.get('preview_field');
+    const previewField = item.config.preview_field;
+    let previewValue = item.fields.value;
+
+    if (previewField || defaultPreviewField) {
+      previewValue = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_6__["autoDeepObject"])(previewValue).get(previewField || defaultPreviewField);
+    } // Do not try to show preview for complex values.
+
+
+    if (typeof previewValue == 'object') {
+      previewValue = null;
+    }
+
+    return previewValue || `Item ${index + 1}`;
+  }
+
+}
+class ListItem extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_2__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_3__["default"], _mixin_uid__WEBPACK_IMPORTED_MODULE_4__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_2__["Base"]) {
+  constructor(config, fields) {
+    super();
+    this.setConfig(config);
+    this.fields = fields;
+    this.expanded = false;
+  }
+
+  get config() {
+    return this.getConfig();
+  }
+
+  get uid() {
+    return this.getUid();
+  }
+
+}
+
+/***/ }),
+
 /***/ "../../../selective-edit/js/selective/field/structure.js":
 /*!*******************************************************************************!*\
   !*** /Users/randy/code/blinkk/selective-edit/js/selective/field/structure.js ***!
@@ -1608,10 +2002,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lit-html */ "../../../selective-edit/node_modules/lit-html/lit-html.js");
 /* harmony import */ var lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lit-html/directives/repeat */ "../../../selective-edit/node_modules/lit-html/directives/repeat.js");
 /* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utility/config */ "../../../selective-edit/js/utility/config.js");
-/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
-/* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../autoFields */ "../../../selective-edit/js/selective/autoFields.js");
-/* harmony import */ var _fields_fields__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../fields/fields */ "../../../selective-edit/js/selective/fields/fields.js");
-/* harmony import */ var _field__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./field */ "../../../selective-edit/js/selective/field/field.js");
+/* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../autoFields */ "../../../selective-edit/js/selective/autoFields.js");
+/* harmony import */ var _fields_fields__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../fields/fields */ "../../../selective-edit/js/selective/fields/fields.js");
+/* harmony import */ var _field__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./field */ "../../../selective-edit/js/selective/field/field.js");
 /**
  * Structure fields for controlling the flow of fields.
  */
@@ -1622,14 +2015,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-class GroupField extends _field__WEBPACK_IMPORTED_MODULE_7__["default"] {
+class GroupField extends _field__WEBPACK_IMPORTED_MODULE_6__["default"] {
   constructor(config, globalConfig) {
     super(config, globalConfig);
     this.fieldType = 'group';
+    this.ignoreLocalize = true;
     this.fields = null;
     this.isExpanded = false;
-    this.ignoreLocalize = true;
+    this._useAutoFields = false;
   }
 
   get isClean() {
@@ -1659,15 +2052,15 @@ class GroupField extends _field__WEBPACK_IMPORTED_MODULE_7__["default"] {
   }
 
   _createFields(selective, data) {
-    const FieldsCls = this.config.get('FieldsCls', _fields_fields__WEBPACK_IMPORTED_MODULE_6__["default"]);
+    const FieldsCls = this.config.get('FieldsCls', _fields_fields__WEBPACK_IMPORTED_MODULE_5__["default"]);
     const fields = new FieldsCls(selective.fieldTypes);
     fields.updateOriginal(this.originalValue);
     let fieldConfigs = this.config.fields || [];
-    const useAutoFields = fieldConfigs.length == 0;
+    this._useAutoFields = fieldConfigs.length == 0;
 
-    if (useAutoFields) {
+    if (this._useAutoFields) {
       // Auto guess the fields if they are not defined.
-      const AutoFieldsCls = this.config.get('AutoFieldsCls', _autoFields__WEBPACK_IMPORTED_MODULE_5__["default"]);
+      const AutoFieldsCls = this.config.get('AutoFieldsCls', _autoFields__WEBPACK_IMPORTED_MODULE_4__["default"]);
       fieldConfigs = new AutoFieldsCls(this.originalValue).config['fields'];
     }
 
@@ -1933,7 +2326,15 @@ class FieldsRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__
     return true;
   }
 
+  get isSimpleField() {
+    return this.fields.length == 1 && !this.fields[0].key;
+  }
+
   get template() {
+    if (this.isSimpleField) {
+      return (selective, data) => this.fields[0].template(selective, data);
+    }
+
     return (selective, data) => lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__fields">
       ${this.updateOriginal(selective, data)}
       ${Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__["repeat"])(this.fields, field => field.uid, (field, index) => lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
@@ -1943,6 +2344,10 @@ class FieldsRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__
   }
 
   get value() {
+    if (this.isSimpleField) {
+      return this.fields[0].value;
+    }
+
     const value = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_7__["autoDeepObject"])({});
     const keySet = [];
 
@@ -2008,6 +2413,133 @@ class FieldsRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__
 
 /***/ }),
 
+/***/ "../../../selective-edit/js/selective/ui/sortable.js":
+/*!***************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/selective/ui/sortable.js ***!
+  \***************************************************************************/
+/*! exports provided: SortableUI */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SortableUI", function() { return SortableUI; });
+/* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lit-html */ "../../../selective-edit/node_modules/lit-html/lit-html.js");
+/* harmony import */ var lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lit-html/directives/repeat */ "../../../selective-edit/node_modules/lit-html/directives/repeat.js");
+/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/dom */ "../../../selective-edit/js/utility/dom.js");
+/* harmony import */ var _ui__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ui */ "../../../selective-edit/js/selective/ui/ui.js");
+/**
+ * UI elements for the working with sortables.
+ */
+
+
+
+
+class SortableUI extends _ui__WEBPACK_IMPORTED_MODULE_3__["default"] {
+  constructor(config) {
+    super(config);
+    this._dragOriginElement = null;
+  }
+
+  get transferType() {
+    return `selective/${this.getUid()}`;
+  }
+
+  _dragTarget(evt) {
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_2__["findParentDraggable"])(evt.target);
+
+    if (!this._dragOriginElement || !target) {
+      return false;
+    }
+
+    if (evt.dataTransfer.types.includes(this.transferType)) {
+      evt.preventDefault();
+      evt.stopPropagation();
+      return target;
+    }
+  }
+
+  handleDragStart(evt) {
+    evt.stopPropagation();
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_2__["findParentDraggable"])(evt.target);
+    this._dragOriginElement = target;
+    evt.dataTransfer.effectAllowed = 'move';
+    evt.dataTransfer.setData('text/plain', evt.target.dataset.index); // Use a custom transfer type to contain drags just to this list.
+
+    evt.dataTransfer.setData(this.transferType, evt.target.dataset.index); // Allow for custom preview for dragging.
+
+    const previewEl = target.querySelector('.selective__sortable__preview');
+
+    if (previewEl) {
+      evt.dataTransfer.setDragImage(previewEl, 0, 0);
+    }
+  }
+
+  handleDragEnter(evt) {
+    const target = this._dragTarget(evt);
+
+    if (!target) {
+      return;
+    } // Show that the element is hovering.
+
+
+    target.classList.add('selective__sortable--hover');
+    const currentIndex = parseInt(target.dataset.index);
+    const startIndex = parseInt(this._dragOriginElement.dataset.index); // Hovering over self, ignore.
+
+    if (currentIndex == startIndex) {
+      return;
+    }
+
+    if (currentIndex < startIndex) {
+      target.classList.add('selective__sortable--above');
+    } else {
+      target.classList.add('selective__sortable--below');
+    }
+  }
+
+  handleDragLeave(evt) {
+    const target = this._dragTarget(evt);
+
+    if (!target) {
+      return;
+    } //  Make sure that the event target comes from the main element.
+
+
+    if (target !== evt.target) {
+      return;
+    } // No longer hovering.
+
+
+    target.classList.remove('selective__sortable--hover', 'selective__sortable--above', 'selective__sortable--below');
+  }
+
+  handleDragOver(evt) {
+    // Find the target and prevent the defaults.
+    this._dragTarget(evt);
+  }
+
+  handleDrop(evt) {
+    const target = this._dragTarget(evt);
+
+    if (!target) {
+      return;
+    }
+
+    const currentIndex = parseInt(target.dataset.index);
+    const startIndex = parseInt(evt.dataTransfer.getData("text/plain")); // No longer hovering.
+
+    target.classList.remove('sortable--hover', 'sortable--above', 'sortable--below'); // Reset the drag element.
+
+    this._dragOriginElement = null; // No longer hovering.
+
+    target.classList.remove('selective__sortable--hover', 'selective__sortable--above', 'selective__sortable--below');
+    this.listeners.trigger('sort', startIndex, currentIndex);
+  }
+
+}
+
+/***/ }),
+
 /***/ "../../../selective-edit/js/selective/ui/ui.js":
 /*!*********************************************************************!*\
   !*** /Users/randy/code/blinkk/selective-edit/js/selective/ui/ui.js ***!
@@ -2033,14 +2565,11 @@ class UI extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_0__["compose"]
   constructor(config) {
     super();
     this.listeners = new _utility_listeners__WEBPACK_IMPORTED_MODULE_3__["default"]();
+    this.setConfig(config);
   }
 
   get config() {
     return this.getConfig();
-  }
-
-  get template() {
-    return 'Missing template for UI.';
   }
 
   get uid() {
@@ -17111,8 +17640,7 @@ __webpack_require__.r(__webpack_exports__);
 
 class FileListUI extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["UI"] {
   constructor(config) {
-    super();
-    this.setConfig(config);
+    super(config);
     this.filterFunc = this.config.get('filterFunc') || Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createWhiteBlackFilter"])([], // Whitelist.
     [] // Blacklist.
     );

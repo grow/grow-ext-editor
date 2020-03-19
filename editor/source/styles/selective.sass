@@ -23,16 +23,8 @@
       min-height: 500px
 
 .selective__field__partials
-  border-bottom: 3px solid transparent
   border-radius: $ge-radius-2
-  border-top: 3px solid transparent
   margin-top: $ge-pad/2
-
-  &.sortable--above
-    border-top: 3px solid $ge-color-primary
-
-  &.sortable--below
-    border-bottom: 3px solid $ge-color-primary
 
   .partials__menu
     align-items: center
@@ -82,27 +74,27 @@
 .selective__field__google_image,
 .selective__field__text
   input
-    border: 1px solid transparent
+    border: $ge-border-size solid transparent
     margin: 0 0 2px
     width: 100%
     &:hover
       +field-control-hover
     &:focus
       +field-control-focus
-      margin: -1px -1px 1px -1px
+      margin: -$ge-border-size -$ge-border-size $ge-border-size -$ge-border-size
       width: calc(100% + 2px)
 
 .selective__field__text,
 .selective__field__textarea
   textarea
-    border: 1px solid transparent
+    border: $ge-border-size solid transparent
     margin: 0 0 2px
     width: 100%
     &:hover
       +field-control-hover
     &:focus
       +field-control-focus
-      margin: -1px -1px 1px -1px
+      margin: -$ge-border-size -$ge-border-size $ge-border-size -$ge-border-size
       width: calc(100% + 2px)
 
 .selective__image__preview,
@@ -163,8 +155,15 @@
     .editor--highlight &
       background-color: $ge-color-back-highlight !important
 
+  &--simple
+    display: flex
+
+    .selective__field
+      flex-grow: 1
+      flex-shrink: 1
+
   &:hover
-    box-shadow: 0 0 0 1px rgba(0, 0, 0, .3)
+    box-shadow: $ge-shadow-1
 
   .material-icons
     color: $ge-color-icon-on-back-light
@@ -235,12 +234,6 @@
       cursor: pointer
       font-weight: 700
       padding: $ge-pad/2 0
-
-  &.sortable--above
-    border-top: 3px solid $ge-color-primary
-
-  &.sortable--below
-    border-bottom: 3px solid $ge-color-primary
 
 .selective__list__item__drag
   cursor: grab
@@ -318,7 +311,7 @@
 
 .selective__field__select__option
   align-items: center
-  border: 1px solid transparent
+  border: $ge-border-size solid transparent
   border-radius: $ge-radius-2
   cursor: pointer
   display: flex
@@ -356,7 +349,7 @@
       color: $ge-color-primary
 
 .selective__file_list
-  border: 1px solid $ge-color-back-light
+  border: $ge-border-size solid $ge-color-back-light
   border-radius: $ge-radius-4
   margin-bottom: $ge-pad/2
 
@@ -367,7 +360,7 @@
 
     &:focus
       border-radius: $ge-radius-4 $ge-radius-4 0 0
-      border: 1px solid $ge-color-primary
+      border: $ge-border-size solid $ge-color-primary
       margin: 0
       outline: none
       width: 100%
@@ -455,3 +448,36 @@ $pell-content-height: 20vh
 .selective__field__localization__locale
   text-align: right
   padding-right: $ge-pad/2
+
+.selective__actions__wrapper
+  align-items: center
+  display: flex
+  flex-flow: row
+  justify-content: space-between
+
+.selective__actions
+  align-items: center
+  display: flex
+  flex-flow: row
+
+  button
+    margin: 0 $ge-pad/4
+
+    &:first-child
+      margin-left: 0
+
+    &:last-child
+      margin-right: 0
+
+.selective__sortable
+  border-bottom: $ge-border-size solid transparent
+  border-top: $ge-border-size solid transparent
+
+  &--hover
+    box-shadow: $ge-shadow-1
+
+  &--above
+    border-top: $ge-border-size solid $ge-color-primary
+
+  &--below
+    border-bottom: $ge-border-size solid $ge-color-primary
