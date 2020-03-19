@@ -1325,6 +1325,7 @@ class FieldRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__[
     this.ignoreLocalize = false;
     this.defaultLocale = 'en';
     this.setConfig(config);
+    this._errors = {};
     this._originalValue = undefined;
     this.value = undefined; // Localization requires multiple values for one field.
 
@@ -1437,7 +1438,18 @@ class FieldRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__[
     return lit_html__WEBPACK_IMPORTED_MODULE_2__["html"]`
       ${this.renderLabel(selective, data)}
       ${this.renderLocalization(selective, data)}
+      ${this.renderError(selective, data)}
       ${this.renderHelp(selective, data)}`;
+  }
+
+  renderError(selective, data) {
+    const errorKeys = Object.keys(this._errors);
+
+    if (!errorKeys.length) {
+      return '';
+    }
+
+    return lit_html__WEBPACK_IMPORTED_MODULE_2__["html"]`<div class="selective__field__errors">${errorKeys}</div>`;
   }
 
   renderHelp(selective, data) {
@@ -15946,14 +15958,13 @@ class YamlField extends ConstructorFileField {
 /*!**************************************!*\
   !*** ./source/editor/field/image.js ***!
   \**************************************/
-/*! exports provided: ImageField, ImageFileField, LegacyImageField, GoogleImageField */
+/*! exports provided: ImageField, ImageFileField, GoogleImageField */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ImageField", function() { return ImageField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ImageFileField", function() { return ImageFileField; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LegacyImageField", function() { return LegacyImageField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GoogleImageField", function() { return GoogleImageField; });
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
@@ -15967,6 +15978,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const VALID_MIME_TYPES = ['image/jpeg', 'image/png', 'image/svg+xml', 'image/webp', 'image/gif'];
+const MIME_TO_TYPE = {
+  'image/jpeg': 'jpg',
+  'image/png': 'png',
+  'image/svg+xml': 'svg',
+  'image/webp': 'webp',
+  'image/gif': 'gif'
+};
 const IMAGE_HOVER_CLASS = 'selective__image--hover';
 
 const fractReduce = (numerator, denominator) => {
@@ -15983,7 +16001,7 @@ class ImageField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRewri
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
     this.fieldType = 'image';
-    this._aspects = {};
+    this._metas = {};
     this._showFileInput = {};
     this._isLoading = {};
   }
@@ -16082,7 +16100,7 @@ class ImageField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRewri
   }
 
   handleImageLoad(evt) {
-    this._aspects[evt.target.dataset.servingPath] = {
+    this._metas[evt.target.dataset.servingPath] = {
       height: evt.target.naturalHeight,
       width: evt.target.naturalWidth
     };
@@ -16106,24 +16124,27 @@ class ImageField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRewri
   }
 
   renderImageMeta(selective, data, locale) {
+    const imageMeta = [];
     const value = this.getValueForLocale(locale) || '';
     const servingPath = this.getServingPath(value, locale);
-    const aspect = this._aspects[servingPath];
+    const meta = this._metas[servingPath];
 
-    if (!aspect) {
+    if (!meta) {
       return '';
     }
 
-    const ratio = fractReduce(aspect.width, aspect.height);
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+    imageMeta.push(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
       <div class="selective__image__preview__meta__size">
         <span class="selective__image__preview__meta__label">Size:</span>
-        <span class="selective__image__preview__meta__value">${aspect.width}x${aspect.height}</span>
-      </div>
+        <span class="selective__image__preview__meta__value">${meta.width}x${meta.height}</span>
+      </div>`);
+    const ratio = fractReduce(meta.width, meta.height);
+    imageMeta.push(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
       <div class="selective__image__preview__meta__ratio">
         <span class="selective__image__preview__meta__label">Ratio:</span>
         <span class="selective__image__preview__meta__value">${ratio[0]}:${ratio[1]}</span>
-      </div>`;
+      </div>`);
+    return imageMeta;
   }
 
   renderInput(selective, data, locale) {
@@ -16197,6 +16218,7 @@ class ImageField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRewri
       this.setValueForLocale(locale, result['pod_path']);
     }).catch(err => {
       console.error(err);
+      this._errors['upload'] = err;
       this.render();
     });
   }
@@ -16231,25 +16253,6 @@ class ImageFileField extends ImageField {
   }
 
   getServingPath(value, locale) {
-    return this.loadPreview(value, locale);
-  }
-
-  handleFilesToggleClick(evt) {
-    const locale = evt.target.dataset.locale;
-    this.fileListUiForLocale(locale).toggle();
-  }
-
-  handlePodPath(podPath, locale) {
-    const value = podPath;
-    this.setValueForLocale(locale, value);
-  }
-
-  handleServingPathResponse(response) {
-    this._servingPaths[response.pod_path] = response.serving_url;
-    this.render();
-  }
-
-  loadPreview(value, locale) {
     if (!value || value == '') {
       return;
     }
@@ -16266,6 +16269,21 @@ class ImageFileField extends ImageField {
     this._servingPathsLoading[value] = true; // Have not loaded the serving url yet. Load it in.
 
     this.api.getStaticServingPath(value).then(this.handleServingPathResponse.bind(this));
+  }
+
+  handleFilesToggleClick(evt) {
+    const locale = evt.target.dataset.locale;
+    this.fileListUiForLocale(locale).toggle();
+  }
+
+  handlePodPath(podPath, locale) {
+    const value = podPath;
+    this.setValueForLocale(locale, value);
+  }
+
+  handleServingPathResponse(response) {
+    this._servingPaths[response.pod_path] = response.serving_url;
+    this.render();
   }
 
   renderInput(selective, data, locale) {
@@ -16307,149 +16325,46 @@ class ImageFileField extends ImageField {
       </div>`;
   }
 
-}
-class LegacyImageField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig);
-    this.fieldType = 'image';
-    this.previewUrl = '';
-    this.isLoading = false; // Set the api if it was provided
-
-    this.api = this.getConfig().get('api');
-
-    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
-      <label for="${field.getUid()}">${field.label}</label>
-      <input
-        id="${field.getUid()}"
-        type="text"
-        placeholder="${field.placeholder}"
-        value="${field.valueFromData(data) || ''}"
-        @input=${field.handleInput.bind(field)}
-        ?disabled="${field.isLoading}">
-      <input
-        type="file"
-        id="${field.getUid()}_file"
-        placeholder="Upload new image"
-        @change=${field.handleFileInput.bind(field)}
-        ?disabled="${field.isLoading}">
-      ${field.renderImagePreview(selective, field, data)}
-      ${field.renderHelp(selective, field, data)}
-    </div>`;
-  }
-
-  renderImagePreview(selective, field, data) {
-    if (field.previewUrl == '') {
-      return '';
-    }
-
-    if (field.isLoading) {
-      return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__field__${field.fieldType}__preview"><div class="editor__loading editor__loading--small" title="Loading..."></div></div>`;
-    } // Depends on image element, so needs to run after image has loaded.
-
-
-    const imageSizeDirective = Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["directive"])(field => part => {
-      setTimeout(() => {
-        let el = document.getElementById(`${field.getUid()}_preview`);
-        let imageEl = el.querySelector('img');
-
-        const updateImage = () => {
-          part.setValue(`Aspect ratio: ${imageEl.naturalWidth}x${imageEl.naturalHeight}`);
-          part.commit();
-        }; // If the image has already loaded.
-
-
-        imageEl.complete ? updateImage() : imageEl.addEventListener('load', updateImage);
-      });
-    });
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <div class="selective__field__${field.fieldType}__preview" id="${field.getUid()}_preview">
-        <div class="selective__field__${field.fieldType}__preview__image"><a href="${field.previewUrl}"><img src="${field.previewUrl}"></a></div>
-        <div class="selective__field__${field.fieldType}__preview__meta">${imageSizeDirective(field)}</div>
-      </div>`;
-  }
-
-  handleFileInput(evt) {
-    if (!this.api) {
-      console.error('Missing api for image field.');
-      return;
-    }
-
-    const destination = this.getConfig().get('destination', '/static/img/upload');
-    this.api.saveImage(evt.target.files[0], destination).then(result => {
-      this.isLoading = false;
-      this.value = result;
-      this.previewUrl = result;
-      document.dispatchEvent(new CustomEvent('selective.render'));
-    }).catch(err => {
-      this.isLoading = false;
-      document.dispatchEvent(new CustomEvent('selective.render'));
-    });
-    this.isLoading = true;
-    document.dispatchEvent(new CustomEvent('selective.render'));
-  }
-
 } // TODO: Move into the google image extension.
 
-class GoogleImageField extends LegacyImageField {
+class GoogleImageField extends ImageField {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
-    this.fieldType = 'google_image'; // TODO: Change to use the API after the extension is updated to the new
+    this.fieldType = 'google_image';
+    this.api = this.getConfig().get('api'); // TODO: Change to use the API after the extension is updated to the new
     // Extension style.
     // this._extension_config_promise = this.api.getExtensionConfig(
     //   'extensions.google_cloud_images.GoogleCloudImageExtension')
 
-    this._extension_config_promise = this.api.getExtensionConfig('extensions.editor.EditorExtension'); // Wait for the config promise to return.
-
-    this._extension_config_promise.then(result => {
-      let previewPrefix = result['googleImagePreviewPrefix']; // TODO: Remove once grow > 0.8.20
-
-      if (!previewPrefix) {
-        console.warn('Hardcoded image preview URL.');
-        previewPrefix = 'https://ext-cloud-images-dot-betterplaceforests-website.appspot.com';
-      }
-
-      this.previewPrefix = previewPrefix;
-      document.dispatchEvent(new CustomEvent('selective.render'));
-    });
+    this._extension_config_promise = this.api.getExtensionConfig('extensions.editor.EditorExtension');
   }
 
-  handleFileInput(evt) {
-    if (!this.api) {
-      console.error('Missing api for image field.');
-      return;
-    } // Wait for the url promise to return.
-
+  uploadFile(file, locale) {
+    const localeKey = this.keyForLocale(locale); // Wait for the url promise to return.
 
     this._extension_config_promise.then(result => {
-      let uploadUrl = result['googleImageUploadUrl']; // TODO: Remove once grow > 0.8.20
+      let uploadUrl = result['googleImageUploadUrl'];
 
       if (!uploadUrl) {
-        console.warn('Hardcoded image upload URL.');
-        uploadUrl = 'https://ext-cloud-images-dot-betterplaceforests-website.appspot.com/_api/upload_file';
+        console.error('Unable to retrieve the upload url.');
+        this._errors['uploadUrl'] = 'Unable to retrieve the upload url setting.';
+        this.render();
+        return;
       }
 
-      this.api.saveGoogleImage(evt.target.files[0], uploadUrl).then(result => {
-        this.value = result['url'];
-        this.previewUrl = result['url'];
-        this.isLoading = false;
-        document.dispatchEvent(new CustomEvent('selective.render'));
+      this.api.saveGoogleImage(file, uploadUrl).then(result => {
+        this._showFileInput[localeKey] = false;
+        this._isLoading[localeKey] = false;
+        this.setValueForLocale(locale, result['url']);
+        this.render();
       }).catch(err => {
         console.error(err);
-        this.isLoading = false;
-        document.dispatchEvent(new CustomEvent('selective.render'));
+        this._errors['upload'] = err;
+        this._showFileInput[localeKey] = false;
+        this._isLoading[localeKey] = false;
+        this.render();
       });
-      this.isLoading = true;
-      document.dispatchEvent(new CustomEvent('selective.render'));
     });
-  }
-
-  renderImagePreview(selective, field, data) {
-    // Ignore the field values that are resource paths.
-    if (field.value && field.value.startsWith('http')) {
-      field.previewUrl = field.value;
-    }
-
-    return super.renderImagePreview(selective, field, data);
   }
 
 }
