@@ -142,6 +142,12 @@ describe('image field', () => {
     expect(isClean).toBe(true)
 
     await percySnapshot(page, 'Image field after save', defaults.snapshotOptions)
+
+    await page.evaluate(_ => {
+      document.querySelector('.selective__field__image_file__wrapper').classList.add(
+        'selective__image--hover')
+    })
+    await percySnapshot(page, 'Image field hover state', defaults.snapshotOptions)
   })
 
   it('should work with file list', async () => {

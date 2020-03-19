@@ -10,7 +10,7 @@ module.exports = {
     'pod_path': '/content/test/test.yaml',
     'editor': {}
   },
-  saveWaitFor: 20,
+  saveWaitFor: 100,
   snapshotOptions: {
     widths: [1280],
   },
