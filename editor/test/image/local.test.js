@@ -6,18 +6,28 @@ const qs = require('querystring')
 const editorConfig = {
   'fields': [
     {
-      'type': 'document',
-      'key': 'doc',
-      'label': 'Document',
+      'type': 'image',
+      'key': 'image',
+      'label': 'Image',
     }
   ]
 }
-const defaultEn = '/content/pages/en.yaml'
-const defaultEs = '/content/pages/es.yaml'
-let newValueEn = '/content/pages/en_new.yaml'
-let newValueEs = '/content/pages/es_new.yaml'
+const defaultEn = '/static/img/upload/defaultEn.png'
+const defaultEs = '/static/img/upload/defaultEs.png'
+let newValueEn = '/static/img/upload/newValueEn.png'
+let newValueEs = '/static/img/upload/newValueEs.png'
+const defaultImageEn = 'http://blinkk.com/static/logo.svg'
+const defaultImageEs = 'https://avatars0.githubusercontent.com/u/5324394'
+let newValueImageEn = 'https://avatars0.githubusercontent.com/u/5324394'
+let newValueImageEs = 'http://blinkk.com/static/logo.svg'
+const podPathToImg = {
+  defaultEn: defaultImageEn,
+  defaultEs: defaultImageEs,
+  newValueEn: newValueImageEn,
+  newValueEs: newValueImageEs,
+}
 
-describe('document field', () => {
+describe('image field', () => {
   beforeEach(async () => {
     // Need a new page to prevent requests already being handled.
     page = await browser.newPage()
@@ -43,14 +53,8 @@ describe('document field', () => {
             contentType: 'application/json',
             body: JSON.stringify(Object.assign({}, defaults.documentResponse, {
               'front_matter': {
-                'doc': {
-                  'tag': '!g.doc',
-                  'value': defaultEn,
-                },
-                'doc@es': {
-                  'tag': '!g.doc',
-                  'value': defaultEs,
-                },
+                'image': defaultEn,
+                'image@es': defaultEs,
               },
               'editor': editorConfig,
             }))
@@ -62,17 +66,29 @@ describe('document field', () => {
           contentType: 'application/json',
           body: JSON.stringify({
             'pod_paths': [
-              '/content/pages/en.yaml',
-              '/content/pages/es.yaml',
-              '/content/pages/en_new.yaml',
-              '/content/pages/es_new.yaml',
-              '/content/pages/index.html',
+              '/content/should/be/filtered.html',
+              defaultEn,
+              defaultEs,
+              newValueEn,
+              newValueEs,
               '/views/should/be/filtered.html',
             ],
           })
         })
+      } else if (request.url().includes('/_grow/api/editor/static_serving_path')) {
+        console.log('Intercepted content', request.url(), request.method())
+        const postData = qs.parse(request.postData())
+        const pod_path = postData.pod_path
+
+        request.respond({
+          contentType: 'application/json',
+          body: JSON.stringify({
+            'pod_path': pod_path,
+            'serving_url': podPathToImg[pod_path],
+          })
+        })
       } else {
-        // console.log('Piped request', request.url(), request.method())
+        console.log('Piped request', request.url(), request.method())
         request.continue()
       }
     })
@@ -93,7 +109,7 @@ describe('document field', () => {
     expect(isClean).toBe(true)
 
     // Change the title.
-    await page.click('.selective__field__document input', {clickCount: 3})
+    await page.click('.selective__field__image_file input', {clickCount: 3})
     await page.keyboard.press('Backspace')
     await page.keyboard.type(newValueEn)
 
@@ -114,14 +130,8 @@ describe('document field', () => {
       return window.editorInst.selective.value
     })
     expect(value).toMatchObject({
-      'doc': {
-        'tag': '!g.doc',
-        'value': newValueEn,
-      },
-      'doc@es': {
-        'tag': '!g.doc',
-        'value': defaultEs,
-      },
+      'image': newValueEn,
+      'image@es': defaultEs,
     })
 
     // After saving the editor should be clean.
@@ -130,7 +140,7 @@ describe('document field', () => {
     })
     expect(isClean).toBe(true)
 
-    await percySnapshot(page, 'Document field after save', defaults.snapshotOptions)
+    await percySnapshot(page, 'Image field after save', defaults.snapshotOptions)
   })
 
   it('should work with file list', async () => {
@@ -141,11 +151,11 @@ describe('document field', () => {
     expect(isClean).toBe(true)
 
     // Show the file list.
-    let fileListIcon = await page.$('.selective__field__document .selective__field__constructor__file_icon')
+    let fileListIcon = await page.$('.selective__field__image_file .selective__field__image_file__file_icon')
     await fileListIcon.click()
     await page.waitForSelector('.selective__file_list__file')
 
-    await percySnapshot(page, 'Document field after file list load', defaults.snapshotOptions)
+    await percySnapshot(page, 'Image field after file list load', defaults.snapshotOptions)
 
     // Click on a file in the list.
     let listItem = await page.$(`.selective__file_list__file[data-pod-path="${newValueEn}"]`)
@@ -171,14 +181,8 @@ describe('document field', () => {
       return window.editorInst.selective.value
     })
     expect(value).toMatchObject({
-      'doc': {
-        'tag': '!g.doc',
-        'value': newValueEn,
-      },
-      'doc@es': {
-        'tag': '!g.doc',
-        'value': defaultEs,
-      },
+      'image': newValueEn,
+      'image@es': defaultEs,
     })
 
     // After saving the editor should be clean.
@@ -187,7 +191,7 @@ describe('document field', () => {
     })
     expect(isClean).toBe(true)
 
-    await percySnapshot(page, 'Document field after file list save', defaults.snapshotOptions)
+    await percySnapshot(page, 'Image field after file list save', defaults.snapshotOptions)
   })
 
   it('should accept input on localization', async () => {
@@ -200,15 +204,15 @@ describe('document field', () => {
     // Enable localization.
     const localizationIcon = await page.$('i[title="Localize content"]')
     await localizationIcon.click()
-    await page.waitForSelector('.selective__field__document input[data-locale=en]')
+    await page.waitForSelector('.selective__field__image_file input[data-locale=en]')
 
     // Change the en title.
-    await page.click('.selective__field__document input[data-locale=en]', {clickCount: 3})
+    await page.click('.selective__field__image_file input[data-locale=en]', {clickCount: 3})
     await page.keyboard.press('Backspace')
     await page.keyboard.type(newValueEn)
 
     // Change the es title.
-    await page.click('.selective__field__document input[data-locale=es]', {clickCount: 3})
+    await page.click('.selective__field__image_file input[data-locale=es]', {clickCount: 3})
     await page.keyboard.press('Backspace')
     await page.keyboard.type(newValueEs)
 
@@ -229,14 +233,8 @@ describe('document field', () => {
       return window.editorInst.selective.value
     })
     expect(value).toMatchObject({
-      'doc': {
-        'tag': '!g.doc',
-        'value': newValueEn,
-      },
-      'doc@es': {
-        'tag': '!g.doc',
-        'value': newValueEs,
-      },
+      'image': newValueEn,
+      'image@es': newValueEs,
     })
 
     // After saving the editor should be clean.
@@ -245,7 +243,7 @@ describe('document field', () => {
     })
     expect(isClean).toBe(true)
 
-    await percySnapshot(page, 'Document field after localization save', defaults.snapshotOptions)
+    await percySnapshot(page, 'Image field after localization save', defaults.snapshotOptions)
   })
 
   it('should work with file list on localization', async () => {
@@ -258,14 +256,14 @@ describe('document field', () => {
     // Enable localization.
     const localizationIcon = await page.$('i[title="Localize content"]')
     await localizationIcon.click()
-    await page.waitForSelector('.selective__field__document input[data-locale=en]')
+    await page.waitForSelector('.selective__field__image_file input[data-locale=en]')
 
     // Show the en file list.
-    let fileListIcon = await page.$('.selective__field__document .selective__field__constructor__file_icon[data-locale=en]')
+    let fileListIcon = await page.$('.selective__field__image_file .selective__field__image_file__file_icon[data-locale=en]')
     await fileListIcon.click()
     await page.waitForSelector('[data-locale=en] .selective__file_list__file')
 
-    await percySnapshot(page, 'Document field after file list on en localization load', defaults.snapshotOptions)
+    await percySnapshot(page, 'Image field after file list on en localization load', defaults.snapshotOptions)
 
     // Click on a file in the en list.
     let listItem = await page.$(`[data-locale=en] .selective__file_list__file[data-pod-path="${newValueEn}"]`)
@@ -275,11 +273,11 @@ describe('document field', () => {
     })
 
     // Show the es file list.
-    fileListIcon = await page.$('.selective__field__document .selective__field__constructor__file_icon[data-locale=es]')
+    fileListIcon = await page.$('.selective__field__image_file .selective__field__image_file__file_icon[data-locale=es]')
     await fileListIcon.click()
     await page.waitForSelector('[data-locale=es] .selective__file_list__file')
 
-    await percySnapshot(page, 'Document field after file list on es localization load', defaults.snapshotOptions)
+    await percySnapshot(page, 'Image field after file list on es localization load', defaults.snapshotOptions)
 
     // Click on a file in the es list.
     listItem = await page.$(`[data-locale=es] .selective__file_list__file[data-pod-path="${newValueEs}"]`)
@@ -305,14 +303,8 @@ describe('document field', () => {
       return window.editorInst.selective.value
     })
     expect(value).toMatchObject({
-      'doc': {
-        'tag': '!g.doc',
-        'value': newValueEn,
-      },
-      'doc@es': {
-        'tag': '!g.doc',
-        'value': newValueEs,
-      },
+      'image': newValueEn,
+      'image@es': newValueEs,
     })
 
     // After saving the editor should be clean.
@@ -321,6 +313,6 @@ describe('document field', () => {
     })
     expect(isClean).toBe(true)
 
-    await percySnapshot(page, 'Document field after file list localization save', defaults.snapshotOptions)
+    await percySnapshot(page, 'Image field after file list localization save', defaults.snapshotOptions)
   })
 })

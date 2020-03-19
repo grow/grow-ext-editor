@@ -73,7 +73,7 @@ describe('yaml field', () => {
           })
         })
       } else {
-        console.log('Piped request', request.url(), request.method())
+        // console.log('Piped request', request.url(), request.method())
         request.continue()
       }
     })
