@@ -20,12 +20,11 @@ const defaultImageEn = 'http://blinkk.com/static/logo.svg'
 const defaultImageEs = 'https://avatars0.githubusercontent.com/u/5324394'
 let newValueImageEn = 'https://avatars0.githubusercontent.com/u/5324394'
 let newValueImageEs = 'http://blinkk.com/static/logo.svg'
-const podPathToImg = {
-  defaultEn: defaultImageEn,
-  defaultEs: defaultImageEs,
-  newValueEn: newValueImageEn,
-  newValueEs: newValueImageEs,
-}
+const podPathToImg = {}
+podPathToImg[defaultEn] = defaultImageEn
+podPathToImg[defaultEs] = defaultImageEs
+podPathToImg[newValueEn] = newValueImageEn
+podPathToImg[newValueEs] = newValueImageEs
 
 describe('image field', () => {
   beforeEach(async () => {
@@ -77,18 +76,19 @@ describe('image field', () => {
         })
       } else if (request.url().includes('/_grow/api/editor/static_serving_path')) {
         console.log('Intercepted content', request.url(), request.method())
-        const postData = qs.parse(request.postData())
-        const pod_path = postData.pod_path
+        const params = (new URL(request.url())).searchParams
+        const podPath = params.get('pod_path')
 
+        console.log(podPath, podPathToImg[podPath]);
         request.respond({
           contentType: 'application/json',
           body: JSON.stringify({
-            'pod_path': pod_path,
-            'serving_url': podPathToImg[pod_path],
+            'pod_path': podPath,
+            'serving_url': podPathToImg[podPath],
           })
         })
       } else {
-        console.log('Piped request', request.url(), request.method())
+        // console.log('Piped request', request.url(), request.method())
         request.continue()
       }
     })
@@ -112,6 +112,7 @@ describe('image field', () => {
     await page.click('.selective__field__image_file input', {clickCount: 3})
     await page.keyboard.press('Backspace')
     await page.keyboard.type(newValueEn)
+    await page.waitForSelector('.selective__image__preview__image')
 
     // Editor should now be dirty.
     isClean = await page.evaluate(_ => {
@@ -122,7 +123,7 @@ describe('image field', () => {
     // Save the changes.
     const saveButton = await page.$('.editor__save')
     await saveButton.click()
-    await page.waitForSelector('.editor__save--saving')
+    await page.waitFor(defaults.saveWaitFor)
     await page.waitForSelector('.editor__save:not(.editor__save--saving)')
 
     // Verify the new value was saved.
@@ -163,6 +164,7 @@ describe('image field', () => {
     await page.waitForSelector('.selective__file_list__file', {
       hidden: true,
     })
+    await page.waitForSelector('.selective__image__preview__image')
 
     // Editor should now be dirty.
     isClean = await page.evaluate(_ => {
@@ -173,7 +175,7 @@ describe('image field', () => {
     // Save the changes.
     const saveButton = await page.$('.editor__save')
     await saveButton.click()
-    await page.waitForSelector('.editor__save--saving')
+    await page.waitFor(defaults.saveWaitFor)
     await page.waitForSelector('.editor__save:not(.editor__save--saving)')
 
     // Verify the new value was saved.
@@ -210,11 +212,13 @@ describe('image field', () => {
     await page.click('.selective__field__image_file input[data-locale=en]', {clickCount: 3})
     await page.keyboard.press('Backspace')
     await page.keyboard.type(newValueEn)
+    await page.waitForSelector('.selective__field__image_file__wrapper[data-locale=en] .selective__image__preview__image')
 
     // Change the es title.
     await page.click('.selective__field__image_file input[data-locale=es]', {clickCount: 3})
     await page.keyboard.press('Backspace')
     await page.keyboard.type(newValueEs)
+    await page.waitForSelector('.selective__field__image_file__wrapper[data-locale=es] .selective__image__preview__image')
 
     // Editor should now be dirty.
     isClean = await page.evaluate(_ => {
@@ -225,7 +229,7 @@ describe('image field', () => {
     // Save the changes.
     const saveButton = await page.$('.editor__save')
     await saveButton.click()
-    await page.waitForSelector('.editor__save--saving')
+    await page.waitFor(defaults.saveWaitFor)
     await page.waitForSelector('.editor__save:not(.editor__save--saving)')
 
     // Verify the new value was saved.
@@ -271,6 +275,7 @@ describe('image field', () => {
     await page.waitForSelector('[data-locale=en] .selective__file_list__file', {
       hidden: true,
     })
+    await page.waitForSelector('.selective__field__image_file__wrapper[data-locale=en] .selective__image__preview__image')
 
     // Show the es file list.
     fileListIcon = await page.$('.selective__field__image_file .selective__field__image_file__file_icon[data-locale=es]')
@@ -285,6 +290,7 @@ describe('image field', () => {
     await page.waitForSelector('[data-locale=es] .selective__file_list__file', {
       hidden: true,
     })
+    await page.waitForSelector('.selective__field__image_file__wrapper[data-locale=es] .selective__image__preview__image')
 
     // Editor should now be dirty.
     isClean = await page.evaluate(_ => {
@@ -295,7 +301,7 @@ describe('image field', () => {
     // Save the changes.
     const saveButton = await page.$('.editor__save')
     await saveButton.click()
-    await page.waitForSelector('.editor__save--saving')
+    await page.waitFor(defaults.saveWaitFor)
     await page.waitForSelector('.editor__save:not(.editor__save--saving)')
 
     // Verify the new value was saved.
