@@ -94,16 +94,16 @@ describe('select multi field', () => {
 
     // Unselect the default options.
     for (const value of defaultEn) {
-      let checkboxLabel = await page.$(`.selective__field__select__option[data-value=${value}]`)
+      let checkboxLabel = await page.$(`.selective__field__select__option[data-value="${value}"]`)
       await checkboxLabel.click()
-      await page.waitForSelector(`.selective__field__select__option:not(.selective__field__select__option--checked)[data-value=${value}]`)
+      await page.waitForSelector(`.selective__field__select__option:not(.selective__field__select__option--checked)[data-value="${value}"]`)
     }
 
     // Select the new options.
     for (const value of newValueEn) {
-      let checkboxLabel = await page.$(`.selective__field__select__option[data-value=${value}]`)
+      let checkboxLabel = await page.$(`.selective__field__select__option[data-value="${value}"]`)
       await checkboxLabel.click()
-      await page.waitForSelector(`.selective__field__select__option--checked[data-value=${value}]`)
+      await page.waitForSelector(`.selective__field__select__option--checked[data-value="${value}"]`)
     }
 
     // Editor should now be dirty.
@@ -139,16 +139,16 @@ describe('select multi field', () => {
 
     // Unselect the new options.
     for (const value of newValueEn) {
-      let checkboxLabel = await page.$(`.selective__field__select__option[data-value=${value}]`)
+      let checkboxLabel = await page.$(`.selective__field__select__option[data-value="${value}"]`)
       await checkboxLabel.click()
-      await page.waitForSelector(`.selective__field__select__option:not(.selective__field__select__option--checked)[data-value=${value}]`)
+      await page.waitForSelector(`.selective__field__select__option:not(.selective__field__select__option--checked)[data-value="${value}"]`)
     }
 
     // Select the default options.
     for (const value of defaultEn) {
-      let checkboxLabel = await page.$(`.selective__field__select__option[data-value=${value}]`)
+      let checkboxLabel = await page.$(`.selective__field__select__option[data-value="${value}"]`)
       await checkboxLabel.click()
-      await page.waitForSelector(`.selective__field__select__option--checked[data-value=${value}]`)
+      await page.waitForSelector(`.selective__field__select__option--checked[data-value="${value}"]`)
     }
 
     // Editor should now be dirty.
@@ -195,31 +195,31 @@ describe('select multi field', () => {
     // Change the en checked options.
     // Unselect the default options.
     for (const value of defaultEn) {
-      let checkboxLabel = await page.$(`.selective__field__select__option[data-value=${value}][data-locale=en]`)
+      let checkboxLabel = await page.$(`.selective__field__select__option[data-value="${value}"][data-locale=en]`)
       await checkboxLabel.click()
-      await page.waitForSelector(`.selective__field__select__option:not(.selective__field__select__option--checked)[data-value=${value}][data-locale=en]`)
+      await page.waitForSelector(`.selective__field__select__option:not(.selective__field__select__option--checked)[data-value="${value}"][data-locale=en]`)
     }
 
     // Select the new options.
     for (const value of newValueEn) {
-      let checkboxLabel = await page.$(`.selective__field__select__option[data-value=${value}][data-locale=en]`)
+      let checkboxLabel = await page.$(`.selective__field__select__option[data-value="${value}"][data-locale=en]`)
       await checkboxLabel.click()
-      await page.waitForSelector(`.selective__field__select__option--checked[data-value=${value}][data-locale=en]`)
+      await page.waitForSelector(`.selective__field__select__option--checked[data-value="${value}"][data-locale=en]`)
     }
 
     // Change the es checked options.
     // Unselect the default options.
     for (const value of defaultEs) {
-      let checkboxLabel = await page.$(`.selective__field__select__option[data-value=${value}][data-locale=es]`)
+      let checkboxLabel = await page.$(`.selective__field__select__option[data-value="${value}"][data-locale=es]`)
       await checkboxLabel.click()
-      await page.waitForSelector(`.selective__field__select__option:not(.selective__field__select__option--checked)[data-value=${value}][data-locale=es]`)
+      await page.waitForSelector(`.selective__field__select__option:not(.selective__field__select__option--checked)[data-value="${value}"][data-locale=es]`)
     }
 
     // Select the new options.
     for (const value of newValueEs) {
-      let checkboxLabel = await page.$(`.selective__field__select__option[data-value=${value}][data-locale=es]`)
+      let checkboxLabel = await page.$(`.selective__field__select__option[data-value="${value}"][data-locale=es]`)
       await checkboxLabel.click()
-      await page.waitForSelector(`.selective__field__select__option--checked[data-value=${value}][data-locale=es]`)
+      await page.waitForSelector(`.selective__field__select__option--checked[data-value="${value}"][data-locale=es]`)
     }
 
     // Editor should now be dirty.
@@ -256,31 +256,31 @@ describe('select multi field', () => {
     // Change the en checked option.
     // Unselect the new options.
     for (const value of newValueEn) {
-      let checkboxLabel = await page.$(`.selective__field__select__option[data-value=${value}][data-locale=en]`)
+      let checkboxLabel = await page.$(`.selective__field__select__option[data-value="${value}"][data-locale=en]`)
       await checkboxLabel.click()
-      await page.waitForSelector(`.selective__field__select__option:not(.selective__field__select__option--checked)[data-value=${value}][data-locale=en]`)
+      await page.waitForSelector(`.selective__field__select__option:not(.selective__field__select__option--checked)[data-value="${value}"][data-locale=en]`)
     }
 
     // Select the default options.
     for (const value of defaultEn) {
-      let checkboxLabel = await page.$(`.selective__field__select__option[data-value=${value}][data-locale=en]`)
+      let checkboxLabel = await page.$(`.selective__field__select__option[data-value="${value}"][data-locale=en]`)
       await checkboxLabel.click()
-      await page.waitForSelector(`.selective__field__select__option--checked[data-value=${value}][data-locale=en]`)
+      await page.waitForSelector(`.selective__field__select__option--checked[data-value="${value}"][data-locale=en]`)
     }
 
     // Change the es checked option.
     // Unselect the new options.
     for (const value of newValueEs) {
-      let checkboxLabel = await page.$(`.selective__field__select__option[data-value=${value}][data-locale=es]`)
+      let checkboxLabel = await page.$(`.selective__field__select__option[data-value="${value}"][data-locale=es]`)
       await checkboxLabel.click()
-      await page.waitForSelector(`.selective__field__select__option:not(.selective__field__select__option--checked)[data-value=${value}][data-locale=es]`)
+      await page.waitForSelector(`.selective__field__select__option:not(.selective__field__select__option--checked)[data-value="${value}"][data-locale=es]`)
     }
 
     // Select the default options.
     for (const value of defaultEs) {
-      let checkboxLabel = await page.$(`.selective__field__select__option[data-value=${value}][data-locale=es]`)
+      let checkboxLabel = await page.$(`.selective__field__select__option[data-value="${value}"][data-locale=es]`)
       await checkboxLabel.click()
-      await page.waitForSelector(`.selective__field__select__option--checked[data-value=${value}][data-locale=es]`)
+      await page.waitForSelector(`.selective__field__select__option--checked[data-value="${value}"][data-locale=es]`)
     }
 
     // Editor should now be dirty.
