@@ -71,6 +71,8 @@ export default class Editor {
 
     this._isLoading = {}
     this._isSaving = false
+    this._isRendering = false
+    this._pendingRender = false
 
     this._podPaths = null
     this._routes = null
@@ -556,7 +558,26 @@ export default class Editor {
   }
 
   render(force) {
+    // Render only one at a time.
+    if (this._isRendering) {
+      this._pendingRender = {
+        force: (this._pendingRender.force ? this._pendingRender.force || force : force)
+      }
+      return
+    }
+
+    this._isRendering = true
+
+    const isClean = this.isClean
+
     render(this.template(this, this.selective), this.containerEl)
+
+    // Check for clean changes not caught.
+    if (this.isClean != isClean) {
+      this._isRendering = false
+      this.render(force)
+      return
+    }
 
     // Adjust the iframe size.
     this.adjustIframeSize()
@@ -569,6 +590,16 @@ export default class Editor {
       // Test for iframe first, as it may be hidden.
       const iframe = this.containerEl.querySelector('iframe')
       iframe && iframe.contentWindow.location.reload(true)
+    }
+
+    // Mark as done rendering.
+    this._isRendering = false
+
+    // If there were other requests to render, render them.
+    if (this._pendingRender) {
+      const pendingRender = this._pendingRender
+      this._pendingRender = false
+      this.render(pendingRender)
     }
   }
 

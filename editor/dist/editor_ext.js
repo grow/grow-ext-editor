@@ -1326,6 +1326,7 @@ class FieldRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__[
     this.isLocalized = false;
     this.ignoreLocalize = false;
     this.defaultLocale = 'en';
+    this.locales = ['en'];
     this.setConfig(config);
     this._errors = {};
     this._originalValue = undefined;
@@ -1394,6 +1395,14 @@ class FieldRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__[
 
   get uid() {
     return this.getUid();
+  }
+
+  getOriginalValueForLocale(locale) {
+    if (!locale || locale == this.defaultLocale) {
+      return this.originalValue;
+    }
+
+    return this._originalValues[this.keyForLocale(locale)];
   }
 
   getValueForLocale(locale) {
@@ -1484,7 +1493,7 @@ class FieldRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__[
 
     return lit_html__WEBPACK_IMPORTED_MODULE_2__["html"]`
       <div class="selective__field__localization">
-        ${Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_3__["repeat"])(selective.config.locales || ['en', 'es'], locale => locale, (locale, index) => lit_html__WEBPACK_IMPORTED_MODULE_2__["html"]`
+        ${Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_3__["repeat"])(this.locales, locale => locale, (locale, index) => lit_html__WEBPACK_IMPORTED_MODULE_2__["html"]`
             <div class="selective__field__localization__locale">
               <label for="${this.uid}${locale}">${locale}</label>
             </div>
@@ -1527,9 +1536,16 @@ class FieldRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__[
 
     const isClean = this.isClean;
     this.isLocalized = selective.localize;
-    this.defaultLocale = selective.config.defaultLocale || 'en'; // Certain formats in the data may need to be cleaned up
+    this.defaultLocale = selective.config.defaultLocale || 'en';
+    this.locales = selective.config.locales || ['en', 'es']; // Certain formats in the data may need to be cleaned up
 
-    newValue = this._cleanOriginalValue(newValue); // Only if the field is clean, update the value.
+    newValue = this._cleanOriginalValue(newValue); // Copy the array to prevent shared array.
+
+    if (Array.isArray(newValue)) {
+      newValue = [...newValue];
+    }
+
+    this.originalValue = newValue; // Only if the field is clean, update the value.
 
     if (isClean) {
       // Copy the array to prevent shared array.
@@ -1542,14 +1558,8 @@ class FieldRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__[
       if (this.value == undefined) {
         this.value = this.config.default;
       }
-    } // Copy the array to prevent shared array.
+    } // Pull in localized values.
 
-
-    if (Array.isArray(newValue)) {
-      newValue = [...newValue];
-    }
-
-    this.originalValue = newValue; // Pull in localized values.
 
     if (this.isLocalized) {
       const newValues = {};
@@ -1557,7 +1567,7 @@ class FieldRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__[
       if (typeof data === 'object' && data !== null) {
         data = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_6__["autoDeepObject"])(data);
 
-        for (const locale of selective.config.locales || ['en', 'es']) {
+        for (const locale of this.locales) {
           if (locale == this.defaultLocale) {
             continue;
           }
@@ -1606,18 +1616,20 @@ class FieldRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__[
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ListField", function() { return ListField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ListItem; });
-/* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lit-html */ "../../../selective-edit/node_modules/lit-html/lit-html.js");
-/* harmony import */ var lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lit-html/directives/repeat */ "../../../selective-edit/node_modules/lit-html/directives/repeat.js");
-/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/compose */ "../../../selective-edit/js/utility/compose.js");
-/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../mixin/config */ "../../../selective-edit/js/mixin/config.js");
-/* harmony import */ var _mixin_uid__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../mixin/uid */ "../../../selective-edit/js/mixin/uid.js");
-/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../utility/config */ "../../../selective-edit/js/utility/config.js");
-/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../utility/dom */ "../../../selective-edit/js/utility/dom.js");
-/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
-/* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../autoFields */ "../../../selective-edit/js/selective/autoFields.js");
-/* harmony import */ var _fields_fields__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../fields/fields */ "../../../selective-edit/js/selective/fields/fields.js");
-/* harmony import */ var _ui_sortable__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../ui/sortable */ "../../../selective-edit/js/selective/ui/sortable.js");
-/* harmony import */ var _field__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./field */ "../../../selective-edit/js/selective/field/field.js");
+/* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! deep-extend */ "../../../selective-edit/node_modules/deep-extend/lib/deep-extend.js");
+/* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(deep_extend__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lit-html */ "../../../selective-edit/node_modules/lit-html/lit-html.js");
+/* harmony import */ var lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lit-html/directives/repeat */ "../../../selective-edit/node_modules/lit-html/directives/repeat.js");
+/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utility/compose */ "../../../selective-edit/js/utility/compose.js");
+/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../mixin/config */ "../../../selective-edit/js/mixin/config.js");
+/* harmony import */ var _mixin_uid__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../mixin/uid */ "../../../selective-edit/js/mixin/uid.js");
+/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../utility/config */ "../../../selective-edit/js/utility/config.js");
+/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../utility/dom */ "../../../selective-edit/js/utility/dom.js");
+/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
+/* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../autoFields */ "../../../selective-edit/js/selective/autoFields.js");
+/* harmony import */ var _fields_fields__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../fields/fields */ "../../../selective-edit/js/selective/fields/fields.js");
+/* harmony import */ var _ui_sortable__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../ui/sortable */ "../../../selective-edit/js/selective/ui/sortable.js");
+/* harmony import */ var _field__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./field */ "../../../selective-edit/js/selective/field/field.js");
 /**
  * List fields for controlling the lists of fields.
  */
@@ -1633,19 +1645,21 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class ListField extends _field__WEBPACK_IMPORTED_MODULE_11__["default"] {
+
+class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
   constructor(config, globalConfig) {
     super(config, globalConfig);
     this.fieldType = 'list';
+    this.isLocalized = true;
     this._listItems = {};
     this._useAutoFields = false;
-    this._sortableUi = new _ui_sortable__WEBPACK_IMPORTED_MODULE_10__["SortableUI"]();
+    this._sortableUi = new _ui_sortable__WEBPACK_IMPORTED_MODULE_11__["SortableUI"]();
 
     this._sortableUi.listeners.add('sort', this.handleSort.bind(this));
   }
 
   _createFields(fieldTypes, config) {
-    const FieldsCls = this.config.get('FieldsCls', _fields_fields__WEBPACK_IMPORTED_MODULE_9__["default"]);
+    const FieldsCls = this.config.get('FieldsCls', _fields_fields__WEBPACK_IMPORTED_MODULE_10__["default"]);
     return new FieldsCls(fieldTypes, config);
   }
 
@@ -1653,14 +1667,15 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_11__["default"] {
     const value = this.getValueForLocale(locale) || [];
     const localeKey = this.keyForLocale(locale);
 
-    if (this._listItems[localeKey] != null || !value.length) {
+    const listItems = this._getListItemsForLocale(locale);
+
+    if (listItems.length > 0 || !value.length) {
       return;
     } // Use the config to find the field configs.
 
 
     let fieldConfigs = this.config.get('fields', []);
     this._useAutoFields = !fieldConfigs.length;
-    const items = [];
 
     for (const itemData of value) {
       const fields = this._createFields(selective.fieldTypes);
@@ -1668,38 +1683,81 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_11__["default"] {
       fields.updateOriginal(selective, itemData); // Auto guess the fields if they are not defined.
 
       if (this._useAutoFields) {
-        const AutoFieldsCls = this.config.get('AutoFieldsCls', _autoFields__WEBPACK_IMPORTED_MODULE_8__["default"]);
+        const AutoFieldsCls = this.config.get('AutoFieldsCls', _autoFields__WEBPACK_IMPORTED_MODULE_9__["default"]);
         fieldConfigs = new AutoFieldsCls(this.originalValue).config['fields'];
       } // Create the fields based on the config.
 
 
       for (let fieldConfig of fieldConfigs || []) {
-        fieldConfig = Object(_utility_config__WEBPACK_IMPORTED_MODULE_5__["autoConfig"])(fieldConfig, this.extendedConfig);
+        fieldConfig = Object(_utility_config__WEBPACK_IMPORTED_MODULE_6__["autoConfig"])(fieldConfig, this.extendedConfig);
         fields.addField(fieldConfig, this.extendedConfig);
       } // When an is not expanded it does not get the value
       // updated correctly so we need to manually call the data update.
 
 
       for (const field of fields.fields) {
-        field.updateOriginal(selective, itemData || {});
+        field.updateOriginal(selective, itemData || fields.defaultValue);
       }
 
-      items.push(new ListItem({
+      listItems.push(new ListItem({
         'fields': fieldConfigs
       }, fields));
     }
-
-    this._listItems[localeKey] = items;
   }
 
   _getListItemsForLocale(locale) {
     const localeKey = this.keyForLocale(locale);
+
+    if (!this._listItems[localeKey]) {
+      this._listItems[localeKey] = [];
+    }
+
     return this._listItems[localeKey];
   }
 
   _setListItemsForLocale(locale, listItems) {
     const localeKey = this.keyForLocale(locale);
     this._listItems[localeKey] = listItems;
+  }
+
+  get isClean() {
+    for (const locale of this.locales) {
+      const originalValue = this.getOriginalValueForLocale(locale);
+
+      const listItems = this._getListItemsForLocale(locale); // Check for a change in length.
+
+
+      if (originalValue && originalValue.length != listItems.length) {
+        return false;
+      }
+
+      for (const item of listItems) {
+        if (!item.fields.isClean) {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  }
+
+  get value() {
+    const listItems = this._getListItemsForLocale();
+
+    if (!listItems.length) {
+      return this.originalValue;
+    }
+
+    const value = [];
+
+    for (const item of listItems) {
+      value.push(item.fields.value);
+    }
+
+    return value;
+  }
+
+  set value(value) {// no-op
   }
 
   handleAddItem(evt, selective) {
@@ -1718,24 +1776,16 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_11__["default"] {
 
 
     for (let fieldConfig of fieldConfigs || []) {
-      fieldConfig = Object(_utility_config__WEBPACK_IMPORTED_MODULE_5__["autoConfig"])(fieldConfig, this.extendedConfig);
+      fieldConfig = Object(_utility_config__WEBPACK_IMPORTED_MODULE_6__["autoConfig"])(fieldConfig, this.extendedConfig);
       fields.addField(fieldConfig, this.extendedConfig);
-    } // If there is multiple fields it should be an object.
-
-
-    let defaultValue = '';
-
-    if (fieldConfigs.length > 1) {
-      defaultValue = {};
     }
 
-    fields.updateOriginal(defaultValue);
+    fields.updateOriginal(fields.defaultValue);
     const listItem = new ListItem({
       'fields': fieldConfigs
     }, fields);
     listItem.isExpanded = true;
-    listItems.push(listItem);
-    this.value.push(defaultValue); // TODO: Focus on the input after rendering.
+    listItems.push(listItem); // TODO: Focus on the input after rendering.
 
     this.render();
   }
@@ -1797,7 +1847,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_11__["default"] {
   }
 
   handleDeleteItem(evt) {
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_6__["findParentByClassname"])(evt.target, 'selective__list__item__delete');
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_7__["findParentByClassname"])(evt.target, 'selective__list__item__delete');
     const uid = target.dataset.itemUid;
     const locale = target.dataset.locale;
 
@@ -1814,7 +1864,6 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_11__["default"] {
 
     if (deleteIndex > -1) {
       listItems.splice(deleteIndex, 1);
-      this.value.splice(deleteIndex, 1);
     }
 
     this.render();
@@ -1822,15 +1871,13 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_11__["default"] {
 
   handleSort(startIndex, endIndex, dropTarget) {
     // Find the locale from the drop target.
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_6__["findParentByClassname"])(dropTarget, 'selective__list__item');
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_7__["findParentByClassname"])(dropTarget, 'selective__list__item');
     const locale = target.dataset.locale; // Rework the arrays to have the items in the correct position.
 
     const newListItems = [];
 
     const oldListItems = this._getListItemsForLocale(locale);
 
-    const newValue = [];
-    const oldValue = this.value;
     const maxIndex = Math.max(endIndex, startIndex);
     const minIndex = Math.min(endIndex, startIndex); // Determine which direction to shift misplaced items.
 
@@ -1844,26 +1891,22 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_11__["default"] {
       if (i < minIndex || i > maxIndex) {
         // Leave in the same order.
         newListItems[i] = oldListItems[i];
-        newValue[i] = oldValue[i];
       } else if (i == endIndex) {
         // This element is being moved to, place the moved value here.
         newListItems[i] = oldListItems[startIndex];
-        newValue[i] = oldValue[startIndex];
       } else {
         // Shift the old index using the modifier to determine direction.
         newListItems[i] = oldListItems[i + modifier];
-        newValue[i] = oldValue[i + modifier];
       }
     }
 
     this._setListItemsForLocale(locale, newListItems);
 
-    this.value = newValue;
     this.render();
   }
 
   renderActionsFooter(selective, data, locale) {
-    return lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__actions">
+    return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__actions">
       <button
           data-locale=${locale || ''}
           @click=${evt => {
@@ -1885,7 +1928,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_11__["default"] {
       return '';
     }
 
-    actions.push(lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`
+    actions.push(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
       <button
           ?disabled=${isExpanded}
           class="selective__action__expand"
@@ -1893,7 +1936,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_11__["default"] {
           @click=${this.handleExpandAll.bind(this)}>
         Expand All
       </button>`);
-    actions.push(lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`
+    actions.push(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
       <button
           ?disabled=${isCollapsed}
           class="selective__action__collapse"
@@ -1901,7 +1944,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_11__["default"] {
           @click=${this.handleCollapseAll.bind(this)}>
         Collapse All
       </button>`);
-    return lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__actions">
+    return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__actions">
       ${actions}
     </div>`;
   }
@@ -1911,10 +1954,10 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_11__["default"] {
 
     const localeKey = this.keyForLocale(locale);
     const items = this._listItems[localeKey];
-    const value = this.getValueForLocale(locale) || [];
-    return lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`
+    const value = this.getOriginalValueForLocale(locale);
+    return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
       <div class="selective__list">
-        ${Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_1__["repeat"])(items, item => item.uid, (item, index) => this.renderItem(selective, value[index], item, index, locale))}
+        ${Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__["repeat"])(items, item => item.uid, (item, index) => this.renderItem(selective, value[index], item, index, locale))}
       </div>
       ${this.renderActionsFooter(selective, data, locale)}`;
   }
@@ -1930,7 +1973,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_11__["default"] {
   }
 
   renderItemCollapsed(selective, data, item, index, locale) {
-    return lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`
+    return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
       <div class="selective__list__item selective__list__item--collapsed selective__sortable"
           draggable="true"
           data-index=${index}
@@ -1960,7 +2003,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_11__["default"] {
   }
 
   renderItemExpanded(selective, data, item, index, locale) {
-    return lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`
+    return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
       <div class="selective__list__item selective__sortable"
           draggable="true"
           data-index=${index}
@@ -1981,7 +2024,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_11__["default"] {
   }
 
   renderItemSimple(selective, data, item, index, locale) {
-    return lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`
+    return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
       <div class="selective__list__item selective__list__item--simple selective__sortable"
           draggable="true"
           data-index=${index}
@@ -2007,7 +2050,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_11__["default"] {
   }
 
   renderLabel(selective, data) {
-    return lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`
+    return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
       <div class="selective__actions__wrapper">
         <div class="selective__field__label">
           <label>${this.config.label}</label>
@@ -2022,7 +2065,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_11__["default"] {
     let previewValue = item.fields.value;
 
     if (previewField || defaultPreviewField) {
-      previewValue = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_7__["autoDeepObject"])(previewValue).get(previewField || defaultPreviewField);
+      previewValue = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_8__["autoDeepObject"])(previewValue).get(previewField || defaultPreviewField);
     } // Do not try to show preview for complex values.
 
 
@@ -2034,7 +2077,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_11__["default"] {
   }
 
 }
-class ListItem extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_2__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_3__["default"], _mixin_uid__WEBPACK_IMPORTED_MODULE_4__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_2__["Base"]) {
+class ListItem extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_4__["default"], _mixin_uid__WEBPACK_IMPORTED_MODULE_5__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["Base"]) {
   constructor(config, fields) {
     super();
     this.setConfig(config);
@@ -2381,6 +2424,17 @@ class FieldsRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__
 
   get config() {
     return this.getConfig();
+  } // Guess default value when there is not value defined for fields.
+
+
+  get defaultValue() {
+    let defaultValue = ''; // If there is multiple fields it should be an object.
+
+    if (this.fields.length > 1) {
+      defaultValue = {};
+    }
+
+    return defaultValue;
   }
 
   get isClean() {
@@ -2399,7 +2453,9 @@ class FieldsRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__
 
   get template() {
     if (this.isSimpleField) {
-      return (selective, data) => this.fields[0].template(selective, data);
+      return (selective, data) => lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
+        ${this.updateOriginal(selective, data)}
+        ${this.fields[0].template(selective, data)}`;
     }
 
     return (selective, data) => lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__fields">
@@ -2443,7 +2499,7 @@ class FieldsRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__
       }
     }
 
-    return deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, this._originalValue.obj, value.obj);
+    return deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, this._originalValue, value.obj);
   }
 
   set value(value) {
@@ -2473,7 +2529,7 @@ class FieldsRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__
   }
 
   updateOriginal(selective, data) {
-    this._originalValue = data;
+    this._originalValue = data ? data.obj ? data.obj : data : undefined;
   }
 
 }
@@ -15608,6 +15664,8 @@ class Editor {
     this._isFullMarkdownEditor = false;
     this._isLoading = {};
     this._isSaving = false;
+    this._isRendering = false;
+    this._pendingRender = false;
     this._podPaths = null;
     this._routes = null; // Track the serving path of the iframe when it is different.
 
@@ -16074,7 +16132,24 @@ class Editor {
   }
 
   render(force) {
-    Object(selective_edit__WEBPACK_IMPORTED_MODULE_4__["render"])(this.template(this, this.selective), this.containerEl); // Adjust the iframe size.
+    // Render only one at a time.
+    if (this._isRendering) {
+      this._pendingRender = {
+        force: this._pendingRender.force ? this._pendingRender.force || force : force
+      };
+      return;
+    }
+
+    this._isRendering = true;
+    const isClean = this.isClean;
+    Object(selective_edit__WEBPACK_IMPORTED_MODULE_4__["render"])(this.template(this, this.selective), this.containerEl); // Check for clean changes not caught.
+
+    if (this.isClean != isClean) {
+      this._isRendering = false;
+      this.render(force);
+      return;
+    } // Adjust the iframe size.
+
 
     this.adjustIframeSize(); // Allow selective to run its post render process.
 
@@ -16085,6 +16160,15 @@ class Editor {
       // Test for iframe first, as it may be hidden.
       const iframe = this.containerEl.querySelector('iframe');
       iframe && iframe.contentWindow.location.reload(true);
+    } // Mark as done rendering.
+
+
+    this._isRendering = false; // If there were other requests to render, render them.
+
+    if (this._pendingRender) {
+      const pendingRender = this._pendingRender;
+      this._pendingRender = false;
+      this.render(pendingRender);
     }
   }
 
