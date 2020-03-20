@@ -23,7 +23,7 @@ export default class EditorAutoFields extends AutoFields {
    * From a value, guess the type of field.
    */
   typeFromValue(value) {
-    if (this.dataType.isObject(value) && this._isConstructor(value)) {
+    if (this.DataType.isObject(value) && this._isConstructor(value)) {
       switch (value['tag']) {
         case '!g.doc':
           return 'document'

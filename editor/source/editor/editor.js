@@ -12,6 +12,7 @@ import {
   repeat,
 } from 'selective-edit'
 import Selective from 'selective-edit'
+import EditorAutoFields from './autoFields'
 import { defaultFields } from './field'
 import { zoomIframe } from './zoomIframe'
 import { findParentByClassname } from '../utility/dom'
@@ -364,6 +365,7 @@ export default class Editor {
     for (const fieldConfig of fieldConfigs) {
       this.selective.addField(fieldConfig, {
         api: this.api,
+        AutoFieldsCls: EditorAutoFields,
       })
     }
 

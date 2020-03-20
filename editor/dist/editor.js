@@ -254,6 +254,7 @@ class AutoFields extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_1__["c
     this._data = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_2__["autoDeepObject"])(data);
     this.setConfig(config);
     this._ignoredKeys = null;
+    this.DataType = _utility_dataType__WEBPACK_IMPORTED_MODULE_3__["default"];
   }
 
   get config() {
@@ -1331,6 +1332,7 @@ class FieldRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__[
     this.setConfig(config);
     this._errors = {};
     this._isLocked = false;
+    this._useAutoFields = false;
     this._originalValue = undefined;
     this.value = undefined; // Localization requires multiple values for one field.
 
@@ -1348,6 +1350,11 @@ class FieldRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__[
 
   get classesField() {
     const classes = ['selective__field', `selective__field__${this.fieldType}`];
+
+    if (this._useAutoFields) {
+      classes.push('selective__field--auto');
+    }
+
     return classes.join(' ');
   }
 
@@ -1698,7 +1705,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
 
       if (this._useAutoFields) {
         const AutoFieldsCls = this.config.get('AutoFieldsCls', _autoFields__WEBPACK_IMPORTED_MODULE_9__["default"]);
-        fieldConfigs = new AutoFieldsCls(this.originalValue).config['fields'];
+        fieldConfigs = new AutoFieldsCls(itemData).config['fields'];
       } // Create the fields based on the config.
 
 
@@ -1924,8 +1931,6 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
 
 
     document.addEventListener('selective.render.complete', () => {
-      console.log('rendering complete...');
-
       for (const item of newListItems) {
         item.fields.unlock();
       }
@@ -1958,17 +1963,26 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
 
     if (!value.length) {
       return '';
-    } // Check if there are only simple fields.
+    } // Check list items for specific conditions.
 
 
     const listItems = this._getListItemsForLocale(locale);
 
     let areSimpleFields = true;
+    let areAllExpanded = true;
+    let areAllCollapsed = true;
 
     for (const item of listItems) {
       if (!item.fields.isSimpleField) {
         areSimpleFields = false;
-        break;
+      }
+
+      if (!item.isExpanded) {
+        areAllExpanded = false;
+      }
+
+      if (item.isExpanded) {
+        areAllCollapsed = false;
       }
     }
 
@@ -1978,7 +1992,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
 
     actions.push(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
       <button
-          ?disabled=${isExpanded}
+          ?disabled=${areAllExpanded}
           class="selective__action__expand"
           data-locale=${locale || ''}
           @click=${this.handleExpandAll.bind(this)}>
@@ -1986,7 +2000,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
       </button>`);
     actions.push(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
       <button
-          ?disabled=${isCollapsed}
+          ?disabled=${areAllCollapsed}
           class="selective__action__collapse"
           data-locale=${locale || ''}
           @click=${this.handleCollapseAll.bind(this)}>
@@ -2004,7 +2018,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
 
     const value = this.getOriginalValueForLocale(locale);
     return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
-      <div class="selective__list">
+      <div class="selective__list ${this._useAutoFields ? 'selective__list--auto' : ''}">
         ${Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__["repeat"])(items, item => item.uid, (item, index) => this.renderItem(selective, value[index], item, index, locale))}
       </div>
       ${this.renderActionsFooter(selective, data, locale)}`;
@@ -2038,6 +2052,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
             data-locale=${locale || ''}
             @click=${this.handleExpandItem.bind(this)}>
           ${this.renderPreview(item, index)}
+          ${item.fields.updateOriginal(selective, data, true)}
         </div>
         <div
             class="selective__list__item__delete"
@@ -2590,8 +2605,16 @@ class FieldsRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__
     }
   }
 
-  updateOriginal(selective, data) {
+  updateOriginal(selective, data, deep) {
     this._originalValue = data ? data.obj ? data.obj : data : undefined;
+
+    if (deep) {
+      // Update all the fields since they may not get rendered.
+      // Ex: a collapsed list would not get the update.
+      for (const field of this.fields) {
+        field.updateOriginal(selective, data);
+      }
+    }
   }
 
 }
@@ -15544,7 +15567,7 @@ class EditorAutoFields extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Auto
 
 
   typeFromValue(value) {
-    if (this.dataType.isObject(value) && this._isConstructor(value)) {
+    if (this.DataType.isObject(value) && this._isConstructor(value)) {
       switch (value['tag']) {
         case '!g.doc':
           return 'document';
@@ -15645,14 +15668,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _document__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./document */ "./source/editor/document.js");
 /* harmony import */ var _editorApi__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./editorApi */ "./source/editor/editorApi.js");
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
-/* harmony import */ var _field__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./field */ "./source/editor/field.js");
-/* harmony import */ var _zoomIframe__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./zoomIframe */ "./source/editor/zoomIframe.js");
-/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utility/dom */ "./source/utility/dom.js");
-/* harmony import */ var _utility_expandObject__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../utility/expandObject */ "./source/utility/expandObject.js");
-/* harmony import */ var _utility_storage__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../utility/storage */ "./source/utility/storage.js");
+/* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./autoFields */ "./source/editor/autoFields.js");
+/* harmony import */ var _field__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./field */ "./source/editor/field.js");
+/* harmony import */ var _zoomIframe__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./zoomIframe */ "./source/editor/zoomIframe.js");
+/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../utility/dom */ "./source/utility/dom.js");
+/* harmony import */ var _utility_expandObject__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../utility/expandObject */ "./source/utility/expandObject.js");
+/* harmony import */ var _utility_storage__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../utility/storage */ "./source/utility/storage.js");
 /**
  * Content editor.
  */
+
 
 
 
@@ -15675,7 +15700,7 @@ class Editor {
       ${editor.renderPreview(editor, selective)}
     </div>`;
 
-    this.storage = new _utility_storage__WEBPACK_IMPORTED_MODULE_9__["default"](this.isTesting);
+    this.storage = new _utility_storage__WEBPACK_IMPORTED_MODULE_10__["default"](this.isTesting);
     const EditorApiCls = this.config.get('EditorApiCls', _editorApi__WEBPACK_IMPORTED_MODULE_3__["default"]);
     this.api = new EditorApiCls();
     this.listeners = new _utility_listeners__WEBPACK_IMPORTED_MODULE_1__["default"]();
@@ -15723,8 +15748,8 @@ class Editor {
 
     this.selective.localize = this.storage.getItem('selective.localize') == 'true'; // Add the editor extension default field types.
 
-    for (const key of Object.keys(_field__WEBPACK_IMPORTED_MODULE_5__["defaultFields"])) {
-      this.selective.addFieldType(key, _field__WEBPACK_IMPORTED_MODULE_5__["defaultFields"][key]);
+    for (const key of Object.keys(_field__WEBPACK_IMPORTED_MODULE_6__["defaultFields"])) {
+      this.selective.addFieldType(key, _field__WEBPACK_IMPORTED_MODULE_6__["defaultFields"][key]);
     }
 
     this.bindEvents();
@@ -15888,7 +15913,7 @@ class Editor {
   adjustIframeSize() {
     const iframeContainerEl = this.containerEl.querySelector('.editor__preview__frame');
     const iframeEl = this.containerEl.querySelector('.editor__preview iframe');
-    Object(_zoomIframe__WEBPACK_IMPORTED_MODULE_6__["zoomIframe"])(iframeContainerEl, iframeEl, this.isDeviceView, this.isDeviceRotated, this.devices[this.device], 'editor__preview__frame--contained');
+    Object(_zoomIframe__WEBPACK_IMPORTED_MODULE_7__["zoomIframe"])(iframeContainerEl, iframeEl, this.isDeviceView, this.isDeviceRotated, this.devices[this.device], 'editor__preview__frame--contained');
   }
 
   bindEvents() {
@@ -15987,7 +16012,8 @@ class Editor {
 
     for (const fieldConfig of fieldConfigs) {
       this.selective.addField(fieldConfig, {
-        api: this.api
+        api: this.api,
+        AutoFieldsCls: _autoFields__WEBPACK_IMPORTED_MODULE_5__["default"]
       });
     } // Add the ability to edit the document body.
 
@@ -16049,7 +16075,7 @@ class Editor {
   }
 
   handleDeviceSwitchClick(evt) {
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_7__["findParentByClassname"])(evt.target, 'editor__preview__size');
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_8__["findParentByClassname"])(evt.target, 'editor__preview__size');
     this.device = target.dataset.device;
     this.render();
   }

@@ -139,6 +139,12 @@
 .selective__field__google_image__preview__meta
   margin-top: $ge-pad/2
 
+.selective__list
+  &--auto
+    .editor--highlight &
+      .selective__list__item
+        background-color: $ge-color-back-highlight !important
+
 .selective__list__item
   align-items: center
   background: rgba($ge-color-back-light, .5)
@@ -150,10 +156,6 @@
   overflow: hidden
   padding: $ge-pad/2
   position: relative
-
-  &--auto
-    .editor--highlight &
-      background-color: $ge-color-back-highlight !important
 
   &--simple
     display: flex
