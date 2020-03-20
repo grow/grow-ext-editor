@@ -594,6 +594,7 @@ export default class Editor {
 
     // Mark as done rendering.
     this._isRendering = false
+    document.dispatchEvent(new CustomEvent('selective.render.complete'))
 
     // If there were other requests to render, render them.
     if (this._pendingRender) {

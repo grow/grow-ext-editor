@@ -107,13 +107,11 @@ export class FileListUI extends UI {
 
   delayedFocus() {
     // Wait for the render then focus on the filter input.
-    // TODO: Add a listenOnce feature to the listeners with a
-    // post render event to trigger focus.
-    window.setTimeout(
-      () => {
-        inputFocusAtEnd(`${this.uid}-filter`)
-      },
-      25)
+    document.addEventListener('selective.render.complete', () => {
+      inputFocusAtEnd(`${this.uid}-filter`)
+    }, {
+      once: true,
+    })
   }
 
   handleFileClick(evt) {
@@ -131,15 +129,15 @@ export class FileListUI extends UI {
 
   handlePodPaths(response) {
     this.podPaths = response.pod_paths.sort().filter(this.filterFunc)
-    this.render()
     this.delayedFocus()
+    this.render()
   }
 
   toggle() {
     this._showFileList = !this._showFileList
-    this.render()
     if(this._showFileList) {
       this.delayedFocus()
     }
+    this.render()
   }
 }

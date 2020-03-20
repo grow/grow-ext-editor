@@ -526,6 +526,7 @@ class Editor extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["compo
 
     Object(lit_html__WEBPACK_IMPORTED_MODULE_0__["render"])(this.template(this, this.data), this.containerEl);
     this.postRender();
+    document.dispatchEvent(new CustomEvent('selective.render.complete'));
   }
 
   setConfig(value) {
@@ -1329,6 +1330,7 @@ class FieldRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__[
     this.locales = ['en'];
     this.setConfig(config);
     this._errors = {};
+    this._isLocked = false;
     this._originalValue = undefined;
     this.value = undefined; // Localization requires multiple values for one field.
 
@@ -1350,6 +1352,10 @@ class FieldRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__[
   }
 
   get isClean() {
+    if (this._isLocked) {
+      return false;
+    }
+
     if (this.isLocalized) {
       if (json_stable_stringify__WEBPACK_IMPORTED_MODULE_1__(this.values) != json_stable_stringify__WEBPACK_IMPORTED_MODULE_1__(this._originalValues)) {
         return false;
@@ -1435,6 +1441,10 @@ class FieldRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__[
     }
 
     return `${this.key}@${locale}`;
+  }
+
+  lock() {
+    this._isLocked = true;
   } // TODO: Remove? Directives?
 
 
@@ -1522,6 +1532,10 @@ class FieldRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__[
     }
 
     this.render();
+  }
+
+  unlock() {
+    this._isLocked = false;
   } // Use the data passed to render to update the original value.
   // Also update the clean value when applicable.
 
@@ -1887,21 +1901,39 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
       modifier = -1;
     }
 
-    for (let i = 0; i < oldValue.length; i++) {
+    for (let i = 0; i < oldListItems.length; i++) {
       if (i < minIndex || i > maxIndex) {
         // Leave in the same order.
         newListItems[i] = oldListItems[i];
       } else if (i == endIndex) {
         // This element is being moved to, place the moved value here.
-        newListItems[i] = oldListItems[startIndex];
+        newListItems[i] = oldListItems[startIndex]; // Lock the fields to prevent the values from being updated at the same
+        // time as the original value.
+
+        newListItems[i].fields.lock();
       } else {
         // Shift the old index using the modifier to determine direction.
-        newListItems[i] = oldListItems[i + modifier];
+        newListItems[i] = oldListItems[i + modifier]; // Lock the fields to prevent the values from being updated at the same
+        // time as the original value.
+
+        newListItems[i].fields.lock();
       }
     }
 
-    this._setListItemsForLocale(locale, newListItems);
+    this._setListItemsForLocale(locale, newListItems); // Unlock fields after rendering is complete to let the values be updated when clean.
 
+
+    document.addEventListener('selective.render.complete', () => {
+      console.log('rendering complete...');
+
+      for (const item of newListItems) {
+        item.fields.unlock();
+      }
+
+      this.render();
+    }, {
+      once: true
+    });
     this.render();
   }
 
@@ -1925,6 +1957,22 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
     const value = this.getValueForLocale(locale) || [];
 
     if (!value.length) {
+      return '';
+    } // Check if there are only simple fields.
+
+
+    const listItems = this._getListItemsForLocale(locale);
+
+    let areSimpleFields = true;
+
+    for (const item of listItems) {
+      if (!item.fields.isSimpleField) {
+        areSimpleFields = false;
+        break;
+      }
+    }
+
+    if (areSimpleFields) {
       return '';
     }
 
@@ -1952,8 +2000,8 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
   renderInput(selective, data, locale) {
     this._createItems(selective, data, locale);
 
-    const localeKey = this.keyForLocale(locale);
-    const items = this._listItems[localeKey];
+    const items = this._getListItemsForLocale(locale);
+
     const value = this.getOriginalValueForLocale(locale);
     return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
       <div class="selective__list">
@@ -2514,6 +2562,13 @@ class FieldsRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__
     if (newField) {
       this.fields.push(newField);
     }
+  }
+
+  lock() {
+    // Lock all the fields to prevent them from being updated.
+    for (const field of this.fields) {
+      field.lock();
+    }
   } // TODO: look into directives.
 
 
@@ -2526,6 +2581,13 @@ class FieldsRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__
 
   reset() {
     this.fields = [];
+  }
+
+  unlock() {
+    // Unlock all the fields to allow them to be updated.
+    for (const field of this.fields) {
+      field.unlock();
+    }
   }
 
   updateOriginal(selective, data) {
@@ -16163,7 +16225,8 @@ class Editor {
     } // Mark as done rendering.
 
 
-    this._isRendering = false; // If there were other requests to render, render them.
+    this._isRendering = false;
+    document.dispatchEvent(new CustomEvent('selective.render.complete')); // If there were other requests to render, render them.
 
     if (this._pendingRender) {
       const pendingRender = this._pendingRender;
@@ -16700,11 +16763,11 @@ class ImageField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRewri
 
   delayedFocus(locale) {
     // Wait for the render then focus on the file input.
-    // TODO: Add a listenOnce feature to the listeners with a
-    // post render event to trigger focus.
-    window.setTimeout(() => {
+    document.addEventListener('selective.render.complete', () => {
       document.getElementById(`${this.uid}${locale || ''}-file`).click();
-    }, 25);
+    }, {
+      once: true
+    });
   }
 
   getServingPath(value, locale) {
@@ -16770,11 +16833,12 @@ class ImageField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRewri
     const locale = evt.target.dataset.locale;
     const localeKey = this.keyForLocale(locale);
     this._showFileInput[localeKey] = !(this._showFileInput[localeKey] || false);
-    this.render();
 
     if (this._showFileInput[localeKey]) {
       this.delayedFocus(locale);
     }
+
+    this.render();
   }
 
   handleImageLoad(evt) {
@@ -17725,9 +17789,11 @@ class TextField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRewrit
       const id = target.id;
       const position = target.selectionStart; // Trigger auto focus after a delay for rendering.
 
-      window.setTimeout(() => {
+      document.addEventListener('selective.render.complete', () => {
         Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["inputFocusAtPosition"])(id, position);
-      }, 25);
+      }, {
+        once: true
+      });
     } // Handle input after the check is complete for length.
     // Prevents the re-render before the check is done.
 
@@ -17885,11 +17951,11 @@ class FileListUI extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["UI"] {
 
   delayedFocus() {
     // Wait for the render then focus on the filter input.
-    // TODO: Add a listenOnce feature to the listeners with a
-    // post render event to trigger focus.
-    window.setTimeout(() => {
+    document.addEventListener('selective.render.complete', () => {
       Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["inputFocusAtEnd"])(`${this.uid}-filter`);
-    }, 25);
+    }, {
+      once: true
+    });
   }
 
   handleFileClick(evt) {
@@ -17907,17 +17973,18 @@ class FileListUI extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["UI"] {
 
   handlePodPaths(response) {
     this.podPaths = response.pod_paths.sort().filter(this.filterFunc);
-    this.render();
     this.delayedFocus();
+    this.render();
   }
 
   toggle() {
     this._showFileList = !this._showFileList;
-    this.render();
 
     if (this._showFileList) {
       this.delayedFocus();
     }
+
+    this.render();
   }
 
 }

@@ -311,7 +311,11 @@ export class TextField extends FieldRewrite {
       const position = target.selectionStart
 
       // Trigger auto focus after a delay for rendering.
-      window.setTimeout(() => { inputFocusAtPosition(id, position) }, 25)
+      document.addEventListener('selective.render.complete', () => {
+        inputFocusAtPosition(id, position)
+      }, {
+        once: true,
+      })
     }
 
     // Handle input after the check is complete for length.

@@ -70,13 +70,11 @@ export class ImageField extends FieldRewrite {
 
   delayedFocus(locale) {
     // Wait for the render then focus on the file input.
-    // TODO: Add a listenOnce feature to the listeners with a
-    // post render event to trigger focus.
-    window.setTimeout(
-      () => {
-        document.getElementById(`${this.uid}${locale || ''}-file`).click()
-      },
-      25)
+    document.addEventListener('selective.render.complete', () => {
+      document.getElementById(`${this.uid}${locale || ''}-file`).click()
+    }, {
+      once: true,
+    })
   }
 
   getServingPath(value, locale) {
@@ -142,11 +140,10 @@ export class ImageField extends FieldRewrite {
     const locale = evt.target.dataset.locale
     const localeKey = this.keyForLocale(locale)
     this._showFileInput[localeKey] = !(this._showFileInput[localeKey] || false)
-    this.render()
-
     if (this._showFileInput[localeKey]) {
       this.delayedFocus(locale)
     }
+    this.render()
   }
 
   handleImageLoad(evt) {
