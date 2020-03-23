@@ -1762,6 +1762,24 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
     return true;
   }
 
+  get localizedValues() {
+    const localizedValues = {};
+
+    for (const key of Object.keys(this._listItems)) {
+      const value = [];
+
+      for (const item of this._listItems[key]) {
+        value.push(item.fields.value);
+      }
+
+      localizedValues[key] = value;
+    } // Set after the localized values are updated.
+
+
+    localizedValues[this.key] = this.value;
+    return deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, this._originalValues, localizedValues);
+  }
+
   get value() {
     const listItems = this._getListItemsForLocale();
 
@@ -1806,7 +1824,10 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
       'fields': fieldConfigs
     }, fields);
     listItem.isExpanded = true;
-    listItems.push(listItem); // TODO: Focus on the input after rendering.
+    listItems.push(listItem);
+
+    this._setListItemsForLocale(locale, listItems); // TODO: Focus on the input after rendering.
+
 
     this.render();
   }
@@ -2016,10 +2037,11 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
 
     const items = this._getListItemsForLocale(locale);
 
-    const value = this.getOriginalValueForLocale(locale);
+    const value = this.getOriginalValueForLocale(locale) || [];
+    const valueLen = value.length;
     return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
       <div class="selective__list ${this._useAutoFields ? 'selective__list--auto' : ''}">
-        ${Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__["repeat"])(items, item => item.uid, (item, index) => this.renderItem(selective, value[index], item, index, locale))}
+        ${Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__["repeat"])(items, item => item.uid, (item, index) => this.renderItem(selective, index < valueLen ? value[index] : item.fields.defaultValue, item, index, locale))}
       </div>
       ${this.renderActionsFooter(selective, data, locale)}`;
   }

@@ -61,7 +61,7 @@ describe('text field', () => {
         'testing': true,
       })
     })
-    await page.waitForSelector('.selective__fields')
+    await page.waitForSelector('.selective')
   })
 
   it('should accept input', async () => {

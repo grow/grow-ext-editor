@@ -75,7 +75,7 @@ describe('select single field', () => {
         'testing': true,
       })
     })
-    await page.waitForSelector('.selective__fields')
+    await page.waitForSelector('.selective')
   })
 
   it('should be selected and changed', async () => {

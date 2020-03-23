@@ -6,20 +6,23 @@ const qs = require('querystring')
 const editorConfig = {
   'fields': [
     {
-      'type': 'markdown',
-      'key': 'content',
-      'label': 'Content',
+      'type': 'list',
+      'key': 'list',
+      'label': 'List (simple)',
+      'fields': [
+        {
+          'type': 'text',
+        }
+      ],
     }
   ]
 }
-const defaultEn = '# But why is the toilet paper gone?'
-const defaultEs = '# ¿Pero por qué se fue el papel higiénico?'
-let newValueEn = '# Toilet paper is the new gold currency.'
-let newValueEs = '# El papel higiénico es la nueva moneda de oro.'
-let newValueTypeEn = 'Toilet paper is the new gold currency.'
-let newValueTypeEs = 'El papel higiénico es la nueva moneda de oro.'
+const defaultEn = 'Trumpet'
+const defaultEs = 'Trompeta'
+let newValueEn = 'Trombone'
+let newValueEs = 'Trombón'
 
-describe('markdown field', () => {
+describe('list simple field with key', () => {
   beforeEach(async () => {
     // Need a new page to prevent requests already being handled.
     page = await browser.newPage()
@@ -45,8 +48,12 @@ describe('markdown field', () => {
             contentType: 'application/json',
             body: JSON.stringify(Object.assign({}, defaults.documentResponse, {
               'front_matter': {
-                'content': defaultEn,
-                'content@es': defaultEs,
+                'list': [
+                  defaultEn,
+                ],
+                'list@es': [
+                  defaultEs,
+                ],
               },
               'editor': editorConfig,
             }))
@@ -73,10 +80,10 @@ describe('markdown field', () => {
     })
     expect(isClean).toBe(true)
 
-    // Change the title.
-    await page.click('.selective__field__markdown .pell-content', {clickCount: 3})
+    // Change the value.
+    await page.click('.selective__field__text input', {clickCount: 3})
     await page.keyboard.press('Backspace')
-    await page.keyboard.type(newValueTypeEn)
+    await page.keyboard.type(newValueEn)
 
     // Editor should now be dirty.
     isClean = await page.evaluate(_ => {
@@ -95,8 +102,12 @@ describe('markdown field', () => {
       return window.editorInst.selective.value
     })
     expect(value).toMatchObject({
-      'content': newValueEn,
-      'content@es': defaultEs,
+      'list': [
+        newValueEn,
+      ],
+      'list@es': [
+        defaultEs,
+      ],
     })
 
     // After saving the editor should be clean.
@@ -105,7 +116,7 @@ describe('markdown field', () => {
     })
     expect(isClean).toBe(true)
 
-    await percySnapshot(page, 'Markdown field after save', defaults.snapshotOptions)
+    await percySnapshot(page, 'List field after save', defaults.snapshotOptions)
   })
 
   it('should accept input on localization', async () => {
@@ -118,17 +129,17 @@ describe('markdown field', () => {
     // Enable localization.
     const localizationIcon = await page.$('i[title="Localize content"]')
     await localizationIcon.click()
-    await page.waitForSelector('.selective__field__markdown .pell[data-locale=en] .pell-content')
+    await page.waitForSelector('.selective__field__text input[data-locale=en]')
 
-    // Change the en title.
-    await page.click('.selective__field__markdown .pell[data-locale=en] .pell-content', {clickCount: 3})
+    // Change the en value.
+    await page.click('.selective__list__item[data-locale=en] .selective__field__text input[data-locale=en]', {clickCount: 3})
     await page.keyboard.press('Backspace')
-    await page.keyboard.type(newValueTypeEn)
+    await page.keyboard.type(newValueEn)
 
-    // Change the es title.
-    await page.click('.selective__field__markdown .pell[data-locale=es] .pell-content', {clickCount: 3})
+    // Change the es value.
+    await page.click('.selective__list__item[data-locale=es] .selective__field__text input[data-locale=en]', {clickCount: 3})
     await page.keyboard.press('Backspace')
-    await page.keyboard.type(newValueTypeEs)
+    await page.keyboard.type(newValueEs)
 
     // Editor should now be dirty.
     isClean = await page.evaluate(_ => {
@@ -147,8 +158,12 @@ describe('markdown field', () => {
       return window.editorInst.selective.value
     })
     expect(value).toMatchObject({
-      'content': newValueEn,
-      'content@es': newValueEs,
+      'list': [
+        newValueEn,
+      ],
+      'list@es': [
+        newValueEs,
+      ],
     })
 
     // After saving the editor should be clean.
@@ -157,6 +172,68 @@ describe('markdown field', () => {
     })
     expect(isClean).toBe(true)
 
-    await percySnapshot(page, 'Markdown field after localization save', defaults.snapshotOptions)
+    await percySnapshot(page, 'List field after localization save', defaults.snapshotOptions)
+  })
+
+  it('should add item on localization', async () => {
+    // Editor starts out clean.
+    let isClean = await page.evaluate(_ => {
+      return window.editorInst.isClean
+    })
+    expect(isClean).toBe(true)
+
+    // Enable localization.
+    const localizationIcon = await page.$('i[title="Localize content"]')
+    await localizationIcon.click()
+    await page.waitForSelector('.selective__field__text input[data-locale=en]')
+
+    // Add the en value.
+    let addButton = await page.$('.selective__field__localization__input .selective__actions button[data-locale=en]')
+    await addButton.click()
+    await page.click('.selective__list__item[data-locale=en]:last-child .selective__field__text input[data-locale=en]', {clickCount: 3})
+    await page.keyboard.press('Backspace')
+    await page.keyboard.type(newValueEn)
+
+    // Add the es value.
+    addButton = await page.$('.selective__field__localization__input .selective__actions button[data-locale=es]')
+    await addButton.click()
+    await page.click('.selective__list__item[data-locale=es]:last-child .selective__field__text input[data-locale=en]', {clickCount: 3})
+    await page.keyboard.press('Backspace')
+    await page.keyboard.type(newValueEs)
+
+    // Editor should now be dirty.
+    isClean = await page.evaluate(_ => {
+      return window.editorInst.isClean
+    })
+    expect(isClean).toBe(false)
+
+    // Save the changes.
+    const saveButton = await page.$('.editor__save')
+    await saveButton.click()
+    await page.waitFor(defaults.saveWaitFor)
+    await page.waitForSelector('.editor__save:not(.editor__save--saving)')
+
+    // Verify the new value was saved.
+    const value = await page.evaluate(_ => {
+      return window.editorInst.selective.value
+    })
+    expect(value).toMatchObject({
+      'list': [
+        defaultEn,
+        newValueEn,
+      ],
+      'list@es': [
+        defaultEs,
+        newValueEs,
+      ],
+    })
+
+    // After saving the editor should be clean.
+    isClean = await page.evaluate(_ => {
+      return window.editorInst.isClean
+    })
+    expect(isClean).toBe(true)
+
+    await percySnapshot(page, 'List field add input after localization save', defaults.snapshotOptions)
   })
 })

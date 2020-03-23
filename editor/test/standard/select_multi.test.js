@@ -80,7 +80,7 @@ describe('select multi field', () => {
         'testing': true,
       })
     })
-    await page.waitForSelector('.selective__fields')
+    await page.waitForSelector('.selective')
   })
 
   it('should be selected and deselected', async () => {
