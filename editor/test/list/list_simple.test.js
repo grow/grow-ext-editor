@@ -22,7 +22,7 @@ const defaultEs = 'Trompeta'
 let newValueEn = 'Trombone'
 let newValueEs = 'Trombón'
 
-describe('list simple field with key', () => {
+describe('list simple field', () => {
   beforeEach(async () => {
     // Need a new page to prevent requests already being handled.
     page = await browser.newPage()
@@ -116,7 +116,7 @@ describe('list simple field with key', () => {
     })
     expect(isClean).toBe(true)
 
-    await percySnapshot(page, 'List field after save', defaults.snapshotOptions)
+    await percySnapshot(page, 'List field simple after save', defaults.snapshotOptions)
   })
 
   it('should accept input on localization', async () => {
@@ -172,7 +172,7 @@ describe('list simple field with key', () => {
     })
     expect(isClean).toBe(true)
 
-    await percySnapshot(page, 'List field after localization save', defaults.snapshotOptions)
+    await percySnapshot(page, 'List field simple after localization save', defaults.snapshotOptions)
   })
 
   it('should add item and remove item on localization', async () => {
@@ -234,7 +234,7 @@ describe('list simple field with key', () => {
     })
     expect(isClean).toBe(true)
 
-    await percySnapshot(page, 'List field add input after localization save', defaults.snapshotOptions)
+    await percySnapshot(page, 'List field simple add input after localization save', defaults.snapshotOptions)
 
     // Remove the en value.
     let deleteButton = await page.$('.selective__list__item[data-locale=en]:last-child .selective__list__item__delete')
@@ -274,6 +274,6 @@ describe('list simple field with key', () => {
     })
     expect(isClean).toBe(true)
 
-    await percySnapshot(page, 'List field remove input after localization save', defaults.snapshotOptions)
+    await percySnapshot(page, 'List field simple remove input after localization save', defaults.snapshotOptions)
   })
 })
