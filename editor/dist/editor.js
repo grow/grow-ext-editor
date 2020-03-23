@@ -2042,6 +2042,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
     return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
       <div class="selective__list ${this._useAutoFields ? 'selective__list--auto' : ''}">
         ${Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__["repeat"])(items, item => item.uid, (item, index) => this.renderItem(selective, index < valueLen ? value[index] : item.fields.defaultValue, item, index, locale))}
+        ${valueLen < 1 && items.length < 1 ? this.renderItemEmpty(selective, data, 0, locale) : ''}
       </div>
       ${this.renderActionsFooter(selective, data, locale)}`;
   }
@@ -2084,6 +2085,15 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
             title="Delete item">
           <i class="material-icons">delete</i>
         </div>
+      </div>`;
+  }
+
+  renderItemEmpty(selective, data, index, locale) {
+    return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
+      <div class="selective__list__item selective__list__item--empty"
+          data-index=${index}
+          data-locale=${locale || ''}>
+        { Empty }
       </div>`;
   }
 
