@@ -175,7 +175,7 @@ describe('list simple field with key', () => {
     await percySnapshot(page, 'List field after localization save', defaults.snapshotOptions)
   })
 
-  it('should add item on localization', async () => {
+  it('should add item and remove item on localization', async () => {
     // Editor starts out clean.
     let isClean = await page.evaluate(_ => {
       return window.editorInst.isClean
@@ -214,7 +214,7 @@ describe('list simple field with key', () => {
     await page.waitForSelector('.editor__save:not(.editor__save--saving)')
 
     // Verify the new value was saved.
-    const value = await page.evaluate(_ => {
+    let value = await page.evaluate(_ => {
       return window.editorInst.selective.value
     })
     expect(value).toMatchObject({
@@ -235,5 +235,45 @@ describe('list simple field with key', () => {
     expect(isClean).toBe(true)
 
     await percySnapshot(page, 'List field add input after localization save', defaults.snapshotOptions)
+
+    // Remove the en value.
+    let deleteButton = await page.$('.selective__list__item[data-locale=en]:last-child .selective__list__item__delete')
+    await deleteButton.click()
+
+    // Remove the es value.
+    deleteButton = await page.$('.selective__list__item[data-locale=es]:last-child .selective__list__item__delete')
+    await deleteButton.click()
+
+    // Editor should now be dirty.
+    isClean = await page.evaluate(_ => {
+      return window.editorInst.isClean
+    })
+    expect(isClean).toBe(false)
+
+    // Save the changes.
+    await saveButton.click()
+    await page.waitFor(defaults.saveWaitFor)
+    await page.waitForSelector('.editor__save:not(.editor__save--saving)')
+
+    // Verify the new value was saved.
+    value = await page.evaluate(_ => {
+      return window.editorInst.selective.value
+    })
+    expect(value).toMatchObject({
+      'list': [
+        defaultEn,
+      ],
+      'list@es': [
+        defaultEs,
+      ],
+    })
+
+    // After saving the editor should be clean.
+    isClean = await page.evaluate(_ => {
+      return window.editorInst.isClean
+    })
+    expect(isClean).toBe(true)
+
+    await percySnapshot(page, 'List field remove input after localization save', defaults.snapshotOptions)
   })
 })
