@@ -2093,7 +2093,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
       <div class="selective__list__item selective__list__item--empty"
           data-index=${index}
           data-locale=${locale || ''}>
-        { Empty }
+        ${this.config.get('emptyLabel', '{ Empty }')}
       </div>`;
   }
 

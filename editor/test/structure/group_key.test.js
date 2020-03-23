@@ -85,7 +85,7 @@ describe('group field with key', () => {
     // Expand the group.
     const groupLabel = await page.$('.selective__field__group label')
     await groupLabel.click()
-    await page.waitForSelector('.selective__field__group .selective__fields')
+    await page.waitForSelector('.selective__field__text input')
 
     // Change the title.
     await page.click('.selective__field__text input', {clickCount: 3})
@@ -134,7 +134,7 @@ describe('group field with key', () => {
     // Expand the group.
     const groupLabel = await page.$('.selective__field__group label')
     await groupLabel.click()
-    await page.waitForSelector('.selective__field__group .selective__fields')
+    await page.waitForSelector('.selective__field__text input')
 
     // Enable localization.
     const localizationIcon = await page.$('i[title="Localize content"]')
