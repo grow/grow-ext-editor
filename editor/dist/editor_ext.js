@@ -15666,7 +15666,7 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 class Document {
-  constructor(podPath, frontMatter, rawFrontMatter, servingPaths, defaultLocale, content) {
+  constructor(podPath, frontMatter, rawFrontMatter, servingPaths, defaultLocale, locales, content) {
     this.podPath = podPath;
     this.frontMatter = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_0__["autoDeepObject"])(frontMatter);
     this.rawFrontMatter = rawFrontMatter;
@@ -15674,7 +15674,7 @@ class Document {
     this.servingPaths = servingPaths;
     this.defaultLocale = defaultLocale;
     this.locale = defaultLocale;
-    this.locales = [];
+    this.locales = locales || [];
     this.content = content;
   }
 
@@ -15699,13 +15699,14 @@ class Document {
     return this.servingPaths[this.defaultLocale];
   }
 
-  update(podPath, frontMatter, rawFrontMatter, servingPaths, defaultLocale, content) {
+  update(podPath, frontMatter, rawFrontMatter, servingPaths, defaultLocale, locales, content) {
     this.podPath = podPath;
     this.frontMatter = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_0__["autoDeepObject"])(frontMatter);
     this.rawFrontMatter = rawFrontMatter;
     this.servingPaths = servingPaths;
     this.defaultLocale = defaultLocale;
     this.locale = defaultLocale;
+    this.locales = locales || [];
     this.content = content;
     this._rawFrontMatter = rawFrontMatter;
   }
@@ -16024,7 +16025,7 @@ class Editor {
   }
 
   documentFromResponse(response) {
-    this.document = new _document__WEBPACK_IMPORTED_MODULE_2__["default"](response['pod_path'], response['front_matter'], response['raw_front_matter'], response['serving_paths'], response['default_locale'], response['content']);
+    this.document = new _document__WEBPACK_IMPORTED_MODULE_2__["default"](response['pod_path'], response['front_matter'], response['raw_front_matter'], response['serving_paths'], response['default_locale'], response['locales'], response['content']);
   }
 
   handleFieldsClick(evt) {
@@ -16202,7 +16203,7 @@ class Editor {
   }
 
   handleSaveResponse(response, isAutosave) {
-    this.document.update(response['pod_path'], response['front_matter'], response['raw_front_matter'], response['serving_paths'], response['default_locale'], response['content']);
+    this.document.update(response['pod_path'], response['front_matter'], response['raw_front_matter'], response['serving_paths'], response['default_locale'], response['locales'], response['content']);
     this.selective.data = this.document.data;
     this._isSaving = false;
     this.listeners.trigger('save.response', response, isAutosave);

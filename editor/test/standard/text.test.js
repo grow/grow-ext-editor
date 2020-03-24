@@ -72,7 +72,7 @@ describe('text field', () => {
     expect(isClean).toBe(true)
 
     // Change the title.
-    await page.click('.selective__field__text input', {clickCount: 3})
+    await page.click('.selective__field__type__text input', {clickCount: 3})
     await page.keyboard.press('Backspace')
     await page.keyboard.type(newValueEn)
 
@@ -116,15 +116,15 @@ describe('text field', () => {
     // Enable localization.
     const localizationIcon = await page.$('i[title="Localize content"]')
     await localizationIcon.click()
-    await page.waitForSelector('.selective__field__text input[data-locale=en]')
+    await page.waitForSelector('.selective__field__type__text input[data-locale=en]')
 
     // Change the en title.
-    await page.click('.selective__field__text input[data-locale=en]', {clickCount: 3})
+    await page.click('.selective__field__type__text input[data-locale=en]', {clickCount: 3})
     await page.keyboard.press('Backspace')
     await page.keyboard.type(newValueEn)
 
     // Change the es title.
-    await page.click('.selective__field__text input[data-locale=es]', {clickCount: 3})
+    await page.click('.selective__field__type__text input[data-locale=es]', {clickCount: 3})
     await page.keyboard.press('Backspace')
     await page.keyboard.type(newValueEs)
 
@@ -171,35 +171,35 @@ describe('text field', () => {
     // Enable localization.
     const localizationIcon = await page.$('i[title="Localize content"]')
     await localizationIcon.click()
-    await page.waitForSelector('.selective__field__text input[data-locale=en]')
+    await page.waitForSelector('.selective__field__type__text input[data-locale=en]')
 
     // Change the en title.
-    await page.click('.selective__field__text input[data-locale=en]', {clickCount: 3})
+    await page.click('.selective__field__type__text input[data-locale=en]', {clickCount: 3})
     await page.keyboard.press('Backspace')
     // Need to delay input waiting for the input adjustment to propagate.
     await page.keyboard.type(newValueEn, {delay: 1})
     await page.waitFor(100)  // Wait for 100 ms to make sure textarea is ready.
 
     // Change the en title to make sure it got all of the value.
-    await page.click('.selective__field__text textarea[data-locale=en]', {clickCount: 3})
+    await page.click('.selective__field__type__text textarea[data-locale=en]', {clickCount: 3})
     await page.keyboard.press('Backspace')
     await page.keyboard.type(newValueEn)
 
     // Change the es title.
-    await page.click('.selective__field__text input[data-locale=es]', {clickCount: 3})
+    await page.click('.selective__field__type__text input[data-locale=es]', {clickCount: 3})
     await page.keyboard.press('Backspace')
     // Need to delay input waiting for the input adjustment to propagate.
     await page.keyboard.type(newValueEs, {delay: 1})
     await page.waitFor(100)  // Wait for 100 ms to make sure textarea is ready.
 
     // Change the en title to make sure it got all of the value.
-    await page.click('.selective__field__text textarea[data-locale=es]', {clickCount: 3})
+    await page.click('.selective__field__type__text textarea[data-locale=es]', {clickCount: 3})
     await page.keyboard.press('Backspace')
     await page.keyboard.type(newValueEs)
 
     // Check for textareas.
-    await expect(page).toMatchElement('.selective__field__text textarea[data-locale=en]')
-    await expect(page).toMatchElement('.selective__field__text textarea[data-locale=es]')
+    await expect(page).toMatchElement('.selective__field__type__text textarea[data-locale=en]')
+    await expect(page).toMatchElement('.selective__field__type__text textarea[data-locale=es]')
 
     // Editor should now be dirty.
     isClean = await page.evaluate(_ => {

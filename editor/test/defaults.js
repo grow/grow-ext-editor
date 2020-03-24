@@ -3,6 +3,7 @@ module.exports = {
     'raw_front_matter': '',
     'front_matter': {},
     'default_locale': 'en',
+    'locales': ['en', 'es'],
     'serving_paths': {
       'en': '/',
       'es': '/es/',

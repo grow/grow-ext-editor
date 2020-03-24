@@ -72,7 +72,7 @@ describe('textarea field', () => {
     expect(isClean).toBe(true)
 
     // Change the title.
-    await page.click('.selective__field__textarea textarea', {clickCount: 3})
+    await page.click('.selective__field__type__textarea textarea', {clickCount: 3})
     await page.keyboard.press('Backspace')
     await page.keyboard.type(newValueEn)
 
@@ -116,15 +116,15 @@ describe('textarea field', () => {
     // Enable localization.
     const localizationIcon = await page.$('i[title="Localize content"]')
     await localizationIcon.click()
-    await page.waitForSelector('.selective__field__textarea textarea[data-locale=en]')
+    await page.waitForSelector('.selective__field__type__textarea textarea[data-locale=en]')
 
     // Change the en title.
-    await page.click('.selective__field__textarea textarea[data-locale=en]', {clickCount: 3})
+    await page.click('.selective__field__type__textarea textarea[data-locale=en]', {clickCount: 3})
     await page.keyboard.press('Backspace')
     await page.keyboard.type(newValueEn)
 
     // Change the es title.
-    await page.click('.selective__field__textarea textarea[data-locale=es]', {clickCount: 3})
+    await page.click('.selective__field__type__textarea textarea[data-locale=es]', {clickCount: 3})
     await page.keyboard.press('Backspace')
     await page.keyboard.type(newValueEs)
 

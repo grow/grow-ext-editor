@@ -109,7 +109,7 @@ describe('image field', () => {
     expect(isClean).toBe(true)
 
     // Change the title.
-    await page.click('.selective__field__image_file input', {clickCount: 3})
+    await page.click('.selective__field__type__image_file input', {clickCount: 3})
     await page.keyboard.press('Backspace')
     await page.keyboard.type(newValueEn)
     await page.waitForSelector('.selective__image__preview__meta')
@@ -158,7 +158,7 @@ describe('image field', () => {
     expect(isClean).toBe(true)
 
     // Show the file list.
-    let fileListIcon = await page.$('.selective__field__image_file .selective__field__image_file__file_icon')
+    let fileListIcon = await page.$('.selective__field__type__image_file .selective__field__image_file__file_icon')
     await fileListIcon.click()
     await page.waitForSelector('.selective__file_list__file')
 
@@ -212,16 +212,16 @@ describe('image field', () => {
     // Enable localization.
     const localizationIcon = await page.$('i[title="Localize content"]')
     await localizationIcon.click()
-    await page.waitForSelector('.selective__field__image_file input[data-locale=en]')
+    await page.waitForSelector('.selective__field__type__image_file input[data-locale=en]')
 
     // Change the en title.
-    await page.click('.selective__field__image_file input[data-locale=en]', {clickCount: 3})
+    await page.click('.selective__field__type__image_file input[data-locale=en]', {clickCount: 3})
     await page.keyboard.press('Backspace')
     await page.keyboard.type(newValueEn)
     await page.waitForSelector('.selective__field__image_file__wrapper[data-locale=en] .selective__image__preview__meta')
 
     // Change the es title.
-    await page.click('.selective__field__image_file input[data-locale=es]', {clickCount: 3})
+    await page.click('.selective__field__type__image_file input[data-locale=es]', {clickCount: 3})
     await page.keyboard.press('Backspace')
     await page.keyboard.type(newValueEs)
     await page.waitForSelector('.selective__field__image_file__wrapper[data-locale=es] .selective__image__preview__meta')
@@ -266,10 +266,10 @@ describe('image field', () => {
     // Enable localization.
     const localizationIcon = await page.$('i[title="Localize content"]')
     await localizationIcon.click()
-    await page.waitForSelector('.selective__field__image_file input[data-locale=en]')
+    await page.waitForSelector('.selective__field__type__image_file input[data-locale=en]')
 
     // Show the en file list.
-    let fileListIcon = await page.$('.selective__field__image_file .selective__field__image_file__file_icon[data-locale=en]')
+    let fileListIcon = await page.$('.selective__field__type__image_file .selective__field__image_file__file_icon[data-locale=en]')
     await fileListIcon.click()
     await page.waitForSelector('[data-locale=en] .selective__file_list__file')
 
@@ -284,7 +284,7 @@ describe('image field', () => {
     await page.waitForSelector('.selective__field__image_file__wrapper[data-locale=en] .selective__image__preview__meta')
 
     // Show the es file list.
-    fileListIcon = await page.$('.selective__field__image_file .selective__field__image_file__file_icon[data-locale=es]')
+    fileListIcon = await page.$('.selective__field__type__image_file .selective__field__image_file__file_icon[data-locale=es]')
     await fileListIcon.click()
     await page.waitForSelector('[data-locale=es] .selective__file_list__file')
 

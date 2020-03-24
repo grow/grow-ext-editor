@@ -99,10 +99,10 @@ describe('list subfield multi field', () => {
     // Expand the first item.
     const firstItem = await page.$('.selective__list__item:first-child')
     await firstItem.click()
-    await page.$('.selective__list__item:first-child .selective__field__text')
+    await page.$('.selective__list__item:first-child .selective__field__type__text')
 
     // Change the value.
-    await page.click('.selective__field__text input', {clickCount: 3})
+    await page.click('.selective__field__type__text input', {clickCount: 3})
     await page.keyboard.press('Backspace')
     await page.keyboard.type(newValueEn)
 
@@ -164,20 +164,20 @@ describe('list subfield multi field', () => {
     // Expand the first item.
     let firstItem = await page.$('.selective__list__item[data-locale=en]:first-child')
     await firstItem.click()
-    await page.$('.selective__list__item[data-locale=en]:first-child .selective__field__text')
+    await page.$('.selective__list__item[data-locale=en]:first-child .selective__field__type__text')
 
     // Change the en value.
-    await page.click('.selective__list__item[data-locale=en] .selective__field__text input[data-locale=en]', {clickCount: 3})
+    await page.click('.selective__list__item[data-locale=en] .selective__field__type__text input[data-locale=en]', {clickCount: 3})
     await page.keyboard.press('Backspace')
     await page.keyboard.type(newValueEn)
 
     // Expand the first item.
     firstItem = await page.$('.selective__list__item[data-locale=es]:first-child')
     await firstItem.click()
-    await page.$('.selective__list__item[data-locale=es]:first-child .selective__field__text')
+    await page.$('.selective__list__item[data-locale=es]:first-child .selective__field__type__text')
 
     // Change the es value.
-    await page.click('.selective__list__item[data-locale=es] .selective__field__text input[data-locale=en]', {clickCount: 3})
+    await page.click('.selective__list__item[data-locale=es] .selective__field__type__text input[data-locale=en]', {clickCount: 3})
     await page.keyboard.press('Backspace')
     await page.keyboard.type(newValueEs)
 

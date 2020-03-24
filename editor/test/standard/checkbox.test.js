@@ -74,9 +74,9 @@ describe('checkbox field', () => {
     expect(isClean).toBe(true)
 
     // Change the checked state.
-    let checkboxLabel = await page.$('.selective__field__checkbox__label')
+    let checkboxLabel = await page.$('.selective__field__input__option')
     await checkboxLabel.click()
-    await page.waitForSelector('.selective__field__checkbox__label--checked')
+    await page.waitForSelector('.selective__field__input__option--selected')
 
     // Editor should now be dirty.
     isClean = await page.evaluate(_ => {
@@ -111,7 +111,7 @@ describe('checkbox field', () => {
 
     // Change the checked state.
     await checkboxLabel.click()
-    await page.waitForSelector('.selective__field__checkbox__label:not(.selective__field__checkbox__label--checked)')
+    await page.waitForSelector('.selective__field__input__option:not(.selective__field__input__option--selected)')
 
     // Editor should now be dirty.
     isClean = await page.evaluate(_ => {
@@ -152,17 +152,17 @@ describe('checkbox field', () => {
     // Enable localization.
     const localizationIcon = await page.$('i[title="Localize content"]')
     await localizationIcon.click()
-    await page.waitForSelector('.selective__field__checkbox__label[data-locale=en]')
+    await page.waitForSelector('.selective__field__input__option[data-locale=en]')
 
     // Change the en checked state.
-    let checkboxLabelEn = await page.$('.selective__field__checkbox__label[data-locale=en]')
+    let checkboxLabelEn = await page.$('.selective__field__input__option[data-locale=en]')
     await checkboxLabelEn.click()
-    await page.waitForSelector('.selective__field__checkbox__label--checked[data-locale=en]')
+    await page.waitForSelector('.selective__field__input__option--selected[data-locale=en]')
 
     // Change the es checked state.
-    let checkboxLabelEs = await page.$('.selective__field__checkbox__label[data-locale=es]')
+    let checkboxLabelEs = await page.$('.selective__field__input__option[data-locale=es]')
     await checkboxLabelEs.click()
-    await page.waitForSelector('.selective__field__checkbox__label--checked[data-locale=es]')
+    await page.waitForSelector('.selective__field__input__option--selected[data-locale=es]')
 
     // Editor should now be dirty.
     isClean = await page.evaluate(_ => {
@@ -197,11 +197,11 @@ describe('checkbox field', () => {
 
     // Change the en checked state.
     await checkboxLabelEn.click()
-    await page.waitForSelector('.selective__field__checkbox__label:not(.selective__field__checkbox__label--checked)[data-locale=en]')
+    await page.waitForSelector('.selective__field__input__option:not(.selective__field__input__option--selected)[data-locale=en]')
 
     // Change the es checked state.
     await checkboxLabelEs.click()
-    await page.waitForSelector('.selective__field__checkbox__label:not(.selective__field__checkbox__label--checked)[data-locale=es]')
+    await page.waitForSelector('.selective__field__input__option:not(.selective__field__input__option--selected)[data-locale=es]')
 
     // Editor should now be dirty.
     isClean = await page.evaluate(_ => {

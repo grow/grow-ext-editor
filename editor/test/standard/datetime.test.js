@@ -78,7 +78,7 @@ describe('datetime field', () => {
     expect(isClean).toBe(true)
 
     // Change the title.
-    await page.click('.selective__field__datetime input')
+    await page.click('.selective__field__type__datetime input')
     await page.keyboard.type(newDateTypeEn.replace('-', ''))
     await page.keyboard.press('Tab')
     await page.keyboard.type(newTimeTypeEn.replace('-', ''))
@@ -123,16 +123,16 @@ describe('datetime field', () => {
     // Enable localization.
     const localizationIcon = await page.$('i[title="Localize content"]')
     await localizationIcon.click()
-    await page.waitForSelector('.selective__field__datetime input[data-locale=en]')
+    await page.waitForSelector('.selective__field__type__datetime input[data-locale=en]')
 
     // Change the en title.
-    await page.click('.selective__field__datetime input[data-locale=en]')
+    await page.click('.selective__field__type__datetime input[data-locale=en]')
     await page.keyboard.type(newDateTypeEn.replace('-', ''))
     await page.keyboard.press('Tab')
     await page.keyboard.type(newTimeTypeEn.replace('-', ''))
 
     // Change the es title.
-    await page.click('.selective__field__datetime input[data-locale=es]')
+    await page.click('.selective__field__type__datetime input[data-locale=es]')
     await page.keyboard.type(newDateTypeEs.replace('-', ''))
     await page.keyboard.press('Tab')
     await page.keyboard.type(newTimeTypeEs.replace('-', ''))

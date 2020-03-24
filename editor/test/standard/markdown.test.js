@@ -74,7 +74,7 @@ describe('markdown field', () => {
     expect(isClean).toBe(true)
 
     // Change the title.
-    await page.click('.selective__field__markdown .pell-content', {clickCount: 3})
+    await page.click('.selective__field__type__markdown .pell-content', {clickCount: 3})
     await page.keyboard.press('Backspace')
     await page.keyboard.type(newValueTypeEn)
 
@@ -118,15 +118,15 @@ describe('markdown field', () => {
     // Enable localization.
     const localizationIcon = await page.$('i[title="Localize content"]')
     await localizationIcon.click()
-    await page.waitForSelector('.selective__field__markdown .pell[data-locale=en] .pell-content')
+    await page.waitForSelector('.selective__field__type__markdown .pell[data-locale=en] .pell-content')
 
     // Change the en title.
-    await page.click('.selective__field__markdown .pell[data-locale=en] .pell-content', {clickCount: 3})
+    await page.click('.selective__field__type__markdown .pell[data-locale=en] .pell-content', {clickCount: 3})
     await page.keyboard.press('Backspace')
     await page.keyboard.type(newValueTypeEn)
 
     // Change the es title.
-    await page.click('.selective__field__markdown .pell[data-locale=es] .pell-content', {clickCount: 3})
+    await page.click('.selective__field__type__markdown .pell[data-locale=es] .pell-content', {clickCount: 3})
     await page.keyboard.press('Backspace')
     await page.keyboard.type(newValueTypeEs)
 

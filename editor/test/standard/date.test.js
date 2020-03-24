@@ -76,7 +76,7 @@ describe('date field', () => {
     expect(isClean).toBe(true)
 
     // Change the title.
-    await page.click('.selective__field__date input', {clickCount: 3})
+    await page.click('.selective__field__type__date input', {clickCount: 3})
     await page.keyboard.press('Backspace')
     await page.keyboard.type(newValueTypeEn.replace('-', ''))
 
@@ -120,15 +120,15 @@ describe('date field', () => {
     // Enable localization.
     const localizationIcon = await page.$('i[title="Localize content"]')
     await localizationIcon.click()
-    await page.waitForSelector('.selective__field__date input[data-locale=en]')
+    await page.waitForSelector('.selective__field__type__date input[data-locale=en]')
 
     // Change the en title.
-    await page.click('.selective__field__date input[data-locale=en]', {clickCount: 3})
+    await page.click('.selective__field__type__date input[data-locale=en]', {clickCount: 3})
     await page.keyboard.press('Backspace')
     await page.keyboard.type(newValueTypeEn.replace('-', ''))
 
     // Change the es title.
-    await page.click('.selective__field__date input[data-locale=es]', {clickCount: 3})
+    await page.click('.selective__field__type__date input[data-locale=es]', {clickCount: 3})
     await page.keyboard.press('Backspace')
     await page.keyboard.type(newValueTypeEs.replace('-', ''))
 

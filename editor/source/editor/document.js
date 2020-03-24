@@ -5,7 +5,7 @@
 import { autoDeepObject } from '../utility/deepObject'
 
 export default class Document {
-  constructor(podPath, frontMatter, rawFrontMatter, servingPaths, defaultLocale, content) {
+  constructor(podPath, frontMatter, rawFrontMatter, servingPaths, defaultLocale, locales, content) {
     this.podPath = podPath
     this.frontMatter = autoDeepObject(frontMatter)
     this.rawFrontMatter = rawFrontMatter
@@ -13,7 +13,7 @@ export default class Document {
     this.servingPaths = servingPaths
     this.defaultLocale = defaultLocale
     this.locale = defaultLocale
-    this.locales = []
+    this.locales = locales || []
     this.content = content
   }
 
@@ -39,13 +39,14 @@ export default class Document {
     return this.servingPaths[this.defaultLocale]
   }
 
-  update(podPath, frontMatter, rawFrontMatter, servingPaths, defaultLocale, content) {
+  update(podPath, frontMatter, rawFrontMatter, servingPaths, defaultLocale, locales, content) {
     this.podPath = podPath
     this.frontMatter = autoDeepObject(frontMatter)
     this.rawFrontMatter = rawFrontMatter
     this.servingPaths = servingPaths
     this.defaultLocale = defaultLocale
     this.locale = defaultLocale
+    this.locales = locales || []
     this.content = content
     this._rawFrontMatter = rawFrontMatter
   }

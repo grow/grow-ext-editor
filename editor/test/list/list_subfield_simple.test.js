@@ -87,7 +87,7 @@ describe('list subfield simple field', () => {
     expect(isClean).toBe(true)
 
     // Change the value.
-    await page.click('.selective__field__text input', {clickCount: 3})
+    await page.click('.selective__field__type__text input', {clickCount: 3})
     await page.keyboard.press('Backspace')
     await page.keyboard.type(newValueEn)
 
@@ -139,15 +139,15 @@ describe('list subfield simple field', () => {
     // Enable localization.
     const localizationIcon = await page.$('i[title="Localize content"]')
     await localizationIcon.click()
-    await page.waitForSelector('.selective__field__text input[data-locale=en]')
+    await page.waitForSelector('.selective__field__type__text input[data-locale=en]')
 
     // Change the en value.
-    await page.click('.selective__list__item[data-locale=en] .selective__field__text input[data-locale=en]', {clickCount: 3})
+    await page.click('.selective__list__item[data-locale=en] .selective__field__type__text input[data-locale=en]', {clickCount: 3})
     await page.keyboard.press('Backspace')
     await page.keyboard.type(newValueEn)
 
     // Change the es value.
-    await page.click('.selective__list__item[data-locale=es] .selective__field__text input[data-locale=en]', {clickCount: 3})
+    await page.click('.selective__list__item[data-locale=es] .selective__field__type__text input[data-locale=en]', {clickCount: 3})
     await page.keyboard.press('Backspace')
     await page.keyboard.type(newValueEs)
 

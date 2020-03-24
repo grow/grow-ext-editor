@@ -313,6 +313,7 @@ export default class Editor {
       response['raw_front_matter'],
       response['serving_paths'],
       response['default_locale'],
+      response['locales'],
       response['content'])
   }
 
@@ -497,6 +498,7 @@ export default class Editor {
       response['raw_front_matter'],
       response['serving_paths'],
       response['default_locale'],
+      response['locales'],
       response['content'])
     this.selective.data = this.document.data
 

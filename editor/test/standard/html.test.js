@@ -74,7 +74,7 @@ describe('html field', () => {
     expect(isClean).toBe(true)
 
     // Change the title.
-    await page.click('.selective__field__html .pell-content', {clickCount: 3})
+    await page.click('.selective__field__type__html .pell-content', {clickCount: 3})
     await page.keyboard.press('Backspace')
     await page.keyboard.type(newValueTypeEn)
 
@@ -118,15 +118,15 @@ describe('html field', () => {
     // Enable localization.
     const localizationIcon = await page.$('i[title="Localize content"]')
     await localizationIcon.click()
-    await page.waitForSelector('.selective__field__html .pell[data-locale=en] .pell-content')
+    await page.waitForSelector('.selective__field__type__html .pell[data-locale=en] .pell-content')
 
     // Change the en title.
-    await page.click('.selective__field__html .pell[data-locale=en] .pell-content', {clickCount: 3})
+    await page.click('.selective__field__type__html .pell[data-locale=en] .pell-content', {clickCount: 3})
     await page.keyboard.press('Backspace')
     await page.keyboard.type(newValueTypeEn)
 
     // Change the es title.
-    await page.click('.selective__field__html .pell[data-locale=es] .pell-content', {clickCount: 3})
+    await page.click('.selective__field__type__html .pell[data-locale=es] .pell-content', {clickCount: 3})
     await page.keyboard.press('Backspace')
     await page.keyboard.type(newValueTypeEs)
 
