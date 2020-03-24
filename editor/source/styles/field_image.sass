@@ -18,6 +18,7 @@
   margin: $ge-pad/2 0
   padding: $ge-pad/2
   text-align: center
+  transition: all $ge-speed-slow ease-in-out
 
   .selective__image--hover &
     background-color: $ge-color-primary
@@ -44,6 +45,9 @@
   font-weight: 700
 
 .selective__image--hover
+  *
+    pointer-events: none
+
   input
     background-color: $ge-color-primary
     color: $ge-color-on-primary
