@@ -1351,10 +1351,14 @@ class FieldRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__[
   }
 
   get classesField() {
-    const classes = ['selective__field', `selective__field__${this.fieldType}`];
+    const classes = ['selective__field', `selective__field__type__${this.fieldType}`];
 
     if (this._useAutoFields) {
       classes.push('selective__field--auto');
+    }
+
+    if (this.config.key && this.config.key.endsWith('@')) {
+      classes.push('selective__field--translatable');
     }
 
     return classes.join(' ');
@@ -1506,17 +1510,20 @@ class FieldRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__[
 
   renderLocalization(selective, data) {
     if (this.ignoreLocalize || !selective.localize) {
-      return this.renderInput(selective, data);
+      return lit_html__WEBPACK_IMPORTED_MODULE_2__["html"]`
+        <div class="selective__field__input">
+          ${this.renderInput(selective, data)}
+        </div>`;
     } // Render the localization grid.
 
 
     return lit_html__WEBPACK_IMPORTED_MODULE_2__["html"]`
       <div class="selective__field__localization">
         ${Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_3__["repeat"])(this.locales, locale => locale, (locale, index) => lit_html__WEBPACK_IMPORTED_MODULE_2__["html"]`
-            <div class="selective__field__localization__locale">
+            <div class="selective__field__locale">
               <label for="${this.uid}${locale}">${locale}</label>
             </div>
-            <div class="selective__field__localization__input">
+            <div class="selective__field__input">
               ${this.renderInput(selective, data, locale)}
             </div>
           `)}
@@ -1815,7 +1822,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
       previewValue = null;
     }
 
-    return previewValue || defaultPreview || `Item ${index + 1}`;
+    return previewValue || defaultPreview || `{ Item ${index + 1} }`;
   }
 
   handleAddItem(evt, selective) {
@@ -2159,7 +2166,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
 
   renderLabel(selective, data) {
     return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
-      <div class="selective__actions__wrapper">
+      <div class="selective__field__actions__wrapper">
         <div class="selective__field__label">
           <label>${this.config.label}</label>
         </div>
@@ -2312,7 +2319,7 @@ class GroupField extends _field__WEBPACK_IMPORTED_MODULE_6__["default"] {
       <div
           class="selective__field__label selective__field__label--action selective__field__label--strong"
           @click=${this.handleExpandToggle.bind(this)}>
-        <div class="selective__field__label__actions">
+        <div class="selective__field__actions">
           <i class="material-icons">
             ${this.isExpanded ? 'expand_less' : 'expand_more'}
           </i>
@@ -15652,6 +15659,7 @@ class Document {
     this.servingPaths = servingPaths;
     this.defaultLocale = defaultLocale;
     this.locale = defaultLocale;
+    this.locales = [];
     this.content = content;
   }
 
@@ -16290,7 +16298,7 @@ class Editor {
         <input type="text" value="${editor.podPath}"
           @change=${editor.handlePodPathChange.bind(editor)}
           @input=${editor.handlePodPathInput.bind(editor)}>
-        <i class="material-icons" @click=${editor.handleLocalize.bind(editor)} title="Localize content">translate</i>
+        ${editor.document.locales.length > 1 ? selective_edit__WEBPACK_IMPORTED_MODULE_4__["html"]`<i class="material-icons" @click=${editor.handleLocalize.bind(editor)} title="Localize content">translate</i>` : ''}
         <i class="material-icons" @click=${editor.handleFullScreenClick.bind(editor)} title="Fullscreen">${editor.isFullScreen ? 'fullscreen_exit' : 'fullscreen'}</i>
       </div>
       <div class="editor__cards">
@@ -16298,13 +16306,13 @@ class Editor {
           <div class="editor__menu">
             <button
                 ?disabled=${editor._isSaving || editor.isClean}
-                class="editor__save editor--primary ${editor._isSaving ? 'editor__save--saving' : ''}"
+                class="editor__save editor__button--primary ${editor._isSaving ? 'editor__save--saving' : ''}"
                 @click=${editor.save.bind(editor)}>
               ${editor.isClean ? 'No changes' : editor._isSaving ? 'Saving...' : 'Save'}
             </button>
             <div class="editor__actions">
-              <button class="editor__style__fields editor--secondary ${this.isEditingSource ? '' : 'editor--selected'}" @click=${editor.handleFieldsClick.bind(editor)}>Fields</button>
-              <button class="editor__style__raw editor--secondary ${this.isEditingSource ? 'editor--selected' : ''}" @click=${editor.handleSourceClick.bind(editor)}>Raw</button>
+              <button class="editor__style__fields editor__button--secondary ${this.isEditingSource ? '' : 'editor__button--selected'}" @click=${editor.handleFieldsClick.bind(editor)}>Fields</button>
+              <button class="editor__style__raw editor__button--secondary ${this.isEditingSource ? 'editor__button--selected' : ''}" @click=${editor.handleSourceClick.bind(editor)}>Raw</button>
             </div>
           </div>
           ${editor.templateEditorOrSource}
@@ -16669,6 +16677,16 @@ class ConstructorFileField extends ConstructorField {
     Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(this.config.get('blacklist')));
   }
 
+  classesFileIcon(value, fileListUi) {
+    const classes = ['material-icons', 'selective__field__constructor__file_icon'];
+
+    if (fileListUi.showFileList) {
+      classes.push('selective__field__constructor__file_icon--checked');
+    }
+
+    return classes.join(' ');
+  }
+
   fileListUiForLocale(locale) {
     const localeKey = this.keyForLocale(locale);
 
@@ -16708,7 +16726,7 @@ class ConstructorFileField extends ConstructorField {
           @input=${this.handleInput.bind(this)}
           value=${value.value || ''} />
         <i
-            class="material-icons selective__field__constructor__file_icon"
+            class=${this.classesFileIcon(value, fileListUi)}
             title="Select pod path"
             data-locale=${locale || ''}
             @click=${this.handleFilesToggleClick.bind(this)}>
@@ -16906,12 +16924,14 @@ class ImageField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRewri
     }
 
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <input
-        type="file"
-        id="${this.uid}${locale || ''}-file"
-        data-locale=${locale || ''}
-        ?disabled=${this._isLoading[localeKey]}
-        @input=${this.handleFileInput.bind(this)} />`;
+      <div class="selective__image__file">
+        <input
+          type="file"
+          id="${this.uid}${locale || ''}-file"
+          data-locale=${locale || ''}
+          ?disabled=${this._isLoading[localeKey]}
+          @input=${this.handleFileInput.bind(this)} />
+      </div>`;
   }
 
   renderImageMeta(selective, data, locale) {
@@ -17373,28 +17393,19 @@ class CheckboxField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRe
     this.fieldType = 'checkbox';
   }
 
-  classesIcon(value) {
-    const classes = ['material-icons', 'selective__field__checkbox__icon'];
+  classesInput(value) {
+    const classes = ['selective__field__input__option'];
 
     if (value) {
-      classes.push('selective__field__checkbox__icon--checked');
-    }
-
-    return classes.join(' ');
-  }
-
-  classesLabel(value) {
-    const classes = ['selective__field__checkbox__label'];
-
-    if (value) {
-      classes.push('selective__field__checkbox__label--checked');
+      classes.push('selective__field__input__option--selected');
     }
 
     return classes.join(' ');
   }
 
   handleInput(evt) {
-    const locale = evt.target.dataset.locale;
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'selective__field__input__option');
+    const locale = target.dataset.locale;
     const value = !(this.getValueForLocale(locale) || false);
     this.setValueForLocale(locale, value);
   }
@@ -17403,17 +17414,16 @@ class CheckboxField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRe
     const value = this.getValueForLocale(locale) || false;
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
       <div
-          class=${this.classesLabel(value)}
+          class=${this.classesInput(value)}
           data-locale=${locale || ''}
           @click=${this.handleInput.bind(this)}>
-        ${this.config.label}
-      </div>
-      <i
-          class=${this.classesIcon(value)}
-          data-locale=${locale || ''}
-          @click=${this.handleInput.bind(this)}>
-        ${value ? 'check_box' : 'check_box_outline_blank'}
-      </i>`;
+        <div class="selective__field__label">
+          ${this.config.label}
+        </div>
+        <i class="material-icons">
+          ${value ? 'check_box' : 'check_box_outline_blank'}
+        </i>
+      </div>`;
   } // Label is shown by the individual input.
 
 
@@ -17481,7 +17491,7 @@ class HtmlField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRewrit
 
   postRender(containerEl) {
     const actions = this.getConfig().get('pellActions', ['bold', 'italic', 'heading1', 'heading2', 'olist', 'ulist', 'link']);
-    const fieldInstances = containerEl.querySelectorAll('.selective__field__html');
+    const fieldInstances = containerEl.querySelectorAll('.selective__field__type__html');
 
     for (const fieldInstance of fieldInstances) {
       const pellEls = fieldInstance.querySelectorAll('.pell');
@@ -17521,7 +17531,7 @@ class MarkdownField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRe
 
   postRender(containerEl) {
     const actions = this.getConfig().get('pellActions', ['bold', 'italic', 'heading1', 'heading2', 'olist', 'ulist', 'link']);
-    const fieldInstances = containerEl.querySelectorAll('.selective__field__markdown');
+    const fieldInstances = containerEl.querySelectorAll('.selective__field__type__markdown');
 
     for (const fieldInstance of fieldInstances) {
       const pellEls = fieldInstance.querySelectorAll('.pell');
@@ -17743,7 +17753,7 @@ class FileListUI extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["UI"] {
     this.podPaths = null;
     this.filterValue = '';
     this._listeningForPodPaths = false;
-    this._showFileList = false;
+    this.showFileList = false;
   }
 
   renderFilterInput(selective, data, locale) {
@@ -17758,7 +17768,7 @@ class FileListUI extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["UI"] {
   renderFileList(selective, data, locale) {
     this.bindListeners(selective);
 
-    if (!this._showFileList) {
+    if (!this.showFileList) {
       return '';
     } // If the pod paths have not loaded, show the loading status.
 
@@ -17828,7 +17838,7 @@ class FileListUI extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["UI"] {
     const localeTarget = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'selective__file_list__list');
     const locale = localeTarget.dataset.locale;
     const podPath = evt.target.dataset.podPath;
-    this._showFileList = false;
+    this.showFileList = false;
     this.listeners.trigger('podPath', podPath, locale);
   }
 
@@ -17844,9 +17854,9 @@ class FileListUI extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["UI"] {
   }
 
   toggle() {
-    this._showFileList = !this._showFileList;
+    this.showFileList = !this.showFileList;
 
-    if (this._showFileList) {
+    if (this.showFileList) {
       this.delayedFocus();
     }
 

@@ -22,33 +22,21 @@ export class CheckboxField extends FieldRewrite {
     this.fieldType = 'checkbox'
   }
 
-  classesIcon(value) {
+  classesInput(value) {
     const classes = [
-      'material-icons',
-      'selective__field__checkbox__icon',
+      'selective__field__input__option'
     ]
 
     if (value) {
-      classes.push('selective__field__checkbox__icon--checked')
-    }
-
-    return classes.join(' ')
-  }
-
-  classesLabel(value) {
-    const classes = [
-      'selective__field__checkbox__label',
-    ]
-
-    if (value) {
-      classes.push('selective__field__checkbox__label--checked')
+      classes.push('selective__field__input__option--selected')
     }
 
     return classes.join(' ')
   }
 
   handleInput(evt) {
-    const locale = evt.target.dataset.locale
+    const target = findParentByClassname(evt.target, 'selective__field__input__option')
+    const locale = target.dataset.locale
     const value = !(this.getValueForLocale(locale) || false)
     this.setValueForLocale(locale, value)
   }
@@ -58,17 +46,16 @@ export class CheckboxField extends FieldRewrite {
 
     return html`
       <div
-          class=${this.classesLabel(value)}
+          class=${this.classesInput(value)}
           data-locale=${locale || ''}
           @click=${this.handleInput.bind(this)}>
-        ${this.config.label}
-      </div>
-      <i
-          class=${this.classesIcon(value)}
-          data-locale=${locale || ''}
-          @click=${this.handleInput.bind(this)}>
-        ${value ? 'check_box' : 'check_box_outline_blank'}
-      </i>`
+        <div class="selective__field__label">
+          ${this.config.label}
+        </div>
+        <i class="material-icons">
+          ${value ? 'check_box' : 'check_box_outline_blank'}
+        </i>
+      </div>`
   }
 
   // Label is shown by the individual input.
@@ -138,7 +125,7 @@ export class HtmlField extends FieldRewrite {
   postRender(containerEl) {
     const actions = this.getConfig().get('pellActions', [
       'bold', 'italic', 'heading1', 'heading2', 'olist', 'ulist', 'link'])
-    const fieldInstances = containerEl.querySelectorAll('.selective__field__html')
+    const fieldInstances = containerEl.querySelectorAll('.selective__field__type__html')
     for (const fieldInstance of fieldInstances) {
       const pellEls = fieldInstance.querySelectorAll('.pell')
       for (const pellEl of pellEls) {
@@ -177,7 +164,7 @@ export class MarkdownField extends FieldRewrite {
   postRender(containerEl) {
     const actions = this.getConfig().get('pellActions', [
       'bold', 'italic', 'heading1', 'heading2', 'olist', 'ulist', 'link'])
-    const fieldInstances = containerEl.querySelectorAll('.selective__field__markdown')
+    const fieldInstances = containerEl.querySelectorAll('.selective__field__type__markdown')
     for (const fieldInstance of fieldInstances) {
       const pellEls = fieldInstance.querySelectorAll('.pell')
       for (const pellEl of pellEls) {

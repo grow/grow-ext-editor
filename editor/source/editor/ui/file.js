@@ -30,7 +30,7 @@ export class FileListUI extends UI {
     this.filterValue = ''
 
     this._listeningForPodPaths = false
-    this._showFileList = false
+    this.showFileList = false
   }
 
   renderFilterInput(selective, data, locale) {
@@ -45,7 +45,7 @@ export class FileListUI extends UI {
   renderFileList(selective, data, locale) {
     this.bindListeners(selective)
 
-    if (!this._showFileList) {
+    if (!this.showFileList) {
       return ''
     }
 
@@ -118,7 +118,7 @@ export class FileListUI extends UI {
     const localeTarget = findParentByClassname(evt.target, 'selective__file_list__list')
     const locale = localeTarget.dataset.locale
     const podPath = evt.target.dataset.podPath
-    this._showFileList = false
+    this.showFileList = false
     this.listeners.trigger('podPath', podPath, locale)
   }
 
@@ -134,8 +134,8 @@ export class FileListUI extends UI {
   }
 
   toggle() {
-    this._showFileList = !this._showFileList
-    if(this._showFileList) {
+    this.showFileList = !this.showFileList
+    if(this.showFileList) {
       this.delayedFocus()
     }
     this.render()

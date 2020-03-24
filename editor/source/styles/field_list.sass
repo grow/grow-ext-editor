@@ -1,0 +1,72 @@
+.selective__list
+  &--auto
+    .editor--highlight &
+      .selective__list__item
+        background-color: $ge-color-back-highlight !important
+
+.selective__list__item
+  background: $ge-color-field-back
+  border-radius: $ge-radius-2
+  color: $ge-color-on-field-back
+  margin: $ge-pad/2 0
+  padding: $ge-pad/2
+
+  &:hover
+    box-shadow: $ge-shadow-1
+
+  &--empty
+    background: none
+    border: 1px dashed $ge-color-field-back
+
+    &:hover
+      box-shadow: none !important
+      cursor: default
+
+  &--collapsed,
+  &--simple
+    align-items: center
+    display: flex
+    flex-flow: row
+    align-items: center
+    padding: $ge-pad/2 0
+
+    .selective__field
+      flex-grow: 1
+      margin: 0
+
+  &--simple
+    padding: $ge-pad/4 0
+
+.selective__list__item__delete,
+.selective__list__item__drag
+  padding: 0 $ge-pad/2
+
+  .material-icons
+    +field-clickable
+    +field-color
+    font-size: $ge-font-size-icon-small
+
+.selective__list__item__label
+  +field-clickable
+  flex-basis: 25%
+  flex-grow: 1
+  font-weight: bold
+  padding-right: $ge-pad
+
+.selective__list__item__preview
+  +field-clickable
+  flex-basis: 75%
+  flex-shrink: 1
+  flex-grow: 1
+  overflow: hidden
+  text-overflow: ellipsis
+
+.selective__list__fields__label
+  font-weight: 700
+
+  &--empty
+    +field-clickable
+    background: $ge-color-bar
+    height: $ge-bar-height
+    margin: (-$ge-pad/2) (-$ge-pad/2) $ge-pad (-$ge-pad/2)
+    width: calc(100% + #{$ge-pad})

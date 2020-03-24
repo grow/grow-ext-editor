@@ -162,12 +162,14 @@ export class ImageField extends FieldRewrite {
     }
 
     return html`
-      <input
-        type="file"
-        id="${this.uid}${locale || ''}-file"
-        data-locale=${locale || ''}
-        ?disabled=${this._isLoading[localeKey]}
-        @input=${this.handleFileInput.bind(this)} />`
+      <div class="selective__image__file">
+        <input
+          type="file"
+          id="${this.uid}${locale || ''}-file"
+          data-locale=${locale || ''}
+          ?disabled=${this._isLoading[localeKey]}
+          @input=${this.handleFileInput.bind(this)} />
+      </div>`
   }
 
   renderImageMeta(selective, data, locale) {

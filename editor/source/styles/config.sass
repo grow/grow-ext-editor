@@ -26,8 +26,14 @@ $ge-color-on-back-subtle: darken($ge-color-back, 25%) !default
 $ge-color-on-back-light: #455a64 !default
 $ge-color-on-back-dark: lighten($ge-color-on-back-light, 15%) !default
 
-$ge-color-light-border: rgba(0,0,0,0.3)
-$ge-color-bar: rgba(0,0,0,0.1)
+$ge-color-light-border: rgba(0,0,0,0.3) !default
+$ge-color-bar: rgba(0,0,0,0.1) !default
+
+// Input colors
+$ge-color-field-back: rgba($ge-color-back-light, .5) !default
+$ge-color-field-back-alt: $ge-color-back !default
+$ge-color-on-field-back: $ge-color-text !default
+$ge-color-on-field-back-alt: $ge-color-text !default
 
 // Icon Colors
 $ge-color-icon-on-back: darken($ge-color-back, 25%) !default
@@ -41,7 +47,7 @@ $ge-speed-slower: 1500ms !default
 $ge-speed-fast: 250ms !default
 
 // Transistions
-$ge-timing-cubic-bezier: cubic-bezier(0, 1, 0.5, 1)
+$ge-timing-cubic-bezier: cubic-bezier(0, 1, 0.5, 1) !default
 
 // Padding unit
 $ge-pad: 1em !default
@@ -52,6 +58,7 @@ $ge-font-family-mono: "Roboto Mono", monospace !default
 $ge-font-size: 12px !default
 $ge-font-size-small: $ge-font-size * .8 !default
 $ge-font-size-icon: 18px !default
+$ge-font-size-icon-small: 14px !default
 $ge-line-height: 14px !default
 
 // Shadows
@@ -84,20 +91,50 @@ $ge-device-height: 731px !default
 $ge-edit-column-max-width: 500px !default
 $ge-edit-column-min-width: 250px !default
 
-$ge-header-height: 38px
+$ge-header-height: 38px !default
 
 // Empty bar height
-$ge-bar-height: 10px
+$ge-bar-height: 10px !default
 
 // Loading
-$ge-loading-size: 50px
-$ge-loading-border-size: 4px
+$ge-loading-size: 50px !default
+$ge-loading-border-size: 4px !default
 
-
-=field-control-focus
-  border: 2px solid $ge-color-primary
+=field-border
+  border: $ge-border-size solid transparent
   border-radius: $ge-radius-2
-  outline: none
 
-=field-control-hover
-  border: 1px solid $ge-color-light-border
+  &:focus
+    border: $ge-border-size solid $ge-color-primary
+    outline: none
+
+  &:hover
+    border: $ge-border-size solid $ge-color-light-border
+
+    &:focus
+      border: $ge-border-size solid $ge-color-primary
+
+=field-clickable
+  cursor: pointer
+
+=field-control
+  background: $ge-color-field-back
+  padding: $ge-pad/2
+  width: 100%
+
+=field-color
+  &:focus
+    color: $ge-color-primary
+
+  &:hover
+    color: $ge-color-light-border
+
+    &:focus
+      color: $ge-color-primary
+
+  &--checked,
+  &--selected
+    color: $ge-color-primary
+
+    &:hover
+      color: $ge-color-primary

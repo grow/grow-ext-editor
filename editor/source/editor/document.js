@@ -13,6 +13,7 @@ export default class Document {
     this.servingPaths = servingPaths
     this.defaultLocale = defaultLocale
     this.locale = defaultLocale
+    this.locales = []
     this.content = content
   }
 

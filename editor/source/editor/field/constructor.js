@@ -59,6 +59,19 @@ export class ConstructorFileField extends ConstructorField {
     )
   }
 
+  classesFileIcon(value, fileListUi) {
+    const classes = [
+      'material-icons',
+      'selective__field__constructor__file_icon',
+    ]
+
+    if (fileListUi.showFileList) {
+      classes.push('selective__field__constructor__file_icon--checked')
+    }
+
+    return classes.join(' ')
+  }
+
   fileListUiForLocale(locale) {
     const localeKey = this.keyForLocale(locale)
     if (!this._fileListUi[localeKey]) {
@@ -98,7 +111,7 @@ export class ConstructorFileField extends ConstructorField {
           @input=${this.handleInput.bind(this)}
           value=${value.value || ''} />
         <i
-            class="material-icons selective__field__constructor__file_icon"
+            class=${this.classesFileIcon(value, fileListUi)}
             title="Select pod path"
             data-locale=${locale || ''}
             @click=${this.handleFilesToggleClick.bind(this)}>
