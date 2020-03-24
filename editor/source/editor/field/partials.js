@@ -90,6 +90,11 @@ export class PartialsField extends ListField {
 
   handleAddItem(evt, selective) {
     const partialKey = evt.target.value
+
+    if (!partialKey) {
+      return
+    }
+
     const partialConfig = this.getPartialConfig(partialKey)
     const locale = evt.target.dataset.locale
     const listItems = this._getListItemsForLocale(locale)
@@ -118,7 +123,8 @@ export class PartialsField extends ListField {
 
     this._setListItemsForLocale(locale, listItems)
 
-    // TODO: Focus on the input after rendering.
+    // Reset the value for the select field to allow easily selecting another.
+    evt.target.value = ''
 
     this.render()
   }

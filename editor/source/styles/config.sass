@@ -119,6 +119,7 @@ $ge-loading-border-size: 4px !default
 
 =field-control
   background: $ge-color-field-back
+  color: $ge-color-on-field-back
   padding: $ge-pad/2
   width: 100%
 
@@ -138,3 +139,17 @@ $ge-loading-border-size: 4px !default
 
     &:hover
       color: $ge-color-primary
+
+=list-nesting
+  .selective__list__item &,
+  .selective__list__item .selective__list__item .selective__list__item &,
+  .selective__list__item .selective__list__item .selective__list__item .selective__list__item .selective__list__item &,
+  .selective__list__item .selective__list__item .selective__list__item .selective__list__item .selective__list__item .selective__list__item .selective__list__item &
+    @content
+
+=list-nesting-alt
+  .selective__list__item .selective__list__item &,
+  .selective__list__item .selective__list__item .selective__list__item .selective__list__item &,
+  .selective__list__item .selective__list__item .selective__list__item .selective__list__item .selective__list__item .selective__list__item &,
+  .selective__list__item .selective__list__item .selective__list__item .selective__list__item .selective__list__item .selective__list__item .selective__list__item .selective__list__item &
+    @content

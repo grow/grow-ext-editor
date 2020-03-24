@@ -17293,6 +17293,11 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListFie
 
   handleAddItem(evt, selective) {
     const partialKey = evt.target.value;
+
+    if (!partialKey) {
+      return;
+    }
+
     const partialConfig = this.getPartialConfig(partialKey);
     const locale = evt.target.dataset.locale;
 
@@ -17319,9 +17324,10 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListFie
     listItem.isExpanded = true;
     listItems.push(listItem);
 
-    this._setListItemsForLocale(locale, listItems); // TODO: Focus on the input after rendering.
+    this._setListItemsForLocale(locale, listItems); // Reset the value for the select field to allow easily selecting another.
 
 
+    evt.target.value = '';
     this.render();
   }
 

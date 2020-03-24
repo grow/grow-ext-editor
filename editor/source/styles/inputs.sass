@@ -4,23 +4,50 @@
     +field-control
     font-family: $ge-font-family-mono
 
+    // Alternate with nesting.
+    +list-nesting
+      background-color: $ge-color-field-back-alt
+      color: $ge-color-on-field-back-alt
+
+    +list-nesting-alt
+      background-color: $ge-color-field-back
+      color: $ge-color-on-field-back
+
   textarea
     +field-border
     +field-control
     font-family: $ge-font-family-mono
+
+    // Alternate with nesting.
+    +list-nesting
+      background-color: $ge-color-field-back-alt
+      color: $ge-color-on-field-back-alt
+
+    +list-nesting-alt
+      background-color: $ge-color-field-back
+      color: $ge-color-on-field-back
 
   [contenteditable=true]
     +field-border
     +field-control
 
   button
-    background: $ge-color-back
+    background: $ge-color-field-back-alt
     border-radius: $ge-radius-5
-    color: $ge-color-on-back
+    color: $ge-color-on-field-back-alt
     border: 1px solid $ge-color-back-light
     font-family: $ge-font-family
     font-size: $ge-font-size
     padding: $ge-pad/2 $ge-pad
+
+    // Alternate with nesting.
+    +list-nesting
+      background-color: $ge-color-field-back-alt
+      color: $ge-color-on-field-back-alt
+
+    +list-nesting-alt
+      background-color: $ge-color-field-back
+      color: $ge-color-on-field-back
 
     &[disabled]
       opacity: .5

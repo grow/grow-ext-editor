@@ -9,7 +9,16 @@
   border-radius: $ge-radius-2
   color: $ge-color-on-field-back
   margin: $ge-pad/2 0
-  padding: $ge-pad/2
+  padding: $ge-pad
+
+  // Alternate with nesting.
+  +list-nesting
+    background-color: $ge-color-field-back-alt
+    color: $ge-color-on-field-back-alt
+
+  +list-nesting-alt
+    background-color: $ge-color-field-back
+    color: $ge-color-on-field-back
 
   &:hover
     box-shadow: $ge-shadow-1
@@ -67,6 +76,7 @@
   &--empty
     +field-clickable
     background: $ge-color-bar
+    border-radius: $ge-radius-2 $ge-radius-2 0 0
     height: $ge-bar-height
-    margin: (-$ge-pad/2) (-$ge-pad/2) $ge-pad (-$ge-pad/2)
-    width: calc(100% + #{$ge-pad})
+    margin: (-$ge-pad) (-$ge-pad) $ge-pad (-$ge-pad)
+    width: calc(100% + #{$ge-pad*2})
