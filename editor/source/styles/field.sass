@@ -31,3 +31,14 @@
   color: $ge-color-text-light
   font-size: $ge-font-size-small
   margin: $ge-pad/2
+
+[draggable=true]
+  &.selective__sortable--hover
+    *
+      pointer-events: none
+
+  &.selective__sortable--above
+    border-top: $ge-border-size solid $ge-color-primary
+
+  &.selective__sortable--below
+    border-bottom: $ge-border-size solid $ge-color-primary
