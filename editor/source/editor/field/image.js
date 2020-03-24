@@ -261,7 +261,7 @@ export class ImageField extends FieldRewrite {
   }
 
   uploadFile(file, locale) {
-    const destination = this.getConfig().get('destination', '/static/img/upload')
+    const destination = this.config.get('destination', '/static/img/upload')
     const localeKey = this.keyForLocale(locale)
 
     this.api.saveImage(file, destination).then((result) => {
@@ -287,7 +287,7 @@ export class ImageFileField extends ImageField {
     )
 
     // Use the API to get serving paths for local images.
-    this.api = this.getConfig().get('api')
+    this.api = this.config.get('api')
     this._servingPaths = {}
     this._servingPathsLoading = {}
   }
@@ -387,7 +387,7 @@ export class GoogleImageField extends ImageField {
   constructor(config, extendedConfig) {
     super(config, extendedConfig)
     this.fieldType = 'google_image'
-    this.api = this.getConfig().get('api')
+    this.api = this.config.get('api')
 
     // TODO: Change to use the API after the extension is updated to the new
     // Extension style.

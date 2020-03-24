@@ -155,7 +155,7 @@ const UidMixin = superclass => class extends superclass {
 /*!***************************************************************!*\
   !*** /Users/randy/code/blinkk/selective-edit/js/selective.js ***!
   \***************************************************************/
-/*! exports provided: default, Field, FieldRewrite, GroupField, SortableField, ListField, Fields, FieldsRewrite, AutoFields, UI, directive, html, repeat, render, autoConfig, autoDeepObject */
+/*! exports provided: default, Field, FieldRewrite, GroupField, SortableField, ListField, ListItem, Fields, FieldsRewrite, AutoFields, UI, directive, html, repeat, render, autoConfig, autoDeepObject */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -182,6 +182,8 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony import */ var _selective_field_list__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./selective/field/list */ "../../../selective-edit/js/selective/field/list.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ListField", function() { return _selective_field_list__WEBPACK_IMPORTED_MODULE_6__["ListField"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ListItem", function() { return _selective_field_list__WEBPACK_IMPORTED_MODULE_6__["ListItem"]; });
 
 /* harmony import */ var _selective_field_structure__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./selective/field/structure */ "../../../selective-edit/js/selective/field/structure.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "GroupField", function() { return _selective_field_structure__WEBPACK_IMPORTED_MODULE_7__["GroupField"]; });
@@ -1630,13 +1632,13 @@ class FieldRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__[
 /*!**************************************************************************!*\
   !*** /Users/randy/code/blinkk/selective-edit/js/selective/field/list.js ***!
   \**************************************************************************/
-/*! exports provided: ListField, default */
+/*! exports provided: ListField, ListItem */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ListField", function() { return ListField; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ListItem; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ListItem", function() { return ListItem; });
 /* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! deep-extend */ "../../../selective-edit/node_modules/deep-extend/lib/deep-extend.js");
 /* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(deep_extend__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lit-html */ "../../../selective-edit/node_modules/lit-html/lit-html.js");
@@ -1710,8 +1712,8 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
 
 
       for (let fieldConfig of fieldConfigs || []) {
-        fieldConfig = Object(_utility_config__WEBPACK_IMPORTED_MODULE_6__["autoConfig"])(fieldConfig, this.extendedConfig);
-        fields.addField(fieldConfig, this.extendedConfig);
+        fieldConfig = Object(_utility_config__WEBPACK_IMPORTED_MODULE_6__["autoConfig"])(fieldConfig, this.globalConfig);
+        fields.addField(fieldConfig, this.globalConfig);
       } // When an is not expanded it does not get the value
       // updated correctly so we need to manually call the data update.
 
@@ -1799,6 +1801,23 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
   set value(value) {// no-op
   }
 
+  guessPreview(item, index, defaultPreview) {
+    const defaultPreviewField = this.config.get('preview_field');
+    const previewField = item.config.preview_field;
+    let previewValue = item.fields.value;
+
+    if (previewField || defaultPreviewField) {
+      previewValue = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_8__["autoDeepObject"])(previewValue).get(previewField || defaultPreviewField);
+    } // Do not try to show preview for complex values.
+
+
+    if (typeof previewValue == 'object') {
+      previewValue = null;
+    }
+
+    return previewValue || defaultPreview || `Item ${index + 1}`;
+  }
+
   handleAddItem(evt, selective) {
     const locale = evt.target.dataset.locale;
 
@@ -1815,8 +1834,8 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
 
 
     for (let fieldConfig of fieldConfigs || []) {
-      fieldConfig = Object(_utility_config__WEBPACK_IMPORTED_MODULE_6__["autoConfig"])(fieldConfig, this.extendedConfig);
-      fields.addField(fieldConfig, this.extendedConfig);
+      fieldConfig = Object(_utility_config__WEBPACK_IMPORTED_MODULE_6__["autoConfig"])(fieldConfig, this.globalConfig);
+      fields.addField(fieldConfig, this.globalConfig);
     }
 
     fields.updateOriginal(fields.defaultValue);
@@ -2058,6 +2077,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
   }
 
   renderItemCollapsed(selective, data, item, index, locale) {
+    item.fields.updateOriginal(selective, data, true);
     return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
       <div class="selective__list__item selective__list__item--collapsed selective__sortable"
           draggable="true"
@@ -2069,14 +2089,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
           @dragstart=${this._sortableUi.handleDragStart.bind(this._sortableUi)}
           @drop=${this._sortableUi.handleDrop.bind(this._sortableUi)}>
         <div class="selective__list__item__drag"><i class="material-icons">drag_indicator</i></div>
-        <div
-            class="selective__list__item__preview"
-            data-item-uid=${item.uid}
-            data-locale=${locale || ''}
-            @click=${this.handleExpandItem.bind(this)}>
-          ${this.renderPreview(item, index)}
-          ${item.fields.updateOriginal(selective, data, true)}
-        </div>
+        ${this.renderPreview(selective, data, item, index, locale)}
         <div
             class="selective__list__item__delete"
             data-item-uid=${item.uid}
@@ -2154,21 +2167,14 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
       </div>`;
   }
 
-  renderPreview(item, index) {
-    const defaultPreviewField = this.config.get('preview_field');
-    const previewField = item.config.preview_field;
-    let previewValue = item.fields.value;
-
-    if (previewField || defaultPreviewField) {
-      previewValue = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_8__["autoDeepObject"])(previewValue).get(previewField || defaultPreviewField);
-    } // Do not try to show preview for complex values.
-
-
-    if (typeof previewValue == 'object') {
-      previewValue = null;
-    }
-
-    return previewValue || `Item ${index + 1}`;
+  renderPreview(selective, data, item, index, locale) {
+    return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`<div
+        class="selective__list__item__preview"
+        data-item-uid=${item.uid}
+        data-locale=${locale || ''}
+        @click=${this.handleExpandItem.bind(this)}>
+      ${this.guessPreview(item, index)}
+    </div>`;
   }
 
 }
@@ -16995,7 +17001,7 @@ class ImageField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRewri
   }
 
   uploadFile(file, locale) {
-    const destination = this.getConfig().get('destination', '/static/img/upload');
+    const destination = this.config.get('destination', '/static/img/upload');
     const localeKey = this.keyForLocale(locale);
     this.api.saveImage(file, destination).then(result => {
       this._showFileInput[localeKey] = false;
@@ -17018,7 +17024,7 @@ class ImageFileField extends ImageField {
     Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["regexList"])(this.config.get('blacklist')) // Blacklist.
     ); // Use the API to get serving paths for local images.
 
-    this.api = this.getConfig().get('api');
+    this.api = this.config.get('api');
     this._servingPaths = {};
     this._servingPathsLoading = {};
   }
@@ -17116,7 +17122,7 @@ class GoogleImageField extends ImageField {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
     this.fieldType = 'google_image';
-    this.api = this.getConfig().get('api'); // TODO: Change to use the API after the extension is updated to the new
+    this.api = this.config.get('api'); // TODO: Change to use the API after the extension is updated to the new
     // Extension style.
     // this._extension_config_promise = this.api.getExtensionConfig(
     //   'extensions.google_cloud_images.GoogleCloudImageExtension')
@@ -17173,218 +17179,25 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 
-
-class PartialFields extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Fields"] {
-  constructor(fieldTypes, config, partialKey) {
-    super(fieldTypes, config);
-    this.label = this.getConfig().get('partial', {})['label'] || 'Partial';
-    this.partialKey = partialKey;
-
-    this.template = (selective, fields, data) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      ${fields.valueFromData(data)}
-      ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(fields.fields, field => field.getUid(), (field, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-        ${field.template(selective, field, data)}
-      `)}`;
-  }
-
-}
-
 class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListField"] {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig);
+  constructor(config, globalConfig) {
+    super(config, globalConfig);
     this.fieldType = 'partials';
-    this.partialTypes = {};
-    this._api = null; // Set the api if it was provided
-
-    if (this.getConfig().get('api')) {
-      this.api = this.getConfig().get('api');
-    }
+    this.partialTypes = null;
+    this.api = this.config.get('api');
+    this.api.getPartials().then(this.handleLoadPartialsResponse.bind(this));
   }
 
-  _createItems(selective, data) {
-    // No value yet.
-    if (!this.value) {
-      return [];
-    } // No partials loaded yet.
-
-
-    if (!Object.keys(this.partialTypes).length) {
-      return [];
+  getPartialConfig(partialKey) {
+    if (!this.partialTypes) {
+      return {};
     }
 
-    const autoGuessMissing = this.getConfig().get('autoGuess', true);
-    let index = 0;
-    const items = [];
-
-    for (const itemData of this.value) {
-      const partialKey = itemData['partial'];
-      let partialConfig = this.partialTypes[partialKey]; // If allowed to guess use a stub of the partial config.
-
-      if (!partialConfig && autoGuessMissing) {
-        partialConfig = {
-          label: partialKey,
-          fields: []
-        };
-      }
-
-      if (!partialConfig['label'] && itemData['tag'].startsWith('!g.') && itemData['value']) {
-        partialConfig['label'] = `${itemData['tag']} ${itemData['value']}`;
-      } // Skip missing partials.
-      // TODO: Make this work with placeholders.
-
-
-      if (!partialConfig) {
-        // Add as a hidden partial.
-        items.push({
-          'id': `${this.getUid()}-${partialKey}-${index}`,
-          'partialConfig': {},
-          'index': index,
-          'partialKey': partialKey,
-          'itemFields': [],
-          'isExpanded': false,
-          'isHidden': true,
-          'useAutoFields': false
-        });
-        index += 1;
-        continue;
-      }
-
-      const itemFields = new PartialFields(selective.fieldTypes, {
-        'partial': partialConfig
-      });
-      itemFields.valueFromData(itemData);
-      let fieldConfigs = partialConfig.fields;
-      const useAutoFields = fieldConfigs.length == 0;
-
-      if (useAutoFields) {
-        // Auto guess the fields if they are not defined.
-        fieldConfigs = new _autoFields__WEBPACK_IMPORTED_MODULE_1__["default"](itemData, {
-          ignoredKeys: ['partial']
-        }).config['fields'];
-      }
-
-      for (let fieldConfig of fieldConfigs || []) {
-        fieldConfig = Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["autoConfig"])(fieldConfig, this.extendedConfig);
-        itemFields.addField(fieldConfig, this.extendedConfig);
-      } // When a partial is not expanded and not hidden it does not get the value
-      // updated correctly so we need to manually call the data update.
-
-
-      for (const itemField of itemFields.fields) {
-        itemField.updateFromData(itemData);
-      }
-
-      items.push({
-        'id': `${this.getUid()}-${partialKey}-${index}`,
-        'index': index,
-        'partialConfig': partialConfig,
-        'partialKey': partialKey,
-        'itemFields': itemFields,
-        'isExpanded': false,
-        'isHidden': false,
-        'useAutoFields': useAutoFields
-      });
-      index += 1;
-    }
-
-    return items;
-  }
-
-  get api() {
-    return this._api;
-  }
-
-  get isExpanded() {
-    if (this._listItems) {
-      // If there is only one partial, expand it.
-      if (this._listItems.length == 1) {
-        return true;
-      } // Count all partials that are not hidden.
-
-
-      let nonHiddenItemCount = 0;
-
-      for (const item of this._listItems) {
-        if (!item['isHidden']) {
-          nonHiddenItemCount += 1;
-        }
-      } // Handle when all partials are expanded manually.
-
-
-      if (nonHiddenItemCount > 0 && this._expandedIndexes.length == nonHiddenItemCount) {
-        return true;
-      }
-    }
-
-    return this._isExpanded;
-  }
-
-  get value() {
-    if (!this._listItems || this._listItems.length < 1) {
-      return this._dataValue;
-    } // Loop through each fields and get the values.
-
-
-    const values = [];
-
-    for (const item of this._listItems) {
-      if (item['isHidden']) {
-        values.push(this._dataValue[item['index']]);
-      } else {
-        values.push(item['itemFields'].value);
-      }
-    }
-
-    return values;
-  }
-
-  set api(api) {
-    this._api = api;
-    this.updatePartials();
-  }
-
-  set isExpanded(value) {
-    super.isExpanded = value;
-  }
-
-  set value(value) {// no-op
-  }
-
-  handleAddItem(evt, selective) {
-    const partialKey = evt.target.value;
-    const partialConfig = this.partialTypes[partialKey];
-    const index = (this.value || []).length;
-    const itemFields = new PartialFields(selective.fieldTypes, {
-      'partial': partialConfig
-    });
-    itemFields.valueFromData({
-      'partial': partialKey
-    });
-    const fieldConfigs = partialConfig.fields;
-
-    for (let fieldConfig of fieldConfigs || []) {
-      fieldConfig = Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["autoConfig"])(fieldConfig, this.extendedConfig);
-      itemFields.addField(fieldConfig, this.extendedConfig);
-    }
-
-    this._listItems.push({
-      'id': `${this.getUid()}-${partialKey}-${index}`,
-      'index': index,
-      'partialConfig': partialConfig,
-      'partialKey': partialKey,
-      'itemFields': itemFields,
-      'isExpanded': false,
-      'isHidden': false
-    }); // Expanded by default.
-
-
-    this._expandedIndexes.push(index);
-
-    document.dispatchEvent(new CustomEvent('selective.render'));
+    return this.partialTypes[partialKey] || {};
   }
 
   handleLoadPartialsResponse(response) {
-    const partialTypes = []; // Sorted objects for the partials.
+    const partialTypes = {}; // Sorted objects for the partials.
 
     const partialKeys = Object.keys(response['partials']).sort();
 
@@ -17394,120 +17207,130 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListFie
       partialTypes[key] = newPartial;
     }
 
-    this.partialTypes = partialTypes; // Trigger a re-render after the partials load.
-
-    document.dispatchEvent(new CustomEvent('selective.render'));
+    this.partialTypes = partialTypes;
+    this.render();
   }
 
-  renderActionsFooter(selective, field, data) {
+  _createItems(selective, data, locale) {
+    const value = this.getValueForLocale(locale) || [];
+    const localeKey = this.keyForLocale(locale);
+
+    const listItems = this._getListItemsForLocale(locale);
+
+    if (listItems.length > 0 || !value.length || !this.partialTypes) {
+      return;
+    }
+
+    const AutoFieldsCls = this.config.get('AutoFieldsCls', _autoFields__WEBPACK_IMPORTED_MODULE_1__["default"]);
+    const ListItemCls = this.config.get('ListItemCls', selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListItem"]);
+
+    for (const itemData of value) {
+      const partialKey = itemData.partial;
+      const partialConfig = this.getPartialConfig(partialKey);
+
+      const fields = this._createFields(selective.fieldTypes);
+
+      fields.label = partialConfig.label || partialKey;
+      fields.updateOriginal(selective, itemData); // Use the partial key to find the field configs.
+
+      let fieldConfigs = partialConfig.fields || [];
+      this._useAutoFields = !fieldConfigs.length; // Auto guess the fields if they are not defined.
+
+      if (this._useAutoFields) {
+        fieldConfigs = new AutoFieldsCls(itemData).config['fields'];
+      } // Create the fields based on the config.
+
+
+      for (let fieldConfig of fieldConfigs || []) {
+        fieldConfig = Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["autoConfig"])(fieldConfig, this.globalConfig);
+        fields.addField(fieldConfig, this.globalConfig);
+      } // When an is not expanded it does not get the value
+      // updated correctly so we need to manually call the data update.
+
+
+      for (const field of fields.fields) {
+        field.updateOriginal(selective, itemData || fields.defaultValue);
+      }
+
+      listItems.push(new ListItemCls(partialConfig, fields));
+    }
+  }
+
+  handleAddItem(evt, selective) {
+    const partialKey = evt.target.value;
+    const partialConfig = this.getPartialConfig(partialKey);
+    const locale = evt.target.dataset.locale;
+
+    const listItems = this._getListItemsForLocale(locale);
+
+    const fields = this._createFields(selective.fieldTypes);
+
+    fields.label = partialConfig.label || partialKey; // Use the field config for the list items to create the correct field types.
+
+    let fieldConfigs = partialConfig.fields || []; // If no field configs, use the last item config if availble.
+
+    if (!fieldConfigs.length && listItems.length > 0) {
+      fieldConfigs = listItems[listItems.length - 1].config.fields;
+    } // Create the fields based on the config.
+
+
+    for (let fieldConfig of fieldConfigs || []) {
+      fieldConfig = Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["autoConfig"])(fieldConfig, this.globalConfig);
+      fields.addField(fieldConfig, this.globalConfig);
+    }
+
+    fields.updateOriginal(fields.defaultValue);
+    const listItem = new selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListItem"](partialConfig, fields);
+    listItem.isExpanded = true;
+    listItems.push(listItem);
+
+    this._setListItemsForLocale(locale, listItems); // TODO: Focus on the input after rendering.
+
+
+    this.render();
+  }
+
+  renderActionsFooter(selective, data, locale) {
+    if (!this.partialTypes) {
+      return '';
+    }
+
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__actions">
       <select class="selective__actions__add" @change=${evt => {
-      field.handleAddItem(evt, selective);
+      this.handleAddItem(evt, selective);
     }}>
-        <option value="">${field.options['addLabel'] || 'Add section'}</option>
-        ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(Object.entries(field.partialTypes), item => item[0], (item, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+        <option value="">${this.config.addLabel || 'Add partial'}</option>
+        ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(Object.entries(this.partialTypes), item => item[0], (item, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
           <option value="${item[1]['key']}">${item[1]['label']}</option>
         `)}
       </select>
     </div>`;
   }
 
-  renderActionsHeader(selective, field, data) {
-    // Hide when there are no values to expand/collapse.
-    if ((this.value || []).length <= 1) {
-      return '';
-    } // Allow collapsing and expanding of sub fields.
+  renderPreview(selective, data, item, index, locale) {
+    const parts = [];
+    const partialLabel = item.config.label || item.config.key || 'Partial';
+    const previewLabel = this.guessPreview(item, index, ' ').trim();
+    parts.push(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div
+        class="selective__list__item__label"
+        data-item-uid=${item.uid}
+        data-locale=${locale || ''}
+        @click=${this.handleExpandItem.bind(this)}>
+      ${partialLabel}
+    </div>`);
 
-
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__actions">
-      <button class="selective__action__toggle" @click=${field.handleToggleExpand.bind(field)}>
-        ${field.isExpanded ? 'Collapse' : 'Expand'}
-      </button>
-    </div>`;
-  }
-
-  renderCollapsedPartial(selective, partialItem) {
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <div class="selective__list__item__drag"><i class="material-icons">drag_indicator</i></div>
-      <div class="selective__list__item__label" data-index=${partialItem['index']} @click=${this.handleItemExpand.bind(this)}>
-        ${partialItem['partialConfig']['label']}
-      </div>
-      ${this.renderPreview(partialItem)}
-      <div
-          class="selective__list__item__delete"
-          data-index=${partialItem['index']}
-          @click=${this.handleItemDelete.bind(this)}
-          title="Delete ${partialItem['partialConfig']['label']}">
-        <i class="material-icons">delete</i>
-      </div>`;
-  }
-
-  renderExpandedPartial(selective, partialItem) {
-    const fields = partialItem.itemFields;
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <div class="selective__list__item__label" data-index=${partialItem['index']} @click=${this.handleItemCollapse.bind(this)}>
-        ${partialItem['partialConfig']['label']}
-      </div>
-      ${fields.template(selective, fields, this.value[partialItem['index']])}`;
-    return;
-  }
-
-  renderHiddenPartial(selective, partialItem) {
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <div class="selective__list__item__drag"><i class="material-icons">drag_indicator</i></div>
-      <div class="selective__list__item__label" data-index=${partialItem['index']}>
-        ${partialItem['partialConfig']['label'] || partialItem['partialKey']}
-      </div>
-      <div
-          class="selective__list__item__delete"
-          data-index=${partialItem['index']}
-          @click=${this.handleItemDelete.bind(this)}
-          title="Delete ${partialItem['partialConfig']['label'] || partialItem['partialKey']}">
-        <i class="material-icons">delete</i>
-      </div>`;
-  }
-
-  renderItems(selective, data) {
-    // No partials loaded yet.
-    if (!Object.keys(this.partialTypes).length) {
-      return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="editor__loading" title="Loading partial configurations"></div>`;
+    if (previewLabel) {
+      parts.push(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+        <div
+            class="selective__list__item__preview"
+            data-item-uid=${item.uid}
+            data-locale=${locale || ''}
+            @click=${this.handleExpandItem.bind(this)}>
+          ${previewLabel}
+        </div>`);
     }
 
-    this.ensureItems(selective, data); // Update the expanded state each render.
-
-    for (const listItem of this._listItems) {
-      const inIndex = this._expandedIndexes.indexOf(listItem['index']) > -1;
-      listItem['isExpanded'] = !listItem['isHidden'] && (this.isExpanded || inIndex);
-    }
-
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(this._listItems, listItem => listItem['id'], (listItem, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <div class="selective__list__item selective__list__item--${listItem['isExpanded'] ? 'expanded' : listItem['isHidden'] ? 'hidden' : 'collapsed'} ${listItem['useAutoFields'] ? 'selective__list__item--auto' : ''}"
-          draggable="true"
-          data-index=${listItem['index']}
-          @dragenter=${this.handleDragEnter.bind(this)}
-          @dragleave=${this.handleDragLeave.bind(this)}
-          @dragover=${this.handleDragOver.bind(this)}
-          @dragstart=${this.handleDragStart.bind(this)}
-          @drop=${this.handleDrop.bind(this)}>
-        ${listItem['isExpanded'] ? this.renderExpandedPartial(selective, listItem) : listItem['isHidden'] ? this.renderHiddenPartial(selective, listItem) : this.renderCollapsedPartial(selective, listItem)}
-      </div>
-    `)}`;
-  }
-
-  renderPreview(partialItem) {
-    const previewValue = this._determineItemPreview(partialItem);
-
-    if (!previewValue) {
-      return '';
-    }
-
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__list__item__preview" data-index=${partialItem['index']} @click=${this.handleItemExpand.bind(this)}>
-      ${previewValue}
-    </div>`;
-  }
-
-  updatePartials() {
-    this.api.getPartials().then(this.handleLoadPartialsResponse.bind(this));
+    return parts;
   }
 
 }
