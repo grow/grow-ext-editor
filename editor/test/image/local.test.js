@@ -267,6 +267,8 @@ describe('image field', () => {
     const localizationIcon = await page.$('i[title="Localize content"]')
     await localizationIcon.click()
     await page.waitForSelector('.selective__field__type__image_file input[data-locale=en]')
+    await page.waitForSelector('.selective__field__image_file__wrapper[data-locale=en] .selective__image__preview__meta')
+    await page.waitForSelector('.selective__field__image_file__wrapper[data-locale=es] .selective__image__preview__meta')
 
     // Show the en file list.
     let fileListIcon = await page.$('.selective__field__type__image_file .selective__field__image_file__file_icon[data-locale=en]')
