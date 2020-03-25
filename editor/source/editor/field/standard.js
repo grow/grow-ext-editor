@@ -6,7 +6,6 @@ import {
   html,
   repeat,
   Field,
-  FieldRewrite,
 } from 'selective-edit'
 import {
   findParentByClassname,
@@ -16,7 +15,7 @@ import pell from 'pell'
 import showdown from 'showdown'
 
 
-export class CheckboxField extends FieldRewrite {
+export class CheckboxField extends Field {
   constructor(config, extendedConfig) {
     super(config, extendedConfig)
     this.fieldType = 'checkbox'
@@ -64,7 +63,7 @@ export class CheckboxField extends FieldRewrite {
   }
 }
 
-export class DateField extends FieldRewrite {
+export class DateField extends Field {
   constructor(config, extendedConfig) {
     super(config, extendedConfig)
     this.fieldType = 'date'
@@ -84,7 +83,7 @@ export class DateField extends FieldRewrite {
   }
 }
 
-export class DateTimeField extends FieldRewrite {
+export class DateTimeField extends Field {
   constructor(config, extendedConfig) {
     super(config, extendedConfig)
     this.fieldType = 'datetime'
@@ -112,7 +111,7 @@ export class DateTimeField extends FieldRewrite {
   }
 }
 
-export class HtmlField extends FieldRewrite {
+export class HtmlField extends Field {
   constructor(config, extendedConfig) {
     super(config, extendedConfig)
     this.fieldType = 'html'
@@ -150,7 +149,7 @@ export class HtmlField extends FieldRewrite {
   }
 }
 
-export class MarkdownField extends FieldRewrite {
+export class MarkdownField extends Field {
   constructor(config, extendedConfig) {
     super(config, extendedConfig)
     this.fieldType = 'markdown'
@@ -189,7 +188,7 @@ export class MarkdownField extends FieldRewrite {
   }
 }
 
-export class SelectField extends FieldRewrite {
+export class SelectField extends Field {
   constructor(config, extendedConfig) {
     super(config, extendedConfig)
     this.fieldType = 'select'
@@ -276,7 +275,7 @@ export class SelectField extends FieldRewrite {
   }
 }
 
-export class TextField extends FieldRewrite {
+export class TextField extends Field {
   constructor(config, extendedConfig) {
     super(config, extendedConfig)
     this.fieldType = 'text'
@@ -337,7 +336,7 @@ export class TextField extends FieldRewrite {
   }
 }
 
-export class TextareaField extends FieldRewrite {
+export class TextareaField extends Field {
   constructor(config, extendedConfig) {
     super(config, extendedConfig)
     this.fieldType = 'textarea'

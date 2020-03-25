@@ -155,7 +155,7 @@ const UidMixin = superclass => class extends superclass {
 /*!***************************************************************!*\
   !*** /Users/randy/code/blinkk/selective-edit/js/selective.js ***!
   \***************************************************************/
-/*! exports provided: default, Field, FieldRewrite, GroupField, SortableField, ListField, ListItem, Fields, FieldsRewrite, AutoFields, UI, directive, html, repeat, render, autoConfig, autoDeepObject */
+/*! exports provided: default, Field, GroupField, ListField, ListItem, Fields, AutoFields, UI, directive, html, repeat, render, autoConfig, autoDeepObject */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -171,46 +171,35 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "repeat", function() { return lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_1__["repeat"]; });
 
 /* harmony import */ var _selective_editor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./selective/editor */ "../../../selective-edit/js/selective/editor.js");
-/* harmony import */ var _selective_field__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./selective/field */ "../../../selective-edit/js/selective/field.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Field", function() { return _selective_field__WEBPACK_IMPORTED_MODULE_3__["default"]; });
+/* harmony import */ var _selective_field_field__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./selective/field/field */ "../../../selective-edit/js/selective/field/field.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Field", function() { return _selective_field_field__WEBPACK_IMPORTED_MODULE_3__["default"]; });
 
-/* harmony import */ var _selective_field_field__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./selective/field/field */ "../../../selective-edit/js/selective/field/field.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "FieldRewrite", function() { return _selective_field_field__WEBPACK_IMPORTED_MODULE_4__["default"]; });
+/* harmony import */ var _selective_ui_ui__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./selective/ui/ui */ "../../../selective-edit/js/selective/ui/ui.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "UI", function() { return _selective_ui_ui__WEBPACK_IMPORTED_MODULE_4__["default"]; });
 
-/* harmony import */ var _selective_ui_ui__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./selective/ui/ui */ "../../../selective-edit/js/selective/ui/ui.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "UI", function() { return _selective_ui_ui__WEBPACK_IMPORTED_MODULE_5__["default"]; });
+/* harmony import */ var _selective_field_list__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./selective/field/list */ "../../../selective-edit/js/selective/field/list.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ListField", function() { return _selective_field_list__WEBPACK_IMPORTED_MODULE_5__["ListField"]; });
 
-/* harmony import */ var _selective_field_list__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./selective/field/list */ "../../../selective-edit/js/selective/field/list.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ListField", function() { return _selective_field_list__WEBPACK_IMPORTED_MODULE_6__["ListField"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ListItem", function() { return _selective_field_list__WEBPACK_IMPORTED_MODULE_5__["ListItem"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ListItem", function() { return _selective_field_list__WEBPACK_IMPORTED_MODULE_6__["ListItem"]; });
+/* harmony import */ var _selective_field_structure__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./selective/field/structure */ "../../../selective-edit/js/selective/field/structure.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "GroupField", function() { return _selective_field_structure__WEBPACK_IMPORTED_MODULE_6__["GroupField"]; });
 
-/* harmony import */ var _selective_field_structure__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./selective/field/structure */ "../../../selective-edit/js/selective/field/structure.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "GroupField", function() { return _selective_field_structure__WEBPACK_IMPORTED_MODULE_7__["GroupField"]; });
+/* harmony import */ var _selective_fields_fields__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./selective/fields/fields */ "../../../selective-edit/js/selective/fields/fields.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Fields", function() { return _selective_fields_fields__WEBPACK_IMPORTED_MODULE_7__["default"]; });
 
-/* harmony import */ var _selective_fields_fields__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./selective/fields/fields */ "../../../selective-edit/js/selective/fields/fields.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "FieldsRewrite", function() { return _selective_fields_fields__WEBPACK_IMPORTED_MODULE_8__["default"]; });
+/* harmony import */ var _selective_autoFields__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./selective/autoFields */ "../../../selective-edit/js/selective/autoFields.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AutoFields", function() { return _selective_autoFields__WEBPACK_IMPORTED_MODULE_8__["default"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SortableField", function() { return _selective_field__WEBPACK_IMPORTED_MODULE_3__["SortableField"]; });
+/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./utility/config */ "../../../selective-edit/js/utility/config.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "autoConfig", function() { return _utility_config__WEBPACK_IMPORTED_MODULE_9__["autoConfig"]; });
 
-/* harmony import */ var _selective_fields__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./selective/fields */ "../../../selective-edit/js/selective/fields.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Fields", function() { return _selective_fields__WEBPACK_IMPORTED_MODULE_9__["default"]; });
-
-/* harmony import */ var _selective_autoFields__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./selective/autoFields */ "../../../selective-edit/js/selective/autoFields.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AutoFields", function() { return _selective_autoFields__WEBPACK_IMPORTED_MODULE_10__["default"]; });
-
-/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./utility/config */ "../../../selective-edit/js/utility/config.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "autoConfig", function() { return _utility_config__WEBPACK_IMPORTED_MODULE_11__["autoConfig"]; });
-
-/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "autoDeepObject", function() { return _utility_deepObject__WEBPACK_IMPORTED_MODULE_12__["autoDeepObject"]; });
+/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "autoDeepObject", function() { return _utility_deepObject__WEBPACK_IMPORTED_MODULE_10__["autoDeepObject"]; });
 
 /**
  * Selective structure content editor.
  */
-
-
-
 
 
 
@@ -406,9 +395,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
 /* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utility/compose */ "../../../selective-edit/js/utility/compose.js");
 /* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./autoFields */ "../../../selective-edit/js/selective/autoFields.js");
-/* harmony import */ var _fields__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./fields */ "../../../selective-edit/js/selective/fields.js");
-/* harmony import */ var _fields_fields__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./fields/fields */ "../../../selective-edit/js/selective/fields/fields.js");
-/* harmony import */ var _fieldTypes__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./fieldTypes */ "../../../selective-edit/js/selective/fieldTypes.js");
+/* harmony import */ var _fields_fields__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./fields/fields */ "../../../selective-edit/js/selective/fields/fields.js");
+/* harmony import */ var _fieldTypes__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./fieldTypes */ "../../../selective-edit/js/selective/fieldTypes.js");
 /**
  * Selective content editor.
  *
@@ -422,12 +410,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 class Editor extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_1__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["Base"]) {
   constructor(containerEl, config) {
     super();
     this.containerEl = containerEl;
-    this.fieldTypes = new _fieldTypes__WEBPACK_IMPORTED_MODULE_7__["default"]();
+    this.fieldTypes = new _fieldTypes__WEBPACK_IMPORTED_MODULE_6__["default"]();
     this.localize = false;
     this._fields = null;
     this._data = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_2__["autoDeepObject"])({}); // Needs to be defined before the config is set.
@@ -451,7 +438,7 @@ class Editor extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["compo
 
   get fields() {
     if (!this._fields) {
-      const FieldsCls = this.getConfig().get('FieldsCls', _fields_fields__WEBPACK_IMPORTED_MODULE_6__["default"]);
+      const FieldsCls = this.getConfig().get('FieldsCls', _fields_fields__WEBPACK_IMPORTED_MODULE_5__["default"]);
       this._fields = new FieldsCls(this.fieldTypes);
     }
 
@@ -556,739 +543,6 @@ class Editor extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["compo
 
 /***/ }),
 
-/***/ "../../../selective-edit/js/selective/field.js":
-/*!*********************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/js/selective/field.js ***!
-  \*********************************************************************/
-/*! exports provided: default, SortableField, ListField */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Field; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SortableField", function() { return SortableField; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ListField", function() { return ListField; });
-/* harmony import */ var json_stable_stringify__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! json-stable-stringify */ "../../../selective-edit/node_modules/json-stable-stringify/index.js");
-/* harmony import */ var json_stable_stringify__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(json_stable_stringify__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lit-html */ "../../../selective-edit/node_modules/lit-html/lit-html.js");
-/* harmony import */ var lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lit-html/directives/repeat */ "../../../selective-edit/node_modules/lit-html/directives/repeat.js");
-/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../mixin/config */ "../../../selective-edit/js/mixin/config.js");
-/* harmony import */ var _mixin_uid__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../mixin/uid */ "../../../selective-edit/js/mixin/uid.js");
-/* harmony import */ var _fields__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./fields */ "../../../selective-edit/js/selective/fields.js");
-/* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./autoFields */ "../../../selective-edit/js/selective/autoFields.js");
-/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utility/compose */ "../../../selective-edit/js/utility/compose.js");
-/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../utility/config */ "../../../selective-edit/js/utility/config.js");
-/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
-/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../utility/dom */ "../../../selective-edit/js/utility/dom.js");
-/**
- * Field defined for editing.
- */
-
-
-
-
-
-
-
-
-
-
-
-const WHITESPACE_RE = /^[\s]+|[\s]+$/g; // ========================================
-// === Base Field
-// ========================================
-
-class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_7__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_3__["default"], _mixin_uid__WEBPACK_IMPORTED_MODULE_4__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_7__["Base"]) {
-  constructor(config, extendedConfig) {
-    super();
-    this.fieldType = 'Field';
-    this.extendedConfig = extendedConfig || {};
-    this.setConfig(config);
-    this._dataValue = undefined;
-    this.value = undefined;
-
-    this.template = (editor, field, data) => lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field" data-field-type="${field.fieldType}">
-      Missing template.
-    </div>`;
-  }
-
-  get default() {
-    return this.getConfig().default;
-  }
-
-  get help() {
-    return this.getConfig().help;
-  }
-
-  get isClean() {
-    return this._dataValue == this.value;
-  }
-
-  get key() {
-    return this.getConfig().key;
-  }
-
-  get label() {
-    return this.getConfig().label;
-  }
-
-  get options() {
-    return this.getConfig().options || {};
-  }
-
-  get placeholder() {
-    return this.getConfig().placeholder || '';
-  }
-
-  handleInput(evt) {
-    // Update the value to what is being typed.
-    // Helps mark the field as dirty.
-    // Strip the whitespace as well.
-    this.value = evt.target.value.replace(WHITESPACE_RE, '');
-    document.dispatchEvent(new CustomEvent('selective.render'));
-  }
-
-  static initialize(containerEl) {// Pass.
-  }
-
-  renderHelp(editor, field, data) {
-    if (!field.help) {
-      return '';
-    }
-
-    return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__field__help">${field.help}</div>`;
-  }
-
-  postRender(containerEl) {// Pass.
-  }
-
-  updateFromData(data) {
-    // Update the data, but do not return the value.
-    this.valueFromData(data);
-  }
-
-  valueFromData(data) {
-    let newDataValue = data;
-
-    if (typeof data === 'object' && data !== null) {
-      data = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_9__["autoDeepObject"])(data);
-      newDataValue = data.get(this.key);
-    } // Allow for using the config default value.
-
-
-    if (newDataValue == undefined) {
-      const defaultValue = this.default;
-
-      if (defaultValue != undefined) {
-        newDataValue = defaultValue;
-      }
-    }
-
-    if (!this.isClean) {
-      // The value has changed since the last update.
-      // Update the stored data value, but don't change the actual value.
-      // isClean uses the _dataValue, so don't change until after the compare
-      // is complete.
-      this._dataValue = newDataValue;
-      return this.value;
-    }
-
-    this._dataValue = newDataValue;
-    this.value = newDataValue;
-    return this.value;
-  }
-
-} // ========================================
-// === Sortable Field
-// ========================================
-//
-// The following are required as part of the template to make the sorting work:
-//
-// - Add 'draggable="true"' attribute to the sortable containers.
-// - Add 'data-index="X"' attribute to any sortable container with the current index.
-// - Add '@dragenter=${this.handleDragEnter.bind(this)}' event binding to the sortable container.
-// - Add '@dragleave=${this.handleDragLeave.bind(this)}' event binding to the sortable container.
-// - Add '@dragstart=${this.handleDragStart.bind(this)}' event binding to the sortable container.
-// - Add '@dragover=${this.handleDragOver.bind(this)}' event binding to the sortable container.
-// - Add '@drop=${this.handleDrop.bind(this)}' event binding to the sortable container.
-// - Use 'sortable--hover' class to style the currently hovering drop target.
-// - Use 'sortable--above' class to style the hovering element that is above the dragged element.
-// - Use 'sortable--below' class to style the hovering element that is below the dragged element.
-// - Optionally add 'sortable__preview' class to a child elmeent to use as the dragging preview.
-//
-
-class SortableField extends Field {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig);
-    this.fieldType = 'sortable';
-    this._dragOriginElement = null;
-    this._dragHoverElement = null;
-    this._dataValue = [];
-
-    this.template = (editor, field, data) => lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`<div>
-      Sortable Field sub class needs a custom template.
-    </div>`;
-  }
-
-  _reorderValues(currentIndex, startIndex) {
-    // Dropped on self, ignore.
-    if (currentIndex == startIndex) {
-      return false;
-    } // Rework the array to have the items in the correct position.
-
-
-    const newValue = [];
-    const oldValue = this.value;
-    const maxIndex = Math.max(currentIndex, startIndex);
-    const minIndex = Math.min(currentIndex, startIndex); // Determine which direction to shift misplaced items.
-
-    let modifier = 1;
-
-    if (startIndex > currentIndex) {
-      modifier = -1;
-    }
-
-    for (let i = 0; i < oldValue.length; i++) {
-      if (i < minIndex || i > maxIndex) {
-        // Leave in the same order.
-        newValue[i] = oldValue[i];
-      } else if (i == currentIndex) {
-        // This element is being moved to, place the moved value here.
-        newValue[i] = oldValue[startIndex];
-      } else {
-        // Shift the old index using the modifier to determine direction.
-        newValue[i] = oldValue[i + modifier];
-      }
-    }
-
-    this.value = newValue;
-    return true;
-  }
-
-  _shouldHandleDrag(evt) {
-    return this._dragOriginElement && evt.dataTransfer.types.includes(`selective/${this.getUid()}`);
-  }
-
-  handleDragStart(evt) {
-    evt.stopPropagation();
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_10__["findParentDraggable"])(evt.target);
-    this._dragOriginElement = target;
-    evt.dataTransfer.setData('text/plain', evt.target.dataset.index);
-    evt.dataTransfer.setData(`selective/${this.getUid()}`, evt.target.dataset.index);
-    evt.dataTransfer.effectAllowed = 'move'; // Allow for custom preview for dragging.
-
-    const previewEl = target.querySelector('.sortable__preview');
-
-    if (previewEl) {
-      evt.dataTransfer.setDragImage(previewEl, 0, 0);
-    }
-  }
-
-  handleDragEnter(evt) {
-    if (this._shouldHandleDrag(evt)) {
-      const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_10__["findParentDraggable"])(evt.target);
-
-      if (!target) {
-        return;
-      }
-
-      evt.stopPropagation(); // Show that the element is hovering.
-      // Also prevent sub elements from triggering more drag events.
-
-      target.classList.add('sortable--hover');
-      const currentIndex = parseInt(evt.target.dataset.index);
-      const startIndex = parseInt(this._dragOriginElement.dataset.index); // Hovering over self, ignore.
-
-      if (currentIndex == startIndex) {
-        return;
-      }
-
-      if (currentIndex < startIndex) {
-        target.classList.add('sortable--above');
-      } else {
-        target.classList.add('sortable--below');
-      }
-    }
-  }
-
-  handleDragLeave(evt) {
-    if (this._shouldHandleDrag(evt)) {
-      const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_10__["findParentDraggable"])(evt.target);
-
-      if (!target) {
-        return;
-      } //  Make sure that the event target comes from the main element.
-
-
-      if (target !== evt.target) {
-        return;
-      }
-
-      evt.stopPropagation(); // No longer hovering.
-
-      target.classList.remove('sortable--hover', 'sortable--above', 'sortable--below');
-    }
-  }
-
-  handleDragOver(evt) {
-    if (this._shouldHandleDrag(evt)) {
-      // Flag to the browser that this is a valid drop target.
-      evt.preventDefault();
-      evt.stopPropagation();
-    }
-  }
-
-  handleDrop(evt) {
-    // Trying to drag from outside the list.
-    if (!this._dragOriginElement) {
-      return;
-    }
-
-    evt.stopPropagation();
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_10__["findParentDraggable"])(evt.target);
-    const currentIndex = parseInt(evt.target.dataset.index);
-    const startIndex = parseInt(evt.dataTransfer.getData("text/plain")); // No longer hovering.
-
-    target.classList.remove('sortable--hover', 'sortable--above', 'sortable--below'); // Reset the drag element.
-
-    this._dragOriginElement = null;
-
-    if (!this._reorderValues(currentIndex, startIndex)) {
-      // If false nothing changed, so don't re-render.
-      return;
-    } // Trigger a re-render after moving.
-
-
-    document.dispatchEvent(new CustomEvent('selective.render'));
-  }
-
-} // ========================================
-// === List Field
-// ========================================
-
-class ListField extends SortableField {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig);
-    this.fieldType = 'list';
-    this._listItems = [];
-    this._listIds = [];
-    this._isExpanded = false;
-    this._useAutoFields = false;
-    this._expandedIndexes = [];
-
-    this.template = (editor, field, data) => lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
-      <div
-          class="selective__field selective__field__${field.fieldType}"
-          data-field-type="${field.fieldType}">
-        ${field.ensureItems(editor, data)}
-        ${field.updateFromData(data)}
-        <div class="selective__header">
-          <div class="selective__field__label">${field.label}</div>
-          ${field.renderActionsHeader(editor, field, data)}
-        </div>
-        <div class="selective__list">
-          <div class="selective__list__items" id="${field.getUid()}">
-            ${field.renderItems(editor, data)}
-          </div>
-        </div>
-        <div class="selective__footer">
-          ${field.renderActionsFooter(editor, field, data)}
-        </div>
-      </div>`;
-  }
-
-  _idsFromList(itemList) {
-    const ids = [];
-
-    for (const item of itemList) {
-      ids.push(item.id);
-    }
-
-    return ids;
-  }
-
-  _reorderValues(currentIndex, startIndex) {
-    // Rework the expanded array to have the items in the correct position.
-    const newExpanded = [];
-    const oldExpanded = this._expandedIndexes;
-    const newItems = [];
-    const oldItems = this._listItems;
-    const valueLen = this.value.length;
-    const maxIndex = Math.max(currentIndex, startIndex);
-    const minIndex = Math.min(currentIndex, startIndex); // Determine which direction to shift misplaced items.
-
-    let modifier = 1;
-
-    if (startIndex > currentIndex) {
-      modifier = -1;
-    }
-
-    for (let i = 0; i < valueLen; i++) {
-      if (i < minIndex || i > maxIndex) {
-        // Leave in the same order.
-        newItems[i] = oldItems[i];
-
-        if (oldExpanded.includes(i)) {
-          newExpanded.push(i);
-        }
-      } else if (i == currentIndex) {
-        // This element is being moved to, place the moved value here.
-        newItems[i] = oldItems[startIndex];
-        newItems[i]['index'] = i;
-
-        if (oldExpanded.includes(startIndex)) {
-          newExpanded.push(i);
-        }
-      } else {
-        // Shift the old index using the modifier to determine direction.
-        newItems[i] = oldItems[i + modifier];
-        newItems[i]['index'] = i;
-
-        if (oldExpanded.includes(i + modifier)) {
-          newExpanded.push(i);
-        }
-      }
-    }
-
-    this._expandedIndexes = newExpanded;
-    this._listItems = newItems;
-    return true;
-  }
-
-  get isClean() {
-    // If there are no list items, it has not been changed.
-    if (!this._listItems || this._listItems.length < 1) {
-      return true;
-    } // Check each item to see if it is clean.
-
-
-    for (const item of this._listItems) {
-      if (!item['itemFields'].isClean) {
-        return false;
-      }
-    } // Check if the ids on the item list have changed.
-
-
-    const originalIds = json_stable_stringify__WEBPACK_IMPORTED_MODULE_0__(this._listIds);
-    const currentIds = json_stable_stringify__WEBPACK_IMPORTED_MODULE_0__(this._idsFromList(this._listItems));
-
-    if (originalIds != currentIds) {
-      return false;
-    }
-
-    return true;
-  }
-
-  get isExpanded() {
-    // If all of the items are in the expanded list then consider it expanded.
-    if (this._listItems.length == this._expandedIndexes.length) {
-      return true;
-    }
-
-    return this._isExpanded;
-  }
-
-  get value() {
-    if (!this._listItems || !this._listItems.length) {
-      return this._dataValue;
-    } // Loop through each fields and get the values.
-
-
-    const values = [];
-
-    for (const item of this._listItems) {
-      values.push(item['itemFields'].value);
-    }
-
-    return values;
-  }
-
-  set isExpanded(value) {
-    this._isExpanded = value; // TODO: Save to local storage
-  }
-
-  set value(value) {// no-op
-  }
-
-  _createItems(editor, data) {
-    // No value yet.
-    if (!this.value) {
-      return [];
-    } // Use the field config for the list items to create the correct field types.
-
-
-    let fieldConfigs = this.getConfig().get('fields', []);
-    this._useAutoFields = fieldConfigs.length == 0;
-    let index = 0;
-    const items = [];
-
-    for (const itemData of this.value) {
-      const itemFields = new _fields__WEBPACK_IMPORTED_MODULE_5__["default"](editor.fieldTypes);
-      itemFields.valueFromData(itemData || {});
-
-      if (this._useAutoFields) {
-        // Auto guess the fields if they are not defined.
-        fieldConfigs = new _autoFields__WEBPACK_IMPORTED_MODULE_6__["default"](itemData).config['fields'];
-      }
-
-      for (let fieldConfig of fieldConfigs || []) {
-        fieldConfig = Object(_utility_config__WEBPACK_IMPORTED_MODULE_8__["autoConfig"])(fieldConfig, this.extendedConfig);
-        itemFields.addField(fieldConfig, this.extendedConfig);
-      } // When a partial is not expanded it does not get the value
-      // updated correctly so we need to manually call the data update.
-
-
-      for (const itemField of itemFields.fields) {
-        itemField.updateFromData(itemData || {});
-      }
-
-      items.push({
-        'id': `${this.getUid()}-${index}`,
-        'index': index,
-        'itemFields': itemFields,
-        'fieldConfigs': fieldConfigs,
-        'isExpanded': false
-      });
-      index += 1;
-    }
-
-    return items;
-  }
-
-  _determineItemPreview(listItem) {
-    const defaultPreviewField = this.getConfig().get('preview_field');
-    const previewField = (listItem['partialConfig'] || {})['preview_field'];
-    const itemValue = this.value[listItem['index']];
-    let previewValue = itemValue;
-
-    if (previewField || defaultPreviewField) {
-      previewValue = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_9__["autoDeepObject"])(itemValue).get(previewField || defaultPreviewField);
-    } // Do not try to show preview for complex values.
-
-
-    if (typeof previewValue == 'object') {
-      previewValue = null;
-    }
-
-    return previewValue;
-  }
-
-  ensureItems(editor, data) {
-    // If the sub fields have not been created create them now.
-    if (!this._listItems.length) {
-      this._listItems = this._createItems(editor, data); // Expand by default if there is only one item.
-
-      if (this._listItems.length == 1) {
-        this._expandedIndexes = [0];
-      }
-
-      this._listIds = this._idsFromList(this._listItems);
-    }
-  }
-
-  handleAddItem(evt, editor) {
-    const index = this.value ? this.value.length : 0;
-    const itemFields = new _fields__WEBPACK_IMPORTED_MODULE_5__["default"](editor.fieldTypes); // Use the field config for the list items to create the correct field types.
-
-    let fieldConfigs = this.getConfig().get('fields', []); // If no field configs, use the last item config if availble.
-
-    if (!fieldConfigs.length && index > 0) {
-      fieldConfigs = this._listItems[index - 1].fieldConfigs;
-    }
-
-    for (let fieldConfig of fieldConfigs || []) {
-      fieldConfig = Object(_utility_config__WEBPACK_IMPORTED_MODULE_8__["autoConfig"])(fieldConfig, this.extendedConfig);
-      itemFields.addField(fieldConfig, this.extendedConfig);
-    }
-
-    if (fieldConfigs.length > 1) {
-      itemFields.valueFromData({});
-    } else {
-      itemFields.valueFromData('');
-    }
-
-    this._listItems.push({
-      'id': `${this.getUid()}-${index}`,
-      'index': index,
-      'itemFields': itemFields,
-      'fieldConfigs': fieldConfigs,
-      'isExpanded': false
-    }); // Expanded by default.
-
-
-    this._expandedIndexes.push(index);
-
-    document.dispatchEvent(new CustomEvent('selective.render'));
-  }
-
-  handleItemCollapse(evt) {
-    this.isExpanded = false;
-    const index = parseInt(evt.target.dataset.index);
-
-    const expandIndex = this._expandedIndexes.indexOf(index);
-
-    if (expandIndex > -1) {
-      this._expandedIndexes.splice(expandIndex, 1);
-
-      document.dispatchEvent(new CustomEvent('selective.render'));
-    }
-  }
-
-  handleItemDelete(evt) {
-    evt.stopPropagation();
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_10__["findParentByClassname"])(evt.target, 'selective__list__item__delete');
-    const index = parseInt(target.dataset.index); // Clean up an expanded indexes.
-
-    const newExpanded = [];
-
-    for (const oldIndex of this._expandedIndexes) {
-      if (oldIndex == index) {
-        continue;
-      } else if (oldIndex > index) {
-        newExpanded.push(oldIndex - 1);
-      } else {
-        newExpanded.push(oldIndex);
-      }
-    }
-
-    this._expandedIndexes = newExpanded; // Clean up the items.
-
-    const newListItems = [];
-
-    for (const oldItem of this._listItems) {
-      if (oldItem['index'] == index) {
-        continue;
-      } else if (oldItem['index'] > index) {
-        oldItem['index'] = oldItem['index'] - 1;
-        newListItems.push(oldItem);
-      } else {
-        newListItems.push(oldItem);
-      }
-    }
-
-    this._listItems = newListItems; // Remove the value.
-
-    this.value.splice(index, 1);
-    document.dispatchEvent(new CustomEvent('selective.render'));
-  }
-
-  handleItemExpand(evt) {
-    const index = parseInt(evt.target.dataset.index);
-
-    this._expandedIndexes.push(index);
-
-    document.dispatchEvent(new CustomEvent('selective.render'));
-  }
-
-  handleToggleExpand(evt) {
-    if (this.isExpanded) {
-      // Clear out all expanded indexes when collapsing.
-      this._expandedIndexes = [];
-      this._isExpanded = false;
-    } else {
-      this._isExpanded = true;
-    }
-
-    document.dispatchEvent(new CustomEvent('selective.render'));
-  }
-
-  renderActionsFooter(editor, field, data) {
-    return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__actions">
-      <button @click=${evt => {
-      field.handleAddItem(evt, editor);
-    }}>
-        Add
-      </button>
-    </div>`;
-  }
-
-  renderActionsHeader(editor, field, data) {
-    // No expand toggle action to render if there is only 1 sub field config.
-    const fieldConfigs = this.getConfig().get('fields', []); // No need to expand/collapse when there is only one field config.
-
-    if (fieldConfigs.length == 1) {
-      return '';
-    } // No need to expand/collapse when there is only one list item.
-
-
-    if (this._listItems && this._listItems.length <= 1) {
-      return '';
-    } // Hide when there are no values to expand/collapse.
-
-
-    if ((this.value || []).length == 0) {
-      return '';
-    } // Allow collapsing and expanding of sub fields.
-
-
-    return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__actions">
-      <button class="selective__action__toggle" @click=${field.handleToggleExpand.bind(field)}>
-        ${field.isExpanded ? 'Collapse' : 'Expand'}
-      </button>
-    </div>`;
-  }
-
-  renderCollapsedItem(editor, listItem) {
-    return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
-      <div class="selective__list__item__drag"><i class="material-icons">drag_indicator</i></div>
-      <div class="selective__list__item__preview sortable__preview" data-index=${listItem['index']} @click=${this.handleItemExpand.bind(this)}>
-        ${this.renderPreview(listItem)}
-      </div>
-      <div
-          class="selective__list__item__delete"
-          data-index=${listItem['index']}
-          @click=${this.handleItemDelete.bind(this)}
-          title="Delete item">
-        <i class="material-icons">delete</i>
-      </div>`;
-  }
-
-  renderExpandedItem(editor, listItem) {
-    return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
-      <div class="selective__list__fields">
-        <div class="selective__list__fields__label ${!listItem['itemFields'].label ? 'selective__list__fields__label--empty' : ''}"
-            data-index=${listItem['index']}
-            @click=${this.handleItemCollapse.bind(this)}>
-          ${listItem['itemFields'].label}
-        </div>
-        ${listItem['itemFields'].template(editor, listItem['itemFields'], this.value[listItem['index']])}
-      </div>`;
-  }
-
-  renderItems(editor, data) {
-    this.ensureItems(editor, data); // Update the expanded state each render.
-
-    for (const listItem of this._listItems) {
-      const inIndex = this._expandedIndexes.indexOf(listItem['index']) > -1;
-      const itemValue = this.value[listItem['index']];
-      const isSimpleValue = typeof itemValue !== 'object';
-      listItem['isExpanded'] = this.isExpanded || inIndex || isSimpleValue;
-    }
-
-    return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`${Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__["repeat"])(this._listItems, listItem => listItem['id'], (listItem, index) => lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
-      <div class="selective__list__item selective__list__item--${listItem['isExpanded'] ? 'expanded' : 'collapsed'} ${this._useAutoFields ? 'selective__list__item--auto' : ''}"
-          draggable="true"
-          data-index=${listItem['index']}
-          @dragenter=${this.handleDragEnter.bind(this)}
-          @dragleave=${this.handleDragLeave.bind(this)}
-          @dragover=${this.handleDragOver.bind(this)}
-          @dragstart=${this.handleDragStart.bind(this)}
-          @drop=${this.handleDrop.bind(this)}>
-        ${listItem['isExpanded'] ? this.renderExpandedItem(editor, listItem) : this.renderCollapsedItem(editor, listItem)}
-      </div>
-    `)}`;
-  }
-
-  renderPreview(listItem) {
-    const previewValue = this._determineItemPreview(listItem);
-
-    return previewValue || `Item ${listItem.index + 1}`;
-  }
-
-}
-
-/***/ }),
-
 /***/ "../../../selective-edit/js/selective/field/field.js":
 /*!***************************************************************************!*\
   !*** /Users/randy/code/blinkk/selective-edit/js/selective/field/field.js ***!
@@ -1298,7 +552,7 @@ class ListField extends SortableField {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return FieldRewrite; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Field; });
 /* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! deep-extend */ "../../../selective-edit/node_modules/deep-extend/lib/deep-extend.js");
 /* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(deep_extend__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var json_stable_stringify__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! json-stable-stringify */ "../../../selective-edit/node_modules/json-stable-stringify/index.js");
@@ -1322,7 +576,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class FieldRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_7__["default"], _mixin_uid__WEBPACK_IMPORTED_MODULE_8__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["Base"]) {
+class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_7__["default"], _mixin_uid__WEBPACK_IMPORTED_MODULE_8__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["Base"]) {
   constructor(config, globalConfig) {
     super();
     this.fieldType = 'Field';
@@ -2386,119 +1640,6 @@ class FieldTypes extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_1__["c
 
 /***/ }),
 
-/***/ "../../../selective-edit/js/selective/fields.js":
-/*!**********************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/js/selective/fields.js ***!
-  \**********************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Fields; });
-/* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! deep-extend */ "../../../selective-edit/node_modules/deep-extend/lib/deep-extend.js");
-/* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(deep_extend__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lit-html */ "../../../selective-edit/node_modules/lit-html/lit-html.js");
-/* harmony import */ var lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lit-html/directives/repeat */ "../../../selective-edit/node_modules/lit-html/directives/repeat.js");
-/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../mixin/config */ "../../../selective-edit/js/mixin/config.js");
-/* harmony import */ var _mixin_uid__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../mixin/uid */ "../../../selective-edit/js/mixin/uid.js");
-/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utility/compose */ "../../../selective-edit/js/utility/compose.js");
-/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utility/config */ "../../../selective-edit/js/utility/config.js");
-/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
-/**
- * Fields defined for editing.
- */
-
-
-
-
-
-
-
-
-class Fields extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_5__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_3__["default"], _mixin_uid__WEBPACK_IMPORTED_MODULE_4__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_5__["Base"]) {
-  constructor(fieldTypes, config) {
-    super();
-    this.fieldTypes = fieldTypes;
-    this.fields = [];
-    this._dataValue = undefined;
-    this._value = undefined;
-    this.setConfig(config);
-
-    this.template = (editor, fields, data) => lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__fields">
-      ${fields.valueFromData(data)}
-      ${Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__["repeat"])(fields.fields, field => field.getUid(), (field, index) => lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
-        ${field.template(editor, field, data)}
-      `)}
-    </div>`;
-  }
-
-  get isClean() {
-    for (const field of this.fields) {
-      if (!field.isClean) {
-        return false;
-      }
-    }
-
-    return true;
-  }
-
-  get value() {
-    const value = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_7__["autoDeepObject"])({});
-    const setKeys = [];
-
-    for (const field of this.fields) {
-      // When using field without a key it returns a subset of the data.
-      if (!field.key) {
-        value.update(field.value);
-      } else {
-        // If a field is reusing a key combine the existing values
-        // and the new values. New values will overwrite conflicting keys.
-        if (setKeys.includes(field.key)) {
-          value.set(field.key, deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, value.get(field.key), field.value));
-          continue;
-        } // Mark that the field key was set.
-
-
-        setKeys.push(field.key);
-        value.set(field.key, field.value);
-      }
-    }
-
-    return deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, this._dataValue.obj, value.obj);
-  }
-
-  set value(value) {// Setting value doesn't actually do anything.
-  }
-
-  addField(fieldConfig, extendedConfig) {
-    fieldConfig = Object(_utility_config__WEBPACK_IMPORTED_MODULE_6__["autoConfig"])(fieldConfig, extendedConfig);
-    const newField = this.fieldTypes.newField(fieldConfig.type, fieldConfig, extendedConfig);
-
-    if (newField) {
-      this.fields.push(newField);
-    }
-  }
-
-  postRender(containerEl) {
-    // Pass it along to the fields.
-    for (const field of this.fields) {
-      field.postRender(containerEl);
-    }
-  }
-
-  reset() {
-    this.fields = [];
-  }
-
-  valueFromData(data) {
-    this._dataValue = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_7__["autoDeepObject"])(data);
-  }
-
-}
-
-/***/ }),
-
 /***/ "../../../selective-edit/js/selective/fields/fields.js":
 /*!*****************************************************************************!*\
   !*** /Users/randy/code/blinkk/selective-edit/js/selective/fields/fields.js ***!
@@ -2508,7 +1649,7 @@ class Fields extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_5__["compo
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return FieldsRewrite; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Fields; });
 /* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! deep-extend */ "../../../selective-edit/node_modules/deep-extend/lib/deep-extend.js");
 /* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(deep_extend__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lit-html */ "../../../selective-edit/node_modules/lit-html/lit-html.js");
@@ -2529,7 +1670,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class FieldsRewrite extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_4__["default"], _mixin_uid__WEBPACK_IMPORTED_MODULE_5__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["Base"]) {
+class Fields extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_4__["default"], _mixin_uid__WEBPACK_IMPORTED_MODULE_5__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["Base"]) {
   constructor(fieldTypes, config) {
     super();
     this._originalValue = undefined;
@@ -3999,7 +3140,7 @@ const keyListCache = new WeakMap();
  * needed, and DOM will never be reused with values for different keys (new DOM
  * will always be created for new keys). This is generally the most efficient
  * way to use `repeat` since it performs minimum unnecessary work for insertions
- * amd removals.
+ * and removals.
  *
  * IMPORTANT: If providing a `keyFn`, keys *must* be unique for all items in a
  * given call to `repeat`. The behavior when two or more items have the same key
@@ -4524,7 +3665,8 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * True if the custom elements polyfill is in use.
  */
-const isCEPolyfill = window.customElements !== undefined &&
+const isCEPolyfill = typeof window !== 'undefined' &&
+    window.customElements != null &&
     window.customElements.polyfillWrapFlushCallback !==
         undefined;
 /**
@@ -4643,12 +3785,12 @@ const isPrimitive = (value) => {
 };
 const isIterable = (value) => {
     return Array.isArray(value) ||
-        // tslint:disable-next-line:no-any
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         !!(value && value[Symbol.iterator]);
 };
 /**
  * Writes attribute values to the DOM for a group of AttributeParts bound to a
- * single attibute. The value is only set once even if there are multiple parts
+ * single attribute. The value is only set once even if there are multiple parts
  * for an attribute.
  */
 class AttributeCommitter {
@@ -4785,6 +3927,9 @@ class NodePart {
         this.__pendingValue = value;
     }
     commit() {
+        if (this.startNode.parentNode === null) {
+            return;
+        }
         while (Object(_directive_js__WEBPACK_IMPORTED_MODULE_0__["isDirective"])(this.__pendingValue)) {
             const directive = this.__pendingValue;
             this.__pendingValue = _part_js__WEBPACK_IMPORTED_MODULE_2__["noChange"];
@@ -4981,7 +4126,7 @@ class PropertyCommitter extends AttributeCommitter {
     commit() {
         if (this.dirty) {
             this.dirty = false;
-            // tslint:disable-next-line:no-any
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             this.element[this.name] = this._getValue();
         }
     }
@@ -4989,24 +4134,29 @@ class PropertyCommitter extends AttributeCommitter {
 class PropertyPart extends AttributePart {
 }
 // Detect event listener options support. If the `capture` property is read
-// from the options object, then options are supported. If not, then the thrid
+// from the options object, then options are supported. If not, then the third
 // argument to add/removeEventListener is interpreted as the boolean capture
 // value so we should only pass the `capture` property.
 let eventOptionsSupported = false;
-try {
-    const options = {
-        get capture() {
-            eventOptionsSupported = true;
-            return false;
-        }
-    };
-    // tslint:disable-next-line:no-any
-    window.addEventListener('test', options, options);
-    // tslint:disable-next-line:no-any
-    window.removeEventListener('test', options, options);
-}
-catch (_e) {
-}
+// Wrap into an IIFE because MS Edge <= v41 does not support having try/catch
+// blocks right into the body of a module
+(() => {
+    try {
+        const options = {
+            get capture() {
+                eventOptionsSupported = true;
+                return false;
+            }
+        };
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        window.addEventListener('test', options, options);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        window.removeEventListener('test', options, options);
+    }
+    catch (_e) {
+        // event options not supported
+    }
+})();
 class EventPart {
     constructor(element, eventName, eventContext) {
         this.value = undefined;
@@ -5268,7 +4418,7 @@ class TemplateInstance {
         // Given these constraints, with full custom elements support we would
         // prefer the order: Clone, Process, Adopt, Upgrade, Update, Connect
         //
-        // But Safari dooes not implement CustomElementRegistry#upgrade, so we
+        // But Safari does not implement CustomElementRegistry#upgrade, so we
         // can not implement that order and still have upgrade-before-update and
         // upgrade disconnected fragments. So we instead sacrifice the
         // process-before-upgrade constraint, since in Custom Elements v1 elements
@@ -5399,7 +4549,7 @@ class TemplateResult {
             // For each binding we want to determine the kind of marker to insert
             // into the template source before it's parsed by the browser's HTML
             // parser. The marker type is based on whether the expression is in an
-            // attribute, text, or comment poisition.
+            // attribute, text, or comment position.
             //   * For node-position bindings we insert a comment with the marker
             //     sentinel as its text content, like <!--{{lit-guid}}-->.
             //   * For attribute bindings we insert just the marker sentinel for the
@@ -5419,13 +4569,13 @@ class TemplateResult {
             // be false positives.
             isCommentBinding = (commentOpen > -1 || isCommentBinding) &&
                 s.indexOf('-->', commentOpen + 1) === -1;
-            // Check to see if we have an attribute-like sequence preceeding the
+            // Check to see if we have an attribute-like sequence preceding the
             // expression. This can match "name=value" like structures in text,
             // comments, and attribute values, so there can be false-positives.
             const attributeMatch = _template_js__WEBPACK_IMPORTED_MODULE_1__["lastAttributeNameRegex"].exec(s);
             if (attributeMatch === null) {
                 // We're only in this branch if we don't have a attribute-like
-                // preceeding sequence. For comments, this guards against unusual
+                // preceding sequence. For comments, this guards against unusual
                 // attribute values like <div foo="<!--${'bar'}">. Cases like
                 // <!-- foo=${'bar'}--> are handled correctly in the attribute branch
                 // below.
@@ -5519,7 +4669,7 @@ const markerRegex = new RegExp(`${marker}|${nodeMarker}`);
  */
 const boundAttributeSuffix = '$lit$';
 /**
- * An updateable Template that tracks the location of dynamic parts.
+ * An updatable Template that tracks the location of dynamic parts.
  */
 class Template {
     constructor(result, element) {
@@ -5701,7 +4851,9 @@ const createMarker = () => document.createComment('');
  *    * (") then any non-("), or
  *    * (') then any non-(')
  */
-const lastAttributeNameRegex = /([ \x09\x0a\x0c\x0d])([^\0-\x1F\x7F-\x9F "'>=/]+)([ \x09\x0a\x0c\x0d]*=[ \x09\x0a\x0c\x0d]*(?:[^ \x09\x0a\x0c\x0d"'`<>=]*|"[^"]*|'[^']*))$/;
+const lastAttributeNameRegex = 
+// eslint-disable-next-line no-control-regex
+/([ \x09\x0a\x0c\x0d])([^\0-\x1F\x7F-\x9F "'>=/]+)([ \x09\x0a\x0c\x0d]*=[ \x09\x0a\x0c\x0d]*(?:[^ \x09\x0a\x0c\x0d"'`<>=]*|"[^"]*|'[^']*))$/;
 //# sourceMappingURL=template.js.map
 
 /***/ }),
@@ -5827,7 +4979,9 @@ __webpack_require__.r(__webpack_exports__);
 // IMPORTANT: do not change the property name or the assignment expression.
 // This line will be used in regexes to search for lit-html usage.
 // TODO(justinfagnani): inject version number at build time
-(window['litHtmlVersions'] || (window['litHtmlVersions'] = [])).push('1.1.2');
+if (typeof window !== 'undefined') {
+    (window['litHtmlVersions'] || (window['litHtmlVersions'] = [])).push('1.2.1');
+}
 /**
  * Interprets a template literal as an HTML template that can efficiently
  * render to and update a container.
@@ -16664,7 +15818,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class ConstructorField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRewrite"] {
+class ConstructorField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
     this.fieldType = 'constructor';
@@ -16830,7 +15984,7 @@ const fractReduce = (numerator, denominator) => {
   return [numerator / fracGcd, denominator / fracGcd];
 };
 
-class ImageField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRewrite"] {
+class ImageField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
     this.fieldType = 'image';
@@ -17418,7 +16572,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class CheckboxField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRewrite"] {
+class CheckboxField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
     this.fieldType = 'checkbox';
@@ -17463,7 +16617,7 @@ class CheckboxField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRe
   }
 
 }
-class DateField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRewrite"] {
+class DateField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
     this.fieldType = 'date';
@@ -17482,7 +16636,7 @@ class DateField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRewrit
   }
 
 }
-class DateTimeField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRewrite"] {
+class DateTimeField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
     this.fieldType = 'datetime';
@@ -17510,7 +16664,7 @@ class DateTimeField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRe
   }
 
 }
-class HtmlField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRewrite"] {
+class HtmlField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
     this.fieldType = 'html';
@@ -17549,7 +16703,7 @@ class HtmlField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRewrit
   }
 
 }
-class MarkdownField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRewrite"] {
+class MarkdownField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
     this.fieldType = 'markdown';
@@ -17589,7 +16743,7 @@ class MarkdownField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRe
   }
 
 }
-class SelectField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRewrite"] {
+class SelectField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
     this.fieldType = 'select';
@@ -17675,7 +16829,7 @@ class SelectField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRewr
   }
 
 }
-class TextField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRewrite"] {
+class TextField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
     this.fieldType = 'text'; // When the text field is too long, convert input to a textarea.
@@ -17735,7 +16889,7 @@ class TextField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRewrit
   }
 
 }
-class TextareaField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["FieldRewrite"] {
+class TextareaField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
     this.fieldType = 'textarea';

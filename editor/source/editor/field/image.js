@@ -7,7 +7,6 @@ import {
   html,
   repeat,
   Field,
-  FieldRewrite,
 } from 'selective-edit'
 import {
   findParentByClassname,
@@ -44,7 +43,7 @@ const fractReduce = (numerator,denominator) => {
 }
 
 
-export class ImageField extends FieldRewrite {
+export class ImageField extends Field {
   constructor(config, extendedConfig) {
     super(config, extendedConfig)
     this.fieldType = 'image'

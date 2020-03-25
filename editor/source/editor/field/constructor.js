@@ -6,7 +6,6 @@ import {
   html,
   repeat,
   Field,
-  FieldRewrite,
 } from 'selective-edit'
 import {
   createWhiteBlackFilter,
@@ -16,7 +15,7 @@ import {
   FileListUI,
 } from '../ui/file'
 
-export class ConstructorField extends FieldRewrite {
+export class ConstructorField extends Field {
   constructor(config, extendedConfig) {
     super(config, extendedConfig)
     this.fieldType = 'constructor'
