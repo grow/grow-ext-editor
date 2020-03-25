@@ -1,0 +1,39 @@
+@import 'codemirror/lib/codemirror'
+@import '@toast-ui/editor/dist/toastui-editor'
+
+.selective__markdown
+  +field-border
+  background-color: $ge-color-field-back
+  color: $ge-color-on-field-back
+
+  // Alternate with nesting.
+  +list-nesting
+    background-color: $ge-color-field-back-alt
+    color: $ge-color-on-field-back-alt
+
+  +list-nesting-alt
+    background-color: $ge-color-field-back
+    color: $ge-color-on-field-back
+
+.tui-editor
+  // Alternate with nesting.
+  +list-nesting
+    color: $ge-color-on-field-back-alt
+
+  +list-nesting-alt
+    color: $ge-color-on-field-back
+
+.tui-editor-defaultUI,
+.te-toolbar-section
+  border: none
+
+.CodeMirror-lines
+  padding: $ge-pad 0 !important
+
+.tui-editor-defaultUI-toolbar,
+.CodeMirror-line
+  border-radius: $ge-radius-2
+  padding: 0 $ge-pad !important
+
+.CodeMirror
+  background: none

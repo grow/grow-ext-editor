@@ -11,8 +11,8 @@ import {
   findParentByClassname,
   inputFocusAtPosition,
 } from '../../utility/dom'
+import Editor from '@toast-ui/editor'
 import pell from 'pell'
-import showdown from 'showdown'
 
 
 export class CheckboxField extends Field {
@@ -153,36 +153,46 @@ export class MarkdownField extends Field {
   constructor(config, extendedConfig) {
     super(config, extendedConfig)
     this.fieldType = 'markdown'
-    this.showdown = new showdown.Converter()
   }
 
   renderInput(selective, data, locale) {
-    return html`<div id="${this.getUid()}" class="pell" data-locale=${locale || ''}></div>`
+    const value = this.getValueForLocale(locale) || ''
+    return html`
+      <div
+          id="${this.getUid()}${locale || ''}"
+          class="selective__markdown markdown_editor"
+          data-locale=${locale || ''}></div>`
   }
 
   postRender(containerEl) {
-    const actions = this.getConfig().get('pellActions', [
-      'bold', 'italic', 'heading1', 'heading2', 'olist', 'ulist', 'link'])
     const fieldInstances = containerEl.querySelectorAll('.selective__field__type__markdown')
     for (const fieldInstance of fieldInstances) {
-      const pellEls = fieldInstance.querySelectorAll('.pell')
-      for (const pellEl of pellEls) {
-        const locale = pellEl.dataset.locale
+      const markdownEls = fieldInstance.querySelectorAll('.markdown_editor')
+      for (const markdownEl of markdownEls) {
+        const locale = markdownEl.dataset.locale
         const value = this.getValueForLocale(locale) || ''
 
-        if (!pellEl.pellEditor) {
-          pellEl.pellEditor = pell.init({
-            element: pellEl,
-            actions: actions,
-            onChange: (html) => {
-              this.setValueForLocale(locale, this.showdown.makeMarkdown(html).trim())
-            }
+        if (!markdownEl.editor) {
+          markdownEl.editor = new Editor({
+            el: markdownEl,
+            initialValue: value,
+            initialEditType: 'markdown',
+            previewStyle: 'horizontal',
+            usageStatistics: false,
+            events: {
+              change: () => {
+                console.log(arguments);
+                // this.setValueForLocale(locale, markdownEl.editor.value().trim())
+              }
+            },
+            hideModeSwitch: true,
+            placeholder: this.config.placeholder || '',
           })
         }
 
-        if (this.isClean) {
-          pellEl.pellEditor.content.innerHTML = this.showdown.makeHtml(value || '')
-        }
+        // if (this.isClean) {
+        //   markdownEl.editor.value(value || '')
+        // }
       }
     }
   }
