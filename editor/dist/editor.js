@@ -1810,6 +1810,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
 
   guessPreview(item, index, defaultPreview) {
     const defaultPreviewField = this.config.get('preview_field');
+    const previewType = this.config.get('preview_type', 'text');
     const previewField = item.config.preview_field;
     let previewValue = item.fields.value;
 
@@ -1820,6 +1821,13 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
 
     if (typeof previewValue == 'object') {
       previewValue = null;
+    }
+
+    if (previewType == 'image') {
+      if (previewValue.startsWith('http') || previewValue.startsWith('//')) {
+        return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`<img src="${previewValue}" class="selective__image__fingernail">`;
+      } else if (previewValue.startsWith('/')) {// TODO: Handle local images.
+      }
     }
 
     return previewValue || defaultPreview || `{ Item ${index + 1} }`;
@@ -1899,8 +1907,9 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
   }
 
   handleExpandItem(evt) {
-    const uid = evt.target.dataset.itemUid;
-    const locale = evt.target.dataset.locale;
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_7__["findParentByClassname"])(evt.target, 'selective__list__item__preview');
+    const uid = target.dataset.itemUid;
+    const locale = target.dataset.locale;
 
     const listItems = this._getListItemsForLocale(locale);
 
