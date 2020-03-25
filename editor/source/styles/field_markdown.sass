@@ -1,6 +1,7 @@
 @import 'codemirror/lib/codemirror'
 @import '@toast-ui/editor/dist/toastui-editor'
 
+.selective__html,
 .selective__markdown
   +field-border
   background-color: $ge-color-field-back
@@ -30,10 +31,14 @@
 .CodeMirror-lines
   padding: $ge-pad 0 !important
 
+.tui-editor-contents
+  padding: $ge-pad !important
+
 .tui-editor-defaultUI-toolbar,
 .CodeMirror-line
   border-radius: $ge-radius-2
   padding: 0 $ge-pad !important
 
-.CodeMirror
+.CodeMirror,
+.te-ww-container
   background: none

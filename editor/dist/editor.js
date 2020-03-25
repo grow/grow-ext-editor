@@ -49134,32 +49134,40 @@ class HtmlField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
   }
 
   renderInput(selective, data, locale) {
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div id="${this.getUid()}" class="pell" data-locale=${locale || ''}></div>`;
+    const value = this.getValueForLocale(locale) || '';
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <div
+          id="${this.getUid()}${locale || ''}"
+          class="selective__html html_editor"
+          data-locale=${locale || ''}></div>`;
   }
 
   postRender(containerEl) {
-    const actions = this.getConfig().get('pellActions', ['bold', 'italic', 'heading1', 'heading2', 'olist', 'ulist', 'link']);
     const fieldInstances = containerEl.querySelectorAll('.selective__field__type__html');
 
     for (const fieldInstance of fieldInstances) {
-      const pellEls = fieldInstance.querySelectorAll('.pell');
+      const editorEls = fieldInstance.querySelectorAll('.html_editor');
 
-      for (const pellEl of pellEls) {
-        const locale = pellEl.dataset.locale;
+      for (const editorEl of editorEls) {
+        const locale = editorEl.dataset.locale;
         const value = this.getValueForLocale(locale) || '';
 
-        if (!pellEl.pellEditor) {
-          pellEl.pellEditor = pell__WEBPACK_IMPORTED_MODULE_3___default.a.init({
-            element: pellEl,
-            actions: actions,
-            onChange: html => {
-              this.setValueForLocale(locale, html.trim());
-            }
+        if (!editorEl.editor) {
+          editorEl.editor = new _toast_ui_editor__WEBPACK_IMPORTED_MODULE_2___default.a({
+            el: editorEl,
+            initialEditType: 'wysiwyg',
+            previewStyle: 'horizontal',
+            usageStatistics: false,
+            events: {
+              change: () => {
+                this.setValueForLocale(locale, editorEl.editor.getHtml().trim());
+              }
+            },
+            hideModeSwitch: true,
+            placeholder: this.config.placeholder || ''
           });
-        }
-
-        if (this.isClean) {
-          pellEl.pellEditor.content.innerHTML = value || '';
+          editorEl.editor.setHtml(value || '');
+        } else if (this.isClean) {// editorEl.editor.setHtml(value || '')
         }
       }
     }
@@ -49185,31 +49193,29 @@ class MarkdownField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"]
     const fieldInstances = containerEl.querySelectorAll('.selective__field__type__markdown');
 
     for (const fieldInstance of fieldInstances) {
-      const markdownEls = fieldInstance.querySelectorAll('.markdown_editor');
+      const editorEls = fieldInstance.querySelectorAll('.markdown_editor');
 
-      for (const markdownEl of markdownEls) {
-        const locale = markdownEl.dataset.locale;
+      for (const editorEl of editorEls) {
+        const locale = editorEl.dataset.locale;
         const value = this.getValueForLocale(locale) || '';
 
-        if (!markdownEl.editor) {
-          markdownEl.editor = new _toast_ui_editor__WEBPACK_IMPORTED_MODULE_2___default.a({
-            el: markdownEl,
+        if (!editorEl.editor) {
+          editorEl.editor = new _toast_ui_editor__WEBPACK_IMPORTED_MODULE_2___default.a({
+            el: editorEl,
             initialValue: value,
             initialEditType: 'markdown',
             previewStyle: 'horizontal',
             usageStatistics: false,
             events: {
               change: () => {
-                console.log(arguments); // this.setValueForLocale(locale, markdownEl.editor.value().trim())
+                this.setValueForLocale(locale, editorEl.editor.getMarkdown().trim());
               }
             },
             hideModeSwitch: true,
             placeholder: this.config.placeholder || ''
           });
-        } // if (this.isClean) {
-        //   markdownEl.editor.value(value || '')
-        // }
-
+        } else if (this.isClean) {// editorEl.editor.setMarkdown(value || '')
+        }
       }
     }
   }
