@@ -274,6 +274,7 @@ describe('image field', () => {
     let fileListIcon = await page.$('.selective__field__type__image_file .selective__field__image_file__file_icon[data-locale=en]')
     await fileListIcon.click()
     await page.waitForSelector('[data-locale=en] .selective__file_list__file')
+    await page.waitForSelector('.selective__field__image_file__wrapper[data-locale=en] .selective__image__preview__meta')
 
     await percySnapshot(page, 'Image field after file list on en localization load', defaults.snapshotOptions)
 
