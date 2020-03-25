@@ -1011,7 +1011,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
       const listItems = this._getListItemsForLocale(locale); // Check for a change in length.
 
 
-      if (originalValue && originalValue.length != listItems.length) {
+      if (listItems.length > 0 && originalValue && originalValue.length != listItems.length) {
         return false;
       }
 
@@ -1161,7 +1161,12 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
   }
 
   handleExpandItem(evt) {
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_7__["findParentByClassname"])(evt.target, 'selective__list__item__preview');
+    let target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_7__["findParentByClassname"])(evt.target, 'selective__list__item__preview'); // Alternative label.
+
+    if (!target) {
+      target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_7__["findParentByClassname"])(evt.target, 'selective__list__item__label');
+    }
+
     const uid = target.dataset.itemUid;
     const locale = target.dataset.locale;
 

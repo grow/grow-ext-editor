@@ -106,13 +106,13 @@ class PodApi(object):
         editor_path = os.path.join(collection.pod_path, self.EDITOR_FILE_NAME)
         if not self.pod.file_exists(editor_path):
             return {}
-        return yaml.load(self.pod.read_file(editor_path), Loader=yaml.FullLoader) or {}
+        return self.pod.read_yaml(editor_path) or {}
 
     def _editor_config_partial(self, partial):
         """Return the editor configuration for the partial."""
         editor_path = '{}/{}'.format(partial.pod_path, self.EDITOR_FILE_NAME)
         if self.pod.file_exists(editor_path):
-            return yaml.load(self.pod.read_file(editor_path), Loader=yaml.FullLoader) or {}
+            return self.pod.read_yaml(editor_path) or {}
         return {}
 
     def _is_ignored_dir(self, full_path):
