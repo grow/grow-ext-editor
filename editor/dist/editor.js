@@ -16319,6 +16319,14 @@ class GoogleImageField extends ImageField {
     this._extension_config_promise = this.api.getExtensionConfig('extensions.editor.EditorExtension');
   }
 
+  getServingPath(value, locale) {
+    if (value.includes('googleusercontent') && !value.endsWith('.svg')) {
+      return `${value}=s0`;
+    }
+
+    return value;
+  }
+
   uploadFile(file, locale) {
     const localeKey = this.keyForLocale(locale); // Wait for the url promise to return.
 

@@ -398,6 +398,13 @@ export class GoogleImageField extends ImageField {
       'extensions.editor.EditorExtension')
   }
 
+  getServingPath(value, locale) {
+    if (value.includes('googleusercontent') && !value.endsWith('.svg')) {
+      return `${value}=s0`
+    }
+    return value
+  }
+
   uploadFile(file, locale) {
     const localeKey = this.keyForLocale(locale)
 
