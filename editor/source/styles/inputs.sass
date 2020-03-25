@@ -2,7 +2,7 @@
   input
     +field-border
     +field-control
-    font-family: $ge-font-family-mono
+    font-family: $ge-font-family
     transition: all $ge-speed-fast ease-in-out
 
     // Alternate with nesting.
@@ -17,7 +17,7 @@
   textarea
     +field-border
     +field-control
-    font-family: $ge-font-family-mono
+    font-family: $ge-font-family
     transition: all $ge-speed-slow ease-in-out
 
     // Alternate with nesting.
@@ -88,6 +88,11 @@
 
       &:focus
         box-shadow: none
+
+  &--data
+    input,
+    textarea
+      font-family: $ge-font-family-mono
 
   &--translatable
     input,
