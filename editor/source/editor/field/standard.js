@@ -74,7 +74,7 @@ export class DateField extends Field {
 
     return html`
       <input
-        id="${this.uid}${locale}"
+        id="${this.uid}${locale || ''}"
         type="date"
         placeholder=${this.config.placeholder || ''}
         data-locale=${locale || ''}
@@ -102,7 +102,7 @@ export class DateTimeField extends Field {
 
     return html`
       <input
-        id="${this.uid}${locale}"
+        id="${this.uid}${locale || ''}"
         type="datetime-local"
         placeholder=${this.config.placeholder || ''}
         data-locale=${locale || ''}
@@ -319,7 +319,7 @@ export class TextField extends Field {
     if (this._switched[locale]) {
       return html`
         <textarea
-          id="${this.uid}${locale}"
+          id="${this.uid}${locale || ''}"
           rows=${this.config.rows || 6}
           placeholder=${this.config.placeholder || ''}
           data-locale=${locale || ''}
@@ -328,7 +328,7 @@ export class TextField extends Field {
 
     return html`
       <input
-        id="${this.uid}${locale}"
+        id="${this.uid}${locale || ''}"
         placeholder=${this.config.placeholder || ''}
         data-locale=${locale || ''}
         @input=${this.handleInput.bind(this)}
@@ -347,7 +347,7 @@ export class TextareaField extends Field {
 
     return html`
       <textarea
-        id="${this.uid}${locale}"
+        id="${this.uid}${locale || ''}"
         rows=${this.config.rows || 6}
         placeholder=${this.config.placeholder || ''}
         data-locale=${locale || ''}

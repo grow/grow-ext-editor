@@ -16627,7 +16627,7 @@ class DateField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
     const value = this.getValueForLocale(locale) || '';
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
       <input
-        id="${this.uid}${locale}"
+        id="${this.uid}${locale || ''}"
         type="date"
         placeholder=${this.config.placeholder || ''}
         data-locale=${locale || ''}
@@ -16655,7 +16655,7 @@ class DateTimeField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"]
     const value = this.getValueForLocale(locale) || '';
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
       <input
-        id="${this.uid}${locale}"
+        id="${this.uid}${locale || ''}"
         type="datetime-local"
         placeholder=${this.config.placeholder || ''}
         data-locale=${locale || ''}
@@ -16872,7 +16872,7 @@ class TextField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
     if (this._switched[locale]) {
       return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
         <textarea
-          id="${this.uid}${locale}"
+          id="${this.uid}${locale || ''}"
           rows=${this.config.rows || 6}
           placeholder=${this.config.placeholder || ''}
           data-locale=${locale || ''}
@@ -16881,7 +16881,7 @@ class TextField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
 
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
       <input
-        id="${this.uid}${locale}"
+        id="${this.uid}${locale || ''}"
         placeholder=${this.config.placeholder || ''}
         data-locale=${locale || ''}
         @input=${this.handleInput.bind(this)}
@@ -16899,7 +16899,7 @@ class TextareaField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"]
     const value = this.getValueForLocale(locale) || '';
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
       <textarea
-        id="${this.uid}${locale}"
+        id="${this.uid}${locale || ''}"
         rows=${this.config.rows || 6}
         placeholder=${this.config.placeholder || ''}
         data-locale=${locale || ''}
