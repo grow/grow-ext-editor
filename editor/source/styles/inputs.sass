@@ -1,0 +1,95 @@
+.selective__field
+  input
+    +field-border
+    +field-control
+    font-family: $ge-font-family-mono
+    transition: all $ge-speed-fast ease-in-out
+
+    // Alternate with nesting.
+    +list-nesting
+      background-color: $ge-color-field-back-alt
+      color: $ge-color-on-field-back-alt
+
+    +list-nesting-alt
+      background-color: $ge-color-field-back
+      color: $ge-color-on-field-back
+
+  textarea
+    +field-border
+    +field-control
+    font-family: $ge-font-family-mono
+    transition: all $ge-speed-slow ease-in-out
+
+    // Alternate with nesting.
+    +list-nesting
+      background-color: $ge-color-field-back-alt
+      color: $ge-color-on-field-back-alt
+
+    +list-nesting-alt
+      background-color: $ge-color-field-back
+      color: $ge-color-on-field-back
+
+  [contenteditable=true]
+    +field-border
+    +field-control
+
+  button
+    background: $ge-color-field-back-alt
+    border-radius: $ge-radius-5
+    color: $ge-color-on-field-back-alt
+    border: 1px solid $ge-color-back-light
+    font-family: $ge-font-family
+    font-size: $ge-font-size
+    padding: $ge-pad/2 $ge-pad
+
+    // Alternate with nesting.
+    +list-nesting
+      background-color: $ge-color-field-back-alt
+      color: $ge-color-on-field-back-alt
+
+    +list-nesting-alt
+      background-color: $ge-color-field-back
+      color: $ge-color-on-field-back
+
+    &[disabled]
+      opacity: .5
+
+    &:focus
+      outline: none
+      box-shadow: $ge-focus-shadow-secondary
+
+    &:hover
+      box-shadow: $ge-focus-shadow-secondary
+
+    &.selective__button--primary
+      background: $ge-color-primary
+      border-color: $ge-color-primary
+      color: $ge-color-on-primary
+      font-weight: bold
+
+      &:focus
+        outline: none
+        box-shadow: $ge-focus-shadow-primary
+
+      &:hover
+        box-shadow: $ge-focus-shadow-primary
+
+    &.selective__button--secondary
+      background: none
+      border: none
+      color: lighten($ge-color-on-back, 50%)
+      font-weight: bold
+
+      &.selective__button--selected
+        color: $ge-color-on-back
+
+      &:hover
+        color: $ge-color-on-back
+
+      &:focus
+        box-shadow: none
+
+  &--translatable
+    input,
+    textarea
+      font-family: $ge-font-family

@@ -1,0 +1,17 @@
+.selective__field__select__options
+  display: grid
+  grid-template-columns: 1fr 1fr 1fr
+  align-items: center
+
+.selective__field__select__option
+  +field-border
+  +field-clickable
+  +field-color
+  align-items: center
+  border-radius: $ge-radius-5
+  display: flex
+  flex-flow: row
+  padding: $ge-pad/4
+
+  > div
+    padding: $ge-pad/4

@@ -21,3 +21,16 @@ export const inputFocusAtEnd = (elementId) => {
   // Focus at the end to keep typing.
   inputEl.selectionStart = inputEl.selectionEnd = inputEl.value.length
 }
+
+export const inputFocusAtPosition = (elementId, position) => {
+  const inputEl = document.getElementById(elementId)
+
+  if (!inputEl) {
+    return
+  }
+
+  inputEl.focus()
+
+  // Focus at the end to keep typing.
+  inputEl.selectionStart = inputEl.selectionEnd = position
+}

@@ -1,0 +1,60 @@
+.editor__loading
+  display: inline-block
+  height: $ge-loading-size
+  position: relative
+  width: $ge-loading-size
+
+  &:after
+    animation: editor__loading $ge-speed-slower linear infinite
+    border: $ge-loading-border-size solid $ge-color-secondary
+    border-color: $ge-color-secondary transparent $ge-color-secondary transparent
+    border-radius: 50%
+    content: " "
+    display: block
+    height: $ge-loading-size - ($ge-loading-border-size * 4)
+    margin: $ge-loading-border-size
+    position: absolute
+    width: $ge-loading-size - ($ge-loading-border-size * 4)
+
+  &:before
+    animation: editor__loading__inner $ge-speed-slower * 1.5 linear infinite
+    border: $ge-loading-border-size solid $ge-color-secondary
+    border-color: $ge-color-primary transparent $ge-color-primary transparent
+    border-radius: 50%
+    content: " "
+    display: block
+    height: $ge-loading-size - ($ge-loading-border-size * 8)
+    margin: $ge-loading-border-size * 3
+    position: absolute
+    width: $ge-loading-size - ($ge-loading-border-size * 8)
+
+  &--pad
+    margin: $ge-pad
+
+  &--small
+    height: $ge-loading-size / 2
+    width: $ge-loading-size / 2
+
+    &:after
+      border-width: $ge-loading-border-size / 2
+      height: ($ge-loading-size - ($ge-loading-border-size * 4)) / 2
+      margin: $ge-loading-border-size / 2
+      width: ($ge-loading-size - ($ge-loading-border-size * 4)) / 2
+
+    &:before
+      border-width: $ge-loading-border-size / 2
+      height: ($ge-loading-size - ($ge-loading-border-size * 8)) / 2
+      margin: $ge-loading-border-size * 3 / 2
+      width: ($ge-loading-size - ($ge-loading-border-size * 8)) / 2
+
+@keyframes editor__loading__inner
+  0%
+    transform: rotate(0deg)
+  100%
+    transform: rotate(-360deg)
+
+@keyframes editor__loading
+  0%
+    transform: rotate(0deg)
+  100%
+    transform: rotate(360deg)

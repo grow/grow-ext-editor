@@ -36,3 +36,18 @@ export const createValueFilter = (filterValue) => {
     return value.includes(filterValue)
   }
 }
+
+export const regexList = (rawList, defaults) => {
+  const list = []
+  rawList = rawList || []
+
+  for (const value of rawList) {
+    list.push(new RegExp(value, 'gi'))
+  }
+
+  if (!list.length) {
+    return defaults || []
+  }
+
+  return list
+}

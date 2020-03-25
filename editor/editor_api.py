@@ -106,13 +106,13 @@ class PodApi(object):
         editor_path = os.path.join(collection.pod_path, self.EDITOR_FILE_NAME)
         if not self.pod.file_exists(editor_path):
             return {}
-        return yaml.load(self.pod.read_file(editor_path), Loader=yaml.FullLoader) or {}
+        return self.pod.read_yaml(editor_path) or {}
 
     def _editor_config_partial(self, partial):
         """Return the editor configuration for the partial."""
         editor_path = '{}/{}'.format(partial.pod_path, self.EDITOR_FILE_NAME)
         if self.pod.file_exists(editor_path):
-            return yaml.load(self.pod.read_file(editor_path), Loader=yaml.FullLoader) or {}
+            return self.pod.read_yaml(editor_path) or {}
         return {}
 
     def _is_ignored_dir(self, full_path):
@@ -171,6 +171,13 @@ class PodApi(object):
             'default_locale': str(doc.default_locale),
             'raw_front_matter': raw_front_matter,
             'content': doc.body,
+        }
+
+    def _load_static_doc(self, pod_path):
+        static_doc = self.pod.get_static(pod_path)
+        return {
+            'pod_path': static_doc.pod_path,
+            'serving_url': static_doc.url.path,
         }
 
     def get_pod_paths(self):
@@ -262,6 +269,16 @@ class PodApi(object):
             'routes': routes,
         }
 
+    def get_static_serving_path(self):
+        """Handle the request for pod path to serving path."""
+        pod_path = self.request.params.get('pod_path')
+        static_doc = self.pod.get_static(pod_path)
+
+        self.data = {
+            'pod_path': pod_path,
+            'serving_url': static_doc.url.path,
+        }
+
     def get_strings(self):
         """Handle the request for strings content for use with !g.string constructor."""
         strings = {
@@ -332,6 +349,9 @@ class PodApi(object):
         elif path == 'extension/config':
             if method == 'GET':
                 self.get_extension_config()
+        elif path == 'image':
+            if method == 'POST':
+                self.post_image()
         elif path == 'partials':
             if method == 'GET':
                 self.get_partials()
@@ -347,6 +367,9 @@ class PodApi(object):
         elif path == 'repo':
             if method == 'GET':
                 self.get_repo()
+        elif path == 'static_serving_path':
+            if method == 'GET':
+                self.get_static_serving_path()
 
     def post_editor_content(self):
         """Handle the request to save editor content."""
@@ -373,6 +396,14 @@ class PodApi(object):
 
         self.pod.podcache.document_cache.remove(doc)
         self.data = self._load_doc(pod_path)
+
+    def post_image(self):
+        """Handle the request to save an image."""
+        destination = self.request.POST['destination']
+        upload_file = self.request.POST['file']
+        pod_path = os.path.join(destination, upload_file.filename)
+        self.pod.write_file(pod_path, upload_file.file.read())
+        self.data = self._load_static_doc(pod_path)
 
 
 def serve_api(pod, request, matched, **_kwargs):

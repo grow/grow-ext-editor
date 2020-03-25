@@ -12,10 +12,12 @@ import {
   repeat,
 } from 'selective-edit'
 import Selective from 'selective-edit'
+import EditorAutoFields from './autoFields'
 import { defaultFields } from './field'
 import { zoomIframe } from './zoomIframe'
 import { findParentByClassname } from '../utility/dom'
 import expandObject from '../utility/expandObject'
+import Storage from '../utility/storage'
 
 
 const CONTENT_KEY = '__content__'
@@ -29,6 +31,7 @@ export default class Editor {
       ${editor.renderEditor(editor, selective)}
       ${editor.renderPreview(editor, selective)}
     </div>`
+    this.storage = new Storage(this.isTesting)
 
     const EditorApiCls = this.config.get('EditorApiCls', EditorApi)
     this.api = new EditorApiCls()
@@ -57,18 +60,20 @@ export default class Editor {
       },
     }
     this._defaultDevice = 'desktop'
-    this._device = localStorage.getItem('selective.device') || this._defaultDevice
+    this._device = this.storage.getItem('selective.device') || this._defaultDevice
 
     // Persistent settings in local storage.
-    this._isEditingSource = localStorage.getItem('selective.isEditingSource') == 'true'
-    this._isFullScreen = localStorage.getItem('selective.isFullScreen') == 'true'
-    this._isHightlighted = localStorage.getItem('selective.isHightlighted') == 'true'
-    this._isDeviceRotated = localStorage.getItem('selective.isDeviceRotated') == 'true'
-    this._isDeviceView = localStorage.getItem('selective.isDeviceView') == 'true'
+    this._isEditingSource = this.storage.getItem('selective.isEditingSource') == 'true'
+    this._isFullScreen = this.storage.getItem('selective.isFullScreen') == 'true'
+    this._isHightlighted = this.storage.getItem('selective.isHightlighted') == 'true'
+    this._isDeviceRotated = this.storage.getItem('selective.isDeviceRotated') == 'true'
+    this._isDeviceView = this.storage.getItem('selective.isDeviceView') == 'true'
     this._isFullMarkdownEditor = false;
 
     this._isLoading = {}
     this._isSaving = false
+    this._isRendering = false
+    this._pendingRender = false
 
     this._podPaths = null
     this._routes = null
@@ -80,6 +85,9 @@ export default class Editor {
 
     // Add the editor reference to the selective object for field access.
     this.selective.editor = this
+
+    // Load the selective editor preference for localize.
+    this.selective.localize = this.storage.getItem('selective.localize') == 'true'
 
     // Add the editor extension default field types.
     for (const key of Object.keys(defaultFields)) {
@@ -108,6 +116,14 @@ export default class Editor {
     return this.document.isClean && this.selective.isClean
   }
 
+  get isDeviceRotated() {
+    return this._isDeviceRotated
+  }
+
+  get isDeviceView() {
+    return this._isDeviceView
+  }
+
   get isEditingSource() {
     return this._isEditingSource
   }
@@ -127,12 +143,8 @@ export default class Editor {
     return this._isHightlighted
   }
 
-  get isDeviceRotated() {
-    return this._isDeviceRotated
-  }
-
-  get isDeviceView() {
-    return this._isDeviceView
+  get isTesting() {
+    return this.config.get('testing', false)
   }
 
   get podPath() {
@@ -196,32 +208,32 @@ export default class Editor {
 
   set device(value) {
     this._device = value
-    localStorage.setItem('selective.device', this._device)
+    this.storage.setItem('selective.device', this._device)
   }
 
   set isEditingSource(value) {
     this._isEditingSource = value
-    localStorage.setItem('selective.isEditingSource', this._isEditingSource)
+    this.storage.setItem('selective.isEditingSource', this._isEditingSource)
   }
 
   set isFullScreen(value) {
     this._isFullScreen = value
-    localStorage.setItem('selective.isFullScreen', this._isFullScreen)
+    this.storage.setItem('selective.isFullScreen', this._isFullScreen)
   }
 
   set isHightlighted(value) {
     this._isHightlighted = value
-    localStorage.setItem('selective.isHightlighted', this._isHightlighted)
+    this.storage.setItem('selective.isHightlighted', this._isHightlighted)
   }
 
   set isDeviceRotated(value) {
     this._isDeviceRotated = value
-    localStorage.setItem('selective.isDeviceRotated', this._isDeviceRotated)
+    this.storage.setItem('selective.isDeviceRotated', this._isDeviceRotated)
   }
 
   set isDeviceView(value) {
     this._isDeviceView = value
-    localStorage.setItem('selective.isDeviceView', this._isDeviceView)
+    this.storage.setItem('selective.isDeviceView', this._isDeviceView)
   }
 
   set podPath(value) {
@@ -301,6 +313,7 @@ export default class Editor {
       response['raw_front_matter'],
       response['serving_paths'],
       response['default_locale'],
+      response['locales'],
       response['content'])
   }
 
@@ -353,6 +366,7 @@ export default class Editor {
     for (const fieldConfig of fieldConfigs) {
       this.selective.addField(fieldConfig, {
         api: this.api,
+        AutoFieldsCls: EditorAutoFields,
       })
     }
 
@@ -422,6 +436,12 @@ export default class Editor {
     this.render()
   }
 
+  handleLocalize(evt) {
+    this.selective.localize = !this.selective.localize
+    this.storage.setItem('selective.localize', this.selective.localize)
+    this.render()
+  }
+
   handleOpenInNew(evt) {
     window.open(this.previewUrl, '_blank')
   }
@@ -478,7 +498,9 @@ export default class Editor {
       response['raw_front_matter'],
       response['serving_paths'],
       response['default_locale'],
+      response['locales'],
       response['content'])
+    this.selective.data = this.document.data
 
     this._isSaving = false
     this.listeners.trigger('save.response', response, isAutosave)
@@ -534,13 +556,32 @@ export default class Editor {
     const basePath = this.config.get('base', '/_grow/editor')
     const origPath = window.location.pathname
     const newPath = `${basePath}${podPath}`
-    if (origPath != newPath) {
+    if (origPath != newPath && !this.testing) {
       history.pushState({}, '', newPath)
     }
   }
 
   render(force) {
+    // Render only one at a time.
+    if (this._isRendering) {
+      this._pendingRender = {
+        force: (this._pendingRender.force ? this._pendingRender.force || force : force)
+      }
+      return
+    }
+
+    this._isRendering = true
+
+    const isClean = this.isClean
+
     render(this.template(this, this.selective), this.containerEl)
+
+    // Check for clean changes not caught.
+    if (this.isClean != isClean) {
+      this._isRendering = false
+      this.render(force)
+      return
+    }
 
     // Adjust the iframe size.
     this.adjustIframeSize()
@@ -554,6 +595,17 @@ export default class Editor {
       const iframe = this.containerEl.querySelector('iframe')
       iframe && iframe.contentWindow.location.reload(true)
     }
+
+    // Mark as done rendering.
+    this._isRendering = false
+    document.dispatchEvent(new CustomEvent('selective.render.complete'))
+
+    // If there were other requests to render, render them.
+    if (this._pendingRender) {
+      const pendingRender = this._pendingRender
+      this._pendingRender = false
+      this.render(pendingRender)
+    }
   }
 
   renderEditor(editor, selective) {
@@ -562,6 +614,7 @@ export default class Editor {
         <input type="text" value="${editor.podPath}"
           @change=${editor.handlePodPathChange.bind(editor)}
           @input=${editor.handlePodPathInput.bind(editor)}>
+        ${editor.document.locales.length > 1 ? html`<i class="material-icons" @click=${editor.handleLocalize.bind(editor)} title="Localize content">translate</i>` : ''}
         <i class="material-icons" @click=${editor.handleFullScreenClick.bind(editor)} title="Fullscreen">${editor.isFullScreen ? 'fullscreen_exit' : 'fullscreen'}</i>
       </div>
       <div class="editor__cards">
@@ -569,13 +622,13 @@ export default class Editor {
           <div class="editor__menu">
             <button
                 ?disabled=${editor._isSaving || editor.isClean}
-                class="editor__save editor--primary ${editor._isSaving ? 'editor__save--saving' : ''}"
+                class="editor__save editor__button--primary ${editor._isSaving ? 'editor__save--saving' : ''}"
                 @click=${editor.save.bind(editor)}>
               ${editor.isClean ? 'No changes' : editor._isSaving ? 'Saving...' : 'Save'}
             </button>
             <div class="editor__actions">
-              <button class="editor__style__fields editor--secondary editor--selected" @click=${editor.handleFieldsClick.bind(editor)}>Fields</button>
-              <button class="editor__style__raw editor--secondary" @click=${editor.handleSourceClick.bind(editor)}>Raw</button>
+              <button class="editor__style__fields editor__button--secondary ${this.isEditingSource ? '' : 'editor__button--selected'}" @click=${editor.handleFieldsClick.bind(editor)}>Fields</button>
+              <button class="editor__style__raw editor__button--secondary ${this.isEditingSource ? 'editor__button--selected' : ''}" @click=${editor.handleSourceClick.bind(editor)}>Raw</button>
             </div>
           </div>
           ${editor.templateEditorOrSource}

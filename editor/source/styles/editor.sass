@@ -10,78 +10,6 @@
   *
     box-sizing: border-box
 
-  input,
-  textarea
-    background: rgba($ge-color-back-light, .5)
-    border: none
-    border-radius: $ge-radius-2
-    font-family: $ge-font-family
-    font-size: $ge-font-size
-    padding: $ge-pad/2
-
-  button
-    background: $ge-color-back
-    border-radius: $ge-radius-5
-    color: $ge-color-on-back
-    border: 1px solid $ge-color-back-light
-    font-family: $ge-font-family
-    font-size: $ge-font-size
-    padding: $ge-pad/2 $ge-pad
-
-    &[disabled]
-      opacity: .5
-
-    &:focus
-      outline: none
-      box-shadow: $ge-focus-shadow-secondary
-
-    &.editor--primary
-      background: $ge-color-primary
-      border-color: $ge-color-primary
-      color: $ge-color-on-primary
-      font-weight: bold
-
-      &:focus
-        outline: none
-        box-shadow: $ge-focus-shadow-primary
-
-    &.editor--secondary
-      background: none
-      border: none
-      color: lighten($ge-color-on-back, 50%)
-      font-weight: bold
-
-      &.editor--selected
-        color: $ge-color-on-back
-
-      &:hover
-        color: $ge-color-on-back
-
-      &:focus
-        box-shadow: none
-
-  select
-    appearance: none
-    background: $ge-color-back
-    border: 1px solid $ge-color-back-light
-    border-radius: $ge-radius-5
-    font-family: $ge-font-family
-    font-size: $ge-font-size
-    padding: $ge-pad/2 $ge-pad
-
-    &:focus
-      outline: none
-      box-shadow: $ge-focus-shadow-secondary
-
-    &:hover
-      background: $ge-color-back-light
-
-    &.selective__actions__add
-      background-repeat: no-repeat
-      background-position: right $ge-pad center
-      background-image: url('data:image/svg+xml;utf8,<svg class="svg" width="12" height="12" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg"><path d="M5 5V0h1v5h5v1H6v5H5V6H0V5h5z" fill-rule="nonzero" fill-opacity="1" fill="%23000" stroke="none"></path></svg>')
-      padding-right: $ge-pad * 3
-
   .material-icons
     font-size: $ge-font-size-icon
 
@@ -108,12 +36,12 @@
   display: flex
   flex-flow: row
   height: $ge-header-height
-  padding: $ge-pad / 2
+  padding: $ge-pad/2
   z-index: 15
 
   i
     cursor: pointer
-    margin: 0 $ge-pad / 4
+    margin: 0 $ge-pad/4
     opacity: 0.25
     transition: opacity $ge-speed-fast
 
@@ -195,6 +123,47 @@
   top: 0
   z-index: 1
 
+  button
+    background: $ge-color-back
+    border-radius: $ge-radius-5
+    color: $ge-color-on-back
+    border: 1px solid $ge-color-back-light
+    font-family: $ge-font-family
+    font-size: $ge-font-size
+    padding: $ge-pad/2 $ge-pad
+
+    &[disabled]
+      opacity: .5
+
+    &:focus
+      outline: none
+      box-shadow: $ge-focus-shadow-secondary
+
+    &.editor__button--primary
+      background: $ge-color-primary
+      border-color: $ge-color-primary
+      color: $ge-color-on-primary
+      font-weight: bold
+
+      &:focus
+        outline: none
+        box-shadow: $ge-focus-shadow-primary
+
+    &.editor__button--secondary
+      background: none
+      border: none
+      color: lighten($ge-color-on-back, 50%)
+      font-weight: bold
+
+      &.editor__button--selected
+        color: $ge-color-on-back
+
+      &:hover
+        color: $ge-color-on-back
+
+      &:focus
+        box-shadow: none
+
 .editor__actions
   display: flex
   flex-flow: row
@@ -243,7 +212,7 @@
   flex-flow: row
   height: $ge-header-height
   justify-content: space-between
-  padding: $ge-pad / 2
+  padding: $ge-pad/2
   position: sticky
   top: 0
   width: 100%
@@ -251,7 +220,7 @@
 
   i
     cursor: pointer
-    margin: 0 $ge-pad / 4
+    margin: 0 $ge-pad/4
     opacity: 0.25
     transition: opacity $ge-speed-fast
 
@@ -323,64 +292,3 @@
 
 .editor__preview__size__dimension
   font-size: $ge-font-size * .8
-
-.editor__loading
-  display: inline-block
-  height: $ge-loading-size
-  position: relative
-  width: $ge-loading-size
-
-  &:after
-    animation: editor__loading $ge-speed-slower linear infinite
-    border: $ge-loading-border-size solid $ge-color-secondary
-    border-color: $ge-color-secondary transparent $ge-color-secondary transparent
-    border-radius: 50%
-    content: " "
-    display: block
-    height: $ge-loading-size - ($ge-loading-border-size * 4)
-    margin: $ge-loading-border-size
-    position: absolute
-    width: $ge-loading-size - ($ge-loading-border-size * 4)
-
-  &:before
-    animation: editor__loading__inner $ge-speed-slower * 1.5 linear infinite
-    border: $ge-loading-border-size solid $ge-color-secondary
-    border-color: $ge-color-primary transparent $ge-color-primary transparent
-    border-radius: 50%
-    content: " "
-    display: block
-    height: $ge-loading-size - ($ge-loading-border-size * 8)
-    margin: $ge-loading-border-size * 3
-    position: absolute
-    width: $ge-loading-size - ($ge-loading-border-size * 8)
-
-  &--pad
-    margin: $ge-pad
-
-  &--small
-    height: $ge-loading-size
-    width: $ge-loading-size
-
-    &:after
-      border-width: $ge-loading-border-size / 2
-      height: ($ge-loading-size - ($ge-loading-border-size * 4)) / 2
-      margin: $ge-loading-border-size / 2
-      width: ($ge-loading-size - ($ge-loading-border-size * 4)) / 2
-
-    &:before
-      border-width: $ge-loading-border-size / 2
-      height: ($ge-loading-size - ($ge-loading-border-size * 8)) / 2
-      margin: $ge-loading-border-size * 3 / 2
-      width: ($ge-loading-size - ($ge-loading-border-size * 8)) / 2
-
-@keyframes editor__loading__inner
-  0%
-    transform: rotate(0deg)
-  100%
-    transform: rotate(-360deg)
-
-@keyframes editor__loading
-  0%
-    transform: rotate(0deg)
-  100%
-    transform: rotate(360deg)

@@ -3,6 +3,7 @@
  */
 
 import {
+  GroupField,
   ListField,
 } from 'selective-edit'
 import {
@@ -10,10 +11,7 @@ import {
   YamlField,
 } from './field/constructor'
 import {
-  GroupField,
-} from './field/structure'
-import {
-  ImageField,
+  ImageFileField,
   GoogleImageField,
 } from './field/image'
 import {
@@ -37,7 +35,7 @@ export const defaultFields = {
   'document': DocumentField,
   'google_image': GoogleImageField,
   'group': GroupField,
-  'image': ImageField,
+  'image': ImageFileField,
   'list': ListField,
   'html': HtmlField,
   'markdown': MarkdownField,

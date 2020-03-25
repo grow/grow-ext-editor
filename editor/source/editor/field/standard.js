@@ -9,7 +9,7 @@ import {
 } from 'selective-edit'
 import {
   findParentByClassname,
-  inputFocusAtEnd,
+  inputFocusAtPosition,
 } from '../../utility/dom'
 import pell from 'pell'
 import showdown from 'showdown'
@@ -19,19 +19,47 @@ export class CheckboxField extends Field {
   constructor(config, extendedConfig) {
     super(config, extendedConfig)
     this.fieldType = 'checkbox'
+  }
 
-    this.template = (selective, field, data) => html`<div
-        class="selective__field selective__field__${field.fieldType} ${field.valueFromData(data) ? 'selective__field__checkbox--checked' : ''}"
-        data-field-type="${field.fieldType}" @click=${field.handleInput.bind(field)}>
-      <div class="selective__field__checkbox__label">${field.label}</div>
-      <i class="material-icons">${this.value ? 'check_box' : 'check_box_outline_blank'}</i>
-      ${field.renderHelp(selective, field, data)}
-    </div>`
+  classesInput(value) {
+    const classes = [
+      'selective__field__input__option'
+    ]
+
+    if (value) {
+      classes.push('selective__field__input__option--selected')
+    }
+
+    return classes.join(' ')
   }
 
   handleInput(evt) {
-    this.value = !this.value
-    document.dispatchEvent(new CustomEvent('selective.render'))
+    const target = findParentByClassname(evt.target, 'selective__field__input__option')
+    const locale = target.dataset.locale
+    const value = !(this.getValueForLocale(locale) || false)
+    this.setValueForLocale(locale, value)
+  }
+
+  renderInput(selective, data, locale) {
+    const value = this.getValueForLocale(locale) || false
+
+    return html`
+      <div
+          class=${this.classesInput(value)}
+          data-locale=${locale || ''}
+          @click=${this.handleInput.bind(this)}>
+        <div class="selective__field__label">
+          ${this.config.label}
+        </div>
+        <i class="material-icons">
+          ${value ? 'check_box' : 'check_box_outline_blank'}
+        </i>
+      </div>`
+  }
+
+  // Label is shown by the individual input.
+  renderLabel(selective, data) {
+    return ''
   }
 }
 
@@ -39,17 +67,19 @@ export class DateField extends Field {
   constructor(config, extendedConfig) {
     super(config, extendedConfig)
     this.fieldType = 'date'
+  }
 
-    this.template = (selective, field, data) => html`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
-      <label for="${field.getUid()}">${field.label}</label>
+  renderInput(selective, data, locale) {
+    const value = this.getValueForLocale(locale) || ''
+
+    return html`
       <input
-          id="${field.getUid()}"
-          type="date"
-          placeholder="${field.placeholder}"
-          @input=${field.handleInput.bind(field)}
-          value=${field.valueFromData(data) || ''} />
-      ${field.renderHelp(selective, field, data)}
-    </div>`
+        id="${this.uid}${locale || ''}"
+        type="date"
+        placeholder=${this.config.placeholder || ''}
+        data-locale=${locale || ''}
+        @input=${this.handleInput.bind(this)}
+        value=${value} />`
   }
 }
 
@@ -57,17 +87,27 @@ export class DateTimeField extends Field {
   constructor(config, extendedConfig) {
     super(config, extendedConfig)
     this.fieldType = 'datetime'
+  }
 
-    this.template = (selective, field, data) => html`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
-      <label for="${field.getUid()}">${field.label}</label>
+  // Original values may contain seconds which the datetime ignores.
+  _cleanOriginalValue(value) {
+    if (value && value.length > 16) {
+      value = value.slice(0, 16)
+    }
+    return value
+  }
+
+  renderInput(selective, data, locale) {
+    const value = this.getValueForLocale(locale) || ''
+
+    return html`
       <input
-          id="${field.getUid()}"
-          type="datetime-local"
-          placeholder="${field.placeholder}"
-          @input=${field.handleInput.bind(field)}
-          value=${field.valueFromData(data) || ''} />
-      ${field.renderHelp(selective, field, data)}
-    </div>`
+        id="${this.uid}${locale || ''}"
+        type="datetime-local"
+        placeholder=${this.config.placeholder || ''}
+        data-locale=${locale || ''}
+        @input=${this.handleInput.bind(this)}
+        value=${value} />`
   }
 }
 
@@ -75,34 +115,35 @@ export class HtmlField extends Field {
   constructor(config, extendedConfig) {
     super(config, extendedConfig)
     this.fieldType = 'html'
+  }
 
-    this.template = (selective, field, data) => html`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
-      <label for="${field.getUid()}">${field.label}</label>
-      <div id="${field.getUid()}" class="pell">${field.updateFromData(data)}</div>
-      ${field.renderHelp(selective, field, data)}
-    </div>`
+  renderInput(selective, data, locale) {
+    return html`<div id="${this.getUid()}" class="pell" data-locale=${locale || ''}></div>`
   }
 
   postRender(containerEl) {
     const actions = this.getConfig().get('pellActions', [
       'bold', 'italic', 'heading1', 'heading2', 'olist', 'ulist', 'link'])
-    const fieldInstances = containerEl.querySelectorAll('.selective__field__html')
+    const fieldInstances = containerEl.querySelectorAll('.selective__field__type__html')
     for (const fieldInstance of fieldInstances) {
-      if (!fieldInstance.pellEditor) {
-        const pellEl = fieldInstance.querySelector('.pell')
+      const pellEls = fieldInstance.querySelectorAll('.pell')
+      for (const pellEl of pellEls) {
+        const locale = pellEl.dataset.locale
+        const value = this.getValueForLocale(locale) || ''
 
-        fieldInstance.pellEditor = pell.init({
-          element: pellEl,
-          actions: actions,
-          onChange: (html) => {
-            this.value = html
-            document.dispatchEvent(new CustomEvent('selective.render'))
-          }
-        })
-      }
+        if (!pellEl.pellEditor) {
+          pellEl.pellEditor = pell.init({
+            element: pellEl,
+            actions: actions,
+            onChange: (html) => {
+              this.setValueForLocale(locale, html.trim())
+            }
+          })
+        }
 
-      if (this.isClean) {
-        fieldInstance.pellEditor.content.innerHTML = this.value || ''
+        if (this.isClean) {
+          pellEl.pellEditor.content.innerHTML = value || ''
+        }
       }
     }
   }
@@ -113,34 +154,35 @@ export class MarkdownField extends Field {
     super(config, extendedConfig)
     this.fieldType = 'markdown'
     this.showdown = new showdown.Converter()
+  }
 
-    this.template = (selective, field, data) => html`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
-      <label for="${field.getUid()}">${field.label}</label>
-      <div id="${field.getUid()}" class="pell">${field.updateFromData(data)}</div>
-      ${field.renderHelp(selective, field, data)}
-    </div>`
+  renderInput(selective, data, locale) {
+    return html`<div id="${this.getUid()}" class="pell" data-locale=${locale || ''}></div>`
   }
 
   postRender(containerEl) {
     const actions = this.getConfig().get('pellActions', [
       'bold', 'italic', 'heading1', 'heading2', 'olist', 'ulist', 'link'])
-    const fieldInstances = containerEl.querySelectorAll('.selective__field__markdown')
+    const fieldInstances = containerEl.querySelectorAll('.selective__field__type__markdown')
     for (const fieldInstance of fieldInstances) {
-      if (!fieldInstance.pellEditor) {
-        const pellEl = fieldInstance.querySelector('.pell')
+      const pellEls = fieldInstance.querySelectorAll('.pell')
+      for (const pellEl of pellEls) {
+        const locale = pellEl.dataset.locale
+        const value = this.getValueForLocale(locale) || ''
 
-        fieldInstance.pellEditor = pell.init({
-          element: pellEl,
-          actions: actions,
-          onChange: (html) => {
-            this.value = this.showdown.makeMarkdown(html)
-            document.dispatchEvent(new CustomEvent('selective.render'))
-          }
-        })
-      }
+        if (!pellEl.pellEditor) {
+          pellEl.pellEditor = pell.init({
+            element: pellEl,
+            actions: actions,
+            onChange: (html) => {
+              this.setValueForLocale(locale, this.showdown.makeMarkdown(html).trim())
+            }
+          })
+        }
 
-      if (this.isClean) {
-        fieldInstance.pellEditor.content.innerHTML = this.showdown.makeHtml(this.value || '')
+        if (this.isClean) {
+          pellEl.pellEditor.content.innerHTML = this.showdown.makeHtml(value || '')
+        }
       }
     }
   }
@@ -150,76 +192,86 @@ export class SelectField extends Field {
   constructor(config, extendedConfig) {
     super(config, extendedConfig)
     this.fieldType = 'select'
-    this.threshold = 12
+    this.threshold = this.config.threshold || 12
 
-    // Determine which icons to use
-    this.useMulti = this.getConfig().get('multi', false)
-    this.icons = (this.useMulti
+    // [0]: Unselected
+    // [1]: Selected
+    this.icons = (this.config.multi
       ? ['check_box_outline_blank', 'check_box']
       : ['radio_button_unchecked', 'radio_button_checked'])
+  }
 
-    this.template = (selective, field, data) => html`<div
-        class="selective__field selective__field__${field.fieldType} ${field.options.length > field.threshold ? `selective__field__${field.fieldType}--list` : ''}"
-        data-field-type="${field.fieldType}" >
-      <div class="selective__field__select__label">${field.label}</div>
+  _cleanOriginalValue(value) {
+    // Original values need to be sorted when doing multi.
+    if (this.config.multi) {
+      value = value || []
+
+      // Convert multi to be an array if it was not before.
+      if (!Array.isArray(value)) {
+        value = [value]
+      }
+
+      value.sort()
+      return value
+    }
+
+    // Convert from an array if it was before.
+    if (Array.isArray(value)) {
+      // Use the first value of the existing array.
+      value = value[0]
+    }
+
+    return value
+  }
+
+  handleInput(evt) {
+    const target = findParentByClassname(evt.target, 'selective__field__select__option')
+    const locale = target.dataset.locale
+    let value = target.dataset.value
+
+    if (this.config.multi) {
+      let existingValue = this.getValueForLocale(locale) || []
+      if (existingValue.includes(value)) {
+        existingValue = existingValue.filter(item => item !== value)
+      } else {
+        existingValue.push(value)
+      }
+      existingValue.sort()
+
+      // Save the updated value array.
+      value = existingValue
+    }
+
+    this.setValueForLocale(locale, value)
+  }
+
+  renderInput(selective, data, locale) {
+    const value = this.getValueForLocale(locale) || ''
+    const options = this.config.options
+    const isOptionSelected = (optionValue) => {
+      if (this.config.multi) {
+        return value.includes(optionValue)
+      }
+      return value == optionValue
+    }
+
+    return html`
       <div class="selective__field__select__options">
-        ${repeat(field.options, (option) => option.value, (option, index) => html`
-          <div class="selective__field__select__value" data-value="${option.value}" @click=${field.handleInput.bind(field)}>
-            <div class="selective__field__select__option ${field._isSelected(option.value) ? 'selective__field__select__option--checked' : ''}">
-              <i class="material-icons">${field._isSelected(option.value) ? field.icons[1] : field.icons[0] }</i>
+        ${repeat(options, (option) => option.value, (option, index) => html`
+          <div
+              class="selective__field__select__option ${isOptionSelected(option.value) ? 'selective__field__select__option--checked' : ''}"
+              data-locale=${locale || ''}
+              data-value=${option.value || ''}
+              @click=${this.handleInput.bind(this)}>
+            <i class="material-icons">
+              ${isOptionSelected(option.value) ? this.icons[1] : this.icons[0] }
+            </i>
+            <div>
               ${option.label || '(None)'}
             </div>
           </div>
         `)}
-      </div>
-      ${field.renderHelp(selective, field, data)}
-    </div>`
-  }
-
-  _isSelected(optionValue) {
-    let value = this.value
-
-    if (!this.useMulti) {
-      return value == '' ? optionValue == null : optionValue == value
-    }
-
-    // Reset when converting between non-array values.
-    if (!Array.isArray(value)) {
-      value = []
-    }
-
-    return (value || []).includes(optionValue)
-  }
-
-  handleInput(evt) {
-    const target = findParentByClassname(evt.target, 'selective__field__select__value')
-    const value = target.dataset.value == 'null' ? null : target.dataset.value
-
-    if (!this.useMulti) {
-      this.value = value
-      document.dispatchEvent(new CustomEvent('selective.render'))
-      return
-    }
-
-    if (!value) {
-      return
-    }
-
-    // Adjust the list if using multi value
-    let newValue = this.value || []
-
-    // Reset when converting between non-array values.
-    if (!Array.isArray(newValue)) {
-      newValue = []
-    }
-
-    if (newValue.includes(value)) {
-      newValue = newValue.filter(item => item !== value)
-    } else {
-      newValue.push(value)
-    }
-    this.value = newValue
-    document.dispatchEvent(new CustomEvent('selective.render'))
+      </div>`
   }
 }
 
@@ -227,54 +279,60 @@ export class TextField extends Field {
   constructor(config, extendedConfig) {
     super(config, extendedConfig)
     this.fieldType = 'text'
-    this.threshold = this.getConfig().threshold || 75
-    this._isSwitching = false
 
-    this.template = (selective, field, data) => html`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
-      <label for="${field.getUid()}">${field.label}</label>
-      ${field.updateFromData(data)}
-      ${field.renderInput(selective, field, data)}
-      ${field.renderHelp(selective, field, data)}
-    </div>`
+    // When the text field is too long, convert input to a textarea.
+    this.threshold = this.config.threshold || 75
+    this._switched = {}
   }
 
   handleInput(evt) {
-    super.handleInput(evt)
-
     // Check if the threshold has been reached.
-    const isInput = evt.target.tagName.toLowerCase() == 'input'
-    if (isInput && this.value.length > this.threshold && !this._isSwitching) {
-      // Only trigger switch once.
-      this._isSwitching = true
-
-      const id = evt.target.id
-      document.dispatchEvent(new CustomEvent('selective.render'))
+    const target = evt.target
+    const locale = target.dataset.locale
+    const isInput = target.tagName.toLowerCase() == 'input'
+    const isOverThreshold = target.value.length > this.threshold
+    const hasSwitched = this._switched[locale]
+    if (isInput && isOverThreshold && !hasSwitched) {
+      const id = target.id
+      const position = target.selectionStart
 
       // Trigger auto focus after a delay for rendering.
-      window.setTimeout(
-        () => { inputFocusAtEnd(id) },
-        25)
+      document.addEventListener('selective.render.complete', () => {
+        inputFocusAtPosition(id, position)
+      }, {
+        once: true,
+      })
     }
+
+    // Handle input after the check is complete for length.
+    // Prevents the re-render before the check is done.
+    super.handleInput(evt)
   }
 
-  renderInput(selective, field, data) {
-    // Switch to textarea if the length is long.
-    if ((this.value || '').length > this.threshold) {
+  renderInput(selective, data, locale) {
+    const value = this.getValueForLocale(locale) || ''
+
+    if (value.length > this.threshold) {
+      this._switched[locale] = true
+    }
+
+    if (this._switched[locale]) {
       return html`
         <textarea
-            id="${field.getUid()}"
-            rows="${field.getConfig().rows || 6}"
-            placeholder="${field.placeholder}"
-            @input=${field.handleInput.bind(field)}>${this.value || ' '}</textarea>`
+          id="${this.uid}${locale || ''}"
+          rows=${this.config.rows || 6}
+          placeholder=${this.config.placeholder || ''}
+          data-locale=${locale || ''}
+          @input=${this.handleInput.bind(this)}>${value}</textarea>`
     }
 
     return html`
       <input
-        type="text"
-        id="${field.getUid()}"
-        value="${this.value || ''}"
-        placeholder="${field.placeholder}"
-        @input=${field.handleInput.bind(field)}>`
+        id="${this.uid}${locale || ''}"
+        placeholder=${this.config.placeholder || ''}
+        data-locale=${locale || ''}
+        @input=${this.handleInput.bind(this)}
+        value=${value} />`
   }
 }
 
@@ -282,15 +340,17 @@ export class TextareaField extends Field {
   constructor(config, extendedConfig) {
     super(config, extendedConfig)
     this.fieldType = 'textarea'
+  }
 
-    this.template = (selective, field, data) => html`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
-      <label for="${field.getUid()}">${field.label}</label>
+  renderInput(selective, data, locale) {
+    const value = this.getValueForLocale(locale) || ''
+
+    return html`
       <textarea
-          id="${field.getUid()}"
-          rows="${field.getConfig().rows || 6}"
-          placeholder="${field.placeholder}"
-          @input=${field.handleInput.bind(field)}>${field.valueFromData(data) || ' '}</textarea>
-      ${field.renderHelp(selective, field, data)}
-    </div>`
+        id="${this.uid}${locale || ''}"
+        rows=${this.config.rows || 6}
+        placeholder=${this.config.placeholder || ''}
+        data-locale=${locale || ''}
+        @input=${this.handleInput.bind(this)}>${value}</textarea>`
   }
 }

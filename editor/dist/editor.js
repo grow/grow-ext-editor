@@ -155,7 +155,7 @@ const UidMixin = superclass => class extends superclass {
 /*!***************************************************************!*\
   !*** /Users/randy/code/blinkk/selective-edit/js/selective.js ***!
   \***************************************************************/
-/*! exports provided: default, Field, SortableField, ListField, Fields, AutoFields, directive, html, repeat, render, autoConfig, autoDeepObject */
+/*! exports provided: default, Field, GroupField, ListField, ListItem, Fields, AutoFields, UI, directive, html, repeat, render, autoConfig, autoDeepObject */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -171,28 +171,37 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "repeat", function() { return lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_1__["repeat"]; });
 
 /* harmony import */ var _selective_editor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./selective/editor */ "../../../selective-edit/js/selective/editor.js");
-/* harmony import */ var _selective_field__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./selective/field */ "../../../selective-edit/js/selective/field.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Field", function() { return _selective_field__WEBPACK_IMPORTED_MODULE_3__["default"]; });
+/* harmony import */ var _selective_field_field__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./selective/field/field */ "../../../selective-edit/js/selective/field/field.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Field", function() { return _selective_field_field__WEBPACK_IMPORTED_MODULE_3__["default"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SortableField", function() { return _selective_field__WEBPACK_IMPORTED_MODULE_3__["SortableField"]; });
+/* harmony import */ var _selective_ui_ui__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./selective/ui/ui */ "../../../selective-edit/js/selective/ui/ui.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "UI", function() { return _selective_ui_ui__WEBPACK_IMPORTED_MODULE_4__["default"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ListField", function() { return _selective_field__WEBPACK_IMPORTED_MODULE_3__["ListField"]; });
+/* harmony import */ var _selective_field_list__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./selective/field/list */ "../../../selective-edit/js/selective/field/list.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ListField", function() { return _selective_field_list__WEBPACK_IMPORTED_MODULE_5__["ListField"]; });
 
-/* harmony import */ var _selective_fields__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./selective/fields */ "../../../selective-edit/js/selective/fields.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Fields", function() { return _selective_fields__WEBPACK_IMPORTED_MODULE_4__["default"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ListItem", function() { return _selective_field_list__WEBPACK_IMPORTED_MODULE_5__["ListItem"]; });
 
-/* harmony import */ var _selective_autoFields__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./selective/autoFields */ "../../../selective-edit/js/selective/autoFields.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AutoFields", function() { return _selective_autoFields__WEBPACK_IMPORTED_MODULE_5__["default"]; });
+/* harmony import */ var _selective_field_structure__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./selective/field/structure */ "../../../selective-edit/js/selective/field/structure.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "GroupField", function() { return _selective_field_structure__WEBPACK_IMPORTED_MODULE_6__["GroupField"]; });
 
-/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./utility/config */ "../../../selective-edit/js/utility/config.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "autoConfig", function() { return _utility_config__WEBPACK_IMPORTED_MODULE_6__["autoConfig"]; });
+/* harmony import */ var _selective_fields_fields__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./selective/fields/fields */ "../../../selective-edit/js/selective/fields/fields.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Fields", function() { return _selective_fields_fields__WEBPACK_IMPORTED_MODULE_7__["default"]; });
 
-/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "autoDeepObject", function() { return _utility_deepObject__WEBPACK_IMPORTED_MODULE_7__["autoDeepObject"]; });
+/* harmony import */ var _selective_autoFields__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./selective/autoFields */ "../../../selective-edit/js/selective/autoFields.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AutoFields", function() { return _selective_autoFields__WEBPACK_IMPORTED_MODULE_8__["default"]; });
+
+/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./utility/config */ "../../../selective-edit/js/utility/config.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "autoConfig", function() { return _utility_config__WEBPACK_IMPORTED_MODULE_9__["autoConfig"]; });
+
+/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "autoDeepObject", function() { return _utility_deepObject__WEBPACK_IMPORTED_MODULE_10__["autoDeepObject"]; });
 
 /**
  * Selective structure content editor.
  */
+
+
 
 
 
@@ -234,9 +243,9 @@ class AutoFields extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_1__["c
     super();
     this.data = data;
     this._data = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_2__["autoDeepObject"])(data);
-    this.dataType = new _utility_dataType__WEBPACK_IMPORTED_MODULE_3__["default"]();
     this.setConfig(config);
     this._ignoredKeys = null;
+    this.DataType = _utility_dataType__WEBPACK_IMPORTED_MODULE_3__["default"];
   }
 
   get config() {
@@ -258,7 +267,7 @@ class AutoFields extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_1__["c
     let fields = [];
     keyBase = keyBase || [];
 
-    if (this.dataType.isArray(data)) {
+    if (_utility_dataType__WEBPACK_IMPORTED_MODULE_3__["default"].isArray(data)) {
       const firstValue = data.length ? data[0] : null;
       fields.push(this._fieldConfig('', firstValue));
     } else {
@@ -285,7 +294,7 @@ class AutoFields extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_1__["c
       const newKeyBase = keyBase.concat([key]);
       const newData = data[key];
 
-      if (this.dataType.isObject(newData)) {
+      if (_utility_dataType__WEBPACK_IMPORTED_MODULE_3__["default"].isObject(newData)) {
         fields = fields.concat(this._deepGuessObject(newData, newKeyBase));
       } else {
         fields.push(this._deepGuessSimple(data[key], newKeyBase));
@@ -356,7 +365,7 @@ class AutoFields extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_1__["c
       return 'text';
     }
 
-    if (this.dataType.isArray(value)) {
+    if (_utility_dataType__WEBPACK_IMPORTED_MODULE_3__["default"].isArray(value)) {
       return 'list';
     }
 
@@ -386,7 +395,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
 /* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utility/compose */ "../../../selective-edit/js/utility/compose.js");
 /* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./autoFields */ "../../../selective-edit/js/selective/autoFields.js");
-/* harmony import */ var _fields__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./fields */ "../../../selective-edit/js/selective/fields.js");
+/* harmony import */ var _fields_fields__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./fields/fields */ "../../../selective-edit/js/selective/fields/fields.js");
 /* harmony import */ var _fieldTypes__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./fieldTypes */ "../../../selective-edit/js/selective/fieldTypes.js");
 /**
  * Selective content editor.
@@ -406,16 +415,21 @@ class Editor extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["compo
     super();
     this.containerEl = containerEl;
     this.fieldTypes = new _fieldTypes__WEBPACK_IMPORTED_MODULE_6__["default"]();
+    this.localize = false;
     this._fields = null;
     this._data = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_2__["autoDeepObject"])({}); // Needs to be defined before the config is set.
 
     this.template = (editor, data) => lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective">
-      ${editor.fields.template(editor, editor.fields, data)}
+      ${editor.fields.template(editor, data)}
     </div>`;
 
     this.setConfig(config);
     this.bindEvents();
     this.render();
+  }
+
+  get config() {
+    return this.getConfig();
   }
 
   get data() {
@@ -424,7 +438,7 @@ class Editor extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["compo
 
   get fields() {
     if (!this._fields) {
-      const FieldsCls = this.getConfig().get('FieldsCls', _fields__WEBPACK_IMPORTED_MODULE_5__["default"]);
+      const FieldsCls = this.getConfig().get('FieldsCls', _fields_fields__WEBPACK_IMPORTED_MODULE_5__["default"]);
       this._fields = new FieldsCls(this.fieldTypes);
     }
 
@@ -502,6 +516,7 @@ class Editor extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["compo
 
     Object(lit_html__WEBPACK_IMPORTED_MODULE_0__["render"])(this.template(this, this.data), this.containerEl);
     this.postRender();
+    document.dispatchEvent(new CustomEvent('selective.render.complete'));
   }
 
   setConfig(value) {
@@ -528,30 +543,379 @@ class Editor extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["compo
 
 /***/ }),
 
-/***/ "../../../selective-edit/js/selective/field.js":
-/*!*********************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/js/selective/field.js ***!
-  \*********************************************************************/
-/*! exports provided: default, SortableField, ListField */
+/***/ "../../../selective-edit/js/selective/field/field.js":
+/*!***************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/selective/field/field.js ***!
+  \***************************************************************************/
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Field; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SortableField", function() { return SortableField; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ListField", function() { return ListField; });
-/* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lit-html */ "../../../selective-edit/node_modules/lit-html/lit-html.js");
-/* harmony import */ var lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lit-html/directives/repeat */ "../../../selective-edit/node_modules/lit-html/directives/repeat.js");
-/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../mixin/config */ "../../../selective-edit/js/mixin/config.js");
-/* harmony import */ var _mixin_uid__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../mixin/uid */ "../../../selective-edit/js/mixin/uid.js");
-/* harmony import */ var _fields__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./fields */ "../../../selective-edit/js/selective/fields.js");
-/* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./autoFields */ "../../../selective-edit/js/selective/autoFields.js");
-/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utility/compose */ "../../../selective-edit/js/utility/compose.js");
-/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utility/config */ "../../../selective-edit/js/utility/config.js");
-/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
-/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../utility/dom */ "../../../selective-edit/js/utility/dom.js");
+/* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! deep-extend */ "../../../selective-edit/node_modules/deep-extend/lib/deep-extend.js");
+/* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(deep_extend__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var json_stable_stringify__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! json-stable-stringify */ "../../../selective-edit/node_modules/json-stable-stringify/index.js");
+/* harmony import */ var json_stable_stringify__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(json_stable_stringify__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lit-html */ "../../../selective-edit/node_modules/lit-html/lit-html.js");
+/* harmony import */ var lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lit-html/directives/repeat */ "../../../selective-edit/node_modules/lit-html/directives/repeat.js");
+/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../utility/compose */ "../../../selective-edit/js/utility/compose.js");
+/* harmony import */ var _utility_dataType__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../utility/dataType */ "../../../selective-edit/js/utility/dataType.js");
+/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
+/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../mixin/config */ "../../../selective-edit/js/mixin/config.js");
+/* harmony import */ var _mixin_uid__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../mixin/uid */ "../../../selective-edit/js/mixin/uid.js");
 /**
- * Field defined for editing.
+ * Base field.
+ */
+
+
+
+
+
+
+
+
+
+class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_7__["default"], _mixin_uid__WEBPACK_IMPORTED_MODULE_8__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["Base"]) {
+  constructor(config, globalConfig) {
+    super();
+    this.fieldType = 'Field';
+    this.globalConfig = globalConfig || {};
+    this.isLocalized = false;
+    this.ignoreLocalize = false;
+    this.defaultLocale = 'en';
+    this.locales = ['en'];
+    this.setConfig(config);
+    this._errors = {};
+    this._isLocked = false;
+    this._useAutoFields = false;
+    this._originalValue = undefined;
+    this.value = undefined; // Localization requires multiple values for one field.
+
+    this._originalValues = {};
+    this.values = {};
+  } // TODO: Remove. Look into directives.
+
+
+  static initialize(containerEl) {// Pass.
+  }
+
+  get config() {
+    return this.getConfig();
+  }
+
+  get classesField() {
+    const classes = ['selective__field', `selective__field__type__${this.fieldType}`];
+
+    if (this._useAutoFields) {
+      classes.push('selective__field--auto');
+    }
+
+    if (this.config.key && this.config.key.endsWith('@')) {
+      classes.push('selective__field--translatable');
+    }
+
+    return classes.join(' ');
+  }
+
+  get isClean() {
+    if (this._isLocked) {
+      return false;
+    }
+
+    if (this.isLocalized) {
+      if (json_stable_stringify__WEBPACK_IMPORTED_MODULE_1__(this.values) != json_stable_stringify__WEBPACK_IMPORTED_MODULE_1__(this._originalValues)) {
+        return false;
+      }
+    } // Handle complex value.
+
+
+    const isArray = _utility_dataType__WEBPACK_IMPORTED_MODULE_5__["default"].isArray(this.originalValue) || _utility_dataType__WEBPACK_IMPORTED_MODULE_5__["default"].isArray(this.value);
+    const isObject = _utility_dataType__WEBPACK_IMPORTED_MODULE_5__["default"].isObject(this.originalValue) || _utility_dataType__WEBPACK_IMPORTED_MODULE_5__["default"].isObject(this.value);
+
+    if (isArray || isObject) {
+      return json_stable_stringify__WEBPACK_IMPORTED_MODULE_1__(this.value) == json_stable_stringify__WEBPACK_IMPORTED_MODULE_1__(this.originalValue);
+    }
+
+    return this.originalValue == this.value;
+  }
+
+  get key() {
+    return this.config.key;
+  }
+
+  get localizedValues() {
+    const localizedValues = {};
+
+    for (const key of Object.keys(this.values)) {
+      localizedValues[key] = this.values[key];
+    } // Set after the localized values are updated.
+
+
+    localizedValues[this.key] = this.value;
+    return deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, this._originalValues, localizedValues);
+  }
+
+  get originalValue() {
+    return this._originalValue;
+  }
+
+  get template() {
+    return (selective, data) => lit_html__WEBPACK_IMPORTED_MODULE_2__["html"]`
+      ${this.updateOriginal(selective, data)}
+      ${this.renderWrapper(selective, data)}`;
+  }
+
+  get uid() {
+    return this.getUid();
+  }
+
+  getOriginalValueForLocale(locale) {
+    if (!locale || locale == this.defaultLocale) {
+      return this.originalValue;
+    }
+
+    return this._originalValues[this.keyForLocale(locale)];
+  }
+
+  getValueForLocale(locale) {
+    if (!locale || locale == this.defaultLocale) {
+      return this.value;
+    }
+
+    return this.values[this.keyForLocale(locale)];
+  }
+
+  set originalValue(value) {
+    this._originalValue = value;
+  } // Original values may come back in a bad format for the editor.
+
+
+  _cleanOriginalValue(value) {
+    return value;
+  }
+
+  handleInput(evt) {
+    const value = evt.target.value;
+    const locale = evt.target.dataset.locale;
+    this.setValueForLocale(locale, value);
+  }
+
+  keyForLocale(locale) {
+    // Default locale does not get tagged.
+    if (locale == this.defaultLocale || !locale || locale == undefined) {
+      return this.key;
+    }
+
+    return `${this.key}@${locale}`;
+  }
+
+  lock() {
+    this._isLocked = true;
+  } // TODO: Remove? Directives?
+
+
+  postRender(containerEl) {}
+
+  render() {
+    // Trigger a render event.
+    document.dispatchEvent(new CustomEvent('selective.render'));
+  }
+
+  renderField(selective, data) {
+    return lit_html__WEBPACK_IMPORTED_MODULE_2__["html"]`
+      ${this.renderLabel(selective, data)}
+      ${this.renderLocalization(selective, data)}
+      ${this.renderError(selective, data)}
+      ${this.renderHelp(selective, data)}`;
+  }
+
+  renderError(selective, data) {
+    const errorKeys = Object.keys(this._errors);
+
+    if (!errorKeys.length) {
+      return '';
+    }
+
+    return lit_html__WEBPACK_IMPORTED_MODULE_2__["html"]`<div class="selective__field__errors">${errorKeys}</div>`;
+  }
+
+  renderHelp(selective, data) {
+    if (!this.config.help) {
+      return '';
+    }
+
+    return lit_html__WEBPACK_IMPORTED_MODULE_2__["html"]`<div class="selective__field__help">${this.config.help}</div>`;
+  }
+
+  renderInput(selective, data, locale) {
+    return 'Input not defined.';
+  }
+
+  renderLabel(selective, data) {
+    if (!this.config.label) {
+      return '';
+    }
+
+    return lit_html__WEBPACK_IMPORTED_MODULE_2__["html"]`<div class="selective__field__label">
+      <label for="${this.uid}">${this.config.label}</label>
+    </div>`;
+  }
+
+  renderLocalization(selective, data) {
+    if (this.ignoreLocalize || !selective.localize) {
+      return lit_html__WEBPACK_IMPORTED_MODULE_2__["html"]`
+        <div class="selective__field__input">
+          ${this.renderInput(selective, data)}
+        </div>`;
+    } // Render the localization grid.
+
+
+    return lit_html__WEBPACK_IMPORTED_MODULE_2__["html"]`
+      <div class="selective__field__localization">
+        ${Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_3__["repeat"])(this.locales, locale => locale, (locale, index) => lit_html__WEBPACK_IMPORTED_MODULE_2__["html"]`
+            <div class="selective__field__locale">
+              <label for="${this.uid}${locale}">${locale}</label>
+            </div>
+            <div class="selective__field__input">
+              ${this.renderInput(selective, data, locale)}
+            </div>
+          `)}
+      </div>`;
+  }
+
+  renderWrapper(selective, data) {
+    return lit_html__WEBPACK_IMPORTED_MODULE_2__["html"]`
+      <div
+          class=${this.classesField}
+          data-field-type="${this.fieldType}">
+        ${this.renderField(selective, data)}
+      </div>`;
+  }
+
+  setValueForLocale(locale, value) {
+    if (!locale || locale == undefined || locale == this.defaultLocale) {
+      this.value = value;
+    } else {
+      const localeKey = this.keyForLocale(locale);
+      this.values[localeKey] = value;
+    }
+
+    this.render();
+  }
+
+  unlock() {
+    this._isLocked = false;
+  } // Use the data passed to render to update the original value.
+  // Also update the clean value when applicable.
+
+
+  updateOriginal(selective, data) {
+    let newValue = data;
+
+    if (typeof data === 'object' && data !== null) {
+      data = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_6__["autoDeepObject"])(data);
+      newValue = data.get(this.key);
+    }
+
+    const isClean = this.isClean;
+    this.isLocalized = selective.localize;
+    this.defaultLocale = selective.config.defaultLocale || 'en';
+    this.locales = selective.config.locales || ['en', 'es']; // Certain formats in the data may need to be cleaned up
+
+    newValue = this._cleanOriginalValue(newValue); // Copy the array to prevent shared array.
+
+    if (Array.isArray(newValue)) {
+      newValue = [...newValue];
+    }
+
+    this.originalValue = newValue; // Only if the field is clean, update the value.
+
+    if (isClean) {
+      // Copy the array to prevent shared array.
+      if (Array.isArray(newValue)) {
+        newValue = [...newValue];
+      }
+
+      this.value = newValue;
+
+      if (this.value == undefined) {
+        this.value = this.config.default;
+      }
+    } // Pull in localized values.
+
+
+    if (this.isLocalized) {
+      const newValues = {};
+
+      if (typeof data === 'object' && data !== null) {
+        data = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_6__["autoDeepObject"])(data);
+
+        for (const locale of this.locales) {
+          if (locale == this.defaultLocale) {
+            continue;
+          }
+
+          const localeKey = this.keyForLocale(locale);
+          newValues[localeKey] = this._cleanOriginalValue(data.get(localeKey));
+        }
+      } // Only if the field is clean, update the value.
+
+
+      if (isClean) {
+        // Copy the values to prevent shared pointer.
+        this.values = deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, newValues);
+      }
+
+      this._originalValues = newValues;
+    }
+
+    if (isClean != this.isClean) {
+      // Clean state has changed. Rerender.
+      this.render();
+    }
+  }
+
+  valueForLocale(selective, locale) {
+    // Default locale is the normal value.
+    if (!locale || locale == this.defaultLocale) {
+      return this.value;
+    }
+
+    return this.values[this.keyForLocale(locale)];
+  }
+
+}
+
+/***/ }),
+
+/***/ "../../../selective-edit/js/selective/field/list.js":
+/*!**************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/selective/field/list.js ***!
+  \**************************************************************************/
+/*! exports provided: ListField, ListItem */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ListField", function() { return ListField; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ListItem", function() { return ListItem; });
+/* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! deep-extend */ "../../../selective-edit/node_modules/deep-extend/lib/deep-extend.js");
+/* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(deep_extend__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lit-html */ "../../../selective-edit/node_modules/lit-html/lit-html.js");
+/* harmony import */ var lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lit-html/directives/repeat */ "../../../selective-edit/node_modules/lit-html/directives/repeat.js");
+/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utility/compose */ "../../../selective-edit/js/utility/compose.js");
+/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../mixin/config */ "../../../selective-edit/js/mixin/config.js");
+/* harmony import */ var _mixin_uid__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../mixin/uid */ "../../../selective-edit/js/mixin/uid.js");
+/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../utility/config */ "../../../selective-edit/js/utility/config.js");
+/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../utility/dom */ "../../../selective-edit/js/utility/dom.js");
+/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
+/* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../autoFields */ "../../../selective-edit/js/selective/autoFields.js");
+/* harmony import */ var _fields_fields__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../fields/fields */ "../../../selective-edit/js/selective/fields/fields.js");
+/* harmony import */ var _ui_sortable__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../ui/sortable */ "../../../selective-edit/js/selective/ui/sortable.js");
+/* harmony import */ var _field__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./field */ "../../../selective-edit/js/selective/field/field.js");
+/**
+ * List fields for controlling the lists of fields.
  */
 
 
@@ -563,475 +927,149 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const WHITESPACE_RE = /^[\s]+|[\s]+$/g; // ========================================
-// === Base Field
-// ========================================
-
-class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_6__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_2__["default"], _mixin_uid__WEBPACK_IMPORTED_MODULE_3__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_6__["Base"]) {
-  constructor(config, extendedConfig) {
-    super();
-    this.fieldType = 'Field';
-    this.extendedConfig = extendedConfig || {};
-    this.setConfig(config);
-    this._dataValue = undefined;
-    this.value = undefined;
-
-    this.template = (editor, field, data) => lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__field" data-field-type="${field.fieldType}">
-      Missing template.
-    </div>`;
-  }
-
-  get default() {
-    return this.getConfig().default;
-  }
-
-  get help() {
-    return this.getConfig().help;
-  }
-
-  get isClean() {
-    return this._dataValue == this.value;
-  }
-
-  get key() {
-    return this.getConfig().key;
-  }
-
-  get label() {
-    return this.getConfig().label;
-  }
-
-  get options() {
-    return this.getConfig().options || {};
-  }
-
-  get placeholder() {
-    return this.getConfig().placeholder || '';
-  }
-
-  handleInput(evt) {
-    // Update the value to what is being typed.
-    // Helps mark the field as dirty.
-    // Strip the whitespace as well.
-    this.value = evt.target.value.replace(WHITESPACE_RE, '');
-    document.dispatchEvent(new CustomEvent('selective.render'));
-  }
-
-  static initialize(containerEl) {// Pass.
-  }
-
-  renderHelp(editor, field, data) {
-    if (!field.help) {
-      return '';
-    }
-
-    return lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__field__help">${field.help}</div>`;
-  }
-
-  postRender(containerEl) {// Pass.
-  }
-
-  updateFromData(data) {
-    // Update the data, but do not return the value.
-    this.valueFromData(data);
-  }
-
-  valueFromData(data) {
-    let newDataValue = data;
-
-    if (typeof data === 'object' && data !== null) {
-      data = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_8__["autoDeepObject"])(data);
-      newDataValue = data.get(this.key);
-    } // Allow for using the config default value.
 
 
-    if (newDataValue == undefined) {
-      const defaultValue = this.default;
 
-      if (defaultValue != undefined) {
-        newDataValue = defaultValue;
-      }
-    }
-
-    if (!this.isClean) {
-      // The value has changed since the last update.
-      // Update the stored data value, but don't change the actual value.
-      // isClean uses the _dataValue, so don't change until after the compare
-      // is complete.
-      this._dataValue = newDataValue;
-      return this.value;
-    }
-
-    this._dataValue = newDataValue;
-    this.value = newDataValue;
-    return this.value;
-  }
-
-} // ========================================
-// === Sortable Field
-// ========================================
-//
-// The following are required as part of the template to make the sorting work:
-//
-// - Add 'draggable="true"' attribute to the sortable containers.
-// - Add 'data-index="X"' attribute to any sortable container with the current index.
-// - Add '@dragenter=${this.handleDragEnter.bind(this)}' event binding to the sortable container.
-// - Add '@dragleave=${this.handleDragLeave.bind(this)}' event binding to the sortable container.
-// - Add '@dragstart=${this.handleDragStart.bind(this)}' event binding to the sortable container.
-// - Add '@dragover=${this.handleDragOver.bind(this)}' event binding to the sortable container.
-// - Add '@drop=${this.handleDrop.bind(this)}' event binding to the sortable container.
-// - Use 'sortable--hover' class to style the currently hovering drop target.
-// - Use 'sortable--above' class to style the hovering element that is above the dragged element.
-// - Use 'sortable--below' class to style the hovering element that is below the dragged element.
-// - Optionally add 'sortable__preview' class to a child elmeent to use as the dragging preview.
-//
-
-class SortableField extends Field {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig);
-    this.fieldType = 'sortable';
-    this._dragOriginElement = null;
-    this._dragHoverElement = null;
-    this._dataValue = [];
-
-    this.template = (editor, field, data) => lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`<div>
-      Sortable Field sub class needs a custom template.
-    </div>`;
-  }
-
-  _reorderValues(currentIndex, startIndex) {
-    // Dropped on self, ignore.
-    if (currentIndex == startIndex) {
-      return false;
-    } // Rework the array to have the items in the correct position.
-
-
-    const newValue = [];
-    const oldValue = this.value;
-    const maxIndex = Math.max(currentIndex, startIndex);
-    const minIndex = Math.min(currentIndex, startIndex); // Determine which direction to shift misplaced items.
-
-    let modifier = 1;
-
-    if (startIndex > currentIndex) {
-      modifier = -1;
-    }
-
-    for (let i = 0; i < oldValue.length; i++) {
-      if (i < minIndex || i > maxIndex) {
-        // Leave in the same order.
-        newValue[i] = oldValue[i];
-      } else if (i == currentIndex) {
-        // This element is being moved to, place the moved value here.
-        newValue[i] = oldValue[startIndex];
-      } else {
-        // Shift the old index using the modifier to determine direction.
-        newValue[i] = oldValue[i + modifier];
-      }
-    }
-
-    this.value = newValue;
-    return true;
-  }
-
-  _shouldHandleDrag(evt) {
-    return this._dragOriginElement && evt.dataTransfer.types.includes(`selective/${this.getUid()}`);
-  }
-
-  handleDragStart(evt) {
-    evt.stopPropagation();
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_9__["findParentDraggable"])(evt.target);
-    this._dragOriginElement = target;
-    evt.dataTransfer.setData('text/plain', evt.target.dataset.index);
-    evt.dataTransfer.setData(`selective/${this.getUid()}`, evt.target.dataset.index);
-    evt.dataTransfer.effectAllowed = 'move'; // Allow for custom preview for dragging.
-
-    const previewEl = target.querySelector('.sortable__preview');
-
-    if (previewEl) {
-      evt.dataTransfer.setDragImage(previewEl, 0, 0);
-    }
-  }
-
-  handleDragEnter(evt) {
-    if (this._shouldHandleDrag(evt)) {
-      const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_9__["findParentDraggable"])(evt.target);
-
-      if (!target) {
-        return;
-      }
-
-      evt.stopPropagation(); // Show that the element is hovering.
-      // Also prevent sub elements from triggering more drag events.
-
-      target.classList.add('sortable--hover');
-      const currentIndex = parseInt(evt.target.dataset.index);
-      const startIndex = parseInt(this._dragOriginElement.dataset.index); // Hovering over self, ignore.
-
-      if (currentIndex == startIndex) {
-        return;
-      }
-
-      if (currentIndex < startIndex) {
-        target.classList.add('sortable--above');
-      } else {
-        target.classList.add('sortable--below');
-      }
-    }
-  }
-
-  handleDragLeave(evt) {
-    if (this._shouldHandleDrag(evt)) {
-      const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_9__["findParentDraggable"])(evt.target);
-
-      if (!target) {
-        return;
-      } //  Make sure that the event target comes from the main element.
-
-
-      if (target !== evt.target) {
-        return;
-      }
-
-      evt.stopPropagation(); // No longer hovering.
-
-      target.classList.remove('sortable--hover', 'sortable--above', 'sortable--below');
-    }
-  }
-
-  handleDragOver(evt) {
-    if (this._shouldHandleDrag(evt)) {
-      // Flag to the browser that this is a valid drop target.
-      evt.preventDefault();
-      evt.stopPropagation();
-    }
-  }
-
-  handleDrop(evt) {
-    // Trying to drag from outside the list.
-    if (!this._dragOriginElement) {
-      return;
-    }
-
-    evt.stopPropagation();
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_9__["findParentDraggable"])(evt.target);
-    const currentIndex = parseInt(evt.target.dataset.index);
-    const startIndex = parseInt(evt.dataTransfer.getData("text/plain")); // No longer hovering.
-
-    target.classList.remove('sortable--hover', 'sortable--above', 'sortable--below'); // Reset the drag element.
-
-    this._dragOriginElement = null;
-
-    if (!this._reorderValues(currentIndex, startIndex)) {
-      // If false nothing changed, so don't re-render.
-      return;
-    } // Trigger a re-render after moving.
-
-
-    document.dispatchEvent(new CustomEvent('selective.render'));
-  }
-
-} // ========================================
-// === List Field
-// ========================================
-
-class ListField extends SortableField {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig);
+class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
+  constructor(config, globalConfig) {
+    super(config, globalConfig);
     this.fieldType = 'list';
-    this._listItems = [];
-    this._listIds = [];
-    this._isExpanded = false;
+    this.isLocalized = true;
+    this._listItems = {};
     this._useAutoFields = false;
-    this._expandedIndexes = [];
+    this._sortableUi = new _ui_sortable__WEBPACK_IMPORTED_MODULE_11__["SortableUI"]();
 
-    this.template = (editor, field, data) => lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <div
-          class="selective__field selective__field__${field.fieldType}"
-          data-field-type="${field.fieldType}">
-        ${field.ensureItems(editor, data)}
-        ${field.updateFromData(data)}
-        <div class="selective__header">
-          <div class="selective__field__label">${field.label}</div>
-          ${field.renderActionsHeader(editor, field, data)}
-        </div>
-        <div class="selective__list">
-          <div class="selective__list__items" id="${field.getUid()}">
-            ${field.renderItems(editor, data)}
-          </div>
-        </div>
-        <div class="selective__footer">
-          ${field.renderActionsFooter(editor, field, data)}
-        </div>
-      </div>`;
+    this._sortableUi.listeners.add('sort', this.handleSort.bind(this));
   }
 
-  _idsFromList(itemList) {
-    const ids = [];
-
-    for (const item of itemList) {
-      ids.push(item.id);
-    }
-
-    return ids;
+  _createFields(fieldTypes, config) {
+    const FieldsCls = this.config.get('FieldsCls', _fields_fields__WEBPACK_IMPORTED_MODULE_10__["default"]);
+    return new FieldsCls(fieldTypes, config);
   }
 
-  _reorderValues(currentIndex, startIndex) {
-    // Rework the expanded array to have the items in the correct position.
-    const newExpanded = [];
-    const oldExpanded = this._expandedIndexes;
-    const newItems = [];
-    const oldItems = this._listItems;
-    const valueLen = this.value.length;
-    const maxIndex = Math.max(currentIndex, startIndex);
-    const minIndex = Math.min(currentIndex, startIndex); // Determine which direction to shift misplaced items.
+  _createItems(selective, data, locale) {
+    const value = this.getValueForLocale(locale) || [];
+    const localeKey = this.keyForLocale(locale);
 
-    let modifier = 1;
+    const listItems = this._getListItemsForLocale(locale);
 
-    if (startIndex > currentIndex) {
-      modifier = -1;
-    }
+    if (listItems.length > 0 || !value.length) {
+      return;
+    } // Use the config to find the field configs.
 
-    for (let i = 0; i < valueLen; i++) {
-      if (i < minIndex || i > maxIndex) {
-        // Leave in the same order.
-        newItems[i] = oldItems[i];
 
-        if (oldExpanded.includes(i)) {
-          newExpanded.push(i);
-        }
-      } else if (i == currentIndex) {
-        // This element is being moved to, place the moved value here.
-        newItems[i] = oldItems[startIndex];
-        newItems[i]['index'] = i;
+    let fieldConfigs = this.config.get('fields', []);
+    this._useAutoFields = !fieldConfigs.length;
 
-        if (oldExpanded.includes(startIndex)) {
-          newExpanded.push(i);
-        }
-      } else {
-        // Shift the old index using the modifier to determine direction.
-        newItems[i] = oldItems[i + modifier];
-        newItems[i]['index'] = i;
+    for (const itemData of value) {
+      const fields = this._createFields(selective.fieldTypes);
 
-        if (oldExpanded.includes(i + modifier)) {
-          newExpanded.push(i);
-        }
+      fields.updateOriginal(selective, itemData); // Auto guess the fields if they are not defined.
+
+      if (this._useAutoFields) {
+        const AutoFieldsCls = this.config.get('AutoFieldsCls', _autoFields__WEBPACK_IMPORTED_MODULE_9__["default"]);
+        fieldConfigs = new AutoFieldsCls(itemData).config['fields'];
+      } // Create the fields based on the config.
+
+
+      for (let fieldConfig of fieldConfigs || []) {
+        fieldConfig = Object(_utility_config__WEBPACK_IMPORTED_MODULE_6__["autoConfig"])(fieldConfig, this.globalConfig);
+        fields.addField(fieldConfig, this.globalConfig);
+      } // When an is not expanded it does not get the value
+      // updated correctly so we need to manually call the data update.
+
+
+      for (const field of fields.fields) {
+        field.updateOriginal(selective, itemData || fields.defaultValue);
       }
+
+      listItems.push(new ListItem({
+        'fields': fieldConfigs
+      }, fields));
+    }
+  }
+
+  _getListItemsForLocale(locale) {
+    const localeKey = this.keyForLocale(locale);
+
+    if (!this._listItems[localeKey]) {
+      this._listItems[localeKey] = [];
     }
 
-    this._expandedIndexes = newExpanded;
-    this._listItems = newItems;
-    return true;
+    return this._listItems[localeKey];
+  }
+
+  _setListItemsForLocale(locale, listItems) {
+    const localeKey = this.keyForLocale(locale);
+    this._listItems[localeKey] = listItems;
   }
 
   get isClean() {
-    // If there are no list items, it has not been changed.
-    if (!this._listItems || this._listItems.length < 1) {
-      return true;
-    } // Check each item to see if it is clean.
+    for (const locale of this.locales) {
+      const originalValue = this.getOriginalValueForLocale(locale);
+
+      const listItems = this._getListItemsForLocale(locale); // Check for a change in length.
 
 
-    for (const item of this._listItems) {
-      if (!item['itemFields'].isClean) {
+      if (listItems.length > 0 && originalValue && originalValue.length != listItems.length) {
         return false;
       }
-    } // Check if the ids on the item list have changed.
 
-
-    const originalIds = JSON.stringify(this._listIds);
-    const currentIds = JSON.stringify(this._idsFromList(this._listItems));
-
-    if (originalIds != currentIds) {
-      return false;
+      for (const item of listItems) {
+        if (!item.fields.isClean) {
+          return false;
+        }
+      }
     }
 
     return true;
   }
 
-  get isExpanded() {
-    // If all of the items are in the expanded list then consider it expanded.
-    if (this._listItems.length == this._expandedIndexes.length) {
-      return true;
-    }
+  get localizedValues() {
+    const localizedValues = {};
 
-    return this._isExpanded;
+    for (const key of Object.keys(this._listItems)) {
+      const value = [];
+
+      for (const item of this._listItems[key]) {
+        value.push(item.fields.value);
+      }
+
+      localizedValues[key] = value;
+    } // Set after the localized values are updated.
+
+
+    localizedValues[this.key] = this.value;
+    return deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, this._originalValues, localizedValues);
   }
 
   get value() {
-    if (!this._listItems || !this._listItems.length) {
-      return this._dataValue;
-    } // Loop through each fields and get the values.
+    const listItems = this._getListItemsForLocale();
 
-
-    const values = [];
-
-    for (const item of this._listItems) {
-      values.push(item['itemFields'].value);
+    if (!listItems.length) {
+      return this.originalValue;
     }
 
-    return values;
-  }
+    const value = [];
 
-  set isExpanded(value) {
-    this._isExpanded = value; // TODO: Save to local storage
+    for (const item of listItems) {
+      value.push(item.fields.value);
+    }
+
+    return value;
   }
 
   set value(value) {// no-op
   }
 
-  _createItems(editor, data) {
-    // No value yet.
-    if (!this.value) {
-      return [];
-    } // Use the field config for the list items to create the correct field types.
-
-
-    let fieldConfigs = this.getConfig().get('fields', []);
-    this._useAutoFields = fieldConfigs.length == 0;
-    let index = 0;
-    const items = [];
-
-    for (const itemData of this.value) {
-      const itemFields = new _fields__WEBPACK_IMPORTED_MODULE_4__["default"](editor.fieldTypes);
-      itemFields.valueFromData(itemData || {});
-
-      if (this._useAutoFields) {
-        // Auto guess the fields if they are not defined.
-        fieldConfigs = new _autoFields__WEBPACK_IMPORTED_MODULE_5__["default"](itemData).config['fields'];
-      }
-
-      for (let fieldConfig of fieldConfigs || []) {
-        fieldConfig = Object(_utility_config__WEBPACK_IMPORTED_MODULE_7__["autoConfig"])(fieldConfig, this.extendedConfig);
-        itemFields.addField(fieldConfig, this.extendedConfig);
-      } // When a partial is not expanded it does not get the value
-      // updated correctly so we need to manually call the data update.
-
-
-      for (const itemField of itemFields.fields) {
-        itemField.updateFromData(itemData || {});
-      }
-
-      items.push({
-        'id': `${this.getUid()}-${index}`,
-        'index': index,
-        'itemFields': itemFields,
-        'fieldConfigs': fieldConfigs,
-        'isExpanded': false
-      });
-      index += 1;
-    }
-
-    return items;
-  }
-
-  _determineItemPreview(listItem) {
-    const defaultPreviewField = this.getConfig().get('preview_field');
-    const previewField = (listItem['partialConfig'] || {})['preview_field'];
-    const itemValue = this.value[listItem['index']];
-    let previewValue = itemValue;
+  guessPreview(item, index, defaultPreview) {
+    const defaultPreviewField = this.config.get('preview_field');
+    const previewType = this.config.get('preview_type', 'text');
+    const previewField = item.config.preview_field;
+    let previewValue = item.fields.value;
 
     if (previewField || defaultPreviewField) {
-      previewValue = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_8__["autoDeepObject"])(itemValue).get(previewField || defaultPreviewField);
+      previewValue = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_8__["autoDeepObject"])(previewValue).get(previewField || defaultPreviewField);
     } // Do not try to show preview for complex values.
 
 
@@ -1039,222 +1077,523 @@ class ListField extends SortableField {
       previewValue = null;
     }
 
-    return previewValue;
-  }
-
-  ensureItems(editor, data) {
-    // If the sub fields have not been created create them now.
-    if (!this._listItems.length) {
-      this._listItems = this._createItems(editor, data); // Expand by default if there is only one item.
-
-      if (this._listItems.length == 1) {
-        this._expandedIndexes = [0];
+    if (previewType == 'image') {
+      if (previewValue.startsWith('http') || previewValue.startsWith('//')) {
+        return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`<img src="${previewValue}" class="selective__image__fingernail">`;
+      } else if (previewValue.startsWith('/')) {// TODO: Handle local images.
       }
-
-      this._listIds = this._idsFromList(this._listItems);
     }
+
+    return previewValue || defaultPreview || `{ Item ${index + 1} }`;
   }
 
-  handleAddItem(evt, editor) {
-    const index = this.value ? this.value.length : 0;
-    const itemFields = new _fields__WEBPACK_IMPORTED_MODULE_4__["default"](editor.fieldTypes); // Use the field config for the list items to create the correct field types.
+  handleAddItem(evt, selective) {
+    const locale = evt.target.dataset.locale;
 
-    let fieldConfigs = this.getConfig().get('fields', []); // If no field configs, use the last item config if availble.
+    const listItems = this._getListItemsForLocale(locale);
 
-    if (!fieldConfigs.length && index > 0) {
-      fieldConfigs = this._listItems[index - 1].fieldConfigs;
-    }
+    const fields = this._createFields(selective.fieldTypes); // Use the field config for the list items to create the correct field types.
+
+
+    let fieldConfigs = this.config.get('fields', []); // If no field configs, use the last item config if availble.
+
+    if (!fieldConfigs.length && listItems.length > 0) {
+      fieldConfigs = listItems[listItems.length - 1].config.fields;
+    } // Create the fields based on the config.
+
 
     for (let fieldConfig of fieldConfigs || []) {
-      fieldConfig = Object(_utility_config__WEBPACK_IMPORTED_MODULE_7__["autoConfig"])(fieldConfig, this.extendedConfig);
-      itemFields.addField(fieldConfig, this.extendedConfig);
+      fieldConfig = Object(_utility_config__WEBPACK_IMPORTED_MODULE_6__["autoConfig"])(fieldConfig, this.globalConfig);
+      fields.addField(fieldConfig, this.globalConfig);
     }
 
-    if (fieldConfigs.length > 1) {
-      itemFields.valueFromData({});
-    } else {
-      itemFields.valueFromData('');
-    }
+    fields.updateOriginal(fields.defaultValue);
+    const listItem = new ListItem({
+      'fields': fieldConfigs
+    }, fields);
+    listItem.isExpanded = true;
+    listItems.push(listItem);
 
-    this._listItems.push({
-      'id': `${this.getUid()}-${index}`,
-      'index': index,
-      'itemFields': itemFields,
-      'fieldConfigs': fieldConfigs,
-      'isExpanded': false
-    }); // Expanded by default.
+    this._setListItemsForLocale(locale, listItems); // TODO: Focus on the input after rendering.
 
 
-    this._expandedIndexes.push(index);
-
-    document.dispatchEvent(new CustomEvent('selective.render'));
+    this.render();
   }
 
-  handleItemCollapse(evt) {
-    this.isExpanded = false;
-    const index = parseInt(evt.target.dataset.index);
+  handleCollapseAll(evt) {
+    const locale = evt.target.dataset.locale;
 
-    const expandIndex = this._expandedIndexes.indexOf(index);
+    const listItems = this._getListItemsForLocale(locale);
 
-    if (expandIndex > -1) {
-      this._expandedIndexes.splice(expandIndex, 1);
-
-      document.dispatchEvent(new CustomEvent('selective.render'));
+    for (const item of listItems) {
+      item.isExpanded = false;
     }
+
+    this.render();
   }
 
-  handleItemDelete(evt) {
-    evt.stopPropagation();
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_9__["findParentByClassname"])(evt.target, 'selective__list__item__delete');
-    const index = parseInt(target.dataset.index); // Clean up an expanded indexes.
+  handleCollapseItem(evt) {
+    const uid = evt.target.dataset.itemUid;
+    const locale = evt.target.dataset.locale;
 
-    const newExpanded = [];
+    const listItems = this._getListItemsForLocale(locale);
 
-    for (const oldIndex of this._expandedIndexes) {
-      if (oldIndex == index) {
-        continue;
-      } else if (oldIndex > index) {
-        newExpanded.push(oldIndex - 1);
-      } else {
-        newExpanded.push(oldIndex);
+    for (const item of listItems) {
+      if (item.uid == uid) {
+        item.isExpanded = false;
+        break;
       }
     }
 
-    this._expandedIndexes = newExpanded; // Clean up the items.
+    this.render();
+  }
+
+  handleExpandAll(evt) {
+    const locale = evt.target.dataset.locale;
+
+    const listItems = this._getListItemsForLocale(locale);
+
+    for (const item of listItems) {
+      item.isExpanded = true;
+    }
+
+    this.render();
+  }
+
+  handleExpandItem(evt) {
+    let target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_7__["findParentByClassname"])(evt.target, 'selective__list__item__preview'); // Alternative label.
+
+    if (!target) {
+      target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_7__["findParentByClassname"])(evt.target, 'selective__list__item__label');
+    }
+
+    const uid = target.dataset.itemUid;
+    const locale = target.dataset.locale;
+
+    const listItems = this._getListItemsForLocale(locale);
+
+    for (const item of listItems) {
+      if (item.uid == uid) {
+        item.isExpanded = true;
+        break;
+      }
+    }
+
+    this.render();
+  }
+
+  handleDeleteItem(evt) {
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_7__["findParentByClassname"])(evt.target, 'selective__list__item__delete');
+    const uid = target.dataset.itemUid;
+    const locale = target.dataset.locale;
+
+    const listItems = this._getListItemsForLocale(locale);
+
+    let deleteIndex = -1;
+
+    for (const index in listItems) {
+      if (listItems[index].uid == uid) {
+        deleteIndex = index;
+        break;
+      }
+    }
+
+    if (deleteIndex > -1) {
+      listItems.splice(deleteIndex, 1);
+    }
+
+    this.render();
+  }
+
+  handleSort(startIndex, endIndex, dropTarget) {
+    // Find the locale from the drop target.
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_7__["findParentByClassname"])(dropTarget, 'selective__list__item');
+    const locale = target.dataset.locale; // Rework the arrays to have the items in the correct position.
 
     const newListItems = [];
 
-    for (const oldItem of this._listItems) {
-      if (oldItem['index'] == index) {
-        continue;
-      } else if (oldItem['index'] > index) {
-        oldItem['index'] = oldItem['index'] - 1;
-        newListItems.push(oldItem);
+    const oldListItems = this._getListItemsForLocale(locale);
+
+    const maxIndex = Math.max(endIndex, startIndex);
+    const minIndex = Math.min(endIndex, startIndex); // Determine which direction to shift misplaced items.
+
+    let modifier = 1;
+
+    if (startIndex > endIndex) {
+      modifier = -1;
+    }
+
+    for (let i = 0; i < oldListItems.length; i++) {
+      if (i < minIndex || i > maxIndex) {
+        // Leave in the same order.
+        newListItems[i] = oldListItems[i];
+      } else if (i == endIndex) {
+        // This element is being moved to, place the moved value here.
+        newListItems[i] = oldListItems[startIndex]; // Lock the fields to prevent the values from being updated at the same
+        // time as the original value.
+
+        newListItems[i].fields.lock();
       } else {
-        newListItems.push(oldItem);
+        // Shift the old index using the modifier to determine direction.
+        newListItems[i] = oldListItems[i + modifier]; // Lock the fields to prevent the values from being updated at the same
+        // time as the original value.
+
+        newListItems[i].fields.lock();
       }
     }
 
-    this._listItems = newListItems; // Remove the value.
+    this._setListItemsForLocale(locale, newListItems); // Unlock fields after rendering is complete to let the values be updated when clean.
 
-    this.value.splice(index, 1);
-    document.dispatchEvent(new CustomEvent('selective.render'));
+
+    document.addEventListener('selective.render.complete', () => {
+      for (const item of newListItems) {
+        item.fields.unlock();
+      }
+
+      this.render();
+    }, {
+      once: true
+    });
+    this.render();
   }
 
-  handleItemExpand(evt) {
-    const index = parseInt(evt.target.dataset.index);
-
-    this._expandedIndexes.push(index);
-
-    document.dispatchEvent(new CustomEvent('selective.render'));
-  }
-
-  handleToggleExpand(evt) {
-    if (this.isExpanded) {
-      // Clear out all expanded indexes when collapsing.
-      this._expandedIndexes = [];
-      this._isExpanded = false;
-    } else {
-      this._isExpanded = true;
-    }
-
-    document.dispatchEvent(new CustomEvent('selective.render'));
-  }
-
-  renderActionsFooter(editor, field, data) {
-    return lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__actions">
-      <button @click=${evt => {
-      field.handleAddItem(evt, editor);
+  renderActionsFooter(selective, data, locale) {
+    return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__actions">
+      <button
+          data-locale=${locale || ''}
+          @click=${evt => {
+      this.handleAddItem(evt, selective);
     }}>
         Add
       </button>
     </div>`;
   }
 
-  renderActionsHeader(editor, field, data) {
-    // No expand toggle action to render if there is only 1 sub field config.
-    const fieldConfigs = this.getConfig().get('fields', []); // No need to expand/collapse when there is only one field config.
+  renderActionsHeader(selective, data, locale) {
+    const isCollapsed = false;
+    const isExpanded = false;
+    const actions = []; // Determine if no actions should be shown.
 
-    if (fieldConfigs.length == 1) {
+    const value = this.getValueForLocale(locale) || [];
+
+    if (!value.length) {
       return '';
-    } // No need to expand/collapse when there is only one list item.
+    } // Check list items for specific conditions.
 
 
-    if (this._listItems && this._listItems.length <= 1) {
-      console.log(this._listItems);
-      console.log(2);
+    const listItems = this._getListItemsForLocale(locale);
+
+    let areSimpleFields = true;
+    let areAllExpanded = true;
+    let areAllCollapsed = true;
+
+    for (const item of listItems) {
+      if (!item.fields.isSimpleField) {
+        areSimpleFields = false;
+      }
+
+      if (!item.isExpanded) {
+        areAllExpanded = false;
+      }
+
+      if (item.isExpanded) {
+        areAllCollapsed = false;
+      }
+    }
+
+    if (areSimpleFields) {
       return '';
-    } // Hide when there are no values to expand/collapse.
+    }
 
-
-    if ((this.value || []).length == 0) {
-      console.log(3);
-      return '';
-    } // Allow collapsing and expanding of sub fields.
-
-
-    return lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__actions">
-      <button class="selective__action__toggle" @click=${field.handleToggleExpand.bind(field)}>
-        ${field.isExpanded ? 'Collapse' : 'Expand'}
-      </button>
+    actions.push(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
+      <button
+          ?disabled=${areAllExpanded}
+          class="selective__action__expand"
+          data-locale=${locale || ''}
+          @click=${this.handleExpandAll.bind(this)}>
+        Expand All
+      </button>`);
+    actions.push(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
+      <button
+          ?disabled=${areAllCollapsed}
+          class="selective__action__collapse"
+          data-locale=${locale || ''}
+          @click=${this.handleCollapseAll.bind(this)}>
+        Collapse All
+      </button>`);
+    return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__actions">
+      ${actions}
     </div>`;
   }
 
-  renderCollapsedItem(editor, listItem) {
-    return lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <div class="selective__list__item__drag"><i class="material-icons">drag_indicator</i></div>
-      <div class="selective__list__item__preview sortable__preview" data-index=${listItem['index']} @click=${this.handleItemExpand.bind(this)}>
-        ${this.renderPreview(listItem)}
+  renderInput(selective, data, locale) {
+    this._createItems(selective, data, locale);
+
+    const items = this._getListItemsForLocale(locale);
+
+    const value = this.getOriginalValueForLocale(locale) || [];
+    const valueLen = value.length;
+    return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
+      <div class="selective__list ${this._useAutoFields ? 'selective__list--auto' : ''}">
+        ${Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__["repeat"])(items, item => item.uid, (item, index) => this.renderItem(selective, index < valueLen ? value[index] : item.fields.defaultValue, item, index, locale))}
+        ${valueLen < 1 && items.length < 1 ? this.renderItemEmpty(selective, data, 0, locale) : ''}
       </div>
-      <div
-          class="selective__list__item__delete"
-          data-index=${listItem['index']}
-          @click=${this.handleItemDelete.bind(this)}
-          title="Delete item">
-        <i class="material-icons">delete</i>
-      </div>`;
+      ${this.renderActionsFooter(selective, data, locale)}`;
   }
 
-  renderExpandedItem(editor, listItem) {
-    return lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <div class="selective__list__fields">
-        <div class="selective__list__fields__label ${!listItem['itemFields'].label ? 'selective__list__fields__label--empty' : ''}"
-            data-index=${listItem['index']}
-            @click=${this.handleItemCollapse.bind(this)}>
-          ${listItem['itemFields'].label}
-        </div>
-        ${listItem['itemFields'].template(editor, listItem['itemFields'], this.value[listItem['index']])}
-      </div>`;
-  }
-
-  renderItems(editor, data) {
-    this.ensureItems(editor, data); // Update the expanded state each render.
-
-    for (const listItem of this._listItems) {
-      const inIndex = this._expandedIndexes.indexOf(listItem['index']) > -1;
-      const itemValue = this.value[listItem['index']];
-      const isSimpleValue = typeof itemValue !== 'object';
-      listItem['isExpanded'] = this.isExpanded || inIndex || isSimpleValue;
+  renderItem(selective, data, item, index, locale) {
+    if (item.fields.isSimpleField) {
+      return this.renderItemSimple(selective, data, item, index, locale);
+    } else if (item.isExpanded) {
+      return this.renderItemExpanded(selective, data, item, index, locale);
     }
 
-    return lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`${Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_1__["repeat"])(this._listItems, listItem => listItem['id'], (listItem, index) => lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <div class="selective__list__item selective__list__item--${listItem['isExpanded'] ? 'expanded' : 'collapsed'} ${this._useAutoFields ? 'selective__list__item--auto' : ''}"
-          draggable="true"
-          data-index=${listItem['index']}
-          @dragenter=${this.handleDragEnter.bind(this)}
-          @dragleave=${this.handleDragLeave.bind(this)}
-          @dragover=${this.handleDragOver.bind(this)}
-          @dragstart=${this.handleDragStart.bind(this)}
-          @drop=${this.handleDrop.bind(this)}>
-        ${listItem['isExpanded'] ? this.renderExpandedItem(editor, listItem) : this.renderCollapsedItem(editor, listItem)}
-      </div>
-    `)}`;
+    return this.renderItemCollapsed(selective, data, item, index, locale);
   }
 
-  renderPreview(listItem) {
-    const previewValue = this._determineItemPreview(listItem);
+  renderItemCollapsed(selective, data, item, index, locale) {
+    item.fields.updateOriginal(selective, data, true);
+    return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
+      <div class="selective__list__item selective__list__item--collapsed selective__sortable"
+          draggable="true"
+          data-index=${index}
+          data-locale=${locale || ''}
+          @dragenter=${this._sortableUi.handleDragEnter.bind(this._sortableUi)}
+          @dragleave=${this._sortableUi.handleDragLeave.bind(this._sortableUi)}
+          @dragover=${this._sortableUi.handleDragOver.bind(this._sortableUi)}
+          @dragstart=${this._sortableUi.handleDragStart.bind(this._sortableUi)}
+          @drop=${this._sortableUi.handleDrop.bind(this._sortableUi)}>
+        <div class="selective__list__item__drag"><i class="material-icons">drag_indicator</i></div>
+        ${this.renderPreview(selective, data, item, index, locale)}
+        <div
+            class="selective__list__item__delete"
+            data-item-uid=${item.uid}
+            data-locale=${locale || ''}
+            @click=${this.handleDeleteItem.bind(this)}
+            title="Delete item">
+          <i class="material-icons">delete</i>
+        </div>
+      </div>`;
+  }
 
-    return previewValue || `Item ${listItem.index + 1}`;
+  renderItemEmpty(selective, data, index, locale) {
+    return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
+      <div class="selective__list__item selective__list__item--empty"
+          data-index=${index}
+          data-locale=${locale || ''}>
+        ${this.config.get('emptyLabel', '{ Empty }')}
+      </div>`;
+  }
+
+  renderItemExpanded(selective, data, item, index, locale) {
+    return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
+      <div class="selective__list__item selective__sortable"
+          draggable="true"
+          data-index=${index}
+          data-locale=${locale || ''}
+          @dragenter=${this._sortableUi.handleDragEnter.bind(this._sortableUi)}
+          @dragleave=${this._sortableUi.handleDragLeave.bind(this._sortableUi)}
+          @dragover=${this._sortableUi.handleDragOver.bind(this._sortableUi)}
+          @dragstart=${this._sortableUi.handleDragStart.bind(this._sortableUi)}
+          @drop=${this._sortableUi.handleDrop.bind(this._sortableUi)}>
+        <div class="selective__list__fields__label ${!item.fields.label ? 'selective__list__fields__label--empty' : ''}"
+            data-item-uid=${item.uid}
+            data-locale=${locale || ''}
+            @click=${this.handleCollapseItem.bind(this)}>
+          ${item.fields.label}
+        </div>
+        ${item.fields.template(selective, data)}
+      </div>`;
+  }
+
+  renderItemSimple(selective, data, item, index, locale) {
+    return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
+      <div class="selective__list__item selective__list__item--simple selective__sortable"
+          draggable="true"
+          data-index=${index}
+          data-locale=${locale || ''}
+          @dragenter=${this._sortableUi.handleDragEnter.bind(this._sortableUi)}
+          @dragleave=${this._sortableUi.handleDragLeave.bind(this._sortableUi)}
+          @dragover=${this._sortableUi.handleDragOver.bind(this._sortableUi)}
+          @dragstart=${this._sortableUi.handleDragStart.bind(this._sortableUi)}
+          @drop=${this._sortableUi.handleDrop.bind(this._sortableUi)}>
+        <div class="selective__list__item__drag">
+          <i class="material-icons">drag_indicator</i>
+        </div>
+        ${item.fields.template(selective, data)}
+        <div
+            class="selective__list__item__delete"
+            data-item-uid=${item.uid}
+            data-locale=${locale || ''}
+            @click=${this.handleDeleteItem.bind(this)}
+            title="Delete item">
+          <i class="material-icons">delete</i>
+        </div>
+      </div>`;
+  }
+
+  renderLabel(selective, data) {
+    return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
+      <div class="selective__field__actions__wrapper">
+        <div class="selective__field__label">
+          <label>${this.config.label}</label>
+        </div>
+        ${this.renderActionsHeader(selective, data)}
+      </div>`;
+  }
+
+  renderPreview(selective, data, item, index, locale) {
+    return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`<div
+        class="selective__list__item__preview"
+        data-item-uid=${item.uid}
+        data-locale=${locale || ''}
+        @click=${this.handleExpandItem.bind(this)}>
+      ${this.guessPreview(item, index)}
+    </div>`;
+  }
+
+}
+class ListItem extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_4__["default"], _mixin_uid__WEBPACK_IMPORTED_MODULE_5__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["Base"]) {
+  constructor(config, fields) {
+    super();
+    this.setConfig(config);
+    this.fields = fields;
+    this.expanded = false;
+  }
+
+  get config() {
+    return this.getConfig();
+  }
+
+  get uid() {
+    return this.getUid();
+  }
+
+}
+
+/***/ }),
+
+/***/ "../../../selective-edit/js/selective/field/structure.js":
+/*!*******************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/selective/field/structure.js ***!
+  \*******************************************************************************/
+/*! exports provided: GroupField */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GroupField", function() { return GroupField; });
+/* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! deep-extend */ "../../../selective-edit/node_modules/deep-extend/lib/deep-extend.js");
+/* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(deep_extend__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lit-html */ "../../../selective-edit/node_modules/lit-html/lit-html.js");
+/* harmony import */ var lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lit-html/directives/repeat */ "../../../selective-edit/node_modules/lit-html/directives/repeat.js");
+/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utility/config */ "../../../selective-edit/js/utility/config.js");
+/* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../autoFields */ "../../../selective-edit/js/selective/autoFields.js");
+/* harmony import */ var _fields_fields__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../fields/fields */ "../../../selective-edit/js/selective/fields/fields.js");
+/* harmony import */ var _field__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./field */ "../../../selective-edit/js/selective/field/field.js");
+/**
+ * Structure fields for controlling the flow of fields.
+ */
+
+
+
+
+
+
+
+class GroupField extends _field__WEBPACK_IMPORTED_MODULE_6__["default"] {
+  constructor(config, globalConfig) {
+    super(config, globalConfig);
+    this.fieldType = 'group';
+    this.ignoreLocalize = true;
+    this.fields = null;
+    this.isExpanded = false;
+    this._useAutoFields = false;
+  }
+
+  get isClean() {
+    // If there are no fields, nothing has changed.
+    if (!this.fields) {
+      return true;
+    }
+
+    for (const field of this.fields.fields) {
+      if (!field.isClean) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  get value() {
+    if (!this.fields) {
+      return this.originalValue;
+    }
+
+    return deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, this.originalValue, this.fields.value);
+  }
+
+  set value(value) {// Ignore.
+  }
+
+  _createFields(selective, data) {
+    const FieldsCls = this.config.get('FieldsCls', _fields_fields__WEBPACK_IMPORTED_MODULE_5__["default"]);
+    const fields = new FieldsCls(selective.fieldTypes);
+    fields.updateOriginal(this.originalValue);
+    let fieldConfigs = this.config.fields || [];
+    this._useAutoFields = fieldConfigs.length == 0;
+
+    if (this._useAutoFields) {
+      // Auto guess the fields if they are not defined.
+      const AutoFieldsCls = this.config.get('AutoFieldsCls', _autoFields__WEBPACK_IMPORTED_MODULE_4__["default"]);
+      fieldConfigs = new AutoFieldsCls(this.originalValue).config['fields'];
+    }
+
+    for (let fieldConfig of fieldConfigs || []) {
+      fieldConfig = Object(_utility_config__WEBPACK_IMPORTED_MODULE_3__["autoConfig"])(fieldConfig, this.globalConfig);
+      fields.addField(fieldConfig, this.globalConfig);
+    }
+
+    for (const field of fields.fields) {
+      field.updateOriginal(selective, this.originalValue);
+    }
+
+    return fields;
+  }
+
+  ensureFields(selective, data) {
+    if (!this.fields) {
+      this.fields = this._createFields(selective, data);
+    }
+  }
+
+  handleExpandToggle(evt) {
+    this.isExpanded = !this.isExpanded;
+    this.render();
+  }
+
+  renderInput(selective, data, locale) {
+    if (!this.isExpanded) {
+      return '';
+    }
+
+    this.ensureFields(selective, data);
+    return this.fields.template(selective, this.originalValue);
+  }
+
+  renderLabel(selective, data) {
+    return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
+      <div
+          class="selective__field__label selective__field__label--action selective__field__label--strong"
+          @click=${this.handleExpandToggle.bind(this)}>
+        <div class="selective__field__actions">
+          <i class="material-icons">
+            ${this.isExpanded ? 'expand_less' : 'expand_more'}
+          </i>
+          <label>${this.config.label || '(Group)'}</label>
+        </div>
+      </div>`;
   }
 
 }
@@ -1306,10 +1645,10 @@ class FieldTypes extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_1__["c
 
 /***/ }),
 
-/***/ "../../../selective-edit/js/selective/fields.js":
-/*!**********************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/js/selective/fields.js ***!
-  \**********************************************************************/
+/***/ "../../../selective-edit/js/selective/fields/fields.js":
+/*!*****************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/selective/fields/fields.js ***!
+  \*****************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1320,13 +1659,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(deep_extend__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lit-html */ "../../../selective-edit/node_modules/lit-html/lit-html.js");
 /* harmony import */ var lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lit-html/directives/repeat */ "../../../selective-edit/node_modules/lit-html/directives/repeat.js");
-/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../mixin/config */ "../../../selective-edit/js/mixin/config.js");
-/* harmony import */ var _mixin_uid__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../mixin/uid */ "../../../selective-edit/js/mixin/uid.js");
-/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utility/compose */ "../../../selective-edit/js/utility/compose.js");
-/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utility/config */ "../../../selective-edit/js/utility/config.js");
-/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
+/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utility/compose */ "../../../selective-edit/js/utility/compose.js");
+/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../mixin/config */ "../../../selective-edit/js/mixin/config.js");
+/* harmony import */ var _mixin_uid__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../mixin/uid */ "../../../selective-edit/js/mixin/uid.js");
+/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../utility/config */ "../../../selective-edit/js/utility/config.js");
+/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
 /**
- * Fields defined for editing.
+ * Base fields.
  */
 
 
@@ -1336,21 +1675,29 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class Fields extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_5__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_3__["default"], _mixin_uid__WEBPACK_IMPORTED_MODULE_4__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_5__["Base"]) {
+class Fields extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_4__["default"], _mixin_uid__WEBPACK_IMPORTED_MODULE_5__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["Base"]) {
   constructor(fieldTypes, config) {
     super();
+    this._originalValue = undefined;
+    this._value = undefined;
     this.fieldTypes = fieldTypes;
     this.fields = [];
-    this._dataValue = undefined;
-    this._value = undefined;
     this.setConfig(config);
+  }
 
-    this.template = (editor, fields, data) => lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__fields">
-      ${fields.valueFromData(data)}
-      ${Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__["repeat"])(fields.fields, field => field.getUid(), (field, index) => lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
-        ${field.template(editor, field, data)}
-      `)}
-    </div>`;
+  get config() {
+    return this.getConfig();
+  } // Guess default value when there is not value defined for fields.
+
+
+  get defaultValue() {
+    let defaultValue = ''; // If there is multiple fields it should be an object.
+
+    if (this.fields.length > 1) {
+      defaultValue = {};
+    }
+
+    return defaultValue;
   }
 
   get isClean() {
@@ -1363,42 +1710,82 @@ class Fields extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_5__["compo
     return true;
   }
 
+  get isSimpleField() {
+    return this.fields.length == 1;
+  }
+
+  get template() {
+    if (this.isSimpleField) {
+      return (selective, data) => lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
+        ${this.updateOriginal(selective, data)}
+        ${this.fields[0].template(selective, data)}`;
+    }
+
+    return (selective, data) => lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__fields">
+      ${this.updateOriginal(selective, data)}
+      ${Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__["repeat"])(this.fields, field => field.uid, (field, index) => lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
+        ${field.template(selective, data)}
+      `)}
+    </div>`;
+  }
+
   get value() {
+    if (this.isSimpleField && !this.fields[0].key) {
+      return this.fields[0].value;
+    }
+
     const value = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_7__["autoDeepObject"])({});
-    const setKeys = [];
+    const keySet = [];
 
     for (const field of this.fields) {
-      // When using field without a key it returns a subset of the data.
       if (!field.key) {
+        // When using field without a key it returns a subset of the data.
         value.update(field.value);
       } else {
-        // If a field is reusing a key combine the existing values
-        // and the new values. New values will overwrite conflicting keys.
-        if (setKeys.includes(field.key)) {
-          value.set(field.key, deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, value.get(field.key), field.value));
-          continue;
-        } // Mark that the field key was set.
+        if (field.isLocalized) {
+          // Mark that the field key was set.
+          keySet.push(field.key); // Localized fields return an object of keys and values.
+
+          value.update(field.localizedValues);
+        } else {
+          // If a field is reusing a key combine the existing values
+          // and the new values. New values will overwrite conflicting keys.
+          if (keySet.includes(field.key)) {
+            value.set(field.key, deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, value.get(field.key), field.value));
+            continue;
+          } // Mark that the field key was set.
 
 
-        setKeys.push(field.key);
-        value.set(field.key, field.value);
+          keySet.push(field.key);
+          value.set(field.key, field.value);
+        }
       }
     }
 
-    return deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, this._dataValue.obj, value.obj);
+    return deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, this._originalValue, value.obj);
   }
 
-  set value(value) {// Setting value doesn't actually do anything.
+  set value(value) {
+    // Setting value doesn't actually do anything.
+    console.warn('Set a value on the fields, that is a no-op.');
   }
 
-  addField(fieldConfig, extendedConfig) {
-    fieldConfig = Object(_utility_config__WEBPACK_IMPORTED_MODULE_6__["autoConfig"])(fieldConfig, extendedConfig);
-    const newField = this.fieldTypes.newField(fieldConfig.type, fieldConfig, extendedConfig);
+  addField(fieldConfig, globalConfig) {
+    fieldConfig = Object(_utility_config__WEBPACK_IMPORTED_MODULE_6__["autoConfig"])(fieldConfig, globalConfig);
+    const newField = this.fieldTypes.newField(fieldConfig.type, fieldConfig, globalConfig); // TODO: Handle placeholders.
 
     if (newField) {
       this.fields.push(newField);
     }
   }
+
+  lock() {
+    // Lock all the fields to prevent them from being updated.
+    for (const field of this.fields) {
+      field.lock();
+    }
+  } // TODO: look into directives.
+
 
   postRender(containerEl) {
     // Pass it along to the fields.
@@ -1411,8 +1798,193 @@ class Fields extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_5__["compo
     this.fields = [];
   }
 
-  valueFromData(data) {
-    this._dataValue = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_7__["autoDeepObject"])(data);
+  unlock() {
+    // Unlock all the fields to allow them to be updated.
+    for (const field of this.fields) {
+      field.unlock();
+    }
+  }
+
+  updateOriginal(selective, data, deep) {
+    this._originalValue = data ? data.obj ? data.obj : data : undefined;
+
+    if (deep) {
+      // Update all the fields since they may not get rendered.
+      // Ex: a collapsed list would not get the update.
+      for (const field of this.fields) {
+        field.updateOriginal(selective, data);
+      }
+    }
+  }
+
+}
+
+/***/ }),
+
+/***/ "../../../selective-edit/js/selective/ui/sortable.js":
+/*!***************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/selective/ui/sortable.js ***!
+  \***************************************************************************/
+/*! exports provided: SortableUI */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SortableUI", function() { return SortableUI; });
+/* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lit-html */ "../../../selective-edit/node_modules/lit-html/lit-html.js");
+/* harmony import */ var lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lit-html/directives/repeat */ "../../../selective-edit/node_modules/lit-html/directives/repeat.js");
+/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/dom */ "../../../selective-edit/js/utility/dom.js");
+/* harmony import */ var _ui__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ui */ "../../../selective-edit/js/selective/ui/ui.js");
+/**
+ * UI elements for the working with sortables.
+ */
+
+
+
+
+class SortableUI extends _ui__WEBPACK_IMPORTED_MODULE_3__["default"] {
+  constructor(config) {
+    super(config);
+    this._dragOriginElement = null;
+  }
+
+  get transferType() {
+    return `selective/${this.getUid()}`;
+  }
+
+  _dragTarget(evt) {
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_2__["findParentDraggable"])(evt.target);
+
+    if (!this._dragOriginElement || !target) {
+      return false;
+    }
+
+    if (evt.dataTransfer.types.includes(this.transferType)) {
+      evt.preventDefault();
+      evt.stopPropagation();
+      return target;
+    }
+  }
+
+  handleDragStart(evt) {
+    evt.stopPropagation();
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_2__["findParentDraggable"])(evt.target);
+    this._dragOriginElement = target;
+    evt.dataTransfer.effectAllowed = 'move';
+    evt.dataTransfer.setData('text/plain', evt.target.dataset.index); // Use a custom transfer type to contain drags just to this list.
+
+    evt.dataTransfer.setData(this.transferType, evt.target.dataset.index); // Allow for custom preview for dragging.
+
+    const previewEl = target.querySelector('.selective__sortable__preview');
+
+    if (previewEl) {
+      evt.dataTransfer.setDragImage(previewEl, 0, 0);
+    }
+  }
+
+  handleDragEnter(evt) {
+    const target = this._dragTarget(evt);
+
+    if (!target) {
+      return;
+    } // Show that the element is hovering.
+
+
+    target.classList.add('selective__sortable--hover');
+    const currentIndex = parseInt(target.dataset.index);
+    const startIndex = parseInt(this._dragOriginElement.dataset.index); // Hovering over self, ignore.
+
+    if (currentIndex == startIndex) {
+      return;
+    }
+
+    if (currentIndex < startIndex) {
+      target.classList.add('selective__sortable--above');
+    } else {
+      target.classList.add('selective__sortable--below');
+    }
+  }
+
+  handleDragLeave(evt) {
+    const target = this._dragTarget(evt);
+
+    if (!target) {
+      return;
+    } //  Make sure that the event target comes from the main element.
+
+
+    if (target !== evt.target) {
+      return;
+    } // No longer hovering.
+
+
+    target.classList.remove('selective__sortable--hover', 'selective__sortable--above', 'selective__sortable--below');
+  }
+
+  handleDragOver(evt) {
+    // Find the target and prevent the defaults.
+    this._dragTarget(evt);
+  }
+
+  handleDrop(evt) {
+    const target = this._dragTarget(evt);
+
+    if (!target) {
+      return;
+    }
+
+    const currentIndex = parseInt(target.dataset.index);
+    const startIndex = parseInt(evt.dataTransfer.getData("text/plain")); // Reset the drag element.
+
+    this._dragOriginElement = null; // No longer hovering.
+
+    target.classList.remove('selective__sortable--hover', 'selective__sortable--above', 'selective__sortable--below');
+    this.listeners.trigger('sort', startIndex, currentIndex, target);
+  }
+
+}
+
+/***/ }),
+
+/***/ "../../../selective-edit/js/selective/ui/ui.js":
+/*!*********************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/selective/ui/ui.js ***!
+  \*********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return UI; });
+/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../utility/compose */ "../../../selective-edit/js/utility/compose.js");
+/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../mixin/config */ "../../../selective-edit/js/mixin/config.js");
+/* harmony import */ var _mixin_uid__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../mixin/uid */ "../../../selective-edit/js/mixin/uid.js");
+/* harmony import */ var _utility_listeners__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utility/listeners */ "../../../selective-edit/js/utility/listeners.js");
+/**
+ * Base class for reusable UI elements.
+ */
+
+
+
+
+class UI extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_0__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_1__["default"], _mixin_uid__WEBPACK_IMPORTED_MODULE_2__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_0__["Base"]) {
+  constructor(config) {
+    super();
+    this.listeners = new _utility_listeners__WEBPACK_IMPORTED_MODULE_3__["default"]();
+    this.setConfig(config);
+  }
+
+  get config() {
+    return this.getConfig();
+  }
+
+  get uid() {
+    return this.getUid();
+  }
+
+  render() {
+    // Trigger a render event.
+    document.dispatchEvent(new CustomEvent('selective.render'));
   }
 
 }
@@ -1518,7 +2090,7 @@ __webpack_require__.r(__webpack_exports__);
  * Utility for determining the type of a data value.
  */
 class DataType {
-  isArray(value) {
+  static isArray(value) {
     if (Array.isArray) {
       return Array.isArray(value);
     }
@@ -1526,43 +2098,43 @@ class DataType {
     return value && typeof value === 'object' && value.constructor === Array;
   }
 
-  isBoolean(value) {
+  static isBoolean(value) {
     return typeof value === 'boolean';
   }
 
-  isDate(value) {
+  static isDate(value) {
     return value instanceof Date;
   }
 
-  isFunction(value) {
+  static isFunction(value) {
     return typeof value === 'function';
   }
 
-  isNumber(value) {
+  static isNumber(value) {
     return typeof value === 'number' && isFinite(value);
   }
 
-  isNull(value) {
+  static isNull(value) {
     return value === null;
   }
 
-  isObject(value) {
+  static isObject(value) {
     return value && typeof value === 'object' && value.constructor === Object;
   }
 
-  isRegExp(value) {
+  static isRegExp(value) {
     return value && typeof value === 'object' && value.constructor === RegExp;
   }
 
-  isString(value) {
+  static isString(value) {
     return typeof value === 'string' || value instanceof String;
   }
 
-  isSymbol(value) {
+  static isSymbol(value) {
     return typeof value === 'symbol';
   }
 
-  isUndefined(value) {
+  static isUndefined(value) {
     return typeof value === 'undefined';
   }
 
@@ -1705,6 +2277,47 @@ const findParentDraggable = target => {
 };
 
 
+
+/***/ }),
+
+/***/ "../../../selective-edit/js/utility/listeners.js":
+/*!***********************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/utility/listeners.js ***!
+  \***********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Listeners; });
+/**
+ * Utility class for allowing a class to bind listeners and trigger callbacks.
+ */
+class Listeners {
+  constructor() {
+    this._listeners = {};
+  }
+
+  add(eventName, callback) {
+    const listeners = this.listenersForEvent(eventName);
+    listeners.push(callback);
+  }
+
+  listenersForEvent(eventName) {
+    if (!this._listeners[eventName]) {
+      this._listeners[eventName] = [];
+    }
+
+    return this._listeners[eventName];
+  }
+
+  trigger(eventName, ...data) {
+    for (const listener of this.listenersForEvent(eventName)) {
+      listener(...data);
+    }
+  }
+
+}
 
 /***/ }),
 
@@ -1899,6 +2512,563 @@ var deepExtend = module.exports = function (/*obj_1, [obj_2], [obj_N]*/) {
 
 /***/ }),
 
+/***/ "../../../selective-edit/node_modules/json-stable-stringify/index.js":
+/*!*******************************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/node_modules/json-stable-stringify/index.js ***!
+  \*******************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var json = typeof JSON !== 'undefined' ? JSON : __webpack_require__(/*! jsonify */ "../../../selective-edit/node_modules/jsonify/index.js");
+
+module.exports = function (obj, opts) {
+    if (!opts) opts = {};
+    if (typeof opts === 'function') opts = { cmp: opts };
+    var space = opts.space || '';
+    if (typeof space === 'number') space = Array(space+1).join(' ');
+    var cycles = (typeof opts.cycles === 'boolean') ? opts.cycles : false;
+    var replacer = opts.replacer || function(key, value) { return value; };
+
+    var cmp = opts.cmp && (function (f) {
+        return function (node) {
+            return function (a, b) {
+                var aobj = { key: a, value: node[a] };
+                var bobj = { key: b, value: node[b] };
+                return f(aobj, bobj);
+            };
+        };
+    })(opts.cmp);
+
+    var seen = [];
+    return (function stringify (parent, key, node, level) {
+        var indent = space ? ('\n' + new Array(level + 1).join(space)) : '';
+        var colonSeparator = space ? ': ' : ':';
+
+        if (node && node.toJSON && typeof node.toJSON === 'function') {
+            node = node.toJSON();
+        }
+
+        node = replacer.call(parent, key, node);
+
+        if (node === undefined) {
+            return;
+        }
+        if (typeof node !== 'object' || node === null) {
+            return json.stringify(node);
+        }
+        if (isArray(node)) {
+            var out = [];
+            for (var i = 0; i < node.length; i++) {
+                var item = stringify(node, i, node[i], level+1) || json.stringify(null);
+                out.push(indent + space + item);
+            }
+            return '[' + out.join(',') + indent + ']';
+        }
+        else {
+            if (seen.indexOf(node) !== -1) {
+                if (cycles) return json.stringify('__cycle__');
+                throw new TypeError('Converting circular structure to JSON');
+            }
+            else seen.push(node);
+
+            var keys = objectKeys(node).sort(cmp && cmp(node));
+            var out = [];
+            for (var i = 0; i < keys.length; i++) {
+                var key = keys[i];
+                var value = stringify(node, key, node[key], level+1);
+
+                if(!value) continue;
+
+                var keyValue = json.stringify(key)
+                    + colonSeparator
+                    + value;
+                ;
+                out.push(indent + space + keyValue);
+            }
+            seen.splice(seen.indexOf(node), 1);
+            return '{' + out.join(',') + indent + '}';
+        }
+    })({ '': obj }, '', obj, 0);
+};
+
+var isArray = Array.isArray || function (x) {
+    return {}.toString.call(x) === '[object Array]';
+};
+
+var objectKeys = Object.keys || function (obj) {
+    var has = Object.prototype.hasOwnProperty || function () { return true };
+    var keys = [];
+    for (var key in obj) {
+        if (has.call(obj, key)) keys.push(key);
+    }
+    return keys;
+};
+
+
+/***/ }),
+
+/***/ "../../../selective-edit/node_modules/jsonify/index.js":
+/*!*****************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/node_modules/jsonify/index.js ***!
+  \*****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports.parse = __webpack_require__(/*! ./lib/parse */ "../../../selective-edit/node_modules/jsonify/lib/parse.js");
+exports.stringify = __webpack_require__(/*! ./lib/stringify */ "../../../selective-edit/node_modules/jsonify/lib/stringify.js");
+
+
+/***/ }),
+
+/***/ "../../../selective-edit/node_modules/jsonify/lib/parse.js":
+/*!*********************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/node_modules/jsonify/lib/parse.js ***!
+  \*********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var at, // The index of the current character
+    ch, // The current character
+    escapee = {
+        '"':  '"',
+        '\\': '\\',
+        '/':  '/',
+        b:    '\b',
+        f:    '\f',
+        n:    '\n',
+        r:    '\r',
+        t:    '\t'
+    },
+    text,
+
+    error = function (m) {
+        // Call error when something is wrong.
+        throw {
+            name:    'SyntaxError',
+            message: m,
+            at:      at,
+            text:    text
+        };
+    },
+    
+    next = function (c) {
+        // If a c parameter is provided, verify that it matches the current character.
+        if (c && c !== ch) {
+            error("Expected '" + c + "' instead of '" + ch + "'");
+        }
+        
+        // Get the next character. When there are no more characters,
+        // return the empty string.
+        
+        ch = text.charAt(at);
+        at += 1;
+        return ch;
+    },
+    
+    number = function () {
+        // Parse a number value.
+        var number,
+            string = '';
+        
+        if (ch === '-') {
+            string = '-';
+            next('-');
+        }
+        while (ch >= '0' && ch <= '9') {
+            string += ch;
+            next();
+        }
+        if (ch === '.') {
+            string += '.';
+            while (next() && ch >= '0' && ch <= '9') {
+                string += ch;
+            }
+        }
+        if (ch === 'e' || ch === 'E') {
+            string += ch;
+            next();
+            if (ch === '-' || ch === '+') {
+                string += ch;
+                next();
+            }
+            while (ch >= '0' && ch <= '9') {
+                string += ch;
+                next();
+            }
+        }
+        number = +string;
+        if (!isFinite(number)) {
+            error("Bad number");
+        } else {
+            return number;
+        }
+    },
+    
+    string = function () {
+        // Parse a string value.
+        var hex,
+            i,
+            string = '',
+            uffff;
+        
+        // When parsing for string values, we must look for " and \ characters.
+        if (ch === '"') {
+            while (next()) {
+                if (ch === '"') {
+                    next();
+                    return string;
+                } else if (ch === '\\') {
+                    next();
+                    if (ch === 'u') {
+                        uffff = 0;
+                        for (i = 0; i < 4; i += 1) {
+                            hex = parseInt(next(), 16);
+                            if (!isFinite(hex)) {
+                                break;
+                            }
+                            uffff = uffff * 16 + hex;
+                        }
+                        string += String.fromCharCode(uffff);
+                    } else if (typeof escapee[ch] === 'string') {
+                        string += escapee[ch];
+                    } else {
+                        break;
+                    }
+                } else {
+                    string += ch;
+                }
+            }
+        }
+        error("Bad string");
+    },
+
+    white = function () {
+
+// Skip whitespace.
+
+        while (ch && ch <= ' ') {
+            next();
+        }
+    },
+
+    word = function () {
+
+// true, false, or null.
+
+        switch (ch) {
+        case 't':
+            next('t');
+            next('r');
+            next('u');
+            next('e');
+            return true;
+        case 'f':
+            next('f');
+            next('a');
+            next('l');
+            next('s');
+            next('e');
+            return false;
+        case 'n':
+            next('n');
+            next('u');
+            next('l');
+            next('l');
+            return null;
+        }
+        error("Unexpected '" + ch + "'");
+    },
+
+    value,  // Place holder for the value function.
+
+    array = function () {
+
+// Parse an array value.
+
+        var array = [];
+
+        if (ch === '[') {
+            next('[');
+            white();
+            if (ch === ']') {
+                next(']');
+                return array;   // empty array
+            }
+            while (ch) {
+                array.push(value());
+                white();
+                if (ch === ']') {
+                    next(']');
+                    return array;
+                }
+                next(',');
+                white();
+            }
+        }
+        error("Bad array");
+    },
+
+    object = function () {
+
+// Parse an object value.
+
+        var key,
+            object = {};
+
+        if (ch === '{') {
+            next('{');
+            white();
+            if (ch === '}') {
+                next('}');
+                return object;   // empty object
+            }
+            while (ch) {
+                key = string();
+                white();
+                next(':');
+                if (Object.hasOwnProperty.call(object, key)) {
+                    error('Duplicate key "' + key + '"');
+                }
+                object[key] = value();
+                white();
+                if (ch === '}') {
+                    next('}');
+                    return object;
+                }
+                next(',');
+                white();
+            }
+        }
+        error("Bad object");
+    };
+
+value = function () {
+
+// Parse a JSON value. It could be an object, an array, a string, a number,
+// or a word.
+
+    white();
+    switch (ch) {
+    case '{':
+        return object();
+    case '[':
+        return array();
+    case '"':
+        return string();
+    case '-':
+        return number();
+    default:
+        return ch >= '0' && ch <= '9' ? number() : word();
+    }
+};
+
+// Return the json_parse function. It will have access to all of the above
+// functions and variables.
+
+module.exports = function (source, reviver) {
+    var result;
+    
+    text = source;
+    at = 0;
+    ch = ' ';
+    result = value();
+    white();
+    if (ch) {
+        error("Syntax error");
+    }
+
+    // If there is a reviver function, we recursively walk the new structure,
+    // passing each name/value pair to the reviver function for possible
+    // transformation, starting with a temporary root object that holds the result
+    // in an empty key. If there is not a reviver function, we simply return the
+    // result.
+
+    return typeof reviver === 'function' ? (function walk(holder, key) {
+        var k, v, value = holder[key];
+        if (value && typeof value === 'object') {
+            for (k in value) {
+                if (Object.prototype.hasOwnProperty.call(value, k)) {
+                    v = walk(value, k);
+                    if (v !== undefined) {
+                        value[k] = v;
+                    } else {
+                        delete value[k];
+                    }
+                }
+            }
+        }
+        return reviver.call(holder, key, value);
+    }({'': result}, '')) : result;
+};
+
+
+/***/ }),
+
+/***/ "../../../selective-edit/node_modules/jsonify/lib/stringify.js":
+/*!*************************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/node_modules/jsonify/lib/stringify.js ***!
+  \*************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var cx = /[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,
+    escapable = /[\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,
+    gap,
+    indent,
+    meta = {    // table of character substitutions
+        '\b': '\\b',
+        '\t': '\\t',
+        '\n': '\\n',
+        '\f': '\\f',
+        '\r': '\\r',
+        '"' : '\\"',
+        '\\': '\\\\'
+    },
+    rep;
+
+function quote(string) {
+    // If the string contains no control characters, no quote characters, and no
+    // backslash characters, then we can safely slap some quotes around it.
+    // Otherwise we must also replace the offending characters with safe escape
+    // sequences.
+    
+    escapable.lastIndex = 0;
+    return escapable.test(string) ? '"' + string.replace(escapable, function (a) {
+        var c = meta[a];
+        return typeof c === 'string' ? c :
+            '\\u' + ('0000' + a.charCodeAt(0).toString(16)).slice(-4);
+    }) + '"' : '"' + string + '"';
+}
+
+function str(key, holder) {
+    // Produce a string from holder[key].
+    var i,          // The loop counter.
+        k,          // The member key.
+        v,          // The member value.
+        length,
+        mind = gap,
+        partial,
+        value = holder[key];
+    
+    // If the value has a toJSON method, call it to obtain a replacement value.
+    if (value && typeof value === 'object' &&
+            typeof value.toJSON === 'function') {
+        value = value.toJSON(key);
+    }
+    
+    // If we were called with a replacer function, then call the replacer to
+    // obtain a replacement value.
+    if (typeof rep === 'function') {
+        value = rep.call(holder, key, value);
+    }
+    
+    // What happens next depends on the value's type.
+    switch (typeof value) {
+        case 'string':
+            return quote(value);
+        
+        case 'number':
+            // JSON numbers must be finite. Encode non-finite numbers as null.
+            return isFinite(value) ? String(value) : 'null';
+        
+        case 'boolean':
+        case 'null':
+            // If the value is a boolean or null, convert it to a string. Note:
+            // typeof null does not produce 'null'. The case is included here in
+            // the remote chance that this gets fixed someday.
+            return String(value);
+            
+        case 'object':
+            if (!value) return 'null';
+            gap += indent;
+            partial = [];
+            
+            // Array.isArray
+            if (Object.prototype.toString.apply(value) === '[object Array]') {
+                length = value.length;
+                for (i = 0; i < length; i += 1) {
+                    partial[i] = str(i, value) || 'null';
+                }
+                
+                // Join all of the elements together, separated with commas, and
+                // wrap them in brackets.
+                v = partial.length === 0 ? '[]' : gap ?
+                    '[\n' + gap + partial.join(',\n' + gap) + '\n' + mind + ']' :
+                    '[' + partial.join(',') + ']';
+                gap = mind;
+                return v;
+            }
+            
+            // If the replacer is an array, use it to select the members to be
+            // stringified.
+            if (rep && typeof rep === 'object') {
+                length = rep.length;
+                for (i = 0; i < length; i += 1) {
+                    k = rep[i];
+                    if (typeof k === 'string') {
+                        v = str(k, value);
+                        if (v) {
+                            partial.push(quote(k) + (gap ? ': ' : ':') + v);
+                        }
+                    }
+                }
+            }
+            else {
+                // Otherwise, iterate through all of the keys in the object.
+                for (k in value) {
+                    if (Object.prototype.hasOwnProperty.call(value, k)) {
+                        v = str(k, value);
+                        if (v) {
+                            partial.push(quote(k) + (gap ? ': ' : ':') + v);
+                        }
+                    }
+                }
+            }
+            
+        // Join all of the member texts together, separated with commas,
+        // and wrap them in braces.
+
+        v = partial.length === 0 ? '{}' : gap ?
+            '{\n' + gap + partial.join(',\n' + gap) + '\n' + mind + '}' :
+            '{' + partial.join(',') + '}';
+        gap = mind;
+        return v;
+    }
+}
+
+module.exports = function (value, replacer, space) {
+    var i;
+    gap = '';
+    indent = '';
+    
+    // If the space parameter is a number, make an indent string containing that
+    // many spaces.
+    if (typeof space === 'number') {
+        for (i = 0; i < space; i += 1) {
+            indent += ' ';
+        }
+    }
+    // If the space parameter is a string, it will be used as the indent string.
+    else if (typeof space === 'string') {
+        indent = space;
+    }
+
+    // If there is a replacer, it must be a function or an array.
+    // Otherwise, throw an error.
+    rep = replacer;
+    if (replacer && typeof replacer !== 'function'
+    && (typeof replacer !== 'object' || typeof replacer.length !== 'number')) {
+        throw new Error('JSON.stringify');
+    }
+    
+    // Make a fake root object containing our value under the key of ''.
+    // Return the result of stringifying the value.
+    return str('', {'': value});
+};
+
+
+/***/ }),
+
 /***/ "../../../selective-edit/node_modules/lit-html/directives/repeat.js":
 /*!******************************************************************************************!*\
   !*** /Users/randy/code/blinkk/selective-edit/node_modules/lit-html/directives/repeat.js ***!
@@ -1975,7 +3145,7 @@ const keyListCache = new WeakMap();
  * needed, and DOM will never be reused with values for different keys (new DOM
  * will always be created for new keys). This is generally the most efficient
  * way to use `repeat` since it performs minimum unnecessary work for insertions
- * amd removals.
+ * and removals.
  *
  * IMPORTANT: If providing a `keyFn`, keys *must* be unique for all items in a
  * given call to `repeat`. The behavior when two or more items have the same key
@@ -2500,7 +3670,8 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * True if the custom elements polyfill is in use.
  */
-const isCEPolyfill = window.customElements !== undefined &&
+const isCEPolyfill = typeof window !== 'undefined' &&
+    window.customElements != null &&
     window.customElements.polyfillWrapFlushCallback !==
         undefined;
 /**
@@ -2619,12 +3790,12 @@ const isPrimitive = (value) => {
 };
 const isIterable = (value) => {
     return Array.isArray(value) ||
-        // tslint:disable-next-line:no-any
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         !!(value && value[Symbol.iterator]);
 };
 /**
  * Writes attribute values to the DOM for a group of AttributeParts bound to a
- * single attibute. The value is only set once even if there are multiple parts
+ * single attribute. The value is only set once even if there are multiple parts
  * for an attribute.
  */
 class AttributeCommitter {
@@ -2761,6 +3932,9 @@ class NodePart {
         this.__pendingValue = value;
     }
     commit() {
+        if (this.startNode.parentNode === null) {
+            return;
+        }
         while (Object(_directive_js__WEBPACK_IMPORTED_MODULE_0__["isDirective"])(this.__pendingValue)) {
             const directive = this.__pendingValue;
             this.__pendingValue = _part_js__WEBPACK_IMPORTED_MODULE_2__["noChange"];
@@ -2957,7 +4131,7 @@ class PropertyCommitter extends AttributeCommitter {
     commit() {
         if (this.dirty) {
             this.dirty = false;
-            // tslint:disable-next-line:no-any
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             this.element[this.name] = this._getValue();
         }
     }
@@ -2965,24 +4139,29 @@ class PropertyCommitter extends AttributeCommitter {
 class PropertyPart extends AttributePart {
 }
 // Detect event listener options support. If the `capture` property is read
-// from the options object, then options are supported. If not, then the thrid
+// from the options object, then options are supported. If not, then the third
 // argument to add/removeEventListener is interpreted as the boolean capture
 // value so we should only pass the `capture` property.
 let eventOptionsSupported = false;
-try {
-    const options = {
-        get capture() {
-            eventOptionsSupported = true;
-            return false;
-        }
-    };
-    // tslint:disable-next-line:no-any
-    window.addEventListener('test', options, options);
-    // tslint:disable-next-line:no-any
-    window.removeEventListener('test', options, options);
-}
-catch (_e) {
-}
+// Wrap into an IIFE because MS Edge <= v41 does not support having try/catch
+// blocks right into the body of a module
+(() => {
+    try {
+        const options = {
+            get capture() {
+                eventOptionsSupported = true;
+                return false;
+            }
+        };
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        window.addEventListener('test', options, options);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        window.removeEventListener('test', options, options);
+    }
+    catch (_e) {
+        // event options not supported
+    }
+})();
 class EventPart {
     constructor(element, eventName, eventContext) {
         this.value = undefined;
@@ -3244,7 +4423,7 @@ class TemplateInstance {
         // Given these constraints, with full custom elements support we would
         // prefer the order: Clone, Process, Adopt, Upgrade, Update, Connect
         //
-        // But Safari dooes not implement CustomElementRegistry#upgrade, so we
+        // But Safari does not implement CustomElementRegistry#upgrade, so we
         // can not implement that order and still have upgrade-before-update and
         // upgrade disconnected fragments. So we instead sacrifice the
         // process-before-upgrade constraint, since in Custom Elements v1 elements
@@ -3375,7 +4554,7 @@ class TemplateResult {
             // For each binding we want to determine the kind of marker to insert
             // into the template source before it's parsed by the browser's HTML
             // parser. The marker type is based on whether the expression is in an
-            // attribute, text, or comment poisition.
+            // attribute, text, or comment position.
             //   * For node-position bindings we insert a comment with the marker
             //     sentinel as its text content, like <!--{{lit-guid}}-->.
             //   * For attribute bindings we insert just the marker sentinel for the
@@ -3395,13 +4574,13 @@ class TemplateResult {
             // be false positives.
             isCommentBinding = (commentOpen > -1 || isCommentBinding) &&
                 s.indexOf('-->', commentOpen + 1) === -1;
-            // Check to see if we have an attribute-like sequence preceeding the
+            // Check to see if we have an attribute-like sequence preceding the
             // expression. This can match "name=value" like structures in text,
             // comments, and attribute values, so there can be false-positives.
             const attributeMatch = _template_js__WEBPACK_IMPORTED_MODULE_1__["lastAttributeNameRegex"].exec(s);
             if (attributeMatch === null) {
                 // We're only in this branch if we don't have a attribute-like
-                // preceeding sequence. For comments, this guards against unusual
+                // preceding sequence. For comments, this guards against unusual
                 // attribute values like <div foo="<!--${'bar'}">. Cases like
                 // <!-- foo=${'bar'}--> are handled correctly in the attribute branch
                 // below.
@@ -3495,7 +4674,7 @@ const markerRegex = new RegExp(`${marker}|${nodeMarker}`);
  */
 const boundAttributeSuffix = '$lit$';
 /**
- * An updateable Template that tracks the location of dynamic parts.
+ * An updatable Template that tracks the location of dynamic parts.
  */
 class Template {
     constructor(result, element) {
@@ -3677,7 +4856,9 @@ const createMarker = () => document.createComment('');
  *    * (") then any non-("), or
  *    * (') then any non-(')
  */
-const lastAttributeNameRegex = /([ \x09\x0a\x0c\x0d])([^\0-\x1F\x7F-\x9F "'>=/]+)([ \x09\x0a\x0c\x0d]*=[ \x09\x0a\x0c\x0d]*(?:[^ \x09\x0a\x0c\x0d"'`<>=]*|"[^"]*|'[^']*))$/;
+const lastAttributeNameRegex = 
+// eslint-disable-next-line no-control-regex
+/([ \x09\x0a\x0c\x0d])([^\0-\x1F\x7F-\x9F "'>=/]+)([ \x09\x0a\x0c\x0d]*=[ \x09\x0a\x0c\x0d]*(?:[^ \x09\x0a\x0c\x0d"'`<>=]*|"[^"]*|'[^']*))$/;
 //# sourceMappingURL=template.js.map
 
 /***/ }),
@@ -3803,7 +4984,9 @@ __webpack_require__.r(__webpack_exports__);
 // IMPORTANT: do not change the property name or the assignment expression.
 // This line will be used in regexes to search for lit-html usage.
 // TODO(justinfagnani): inject version number at build time
-(window['litHtmlVersions'] || (window['litHtmlVersions'] = [])).push('1.1.2');
+if (typeof window !== 'undefined') {
+    (window['litHtmlVersions'] || (window['litHtmlVersions'] = [])).push('1.2.1');
+}
 /**
  * Interprets a template literal as an HTML template that can efficiently
  * render to and update a container.
@@ -13597,7 +14780,7 @@ class EditorAutoFields extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Auto
 
 
   typeFromValue(value) {
-    if (this.dataType.isObject(value) && this._isConstructor(value)) {
+    if (this.DataType.isObject(value) && this._isConstructor(value)) {
       switch (value['tag']) {
         case '!g.doc':
           return 'document';
@@ -13636,7 +14819,7 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 class Document {
-  constructor(podPath, frontMatter, rawFrontMatter, servingPaths, defaultLocale, content) {
+  constructor(podPath, frontMatter, rawFrontMatter, servingPaths, defaultLocale, locales, content) {
     this.podPath = podPath;
     this.frontMatter = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_0__["autoDeepObject"])(frontMatter);
     this.rawFrontMatter = rawFrontMatter;
@@ -13644,6 +14827,7 @@ class Document {
     this.servingPaths = servingPaths;
     this.defaultLocale = defaultLocale;
     this.locale = defaultLocale;
+    this.locales = locales || [];
     this.content = content;
   }
 
@@ -13668,14 +14852,16 @@ class Document {
     return this.servingPaths[this.defaultLocale];
   }
 
-  update(podPath, frontMatter, rawFrontMatter, servingPaths, defaultLocale, content) {
+  update(podPath, frontMatter, rawFrontMatter, servingPaths, defaultLocale, locales, content) {
     this.podPath = podPath;
     this.frontMatter = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_0__["autoDeepObject"])(frontMatter);
     this.rawFrontMatter = rawFrontMatter;
     this.servingPaths = servingPaths;
     this.defaultLocale = defaultLocale;
     this.locale = defaultLocale;
+    this.locales = locales || [];
     this.content = content;
+    this._rawFrontMatter = rawFrontMatter;
   }
 
 }
@@ -13697,13 +14883,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _document__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./document */ "./source/editor/document.js");
 /* harmony import */ var _editorApi__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./editorApi */ "./source/editor/editorApi.js");
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
-/* harmony import */ var _field__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./field */ "./source/editor/field.js");
-/* harmony import */ var _zoomIframe__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./zoomIframe */ "./source/editor/zoomIframe.js");
-/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utility/dom */ "./source/utility/dom.js");
-/* harmony import */ var _utility_expandObject__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../utility/expandObject */ "./source/utility/expandObject.js");
+/* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./autoFields */ "./source/editor/autoFields.js");
+/* harmony import */ var _field__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./field */ "./source/editor/field.js");
+/* harmony import */ var _zoomIframe__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./zoomIframe */ "./source/editor/zoomIframe.js");
+/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../utility/dom */ "./source/utility/dom.js");
+/* harmony import */ var _utility_expandObject__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../utility/expandObject */ "./source/utility/expandObject.js");
+/* harmony import */ var _utility_storage__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../utility/storage */ "./source/utility/storage.js");
 /**
  * Content editor.
  */
+
+
 
 
 
@@ -13725,6 +14915,7 @@ class Editor {
       ${editor.renderPreview(editor, selective)}
     </div>`;
 
+    this.storage = new _utility_storage__WEBPACK_IMPORTED_MODULE_10__["default"](this.isTesting);
     const EditorApiCls = this.config.get('EditorApiCls', _editorApi__WEBPACK_IMPORTED_MODULE_3__["default"]);
     this.api = new EditorApiCls();
     this.listeners = new _utility_listeners__WEBPACK_IMPORTED_MODULE_1__["default"]();
@@ -13750,26 +14941,30 @@ class Editor {
       }
     };
     this._defaultDevice = 'desktop';
-    this._device = localStorage.getItem('selective.device') || this._defaultDevice; // Persistent settings in local storage.
+    this._device = this.storage.getItem('selective.device') || this._defaultDevice; // Persistent settings in local storage.
 
-    this._isEditingSource = localStorage.getItem('selective.isEditingSource') == 'true';
-    this._isFullScreen = localStorage.getItem('selective.isFullScreen') == 'true';
-    this._isHightlighted = localStorage.getItem('selective.isHightlighted') == 'true';
-    this._isDeviceRotated = localStorage.getItem('selective.isDeviceRotated') == 'true';
-    this._isDeviceView = localStorage.getItem('selective.isDeviceView') == 'true';
+    this._isEditingSource = this.storage.getItem('selective.isEditingSource') == 'true';
+    this._isFullScreen = this.storage.getItem('selective.isFullScreen') == 'true';
+    this._isHightlighted = this.storage.getItem('selective.isHightlighted') == 'true';
+    this._isDeviceRotated = this.storage.getItem('selective.isDeviceRotated') == 'true';
+    this._isDeviceView = this.storage.getItem('selective.isDeviceView') == 'true';
     this._isFullMarkdownEditor = false;
     this._isLoading = {};
     this._isSaving = false;
+    this._isRendering = false;
+    this._pendingRender = false;
     this._podPaths = null;
     this._routes = null; // Track the serving path of the iframe when it is different.
 
     this._unverifiedServingPath = null;
     this.selective = new selective_edit__WEBPACK_IMPORTED_MODULE_4__["default"](null, {}); // Add the editor reference to the selective object for field access.
 
-    this.selective.editor = this; // Add the editor extension default field types.
+    this.selective.editor = this; // Load the selective editor preference for localize.
 
-    for (const key of Object.keys(_field__WEBPACK_IMPORTED_MODULE_5__["defaultFields"])) {
-      this.selective.addFieldType(key, _field__WEBPACK_IMPORTED_MODULE_5__["defaultFields"][key]);
+    this.selective.localize = this.storage.getItem('selective.localize') == 'true'; // Add the editor extension default field types.
+
+    for (const key of Object.keys(_field__WEBPACK_IMPORTED_MODULE_6__["defaultFields"])) {
+      this.selective.addFieldType(key, _field__WEBPACK_IMPORTED_MODULE_6__["defaultFields"][key]);
     }
 
     this.bindEvents();
@@ -13791,6 +14986,14 @@ class Editor {
     return this.document.isClean && this.selective.isClean;
   }
 
+  get isDeviceRotated() {
+    return this._isDeviceRotated;
+  }
+
+  get isDeviceView() {
+    return this._isDeviceView;
+  }
+
   get isEditingSource() {
     return this._isEditingSource;
   }
@@ -13810,12 +15013,8 @@ class Editor {
     return this._isHightlighted;
   }
 
-  get isDeviceRotated() {
-    return this._isDeviceRotated;
-  }
-
-  get isDeviceView() {
-    return this._isDeviceView;
+  get isTesting() {
+    return this.config.get('testing', false);
   }
 
   get podPath() {
@@ -13881,32 +15080,32 @@ class Editor {
 
   set device(value) {
     this._device = value;
-    localStorage.setItem('selective.device', this._device);
+    this.storage.setItem('selective.device', this._device);
   }
 
   set isEditingSource(value) {
     this._isEditingSource = value;
-    localStorage.setItem('selective.isEditingSource', this._isEditingSource);
+    this.storage.setItem('selective.isEditingSource', this._isEditingSource);
   }
 
   set isFullScreen(value) {
     this._isFullScreen = value;
-    localStorage.setItem('selective.isFullScreen', this._isFullScreen);
+    this.storage.setItem('selective.isFullScreen', this._isFullScreen);
   }
 
   set isHightlighted(value) {
     this._isHightlighted = value;
-    localStorage.setItem('selective.isHightlighted', this._isHightlighted);
+    this.storage.setItem('selective.isHightlighted', this._isHightlighted);
   }
 
   set isDeviceRotated(value) {
     this._isDeviceRotated = value;
-    localStorage.setItem('selective.isDeviceRotated', this._isDeviceRotated);
+    this.storage.setItem('selective.isDeviceRotated', this._isDeviceRotated);
   }
 
   set isDeviceView(value) {
     this._isDeviceView = value;
-    localStorage.setItem('selective.isDeviceView', this._isDeviceView);
+    this.storage.setItem('selective.isDeviceView', this._isDeviceView);
   }
 
   set podPath(value) {
@@ -13929,7 +15128,7 @@ class Editor {
   adjustIframeSize() {
     const iframeContainerEl = this.containerEl.querySelector('.editor__preview__frame');
     const iframeEl = this.containerEl.querySelector('.editor__preview iframe');
-    Object(_zoomIframe__WEBPACK_IMPORTED_MODULE_6__["zoomIframe"])(iframeContainerEl, iframeEl, this.isDeviceView, this.isDeviceRotated, this.devices[this.device], 'editor__preview__frame--contained');
+    Object(_zoomIframe__WEBPACK_IMPORTED_MODULE_7__["zoomIframe"])(iframeContainerEl, iframeEl, this.isDeviceView, this.isDeviceRotated, this.devices[this.device], 'editor__preview__frame--contained');
   }
 
   bindEvents() {
@@ -13979,7 +15178,7 @@ class Editor {
   }
 
   documentFromResponse(response) {
-    this.document = new _document__WEBPACK_IMPORTED_MODULE_2__["default"](response['pod_path'], response['front_matter'], response['raw_front_matter'], response['serving_paths'], response['default_locale'], response['content']);
+    this.document = new _document__WEBPACK_IMPORTED_MODULE_2__["default"](response['pod_path'], response['front_matter'], response['raw_front_matter'], response['serving_paths'], response['default_locale'], response['locales'], response['content']);
   }
 
   handleFieldsClick(evt) {
@@ -14028,7 +15227,8 @@ class Editor {
 
     for (const fieldConfig of fieldConfigs) {
       this.selective.addField(fieldConfig, {
-        api: this.api
+        api: this.api,
+        AutoFieldsCls: _autoFields__WEBPACK_IMPORTED_MODULE_5__["default"]
       });
     } // Add the ability to edit the document body.
 
@@ -14090,13 +15290,19 @@ class Editor {
   }
 
   handleDeviceSwitchClick(evt) {
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_7__["findParentByClassname"])(evt.target, 'editor__preview__size');
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_8__["findParentByClassname"])(evt.target, 'editor__preview__size');
     this.device = target.dataset.device;
     this.render();
   }
 
   handleDeviceToggleClick(evt) {
     this.isDeviceView = !this.isDeviceView;
+    this.render();
+  }
+
+  handleLocalize(evt) {
+    this.selective.localize = !this.selective.localize;
+    this.storage.setItem('selective.localize', this.selective.localize);
     this.render();
   }
 
@@ -14150,7 +15356,8 @@ class Editor {
   }
 
   handleSaveResponse(response, isAutosave) {
-    this.document.update(response['pod_path'], response['front_matter'], response['raw_front_matter'], response['serving_paths'], response['default_locale'], response['content']);
+    this.document.update(response['pod_path'], response['front_matter'], response['raw_front_matter'], response['serving_paths'], response['default_locale'], response['locales'], response['content']);
+    this.selective.data = this.document.data;
     this._isSaving = false;
     this.listeners.trigger('save.response', response, isAutosave);
     this.render(true);
@@ -14207,13 +15414,30 @@ class Editor {
     const origPath = window.location.pathname;
     const newPath = `${basePath}${podPath}`;
 
-    if (origPath != newPath) {
+    if (origPath != newPath && !this.testing) {
       history.pushState({}, '', newPath);
     }
   }
 
   render(force) {
-    Object(selective_edit__WEBPACK_IMPORTED_MODULE_4__["render"])(this.template(this, this.selective), this.containerEl); // Adjust the iframe size.
+    // Render only one at a time.
+    if (this._isRendering) {
+      this._pendingRender = {
+        force: this._pendingRender.force ? this._pendingRender.force || force : force
+      };
+      return;
+    }
+
+    this._isRendering = true;
+    const isClean = this.isClean;
+    Object(selective_edit__WEBPACK_IMPORTED_MODULE_4__["render"])(this.template(this, this.selective), this.containerEl); // Check for clean changes not caught.
+
+    if (this.isClean != isClean) {
+      this._isRendering = false;
+      this.render(force);
+      return;
+    } // Adjust the iframe size.
+
 
     this.adjustIframeSize(); // Allow selective to run its post render process.
 
@@ -14224,6 +15448,16 @@ class Editor {
       // Test for iframe first, as it may be hidden.
       const iframe = this.containerEl.querySelector('iframe');
       iframe && iframe.contentWindow.location.reload(true);
+    } // Mark as done rendering.
+
+
+    this._isRendering = false;
+    document.dispatchEvent(new CustomEvent('selective.render.complete')); // If there were other requests to render, render them.
+
+    if (this._pendingRender) {
+      const pendingRender = this._pendingRender;
+      this._pendingRender = false;
+      this.render(pendingRender);
     }
   }
 
@@ -14233,6 +15467,7 @@ class Editor {
         <input type="text" value="${editor.podPath}"
           @change=${editor.handlePodPathChange.bind(editor)}
           @input=${editor.handlePodPathInput.bind(editor)}>
+        ${editor.document.locales.length > 1 ? selective_edit__WEBPACK_IMPORTED_MODULE_4__["html"]`<i class="material-icons" @click=${editor.handleLocalize.bind(editor)} title="Localize content">translate</i>` : ''}
         <i class="material-icons" @click=${editor.handleFullScreenClick.bind(editor)} title="Fullscreen">${editor.isFullScreen ? 'fullscreen_exit' : 'fullscreen'}</i>
       </div>
       <div class="editor__cards">
@@ -14240,13 +15475,13 @@ class Editor {
           <div class="editor__menu">
             <button
                 ?disabled=${editor._isSaving || editor.isClean}
-                class="editor__save editor--primary ${editor._isSaving ? 'editor__save--saving' : ''}"
+                class="editor__save editor__button--primary ${editor._isSaving ? 'editor__save--saving' : ''}"
                 @click=${editor.save.bind(editor)}>
               ${editor.isClean ? 'No changes' : editor._isSaving ? 'Saving...' : 'Save'}
             </button>
             <div class="editor__actions">
-              <button class="editor__style__fields editor--secondary editor--selected" @click=${editor.handleFieldsClick.bind(editor)}>Fields</button>
-              <button class="editor__style__raw editor--secondary" @click=${editor.handleSourceClick.bind(editor)}>Raw</button>
+              <button class="editor__style__fields editor__button--secondary ${this.isEditingSource ? '' : 'editor__button--selected'}" @click=${editor.handleFieldsClick.bind(editor)}>Fields</button>
+              <button class="editor__style__raw editor__button--secondary ${this.isEditingSource ? 'editor__button--selected' : ''}" @click=${editor.handleSourceClick.bind(editor)}>Raw</button>
             </div>
           </div>
           ${editor.templateEditorOrSource}
@@ -14406,7 +15641,7 @@ class EditorApi extends _utility_api__WEBPACK_IMPORTED_MODULE_0__["default"] {
     return result.promise;
   }
 
-  getRoutes(podPath) {
+  getRoutes() {
     const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
     this.request.get(this.apiPath('routes')).then(res => {
       result.resolve(res.body);
@@ -14414,7 +15649,7 @@ class EditorApi extends _utility_api__WEBPACK_IMPORTED_MODULE_0__["default"] {
     return result.promise;
   }
 
-  getPartials(podPath) {
+  getPartials() {
     const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
     this.request.get(this.apiPath('partials')).then(res => {
       result.resolve(res.body);
@@ -14433,6 +15668,16 @@ class EditorApi extends _utility_api__WEBPACK_IMPORTED_MODULE_0__["default"] {
   getRepo() {
     const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
     this.request.get(this.apiPath('repo')).then(res => {
+      result.resolve(res.body);
+    });
+    return result.promise;
+  }
+
+  getStaticServingPath(podPath) {
+    const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
+    this.request.get(this.apiPath('static_serving_path')).query({
+      'pod_path': podPath
+    }).then(res => {
       result.resolve(res.body);
     });
     return result.promise;
@@ -14510,10 +15755,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "defaultFields", function() { return defaultFields; });
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
 /* harmony import */ var _field_constructor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./field/constructor */ "./source/editor/field/constructor.js");
-/* harmony import */ var _field_structure__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./field/structure */ "./source/editor/field/structure.js");
-/* harmony import */ var _field_image__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./field/image */ "./source/editor/field/image.js");
-/* harmony import */ var _field_partials__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./field/partials */ "./source/editor/field/partials.js");
-/* harmony import */ var _field_standard__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./field/standard */ "./source/editor/field/standard.js");
+/* harmony import */ var _field_image__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./field/image */ "./source/editor/field/image.js");
+/* harmony import */ var _field_partials__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./field/partials */ "./source/editor/field/partials.js");
+/* harmony import */ var _field_standard__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./field/standard */ "./source/editor/field/standard.js");
 /**
  * Field types for the editor extension.
  */
@@ -14522,22 +15766,21 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 const defaultFields = {
-  'checkbox': _field_standard__WEBPACK_IMPORTED_MODULE_5__["CheckboxField"],
-  'date': _field_standard__WEBPACK_IMPORTED_MODULE_5__["DateField"],
-  'datetime': _field_standard__WEBPACK_IMPORTED_MODULE_5__["DateTimeField"],
+  'checkbox': _field_standard__WEBPACK_IMPORTED_MODULE_4__["CheckboxField"],
+  'date': _field_standard__WEBPACK_IMPORTED_MODULE_4__["DateField"],
+  'datetime': _field_standard__WEBPACK_IMPORTED_MODULE_4__["DateTimeField"],
   'document': _field_constructor__WEBPACK_IMPORTED_MODULE_1__["DocumentField"],
-  'google_image': _field_image__WEBPACK_IMPORTED_MODULE_3__["GoogleImageField"],
-  'group': _field_structure__WEBPACK_IMPORTED_MODULE_2__["GroupField"],
-  'image': _field_image__WEBPACK_IMPORTED_MODULE_3__["ImageField"],
+  'google_image': _field_image__WEBPACK_IMPORTED_MODULE_2__["GoogleImageField"],
+  'group': selective_edit__WEBPACK_IMPORTED_MODULE_0__["GroupField"],
+  'image': _field_image__WEBPACK_IMPORTED_MODULE_2__["ImageFileField"],
   'list': selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListField"],
-  'html': _field_standard__WEBPACK_IMPORTED_MODULE_5__["HtmlField"],
-  'markdown': _field_standard__WEBPACK_IMPORTED_MODULE_5__["MarkdownField"],
-  'partials': _field_partials__WEBPACK_IMPORTED_MODULE_4__["PartialsField"],
-  'select': _field_standard__WEBPACK_IMPORTED_MODULE_5__["SelectField"],
-  'text': _field_standard__WEBPACK_IMPORTED_MODULE_5__["TextField"],
-  'textarea': _field_standard__WEBPACK_IMPORTED_MODULE_5__["TextareaField"],
+  'html': _field_standard__WEBPACK_IMPORTED_MODULE_4__["HtmlField"],
+  'markdown': _field_standard__WEBPACK_IMPORTED_MODULE_4__["MarkdownField"],
+  'partials': _field_partials__WEBPACK_IMPORTED_MODULE_3__["PartialsField"],
+  'select': _field_standard__WEBPACK_IMPORTED_MODULE_4__["SelectField"],
+  'text': _field_standard__WEBPACK_IMPORTED_MODULE_4__["TextField"],
+  'textarea': _field_standard__WEBPACK_IMPORTED_MODULE_4__["TextareaField"],
   'yaml': _field_constructor__WEBPACK_IMPORTED_MODULE_1__["YamlField"]
 };
 
@@ -14557,8 +15800,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DocumentField", function() { return DocumentField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "YamlField", function() { return YamlField; });
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
-/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
-/* harmony import */ var _utility_filter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/filter */ "./source/utility/filter.js");
+/* harmony import */ var _utility_filter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/filter */ "./source/utility/filter.js");
+/* harmony import */ var _ui_file__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../ui/file */ "./source/editor/ui/file.js");
 /**
  * Constructor field types for the editor extension.
  */
@@ -14570,185 +15813,96 @@ class ConstructorField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Fiel
     super(config, extendedConfig);
     this.fieldType = 'constructor';
     this.tag = '!g.*';
-
-    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
-      <label for="${field.getUid()}">${field.label}</label>
-      <div class="selective__field__${field.fieldType}__input">
-        <input
-          type="text"
-          id="${field.getUid()}"
-          placeholder="${field.placeholder}"
-          value="${field.valueFromData(data) || ''}"
-          @input=${field.handleInput.bind(field)}>
-      </div>
-      ${field.renderHelp(selective, field, data)}
-    </div>`;
   }
 
   handleInput(evt) {
-    // Update the value to what is being typed.
-    // Helps mark the field as dirty.
-    this.value = {
+    const locale = evt.target.dataset.locale; // Constructors are represented as objects in json.
+
+    const value = {
       'value': evt.target.value,
       'tag': this.tag
     };
+    this.setValueForLocale(locale, value);
   }
 
-  valueFromData(data) {
-    const value = super.valueFromData(data);
-
-    if (value) {
-      return value['value'];
-    }
-
-    return '';
+  renderInput(selective, data, locale) {
+    const value = this.getValueForLocale(locale) || {};
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <input
+        id="${this.uid}${locale}"
+        placeholder=${this.config.placeholder || ''}
+        data-locale=${locale || ''}
+        @input=${this.handleInput.bind(this)}
+        value=${value.value || ''} />`;
   }
 
 }
 class ConstructorFileField extends ConstructorField {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
-    this.fieldType = 'constructorFile';
-    this._showFileList = false;
-    this._podPaths = null;
-    this._listeningForPodPaths = false;
-    this._filterValue = '';
-    this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createWhiteBlackFilter"])( // Whitelist.
-    [], // Blacklist.
-    []);
-
-    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-    <div
-        class="selective__field selective__field__${field.fieldType} ${field._showFileList ? 'selective__field__constructor__input--expanded' : ''}"
-        data-field-type="${field.fieldType}">
-      ${field.bindListeners(selective)}
-      <label for="${field.getUid()}">${field.label}</label>
-      <div class="selective__field__constructor__input">
-        <input
-          type="text"
-          id="${field.getUid()}"
-          placeholder="${field.placeholder}"
-          value="${field.valueFromData(data) || ''}"
-          @input=${field.handleInput.bind(field)}>
-        <i class="material-icons" title="Select pod path" @click=${field.handleFilesToggleClick.bind(field)}>list_alt</i>
-      </div>
-      ${field.renderFileList(selective, data)}
-      ${field.renderHelp(selective, field, data)}
-    </div>`;
+    this._fileListUi = {};
+    this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["createWhiteBlackFilter"])( // Whitelist.
+    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(this.config.get('whitelist')), // Blacklist.
+    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(this.config.get('blacklist')));
   }
 
-  configList(listKey, defaults) {
-    const list = [];
-    const rawList = this.getConfig().get(listKey, []);
+  classesFileIcon(value, fileListUi) {
+    const classes = ['material-icons', 'selective__field__constructor__file_icon'];
 
-    for (const value of rawList) {
-      list.push(new RegExp(value, 'gi'));
+    if (fileListUi.showFileList) {
+      classes.push('selective__field__constructor__file_icon--checked');
     }
 
-    if (!list.length) {
-      return defaults || [];
-    }
-
-    return list;
+    return classes.join(' ');
   }
 
-  bindListeners(selective) {
-    // Bind the field to the pod path loading.
-    if (!this._listeningForPodPaths) {
-      this._listeningForPodPaths = true;
+  fileListUiForLocale(locale) {
+    const localeKey = this.keyForLocale(locale);
 
-      const handlePodPaths = response => {
-        this._podPaths = response.pod_paths.sort().filter(this.filterFunc);
-        document.dispatchEvent(new CustomEvent('selective.render'));
-        window.setTimeout(() => {
-          Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["inputFocusAtEnd"])(`${this.getUid()}-filter`);
-        }, 25);
-      }; // Check if the pod paths are already loaded.
+    if (!this._fileListUi[localeKey]) {
+      this._fileListUi[localeKey] = new _ui_file__WEBPACK_IMPORTED_MODULE_2__["FileListUI"]({
+        'filterFunc': this.filterFunc
+      }); // Bind the pod path listener event for the UI.
 
-
-      if (selective.editor._podPaths) {
-        handlePodPaths({
-          pod_paths: selective.editor._podPaths
-        });
-      }
-
-      selective.editor.listeners.add('load.podPaths', handlePodPaths);
+      this._fileListUi[localeKey].listeners.add('podPath', this.handlePodPath.bind(this));
     }
+
+    return this._fileListUi[localeKey];
   }
 
   handleFilesToggleClick(evt) {
-    this._showFileList = !this._showFileList;
-    document.dispatchEvent(new CustomEvent('selective.render')); // Auto focus on the filter when showing the list.
-
-    if (this._showFileList) {
-      window.setTimeout(() => {
-        Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["inputFocusAtEnd"])(`${this.getUid()}-filter`);
-      }, 25);
-    }
+    const locale = evt.target.dataset.locale;
+    this.fileListUiForLocale(locale).toggle();
   }
 
-  handleFileClick(evt) {
-    const podPath = evt.target.dataset.podPath;
-    this.value = Object.assign({}, this.value, {
-      value: podPath,
-      tag: this.tag
-    });
-    this._showFileList = false;
-    document.dispatchEvent(new CustomEvent('selective.render'));
+  handlePodPath(podPath, locale) {
+    const value = {
+      tag: this.tag,
+      value: podPath
+    };
+    this.setValueForLocale(locale, value);
   }
 
-  handleInputFilter(evt) {
-    this._filterValue = evt.target.value;
-    document.dispatchEvent(new CustomEvent('selective.render'));
-  }
-
-  renderFileList(selective, data) {
-    if (!this._showFileList) {
-      return '';
-    } // If the pod paths have not loaded, show the loading status.
-
-
-    if (!this._podPaths) {
-      // Editor ensures it only loads once.
-      selective.editor.loadPodPaths();
-      return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__field__constructor__files">
+  renderInput(selective, data, locale) {
+    const value = this.getValueForLocale(locale) || {};
+    const fileListUi = this.fileListUiForLocale(locale);
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <div class="selective__field__constructor__input">
         <input
-          id="${this.getUid()}-filter"
-          type="text"
-          @input=${this.handleInputFilter.bind(this)}
-          placeholder="Filter..." />
-        <div class="selective__field__constructor__file__list">
-          <div class="editor__loading editor__loading--small editor__loading--pad"></div>
-        </div>
-      </div>`;
-    }
-
-    let podPaths = this._podPaths; // Allow the current value to also filter the pod paths.
-
-    if (this._filterValue != '') {
-      podPaths = podPaths.filter(Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createValueFilter"])(this._filterValue));
-    }
-
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__field__constructor__files">
-      <input type="text"
-        id="${this.getUid()}-filter"
-        @input=${this.handleInputFilter.bind(this)}
-        placeholder="Filter..." />
-      <div class="selective__field__constructor__file__list">
-      ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(podPaths, podPath => podPath, (podPath, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-        <div
-            class="selective__field__constructor__file"
-            data-pod-path=${podPath}
-            @click=${this.handleFileClick.bind(this)}>
-          ${podPath}
-        </div>
-      `)}
-      ${podPaths.length == 0 ? selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-        <div class="selective__field__constructor__file selective__field__constructor__file--empty">
-          No matches found.
-        </div>` : ''}
+          id="${this.uid}${locale}"
+          placeholder=${this.config.placeholder || ''}
+          data-locale=${locale || ''}
+          @input=${this.handleInput.bind(this)}
+          value=${value.value || ''} />
+        <i
+            class=${this.classesFileIcon(value, fileListUi)}
+            title="Select pod path"
+            data-locale=${locale || ''}
+            @click=${this.handleFilesToggleClick.bind(this)}>
+          list_alt
+        </i>
       </div>
-    </div>`;
+      ${fileListUi.renderFileList(selective, data, locale)}`;
   }
 
 }
@@ -14757,9 +15911,9 @@ class DocumentField extends ConstructorFileField {
     super(config, extendedConfig);
     this.fieldType = 'document';
     this.tag = '!g.doc';
-    this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createWhiteBlackFilter"])( // Whitelist.
-    this.configList('whitelist', [/^\/content\//]), // Blacklist.
-    this.configList('blacklist'));
+    this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["createWhiteBlackFilter"])( // Whitelist.
+    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(this.config.get('whitelist'), [/^\/content\//]), // Blacklist.
+    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(this.config.get('blacklist')));
   }
 
 }
@@ -14768,9 +15922,9 @@ class YamlField extends ConstructorFileField {
     super(config, extendedConfig);
     this.fieldType = 'yaml';
     this.tag = '!g.yaml';
-    this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createWhiteBlackFilter"])( // Whitelist.
-    this.configList('whitelist', [/^\/content\//, /^\/data\//, /\.yaml$/]), // Blacklist.
-    this.configList('blacklist'));
+    this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["createWhiteBlackFilter"])( // Whitelist.
+    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(this.config.get('whitelist'), [/^\/content\/.*\.yaml$/, /^\/data\/.*\.yaml$/]), // Blacklist.
+    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(this.config.get('blacklist')));
   }
 
 }
@@ -14781,76 +15935,121 @@ class YamlField extends ConstructorFileField {
 /*!**************************************!*\
   !*** ./source/editor/field/image.js ***!
   \**************************************/
-/*! exports provided: ImageField, GoogleImageField */
+/*! exports provided: ImageField, ImageFileField, GoogleImageField */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ImageField", function() { return ImageField; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ImageFileField", function() { return ImageFileField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GoogleImageField", function() { return GoogleImageField; });
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
+/* harmony import */ var _utility_filter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/filter */ "./source/utility/filter.js");
+/* harmony import */ var _ui_file__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../ui/file */ "./source/editor/ui/file.js");
 /**
  * Image field types for the editor extension.
  */
+
+
+
+
+const VALID_MIME_TYPES = ['image/jpeg', 'image/png', 'image/svg+xml', 'image/webp', 'image/gif'];
+const MIME_TO_TYPE = {
+  'image/jpeg': 'jpg',
+  'image/png': 'png',
+  'image/svg+xml': 'svg',
+  'image/webp': 'webp',
+  'image/gif': 'gif'
+};
+const IMAGE_HOVER_CLASS = 'selective__image--hover';
+
+const fractReduce = (numerator, denominator) => {
+  // Reduce a fraction by finding the Greatest Common Divisor and dividing by it.
+  const gcd = (a, b) => {
+    return b ? gcd(b, a % b) : a;
+  };
+
+  const fracGcd = gcd(numerator, denominator);
+  return [numerator / fracGcd, denominator / fracGcd];
+};
 
 class ImageField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
     this.fieldType = 'image';
-    this.previewUrl = '';
-    this.isLoading = false; // Set the api if it was provided
-
-    this.api = this.getConfig().get('api');
-
-    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
-      <label for="${field.getUid()}">${field.label}</label>
-      <input
-        id="${field.getUid()}"
-        type="text"
-        placeholder="${field.placeholder}"
-        value="${field.valueFromData(data) || ''}"
-        @input=${field.handleInput.bind(field)}
-        ?disabled="${field.isLoading}">
-      <input
-        type="file"
-        id="${field.getUid()}_file"
-        placeholder="Upload new image"
-        @change=${field.handleFileInput.bind(field)}
-        ?disabled="${field.isLoading}">
-      ${field.renderImagePreview(selective, field, data)}
-      ${field.renderHelp(selective, field, data)}
-    </div>`;
+    this._metas = {};
+    this._showFileInput = {};
+    this._isLoading = {};
   }
 
-  renderImagePreview(selective, field, data) {
-    if (field.previewUrl == '') {
-      return '';
+  _targetForDrop(evt) {
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, `selective__field__image_file__wrapper`);
+
+    if (!target) {
+      return false;
     }
 
-    if (field.isLoading) {
-      return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__field__${field.fieldType}__preview"><div class="editor__loading editor__loading--small" title="Loading..."></div></div>`;
-    } // Depends on image element, so needs to run after image has loaded.
+    if (evt.dataTransfer.types.includes('Files')) {
+      evt.preventDefault();
+      evt.stopPropagation();
+      return target;
+    }
+  }
 
-
-    const imageSizeDirective = Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["directive"])(field => part => {
-      setTimeout(() => {
-        let el = document.getElementById(`${field.getUid()}_preview`);
-        let imageEl = el.querySelector('img');
-
-        const updateImage = () => {
-          part.setValue(`Aspect ratio: ${imageEl.naturalWidth}x${imageEl.naturalHeight}`);
-          part.commit();
-        }; // If the image has already loaded.
-
-
-        imageEl.complete ? updateImage() : imageEl.addEventListener('load', updateImage);
-      });
+  delayedFocus(locale) {
+    // Wait for the render then focus on the file input.
+    document.addEventListener('selective.render.complete', () => {
+      document.getElementById(`${this.uid}${locale || ''}-file`).click();
+    }, {
+      once: true
     });
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <div class="selective__field__${field.fieldType}__preview" id="${field.getUid()}_preview">
-        <div class="selective__field__${field.fieldType}__preview__image"><a href="${field.previewUrl}"><img src="${field.previewUrl}"></a></div>
-        <div class="selective__field__${field.fieldType}__preview__meta">${imageSizeDirective(field)}</div>
-      </div>`;
+  }
+
+  getServingPath(value, locale) {
+    return value;
+  }
+
+  handleDragDrop(evt) {
+    const target = this._targetForDrop(evt);
+
+    target.classList.remove(IMAGE_HOVER_CLASS);
+    const files = evt.dataTransfer.files;
+    const validFiles = [];
+
+    for (const file of files) {
+      if (VALID_MIME_TYPES.includes(file.type)) {
+        validFiles.push(file);
+      }
+    }
+
+    if (validFiles.length < 1) {
+      return;
+    }
+
+    const locale = target.dataset.locale; // There can be only one.
+
+    this.uploadFile(validFiles[0], locale);
+  }
+
+  handleDragEnter(evt) {
+    const target = this._targetForDrop(evt);
+
+    target.classList.add(IMAGE_HOVER_CLASS);
+  }
+
+  handleDragLeave(evt) {
+    const target = this._targetForDrop(evt); // Only remove the hover class when the event comes from the actual target.
+    // Otherwise it is crazy to get the class due to bubbling.
+
+
+    if (evt.target === target) {
+      target.classList.remove(IMAGE_HOVER_CLASS);
+    }
+  }
+
+  handleDragOver(evt) {
+    this._targetForDrop(evt);
   }
 
   handleFileInput(evt) {
@@ -14859,18 +16058,251 @@ class ImageField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
       return;
     }
 
-    const destination = this.getConfig().get('destination', '/static/img/upload');
-    this.api.saveImage(evt.target.files[0], destination).then(result => {
-      this.isLoading = false;
-      this.value = result;
-      this.previewUrl = result;
-      document.dispatchEvent(new CustomEvent('selective.render'));
+    const locale = evt.target.dataset.locale;
+    const localeKey = this.keyForLocale(locale);
+    this.uploadFile(evt.target.files[0], locale);
+    this._isLoading[localeKey] = true;
+    this.render();
+  }
+
+  handleFileInputToggleClick(evt) {
+    const locale = evt.target.dataset.locale;
+    const localeKey = this.keyForLocale(locale);
+    this._showFileInput[localeKey] = !(this._showFileInput[localeKey] || false);
+
+    if (this._showFileInput[localeKey]) {
+      this.delayedFocus(locale);
+    }
+
+    this.render();
+  }
+
+  handleImageLoad(evt) {
+    this._metas[evt.target.dataset.servingPath] = {
+      height: evt.target.naturalHeight,
+      width: evt.target.naturalWidth
+    };
+    this.render();
+  }
+
+  renderFileInput(selective, data, locale) {
+    const localeKey = this.keyForLocale(locale);
+
+    if (!this._showFileInput[localeKey]) {
+      return '';
+    }
+
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <div class="selective__image__file">
+        <input
+          type="file"
+          id="${this.uid}${locale || ''}-file"
+          data-locale=${locale || ''}
+          ?disabled=${this._isLoading[localeKey]}
+          @input=${this.handleFileInput.bind(this)} />
+      </div>`;
+  }
+
+  renderImageMeta(selective, data, locale) {
+    const imageMeta = [];
+    const value = this.getValueForLocale(locale) || '';
+    const servingPath = this.getServingPath(value, locale);
+    const meta = this._metas[servingPath];
+
+    if (!meta) {
+      return '';
+    }
+
+    imageMeta.push(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <div class="selective__image__preview__meta__size">
+        <span class="selective__image__preview__meta__label">Size:</span>
+        <span class="selective__image__preview__meta__value">${meta.width}x${meta.height}</span>
+      </div>`);
+    const ratio = fractReduce(meta.width, meta.height);
+    imageMeta.push(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <div class="selective__image__preview__meta__ratio">
+        <span class="selective__image__preview__meta__label">Ratio:</span>
+        <span class="selective__image__preview__meta__value">${ratio[0]}:${ratio[1]}</span>
+      </div>`);
+    return imageMeta;
+  }
+
+  renderInput(selective, data, locale) {
+    const value = this.getValueForLocale(locale) || '';
+    const localeKey = this.keyForLocale(locale);
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <div
+          class="selective__field__image_file__wrapper"
+          @drop=${this.handleDragDrop.bind(this)}
+          @dragenter=${this.handleDragEnter.bind(this)}
+          @dragleave=${this.handleDragLeave.bind(this)}
+          @dragover=${this.handleDragOver.bind(this)}
+          data-locale=${locale || ''}>
+        <div class="selective__field__image_file__input">
+          <input
+            id="${this.uid}${locale}"
+            placeholder=${this.config.placeholder || ''}
+            data-locale=${locale || ''}
+            ?disabled=${this._isLoading[localeKey]}
+            @input=${this.handleInput.bind(this)}
+            value=${value || ''} />
+          <i
+              class="material-icons selective__field__image_file__file_input_icon"
+              title="Upload file"
+              data-locale=${locale || ''}
+              @click=${this.handleFileInputToggleClick.bind(this)}>
+            attachment
+          </i>
+        </div>
+        ${this.renderFileInput(selective, data, locale)}
+        ${this.renderPreview(selective, data, locale)}
+      </div>`;
+  }
+
+  renderPreview(selective, data, locale) {
+    const value = this.getValueForLocale(locale) || '';
+    const localeKey = this.keyForLocale(locale);
+    const servingPath = this.getServingPath(value, locale);
+
+    if (this._isLoading[localeKey]) {
+      return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+        <div id="${this.uid}${locale}-preview" class="selective__image__preview">
+          <div class="editor__loading editor__loading--small editor__loading--pad"></div>
+        </div>`;
+    }
+
+    if (!servingPath || servingPath == '') {
+      return '';
+    }
+
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <div id="${this.uid}${locale}-preview" class="selective__image__preview">
+        <div class="selective__image__preview__image">
+          <img
+            data-serving-path=${servingPath}
+            @load=${this.handleImageLoad.bind(this)}
+            src="${servingPath}" />
+        </div>
+        <div class="selective__image__preview__meta">
+          ${this.renderImageMeta(selective, data, locale)}
+        </div>
+      </div>`;
+  }
+
+  uploadFile(file, locale) {
+    const destination = this.config.get('destination', '/static/img/upload');
+    const localeKey = this.keyForLocale(locale);
+    this.api.saveImage(file, destination).then(result => {
+      this._showFileInput[localeKey] = false;
+      this._isLoading[localeKey] = false;
+      this.setValueForLocale(locale, result['pod_path']);
     }).catch(err => {
-      this.isLoading = false;
-      document.dispatchEvent(new CustomEvent('selective.render'));
+      console.error(err);
+      this._errors['upload'] = err;
+      this.render();
     });
-    this.isLoading = true;
-    document.dispatchEvent(new CustomEvent('selective.render'));
+  }
+
+}
+class ImageFileField extends ImageField {
+  constructor(config, extendedConfig) {
+    super(config, extendedConfig);
+    this.fieldType = 'image_file';
+    this._fileListUi = {};
+    this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createWhiteBlackFilter"])(Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["regexList"])(this.config.get('whitelist'), [/^\/static\/.*\.(jp[e]?g|png|svg|webp)$/]), // Whitelist.
+    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["regexList"])(this.config.get('blacklist')) // Blacklist.
+    ); // Use the API to get serving paths for local images.
+
+    this.api = this.config.get('api');
+    this._servingPaths = {};
+    this._servingPathsLoading = {};
+  }
+
+  fileListUiForLocale(locale) {
+    const localeKey = this.keyForLocale(locale);
+
+    if (!this._fileListUi[localeKey]) {
+      this._fileListUi[localeKey] = new _ui_file__WEBPACK_IMPORTED_MODULE_3__["FileListUI"]({
+        'filterFunc': this.filterFunc
+      }); // Bind the pod path listener event for the UI.
+
+      this._fileListUi[localeKey].listeners.add('podPath', this.handlePodPath.bind(this));
+    }
+
+    return this._fileListUi[localeKey];
+  }
+
+  getServingPath(value, locale) {
+    if (!value || value == '') {
+      return;
+    }
+
+    if (this._servingPaths[value]) {
+      return this._servingPaths[value];
+    }
+
+    if (this._servingPathsLoading[value]) {
+      return '';
+    } // Mark that the request has started to prevent duplicate requests.
+
+
+    this._servingPathsLoading[value] = true; // Have not loaded the serving url yet. Load it in.
+
+    this.api.getStaticServingPath(value).then(this.handleServingPathResponse.bind(this));
+  }
+
+  handleFilesToggleClick(evt) {
+    const locale = evt.target.dataset.locale;
+    this.fileListUiForLocale(locale).toggle();
+  }
+
+  handlePodPath(podPath, locale) {
+    const value = podPath;
+    this.setValueForLocale(locale, value);
+  }
+
+  handleServingPathResponse(response) {
+    this._servingPaths[response.pod_path] = response.serving_url;
+    this.render();
+  }
+
+  renderInput(selective, data, locale) {
+    const value = this.getValueForLocale(locale) || '';
+    const fileListUi = this.fileListUiForLocale(locale);
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <div
+          class="selective__field__image_file__wrapper"
+          @drop=${this.handleDragDrop.bind(this)}
+          @dragenter=${this.handleDragEnter.bind(this)}
+          @dragleave=${this.handleDragLeave.bind(this)}
+          @dragover=${this.handleDragOver.bind(this)}
+          data-locale=${locale || ''}>
+        <div class="selective__field__image_file__input">
+          <input
+            id="${this.uid}${locale}"
+            placeholder=${this.config.placeholder || ''}
+            data-locale=${locale || ''}
+            @input=${this.handleInput.bind(this)}
+            value=${value || ''} />
+          <i
+              class="material-icons selective__field__image_file__file_input_icon"
+              title="Upload file"
+              data-locale=${locale || ''}
+              @click=${this.handleFileInputToggleClick.bind(this)}>
+            attachment
+          </i>
+          <i
+              class="material-icons selective__field__image_file__file_icon"
+              title="Select pod path"
+              data-locale=${locale || ''}
+              @click=${this.handleFilesToggleClick.bind(this)}>
+            list_alt
+          </i>
+        </div>
+        ${fileListUi.renderFileList(selective, data, locale)}
+        ${this.renderFileInput(selective, data, locale)}
+        ${this.renderPreview(selective, data, locale)}
+      </div>`;
   }
 
 } // TODO: Move into the google image extension.
@@ -14878,63 +16310,41 @@ class ImageField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
 class GoogleImageField extends ImageField {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
-    this.fieldType = 'google_image'; // TODO: Change to use the API after the extension is updated to the new
+    this.fieldType = 'google_image';
+    this.api = this.config.get('api'); // TODO: Change to use the API after the extension is updated to the new
     // Extension style.
     // this._extension_config_promise = this.api.getExtensionConfig(
     //   'extensions.google_cloud_images.GoogleCloudImageExtension')
 
-    this._extension_config_promise = this.api.getExtensionConfig('extensions.editor.EditorExtension'); // Wait for the config promise to return.
-
-    this._extension_config_promise.then(result => {
-      let previewPrefix = result['googleImagePreviewPrefix']; // TODO: Remove once grow > 0.8.20
-
-      if (!previewPrefix) {
-        console.warn('Hardcoded image preview URL.');
-        previewPrefix = 'https://ext-cloud-images-dot-betterplaceforests-website.appspot.com';
-      }
-
-      this.previewPrefix = previewPrefix;
-      document.dispatchEvent(new CustomEvent('selective.render'));
-    });
+    this._extension_config_promise = this.api.getExtensionConfig('extensions.editor.EditorExtension');
   }
 
-  handleFileInput(evt) {
-    if (!this.api) {
-      console.error('Missing api for image field.');
-      return;
-    } // Wait for the url promise to return.
-
+  uploadFile(file, locale) {
+    const localeKey = this.keyForLocale(locale); // Wait for the url promise to return.
 
     this._extension_config_promise.then(result => {
-      let uploadUrl = result['googleImageUploadUrl']; // TODO: Remove once grow > 0.8.20
+      let uploadUrl = result['googleImageUploadUrl'];
 
       if (!uploadUrl) {
-        console.warn('Hardcoded image upload URL.');
-        uploadUrl = 'https://ext-cloud-images-dot-betterplaceforests-website.appspot.com/_api/upload_file';
+        console.error('Unable to retrieve the upload url.');
+        this._errors['uploadUrl'] = 'Unable to retrieve the upload url setting.';
+        this.render();
+        return;
       }
 
-      this.api.saveGoogleImage(evt.target.files[0], uploadUrl).then(result => {
-        this.value = result['url'];
-        this.previewUrl = result['url'];
-        this.isLoading = false;
-        document.dispatchEvent(new CustomEvent('selective.render'));
+      this.api.saveGoogleImage(file, uploadUrl).then(result => {
+        this._showFileInput[localeKey] = false;
+        this._isLoading[localeKey] = false;
+        this.setValueForLocale(locale, result['url']);
+        this.render();
       }).catch(err => {
         console.error(err);
-        this.isLoading = false;
-        document.dispatchEvent(new CustomEvent('selective.render'));
+        this._errors['upload'] = err;
+        this._showFileInput[localeKey] = false;
+        this._isLoading[localeKey] = false;
+        this.render();
       });
-      this.isLoading = true;
-      document.dispatchEvent(new CustomEvent('selective.render'));
     });
-  }
-
-  renderImagePreview(selective, field, data) {
-    // Ignore the field values that are resource paths.
-    if (field.value && field.value.startsWith('http')) {
-      field.previewUrl = field.value;
-    }
-
-    return super.renderImagePreview(selective, field, data);
   }
 
 }
@@ -14958,218 +16368,25 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 
-
-class PartialFields extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Fields"] {
-  constructor(fieldTypes, config, partialKey) {
-    super(fieldTypes, config);
-    this.label = this.getConfig().get('partial', {})['label'] || 'Partial';
-    this.partialKey = partialKey;
-
-    this.template = (selective, fields, data) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      ${fields.valueFromData(data)}
-      ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(fields.fields, field => field.getUid(), (field, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-        ${field.template(selective, field, data)}
-      `)}`;
-  }
-
-}
-
 class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListField"] {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig);
+  constructor(config, globalConfig) {
+    super(config, globalConfig);
     this.fieldType = 'partials';
-    this.partialTypes = {};
-    this._api = null; // Set the api if it was provided
-
-    if (this.getConfig().get('api')) {
-      this.api = this.getConfig().get('api');
-    }
+    this.partialTypes = null;
+    this.api = this.config.get('api');
+    this.api.getPartials().then(this.handleLoadPartialsResponse.bind(this));
   }
 
-  _createItems(selective, data) {
-    // No value yet.
-    if (!this.value) {
-      return [];
-    } // No partials loaded yet.
-
-
-    if (!Object.keys(this.partialTypes).length) {
-      return [];
+  getPartialConfig(partialKey) {
+    if (!this.partialTypes) {
+      return {};
     }
 
-    const autoGuessMissing = this.getConfig().get('autoGuess', true);
-    let index = 0;
-    const items = [];
-
-    for (const itemData of this.value) {
-      const partialKey = itemData['partial'];
-      let partialConfig = this.partialTypes[partialKey]; // If allowed to guess use a stub of the partial config.
-
-      if (!partialConfig && autoGuessMissing) {
-        partialConfig = {
-          label: partialKey,
-          fields: []
-        };
-      }
-
-      if (!partialConfig['label'] && itemData['tag'].startsWith('!g.') && itemData['value']) {
-        partialConfig['label'] = `${itemData['tag']} ${itemData['value']}`;
-      } // Skip missing partials.
-      // TODO: Make this work with placeholders.
-
-
-      if (!partialConfig) {
-        // Add as a hidden partial.
-        items.push({
-          'id': `${this.getUid()}-${partialKey}-${index}`,
-          'partialConfig': {},
-          'index': index,
-          'partialKey': partialKey,
-          'itemFields': [],
-          'isExpanded': false,
-          'isHidden': true,
-          'useAutoFields': false
-        });
-        index += 1;
-        continue;
-      }
-
-      const itemFields = new PartialFields(selective.fieldTypes, {
-        'partial': partialConfig
-      });
-      itemFields.valueFromData(itemData);
-      let fieldConfigs = partialConfig.fields;
-      const useAutoFields = fieldConfigs.length == 0;
-
-      if (useAutoFields) {
-        // Auto guess the fields if they are not defined.
-        fieldConfigs = new _autoFields__WEBPACK_IMPORTED_MODULE_1__["default"](itemData, {
-          ignoredKeys: ['partial']
-        }).config['fields'];
-      }
-
-      for (let fieldConfig of fieldConfigs || []) {
-        fieldConfig = Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["autoConfig"])(fieldConfig, this.extendedConfig);
-        itemFields.addField(fieldConfig, this.extendedConfig);
-      } // When a partial is not expanded and not hidden it does not get the value
-      // updated correctly so we need to manually call the data update.
-
-
-      for (const itemField of itemFields.fields) {
-        itemField.updateFromData(itemData);
-      }
-
-      items.push({
-        'id': `${this.getUid()}-${partialKey}-${index}`,
-        'index': index,
-        'partialConfig': partialConfig,
-        'partialKey': partialKey,
-        'itemFields': itemFields,
-        'isExpanded': false,
-        'isHidden': false,
-        'useAutoFields': useAutoFields
-      });
-      index += 1;
-    }
-
-    return items;
-  }
-
-  get api() {
-    return this._api;
-  }
-
-  get isExpanded() {
-    if (this._listItems) {
-      // If there is only one partial, expand it.
-      if (this._listItems.length == 1) {
-        return true;
-      } // Count all partials that are not hidden.
-
-
-      let nonHiddenItemCount = 0;
-
-      for (const item of this._listItems) {
-        if (!item['isHidden']) {
-          nonHiddenItemCount += 1;
-        }
-      } // Handle when all partials are expanded manually.
-
-
-      if (nonHiddenItemCount > 0 && this._expandedIndexes.length == nonHiddenItemCount) {
-        return true;
-      }
-    }
-
-    return this._isExpanded;
-  }
-
-  get value() {
-    if (!this._listItems || this._listItems.length < 1) {
-      return this._dataValue;
-    } // Loop through each fields and get the values.
-
-
-    const values = [];
-
-    for (const item of this._listItems) {
-      if (item['isHidden']) {
-        values.push(this._dataValue[item['index']]);
-      } else {
-        values.push(item['itemFields'].value);
-      }
-    }
-
-    return values;
-  }
-
-  set api(api) {
-    this._api = api;
-    this.updatePartials();
-  }
-
-  set isExpanded(value) {
-    super.isExpanded = value;
-  }
-
-  set value(value) {// no-op
-  }
-
-  handleAddItem(evt, selective) {
-    const partialKey = evt.target.value;
-    const partialConfig = this.partialTypes[partialKey];
-    const index = (this.value || []).length;
-    const itemFields = new PartialFields(selective.fieldTypes, {
-      'partial': partialConfig
-    });
-    itemFields.valueFromData({
-      'partial': partialKey
-    });
-    const fieldConfigs = partialConfig.fields;
-
-    for (let fieldConfig of fieldConfigs || []) {
-      fieldConfig = Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["autoConfig"])(fieldConfig, this.extendedConfig);
-      itemFields.addField(fieldConfig, this.extendedConfig);
-    }
-
-    this._listItems.push({
-      'id': `${this.getUid()}-${partialKey}-${index}`,
-      'index': index,
-      'partialConfig': partialConfig,
-      'partialKey': partialKey,
-      'itemFields': itemFields,
-      'isExpanded': false,
-      'isHidden': false
-    }); // Expanded by default.
-
-
-    this._expandedIndexes.push(index);
-
-    document.dispatchEvent(new CustomEvent('selective.render'));
+    return this.partialTypes[partialKey] || {};
   }
 
   handleLoadPartialsResponse(response) {
-    const partialTypes = []; // Sorted objects for the partials.
+    const partialTypes = {}; // Sorted objects for the partials.
 
     const partialKeys = Object.keys(response['partials']).sort();
 
@@ -15179,120 +16396,136 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListFie
       partialTypes[key] = newPartial;
     }
 
-    this.partialTypes = partialTypes; // Trigger a re-render after the partials load.
-
-    document.dispatchEvent(new CustomEvent('selective.render'));
+    this.partialTypes = partialTypes;
+    this.render();
   }
 
-  renderActionsFooter(selective, field, data) {
+  _createItems(selective, data, locale) {
+    const value = this.getValueForLocale(locale) || [];
+    const localeKey = this.keyForLocale(locale);
+
+    const listItems = this._getListItemsForLocale(locale);
+
+    if (listItems.length > 0 || !value.length || !this.partialTypes) {
+      return;
+    }
+
+    const AutoFieldsCls = this.config.get('AutoFieldsCls', _autoFields__WEBPACK_IMPORTED_MODULE_1__["default"]);
+    const ListItemCls = this.config.get('ListItemCls', selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListItem"]);
+
+    for (const itemData of value) {
+      const partialKey = itemData.partial;
+      const partialConfig = this.getPartialConfig(partialKey);
+
+      const fields = this._createFields(selective.fieldTypes);
+
+      fields.label = partialConfig.label || partialKey;
+      fields.updateOriginal(selective, itemData); // Use the partial key to find the field configs.
+
+      let fieldConfigs = partialConfig.fields || [];
+      this._useAutoFields = !fieldConfigs.length; // Auto guess the fields if they are not defined.
+
+      if (this._useAutoFields) {
+        fieldConfigs = new AutoFieldsCls(itemData).config['fields'];
+      } // Create the fields based on the config.
+
+
+      for (let fieldConfig of fieldConfigs || []) {
+        fieldConfig = Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["autoConfig"])(fieldConfig, this.globalConfig);
+        fields.addField(fieldConfig, this.globalConfig);
+      } // When an is not expanded it does not get the value
+      // updated correctly so we need to manually call the data update.
+
+
+      for (const field of fields.fields) {
+        field.updateOriginal(selective, itemData || fields.defaultValue);
+      }
+
+      listItems.push(new ListItemCls(partialConfig, fields));
+    }
+  }
+
+  handleAddItem(evt, selective) {
+    const partialKey = evt.target.value;
+
+    if (!partialKey) {
+      return;
+    }
+
+    const partialConfig = this.getPartialConfig(partialKey);
+    const locale = evt.target.dataset.locale;
+
+    const listItems = this._getListItemsForLocale(locale);
+
+    const fields = this._createFields(selective.fieldTypes);
+
+    fields.label = partialConfig.label || partialKey; // Use the field config for the list items to create the correct field types.
+
+    let fieldConfigs = partialConfig.fields || []; // If no field configs, use the last item config if availble.
+
+    if (!fieldConfigs.length && listItems.length > 0) {
+      fieldConfigs = listItems[listItems.length - 1].config.fields;
+    } // Create the fields based on the config.
+
+
+    for (let fieldConfig of fieldConfigs || []) {
+      fieldConfig = Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["autoConfig"])(fieldConfig, this.globalConfig);
+      fields.addField(fieldConfig, this.globalConfig);
+    }
+
+    fields.updateOriginal(fields.defaultValue);
+    const listItem = new selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListItem"](partialConfig, fields);
+    listItem.isExpanded = true;
+    listItems.push(listItem);
+
+    this._setListItemsForLocale(locale, listItems); // Reset the value for the select field to allow easily selecting another.
+
+
+    evt.target.value = '';
+    this.render();
+  }
+
+  renderActionsFooter(selective, data, locale) {
+    if (!this.partialTypes) {
+      return '';
+    }
+
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__actions">
       <select class="selective__actions__add" @change=${evt => {
-      field.handleAddItem(evt, selective);
+      this.handleAddItem(evt, selective);
     }}>
-        <option value="">${field.options['addLabel'] || 'Add section'}</option>
-        ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(Object.entries(field.partialTypes), item => item[0], (item, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+        <option value="">${this.config.addLabel || 'Add partial'}</option>
+        ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(Object.entries(this.partialTypes), item => item[0], (item, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
           <option value="${item[1]['key']}">${item[1]['label']}</option>
         `)}
       </select>
     </div>`;
   }
 
-  renderActionsHeader(selective, field, data) {
-    // Hide when there are no values to expand/collapse.
-    if ((this.value || []).length <= 1) {
-      return '';
-    } // Allow collapsing and expanding of sub fields.
+  renderPreview(selective, data, item, index, locale) {
+    const parts = [];
+    const partialLabel = item.config.label || item.config.key || 'Partial';
+    const previewLabel = this.guessPreview(item, index, ' ').trim();
+    parts.push(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div
+        class="selective__list__item__label"
+        data-item-uid=${item.uid}
+        data-locale=${locale || ''}
+        @click=${this.handleExpandItem.bind(this)}>
+      ${partialLabel}
+    </div>`);
 
-
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__actions">
-      <button class="selective__action__toggle" @click=${field.handleToggleExpand.bind(field)}>
-        ${field.isExpanded ? 'Collapse' : 'Expand'}
-      </button>
-    </div>`;
-  }
-
-  renderCollapsedPartial(selective, partialItem) {
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <div class="selective__list__item__drag"><i class="material-icons">drag_indicator</i></div>
-      <div class="selective__list__item__label" data-index=${partialItem['index']} @click=${this.handleItemExpand.bind(this)}>
-        ${partialItem['partialConfig']['label']}
-      </div>
-      ${this.renderPreview(partialItem)}
-      <div
-          class="selective__list__item__delete"
-          data-index=${partialItem['index']}
-          @click=${this.handleItemDelete.bind(this)}
-          title="Delete ${partialItem['partialConfig']['label']}">
-        <i class="material-icons">delete</i>
-      </div>`;
-  }
-
-  renderExpandedPartial(selective, partialItem) {
-    const fields = partialItem.itemFields;
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <div class="selective__list__item__label" data-index=${partialItem['index']} @click=${this.handleItemCollapse.bind(this)}>
-        ${partialItem['partialConfig']['label']}
-      </div>
-      ${fields.template(selective, fields, this.value[partialItem['index']])}`;
-    return;
-  }
-
-  renderHiddenPartial(selective, partialItem) {
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <div class="selective__list__item__drag"><i class="material-icons">drag_indicator</i></div>
-      <div class="selective__list__item__label" data-index=${partialItem['index']}>
-        ${partialItem['partialConfig']['label'] || partialItem['partialKey']}
-      </div>
-      <div
-          class="selective__list__item__delete"
-          data-index=${partialItem['index']}
-          @click=${this.handleItemDelete.bind(this)}
-          title="Delete ${partialItem['partialConfig']['label'] || partialItem['partialKey']}">
-        <i class="material-icons">delete</i>
-      </div>`;
-  }
-
-  renderItems(selective, data) {
-    // No partials loaded yet.
-    if (!Object.keys(this.partialTypes).length) {
-      return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="editor__loading" title="Loading partial configurations"></div>`;
+    if (previewLabel) {
+      parts.push(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+        <div
+            class="selective__list__item__preview"
+            data-item-uid=${item.uid}
+            data-locale=${locale || ''}
+            @click=${this.handleExpandItem.bind(this)}>
+          ${previewLabel}
+        </div>`);
     }
 
-    this.ensureItems(selective, data); // Update the expanded state each render.
-
-    for (const listItem of this._listItems) {
-      const inIndex = this._expandedIndexes.indexOf(listItem['index']) > -1;
-      listItem['isExpanded'] = !listItem['isHidden'] && (this.isExpanded || inIndex);
-    }
-
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(this._listItems, listItem => listItem['id'], (listItem, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <div class="selective__list__item selective__list__item--${listItem['isExpanded'] ? 'expanded' : listItem['isHidden'] ? 'hidden' : 'collapsed'} ${listItem['useAutoFields'] ? 'selective__list__item--auto' : ''}"
-          draggable="true"
-          data-index=${listItem['index']}
-          @dragenter=${this.handleDragEnter.bind(this)}
-          @dragleave=${this.handleDragLeave.bind(this)}
-          @dragover=${this.handleDragOver.bind(this)}
-          @dragstart=${this.handleDragStart.bind(this)}
-          @drop=${this.handleDrop.bind(this)}>
-        ${listItem['isExpanded'] ? this.renderExpandedPartial(selective, listItem) : listItem['isHidden'] ? this.renderHiddenPartial(selective, listItem) : this.renderCollapsedPartial(selective, listItem)}
-      </div>
-    `)}`;
-  }
-
-  renderPreview(partialItem) {
-    const previewValue = this._determineItemPreview(partialItem);
-
-    if (!previewValue) {
-      return '';
-    }
-
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__list__item__preview" data-index=${partialItem['index']} @click=${this.handleItemExpand.bind(this)}>
-      ${previewValue}
-    </div>`;
-  }
-
-  updatePartials() {
-    this.api.getPartials().then(this.handleLoadPartialsResponse.bind(this));
+    return parts;
   }
 
 }
@@ -15333,19 +16566,44 @@ class CheckboxField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"]
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
     this.fieldType = 'checkbox';
+  }
 
-    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div
-        class="selective__field selective__field__${field.fieldType} ${field.valueFromData(data) ? 'selective__field__checkbox--checked' : ''}"
-        data-field-type="${field.fieldType}" @click=${field.handleInput.bind(field)}>
-      <div class="selective__field__checkbox__label">${field.label}</div>
-      <i class="material-icons">${this.value ? 'check_box' : 'check_box_outline_blank'}</i>
-      ${field.renderHelp(selective, field, data)}
-    </div>`;
+  classesInput(value) {
+    const classes = ['selective__field__input__option'];
+
+    if (value) {
+      classes.push('selective__field__input__option--selected');
+    }
+
+    return classes.join(' ');
   }
 
   handleInput(evt) {
-    this.value = !this.value;
-    document.dispatchEvent(new CustomEvent('selective.render'));
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'selective__field__input__option');
+    const locale = target.dataset.locale;
+    const value = !(this.getValueForLocale(locale) || false);
+    this.setValueForLocale(locale, value);
+  }
+
+  renderInput(selective, data, locale) {
+    const value = this.getValueForLocale(locale) || false;
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <div
+          class=${this.classesInput(value)}
+          data-locale=${locale || ''}
+          @click=${this.handleInput.bind(this)}>
+        <div class="selective__field__label">
+          ${this.config.label}
+        </div>
+        <i class="material-icons">
+          ${value ? 'check_box' : 'check_box_outline_blank'}
+        </i>
+      </div>`;
+  } // Label is shown by the individual input.
+
+
+  renderLabel(selective, data) {
+    return '';
   }
 
 }
@@ -15353,17 +16611,18 @@ class DateField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
     this.fieldType = 'date';
+  }
 
-    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
-      <label for="${field.getUid()}">${field.label}</label>
+  renderInput(selective, data, locale) {
+    const value = this.getValueForLocale(locale) || '';
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
       <input
-          id="${field.getUid()}"
-          type="date"
-          placeholder="${field.placeholder}"
-          @input=${field.handleInput.bind(field)}
-          value=${field.valueFromData(data) || ''} />
-      ${field.renderHelp(selective, field, data)}
-    </div>`;
+        id="${this.uid}${locale || ''}"
+        type="date"
+        placeholder=${this.config.placeholder || ''}
+        data-locale=${locale || ''}
+        @input=${this.handleInput.bind(this)}
+        value=${value} />`;
   }
 
 }
@@ -15371,17 +16630,27 @@ class DateTimeField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"]
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
     this.fieldType = 'datetime';
+  } // Original values may contain seconds which the datetime ignores.
 
-    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
-      <label for="${field.getUid()}">${field.label}</label>
+
+  _cleanOriginalValue(value) {
+    if (value && value.length > 16) {
+      value = value.slice(0, 16);
+    }
+
+    return value;
+  }
+
+  renderInput(selective, data, locale) {
+    const value = this.getValueForLocale(locale) || '';
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
       <input
-          id="${field.getUid()}"
-          type="datetime-local"
-          placeholder="${field.placeholder}"
-          @input=${field.handleInput.bind(field)}
-          value=${field.valueFromData(data) || ''} />
-      ${field.renderHelp(selective, field, data)}
-    </div>`;
+        id="${this.uid}${locale || ''}"
+        type="datetime-local"
+        placeholder=${this.config.placeholder || ''}
+        data-locale=${locale || ''}
+        @input=${this.handleInput.bind(this)}
+        value=${value} />`;
   }
 
 }
@@ -15389,33 +16658,36 @@ class HtmlField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
     this.fieldType = 'html';
+  }
 
-    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
-      <label for="${field.getUid()}">${field.label}</label>
-      <div id="${field.getUid()}" class="pell">${field.updateFromData(data)}</div>
-      ${field.renderHelp(selective, field, data)}
-    </div>`;
+  renderInput(selective, data, locale) {
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div id="${this.getUid()}" class="pell" data-locale=${locale || ''}></div>`;
   }
 
   postRender(containerEl) {
     const actions = this.getConfig().get('pellActions', ['bold', 'italic', 'heading1', 'heading2', 'olist', 'ulist', 'link']);
-    const fieldInstances = containerEl.querySelectorAll('.selective__field__html');
+    const fieldInstances = containerEl.querySelectorAll('.selective__field__type__html');
 
     for (const fieldInstance of fieldInstances) {
-      if (!fieldInstance.pellEditor) {
-        const pellEl = fieldInstance.querySelector('.pell');
-        fieldInstance.pellEditor = pell__WEBPACK_IMPORTED_MODULE_2___default.a.init({
-          element: pellEl,
-          actions: actions,
-          onChange: html => {
-            this.value = html;
-            document.dispatchEvent(new CustomEvent('selective.render'));
-          }
-        });
-      }
+      const pellEls = fieldInstance.querySelectorAll('.pell');
 
-      if (this.isClean) {
-        fieldInstance.pellEditor.content.innerHTML = this.value || '';
+      for (const pellEl of pellEls) {
+        const locale = pellEl.dataset.locale;
+        const value = this.getValueForLocale(locale) || '';
+
+        if (!pellEl.pellEditor) {
+          pellEl.pellEditor = pell__WEBPACK_IMPORTED_MODULE_2___default.a.init({
+            element: pellEl,
+            actions: actions,
+            onChange: html => {
+              this.setValueForLocale(locale, html.trim());
+            }
+          });
+        }
+
+        if (this.isClean) {
+          pellEl.pellEditor.content.innerHTML = value || '';
+        }
       }
     }
   }
@@ -15426,33 +16698,36 @@ class MarkdownField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"]
     super(config, extendedConfig);
     this.fieldType = 'markdown';
     this.showdown = new showdown__WEBPACK_IMPORTED_MODULE_3___default.a.Converter();
+  }
 
-    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
-      <label for="${field.getUid()}">${field.label}</label>
-      <div id="${field.getUid()}" class="pell">${field.updateFromData(data)}</div>
-      ${field.renderHelp(selective, field, data)}
-    </div>`;
+  renderInput(selective, data, locale) {
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div id="${this.getUid()}" class="pell" data-locale=${locale || ''}></div>`;
   }
 
   postRender(containerEl) {
     const actions = this.getConfig().get('pellActions', ['bold', 'italic', 'heading1', 'heading2', 'olist', 'ulist', 'link']);
-    const fieldInstances = containerEl.querySelectorAll('.selective__field__markdown');
+    const fieldInstances = containerEl.querySelectorAll('.selective__field__type__markdown');
 
     for (const fieldInstance of fieldInstances) {
-      if (!fieldInstance.pellEditor) {
-        const pellEl = fieldInstance.querySelector('.pell');
-        fieldInstance.pellEditor = pell__WEBPACK_IMPORTED_MODULE_2___default.a.init({
-          element: pellEl,
-          actions: actions,
-          onChange: html => {
-            this.value = this.showdown.makeMarkdown(html);
-            document.dispatchEvent(new CustomEvent('selective.render'));
-          }
-        });
-      }
+      const pellEls = fieldInstance.querySelectorAll('.pell');
 
-      if (this.isClean) {
-        fieldInstance.pellEditor.content.innerHTML = this.showdown.makeHtml(this.value || '');
+      for (const pellEl of pellEls) {
+        const locale = pellEl.dataset.locale;
+        const value = this.getValueForLocale(locale) || '';
+
+        if (!pellEl.pellEditor) {
+          pellEl.pellEditor = pell__WEBPACK_IMPORTED_MODULE_2___default.a.init({
+            element: pellEl,
+            actions: actions,
+            onChange: html => {
+              this.setValueForLocale(locale, this.showdown.makeMarkdown(html).trim());
+            }
+          });
+        }
+
+        if (this.isClean) {
+          pellEl.pellEditor.content.innerHTML = this.showdown.makeHtml(value || '');
+        }
       }
     }
   }
@@ -15462,126 +16737,145 @@ class SelectField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
     this.fieldType = 'select';
-    this.threshold = 12; // Determine which icons to use
+    this.threshold = this.config.threshold || 12; // [0]: Unselected
+    // [1]: Selected
 
-    this.useMulti = this.getConfig().get('multi', false);
-    this.icons = this.useMulti ? ['check_box_outline_blank', 'check_box'] : ['radio_button_unchecked', 'radio_button_checked'];
+    this.icons = this.config.multi ? ['check_box_outline_blank', 'check_box'] : ['radio_button_unchecked', 'radio_button_checked'];
+  }
 
-    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div
-        class="selective__field selective__field__${field.fieldType} ${field.options.length > field.threshold ? `selective__field__${field.fieldType}--list` : ''}"
-        data-field-type="${field.fieldType}" >
-      <div class="selective__field__select__label">${field.label}</div>
+  _cleanOriginalValue(value) {
+    // Original values need to be sorted when doing multi.
+    if (this.config.multi) {
+      value = value || []; // Convert multi to be an array if it was not before.
+
+      if (!Array.isArray(value)) {
+        value = [value];
+      }
+
+      value.sort();
+      return value;
+    } // Convert from an array if it was before.
+
+
+    if (Array.isArray(value)) {
+      // Use the first value of the existing array.
+      value = value[0];
+    }
+
+    return value;
+  }
+
+  handleInput(evt) {
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'selective__field__select__option');
+    const locale = target.dataset.locale;
+    let value = target.dataset.value;
+
+    if (this.config.multi) {
+      let existingValue = this.getValueForLocale(locale) || [];
+
+      if (existingValue.includes(value)) {
+        existingValue = existingValue.filter(item => item !== value);
+      } else {
+        existingValue.push(value);
+      }
+
+      existingValue.sort(); // Save the updated value array.
+
+      value = existingValue;
+    }
+
+    this.setValueForLocale(locale, value);
+  }
+
+  renderInput(selective, data, locale) {
+    const value = this.getValueForLocale(locale) || '';
+    const options = this.config.options;
+
+    const isOptionSelected = optionValue => {
+      if (this.config.multi) {
+        return value.includes(optionValue);
+      }
+
+      return value == optionValue;
+    };
+
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
       <div class="selective__field__select__options">
-        ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(field.options, option => option.value, (option, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-          <div class="selective__field__select__value" data-value="${option.value}" @click=${field.handleInput.bind(field)}>
-            <div class="selective__field__select__option ${field._isSelected(option.value) ? 'selective__field__select__option--checked' : ''}">
-              <i class="material-icons">${field._isSelected(option.value) ? field.icons[1] : field.icons[0]}</i>
+        ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(options, option => option.value, (option, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+          <div
+              class="selective__field__select__option ${isOptionSelected(option.value) ? 'selective__field__select__option--checked' : ''}"
+              data-locale=${locale || ''}
+              data-value=${option.value || ''}
+              @click=${this.handleInput.bind(this)}>
+            <i class="material-icons">
+              ${isOptionSelected(option.value) ? this.icons[1] : this.icons[0]}
+            </i>
+            <div>
               ${option.label || '(None)'}
             </div>
           </div>
         `)}
-      </div>
-      ${field.renderHelp(selective, field, data)}
-    </div>`;
-  }
-
-  _isSelected(optionValue) {
-    let value = this.value;
-
-    if (!this.useMulti) {
-      return value == '' ? optionValue == null : optionValue == value;
-    } // Reset when converting between non-array values.
-
-
-    if (!Array.isArray(value)) {
-      value = [];
-    }
-
-    return (value || []).includes(optionValue);
-  }
-
-  handleInput(evt) {
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'selective__field__select__value');
-    const value = target.dataset.value == 'null' ? null : target.dataset.value;
-
-    if (!this.useMulti) {
-      this.value = value;
-      document.dispatchEvent(new CustomEvent('selective.render'));
-      return;
-    }
-
-    if (!value) {
-      return;
-    } // Adjust the list if using multi value
-
-
-    let newValue = this.value || []; // Reset when converting between non-array values.
-
-    if (!Array.isArray(newValue)) {
-      newValue = [];
-    }
-
-    if (newValue.includes(value)) {
-      newValue = newValue.filter(item => item !== value);
-    } else {
-      newValue.push(value);
-    }
-
-    this.value = newValue;
-    document.dispatchEvent(new CustomEvent('selective.render'));
+      </div>`;
   }
 
 }
 class TextField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
-    this.fieldType = 'text';
-    this.threshold = this.getConfig().threshold || 75;
-    this._isSwitching = false;
+    this.fieldType = 'text'; // When the text field is too long, convert input to a textarea.
 
-    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
-      <label for="${field.getUid()}">${field.label}</label>
-      ${field.updateFromData(data)}
-      ${field.renderInput(selective, field, data)}
-      ${field.renderHelp(selective, field, data)}
-    </div>`;
+    this.threshold = this.config.threshold || 75;
+    this._switched = {};
   }
 
   handleInput(evt) {
-    super.handleInput(evt); // Check if the threshold has been reached.
+    // Check if the threshold has been reached.
+    const target = evt.target;
+    const locale = target.dataset.locale;
+    const isInput = target.tagName.toLowerCase() == 'input';
+    const isOverThreshold = target.value.length > this.threshold;
+    const hasSwitched = this._switched[locale];
 
-    const isInput = evt.target.tagName.toLowerCase() == 'input';
+    if (isInput && isOverThreshold && !hasSwitched) {
+      const id = target.id;
+      const position = target.selectionStart; // Trigger auto focus after a delay for rendering.
 
-    if (isInput && this.value.length > this.threshold && !this._isSwitching) {
-      // Only trigger switch once.
-      this._isSwitching = true;
-      const id = evt.target.id;
-      document.dispatchEvent(new CustomEvent('selective.render')); // Trigger auto focus after a delay for rendering.
+      document.addEventListener('selective.render.complete', () => {
+        Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["inputFocusAtPosition"])(id, position);
+      }, {
+        once: true
+      });
+    } // Handle input after the check is complete for length.
+    // Prevents the re-render before the check is done.
 
-      window.setTimeout(() => {
-        Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["inputFocusAtEnd"])(id);
-      }, 25);
-    }
+
+    super.handleInput(evt);
   }
 
-  renderInput(selective, field, data) {
-    // Switch to textarea if the length is long.
-    if ((this.value || '').length > this.threshold) {
+  renderInput(selective, data, locale) {
+    const value = this.getValueForLocale(locale) || '';
+
+    if (value.length > this.threshold) {
+      this._switched[locale] = true;
+    }
+
+    if (this._switched[locale]) {
       return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
         <textarea
-            id="${field.getUid()}"
-            rows="${field.getConfig().rows || 6}"
-            placeholder="${field.placeholder}"
-            @input=${field.handleInput.bind(field)}>${this.value || ' '}</textarea>`;
+          id="${this.uid}${locale || ''}"
+          rows=${this.config.rows || 6}
+          placeholder=${this.config.placeholder || ''}
+          data-locale=${locale || ''}
+          @input=${this.handleInput.bind(this)}>${value}</textarea>`;
     }
 
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
       <input
-        type="text"
-        id="${field.getUid()}"
-        value="${this.value || ''}"
-        placeholder="${field.placeholder}"
-        @input=${field.handleInput.bind(field)}>`;
+        id="${this.uid}${locale || ''}"
+        placeholder=${this.config.placeholder || ''}
+        data-locale=${locale || ''}
+        @input=${this.handleInput.bind(this)}
+        value=${value} />`;
   }
 
 }
@@ -15589,158 +16883,159 @@ class TextareaField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"]
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
     this.fieldType = 'textarea';
+  }
 
-    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
-      <label for="${field.getUid()}">${field.label}</label>
+  renderInput(selective, data, locale) {
+    const value = this.getValueForLocale(locale) || '';
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
       <textarea
-          id="${field.getUid()}"
-          rows="${field.getConfig().rows || 6}"
-          placeholder="${field.placeholder}"
-          @input=${field.handleInput.bind(field)}>${field.valueFromData(data) || ' '}</textarea>
-      ${field.renderHelp(selective, field, data)}
-    </div>`;
+        id="${this.uid}${locale || ''}"
+        rows=${this.config.rows || 6}
+        placeholder=${this.config.placeholder || ''}
+        data-locale=${locale || ''}
+        @input=${this.handleInput.bind(this)}>${value}</textarea>`;
   }
 
 }
 
 /***/ }),
 
-/***/ "./source/editor/field/structure.js":
-/*!******************************************!*\
-  !*** ./source/editor/field/structure.js ***!
-  \******************************************/
-/*! exports provided: GroupField */
+/***/ "./source/editor/ui/file.js":
+/*!**********************************!*\
+  !*** ./source/editor/ui/file.js ***!
+  \**********************************/
+/*! exports provided: FileListUI */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GroupField", function() { return GroupField; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FileListUI", function() { return FileListUI; });
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
-/* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../autoFields */ "./source/editor/autoFields.js");
+/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
+/* harmony import */ var _utility_filter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/filter */ "./source/utility/filter.js");
 /**
- * Structure field types for the editor extension.
+ * UI elements for the working with files.
  */
 
 
-class GroupField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig);
-    this.fieldType = 'group';
-    this.fields = null;
-    this.isExpanded = false;
 
-    this.template = (selective, field, data) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
-      ${field.ensureFields(selective, data)}
-      ${field.updateFromData(data)}
-      <div class="selective__field__${field.fieldType}__handle" @click=${field.handleToggleExpand.bind(field)}>
-        <i class="material-icons">${field.isExpanded ? 'expand_less' : 'expand_more'}</i>
-        <div class="selective__field__${field.fieldType}__label">${field.label}</div>
-      </div>
-      ${field.renderFields(selective, data)}
-      ${field.renderHelp(selective, field, data)}
-    </div>`;
+class FileListUI extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["UI"] {
+  constructor(config) {
+    super(config);
+    this.filterFunc = this.config.get('filterFunc') || Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createWhiteBlackFilter"])([], // Whitelist.
+    [] // Blacklist.
+    );
+    this.podPaths = null;
+    this.filterValue = '';
+    this._listeningForPodPaths = false;
+    this.showFileList = false;
   }
 
-  get isClean() {
-    // If there are no fields, nothing has changed.
-    if (!this.fields) {
-      return true;
-    }
-
-    for (const field of this.fields.fields) {
-      if (!field.isClean) {
-        return false;
-      }
-    }
+  renderFilterInput(selective, data, locale) {
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <input
+        id="${this.uid}-filter"
+        type="text"
+        @input=${this.handleInputFilter.bind(this)}
+        placeholder="Filter..." />`;
   }
 
-  get value() {
-    if (!this.fields) {
-      return this._dataValue;
-    }
+  renderFileList(selective, data, locale) {
+    this.bindListeners(selective);
 
-    const value = Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["autoDeepObject"])({});
-
-    for (const field of this.fields.fields) {
-      value.set(field.key, field.value);
-    }
-
-    return value.obj;
-  }
-
-  set value(value) {// no-op
-  }
-
-  _createFields(selective, data) {
-    const fields = new selective_edit__WEBPACK_IMPORTED_MODULE_0__["Fields"](selective.fieldTypes);
-    fields.valueFromData(this.value);
-    let fieldConfigs = this.getConfig().get('fields', []);
-    const useAutoFields = fieldConfigs.length == 0;
-
-    if (useAutoFields) {
-      // Auto guess the fields if they are not defined.
-      fieldConfigs = new _autoFields__WEBPACK_IMPORTED_MODULE_1__["default"](this.value).config['fields'];
-    }
-
-    for (let fieldConfig of fieldConfigs || []) {
-      fieldConfig = Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["autoConfig"])(fieldConfig, this.extendedConfig);
-      fields.addField(fieldConfig, this.extendedConfig);
-    } // When a not expanded it does not get the value updated correctly
-    // so we need to manually call the data update.
-
-
-    for (const field of fields.fields) {
-      field.updateFromData(this.value || {});
-    }
-
-    return fields;
-  } // Ensure that fields are created so they can be populated and the keyless
-  // groups can correctly return the partial value.
-
-
-  ensureFields(selective, data) {
-    // If the sub fields have not been created create them now.
-    if (!this.fields) {
-      this.fields = this._createFields(selective, data);
-    }
-  }
-
-  handleToggleExpand(evt) {
-    this.isExpanded = !this.isExpanded;
-    document.dispatchEvent(new CustomEvent('selective.render'));
-  }
-
-  renderFields(selective, data) {
-    this.ensureFields();
-
-    if (!this.isExpanded) {
+    if (!this.showFileList) {
       return '';
+    } // If the pod paths have not loaded, show the loading status.
+
+
+    if (!this.podPaths) {
+      // Editor ensures it only loads once.
+      selective.editor.loadPodPaths();
+      return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__file_list">
+        ${this.renderFilterInput(selective, data, locale)}
+        <div class="selective__file_list__list" data-locale=${locale || ''}>
+          <div class="editor__loading editor__loading--small editor__loading--pad"></div>
+        </div>
+      </div>`;
     }
 
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__group">
-      ${this.fields.template(selective, this.fields, this.value)}
+    let podPaths = this.podPaths; // Allow the current value to also filter the pod paths.
+
+    if (this.filterValue && this.filterValue != '') {
+      podPaths = podPaths.filter(Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createValueFilter"])(this.filterValue));
+    }
+
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__file_list">
+      ${this.renderFilterInput(selective, data, locale)}
+      <div class="selective__file_list__list" data-locale=${locale || ''}>
+        ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(podPaths, podPath => podPath, (podPath, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+          <div
+              class="selective__file_list__file"
+              data-pod-path=${podPath}
+              @click=${this.handleFileClick.bind(this)}>
+            ${podPath}
+          </div>
+        `)}
+        ${podPaths.length == 0 ? selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+          <div class="selective__file_list__file selective__file_list__file--empty">
+            No matches found.
+          </div>` : ''}
+      </div>
     </div>`;
   }
 
-  valueFromData(data) {
-    if (this.key) {
-      return super.valueFromData(data);
-    } // Nothing to do without fields.
+  bindListeners(selective) {
+    // Bind the field to the pod paths loading.
+    if (!this._listeningForPodPaths) {
+      this._listeningForPodPaths = true; // Check if the pod paths are already loaded.
+
+      if (selective.editor._podPaths) {
+        this.handlePodPaths({
+          pod_paths: selective.editor._podPaths
+        });
+      } // Bind to the load event to listen for future changes to the pod paths.
 
 
-    if (!this.fields) {
-      this._dataValue = data;
-      return this.value;
+      selective.editor.listeners.add('load.podPaths', this.handlePodPaths.bind(this));
+    }
+  }
+
+  delayedFocus() {
+    // Wait for the render then focus on the filter input.
+    document.addEventListener('selective.render.complete', () => {
+      Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["inputFocusAtEnd"])(`${this.uid}-filter`);
+    }, {
+      once: true
+    });
+  }
+
+  handleFileClick(evt) {
+    const localeTarget = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'selective__file_list__list');
+    const locale = localeTarget.dataset.locale;
+    const podPath = evt.target.dataset.podPath;
+    this.showFileList = false;
+    this.listeners.trigger('podPath', podPath, locale);
+  }
+
+  handleInputFilter(evt) {
+    this.filterValue = evt.target.value;
+    this.render();
+  }
+
+  handlePodPaths(response) {
+    this.podPaths = response.pod_paths.sort().filter(this.filterFunc);
+    this.delayedFocus();
+    this.render();
+  }
+
+  toggle() {
+    this.showFileList = !this.showFileList;
+
+    if (this.showFileList) {
+      this.delayedFocus();
     }
 
-    const newDataValue = Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["autoDeepObject"])({});
-
-    for (const field of this.fields.fields) {
-      newDataValue.set(field.key, field.value);
-    }
-
-    this._dataValue = newDataValue.obj;
-    return this.value;
+    this.render();
   }
 
 }
@@ -16037,13 +17332,14 @@ class Defer {
 /*!*******************************!*\
   !*** ./source/utility/dom.js ***!
   \*******************************/
-/*! exports provided: findParentByClassname, inputFocusAtEnd */
+/*! exports provided: findParentByClassname, inputFocusAtEnd, inputFocusAtPosition */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "findParentByClassname", function() { return findParentByClassname; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "inputFocusAtEnd", function() { return inputFocusAtEnd; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "inputFocusAtPosition", function() { return inputFocusAtPosition; });
 /**
  *  DOM helper functions.
  */
@@ -16064,6 +17360,17 @@ const inputFocusAtEnd = elementId => {
   inputEl.focus(); // Focus at the end to keep typing.
 
   inputEl.selectionStart = inputEl.selectionEnd = inputEl.value.length;
+};
+const inputFocusAtPosition = (elementId, position) => {
+  const inputEl = document.getElementById(elementId);
+
+  if (!inputEl) {
+    return;
+  }
+
+  inputEl.focus(); // Focus at the end to keep typing.
+
+  inputEl.selectionStart = inputEl.selectionEnd = position;
 };
 
 /***/ }),
@@ -16128,13 +17435,14 @@ function deepExpandArray(arr) {
 /*!**********************************!*\
   !*** ./source/utility/filter.js ***!
   \**********************************/
-/*! exports provided: createWhiteBlackFilter, createValueFilter */
+/*! exports provided: createWhiteBlackFilter, createValueFilter, regexList */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createWhiteBlackFilter", function() { return createWhiteBlackFilter; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createValueFilter", function() { return createValueFilter; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "regexList", function() { return regexList; });
 // Creates a filter that uses a whitelist and blacklist of regex to filter.
 const createWhiteBlackFilter = (whitelist, blacklist) => {
   whitelist = whitelist || [];
@@ -16171,6 +17479,20 @@ const createValueFilter = filterValue => {
   return value => {
     return value.includes(filterValue);
   };
+};
+const regexList = (rawList, defaults) => {
+  const list = [];
+  rawList = rawList || [];
+
+  for (const value of rawList) {
+    list.push(new RegExp(value, 'gi'));
+  }
+
+  if (!list.length) {
+    return defaults || [];
+  }
+
+  return list;
 };
 
 /***/ }),
@@ -16210,6 +17532,57 @@ class Listeners {
     for (const listener of this.listenersForEvent(eventName)) {
       listener(...data);
     }
+  }
+
+}
+
+/***/ }),
+
+/***/ "./source/utility/storage.js":
+/*!***********************************!*\
+  !*** ./source/utility/storage.js ***!
+  \***********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Storage; });
+class Storage {
+  constructor(isTesting) {
+    this.isTesting = isTesting;
+  }
+
+  clear() {
+    if (this.isTesting) {
+      return undefined;
+    }
+
+    return localStorage.clear();
+  }
+
+  getItem(...args) {
+    if (this.isTesting) {
+      return null;
+    }
+
+    return localStorage.getItem(...args);
+  }
+
+  removeItem(...args) {
+    if (this.isTesting) {
+      return undefined;
+    }
+
+    return localStorage.removeItem(...args);
+  }
+
+  setItem(...args) {
+    if (this.isTesting) {
+      return undefined;
+    }
+
+    return localStorage.setItem(...args);
   }
 
 }

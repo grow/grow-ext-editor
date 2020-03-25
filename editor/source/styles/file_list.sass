@@ -1,0 +1,27 @@
+.selective__file_list
+  border: $ge-border-size solid $ge-color-back-light
+  border-radius: $ge-radius-2
+  margin: $ge-pad/2 0
+
+  input
+    +field-border
+    +field-control
+    border-radius: $ge-radius-2 $ge-radius-2 0 0
+    margin: (-$ge-border-size) (-$ge-border-size*2) 0 (-$ge-border-size)
+    width: calc(100% + #{$ge-border-size*2})
+
+.selective__file_list__list
+  height: $ge-pad * 20
+  padding: $ge-pad/2 0
+  overflow: auto
+
+.selective__file_list__file
+  +field-clickable
+  padding: $ge-pad/2 $ge-pad
+
+  &--empty
+    cursor: default
+    font-weight: 700
+
+  &:hover:not(.selective__field__constructor__file--empty)
+    background: $ge-color-back-light

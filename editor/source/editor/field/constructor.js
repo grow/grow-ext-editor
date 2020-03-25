@@ -8,200 +8,116 @@ import {
   Field,
 } from 'selective-edit'
 import {
-  inputFocusAtEnd,
-} from '../../utility/dom'
-import {
   createWhiteBlackFilter,
-  createValueFilter,
+  regexList,
 } from '../../utility/filter'
+import {
+  FileListUI,
+} from '../ui/file'
 
 export class ConstructorField extends Field {
   constructor(config, extendedConfig) {
     super(config, extendedConfig)
     this.fieldType = 'constructor'
     this.tag = '!g.*'
-
-    this.template = (selective, field, data) => html`<div class="selective__field selective__field__${field.fieldType}" data-field-type="${field.fieldType}">
-      <label for="${field.getUid()}">${field.label}</label>
-      <div class="selective__field__${field.fieldType}__input">
-        <input
-          type="text"
-          id="${field.getUid()}"
-          placeholder="${field.placeholder}"
-          value="${field.valueFromData(data) || ''}"
-          @input=${field.handleInput.bind(field)}>
-      </div>
-      ${field.renderHelp(selective, field, data)}
-    </div>`
   }
 
   handleInput(evt) {
-    // Update the value to what is being typed.
-    // Helps mark the field as dirty.
-    this.value = {
+    const locale = evt.target.dataset.locale
+
+    // Constructors are represented as objects in json.
+    const value = {
       'value': evt.target.value,
       'tag': this.tag,
     }
+    this.setValueForLocale(locale, value)
   }
 
-  valueFromData(data) {
-    const value = super.valueFromData(data)
-    if (value) {
-      return value['value']
-    }
-    return ''
+  renderInput(selective, data, locale) {
+    const value = this.getValueForLocale(locale) || {}
+
+    return html`
+      <input
+        id="${this.uid}${locale}"
+        placeholder=${this.config.placeholder || ''}
+        data-locale=${locale || ''}
+        @input=${this.handleInput.bind(this)}
+        value=${value.value || ''} />`
   }
 }
 
 export class ConstructorFileField extends ConstructorField {
   constructor(config, extendedConfig) {
     super(config, extendedConfig)
-    this.fieldType = 'constructorFile'
-    this._showFileList = false
-    this._podPaths = null
-    this._listeningForPodPaths = false
-    this._filterValue = ''
+    this._fileListUi = {}
     this.filterFunc = createWhiteBlackFilter(
       // Whitelist.
-      [],
+      regexList(this.config.get('whitelist')),
       // Blacklist.
-      [],
+      regexList(this.config.get('blacklist')),
     )
-
-    this.template = (selective, field, data) => html`
-    <div
-        class="selective__field selective__field__${field.fieldType} ${field._showFileList ? 'selective__field__constructor__input--expanded' : ''}"
-        data-field-type="${field.fieldType}">
-      ${field.bindListeners(selective)}
-      <label for="${field.getUid()}">${field.label}</label>
-      <div class="selective__field__constructor__input">
-        <input
-          type="text"
-          id="${field.getUid()}"
-          placeholder="${field.placeholder}"
-          value="${field.valueFromData(data) || ''}"
-          @input=${field.handleInput.bind(field)}>
-        <i class="material-icons" title="Select pod path" @click=${field.handleFilesToggleClick.bind(field)}>list_alt</i>
-      </div>
-      ${field.renderFileList(selective, data)}
-      ${field.renderHelp(selective, field, data)}
-    </div>`
   }
 
-  configList(listKey, defaults) {
-    const list = []
-    const rawList = this.getConfig().get(listKey, [])
-    for (const value of rawList) {
-      list.push(new RegExp(value, 'gi'))
+  classesFileIcon(value, fileListUi) {
+    const classes = [
+      'material-icons',
+      'selective__field__constructor__file_icon',
+    ]
+
+    if (fileListUi.showFileList) {
+      classes.push('selective__field__constructor__file_icon--checked')
     }
 
-    if (!list.length) {
-      return defaults || []
-    }
-
-    return list
+    return classes.join(' ')
   }
 
-  bindListeners(selective) {
-    // Bind the field to the pod path loading.
-    if (!this._listeningForPodPaths) {
-      this._listeningForPodPaths = true
+  fileListUiForLocale(locale) {
+    const localeKey = this.keyForLocale(locale)
+    if (!this._fileListUi[localeKey]) {
+      this._fileListUi[localeKey] = new FileListUI({
+        'filterFunc': this.filterFunc,
+      })
 
-      const handlePodPaths = (response) => {
-        this._podPaths = response.pod_paths.sort().filter(this.filterFunc)
-        document.dispatchEvent(new CustomEvent('selective.render'))
-        window.setTimeout(
-          () => { inputFocusAtEnd(`${this.getUid()}-filter`) },
-          25)
-      }
-
-      // Check if the pod paths are already loaded.
-      if (selective.editor._podPaths) {
-        handlePodPaths({
-          pod_paths: selective.editor._podPaths,
-        })
-      }
-
-      selective.editor.listeners.add('load.podPaths', handlePodPaths)
+      // Bind the pod path listener event for the UI.
+      this._fileListUi[localeKey].listeners.add('podPath', this.handlePodPath.bind(this))
     }
+    return this._fileListUi[localeKey]
   }
 
   handleFilesToggleClick(evt) {
-    this._showFileList = !this._showFileList
-    document.dispatchEvent(new CustomEvent('selective.render'))
-
-    // Auto focus on the filter when showing the list.
-    if (this._showFileList) {
-      window.setTimeout(
-        () => { inputFocusAtEnd(`${this.getUid()}-filter`) },
-        25)
-    }
+    const locale = evt.target.dataset.locale
+    this.fileListUiForLocale(locale).toggle()
   }
 
-  handleFileClick(evt) {
-    const podPath = evt.target.dataset.podPath
-    this.value = Object.assign({}, this.value, {
-      value: podPath,
+  handlePodPath(podPath, locale) {
+    const value = {
       tag: this.tag,
-    })
-    this._showFileList = false
-    document.dispatchEvent(new CustomEvent('selective.render'))
-  }
-
-  handleInputFilter(evt) {
-    this._filterValue = evt.target.value
-    document.dispatchEvent(new CustomEvent('selective.render'))
-  }
-
-  renderFileList(selective, data) {
-    if (!this._showFileList) {
-      return ''
+      value: podPath,
     }
+    this.setValueForLocale(locale, value)
+  }
 
-    // If the pod paths have not loaded, show the loading status.
-    if (!this._podPaths) {
-      // Editor ensures it only loads once.
-      selective.editor.loadPodPaths()
+  renderInput(selective, data, locale) {
+    const value = this.getValueForLocale(locale) || {}
+    const fileListUi = this.fileListUiForLocale(locale)
 
-      return html`<div class="selective__field__constructor__files">
+    return html`
+      <div class="selective__field__constructor__input">
         <input
-          id="${this.getUid()}-filter"
-          type="text"
-          @input=${this.handleInputFilter.bind(this)}
-          placeholder="Filter..." />
-        <div class="selective__field__constructor__file__list">
-          <div class="editor__loading editor__loading--small editor__loading--pad"></div>
-        </div>
-      </div>`
-    }
-
-    let podPaths = this._podPaths
-
-    // Allow the current value to also filter the pod paths.
-    if (this._filterValue != '') {
-      podPaths = podPaths.filter(createValueFilter(this._filterValue))
-    }
-
-    return html`<div class="selective__field__constructor__files">
-      <input type="text"
-        id="${this.getUid()}-filter"
-        @input=${this.handleInputFilter.bind(this)}
-        placeholder="Filter..." />
-      <div class="selective__field__constructor__file__list">
-      ${repeat(podPaths, (podPath) => podPath, (podPath, index) => html`
-        <div
-            class="selective__field__constructor__file"
-            data-pod-path=${podPath}
-            @click=${this.handleFileClick.bind(this)}>
-          ${podPath}
-        </div>
-      `)}
-      ${podPaths.length == 0 ? html`
-        <div class="selective__field__constructor__file selective__field__constructor__file--empty">
-          No matches found.
-        </div>` : ''}
+          id="${this.uid}${locale}"
+          placeholder=${this.config.placeholder || ''}
+          data-locale=${locale || ''}
+          @input=${this.handleInput.bind(this)}
+          value=${value.value || ''} />
+        <i
+            class=${this.classesFileIcon(value, fileListUi)}
+            title="Select pod path"
+            data-locale=${locale || ''}
+            @click=${this.handleFilesToggleClick.bind(this)}>
+          list_alt
+        </i>
       </div>
-    </div>`
+      ${fileListUi.renderFileList(selective, data, locale)}`
   }
 }
 
@@ -212,9 +128,9 @@ export class DocumentField extends ConstructorFileField {
     this.tag = '!g.doc'
     this.filterFunc = createWhiteBlackFilter(
       // Whitelist.
-      this.configList('whitelist', [/^\/content\//]),
+      regexList(this.config.get('whitelist'), [/^\/content\//]),
       // Blacklist.
-      this.configList('blacklist'),
+      regexList(this.config.get('blacklist')),
     )
   }
 }
@@ -226,9 +142,9 @@ export class YamlField extends ConstructorFileField {
     this.tag = '!g.yaml'
     this.filterFunc = createWhiteBlackFilter(
       // Whitelist.
-      this.configList('whitelist', [/^\/content\//, /^\/data\//, /\.yaml$/]),
+      regexList(this.config.get('whitelist'), [/^\/content\/.*\.yaml$/, /^\/data\/.*\.yaml$/]),
       // Blacklist.
-      this.configList('blacklist'),
+      regexList(this.config.get('blacklist')),
     )
   }
 }
