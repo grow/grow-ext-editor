@@ -11,8 +11,8 @@ import {
   findParentByClassname,
   inputFocusAtPosition,
 } from '../../utility/dom'
+import Editor from '@toast-ui/editor'
 import pell from 'pell'
-import showdown from 'showdown'
 
 
 export class CheckboxField extends Field {
@@ -118,31 +118,39 @@ export class HtmlField extends Field {
   }
 
   renderInput(selective, data, locale) {
-    return html`<div id="${this.getUid()}" class="pell" data-locale=${locale || ''}></div>`
+    const value = this.getValueForLocale(locale) || ''
+    return html`
+      <div
+          id="${this.getUid()}${locale || ''}"
+          class="selective__html html_editor"
+          data-locale=${locale || ''}></div>`
   }
 
   postRender(containerEl) {
-    const actions = this.getConfig().get('pellActions', [
-      'bold', 'italic', 'heading1', 'heading2', 'olist', 'ulist', 'link'])
     const fieldInstances = containerEl.querySelectorAll('.selective__field__type__html')
     for (const fieldInstance of fieldInstances) {
-      const pellEls = fieldInstance.querySelectorAll('.pell')
-      for (const pellEl of pellEls) {
-        const locale = pellEl.dataset.locale
+      const editorEls = fieldInstance.querySelectorAll('.html_editor')
+      for (const editorEl of editorEls) {
+        const locale = editorEl.dataset.locale
         const value = this.getValueForLocale(locale) || ''
 
-        if (!pellEl.pellEditor) {
-          pellEl.pellEditor = pell.init({
-            element: pellEl,
-            actions: actions,
-            onChange: (html) => {
-              this.setValueForLocale(locale, html.trim())
-            }
+        if (!editorEl.editor) {
+          editorEl.editor = new Editor({
+            el: editorEl,
+            initialEditType: 'wysiwyg',
+            previewStyle: 'horizontal',
+            usageStatistics: false,
+            events: {
+              change: () => {
+                this.setValueForLocale(locale, editorEl.editor.getHtml().trim())
+              }
+            },
+            hideModeSwitch: true,
+            placeholder: this.config.placeholder || '',
           })
-        }
-
-        if (this.isClean) {
-          pellEl.pellEditor.content.innerHTML = value || ''
+          editorEl.editor.setHtml(value || '')
+        } else if (this.isClean) {
+           // editorEl.editor.setHtml(value || '')
         }
       }
     }
@@ -153,35 +161,42 @@ export class MarkdownField extends Field {
   constructor(config, extendedConfig) {
     super(config, extendedConfig)
     this.fieldType = 'markdown'
-    this.showdown = new showdown.Converter()
   }
 
   renderInput(selective, data, locale) {
-    return html`<div id="${this.getUid()}" class="pell" data-locale=${locale || ''}></div>`
+    const value = this.getValueForLocale(locale) || ''
+    return html`
+      <div
+          id="${this.getUid()}${locale || ''}"
+          class="selective__markdown markdown_editor"
+          data-locale=${locale || ''}></div>`
   }
 
   postRender(containerEl) {
-    const actions = this.getConfig().get('pellActions', [
-      'bold', 'italic', 'heading1', 'heading2', 'olist', 'ulist', 'link'])
     const fieldInstances = containerEl.querySelectorAll('.selective__field__type__markdown')
     for (const fieldInstance of fieldInstances) {
-      const pellEls = fieldInstance.querySelectorAll('.pell')
-      for (const pellEl of pellEls) {
-        const locale = pellEl.dataset.locale
+      const editorEls = fieldInstance.querySelectorAll('.markdown_editor')
+      for (const editorEl of editorEls) {
+        const locale = editorEl.dataset.locale
         const value = this.getValueForLocale(locale) || ''
 
-        if (!pellEl.pellEditor) {
-          pellEl.pellEditor = pell.init({
-            element: pellEl,
-            actions: actions,
-            onChange: (html) => {
-              this.setValueForLocale(locale, this.showdown.makeMarkdown(html).trim())
-            }
+        if (!editorEl.editor) {
+          editorEl.editor = new Editor({
+            el: editorEl,
+            initialValue: value,
+            initialEditType: 'markdown',
+            previewStyle: 'horizontal',
+            usageStatistics: false,
+            events: {
+              change: () => {
+                this.setValueForLocale(locale, editorEl.editor.getMarkdown().trim())
+              }
+            },
+            hideModeSwitch: true,
+            placeholder: this.config.placeholder || '',
           })
-        }
-
-        if (this.isClean) {
-          pellEl.pellEditor.content.innerHTML = this.showdown.makeHtml(value || '')
+        } else if (this.isClean) {
+           // editorEl.editor.setMarkdown(value || '')
         }
       }
     }

@@ -30,11 +30,12 @@
       color: $ge-color-on-field-back
 
   [contenteditable=true]
-    +field-border
-    +field-control
+    &:not(.tui-editor-contents)
+      +field-border
+      +field-control
 
   button
-    background: $ge-color-field-back-alt
+    background-color: $ge-color-field-back-alt
     border-radius: $ge-radius-5
     color: $ge-color-on-field-back-alt
     border: 1px solid $ge-color-back-light
