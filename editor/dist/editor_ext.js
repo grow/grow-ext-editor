@@ -986,6 +986,11 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
       listItems.push(new ListItem({
         'fields': fieldConfigs
       }, fields));
+    } // Trigger a new render to make sure the expand/collapse buttons show.
+
+
+    if (listItems.length > 1) {
+      this.render();
     }
   }
 
@@ -16465,6 +16470,11 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListFie
       }
 
       listItems.push(new ListItemCls(partialConfig, fields));
+    } // Trigger a new render to make sure the expand/collapse buttons show.
+
+
+    if (listItems.length > 1) {
+      this.render();
     }
   }
 

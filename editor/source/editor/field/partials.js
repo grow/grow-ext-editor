@@ -86,6 +86,11 @@ export class PartialsField extends ListField {
 
       listItems.push(new ListItemCls(partialConfig, fields))
     }
+
+    // Trigger a new render to make sure the expand/collapse buttons show.
+    if (listItems.length > 1) {
+      this.render()
+    }
   }
 
   handleAddItem(evt, selective) {
