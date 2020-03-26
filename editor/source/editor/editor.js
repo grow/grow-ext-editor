@@ -6,6 +6,7 @@ import Config from '../utility/config'
 import Listeners from '../utility/listeners'
 import Document from './document'
 import EditorApi from './editorApi'
+import Menu from './menu/menu'
 import {
   html,
   render,
@@ -28,6 +29,7 @@ export default class Editor {
     this.containerEl = containerEl
     this.config = new Config(config || {})
     this.template = (editor, selective) => html`<div class="editor ${editor.stylesEditor}">
+      ${this.menu.template(editor)}
       ${editor.renderEditor(editor, selective)}
       ${editor.renderPreview(editor, selective)}
     </div>`
@@ -36,6 +38,10 @@ export default class Editor {
     const EditorApiCls = this.config.get('EditorApiCls', EditorApi)
     this.api = new EditorApiCls()
     this.listeners = new Listeners()
+
+    this.menu = new Menu({
+      testing: this.isTesting,
+    }, this)
 
     this._podPath = null
     this.podPath = this.containerEl.dataset.defaultPath || this.config.get('defaultPath', '')
@@ -392,6 +398,13 @@ export default class Editor {
     this.render()
   }
 
+  handleLoadPod(response) {
+    this._pod = response['pod']
+    this.listeners.trigger('load.pod', {
+      pod: this._pod,
+    })
+  }
+
   handleLoadPodPaths(response) {
     this._podPaths = response['pod_paths']
     this.listeners.trigger('load.podPaths', {
@@ -402,7 +415,7 @@ export default class Editor {
   handleLoadRoutes(response) {
     this._routes = response['routes']
     this.listeners.trigger('load.routes', {
-      pod_paths: this._routes,
+      routes: this._routes,
     })
   }
 
@@ -525,6 +538,15 @@ export default class Editor {
     this.api.getDocument(podPath).then(this.handleLoadFieldsResponse.bind(this))
   }
 
+  loadPod(force) {
+    if (!force && this._isLoading['pod']) {
+      // Already loading the pod paths, do not re-request.
+      return
+    }
+    this._isLoading['pod'] = true
+    this.api.getPod().then(this.handleLoadPod.bind(this))
+  }
+
   loadPodPaths(force) {
     if (!force && this._isLoading['podPaths']) {
       // Already loading the pod paths, do not re-request.
@@ -534,7 +556,12 @@ export default class Editor {
     this.api.getPodPaths().then(this.handleLoadPodPaths.bind(this))
   }
 
-  loadRepo() {
+  loadRepo(force) {
+    if (!force && this._isLoading['repo']) {
+      // Already loading the pod paths, do not re-request.
+      return
+    }
+    this._isLoading['repo'] = true
     this.api.getRepo().then(this.handleLoadRepo.bind(this))
   }
 

@@ -56,6 +56,17 @@ export default class EditorApi extends Api {
     return result.promise
   }
 
+  getPod() {
+    const result = new Defer()
+
+    this.request.get(this.apiPath('pod'))
+      .then((res) => {
+        result.resolve(res.body)
+      })
+
+    return result.promise
+  }
+
   getPodPaths() {
     const result = new Defer()
 
