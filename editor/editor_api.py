@@ -249,6 +249,14 @@ class PodApi(object):
             'partials': partials,
         }
 
+    def get_pod(self):
+        """Handle the request for pod information."""
+        self.data = {
+            'pod': {
+                'title': self.pod.podspec.title,
+            },
+        }
+
     def get_routes(self):
         """Handle the request for routing and meta info."""
         routes = {}
@@ -364,6 +372,9 @@ class PodApi(object):
         elif path == 'pod_paths':
             if method == 'GET':
                 self.get_pod_paths()
+        elif path == 'pod':
+            if method == 'GET':
+                self.get_pod()
         elif path == 'repo':
             if method == 'GET':
                 self.get_repo()

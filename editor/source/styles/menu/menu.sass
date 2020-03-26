@@ -1,0 +1,56 @@
+.menu
+  background-color: $ge-color-back
+  box-shadow: $ge-shadow-1
+  color: $ge-color-on-back
+  display: flex
+  flex-flow: row-reverse
+  max-height: 100vh
+  z-index: 10
+
+.menu__hamburger
+  cursor: pointer
+  padding: $ge-pad
+
+  &--hidden
+    display: none
+
+.menu__contents
+  display: flex
+  flex-flow: column
+  flex-grow: 1
+  justify-content: flex-start
+  min-width: $ge-menu-column-min-width
+  overflow-x: hidden
+  width: $ge-menu-column-width
+
+  &--hidden
+    display: none
+
+.menu__section
+  border-bottom: 1px solid $ge-color-back-light
+  padding: $ge-pad
+
+  &:last-child
+    border-bottom: none
+    flex-grow: 1
+    overflow-y: auto
+
+  a
+    color: inherit
+    text-decoration: none
+
+.menu__sub_menu
+  display: flex
+  flex-flow: row
+  overflow-x: hidden
+
+.menu__sub_menu__item
+  cursor: pointer
+  margin: $ge-pad/2
+  white-space: nowrap
+
+  &:first-child
+    margin-left: 0
+
+  &--selected
+    font-weight: 700

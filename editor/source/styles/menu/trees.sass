@@ -1,0 +1,45 @@
+.menu__trees
+  overflow-x: auto
+
+.menu__tree__filetree
+  .material-icons
+    font-size: $ge-font-size
+    margin-right: $ge-pad / 2
+
+.menu__tree__folder
+  margin: $ge-pad 0
+
+.menu__tree__label
+  padding: $ge-pad/2 $ge-pad
+
+.menu__tree__folder__level
+  margin-bottom: $ge-pad
+  margin-left: $ge-pad
+
+  .menu__tree__folder--collapsed &
+    display: none
+
+.menu__tree__folder__label
+  cursor: pointer
+  font-weight: 700
+  margin: $ge-pad/2 0
+
+.menu__tree__folder__label,
+.menu__tree__folder__file
+  align-items: center
+  border-radius: $ge-radius-2
+  display: flex
+  flex-flow: row
+
+.menu__tree__folder__file
+  padding: $ge-pad/2
+  border: $ge-border-size solid transparent
+  transition: all $ge-speed-fast ease-in-out
+
+  &:hover
+    border-color: $ge-color-back-light
+    cursor: pointer
+
+  &--selected
+    background-color: $ge-color-back-light
+    color: $ge-color-on-back

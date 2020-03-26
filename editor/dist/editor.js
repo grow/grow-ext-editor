@@ -47342,16 +47342,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utility_listeners__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utility/listeners */ "./source/utility/listeners.js");
 /* harmony import */ var _document__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./document */ "./source/editor/document.js");
 /* harmony import */ var _editorApi__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./editorApi */ "./source/editor/editorApi.js");
-/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
-/* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./autoFields */ "./source/editor/autoFields.js");
-/* harmony import */ var _field__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./field */ "./source/editor/field.js");
-/* harmony import */ var _zoomIframe__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./zoomIframe */ "./source/editor/zoomIframe.js");
-/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../utility/dom */ "./source/utility/dom.js");
-/* harmony import */ var _utility_expandObject__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../utility/expandObject */ "./source/utility/expandObject.js");
-/* harmony import */ var _utility_storage__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../utility/storage */ "./source/utility/storage.js");
+/* harmony import */ var _menu_menu__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./menu/menu */ "./source/editor/menu/menu.js");
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./autoFields */ "./source/editor/autoFields.js");
+/* harmony import */ var _field__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./field */ "./source/editor/field.js");
+/* harmony import */ var _zoomIframe__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./zoomIframe */ "./source/editor/zoomIframe.js");
+/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../utility/dom */ "./source/utility/dom.js");
+/* harmony import */ var _utility_expandObject__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../utility/expandObject */ "./source/utility/expandObject.js");
+/* harmony import */ var _utility_storage__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../utility/storage */ "./source/utility/storage.js");
 /**
  * Content editor.
  */
+
 
 
 
@@ -47370,15 +47372,19 @@ class Editor {
     this.containerEl = containerEl;
     this.config = new _utility_config__WEBPACK_IMPORTED_MODULE_0__["default"](config || {});
 
-    this.template = (editor, selective) => selective_edit__WEBPACK_IMPORTED_MODULE_4__["html"]`<div class="editor ${editor.stylesEditor}">
+    this.template = (editor, selective) => selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`<div class="editor ${editor.stylesEditor}">
+      ${this.menu.template(editor)}
       ${editor.renderEditor(editor, selective)}
       ${editor.renderPreview(editor, selective)}
     </div>`;
 
-    this.storage = new _utility_storage__WEBPACK_IMPORTED_MODULE_10__["default"](this.isTesting);
+    this.storage = new _utility_storage__WEBPACK_IMPORTED_MODULE_11__["default"](this.isTesting);
     const EditorApiCls = this.config.get('EditorApiCls', _editorApi__WEBPACK_IMPORTED_MODULE_3__["default"]);
     this.api = new EditorApiCls();
     this.listeners = new _utility_listeners__WEBPACK_IMPORTED_MODULE_1__["default"]();
+    this.menu = new _menu_menu__WEBPACK_IMPORTED_MODULE_4__["default"]({
+      testing: this.isTesting
+    }, this);
     this._podPath = null;
     this.podPath = this.containerEl.dataset.defaultPath || this.config.get('defaultPath', '');
     this.repo = null;
@@ -47417,14 +47423,14 @@ class Editor {
     this._routes = null; // Track the serving path of the iframe when it is different.
 
     this._unverifiedServingPath = null;
-    this.selective = new selective_edit__WEBPACK_IMPORTED_MODULE_4__["default"](null, {}); // Add the editor reference to the selective object for field access.
+    this.selective = new selective_edit__WEBPACK_IMPORTED_MODULE_5__["default"](null, {}); // Add the editor reference to the selective object for field access.
 
     this.selective.editor = this; // Load the selective editor preference for localize.
 
     this.selective.localize = this.storage.getItem('selective.localize') == 'true'; // Add the editor extension default field types.
 
-    for (const key of Object.keys(_field__WEBPACK_IMPORTED_MODULE_6__["defaultFields"])) {
-      this.selective.addFieldType(key, _field__WEBPACK_IMPORTED_MODULE_6__["defaultFields"][key]);
+    for (const key of Object.keys(_field__WEBPACK_IMPORTED_MODULE_7__["defaultFields"])) {
+      this.selective.addFieldType(key, _field__WEBPACK_IMPORTED_MODULE_7__["defaultFields"][key]);
     }
 
     this.bindEvents();
@@ -47528,12 +47534,12 @@ class Editor {
 
   get templateEditorOrSource() {
     if (this.isEditingSource) {
-      return selective_edit__WEBPACK_IMPORTED_MODULE_4__["html"]`<div class="editor__source">
+      return selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`<div class="editor__source">
         <textarea @input=${this.handleRawInput.bind(this)}>${this.document.rawFrontMatter}</textarea>
       </div>`;
     }
 
-    return selective_edit__WEBPACK_IMPORTED_MODULE_4__["html"]`<div class="editor__selective">
+    return selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`<div class="editor__selective">
       ${this.selective.template(this.selective, this.selective.data)}
     </div>`;
   }
@@ -47588,7 +47594,7 @@ class Editor {
   adjustIframeSize() {
     const iframeContainerEl = this.containerEl.querySelector('.editor__preview__frame');
     const iframeEl = this.containerEl.querySelector('.editor__preview iframe');
-    Object(_zoomIframe__WEBPACK_IMPORTED_MODULE_7__["zoomIframe"])(iframeContainerEl, iframeEl, this.isDeviceView, this.isDeviceRotated, this.devices[this.device], 'editor__preview__frame--contained');
+    Object(_zoomIframe__WEBPACK_IMPORTED_MODULE_8__["zoomIframe"])(iframeContainerEl, iframeEl, this.isDeviceView, this.isDeviceRotated, this.devices[this.device], 'editor__preview__frame--contained');
   }
 
   bindEvents() {
@@ -47688,7 +47694,7 @@ class Editor {
     for (const fieldConfig of fieldConfigs) {
       this.selective.addField(fieldConfig, {
         api: this.api,
-        AutoFieldsCls: _autoFields__WEBPACK_IMPORTED_MODULE_5__["default"]
+        AutoFieldsCls: _autoFields__WEBPACK_IMPORTED_MODULE_6__["default"]
       });
     } // Add the ability to edit the document body.
 
@@ -47716,6 +47722,13 @@ class Editor {
     this.render();
   }
 
+  handleLoadPod(response) {
+    this._pod = response['pod'];
+    this.listeners.trigger('load.pod', {
+      pod: this._pod
+    });
+  }
+
   handleLoadPodPaths(response) {
     this._podPaths = response['pod_paths'];
     this.listeners.trigger('load.podPaths', {
@@ -47726,7 +47739,7 @@ class Editor {
   handleLoadRoutes(response) {
     this._routes = response['routes'];
     this.listeners.trigger('load.routes', {
-      pod_paths: this._routes
+      routes: this._routes
     });
   }
 
@@ -47750,7 +47763,7 @@ class Editor {
   }
 
   handleDeviceSwitchClick(evt) {
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_8__["findParentByClassname"])(evt.target, 'editor__preview__size');
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_9__["findParentByClassname"])(evt.target, 'editor__preview__size');
     this.device = target.dataset.device;
     this.render();
   }
@@ -47840,6 +47853,16 @@ class Editor {
     this.api.getDocument(podPath).then(this.handleLoadFieldsResponse.bind(this));
   }
 
+  loadPod(force) {
+    if (!force && this._isLoading['pod']) {
+      // Already loading the pod paths, do not re-request.
+      return;
+    }
+
+    this._isLoading['pod'] = true;
+    this.api.getPod().then(this.handleLoadPod.bind(this));
+  }
+
   loadPodPaths(force) {
     if (!force && this._isLoading['podPaths']) {
       // Already loading the pod paths, do not re-request.
@@ -47850,7 +47873,13 @@ class Editor {
     this.api.getPodPaths().then(this.handleLoadPodPaths.bind(this));
   }
 
-  loadRepo() {
+  loadRepo(force) {
+    if (!force && this._isLoading['repo']) {
+      // Already loading the pod paths, do not re-request.
+      return;
+    }
+
+    this._isLoading['repo'] = true;
     this.api.getRepo().then(this.handleLoadRepo.bind(this));
   }
 
@@ -47890,7 +47919,7 @@ class Editor {
 
     this._isRendering = true;
     const isClean = this.isClean;
-    Object(selective_edit__WEBPACK_IMPORTED_MODULE_4__["render"])(this.template(this, this.selective), this.containerEl); // Check for clean changes not caught.
+    Object(selective_edit__WEBPACK_IMPORTED_MODULE_5__["render"])(this.template(this, this.selective), this.containerEl); // Check for clean changes not caught.
 
     if (this.isClean != isClean) {
       this._isRendering = false;
@@ -47922,12 +47951,12 @@ class Editor {
   }
 
   renderEditor(editor, selective) {
-    return selective_edit__WEBPACK_IMPORTED_MODULE_4__["html"]`<div class="editor__edit">
+    return selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`<div class="editor__edit">
       <div class="editor__pod_path">
         <input type="text" value="${editor.podPath}"
           @change=${editor.handlePodPathChange.bind(editor)}
           @input=${editor.handlePodPathInput.bind(editor)}>
-        ${editor.document.locales.length > 1 ? selective_edit__WEBPACK_IMPORTED_MODULE_4__["html"]`<i class="material-icons" @click=${editor.handleLocalize.bind(editor)} title="Localize content">translate</i>` : ''}
+        ${editor.document.locales.length > 1 ? selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`<i class="material-icons" @click=${editor.handleLocalize.bind(editor)} title="Localize content">translate</i>` : ''}
         <i class="material-icons" @click=${editor.handleFullScreenClick.bind(editor)} title="Fullscreen">${editor.isFullScreen ? 'fullscreen_exit' : 'fullscreen'}</i>
       </div>
       <div class="editor__cards">
@@ -47967,8 +47996,8 @@ class Editor {
     let previewSizes = '';
 
     if (editor.isDeviceView) {
-      previewSizes = selective_edit__WEBPACK_IMPORTED_MODULE_4__["html"]`<div class="editor__preview__sizes">
-        ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_4__["repeat"])(Object.entries(this.devices), device => device[0], (device, index) => selective_edit__WEBPACK_IMPORTED_MODULE_4__["html"]`
+      previewSizes = selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`<div class="editor__preview__sizes">
+        ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_5__["repeat"])(Object.entries(this.devices), device => device[0], (device, index) => selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`
           <div
               class="editor__preview__size ${editor.device == device[0] ? 'editor__preview__size--selected' : ''}"
               data-device="${device[0]}"
@@ -47981,14 +48010,14 @@ class Editor {
       </div>`;
     }
 
-    return selective_edit__WEBPACK_IMPORTED_MODULE_4__["html"]`<div class="editor__preview">
+    return selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`<div class="editor__preview">
       <div class="editor__preview__header">
         <div class="editor__preview__header__label">
           Preview
         </div>
         ${previewSizes}
         <div class="editor__preview__header__icons">
-          ${editor.isFullScreen ? '' : selective_edit__WEBPACK_IMPORTED_MODULE_4__["html"]`
+          ${editor.isFullScreen ? '' : selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`
             <i class="material-icons" @click=${editor.handleDeviceToggleClick.bind(editor)} title="Toggle device view">devices</i>
             <i class="material-icons editor--device-only" @click=${editor.handleDeviceRotateClick.bind(editor)} title="Rotate device view">screen_rotation</i>
           `}
@@ -48112,6 +48141,14 @@ class EditorApi extends _utility_api__WEBPACK_IMPORTED_MODULE_0__["default"] {
   getPartials() {
     const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
     this.request.get(this.apiPath('partials')).then(res => {
+      result.resolve(res.body);
+    });
+    return result.promise;
+  }
+
+  getPod() {
+    const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
+    this.request.get(this.apiPath('pod')).then(res => {
       result.resolve(res.body);
     });
     return result.promise;
@@ -49388,6 +49425,603 @@ class TextareaField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"]
 
 /***/ }),
 
+/***/ "./source/editor/menu/base.js":
+/*!************************************!*\
+  !*** ./source/editor/menu/base.js ***!
+  \************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return MenuBase; });
+/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../utility/config */ "./source/utility/config.js");
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var _utility_storage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/storage */ "./source/utility/storage.js");
+/**
+ * Content editor.
+ */
+
+
+
+class MenuBase {
+  constructor(config) {
+    this.config = new _utility_config__WEBPACK_IMPORTED_MODULE_0__["default"](config || {});
+    this.storage = new _utility_storage__WEBPACK_IMPORTED_MODULE_2__["default"](this.isTesting);
+  }
+
+  get isTesting() {
+    return this.config.get('testing', false);
+  }
+
+  render() {
+    // Trigger a render event.
+    document.dispatchEvent(new CustomEvent('selective.render'));
+  }
+
+}
+
+/***/ }),
+
+/***/ "./source/editor/menu/filetree.js":
+/*!****************************************!*\
+  !*** ./source/editor/menu/filetree.js ***!
+  \****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return FileTreeMenu; });
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
+/* harmony import */ var _utility_uuid__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/uuid */ "./source/utility/uuid.js");
+/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./base */ "./source/editor/menu/base.js");
+/**
+ * Content editor.
+ */
+
+
+
+
+class FileTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
+  constructor(config) {
+    super(config);
+    this.podPath = null;
+    this.expandedFolders = [];
+  }
+
+  get template() {
+    return (editor, menuState, eventHandlers) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      ${this.renderTree(editor, menuState, eventHandlers)}`;
+  }
+
+  _addPodPathFolderAsExpanded(podPath) {
+    let podPathParts = podPath.split('/');
+    podPathParts.pop();
+    const podPathFolder = podPathParts.join('/');
+
+    if (!this.expandedFolders.includes(podPathFolder)) {
+      this.expandedFolders.push(podPathFolder);
+    }
+  }
+
+  handleFileClick(evt) {
+    const podPath = evt.target.dataset.podPath;
+    document.dispatchEvent(new CustomEvent('selective.path.update', {
+      detail: {
+        path: podPath
+      }
+    }));
+  }
+
+  handleFolderToggle(evt) {
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'menu__tree__folder__label');
+    const folder = target.dataset.folder;
+
+    if (this.expandedFolders.includes(folder)) {
+      this.expandedFolders = this.expandedFolders.filter(item => item !== folder);
+    } else {
+      this.expandedFolders.push(folder);
+    }
+
+    this.render();
+  }
+
+  renderTree(editor, menuState, eventHandlers) {
+    if (!menuState.podPaths) {
+      // Editor handles multiple call resolution.
+      editor.loadPodPaths();
+      return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="editor__loading" title="Loading..."></div>`;
+    } // Pod path has changed, make sure that the pod path folder is
+    // expanded by default. Can still be toggled by clicking folder.
+
+
+    if (menuState.podPath && this.podPath != menuState.podPath) {
+      this.podPath = menuState.podPath;
+
+      this._addPodPathFolderAsExpanded(this.podPath);
+    }
+
+    const folderStructure = new FolderStructure(menuState.podPaths, '/');
+    return folderStructure.render(this.podPath, this.expandedFolders, {
+      handleFolderToggle: this.handleFolderToggle.bind(this),
+      handleFileClick: this.handleFileClick.bind(this)
+    });
+  }
+
+}
+
+class FolderStructure {
+  constructor(podPaths, folder, folderBase) {
+    this.uid = Object(_utility_uuid__WEBPACK_IMPORTED_MODULE_2__["default"])();
+    this.folderInfo = {
+      folder: folder || '/',
+      folderBase: folderBase,
+      folders: [],
+      files: []
+    };
+    let prefix = this.folderInfo.folder; // Make sure the prefix ends with a /.
+
+    if (!prefix.endsWith('/')) {
+      prefix += '/';
+    }
+
+    const subFolders = [];
+
+    for (const podPath of podPaths) {
+      if (podPath.startsWith(prefix)) {
+        const subPath = podPath.slice(prefix.length);
+        const subPathParts = subPath.split('/');
+
+        if (subPathParts.length > 1) {
+          const subFolder = subPathParts[0];
+
+          if (subFolders.includes(subFolder)) {
+            continue;
+          }
+
+          subFolders.push(subFolder);
+          this.folderInfo.folders.push(new FolderStructure(podPaths, `${prefix}${subFolder}`, subFolder));
+        } else {
+          const fileName = subPathParts[0];
+          const fileExt = fileName.split('.').pop();
+          const fileBase = fileName.slice(0, fileName.length - fileExt.length - 1);
+          this.folderInfo.files.push({
+            fileName: fileName,
+            fileBase: fileBase,
+            fileExt: fileExt
+          });
+        }
+      }
+    }
+  }
+
+  render(podPath, expandedFolders, eventHandlers) {
+    const folder = this.folderInfo.folder;
+    const level = folder == '/' ? 0 : folder.split('/').length - 1;
+    const classes = ['menu__tree__folder'];
+    const isExpanded = level <= 1 || expandedFolders.includes(folder);
+    const threshold = 1;
+    const filePrefix = `${folder == '/' ? '' : folder}/`;
+
+    if (!isExpanded) {
+      classes.push('menu__tree__folder--collapsed');
+    }
+
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class=${classes.join(' ')}>
+      ${level > threshold ? selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+          <div class="menu__tree__folder__label" data-folder=${folder} @click=${eventHandlers.handleFolderToggle}>
+            <i class="material-icons">${isExpanded ? 'expand_more' : 'expand_less'}</i>
+            ${this.folderInfo.folderBase}
+          </div>` : ''}
+      <div class=${level > threshold ? 'menu__tree__folder__level' : ''}>
+        <div class=${level > threshold ? 'menu__tree__folder__folder' : ''}>
+          ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(this.folderInfo.folders, folder => folder.uid, (folder, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+            ${folder.render(podPath, expandedFolders, eventHandlers)}`)}
+        </div>
+        <div class=${level > threshold ? 'menu__tree__folder__files' : ''}>
+          ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(this.folderInfo.files, file => `${filePrefix}${file.fileName}`, (file, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+            <div
+                class="menu__tree__folder__file ${podPath == `${filePrefix}${file.fileName}` ? 'menu__tree__folder__file--selected' : ''}"
+                data-pod-path=${`${filePrefix}${file.fileName}`}
+                @click=${eventHandlers.handleFileClick}>
+              <i class="material-icons">notes</i>
+              ${file.fileBase}
+            </div>`)}
+        </div>
+      </div>
+    </div>`;
+  }
+
+}
+
+/***/ }),
+
+/***/ "./source/editor/menu/menu.js":
+/*!************************************!*\
+  !*** ./source/editor/menu/menu.js ***!
+  \************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Menu; });
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
+/* harmony import */ var _utility_filter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/filter */ "./source/utility/filter.js");
+/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./base */ "./source/editor/menu/base.js");
+/* harmony import */ var _repo__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./repo */ "./source/editor/menu/repo.js");
+/* harmony import */ var _site__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./site */ "./source/editor/menu/site.js");
+/* harmony import */ var _tree__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./tree */ "./source/editor/menu/tree.js");
+/**
+ * Content editor.
+ */
+
+
+
+
+
+
+
+class Menu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
+  constructor(config, editor) {
+    super(config);
+    this.editor = editor;
+    this._isOpen = this.storage.getItem('selective.menu.open') == 'true';
+    this._repoMenu = new _repo__WEBPACK_IMPORTED_MODULE_4__["default"]({
+      testing: this.isTesting
+    });
+    this._siteMenu = new _site__WEBPACK_IMPORTED_MODULE_5__["default"]({
+      testing: this.isTesting
+    });
+    this._treeMenu = new _tree__WEBPACK_IMPORTED_MODULE_6__["default"]({
+      testing: this.isTesting
+    });
+    this._state = {
+      pod: null,
+      podPath: editor.podPath,
+      podPaths: null,
+      repo: null
+    };
+    this.filterFunc = this.config.get('filterFunc') || Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createWhiteBlackFilter"])([/\/content\//, /\/podspec.yaml/], // Whitelist.
+    [] // Blacklist.
+    );
+    this.bindEvents();
+  }
+
+  get template() {
+    return editor => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="menu">
+      ${this._isOpen ? this.renderOpenedMenu(editor) : this.renderClosedMenu(editor)}
+    </div>`;
+  }
+
+  bindEvents() {
+    this.editor.listeners.add('podPath', this.handlePodPathChange.bind(this));
+    this.editor.listeners.add('load.pod', this.handlePodChange.bind(this));
+    this.editor.listeners.add('load.podPaths', this.handleLoadPodPaths.bind(this));
+    this.editor.listeners.add('load.repo', this.handleLoadRepo.bind(this));
+  }
+
+  handleLoadPodPaths(response) {
+    this._state.podPaths = response.pod_paths.sort().filter(this.filterFunc);
+    this.render();
+  }
+
+  handleLoadRepo(response) {
+    this._state.repo = response.repo;
+    this.render();
+  }
+
+  handlePodChange(response) {
+    this._state.pod = response.pod;
+    this.render();
+  }
+
+  handlePodPathChange(podPath) {
+    this._state.podPath = podPath;
+  }
+
+  handleToggleMenu(evt) {
+    this._isOpen = !this._isOpen;
+    this.storage.setItem('selective.menu.open', this._isOpen);
+    this.render();
+  }
+
+  renderClosedMenu(editor) {
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <div
+          class="menu__hamburger"
+          @click=${this.handleToggleMenu.bind(this)}
+          title="Open menu">
+        <i class="material-icons">menu</i>
+      </div>`;
+  }
+
+  renderOpenedMenu(editor) {
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+    <div class="app__menu__contents">
+      ${this._siteMenu.template(editor, this._state, {
+      toggleMenu: this.handleToggleMenu.bind(this)
+    })}
+      ${this._repoMenu.template(editor, this._state, {})}
+      ${this._treeMenu.template(editor, this._state, {})}
+    </div>`;
+  }
+
+}
+
+/***/ }),
+
+/***/ "./source/editor/menu/repo.js":
+/*!************************************!*\
+  !*** ./source/editor/menu/repo.js ***!
+  \************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return RepoMenu; });
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
+/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./base */ "./source/editor/menu/base.js");
+/**
+ * Content editor.
+ */
+
+
+
+class RepoMenu extends _base__WEBPACK_IMPORTED_MODULE_2__["default"] {
+  get template() {
+    return (editor, menuState, eventHandlers) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="menu__section">
+      <div class="menu__repo">
+        <div class="menu__repo__info">
+          ${this.renderBranch(editor, menuState, eventHandlers)}
+        </div>
+      </div>
+    </div>`;
+  }
+
+  renderBranch(editor, menuState, eventHandlers) {
+    editor.loadRepo();
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <div class="menu__repo__label">
+        Branch:
+      </div>
+      <div class="menu__repo__name">
+        ${menuState.repo ? selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+            <a
+                href=${menuState.repo.web_url}
+                target="_blank">
+              ${menuState.repo.branch} @ ${menuState.repo.commits[0].sha.substring(0, 6)}
+            </a>` : selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`…`}
+      </div>`;
+  }
+
+}
+
+/***/ }),
+
+/***/ "./source/editor/menu/site.js":
+/*!************************************!*\
+  !*** ./source/editor/menu/site.js ***!
+  \************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return SiteMenu; });
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
+/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./base */ "./source/editor/menu/base.js");
+/**
+ * Content editor.
+ */
+
+
+
+class SiteMenu extends _base__WEBPACK_IMPORTED_MODULE_2__["default"] {
+  constructor(config) {
+    super(config);
+    this._isOpen = this.storage.getItem('selective.menu.open') == 'true';
+  }
+
+  get template() {
+    return (editor, menuState, eventHandlers) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="menu__section">
+      <div class="menu__site">
+        <div class="menu__site__title">${this.renderSiteTitle(editor, menuState, eventHandlers)}</div>
+        <i class="material-icons" @click=${eventHandlers.toggleMenu} title="Close menu">
+          close
+        </i>
+      </div>
+    </div>`;
+  }
+
+  renderSiteTitle(editor, menuState, eventHandlers) {
+    if (!menuState.pod) {
+      editor.loadPod();
+      return 'Site';
+    }
+
+    return menuState.pod.title;
+  }
+
+}
+
+/***/ }),
+
+/***/ "./source/editor/menu/sitetree.js":
+/*!****************************************!*\
+  !*** ./source/editor/menu/sitetree.js ***!
+  \****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return SiteTreeMenu; });
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
+/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./base */ "./source/editor/menu/base.js");
+/**
+ * Content editor.
+ */
+
+
+
+class SiteTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_2__["default"] {
+  get template() {
+    return (editor, menuState, eventHandlers) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`sitetree`;
+  }
+
+}
+
+/***/ }),
+
+/***/ "./source/editor/menu/submenu.js":
+/*!***************************************!*\
+  !*** ./source/editor/menu/submenu.js ***!
+  \***************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return SubMenu; });
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
+/* harmony import */ var _utility_listeners__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/listeners */ "./source/utility/listeners.js");
+/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./base */ "./source/editor/menu/base.js");
+/**
+ * Content editor.
+ */
+
+
+
+
+class SubMenu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
+  constructor(config) {
+    super(config);
+    this.items = this.config.get('items', []);
+    this.selected = this.storage.getItem('selective.menu.tree') || this.items[0];
+    this.listeners = new _utility_listeners__WEBPACK_IMPORTED_MODULE_2__["default"]();
+  }
+
+  get template() {
+    return editor => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <div class="menu__section">
+        <div class="menu__sub_menu">
+          ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(this.items, item => item, (item, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+            <div
+                class="menu__sub_menu__item ${this.selected == item ? 'menu__sub_menu__item--selected' : ''}"
+                data-item=${item}
+                @click=${this.handleChange.bind(this)}>
+              ${item}
+            </div>`)}
+        </div>
+      </div>`;
+  }
+
+  handleChange(evt) {
+    this.selected = evt.target.dataset.item;
+    this.storage.setItem('selective.menu.tree', this.selected);
+    this.listeners.trigger('change', this.selected);
+    this.render();
+  }
+
+}
+
+/***/ }),
+
+/***/ "./source/editor/menu/tree.js":
+/*!************************************!*\
+  !*** ./source/editor/menu/tree.js ***!
+  \************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TreeMenu; });
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
+/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./base */ "./source/editor/menu/base.js");
+/* harmony import */ var _submenu__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./submenu */ "./source/editor/menu/submenu.js");
+/* harmony import */ var _filetree__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./filetree */ "./source/editor/menu/filetree.js");
+/* harmony import */ var _sitetree__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./sitetree */ "./source/editor/menu/sitetree.js");
+/**
+ * Content editor.
+ */
+
+
+
+
+
+
+class TreeMenu extends _base__WEBPACK_IMPORTED_MODULE_2__["default"] {
+  constructor(config) {
+    super(config);
+    this._subMenu = new _submenu__WEBPACK_IMPORTED_MODULE_3__["default"]({
+      testing: this.isTesting,
+      items: [// 'Sitemap',
+      'Filetree'],
+      storageKey: 'selective.menu.tree'
+    });
+    this._fileTreeMenu = new _filetree__WEBPACK_IMPORTED_MODULE_4__["default"]({
+      testing: this.isTesting
+    });
+    this._siteTreeMenu = new _sitetree__WEBPACK_IMPORTED_MODULE_5__["default"]({
+      testing: this.isTesting
+    });
+    this.selected = this._subMenu.selected;
+
+    this._subMenu.listeners.add('change', this.handleSubMenuSwitch.bind(this));
+  }
+
+  get template() {
+    return (editor, menuState, eventHandlers) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      ${this._subMenu.template(editor)}
+      ${this.renderTree(editor, menuState, eventHandlers)}`;
+  }
+
+  handleSubMenuSwitch(selected) {
+    this.selected = selected;
+    this.render();
+  }
+
+  renderTree(editor, menuState, eventHandlers) {
+    let treeClass = '';
+    let treeMenu = null;
+
+    switch (this.selected) {
+      case 'Filetree':
+        treeClass = 'menu__tree__filetree';
+        treeMenu = this._fileTreeMenu;
+        break;
+
+      case 'Sitemap':
+        treeClass = 'menu__tree__sitemap';
+        treeMenu = this._siteTreeMenu;
+        break;
+    }
+
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <div class="menu__section">
+        <div class="menu__trees">
+          <div class="menu__tree ${treeClass}">
+            ${treeMenu.template(editor, menuState, eventHandlers)}
+          </div>
+        </div>
+      </div>`;
+  }
+
+}
+
+/***/ }),
+
 /***/ "./source/editor/ui/file.js":
 /*!**********************************!*\
   !*** ./source/editor/ui/file.js ***!
@@ -50107,6 +50741,34 @@ class Throttle {
   }
 
 }
+
+/***/ }),
+
+/***/ "./source/utility/uuid.js":
+/*!********************************!*\
+  !*** ./source/utility/uuid.js ***!
+  \********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/**
+ * UUID Generator for JS.
+ */
+const generateUUID = () => {
+  let array = new Uint32Array(8);
+  window.crypto.getRandomValues(array);
+  let str = '';
+
+  for (let i = 0; i < array.length; i++) {
+    str += (i < 2 || i > 5 ? '' : '-') + array[i].toString(16).slice(-4);
+  }
+
+  return str;
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (generateUUID);
 
 /***/ })
 
