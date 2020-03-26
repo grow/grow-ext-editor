@@ -45045,18 +45045,6 @@ module.exports = Array.isArray || function (arr) {
 
 /***/ }),
 
-/***/ "./node_modules/pell/dist/pell.min.js":
-/*!********************************************!*\
-  !*** ./node_modules/pell/dist/pell.min.js ***!
-  \********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-!function(t,e){ true?e(exports):undefined}(this,function(t){"use strict";var e=Object.assign||function(t){for(var e=1;e<arguments.length;e++){var n=arguments[e];for(var r in n)Object.prototype.hasOwnProperty.call(n,r)&&(t[r]=n[r])}return t},c="defaultParagraphSeparator",l="formatBlock",a=function(t,e,n){return t.addEventListener(e,n)},s=function(t,e){return t.appendChild(e)},d=function(t){return document.createElement(t)},n=function(t){return document.queryCommandState(t)},f=function(t){var e=1<arguments.length&&void 0!==arguments[1]?arguments[1]:null;return document.execCommand(t,!1,e)},p={bold:{icon:"<b>B</b>",title:"Bold",state:function(){return n("bold")},result:function(){return f("bold")}},italic:{icon:"<i>I</i>",title:"Italic",state:function(){return n("italic")},result:function(){return f("italic")}},underline:{icon:"<u>U</u>",title:"Underline",state:function(){return n("underline")},result:function(){return f("underline")}},strikethrough:{icon:"<strike>S</strike>",title:"Strike-through",state:function(){return n("strikeThrough")},result:function(){return f("strikeThrough")}},heading1:{icon:"<b>H<sub>1</sub></b>",title:"Heading 1",result:function(){return f(l,"<h1>")}},heading2:{icon:"<b>H<sub>2</sub></b>",title:"Heading 2",result:function(){return f(l,"<h2>")}},paragraph:{icon:"&#182;",title:"Paragraph",result:function(){return f(l,"<p>")}},quote:{icon:"&#8220; &#8221;",title:"Quote",result:function(){return f(l,"<blockquote>")}},olist:{icon:"&#35;",title:"Ordered List",result:function(){return f("insertOrderedList")}},ulist:{icon:"&#8226;",title:"Unordered List",result:function(){return f("insertUnorderedList")}},code:{icon:"&lt;/&gt;",title:"Code",result:function(){return f(l,"<pre>")}},line:{icon:"&#8213;",title:"Horizontal Line",result:function(){return f("insertHorizontalRule")}},link:{icon:"&#128279;",title:"Link",result:function(){var t=window.prompt("Enter the link URL");t&&f("createLink",t)}},image:{icon:"&#128247;",title:"Image",result:function(){var t=window.prompt("Enter the image URL");t&&f("insertImage",t)}}},m={actionbar:"pell-actionbar",button:"pell-button",content:"pell-content",selected:"pell-button-selected"},r=function(n){var t=n.actions?n.actions.map(function(t){return"string"==typeof t?p[t]:p[t.name]?e({},p[t.name],t):t}):Object.keys(p).map(function(t){return p[t]}),r=e({},m,n.classes),i=n[c]||"div",o=d("div");o.className=r.actionbar,s(n.element,o);var u=n.element.content=d("div");return u.contentEditable=!0,u.className=r.content,u.oninput=function(t){var e=t.target.firstChild;e&&3===e.nodeType?f(l,"<"+i+">"):"<br>"===u.innerHTML&&(u.innerHTML=""),n.onChange(u.innerHTML)},u.onkeydown=function(t){var e;"Enter"===t.key&&"blockquote"===(e=l,document.queryCommandValue(e))&&setTimeout(function(){return f(l,"<"+i+">")},0)},s(n.element,u),t.forEach(function(t){var e=d("button");if(e.className=r.button,e.innerHTML=t.icon,e.title=t.title,e.setAttribute("type","button"),e.onclick=function(){return t.result()&&u.focus()},t.state){var n=function(){return e.classList[t.state()?"add":"remove"](r.selected)};a(u,"keyup",n),a(u,"mouseup",n),a(e,"click",n)}s(o,e)}),n.styleWithCSS&&f("styleWithCSS"),f(c,i),n.element},i={exec:f,init:r};t.exec=f,t.init=r,t.default=i,Object.defineProperty(t,"__esModule",{value:!0})});
-
-
-/***/ }),
-
 /***/ "./node_modules/superagent/lib/agent-base.js":
 /*!***************************************************!*\
   !*** ./node_modules/superagent/lib/agent-base.js ***!
@@ -49063,8 +49051,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
 /* harmony import */ var _toast_ui_editor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @toast-ui/editor */ "./node_modules/@toast-ui/editor/dist/toastui-editor.js");
 /* harmony import */ var _toast_ui_editor__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_toast_ui_editor__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var pell__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! pell */ "./node_modules/pell/dist/pell.min.js");
-/* harmony import */ var pell__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(pell__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _tui_editor_externalLink__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../tui-editor/externalLink */ "./source/editor/tui-editor/externalLink.js");
 /**
  * Standard field types for the editor extension.
  */
@@ -49201,7 +49188,10 @@ class HtmlField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
               }
             },
             hideModeSwitch: true,
-            placeholder: this.config.placeholder || ''
+            placeholder: this.config.placeholder || '',
+            plugins: [_tui_editor_externalLink__WEBPACK_IMPORTED_MODULE_3__["default"]],
+            // Need custom list since the external link needs to replace normal link.
+            toolbarItems: ['heading', 'bold', 'italic', 'strike', 'divider', 'hr', 'quote', 'divider', 'ul', 'ol', 'task', 'indent', 'outdent', 'divider', 'table', 'image', 'divider', 'code', 'codeblock']
           });
           editorEl.editor.setHtml(value || '');
         } else if (this.isClean) {// editorEl.editor.setHtml(value || '')
@@ -50024,6 +50014,120 @@ class TreeMenu extends _base__WEBPACK_IMPORTED_MODULE_2__["default"] {
   }
 
 }
+
+/***/ }),
+
+/***/ "./source/editor/tui-editor/externalLink.js":
+/*!**************************************************!*\
+  !*** ./source/editor/tui-editor/externalLink.js ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/**
+ * Custom extension for external linking.
+ */
+const ExternalLink = function (editor, preset) {
+  const className = 'tui-link';
+  const toolbar = editor.getUI().getToolbar();
+  const {
+    i18n
+  } = editor;
+  const EVENT_NAME = 'externalLinkButtonClicked';
+  const wwEditor = editor.wwEditor; // Register Event
+
+  editor.eventManager.addEventType(EVENT_NAME); // Add Button to tool bar.
+
+  toolbar.insertItem(16, {
+    type: 'button',
+    options: {
+      name,
+      className,
+      event: EVENT_NAME,
+      tooltip: 'External Link'
+    }
+  }); // Create popup.
+
+  const POPUP_CONTENT = `
+    <label for="url">${i18n.get('URL')}</label>
+    <input type="text" class="te-url-input"/>
+
+    <label for="linkText">${i18n.get('Link text')}</label>
+    <input type="text" class="te-link-text-input" />
+
+    <label for="target">
+      <input type="checkbox" name="target" class="te-link-target-external"> Open in new window?
+    </label>
+    <div class="te-button-section">
+      <button type="button" class="te-ok-button" style="width: 100px">${i18n.get('OK')}</button>
+      <button type="button" class="te-close-button" style="width: 100px">${i18n.get('Cancel')}</button>
+    </div>`;
+  const URL_REGEX = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})(\/([^\s]*))?$/;
+  const popupElement = document.createElement('DIV');
+  popupElement.innerHTML = POPUP_CONTENT;
+  const popup = editor.getUI().createPopup({
+    header: true,
+    title: "Insert Link",
+    content: popupElement,
+    className: 'te-popup-add-link tui-editor-popup',
+    target: editor.getUI().getToolbar().el
+  });
+  const inputUrlElement = popup.el.querySelector('.te-url-input');
+  const inputTextElement = popup.el.querySelector('.te-link-text-input');
+  const inputTargetElement = popup.el.querySelector('.te-link-target-external'); // Handle okay button
+
+  popup.el.querySelector('.te-ok-button').addEventListener('click', () => {
+    wwEditor.editor.focus();
+    wwEditor.editor.removeAllFormatting();
+    let link = `<a data-external="false" href="${inputUrlElement.value}">${inputTextElement.value}</a>`;
+
+    if (inputTargetElement.checked) {
+      link = `<a data-external="true" target="_blank" rel="noopener noreferrer" href="${inputUrlElement.value}">${inputTextElement.value}</a>`;
+    }
+
+    const linkWrap = document.createElement('span');
+    linkWrap.innerHTML = link;
+    wwEditor.editor.replaceSelection('');
+    wwEditor.editor.insertElement(linkWrap);
+    popup.hide();
+  }); // Hanlde close button
+
+  popup.el.querySelector('.te-close-button').addEventListener('click', () => {
+    popup.hide();
+  }); // Handle Event.
+
+  editor.eventManager.listen(EVENT_NAME, () => {
+    if (popup.isShow()) {
+      popup.hide();
+      return;
+    }
+
+    editor.eventManager.emit('closeAllPopup');
+    popup.show(); // Reset all input fields.
+
+    inputUrlElement.value = '';
+    inputTextElement.value = ''; // Initially populate input fields.
+
+    const selectedText = editor.getSelectedText().trim();
+    inputTextElement.value = selectedText;
+
+    if (URL_REGEX.exec(selectedText)) {
+      inputUrlElement.value = selectedText;
+    }
+
+    inputUrlElement.focus();
+  });
+  editor.eventManager.listen('closeAllPopup', () => {
+    popup.hide();
+  });
+  editor.eventManager.listen('removeEditor', () => {
+    popup.remove();
+  });
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (ExternalLink);
 
 /***/ }),
 

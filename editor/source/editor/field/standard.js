@@ -12,7 +12,7 @@ import {
   inputFocusAtPosition,
 } from '../../utility/dom'
 import Editor from '@toast-ui/editor'
-import pell from 'pell'
+import ExternalLink from '../tui-editor/externalLink'
 
 
 export class CheckboxField extends Field {
@@ -147,6 +147,29 @@ export class HtmlField extends Field {
             },
             hideModeSwitch: true,
             placeholder: this.config.placeholder || '',
+            plugins: [ExternalLink],
+            // Need custom list since the external link needs to replace normal link.
+            toolbarItems: [
+              'heading',
+              'bold',
+              'italic',
+              'strike',
+              'divider',
+              'hr',
+              'quote',
+              'divider',
+              'ul',
+              'ol',
+              'task',
+              'indent',
+              'outdent',
+              'divider',
+              'table',
+              'image',
+              'divider',
+              'code',
+              'codeblock',
+            ]
           })
           editorEl.editor.setHtml(value || '')
         } else if (this.isClean) {
