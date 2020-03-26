@@ -49911,6 +49911,11 @@ class SubMenu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
   }
 
   get template() {
+    // Do not show when the length is not long enough.
+    if (!this.items.length < 2) {
+      return editor => '';
+    }
+
     return editor => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
       <div class="menu__section">
         <div class="menu__sub_menu">
