@@ -49981,8 +49981,8 @@ class TreeMenu extends _base__WEBPACK_IMPORTED_MODULE_2__["default"] {
     super(config);
     this._subMenu = new _submenu__WEBPACK_IMPORTED_MODULE_3__["default"]({
       testing: this.isTesting,
-      items: [// 'Sitemap',
-      'Filetree'],
+      items: ['Filetree' // 'Sitemap',
+      ],
       storageKey: 'selective.menu.tree'
     });
     this._fileTreeMenu = new _filetree__WEBPACK_IMPORTED_MODULE_4__["default"]({

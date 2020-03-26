@@ -21,8 +21,8 @@ export default class TreeMenu extends MenuBase {
     this._subMenu = new SubMenu({
       testing: this.isTesting,
       items: [
-        // 'Sitemap',
         'Filetree',
+        // 'Sitemap',
       ],
       storageKey: 'selective.menu.tree',
     })
