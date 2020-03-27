@@ -10,7 +10,6 @@ import {
 import { findParentByClassname } from '../../utility/dom'
 import {
   createWhiteBlackFilter,
-  createValueFilter,
 } from '../../utility/filter'
 import MenuBase from './base'
 import RepoMenu from './repo'
@@ -37,6 +36,7 @@ export default class Menu extends MenuBase {
       podPath: editor.podPath,
       podPaths: null,
       repo: null,
+      routes: null,
     }
 
     this.filterFunc = this.config.get('filterFunc') || createWhiteBlackFilter(
@@ -60,6 +60,7 @@ export default class Menu extends MenuBase {
     this.editor.listeners.add('load.pod', this.handlePodChange.bind(this))
     this.editor.listeners.add('load.podPaths', this.handleLoadPodPaths.bind(this))
     this.editor.listeners.add('load.repo', this.handleLoadRepo.bind(this))
+    this.editor.listeners.add('load.routes', this.handleLoadRoutes.bind(this))
   }
 
   handleLoadPodPaths(response) {
@@ -69,6 +70,11 @@ export default class Menu extends MenuBase {
 
   handleLoadRepo(response) {
     this._state.repo = response.repo
+    this.render()
+  }
+
+  handleLoadRoutes(response) {
+    this._state.routes = response.routes
     this.render()
   }
 
