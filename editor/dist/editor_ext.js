@@ -1156,6 +1156,48 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
     this.render();
   }
 
+  handleDeleteItem(evt) {
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_7__["findParentByClassname"])(evt.target, 'selective__list__item__delete');
+    const uid = target.dataset.itemUid;
+    const locale = target.dataset.locale;
+    const listItems = this._getListItemsForLocale(locale) || [];
+    const value = this.getValueForLocale(locale) || [];
+    let deleteIndex = -1;
+
+    for (const index in listItems) {
+      if (listItems[index].uid == uid) {
+        deleteIndex = index;
+        break;
+      }
+    }
+
+    if (deleteIndex > -1) {
+      listItems.splice(deleteIndex, 1);
+      value.splice(deleteIndex, 1); // Lock the fields to prevent the values from being updated at the same
+      // time as the original value.
+
+      const downstreamItems = listItems.slice(deleteIndex);
+
+      for (const listItem of downstreamItems) {
+        listItem.fields.lock();
+      } // Unlock fields after rendering is complete to let the values be updated when clean.
+
+
+      document.addEventListener('selective.render.complete', () => {
+        for (const listItem of downstreamItems) {
+          listItem.fields.unlock();
+        }
+
+        this.render();
+      }, {
+        once: true
+      }); // Prevent the delete from bubbling.
+
+      evt.stopPropagation();
+      this.render();
+    }
+  }
+
   handleExpandAll(evt) {
     const locale = evt.target.dataset.locale;
     const listItems = this._getListItemsForLocale(locale) || [];
@@ -1185,29 +1227,6 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
       }
     }
 
-    this.render();
-  }
-
-  handleDeleteItem(evt) {
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_7__["findParentByClassname"])(evt.target, 'selective__list__item__delete');
-    const uid = target.dataset.itemUid;
-    const locale = target.dataset.locale;
-    const listItems = this._getListItemsForLocale(locale) || [];
-    let deleteIndex = -1;
-
-    for (const index in listItems) {
-      if (listItems[index].uid == uid) {
-        deleteIndex = index;
-        break;
-      }
-    }
-
-    if (deleteIndex > -1) {
-      listItems.splice(deleteIndex, 1);
-    } // Prevent the delete from bubbling.
-
-
-    evt.stopPropagation();
     this.render();
   }
 
