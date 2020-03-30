@@ -931,7 +931,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const COMMON_PREVIEW_KEYS = [// First match wins.
-'title', 'label', 'subtitle', 'type', 'key', 'id', 'url', 'value'];
+'title', 'label', 'subtitle', 'type', 'text', 'key', 'id', 'url', 'value', 'doc'];
 class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
   constructor(config, globalConfig) {
     super(config, globalConfig);
