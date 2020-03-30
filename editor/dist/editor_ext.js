@@ -1368,12 +1368,12 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
     this._createItems(selective, data, locale);
 
     const items = this._getListItemsForLocale(locale) || [];
-    const value = this.getOriginalValueForLocale(locale) || [];
-    const valueLen = value.length;
+    const origValue = this.getOriginalValueForLocale(locale) || [];
+    const origValueLen = origValue.length;
     return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
       <div class="selective__list ${this._useAutoFields ? 'selective__list--auto' : ''}">
-        ${Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__["repeat"])(items, item => item.uid, (item, index) => this.renderItem(selective, index < valueLen ? value[index] : item.fields.defaultValue, item, index, locale))}
-        ${valueLen < 1 && items.length < 1 ? this.renderItemEmpty(selective, data, 0, locale) : ''}
+        ${Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__["repeat"])(items, item => item.uid, (item, index) => this.renderItem(selective, index < origValueLen ? origValue[index] : item.fields.defaultValue, item, index, locale))}
+        ${items.length < 1 ? this.renderItemEmpty(selective, data, 0, locale) : ''}
       </div>
       ${this.renderActionsFooter(selective, data, locale)}`;
   }
