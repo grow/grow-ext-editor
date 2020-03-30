@@ -639,9 +639,6 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compos
       return json_stable_stringify__WEBPACK_IMPORTED_MODULE_1__(this.value) == json_stable_stringify__WEBPACK_IMPORTED_MODULE_1__(this.originalValue);
     }
 
-    console.log(this.originalValue == this.value);
-    console.log(this.originalValue);
-    console.log(this.value);
     return this.originalValue == this.value;
   }
 
