@@ -619,6 +619,8 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compos
   }
 
   get isClean() {
+    // Manual locking prevents the original value overwriting the value
+    // in special cases when it should not.
     if (this._isLocked) {
       return false;
     }
@@ -637,6 +639,9 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compos
       return json_stable_stringify__WEBPACK_IMPORTED_MODULE_1__(this.value) == json_stable_stringify__WEBPACK_IMPORTED_MODULE_1__(this.originalValue);
     }
 
+    console.log(this.originalValue == this.value);
+    console.log(this.originalValue);
+    console.log(this.value);
     return this.originalValue == this.value;
   }
 
@@ -47701,6 +47706,7 @@ class Editor {
     this.pushState(this.document.podPath); // Set the data from the document front matter.
 
     this.selective.data = this.document.data;
+    this.selective.config.set('locales', this.document.locales);
     this.selective.fields.reset(); // Load the field configuration from the response.
 
     let fieldConfigs = response['editor']['fields'] || []; // If no fields defined, guess.
@@ -49202,6 +49208,15 @@ class HtmlField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
     this.fieldType = 'html';
+  } // Original values may extra blank space.
+
+
+  _cleanOriginalValue(value) {
+    if (value) {
+      value = value.trim();
+    }
+
+    return value;
   }
 
   renderInput(selective, data, locale) {

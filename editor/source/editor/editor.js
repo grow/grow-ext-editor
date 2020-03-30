@@ -346,6 +346,7 @@ export default class Editor {
 
     // Set the data from the document front matter.
     this.selective.data = this.document.data
+    this.selective.config.set('locales', this.document.locales)
     this.selective.fields.reset()
 
     // Load the field configuration from the response.

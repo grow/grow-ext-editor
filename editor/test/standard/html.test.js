@@ -12,10 +12,10 @@ const editorConfig = {
     }
   ]
 }
-const defaultEn = '<div>But why is the toilet paper gone?</div>'
-const defaultEs = '<div>¿Pero por qué se fue el papel higiénico?</div>'
-let newValueEn = '<div>Toilet paper is the new gold currency.</div>'
-let newValueEs = '<div>El papel higiénico es la nueva moneda de oro.</div>'
+const defaultEn = '<p>But why is the toilet paper gone?</p>'
+const defaultEs = '<p>¿Pero por qué se fue el papel higiénico?</p>'
+let newValueEn = '<p>Toilet paper is the new gold currency.</p>'
+let newValueEs = '<p>El papel higiénico es la nueva moneda de oro.</p>'
 let newValueTypeEn = 'Toilet paper is the new gold currency.'
 let newValueTypeEs = 'El papel higiénico es la nueva moneda de oro.'
 
