@@ -930,6 +930,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+const COMMON_PREVIEW_KEYS = [// First match wins.
+'title', 'label', 'subtitle', 'type', 'key', 'id', 'url', 'value'];
 class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
   constructor(config, globalConfig) {
     super(config, globalConfig);
@@ -1078,9 +1080,10 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
     const previewType = this.config.get('preview_type', 'text');
     const previewField = item.config.preview_field;
     let previewValue = item.fields.value;
+    const dataDeepObject = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_8__["autoDeepObject"])(previewValue);
 
     if (previewField || defaultPreviewField) {
-      previewValue = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_8__["autoDeepObject"])(previewValue).get(previewField || defaultPreviewField);
+      previewValue = dataDeepObject.get(previewField || defaultPreviewField);
     } // Do not try to show preview for complex values.
 
 
@@ -1095,7 +1098,20 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
       }
     }
 
-    return previewValue || defaultPreview || `{ Item ${index + 1} }`;
+    if (previewValue || defaultPreview) {
+      return previewValue || defaultPreview;
+    } // Check the data for some of the commong preview field key names.
+
+
+    for (const key of COMMON_PREVIEW_KEYS) {
+      previewValue = dataDeepObject.get(key);
+
+      if (previewValue) {
+        return previewValue;
+      }
+    }
+
+    return `{ Item ${index + 1} }`;
   }
 
   handleAddItem(evt, selective) {
