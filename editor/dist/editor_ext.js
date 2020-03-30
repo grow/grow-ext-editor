@@ -821,7 +821,7 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compos
     const isClean = this.isClean;
     this.isLocalized = selective.localize;
     this.defaultLocale = selective.config.defaultLocale || 'en';
-    this.locales = selective.config.locales || ['en', 'es']; // Certain formats in the data may need to be cleaned up
+    this.locales = selective.config.locales || ['en']; // Certain formats in the data may need to be cleaned up
 
     newValue = this._cleanOriginalValue(newValue); // Copy the array to prevent shared array.
 
@@ -949,14 +949,16 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
 
   _createItems(selective, data, locale) {
     const value = this.getValueForLocale(locale) || [];
-    const localeKey = this.keyForLocale(locale);
 
-    const listItems = this._getListItemsForLocale(locale);
+    let listItems = this._getListItemsForLocale(locale); // Null is used to make sure that the list is not just empty.
+    // Empty list --> deleted all items.
 
-    if (listItems.length > 0 || !value.length) {
+
+    if (listItems != null || !value.length) {
       return;
-    } // Use the config to find the field configs.
+    }
 
+    listItems = []; // Use the config to find the field configs.
 
     let fieldConfigs = this.config.get('fields', []);
     this._useAutoFields = !fieldConfigs.length;
@@ -986,7 +988,9 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
       listItems.push(new ListItem({
         'fields': fieldConfigs
       }, fields));
-    } // Trigger a new render to make sure the expand/collapse buttons show.
+    }
+
+    this._setListItemsForLocale(locale, listItems); // Trigger a new render to make sure the expand/collapse buttons show.
 
 
     if (listItems.length > 1) {
@@ -998,7 +1002,9 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
     const localeKey = this.keyForLocale(locale);
 
     if (!this._listItems[localeKey]) {
-      this._listItems[localeKey] = [];
+      // Need to be able to tell when the current value is an empty array.
+      // This would happen when you delete all items in a list.
+      return null;
     }
 
     return this._listItems[localeKey];
@@ -1016,11 +1022,11 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
       const listItems = this._getListItemsForLocale(locale); // Check for a change in length.
 
 
-      if (listItems.length > 0 && originalValue && originalValue.length != listItems.length) {
+      if (Array.isArray(listItems) && originalValue && originalValue.length != listItems.length) {
         return false;
       }
 
-      for (const item of listItems) {
+      for (const item of listItems || []) {
         if (!item.fields.isClean) {
           return false;
         }
@@ -1049,7 +1055,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
   }
 
   get value() {
-    const listItems = this._getListItemsForLocale();
+    const listItems = this._getListItemsForLocale() || [];
 
     if (!listItems.length) {
       return this.originalValue;
@@ -1094,8 +1100,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
 
   handleAddItem(evt, selective) {
     const locale = evt.target.dataset.locale;
-
-    const listItems = this._getListItemsForLocale(locale);
+    const listItems = this._getListItemsForLocale(locale) || [];
 
     const fields = this._createFields(selective.fieldTypes); // Use the field config for the list items to create the correct field types.
 
@@ -1127,8 +1132,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
 
   handleCollapseAll(evt) {
     const locale = evt.target.dataset.locale;
-
-    const listItems = this._getListItemsForLocale(locale);
+    const listItems = this._getListItemsForLocale(locale) || [];
 
     for (const item of listItems) {
       item.isExpanded = false;
@@ -1140,8 +1144,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
   handleCollapseItem(evt) {
     const uid = evt.target.dataset.itemUid;
     const locale = evt.target.dataset.locale;
-
-    const listItems = this._getListItemsForLocale(locale);
+    const listItems = this._getListItemsForLocale(locale) || [];
 
     for (const item of listItems) {
       if (item.uid == uid) {
@@ -1155,8 +1158,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
 
   handleExpandAll(evt) {
     const locale = evt.target.dataset.locale;
-
-    const listItems = this._getListItemsForLocale(locale);
+    const listItems = this._getListItemsForLocale(locale) || [];
 
     for (const item of listItems) {
       item.isExpanded = true;
@@ -1174,8 +1176,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
 
     const uid = target.dataset.itemUid;
     const locale = target.dataset.locale;
-
-    const listItems = this._getListItemsForLocale(locale);
+    const listItems = this._getListItemsForLocale(locale) || [];
 
     for (const item of listItems) {
       if (item.uid == uid) {
@@ -1191,9 +1192,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
     const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_7__["findParentByClassname"])(evt.target, 'selective__list__item__delete');
     const uid = target.dataset.itemUid;
     const locale = target.dataset.locale;
-
-    const listItems = this._getListItemsForLocale(locale);
-
+    const listItems = this._getListItemsForLocale(locale) || [];
     let deleteIndex = -1;
 
     for (const index in listItems) {
@@ -1205,8 +1204,10 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
 
     if (deleteIndex > -1) {
       listItems.splice(deleteIndex, 1);
-    }
+    } // Prevent the delete from bubbling.
 
+
+    evt.stopPropagation();
     this.render();
   }
 
@@ -1216,9 +1217,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
     const locale = target.dataset.locale; // Rework the arrays to have the items in the correct position.
 
     const newListItems = [];
-
-    const oldListItems = this._getListItemsForLocale(locale);
-
+    const oldListItems = this._getListItemsForLocale(locale) || [];
     const maxIndex = Math.max(endIndex, startIndex);
     const minIndex = Math.min(endIndex, startIndex); // Determine which direction to shift misplaced items.
 
@@ -1286,8 +1285,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
     } // Check list items for specific conditions.
 
 
-    const listItems = this._getListItemsForLocale(locale);
-
+    const listItems = this._getListItemsForLocale(locale) || [];
     let areSimpleFields = true;
     let areAllExpanded = true;
     let areAllCollapsed = true;
@@ -1334,8 +1332,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
   renderInput(selective, data, locale) {
     this._createItems(selective, data, locale);
 
-    const items = this._getListItemsForLocale(locale);
-
+    const items = this._getListItemsForLocale(locale) || [];
     const value = this.getOriginalValueForLocale(locale) || [];
     const valueLen = value.length;
     return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
@@ -48924,12 +48921,13 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListFie
     const value = this.getValueForLocale(locale) || [];
     const localeKey = this.keyForLocale(locale);
 
-    const listItems = this._getListItemsForLocale(locale);
+    let listItems = this._getListItemsForLocale(locale);
 
-    if (listItems.length > 0 || !value.length || !this.partialTypes) {
+    if (listItems != null || !value.length || !this.partialTypes) {
       return;
     }
 
+    listItems = [];
     const AutoFieldsCls = this.config.get('AutoFieldsCls', _autoFields__WEBPACK_IMPORTED_MODULE_1__["default"]);
     const ListItemCls = this.config.get('ListItemCls', selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListItem"]);
 
@@ -48962,7 +48960,9 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListFie
       }
 
       listItems.push(new ListItemCls(partialConfig, fields));
-    } // Trigger a new render to make sure the expand/collapse buttons show.
+    }
+
+    this._setListItemsForLocale(locale, listItems); // Trigger a new render to make sure the expand/collapse buttons show.
 
 
     if (listItems.length > 1) {
@@ -48979,8 +48979,7 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListFie
 
     const partialConfig = this.getPartialConfig(partialKey);
     const locale = evt.target.dataset.locale;
-
-    const listItems = this._getListItemsForLocale(locale);
+    const listItems = this._getListItemsForLocale(locale) || [];
 
     const fields = this._createFields(selective.fieldTypes);
 

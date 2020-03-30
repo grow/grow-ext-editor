@@ -46,11 +46,13 @@ export class PartialsField extends ListField {
   _createItems(selective, data, locale) {
     const value = this.getValueForLocale(locale) || []
     const localeKey = this.keyForLocale(locale)
-    const listItems = this._getListItemsForLocale(locale)
+    let listItems = this._getListItemsForLocale(locale)
 
-    if (listItems.length > 0 || !value.length || !this.partialTypes) {
+    if (listItems != null || !value.length || !this.partialTypes) {
       return
     }
+
+    listItems = []
 
     const AutoFieldsCls = this.config.get('AutoFieldsCls', EditorAutoFields)
     const ListItemCls = this.config.get('ListItemCls', ListItem)
@@ -87,6 +89,8 @@ export class PartialsField extends ListField {
       listItems.push(new ListItemCls(partialConfig, fields))
     }
 
+    this._setListItemsForLocale(locale, listItems)
+
     // Trigger a new render to make sure the expand/collapse buttons show.
     if (listItems.length > 1) {
       this.render()
@@ -102,7 +106,7 @@ export class PartialsField extends ListField {
 
     const partialConfig = this.getPartialConfig(partialKey)
     const locale = evt.target.dataset.locale
-    const listItems = this._getListItemsForLocale(locale)
+    const listItems = this._getListItemsForLocale(locale) || []
     const fields = this._createFields(selective.fieldTypes)
     fields.label = partialConfig.label || partialKey
 
