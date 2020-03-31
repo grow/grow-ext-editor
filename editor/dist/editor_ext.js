@@ -49253,7 +49253,7 @@ class HtmlField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
             placeholder: this.config.placeholder || '',
             plugins: [_tui_editor_externalLink__WEBPACK_IMPORTED_MODULE_3__["default"]],
             // Need custom list since the external link needs to replace normal link.
-            toolbarItems: ['heading', 'bold', 'italic', 'strike', 'divider', 'hr', 'quote', 'divider', 'ul', 'ol', 'task', 'indent', 'outdent', 'divider', 'table', 'image', 'divider', 'code', 'codeblock']
+            toolbarItems: ['heading', 'bold', 'italic', 'strike', 'divider', 'quote', 'divider', 'ul', 'ol', 'indent', 'outdent', 'divider', 'table']
           });
           editorEl.editor.setHtml(value || '');
         } else if (this.isClean) {// editorEl.editor.setHtml(value || '')

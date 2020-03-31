@@ -163,20 +163,14 @@ export class HtmlField extends Field {
               'italic',
               'strike',
               'divider',
-              'hr',
               'quote',
               'divider',
               'ul',
               'ol',
-              'task',
               'indent',
               'outdent',
               'divider',
               'table',
-              'image',
-              'divider',
-              'code',
-              'codeblock',
             ]
           })
           editorEl.editor.setHtml(value || '')
