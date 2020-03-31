@@ -47870,7 +47870,7 @@ class Editor {
   }
 
   handleSaveResponse(response, isAutosave) {
-    this.document.update(response['pod_path'], response['front_matter'], response['raw_front_matter'], response['serving_paths'], response['default_locale'], response['locales'], response['content'], response['hash']);
+    this.updateDocumentFromResponse(response);
     this.selective.data = this.document.data;
     this._isSaving = false;
     this.listeners.trigger('save.response', response, isAutosave);
@@ -48094,7 +48094,7 @@ class Editor {
         result.then(response => this.handleSaveResponse(response, isAutosave));
         result.catch(err => this.handleSaveError(err));
       } else {
-        this.document.update(response['pod_path'], response['front_matter'], response['raw_front_matter'], response['serving_paths'], response['default_locale'], response['locales'], response['content'], response['hash']); // Updating the selective data keeps any 'dirty' field values.
+        this.updateDocumentFromResponse(response); // Updating the selective data keeps any 'dirty' field values.
         // Rendering allows all the original values to be updated.
 
         this.selective.data = this.document.data;
@@ -48123,6 +48123,10 @@ class Editor {
     if (this.autosaveID) {
       window.clearInterval(this.autosaveID);
     }
+  }
+
+  updateDocumentFromResponse(response) {
+    this.document.update(response['pod_path'], response['front_matter'], response['raw_front_matter'], response['serving_paths'], response['default_locale'], response['locales'], response['content'], response['hash']);
   }
 
   verifyPreviewIframe() {
