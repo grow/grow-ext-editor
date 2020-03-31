@@ -243,7 +243,7 @@ export default class Editor {
   }
 
   set podPath(value) {
-    this._podPath = value
+    this._podPath = value.trim()
     this.listeners.trigger('podPath', this._podPath)
   }
 
