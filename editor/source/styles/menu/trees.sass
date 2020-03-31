@@ -1,7 +1,8 @@
 .menu__trees
   overflow-x: auto
 
-.menu__tree__filetree
+.menu__tree__filetree,
+.menu__tree__sitetree
   .material-icons
     font-size: $ge-font-size
     margin-right: $ge-pad / 2
@@ -34,7 +35,7 @@
 .menu__tree__folder__file
   padding: $ge-pad/2
   border: $ge-border-size solid transparent
-  transition: all $ge-speed-fast ease-in-out
+  transition: all $ge-speed-faster ease-in-out
 
   &:hover
     border-color: $ge-color-back-light

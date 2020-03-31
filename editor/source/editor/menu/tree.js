@@ -22,7 +22,7 @@ export default class TreeMenu extends MenuBase {
       testing: this.isTesting,
       items: [
         'Filetree',
-        // 'Sitemap',
+        'Sitemap',
       ],
       storageKey: 'selective.menu.tree',
     })
@@ -57,7 +57,7 @@ export default class TreeMenu extends MenuBase {
         treeMenu = this._fileTreeMenu
         break
       case 'Sitemap':
-        treeClass = 'menu__tree__sitemap'
+        treeClass = 'menu__tree__sitetree'
         treeMenu = this._siteTreeMenu
         break
     }

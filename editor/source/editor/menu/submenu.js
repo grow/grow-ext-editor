@@ -23,7 +23,7 @@ export default class SubMenu extends MenuBase {
 
   get template() {
     // Do not show when the length is not long enough.
-    if (!this.items.length < 2) {
+    if (this.items.length < 2) {
       return (editor) => ''
     }
 

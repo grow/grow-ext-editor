@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack:///./source/composite/editor_ext_styles.sass"],"names":[],"mappings":"AAAA,EAAE,sBAAsB,KAAK,SAAS,U","file":"editor_ext_styles.min.css","sourcesContent":["*{box-sizing:border-box}body{margin:0;padding:0}"],"sourceRoot":""}

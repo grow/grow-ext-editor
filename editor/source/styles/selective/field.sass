@@ -28,9 +28,15 @@
   flex-flow: row
 
 .selective__field__help
-  color: $ge-color-text-light
   font-size: $ge-font-size-small
   margin: $ge-pad/2
+
+  // Alternate with nesting.
+  +list-nesting
+    color: $ge-color-on-field-back-alt-light
+
+  +list-nesting-alt
+    color: $ge-color-on-field-back-light
 
 [draggable=true]
   &.selective__sortable--hover

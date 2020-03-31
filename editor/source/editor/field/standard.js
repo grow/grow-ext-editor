@@ -117,6 +117,14 @@ export class HtmlField extends Field {
     this.fieldType = 'html'
   }
 
+  // Original values may extra blank space.
+  _cleanOriginalValue(value) {
+    if (value) {
+      value = value.trim()
+    }
+    return value
+  }
+
   renderInput(selective, data, locale) {
     const value = this.getValueForLocale(locale) || ''
     return html`

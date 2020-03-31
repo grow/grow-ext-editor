@@ -33,6 +33,9 @@ def serve_editor(pod, _request, matched, meta=None, **_kwargs):
         'pod': pod,
         'meta': meta,
         'path': matched.params['path'] if 'path' in matched.params else '',
+        'env': {
+            'is_local': 'development' if '/Users/' in os.getenv('PATH', '') else 'production',
+        }
     }
     env = create_jinja_env()
     template = env.get_template('/base.html')

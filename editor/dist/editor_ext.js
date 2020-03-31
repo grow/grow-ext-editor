@@ -619,6 +619,8 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compos
   }
 
   get isClean() {
+    // Manual locking prevents the original value overwriting the value
+    // in special cases when it should not.
     if (this._isLocked) {
       return false;
     }
@@ -821,7 +823,7 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compos
     const isClean = this.isClean;
     this.isLocalized = selective.localize;
     this.defaultLocale = selective.config.defaultLocale || 'en';
-    this.locales = selective.config.locales || ['en', 'es']; // Certain formats in the data may need to be cleaned up
+    this.locales = selective.config.locales || ['en']; // Certain formats in the data may need to be cleaned up
 
     newValue = this._cleanOriginalValue(newValue); // Copy the array to prevent shared array.
 
@@ -930,6 +932,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+const COMMON_PREVIEW_KEYS = [// First match wins.
+'title', 'label', 'subtitle', 'type', 'text', 'key', 'id', 'url', 'value', 'doc'];
 class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
   constructor(config, globalConfig) {
     super(config, globalConfig);
@@ -949,14 +953,16 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
 
   _createItems(selective, data, locale) {
     const value = this.getValueForLocale(locale) || [];
-    const localeKey = this.keyForLocale(locale);
 
-    const listItems = this._getListItemsForLocale(locale);
+    let listItems = this._getListItemsForLocale(locale); // Null is used to make sure that the list is not just empty.
+    // Empty list --> deleted all items.
 
-    if (listItems.length > 0 || !value.length) {
+
+    if (listItems != null || !value.length) {
       return;
-    } // Use the config to find the field configs.
+    }
 
+    listItems = []; // Use the config to find the field configs.
 
     let fieldConfigs = this.config.get('fields', []);
     this._useAutoFields = !fieldConfigs.length;
@@ -986,7 +992,9 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
       listItems.push(new ListItem({
         'fields': fieldConfigs
       }, fields));
-    } // Trigger a new render to make sure the expand/collapse buttons show.
+    }
+
+    this._setListItemsForLocale(locale, listItems); // Trigger a new render to make sure the expand/collapse buttons show.
 
 
     if (listItems.length > 1) {
@@ -998,7 +1006,9 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
     const localeKey = this.keyForLocale(locale);
 
     if (!this._listItems[localeKey]) {
-      this._listItems[localeKey] = [];
+      // Need to be able to tell when the current value is an empty array.
+      // This would happen when you delete all items in a list.
+      return null;
     }
 
     return this._listItems[localeKey];
@@ -1016,11 +1026,11 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
       const listItems = this._getListItemsForLocale(locale); // Check for a change in length.
 
 
-      if (listItems.length > 0 && originalValue && originalValue.length != listItems.length) {
+      if (Array.isArray(listItems) && originalValue && originalValue.length != listItems.length) {
         return false;
       }
 
-      for (const item of listItems) {
+      for (const item of listItems || []) {
         if (!item.fields.isClean) {
           return false;
         }
@@ -1049,7 +1059,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
   }
 
   get value() {
-    const listItems = this._getListItemsForLocale();
+    const listItems = this._getListItemsForLocale() || [];
 
     if (!listItems.length) {
       return this.originalValue;
@@ -1072,9 +1082,10 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
     const previewType = this.config.get('preview_type', 'text');
     const previewField = item.config.preview_field;
     let previewValue = item.fields.value;
+    const dataDeepObject = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_8__["autoDeepObject"])(previewValue);
 
     if (previewField || defaultPreviewField) {
-      previewValue = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_8__["autoDeepObject"])(previewValue).get(previewField || defaultPreviewField);
+      previewValue = dataDeepObject.get(previewField || defaultPreviewField);
     } // Do not try to show preview for complex values.
 
 
@@ -1089,13 +1100,25 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
       }
     }
 
-    return previewValue || defaultPreview || `{ Item ${index + 1} }`;
+    if (previewValue || defaultPreview) {
+      return previewValue || defaultPreview;
+    } // Check the data for some of the commong preview field key names.
+
+
+    for (const key of COMMON_PREVIEW_KEYS) {
+      previewValue = dataDeepObject.get(key);
+
+      if (previewValue) {
+        return previewValue;
+      }
+    }
+
+    return `{ Item ${index + 1} }`;
   }
 
   handleAddItem(evt, selective) {
     const locale = evt.target.dataset.locale;
-
-    const listItems = this._getListItemsForLocale(locale);
+    const listItems = this._getListItemsForLocale(locale) || [];
 
     const fields = this._createFields(selective.fieldTypes); // Use the field config for the list items to create the correct field types.
 
@@ -1127,8 +1150,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
 
   handleCollapseAll(evt) {
     const locale = evt.target.dataset.locale;
-
-    const listItems = this._getListItemsForLocale(locale);
+    const listItems = this._getListItemsForLocale(locale) || [];
 
     for (const item of listItems) {
       item.isExpanded = false;
@@ -1140,8 +1162,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
   handleCollapseItem(evt) {
     const uid = evt.target.dataset.itemUid;
     const locale = evt.target.dataset.locale;
-
-    const listItems = this._getListItemsForLocale(locale);
+    const listItems = this._getListItemsForLocale(locale) || [];
 
     for (const item of listItems) {
       if (item.uid == uid) {
@@ -1153,10 +1174,51 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
     this.render();
   }
 
+  handleDeleteItem(evt) {
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_7__["findParentByClassname"])(evt.target, 'selective__list__item__delete');
+    const uid = target.dataset.itemUid;
+    const locale = target.dataset.locale;
+    const listItems = this._getListItemsForLocale(locale) || [];
+    const value = this.getValueForLocale(locale) || [];
+    let deleteIndex = -1;
+
+    for (const index in listItems) {
+      if (listItems[index].uid == uid) {
+        deleteIndex = index;
+        break;
+      }
+    }
+
+    if (deleteIndex > -1) {
+      listItems.splice(deleteIndex, 1);
+      value.splice(deleteIndex, 1); // Lock the fields to prevent the values from being updated at the same
+      // time as the original value.
+
+      const downstreamItems = listItems.slice(deleteIndex);
+
+      for (const listItem of downstreamItems) {
+        listItem.fields.lock();
+      } // Unlock fields after rendering is complete to let the values be updated when clean.
+
+
+      document.addEventListener('selective.render.complete', () => {
+        for (const listItem of downstreamItems) {
+          listItem.fields.unlock();
+        }
+
+        this.render();
+      }, {
+        once: true
+      }); // Prevent the delete from bubbling.
+
+      evt.stopPropagation();
+      this.render();
+    }
+  }
+
   handleExpandAll(evt) {
     const locale = evt.target.dataset.locale;
-
-    const listItems = this._getListItemsForLocale(locale);
+    const listItems = this._getListItemsForLocale(locale) || [];
 
     for (const item of listItems) {
       item.isExpanded = true;
@@ -1174,8 +1236,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
 
     const uid = target.dataset.itemUid;
     const locale = target.dataset.locale;
-
-    const listItems = this._getListItemsForLocale(locale);
+    const listItems = this._getListItemsForLocale(locale) || [];
 
     for (const item of listItems) {
       if (item.uid == uid) {
@@ -1187,38 +1248,13 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
     this.render();
   }
 
-  handleDeleteItem(evt) {
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_7__["findParentByClassname"])(evt.target, 'selective__list__item__delete');
-    const uid = target.dataset.itemUid;
-    const locale = target.dataset.locale;
-
-    const listItems = this._getListItemsForLocale(locale);
-
-    let deleteIndex = -1;
-
-    for (const index in listItems) {
-      if (listItems[index].uid == uid) {
-        deleteIndex = index;
-        break;
-      }
-    }
-
-    if (deleteIndex > -1) {
-      listItems.splice(deleteIndex, 1);
-    }
-
-    this.render();
-  }
-
   handleSort(startIndex, endIndex, dropTarget) {
     // Find the locale from the drop target.
     const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_7__["findParentByClassname"])(dropTarget, 'selective__list__item');
     const locale = target.dataset.locale; // Rework the arrays to have the items in the correct position.
 
     const newListItems = [];
-
-    const oldListItems = this._getListItemsForLocale(locale);
-
+    const oldListItems = this._getListItemsForLocale(locale) || [];
     const maxIndex = Math.max(endIndex, startIndex);
     const minIndex = Math.min(endIndex, startIndex); // Determine which direction to shift misplaced items.
 
@@ -1286,8 +1322,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
     } // Check list items for specific conditions.
 
 
-    const listItems = this._getListItemsForLocale(locale);
-
+    const listItems = this._getListItemsForLocale(locale) || [];
     let areSimpleFields = true;
     let areAllExpanded = true;
     let areAllCollapsed = true;
@@ -1334,14 +1369,13 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
   renderInput(selective, data, locale) {
     this._createItems(selective, data, locale);
 
-    const items = this._getListItemsForLocale(locale);
-
-    const value = this.getOriginalValueForLocale(locale) || [];
-    const valueLen = value.length;
+    const items = this._getListItemsForLocale(locale) || [];
+    const origValue = this.getOriginalValueForLocale(locale) || [];
+    const origValueLen = origValue.length;
     return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
       <div class="selective__list ${this._useAutoFields ? 'selective__list--auto' : ''}">
-        ${Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__["repeat"])(items, item => item.uid, (item, index) => this.renderItem(selective, index < valueLen ? value[index] : item.fields.defaultValue, item, index, locale))}
-        ${valueLen < 1 && items.length < 1 ? this.renderItemEmpty(selective, data, 0, locale) : ''}
+        ${Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__["repeat"])(items, item => item.uid, (item, index) => this.renderItem(selective, index < origValueLen ? origValue[index] : item.fields.defaultValue, item, index, locale))}
+        ${items.length < 1 ? this.renderItemEmpty(selective, data, 0, locale) : ''}
       </div>
       ${this.renderActionsFooter(selective, data, locale)}`;
   }
@@ -47288,9 +47322,9 @@ class Document {
     this.rawFrontMatter = rawFrontMatter;
     this._rawFrontMatter = rawFrontMatter;
     this.servingPaths = servingPaths;
-    this.defaultLocale = defaultLocale;
-    this.locale = defaultLocale;
-    this.locales = locales || [];
+    this.defaultLocale = defaultLocale || 'en';
+    this.locale = this.defaultLocale;
+    this.locales = locales || [this.defaultLocale];
     this.content = content;
   }
 
@@ -47320,9 +47354,9 @@ class Document {
     this.frontMatter = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_0__["autoDeepObject"])(frontMatter);
     this.rawFrontMatter = rawFrontMatter;
     this.servingPaths = servingPaths;
-    this.defaultLocale = defaultLocale;
-    this.locale = defaultLocale;
-    this.locales = locales || [];
+    this.defaultLocale = defaultLocale || 'en';
+    this.locale = this.defaultLocale;
+    this.locales = locales || [this.defaultLocale];
     this.content = content;
     this._rawFrontMatter = rawFrontMatter;
   }
@@ -47672,6 +47706,8 @@ class Editor {
     this.pushState(this.document.podPath); // Set the data from the document front matter.
 
     this.selective.data = this.document.data;
+    this.selective.config.set('defaultLocale', this.document.defaultLocale);
+    this.selective.config.set('locales', this.document.locales);
     this.selective.fields.reset(); // Load the field configuration from the response.
 
     let fieldConfigs = response['editor']['fields'] || []; // If no fields defined, guess.
@@ -48912,12 +48948,13 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListFie
     const value = this.getValueForLocale(locale) || [];
     const localeKey = this.keyForLocale(locale);
 
-    const listItems = this._getListItemsForLocale(locale);
+    let listItems = this._getListItemsForLocale(locale);
 
-    if (listItems.length > 0 || !value.length || !this.partialTypes) {
+    if (listItems != null || !value.length || !this.partialTypes) {
       return;
     }
 
+    listItems = [];
     const AutoFieldsCls = this.config.get('AutoFieldsCls', _autoFields__WEBPACK_IMPORTED_MODULE_1__["default"]);
     const ListItemCls = this.config.get('ListItemCls', selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListItem"]);
 
@@ -48950,7 +48987,9 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListFie
       }
 
       listItems.push(new ListItemCls(partialConfig, fields));
-    } // Trigger a new render to make sure the expand/collapse buttons show.
+    }
+
+    this._setListItemsForLocale(locale, listItems); // Trigger a new render to make sure the expand/collapse buttons show.
 
 
     if (listItems.length > 1) {
@@ -48967,8 +49006,7 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListFie
 
     const partialConfig = this.getPartialConfig(partialKey);
     const locale = evt.target.dataset.locale;
-
-    const listItems = this._getListItemsForLocale(locale);
+    const listItems = this._getListItemsForLocale(locale) || [];
 
     const fields = this._createFields(selective.fieldTypes);
 
@@ -49170,6 +49208,15 @@ class HtmlField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
     this.fieldType = 'html';
+  } // Original values may extra blank space.
+
+
+  _cleanOriginalValue(value) {
+    if (value) {
+      value = value.trim();
+    }
+
+    return value;
   }
 
   renderInput(selective, data, locale) {
@@ -49482,9 +49529,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
 /* harmony import */ var _utility_uuid__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/uuid */ "./source/utility/uuid.js");
 /* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./base */ "./source/editor/menu/base.js");
+/* harmony import */ var _folderStructure__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./folderStructure */ "./source/editor/menu/folderStructure.js");
 /**
  * Content editor.
  */
+
 
 
 
@@ -49512,7 +49561,8 @@ class FileTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
   }
 
   handleFileClick(evt) {
-    const podPath = evt.target.dataset.podPath;
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'menu__tree__folder__file');
+    const podPath = target.dataset.podPath;
     document.dispatchEvent(new CustomEvent('selective.path.update', {
       detail: {
         path: podPath
@@ -49548,17 +49598,38 @@ class FileTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
       this._addPodPathFolderAsExpanded(this.podPath);
     }
 
-    const folderStructure = new FolderStructure(menuState.podPaths, '/');
+    const folderStructure = new _folderStructure__WEBPACK_IMPORTED_MODULE_4__["default"](menuState.podPaths, '/');
     return folderStructure.render(this.podPath, this.expandedFolders, {
       handleFolderToggle: this.handleFolderToggle.bind(this),
       handleFileClick: this.handleFileClick.bind(this)
-    });
+    }, 1);
   }
 
 }
 
+/***/ }),
+
+/***/ "./source/editor/menu/folderStructure.js":
+/*!***********************************************!*\
+  !*** ./source/editor/menu/folderStructure.js ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return FolderStructure; });
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
+/* harmony import */ var _utility_uuid__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/uuid */ "./source/utility/uuid.js");
+/**
+ * Folder like structure for displaying paths.
+ */
+
+
+
 class FolderStructure {
-  constructor(podPaths, folder, folderBase) {
+  constructor(paths, folder, folderBase) {
     this.uid = Object(_utility_uuid__WEBPACK_IMPORTED_MODULE_2__["default"])();
     this.folderInfo = {
       folder: folder || '/',
@@ -49574,9 +49645,9 @@ class FolderStructure {
 
     const subFolders = [];
 
-    for (const podPath of podPaths) {
-      if (podPath.startsWith(prefix)) {
-        const subPath = podPath.slice(prefix.length);
+    for (const path of paths) {
+      if (path.startsWith(prefix)) {
+        const subPath = path.slice(prefix.length);
         const subPathParts = subPath.split('/');
 
         if (subPathParts.length > 1) {
@@ -49587,11 +49658,21 @@ class FolderStructure {
           }
 
           subFolders.push(subFolder);
-          this.folderInfo.folders.push(new FolderStructure(podPaths, `${prefix}${subFolder}`, subFolder));
+          this.folderInfo.folders.push(new FolderStructure(paths, `${prefix}${subFolder}`, subFolder));
         } else {
           const fileName = subPathParts[0];
-          const fileExt = fileName.split('.').pop();
-          const fileBase = fileName.slice(0, fileName.length - fileExt.length - 1);
+          let fileExt = '';
+
+          if (fileName.includes('.')) {
+            fileExt = fileName.split('.').pop();
+          }
+
+          let fileBase = fileName;
+
+          if (fileExt) {
+            fileBase = fileName.slice(0, fileName.length - fileExt.length - 1);
+          }
+
           this.folderInfo.files.push({
             fileName: fileName,
             fileBase: fileBase,
@@ -49602,12 +49683,12 @@ class FolderStructure {
     }
   }
 
-  render(podPath, expandedFolders, eventHandlers) {
+  render(path, expandedFolders, eventHandlers, threshold, lookupFunc) {
+    threshold = threshold || 0;
     const folder = this.folderInfo.folder;
     const level = folder == '/' ? 0 : folder.split('/').length - 1;
     const classes = ['menu__tree__folder'];
-    const isExpanded = level <= 1 || expandedFolders.includes(folder);
-    const threshold = 1;
+    const isExpanded = level <= threshold || expandedFolders.includes(folder);
     const filePrefix = `${folder == '/' ? '' : folder}/`;
 
     if (!isExpanded) {
@@ -49623,16 +49704,16 @@ class FolderStructure {
       <div class=${level > threshold ? 'menu__tree__folder__level' : ''}>
         <div class=${level > threshold ? 'menu__tree__folder__folder' : ''}>
           ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(this.folderInfo.folders, folder => folder.uid, (folder, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-            ${folder.render(podPath, expandedFolders, eventHandlers)}`)}
+            ${folder.render(path, expandedFolders, eventHandlers, threshold, lookupFunc)}`)}
         </div>
         <div class=${level > threshold ? 'menu__tree__folder__files' : ''}>
           ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(this.folderInfo.files, file => `${filePrefix}${file.fileName}`, (file, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
             <div
-                class="menu__tree__folder__file ${podPath == `${filePrefix}${file.fileName}` ? 'menu__tree__folder__file--selected' : ''}"
-                data-pod-path=${`${filePrefix}${file.fileName}`}
+                class="menu__tree__folder__file ${path == `${filePrefix}${file.fileName}` || path == `${filePrefix}${file.fileName}/` ? 'menu__tree__folder__file--selected' : ''}"
+                data-pod-path=${lookupFunc ? lookupFunc(`${filePrefix}${file.fileName}`) : `${filePrefix}${file.fileName}`}
                 @click=${eventHandlers.handleFileClick}>
               <i class="material-icons">notes</i>
-              ${file.fileBase}
+              ${file.fileBase || '/'}
             </div>`)}
         </div>
       </div>
@@ -49688,7 +49769,8 @@ class Menu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
       pod: null,
       podPath: editor.podPath,
       podPaths: null,
-      repo: null
+      repo: null,
+      routes: null
     };
     this.filterFunc = this.config.get('filterFunc') || Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createWhiteBlackFilter"])([/\/content\//, /\/podspec.yaml/], // Whitelist.
     [] // Blacklist.
@@ -49707,6 +49789,7 @@ class Menu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
     this.editor.listeners.add('load.pod', this.handlePodChange.bind(this));
     this.editor.listeners.add('load.podPaths', this.handleLoadPodPaths.bind(this));
     this.editor.listeners.add('load.repo', this.handleLoadRepo.bind(this));
+    this.editor.listeners.add('load.routes', this.handleLoadRoutes.bind(this));
   }
 
   handleLoadPodPaths(response) {
@@ -49716,6 +49799,11 @@ class Menu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
 
   handleLoadRepo(response) {
     this._state.repo = response.repo;
+    this.render();
+  }
+
+  handleLoadRoutes(response) {
+    this._state.routes = response.routes;
     this.render();
   }
 
@@ -49870,16 +49958,141 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return SiteTreeMenu; });
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
-/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./base */ "./source/editor/menu/base.js");
+/* harmony import */ var _utility_filter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/filter */ "./source/utility/filter.js");
+/* harmony import */ var _utility_uuid__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utility/uuid */ "./source/utility/uuid.js");
+/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./base */ "./source/editor/menu/base.js");
+/* harmony import */ var _folderStructure__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./folderStructure */ "./source/editor/menu/folderStructure.js");
 /**
  * Content editor.
  */
 
 
 
-class SiteTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_2__["default"] {
+
+
+
+class SiteTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
+  constructor(config) {
+    super(config);
+    this.podPath = null;
+    this.path = null;
+    this.expandedFolders = [];
+    this.filterFunc = this.config.get('filterFunc') || Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createWhiteBlackFilter"])([/\/content\//, /\/podspec.yaml/], // Whitelist.
+    [] // Blacklist.
+    );
+  }
+
   get template() {
-    return (editor, menuState, eventHandlers) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`sitetree`;
+    return (editor, menuState, eventHandlers) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      ${this.renderTree(editor, menuState, eventHandlers)}`;
+  }
+
+  _addPodPathFolderAsExpanded(podPath, routes) {
+    let path = null;
+
+    for (const servingPath of Object.keys(routes)) {
+      if (routes[servingPath].pod_path == podPath) {
+        path = servingPath;
+        break;
+      }
+    }
+
+    if (!path) {
+      return;
+    }
+
+    this.path = path;
+
+    if (path.endsWith('/')) {
+      path = path.slice(0, -1);
+    }
+
+    let pathParts = path.split('/');
+    pathParts.pop();
+    const pathFolder = pathParts.join('/');
+
+    if (!this.expandedFolders.includes(pathFolder)) {
+      this.expandedFolders.push(pathFolder);
+    }
+  }
+
+  handleFileClick(evt) {
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'menu__tree__folder__file');
+    const podPath = target.dataset.podPath;
+    document.dispatchEvent(new CustomEvent('selective.path.update', {
+      detail: {
+        path: podPath
+      }
+    }));
+  }
+
+  handleFolderToggle(evt) {
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'menu__tree__folder__label');
+    const folder = target.dataset.folder;
+
+    if (this.expandedFolders.includes(folder)) {
+      this.expandedFolders = this.expandedFolders.filter(item => item !== folder);
+    } else {
+      this.expandedFolders.push(folder);
+    }
+
+    this.render();
+  }
+
+  renderTree(editor, menuState, eventHandlers) {
+    if (!menuState.routes) {
+      // Editor handles multiple call resolution.
+      editor.loadRoutes();
+      return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="editor__loading" title="Loading..."></div>`;
+    } // Pod path has changed, make sure that the pod path folder is
+    // expanded by default. Can still be toggled by clicking folder.
+
+
+    if (menuState.podPath && this.podPath != menuState.podPath) {
+      this.podPath = menuState.podPath;
+
+      this._addPodPathFolderAsExpanded(this.podPath, menuState.routes);
+    }
+
+    let validPodPaths = [];
+
+    for (const path of Object.keys(menuState.routes).sort()) {
+      const podPath = menuState.routes[path].pod_path;
+      validPodPaths.push(podPath);
+    }
+
+    validPodPaths = validPodPaths.filter(this.filterFunc);
+    const paths = [];
+
+    for (const path of Object.keys(menuState.routes).sort()) {
+      if (!validPodPaths.includes(menuState.routes[path].pod_path)) {
+        continue;
+      }
+
+      if (path != '/' && path.endsWith('/')) {
+        paths.push(path.slice(0, -1));
+      } else {
+        paths.push(path);
+      }
+    }
+
+    const folderStructure = new _folderStructure__WEBPACK_IMPORTED_MODULE_5__["default"](paths, '/');
+
+    const lookupFunc = path => {
+      if (menuState.routes[path]) {
+        return menuState.routes[path].pod_path;
+      } else if (menuState.routes[`${path}/`]) {
+        return menuState.routes[`${path}/`].pod_path;
+      }
+
+      return null;
+    };
+
+    return folderStructure.render(this.path, this.expandedFolders, {
+      handleFolderToggle: this.handleFolderToggle.bind(this),
+      handleFileClick: this.handleFileClick.bind(this)
+    }, 0, // Threshold
+    lookupFunc);
   }
 
 }
@@ -49917,7 +50130,7 @@ class SubMenu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
 
   get template() {
     // Do not show when the length is not long enough.
-    if (!this.items.length < 2) {
+    if (this.items.length < 2) {
       return editor => '';
     }
 
@@ -49976,8 +50189,7 @@ class TreeMenu extends _base__WEBPACK_IMPORTED_MODULE_2__["default"] {
     super(config);
     this._subMenu = new _submenu__WEBPACK_IMPORTED_MODULE_3__["default"]({
       testing: this.isTesting,
-      items: ['Filetree' // 'Sitemap',
-      ],
+      items: ['Filetree', 'Sitemap'],
       storageKey: 'selective.menu.tree'
     });
     this._fileTreeMenu = new _filetree__WEBPACK_IMPORTED_MODULE_4__["default"]({
@@ -50013,7 +50225,7 @@ class TreeMenu extends _base__WEBPACK_IMPORTED_MODULE_2__["default"] {
         break;
 
       case 'Sitemap':
-        treeClass = 'menu__tree__sitemap';
+        treeClass = 'menu__tree__sitetree';
         treeMenu = this._siteTreeMenu;
         break;
     }
