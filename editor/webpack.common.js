@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 const readdirRecursive = require('fs-readdir-recursive');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
@@ -22,6 +23,13 @@ module.exports = (isProduction) => {
       new MiniCssExtractPlugin({
         filename: isProduction == false ? '[name].css' : '[name].min.css',
         path: path.resolve('dist'),
+      }),
+      new webpack.SourceMapDevToolPlugin({
+        filename: '[name].js.map',
+        exclude: [
+          /node_modules/,
+          /selective_edit/,
+        ],
       }),
     ],
     module: {
