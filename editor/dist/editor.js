@@ -47321,7 +47321,7 @@ class Document {
     this.servingPaths = servingPaths;
     this.defaultLocale = defaultLocale;
     this.locale = defaultLocale;
-    this.locales = locales || [];
+    this.locales = locales || [defaultLocale];
     this.content = content;
   }
 
@@ -47353,7 +47353,7 @@ class Document {
     this.servingPaths = servingPaths;
     this.defaultLocale = defaultLocale;
     this.locale = defaultLocale;
-    this.locales = locales || [];
+    this.locales = locales || [defaultLocale];
     this.content = content;
     this._rawFrontMatter = rawFrontMatter;
   }

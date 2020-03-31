@@ -13,7 +13,7 @@ export default class Document {
     this.servingPaths = servingPaths
     this.defaultLocale = defaultLocale
     this.locale = defaultLocale
-    this.locales = locales || []
+    this.locales = locales || [defaultLocale]
     this.content = content
   }
 
@@ -46,7 +46,7 @@ export default class Document {
     this.servingPaths = servingPaths
     this.defaultLocale = defaultLocale
     this.locale = defaultLocale
-    this.locales = locales || []
+    this.locales = locales || [defaultLocale]
     this.content = content
     this._rawFrontMatter = rawFrontMatter
   }
