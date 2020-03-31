@@ -132,6 +132,7 @@ class PodApi(object):
 
     def _load_doc(self, pod_path):
         doc = self.pod.get_doc(pod_path)
+        doc_hash = self.pod.hash_file(pod_path)
         if not doc.exists:
             return {
                 'pod_path': doc.pod_path,
@@ -171,6 +172,7 @@ class PodApi(object):
             'default_locale': str(doc.default_locale),
             'raw_front_matter': raw_front_matter,
             'content': doc.body,
+            'hash': doc_hash,
         }
 
     def _load_static_doc(self, pod_path):
