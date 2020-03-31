@@ -47319,9 +47319,9 @@ class Document {
     this.rawFrontMatter = rawFrontMatter;
     this._rawFrontMatter = rawFrontMatter;
     this.servingPaths = servingPaths;
-    this.defaultLocale = defaultLocale;
-    this.locale = defaultLocale;
-    this.locales = locales || [defaultLocale];
+    this.defaultLocale = defaultLocale || 'en';
+    this.locale = this.defaultLocale;
+    this.locales = locales || [this.defaultLocale];
     this.content = content;
   }
 
@@ -47351,9 +47351,9 @@ class Document {
     this.frontMatter = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_0__["autoDeepObject"])(frontMatter);
     this.rawFrontMatter = rawFrontMatter;
     this.servingPaths = servingPaths;
-    this.defaultLocale = defaultLocale;
-    this.locale = defaultLocale;
-    this.locales = locales || [defaultLocale];
+    this.defaultLocale = defaultLocale || 'en';
+    this.locale = this.defaultLocale;
+    this.locales = locales || [this.defaultLocale];
     this.content = content;
     this._rawFrontMatter = rawFrontMatter;
   }
@@ -47703,6 +47703,7 @@ class Editor {
     this.pushState(this.document.podPath); // Set the data from the document front matter.
 
     this.selective.data = this.document.data;
+    this.selective.config.set('defaultLocale', this.document.defaultLocale);
     this.selective.config.set('locales', this.document.locales);
     this.selective.fields.reset(); // Load the field configuration from the response.
 

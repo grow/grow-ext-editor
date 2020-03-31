@@ -11,9 +11,9 @@ export default class Document {
     this.rawFrontMatter = rawFrontMatter
     this._rawFrontMatter = rawFrontMatter
     this.servingPaths = servingPaths
-    this.defaultLocale = defaultLocale
-    this.locale = defaultLocale
-    this.locales = locales || [defaultLocale]
+    this.defaultLocale = defaultLocale || 'en'
+    this.locale = this.defaultLocale
+    this.locales = locales || [this.defaultLocale]
     this.content = content
   }
 
@@ -44,9 +44,9 @@ export default class Document {
     this.frontMatter = autoDeepObject(frontMatter)
     this.rawFrontMatter = rawFrontMatter
     this.servingPaths = servingPaths
-    this.defaultLocale = defaultLocale
-    this.locale = defaultLocale
-    this.locales = locales || [defaultLocale]
+    this.defaultLocale = defaultLocale || 'en'
+    this.locale = this.defaultLocale
+    this.locales = locales || [this.defaultLocale]
     this.content = content
     this._rawFrontMatter = rawFrontMatter
   }
