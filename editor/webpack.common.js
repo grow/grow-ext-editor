@@ -1,6 +1,5 @@
 const path = require('path');
 const readdirRecursive = require('fs-readdir-recursive');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const sourceDir = './source/composite/'
@@ -16,51 +15,47 @@ files.forEach(function(value) {
   }
 });
 
-module.exports = {
-  entry: entry,
-  plugins: [
-    new CleanWebpackPlugin({
-      cleanOnceBeforeBuildPatterns: [
-        '**/*.js',
-        '**/*.css',
-      ]
-    }),
-    new MiniCssExtractPlugin({
-      filename: '[name].css',
-      path: path.resolve(__dirname, 'dist'),
-    }),
-  ],
-  module: {
-    rules: [{
-        test: /\.js$/,
-        exclude: /(node_modules|bower_components)/,
-        loader: 'babel-loader',
-      },
-      {
-        test: /\.(sa|sc|c)ss$/,
-        use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-            options: {
-              hmr: process.env.NODE_ENV === 'development',
+module.exports = (isProduction) => {
+  return {
+    entry: entry,
+    plugins: [
+      new MiniCssExtractPlugin({
+        filename: isProduction == false ? '[name].css' : '[name].min.css',
+        path: path.resolve('dist'),
+      }),
+    ],
+    module: {
+      rules: [{
+          test: /\.js$/,
+          exclude: /(node_modules|bower_components)/,
+          loader: 'babel-loader',
+        },
+        {
+          test: /\.(sa|sc|c)ss$/,
+          use: [
+            {
+              loader: MiniCssExtractPlugin.loader,
+              options: {
+                hmr: isProduction == false,
+              },
             },
-          },
-          'css-loader',
-          'postcss-loader',
-          {
-            loader: 'sass-loader',
-            options: {
-              sassOptions: {
-                includePaths: ['./node_modules']
+            'css-loader',
+            'postcss-loader',
+            {
+              loader: 'sass-loader',
+              options: {
+                sassOptions: {
+                  includePaths: ['./node_modules']
+                },
               }
             }
-          }
-        ]
-      }
-    ]
-  },
-  output: {
-    filename: '[name].js',
-    path: path.resolve(__dirname, 'dist'),
-  },
+          ]
+        }
+      ]
+    },
+    output: {
+      filename: isProduction == false ? '[name].js' : '[name].min.js',
+      path: path.resolve('dist'),
+    },
+  }
 };
