@@ -619,8 +619,7 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compos
   }
 
   get isClean() {
-    // Manual locking prevents the original value overwriting the value
-    // in special cases when it should not.
+    // When locked, the field is automatically considered dirty.
     if (this._isLocked) {
       return false;
     }
@@ -813,6 +812,12 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compos
 
 
   updateOriginal(selective, data) {
+    // Manual locking prevents the original value overwriting the value
+    // in special cases when it should not.
+    if (this._isLocked) {
+      return;
+    }
+
     let newValue = data;
 
     if (typeof data === 'object' && data !== null) {
@@ -1011,7 +1016,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
       return null;
     }
 
-    return this._listItems[localeKey];
+    return [...this._listItems[localeKey]];
   }
 
   _setListItemsForLocale(locale, listItems) {
@@ -1020,6 +1025,11 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
   }
 
   get isClean() {
+    // When locked, the field is automatically considered dirty.
+    if (this._isLocked) {
+      return false;
+    }
+
     for (const locale of this.locales) {
       const originalValue = this.getOriginalValueForLocale(locale);
 
@@ -1198,14 +1208,16 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
 
       for (const listItem of downstreamItems) {
         listItem.fields.lock();
-      } // Unlock fields after rendering is complete to let the values be updated when clean.
+      }
 
+      this.lock(); // Unlock fields after rendering is complete to let the values be updated when clean.
 
-      document.addEventListener('selective.render.complete', () => {
+      document.addEventListener('selective.unlock', () => {
         for (const listItem of downstreamItems) {
           listItem.fields.unlock();
         }
 
+        this.unlock();
         this.render();
       }, {
         once: true
@@ -1268,6 +1280,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
       if (i < minIndex || i > maxIndex) {
         // Leave in the same order.
         newListItems[i] = oldListItems[i];
+        newListItems[i].fields.lock();
       } else if (i == endIndex) {
         // This element is being moved to, place the moved value here.
         newListItems[i] = oldListItems[startIndex]; // Lock the fields to prevent the values from being updated at the same
@@ -1283,14 +1296,16 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
       }
     }
 
-    this._setListItemsForLocale(locale, newListItems); // Unlock fields after rendering is complete to let the values be updated when clean.
+    this._setListItemsForLocale(locale, newListItems);
 
+    this.lock(); // Unlock fields after saving is complete to let the values be updated when clean.
 
-    document.addEventListener('selective.render.complete', () => {
+    document.addEventListener('selective.unlock', () => {
       for (const item of newListItems) {
         item.fields.unlock();
       }
 
+      this.unlock();
       this.render();
     }, {
       once: true
@@ -47873,7 +47888,10 @@ class Editor {
     this.updateDocumentFromResponse(response);
     this.selective.data = this.document.data;
     this._isSaving = false;
-    this.listeners.trigger('save.response', response, isAutosave);
+    this.listeners.trigger('save.response', response, isAutosave); // Unlock any locked fields to allow the new data to update.
+    // Ex: list sorting or deleting locks fields.
+
+    document.dispatchEvent(new CustomEvent('selective.unlock'));
     this.render(true);
   }
 

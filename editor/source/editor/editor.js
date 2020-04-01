@@ -514,6 +514,10 @@ export default class Editor {
     this._isSaving = false
     this.listeners.trigger('save.response', response, isAutosave)
 
+    // Unlock any locked fields to allow the new data to update.
+    // Ex: list sorting or deleting locks fields.
+    document.dispatchEvent(new CustomEvent('selective.unlock'))
+
     this.render(true)
   }
 
