@@ -47301,7 +47301,7 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 class Document {
-  constructor(podPath, frontMatter, rawFrontMatter, servingPaths, defaultLocale, locales, content) {
+  constructor(podPath, frontMatter, rawFrontMatter, servingPaths, defaultLocale, locales, content, hash) {
     this.podPath = podPath;
     this.frontMatter = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_0__["autoDeepObject"])(frontMatter);
     this.rawFrontMatter = rawFrontMatter;
@@ -47311,6 +47311,7 @@ class Document {
     this.locale = this.defaultLocale;
     this.locales = locales || [this.defaultLocale];
     this.content = content;
+    this.hash = hash;
   }
 
   get data() {
@@ -47334,16 +47335,17 @@ class Document {
     return this.servingPaths[this.defaultLocale];
   }
 
-  update(podPath, frontMatter, rawFrontMatter, servingPaths, defaultLocale, locales, content) {
+  update(podPath, frontMatter, rawFrontMatter, servingPaths, defaultLocale, locales, content, hash) {
     this.podPath = podPath;
     this.frontMatter = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_0__["autoDeepObject"])(frontMatter);
     this.rawFrontMatter = rawFrontMatter;
+    this._rawFrontMatter = rawFrontMatter;
     this.servingPaths = servingPaths;
     this.defaultLocale = defaultLocale || 'en';
     this.locale = this.defaultLocale;
     this.locales = locales || [this.defaultLocale];
     this.content = content;
-    this._rawFrontMatter = rawFrontMatter;
+    this.hash = hash;
   }
 
 }
@@ -47597,7 +47599,7 @@ class Editor {
   }
 
   set podPath(value) {
-    this._podPath = value;
+    this._podPath = value.trim();
     this.listeners.trigger('podPath', this._podPath);
   }
 
@@ -47666,7 +47668,7 @@ class Editor {
   }
 
   documentFromResponse(response) {
-    this.document = new _document__WEBPACK_IMPORTED_MODULE_2__["default"](response['pod_path'], response['front_matter'], response['raw_front_matter'], response['serving_paths'], response['default_locale'], response['locales'], response['content']);
+    this.document = new _document__WEBPACK_IMPORTED_MODULE_2__["default"](response['pod_path'], response['front_matter'], response['raw_front_matter'], response['serving_paths'], response['default_locale'], response['locales'], response['content'], response['hash']);
   }
 
   handleFieldsClick(evt) {
@@ -47853,7 +47855,7 @@ class Editor {
   }
 
   handleSaveResponse(response, isAutosave) {
-    this.document.update(response['pod_path'], response['front_matter'], response['raw_front_matter'], response['serving_paths'], response['default_locale'], response['locales'], response['content']);
+    this.updateDocumentFromResponse(response);
     this.selective.data = this.document.data;
     this._isSaving = false;
     this.listeners.trigger('save.response', response, isAutosave);
@@ -48064,20 +48066,32 @@ class Editor {
     this.render();
     this.listeners.trigger('save.start', {
       isEditingSource: this.isEditingSource
-    });
+    }); // Pull the latest document content before saving.
 
-    if (this.isEditingSource) {
-      const result = this.api.saveDocumentSource(this.podPath, this.document.rawFrontMatter);
-      result.then(response => this.handleSaveResponse(response, isAutosave));
-      result.catch(err => this.handleSaveError(err));
-    } else {
-      const newFrontMatter = this.selective.value;
-      const content = newFrontMatter[CONTENT_KEY];
-      delete newFrontMatter[CONTENT_KEY];
-      const result = this.api.saveDocumentFields(this.podPath, newFrontMatter, this.document.locale, content);
-      result.then(response => this.handleSaveResponse(response, isAutosave));
-      result.catch(err => this.handleSaveError(err));
-    }
+    this.api.getDocument(this.podPath).then(response => {
+      if (this.isEditingSource) {
+        if (response.hash != this.document.hash) {
+          this.listeners.trigger('save.error', 'Content has changed remotely.');
+          return;
+        }
+
+        const result = this.api.saveDocumentSource(this.podPath, this.document.rawFrontMatter);
+        result.then(response => this.handleSaveResponse(response, isAutosave));
+        result.catch(err => this.handleSaveError(err));
+      } else {
+        this.updateDocumentFromResponse(response); // Updating the selective data keeps any 'dirty' field values.
+        // Rendering allows all the original values to be updated.
+
+        this.selective.data = this.document.data;
+        this.render();
+        const newFrontMatter = this.selective.value;
+        const content = newFrontMatter[CONTENT_KEY];
+        delete newFrontMatter[CONTENT_KEY];
+        const result = this.api.saveDocumentFields(this.podPath, newFrontMatter, this.document.locale, content);
+        result.then(response => this.handleSaveResponse(response, isAutosave));
+        result.catch(err => this.handleSaveError(err));
+      }
+    });
   }
 
   startAutosave() {
@@ -48094,6 +48108,10 @@ class Editor {
     if (this.autosaveID) {
       window.clearInterval(this.autosaveID);
     }
+  }
+
+  updateDocumentFromResponse(response) {
+    this.document.update(response['pod_path'], response['front_matter'], response['raw_front_matter'], response['serving_paths'], response['default_locale'], response['locales'], response['content'], response['hash']);
   }
 
   verifyPreviewIframe() {

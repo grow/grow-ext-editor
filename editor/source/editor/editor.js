@@ -243,7 +243,7 @@ export default class Editor {
   }
 
   set podPath(value) {
-    this._podPath = value
+    this._podPath = value.trim()
     this.listeners.trigger('podPath', this._podPath)
   }
 
@@ -320,7 +320,8 @@ export default class Editor {
       response['serving_paths'],
       response['default_locale'],
       response['locales'],
-      response['content'])
+      response['content'],
+      response['hash'])
   }
 
   handleFieldsClick(evt) {
@@ -507,14 +508,7 @@ export default class Editor {
   }
 
   handleSaveResponse(response, isAutosave) {
-    this.document.update(
-      response['pod_path'],
-      response['front_matter'],
-      response['raw_front_matter'],
-      response['serving_paths'],
-      response['default_locale'],
-      response['locales'],
-      response['content'])
+    this.updateDocumentFromResponse(response)
     this.selective.data = this.document.data
 
     this._isSaving = false
@@ -728,20 +722,36 @@ export default class Editor {
     this.listeners.trigger('save.start', {
       isEditingSource: this.isEditingSource,
     })
-    if (this.isEditingSource) {
-      const result = this.api.saveDocumentSource(
-        this.podPath, this.document.rawFrontMatter)
-      result.then((response) => this.handleSaveResponse(response, isAutosave))
-      result.catch((err) => this.handleSaveError(err))
-    } else {
-      const newFrontMatter = this.selective.value
-      const content = newFrontMatter[CONTENT_KEY]
-      delete newFrontMatter[CONTENT_KEY]
-      const result = this.api.saveDocumentFields(
-        this.podPath, newFrontMatter, this.document.locale, content)
-      result.then((response) => this.handleSaveResponse(response, isAutosave))
-      result.catch((err) => this.handleSaveError(err))
-    }
+
+    // Pull the latest document content before saving.
+    this.api.getDocument(this.podPath).then((response) => {
+      if (this.isEditingSource) {
+        if (response.hash != this.document.hash) {
+          this.listeners.trigger('save.error', 'Content has changed remotely.')
+          return
+        }
+
+        const result = this.api.saveDocumentSource(
+          this.podPath, this.document.rawFrontMatter)
+        result.then((response) => this.handleSaveResponse(response, isAutosave))
+        result.catch((err) => this.handleSaveError(err))
+      } else {
+        this.updateDocumentFromResponse(response)
+
+        // Updating the selective data keeps any 'dirty' field values.
+        // Rendering allows all the original values to be updated.
+        this.selective.data = this.document.data
+        this.render()
+
+        const newFrontMatter = this.selective.value
+        const content = newFrontMatter[CONTENT_KEY]
+        delete newFrontMatter[CONTENT_KEY]
+        const result = this.api.saveDocumentFields(
+          this.podPath, newFrontMatter, this.document.locale, content)
+        result.then((response) => this.handleSaveResponse(response, isAutosave))
+        result.catch((err) => this.handleSaveError(err))
+      }
+    })
   }
 
   startAutosave() {
@@ -758,6 +768,18 @@ export default class Editor {
     if (this.autosaveID) {
       window.clearInterval(this.autosaveID)
     }
+  }
+
+  updateDocumentFromResponse(response) {
+    this.document.update(
+      response['pod_path'],
+      response['front_matter'],
+      response['raw_front_matter'],
+      response['serving_paths'],
+      response['default_locale'],
+      response['locales'],
+      response['content'],
+      response['hash'])
   }
 
   verifyPreviewIframe() {
