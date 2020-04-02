@@ -25,7 +25,7 @@ module.exports = (isProduction) => {
         path: path.resolve('dist'),
       }),
       new webpack.SourceMapDevToolPlugin({
-        filename: '[name].js.map',
+        filename: isProduction == false ? '[name].js.map' : '[name].min.js.map',
         exclude: [
           /node_modules/,
           /selective_edit/,
