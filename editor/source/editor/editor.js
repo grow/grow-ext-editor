@@ -277,11 +277,47 @@ export default class Editor {
       this.render(forceReload)
     })
 
-    // Allow triggering a re-render.
+    // Allow triggering a new pod path to load.
     document.addEventListener('selective.path.update', (evt) => {
       const podPath = evt.detail['path']
       this.podPath = podPath
       this.load(podPath)
+    })
+
+    // Allow copying files.
+    document.addEventListener('selective.path.copy', (evt) => {
+      const podPath = evt.detail['path']
+      const parts = podPath.split('/')
+      const fileName = parts.pop()
+      const fileNameParts = fileName.split('.')
+      const fileNameExt = fileNameParts.pop()
+      const fileNameBase = fileNameParts.join('.')
+      const newFileNameBase = window.prompt(`Enter the new file name for the duplicate of ${fileNameBase}`, fileNameBase);
+      parts.push([newFileNameBase, fileNameExt].join('.'))
+      const newPodPath = parts.join('/')
+      this.api.copyFile(podPath, newPodPath).then(() => {
+        if (this._podPaths) {
+          this.loadPodPaths(true)
+        }
+      }).catch((error) => {
+        console.error(error)
+      })
+    })
+
+    // Allow deleting files.
+    document.addEventListener('selective.path.delete', (evt) => {
+      const podPath = evt.detail['path']
+      if (!window.confirm(`Are you sure you want to delete the ${podPath} file?`)) {
+        return
+      }
+
+      this.api.deleteFile(podPath).then(() => {
+        if (this._podPaths) {
+          this.loadPodPaths(true)
+        }
+      }).catch((error) => {
+        console.error(error)
+      })
     })
 
     // Check for navigated iframe when the routes load.

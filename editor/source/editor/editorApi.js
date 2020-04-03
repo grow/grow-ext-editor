@@ -10,6 +10,30 @@ export default class EditorApi extends Api {
     super(config)
   }
 
+  copyFile(podPath, newPodPath) {
+    const result = new Defer()
+
+    this.request.get(this.apiPath('content/copy'))
+      .query({ 'pod_path': podPath, 'new_pod_path': newPodPath })
+      .then((res) => {
+        result.resolve(res.body)
+      })
+
+    return result.promise
+  }
+
+  deleteFile(podPath) {
+    const result = new Defer()
+
+    this.request.get(this.apiPath('content/delete'))
+      .query({ 'pod_path': podPath })
+      .then((res) => {
+        result.resolve(res.body)
+      })
+
+    return result.promise
+  }
+
   getDocument(podPath) {
     const result = new Defer()
 

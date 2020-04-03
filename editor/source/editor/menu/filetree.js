@@ -46,6 +46,28 @@ export default class FileTreeMenu extends MenuBase {
     }))
   }
 
+  handleFileCopyClick(evt) {
+    evt.stopPropagation()
+    const target = findParentByClassname(evt.target, 'menu__tree__folder__file')
+    const podPath = target.dataset.podPath
+    document.dispatchEvent(new CustomEvent('selective.path.copy', {
+      detail: {
+        path: podPath,
+      }
+    }))
+  }
+
+  handleFileDeleteClick(evt) {
+    evt.stopPropagation()
+    const target = findParentByClassname(evt.target, 'menu__tree__folder__file')
+    const podPath = target.dataset.podPath
+    document.dispatchEvent(new CustomEvent('selective.path.delete', {
+      detail: {
+        path: podPath,
+      }
+    }))
+  }
+
   handleFolderToggle(evt) {
     const target = findParentByClassname(evt.target, 'menu__tree__folder__label')
     const folder = target.dataset.folder
@@ -79,6 +101,8 @@ export default class FileTreeMenu extends MenuBase {
       {
         handleFolderToggle: this.handleFolderToggle.bind(this),
         handleFileClick: this.handleFileClick.bind(this),
+        handleFileCopyClick: this.handleFileCopyClick.bind(this),
+        handleFileDeleteClick: this.handleFileDeleteClick.bind(this),
       },
       1)
   }

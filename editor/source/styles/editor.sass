@@ -292,3 +292,13 @@
 
 .editor__preview__size__dimension
   font-size: $ge-font-size * .8
+
+.icon
+  &--hover-only
+    visibility: hidden
+
+    .icons:focus &,
+    .icons:hover &,
+    &:focus,
+    &:hover
+      visibility: visible

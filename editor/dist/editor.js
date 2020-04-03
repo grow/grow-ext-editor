@@ -47671,12 +47671,47 @@ class Editor {
     document.addEventListener('selective.render', evt => {
       const forceReload = evt.detail && evt.detail['force'] == true;
       this.render(forceReload);
-    }); // Allow triggering a re-render.
+    }); // Allow triggering a new pod path to load.
 
     document.addEventListener('selective.path.update', evt => {
       const podPath = evt.detail['path'];
       this.podPath = podPath;
       this.load(podPath);
+    }); // Allow copying files.
+
+    document.addEventListener('selective.path.copy', evt => {
+      const podPath = evt.detail['path'];
+      const parts = podPath.split('/');
+      const fileName = parts.pop();
+      const fileNameParts = fileName.split('.');
+      const fileNameExt = fileNameParts.pop();
+      const fileNameBase = fileNameParts.join('.');
+      const newFileNameBase = window.prompt(`Enter the new file name for the duplicate of ${fileNameBase}`, fileNameBase);
+      parts.push([newFileNameBase, fileNameExt].join('.'));
+      const newPodPath = parts.join('/');
+      this.api.copyFile(podPath, newPodPath).then(() => {
+        if (this._podPaths) {
+          this.loadPodPaths(true);
+        }
+      }).catch(error => {
+        console.error(error);
+      });
+    }); // Allow deleting files.
+
+    document.addEventListener('selective.path.delete', evt => {
+      const podPath = evt.detail['path'];
+
+      if (!window.confirm(`Are you sure you want to delete the ${podPath} file?`)) {
+        return;
+      }
+
+      this.api.deleteFile(podPath).then(() => {
+        if (this._podPaths) {
+          this.loadPodPaths(true);
+        }
+      }).catch(error => {
+        console.error(error);
+      });
     }); // Check for navigated iframe when the routes load.
 
     this.listeners.add('load.routes', this.verifyPreviewIframe.bind(this));
@@ -48194,6 +48229,27 @@ __webpack_require__.r(__webpack_exports__);
 class EditorApi extends _utility_api__WEBPACK_IMPORTED_MODULE_0__["default"] {
   constructor(config) {
     super(config);
+  }
+
+  copyFile(podPath, newPodPath) {
+    const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
+    this.request.get(this.apiPath('content/copy')).query({
+      'pod_path': podPath,
+      'new_pod_path': newPodPath
+    }).then(res => {
+      result.resolve(res.body);
+    });
+    return result.promise;
+  }
+
+  deleteFile(podPath) {
+    const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
+    this.request.get(this.apiPath('content/delete')).query({
+      'pod_path': podPath
+    }).then(res => {
+      result.resolve(res.body);
+    });
+    return result.promise;
   }
 
   getDocument(podPath) {
@@ -49617,6 +49673,28 @@ class FileTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
     }));
   }
 
+  handleFileCopyClick(evt) {
+    evt.stopPropagation();
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'menu__tree__folder__file');
+    const podPath = target.dataset.podPath;
+    document.dispatchEvent(new CustomEvent('selective.path.copy', {
+      detail: {
+        path: podPath
+      }
+    }));
+  }
+
+  handleFileDeleteClick(evt) {
+    evt.stopPropagation();
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'menu__tree__folder__file');
+    const podPath = target.dataset.podPath;
+    document.dispatchEvent(new CustomEvent('selective.path.delete', {
+      detail: {
+        path: podPath
+      }
+    }));
+  }
+
   handleFolderToggle(evt) {
     const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'menu__tree__folder__label');
     const folder = target.dataset.folder;
@@ -49648,7 +49726,9 @@ class FileTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
     const folderStructure = new _folderStructure__WEBPACK_IMPORTED_MODULE_4__["default"](menuState.podPaths, '/');
     return folderStructure.render(this.podPath, this.expandedFolders, {
       handleFolderToggle: this.handleFolderToggle.bind(this),
-      handleFileClick: this.handleFileClick.bind(this)
+      handleFileClick: this.handleFileClick.bind(this),
+      handleFileCopyClick: this.handleFileCopyClick.bind(this),
+      handleFileDeleteClick: this.handleFileDeleteClick.bind(this)
     }, 1);
   }
 
@@ -49674,6 +49754,19 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 
+
+const PROTECTED_FROM_COPY_PATHS = ['/podspec.yaml'];
+const PROTECTED_FROM_DELETE_PATHS = ['/podspec.yaml'];
+
+const isProtectedFromCopy = pod_path => {
+  // TODO: Expand to let the config also define protected files.
+  return PROTECTED_FROM_COPY_PATHS.includes(pod_path);
+};
+
+const isProtectedFromDelete = pod_path => {
+  // TODO: Expand to let the config also define protected files.
+  return PROTECTED_FROM_DELETE_PATHS.includes(pod_path);
+};
 
 class FolderStructure {
   constructor(paths, folder, folderBase) {
@@ -49754,14 +49847,31 @@ class FolderStructure {
             ${folder.render(path, expandedFolders, eventHandlers, threshold, lookupFunc)}`)}
         </div>
         <div class=${level > threshold ? 'menu__tree__folder__files' : ''}>
-          ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(this.folderInfo.files, file => `${filePrefix}${file.fileName}`, (file, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-            <div
-                class="menu__tree__folder__file ${path == `${filePrefix}${file.fileName}` || path == `${filePrefix}${file.fileName}/` ? 'menu__tree__folder__file--selected' : ''}"
-                data-pod-path=${lookupFunc ? lookupFunc(`${filePrefix}${file.fileName}`) : `${filePrefix}${file.fileName}`}
-                @click=${eventHandlers.handleFileClick}>
-              <i class="material-icons">notes</i>
-              ${file.fileBase || '/'}
-            </div>`)}
+          ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(this.folderInfo.files, file => `${filePrefix}${file.fileName}`, (file, index) => {
+      const pod_path = lookupFunc ? lookupFunc(`${filePrefix}${file.fileName}`) : `${filePrefix}${file.fileName}`;
+      return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+              <div
+                  class="menu__tree__folder__file ${path == `${filePrefix}${file.fileName}` || path == `${filePrefix}${file.fileName}/` ? 'menu__tree__folder__file--selected' : ''} icons"
+                  data-pod-path=${pod_path}
+                  @click=${eventHandlers.handleFileClick}>
+                <i class="material-icons">notes</i>
+                <div class="menu__tree__folder__file__label">
+                  ${file.fileBase || '/'}
+                </div>
+                ${isProtectedFromCopy(pod_path) ? '' : selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<i
+                      class="material-icons icon icon--hover-only"
+                      title="Copy file"
+                      @click=${eventHandlers.handleFileCopyClick}>
+                    file_copy
+                  </i>`}
+                ${isProtectedFromDelete(pod_path) ? '' : selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<i
+                      class="material-icons icon icon--hover-only"
+                      title="Delete file"
+                      @click=${eventHandlers.handleFileDeleteClick}>
+                    delete
+                  </i>`}
+              </div>`;
+    })}
         </div>
       </div>
     </div>`;

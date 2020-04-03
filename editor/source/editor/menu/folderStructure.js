@@ -10,6 +10,29 @@ import {
 import { findParentByClassname } from '../../utility/dom'
 import generateUUID from '../../utility/uuid'
 
+
+const PROTECTED_FROM_COPY_PATHS = [
+  '/podspec.yaml',
+]
+
+
+const PROTECTED_FROM_DELETE_PATHS = [
+  '/podspec.yaml',
+]
+
+
+const isProtectedFromCopy = (pod_path) => {
+  // TODO: Expand to let the config also define protected files.
+  return PROTECTED_FROM_COPY_PATHS.includes(pod_path)
+}
+
+
+const isProtectedFromDelete = (pod_path) => {
+  // TODO: Expand to let the config also define protected files.
+  return PROTECTED_FROM_DELETE_PATHS.includes(pod_path)
+}
+
+
 export default class FolderStructure {
   constructor(paths, folder, folderBase) {
     this.uid = generateUUID()
@@ -88,17 +111,39 @@ export default class FolderStructure {
             ${folder.render(path, expandedFolders, eventHandlers, threshold, lookupFunc)}`)}
         </div>
         <div class=${level > threshold ? 'menu__tree__folder__files' : ''}>
-          ${repeat(this.folderInfo.files, (file) => `${filePrefix}${file.fileName}`, (file, index) => html`
-            <div
-                class="menu__tree__folder__file ${
-                  path == `${filePrefix}${file.fileName}` || path == `${filePrefix}${file.fileName}/`
-                  ? 'menu__tree__folder__file--selected'
-                  : ''}"
-                data-pod-path=${lookupFunc ? lookupFunc(`${filePrefix}${file.fileName}`) : `${filePrefix}${file.fileName}`}
-                @click=${eventHandlers.handleFileClick}>
-              <i class="material-icons">notes</i>
-              ${file.fileBase || '/'}
-            </div>`)}
+          ${repeat(this.folderInfo.files, (file) => `${filePrefix}${file.fileName}`, (file, index) => {
+            const pod_path = lookupFunc ? lookupFunc(`${filePrefix}${file.fileName}`) : `${filePrefix}${file.fileName}`
+
+            return html`
+              <div
+                  class="menu__tree__folder__file ${
+                    path == `${filePrefix}${file.fileName}` || path == `${filePrefix}${file.fileName}/`
+                    ? 'menu__tree__folder__file--selected'
+                    : ''} icons"
+                  data-pod-path=${pod_path}
+                  @click=${eventHandlers.handleFileClick}>
+                <i class="material-icons">notes</i>
+                <div class="menu__tree__folder__file__label">
+                  ${file.fileBase || '/'}
+                </div>
+                ${isProtectedFromCopy(pod_path)
+                  ? ''
+                  : html`<i
+                      class="material-icons icon icon--hover-only"
+                      title="Copy file"
+                      @click=${eventHandlers.handleFileCopyClick}>
+                    file_copy
+                  </i>`}
+                ${isProtectedFromDelete(pod_path)
+                  ? ''
+                  : html`<i
+                      class="material-icons icon icon--hover-only"
+                      title="Delete file"
+                      @click=${eventHandlers.handleFileDeleteClick}>
+                    delete
+                  </i>`}
+              </div>`
+          })}
         </div>
       </div>
     </div>`

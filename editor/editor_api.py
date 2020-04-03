@@ -7,6 +7,7 @@ import os
 import re
 import yaml
 from werkzeug import wrappers
+from werkzeug.exceptions import BadRequest, NotFound
 from grow.common import json_encoder
 from grow.common import utils
 from grow.common import yaml_utils
@@ -182,6 +183,24 @@ class PodApi(object):
             'serving_url': static_doc.url.path,
         }
 
+    def copy_pod_path(self):
+        """Handle the request for copying files."""
+        pod_path = self.request.params.get('pod_path')
+        new_pod_path = self.request.params.get('new_pod_path')
+        if not self.pod.file_exists(pod_path):
+            raise BadRequest('{} does not exist in the pod'.format(pod_path))
+        if self.pod.file_exists(new_pod_path):
+            raise BadRequest(
+                '{} would overwrite an existing file in the pod'.format(new_pod_path))
+        self.pod.write_file(new_pod_path, self.pod.read_file(pod_path))
+
+    def delete_pod_path(self):
+        """Handle the request for deleting files."""
+        pod_path = self.request.params.get('pod_path')
+        if not self.pod.file_exists(pod_path):
+            raise BadRequest('{} does not exist in the pod'.format(pod_path))
+        self.pod.delete_file(pod_path)
+
     def get_pod_paths(self):
         """Handle the request for document and static info."""
         pod_paths = []
@@ -356,6 +375,12 @@ class PodApi(object):
                 self.get_editor_content()
             elif method == 'POST':
                 self.post_editor_content()
+        elif path == 'content/copy':
+            if method == 'GET':
+                self.copy_pod_path()
+        elif path == 'content/delete':
+            if method == 'GET':
+                self.delete_pod_path()
         elif path == 'extension/config':
             if method == 'GET':
                 self.get_extension_config()
@@ -383,6 +408,9 @@ class PodApi(object):
         elif path == 'static_serving_path':
             if method == 'GET':
                 self.get_static_serving_path()
+        else:
+            # TODO Give 404 response.
+            raise NotFound('{} not found.'.format(path))
 
     def post_editor_content(self):
         """Handle the request to save editor content."""
