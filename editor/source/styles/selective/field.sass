@@ -8,7 +8,13 @@
     margin-bottom: 0
 
   &--guess
-    .editor--highlight &
+    .editor--highlight-guess &
+      border: $ge-border-size solid $ge-color-back-highlight !important
+      border-radius: $ge-radius-4
+      padding: $ge-pad/2
+
+  &--dirty
+    .editor--highlight-dirty &
       border: $ge-border-size solid $ge-color-back-highlight !important
       border-radius: $ge-radius-4
       padding: $ge-pad/2

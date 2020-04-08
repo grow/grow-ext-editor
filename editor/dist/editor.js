@@ -620,6 +620,10 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compos
       classes.push('selective__field--guess');
     }
 
+    if (!this.isClean) {
+      classes.push('selective__field--dirty');
+    }
+
     return classes.join(' ');
   }
 
@@ -47490,7 +47494,10 @@ class Editor {
 
     this._isEditingSource = this.storage.getItem('selective.isEditingSource') == 'true';
     this._isFullScreen = this.storage.getItem('selective.isFullScreen') == 'true';
-    this._isHightlighted = this.storage.getItem('selective.isHightlighted') == 'true';
+    this._isHighlighted = {
+      dirty: this.storage.getItem('selective.isHightlighted.dirty') == 'true',
+      guess: this.storage.getItem('selective.isHightlighted.guess') == 'true'
+    };
     this._isDeviceRotated = this.storage.getItem('selective.isDeviceRotated') == 'true';
     this._isDeviceView = this.storage.getItem('selective.isDeviceView') == 'true';
     this._isFullMarkdownEditor = false;
@@ -47557,10 +47564,6 @@ class Editor {
     return this._isFullScreen || !this.servingPath;
   }
 
-  get isHightlighted() {
-    return this._isHightlighted;
-  }
-
   get isTesting() {
     return this.config.get('testing', false);
   }
@@ -47605,10 +47608,12 @@ class Editor {
       styles.push('editor--markdown');
     }
 
-    const urlParams = new URLSearchParams(window.location.search);
+    if (this.isHightlighted('guess')) {
+      styles.push('editor--highlight-guess');
+    }
 
-    if (urlParams.has('highlight') || this.isHightlighted) {
-      styles.push('editor--highlight');
+    if (this.isHightlighted('dirty')) {
+      styles.push('editor--highlight-dirty');
     }
 
     return styles.join(' ');
@@ -47639,11 +47644,6 @@ class Editor {
   set isFullScreen(value) {
     this._isFullScreen = value;
     this.storage.setItem('selective.isFullScreen', this._isFullScreen);
-  }
-
-  set isHightlighted(value) {
-    this._isHightlighted = value;
-    this.storage.setItem('selective.isHightlighted', this._isHightlighted);
   }
 
   set isDeviceRotated(value) {
@@ -47774,8 +47774,15 @@ class Editor {
     this.render();
   }
 
-  handleHighlight(evt) {
-    this.isHightlighted = !this.isHightlighted;
+  handleHighlightDirty(evt) {
+    this._isHighlighted.dirty = !this.isHightlighted('dirty');
+    this.storage.setItem('selective.isHightlighted.dirty', this._isHighlighted.dirty);
+    this.render();
+  }
+
+  handleHighlightGuess(evt) {
+    this._isHighlighted.guess = !this.isHightlighted('guess');
+    this.storage.setItem('selective.isHightlighted.guess', this._isHighlighted.guess);
     this.render();
   }
 
@@ -47974,6 +47981,10 @@ class Editor {
     this.render();
   }
 
+  isHightlighted(key) {
+    return this._isHighlighted[key];
+  }
+
   load(podPath) {
     if (this.isEditingSource) {
       this.loadSource(podPath);
@@ -48120,12 +48131,20 @@ class Editor {
         </div>
         <div class="editor__dev_tools">
           <div>Developer tools:</div>
-          <i
-              class="editor__dev_tools__icon ${editor.isHightlighted ? 'editor__dev_tools__icon--selected' : ''} material-icons"
-              @click=${editor.handleHighlight.bind(editor)}
-              title="Highlight auto fields">
-            highlight
-          </i>
+          <div class="editor__dev_tools__icons">
+            <i
+                class="editor__dev_tools__icon ${editor.isHightlighted('guess') ? 'editor__dev_tools__icon--selected' : ''} material-icons"
+                @click=${editor.handleHighlightGuess.bind(editor)}
+                title="Highlight auto fields">
+              assistant
+            </i>
+            <i
+                class="editor__dev_tools__icon ${editor.isHightlighted('dirty') ? 'editor__dev_tools__icon--selected' : ''} material-icons"
+                @click=${editor.handleHighlightDirty.bind(editor)}
+                title="Highlight dirty fields">
+              change_history
+            </i>
+          </div>
         </div>
       </div>
     </div>`;

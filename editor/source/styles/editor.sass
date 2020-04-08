@@ -106,10 +106,16 @@
 .editor__dev_tools__icon
   color: $ge-color-icon-on-back
   cursor: pointer
-  padding: 0 $ge-pad/2
+  margin: 0 $ge-pad/4
 
   &--selected
     color: $ge-color-icon-on-back-selected
+
+  &:first-child
+    margin-left: $ge-pad
+
+  &:last-child
+    margin-right: $ge-pad/2
 
 .editor__menu
   align-items: center
