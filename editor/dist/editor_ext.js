@@ -494,7 +494,8 @@ class Editor extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["compo
   }
 
   guessFields() {
-    const autoFields = new _autoFields__WEBPACK_IMPORTED_MODULE_4__["default"](this.data.obj);
+    const AutoFieldsCls = this.config.get('AutoFieldsCls', _autoFields__WEBPACK_IMPORTED_MODULE_4__["default"]);
+    const autoFields = new AutoFieldsCls(this.data.obj);
     return autoFields.config;
   }
 
@@ -47508,7 +47509,9 @@ class Editor {
     this._strings = null; // Track the serving path of the iframe when it is different.
 
     this._unverifiedServingPath = null;
-    this.selective = new selective_edit__WEBPACK_IMPORTED_MODULE_5__["default"](null, {}); // Add the editor reference to the selective object for field access.
+    this.selective = new selective_edit__WEBPACK_IMPORTED_MODULE_5__["default"](null, {
+      AutoFieldsCls: _autoFields__WEBPACK_IMPORTED_MODULE_6__["default"]
+    }); // Add the editor reference to the selective object for field access.
 
     this.selective.editor = this; // Load the selective editor preference for localize.
 

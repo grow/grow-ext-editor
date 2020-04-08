@@ -88,7 +88,9 @@ export default class Editor {
     // Track the serving path of the iframe when it is different.
     this._unverifiedServingPath = null
 
-    this.selective = new Selective(null, {})
+    this.selective = new Selective(null, {
+      AutoFieldsCls: EditorAutoFields,
+    })
 
     // Add the editor reference to the selective object for field access.
     this.selective.editor = this
