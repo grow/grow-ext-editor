@@ -136,17 +136,19 @@ The following field types are currently available for use in the editor configur
 - `checkbox` - Checkbox boolean field.
 - `date` - Date field.
 - `datetime` - Datetime field.
-- `document` - Grow document reference. Appears as `!g.doc ...` in the yaml.
+- `document` - Grow document reference. Appears as `!g.doc ...` in yaml.
 - `google_image` - Image field for uploading an image to Google Cloud Storage. (Requires configuration.)
 - `group` - Groups together other fields to make them expand/collapse in a group.
-- `image` - Image field for uploading an image to the local filesystem. (In development.)
+- `image` - Image field for uploading an image to the local filesystem.
+- `html` - Rich editor for HTML content.
 - `list` - List field for controlling lists of values.
-- `markdown` - Uses a markdown editor to work with the content. (In development.)
+- `markdown` - Rich editor for Markdown content.
 - `partials` - shows the fields for all partials when editor configuration is defined.
 - `select` - Ability to provide a list of options to choose between. Also works as a multi-select.
+- `string` - Grow string reference field. Allows for referencing strings from the `/content/strings/` files. Appears as `!g.string ...` in yaml.
 - `text` - Standard text field. Converts from input to textarea when text becomes longer.
 - `textarea` - Standard textarea field.
-- `yaml` - Grow yaml file reference. Appears as `!g.yaml ...` in the yaml.
+- `yaml` - Grow yaml file reference. Appears as `!g.yaml ...` in yaml.
 
 ## Development
 
