@@ -50863,10 +50863,11 @@ class StringListUI extends _ui_file__WEBPACK_IMPORTED_MODULE_5__["FileListUI"] {
   }
 
   renderFiles(selective, data, locale) {
-    let podPaths = this.podPaths; // TODO: Allow the current value to also filter the strings.
-    // if (this.filterValue && this.filterValue != '') {
-    //   podPaths = podPaths.filter(createValueFilter(this.filterValue))
-    // }
+    let podPaths = this.podPaths; // Filter the pod paths information to filter by value in the keys and value.
+
+    if (this.filterValue && this.filterValue != '') {
+      podPaths = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_4__["filterObject"])(podPaths, Object(_utility_filter__WEBPACK_IMPORTED_MODULE_4__["createValueFilter"])(this.filterValue), true) || {};
+    }
 
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__file_list">
       ${this.renderFilterInput(selective, data, locale)}
@@ -50878,7 +50879,7 @@ class StringListUI extends _ui_file__WEBPACK_IMPORTED_MODULE_5__["FileListUI"] {
           </div>
           ${this.renderStringsDeep(selective, podPath, podPaths[podPath])}
         `)}
-        ${podPaths.length == 0 ? selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+        ${Object.keys(podPaths).length == 0 ? selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
           <div class="selective__file_list__file selective__file_list__file--empty">
             No matches found.
           </div>` : ''}
@@ -51398,15 +51399,18 @@ function deepExpandArray(arr) {
 /*!**********************************!*\
   !*** ./source/utility/filter.js ***!
   \**********************************/
-/*! exports provided: createWhiteBlackFilter, createValueFilter, regexList */
+/*! exports provided: createWhiteBlackFilter, createValueFilter, filterObject, regexList */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createWhiteBlackFilter", function() { return createWhiteBlackFilter; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createValueFilter", function() { return createValueFilter; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "filterObject", function() { return filterObject; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "regexList", function() { return regexList; });
-// Creates a filter that uses a whitelist and blacklist of regex to filter.
+/* harmony import */ var _dataType__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dataType */ "./source/utility/dataType.js");
+ // Creates a filter that uses a whitelist and blacklist of regex to filter.
+
 const createWhiteBlackFilter = (whitelist, blacklist) => {
   whitelist = whitelist || [];
   blacklist = blacklist || [];
@@ -51439,9 +51443,50 @@ const createWhiteBlackFilter = (whitelist, blacklist) => {
 }; // Creates a filter that uses a value to filter.
 
 const createValueFilter = filterValue => {
+  const regex = RegExp(filterValue, 'i');
   return value => {
-    return value.includes(filterValue);
+    return value.match(regex);
   };
+};
+const filterObject = (obj, filterFunc, includeKeys, keyParts) => {
+  includeKeys = includeKeys || false;
+  keyParts = keyParts || [];
+
+  if (!_dataType__WEBPACK_IMPORTED_MODULE_0__["default"].isObject(obj)) {
+    // Use the filter function to determine if the value should be part of the
+    // filtered object.
+    // Currently only written to work with objects with string leaf nodes.
+    if (filterFunc(obj)) {
+      return obj;
+    }
+
+    return null;
+  }
+
+  const newObj = {};
+  const keys = Object.keys(obj);
+
+  for (const key of keys) {
+    const newKeyParts = keyParts.concat([key]);
+    const fullKey = newKeyParts.join('.'); // Keep the entire value of the matching key if testing keys and matches.
+
+    if (includeKeys && filterFunc(fullKey)) {
+      newObj[key] = obj[key];
+    } else {
+      const subValue = filterObject(obj[key], filterFunc, includeKeys, newKeyParts); // Only add it in to the new object if some of the sub object matches.
+
+      if (subValue) {
+        newObj[key] = subValue;
+      }
+    }
+  } // Do not return if empty.
+
+
+  if (!Object.keys(newObj).length) {
+    return null;
+  }
+
+  return newObj;
 };
 const regexList = (rawList, defaults) => {
   const list = [];

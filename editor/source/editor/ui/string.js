@@ -15,6 +15,7 @@ import {
 import {
   createWhiteBlackFilter,
   createValueFilter,
+  filterObject,
 } from '../../utility/filter'
 import {
   FileListUI,
@@ -95,10 +96,11 @@ export class StringListUI extends FileListUI {
   renderFiles(selective, data, locale) {
     let podPaths = this.podPaths
 
-    // TODO: Allow the current value to also filter the strings.
-    // if (this.filterValue && this.filterValue != '') {
-    //   podPaths = podPaths.filter(createValueFilter(this.filterValue))
-    // }
+    // Filter the pod paths information to filter by value in the keys and value.
+    if (this.filterValue && this.filterValue != '') {
+      podPaths = filterObject(
+        podPaths, createValueFilter(this.filterValue), true) || {}
+    }
 
     return html`<div class="selective__file_list">
       ${this.renderFilterInput(selective, data, locale)}
@@ -110,7 +112,7 @@ export class StringListUI extends FileListUI {
           </div>
           ${this.renderStringsDeep(selective, podPath, podPaths[podPath])}
         `)}
-        ${podPaths.length == 0 ? html`
+        ${Object.keys(podPaths).length == 0 ? html`
           <div class="selective__file_list__file selective__file_list__file--empty">
             No matches found.
           </div>` : ''}
