@@ -7,15 +7,17 @@
   &:last-child
     margin-bottom: 0
 
+  &--guess
+    .editor--highlight &
+      border: $ge-border-size solid $ge-color-back-highlight !important
+      border-radius: $ge-radius-4
+      padding: $ge-pad/2
+
 .selective__field__label
   margin: $ge-pad/2 0
 
   label
     display: block
-
-  .editor--highlight .selective__field--guess &
-    background-color: $ge-color-back-highlight !important
-    color: $ge-color-on-back-highlight
 
 .selective__field__input
   margin: $ge-pad/2 0
