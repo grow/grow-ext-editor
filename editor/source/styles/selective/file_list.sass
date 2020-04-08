@@ -15,9 +15,17 @@
   padding: $ge-pad/2 0
   overflow: auto
 
+.selective__file_list__group
+  font-size: $ge-font-size-small
+  font-weight: 700
+  padding: $ge-pad/2 $ge-pad
+
 .selective__file_list__file
   +field-clickable
   padding: $ge-pad/2 $ge-pad
+
+  .selective__file_list__list--grouped &
+    padding-left: $ge-pad * 1
 
   &--empty
     cursor: default
@@ -25,3 +33,12 @@
 
   &:hover:not(.selective__field__constructor__file--empty)
     background: $ge-color-back-light
+
+.selective__file_list__file__key
+  font-weight: 700
+  margin-bottom: $ge-pad/2
+
+.selective__file_list__file__value
+  max-height: $ge-pad * 7
+  overflow: auto
+  padding-left: $ge-pad/2

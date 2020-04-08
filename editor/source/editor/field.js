@@ -8,6 +8,7 @@ import {
 } from 'selective-edit'
 import {
   DocumentField,
+  StringField,
   YamlField,
 } from './field/constructor'
 import {
@@ -41,6 +42,7 @@ export const defaultFields = {
   'markdown': MarkdownField,
   'partials': PartialsField,
   'select': SelectField,
+  'string': StringField,
   'text': TextField,
   'textarea': TextareaField,
   'yaml': YamlField,

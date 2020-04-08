@@ -83,6 +83,7 @@ export default class Editor {
 
     this._podPaths = null
     this._routes = null
+    this._strings = null
 
     // Track the serving path of the iframe when it is different.
     this._unverifiedServingPath = null
@@ -437,6 +438,22 @@ export default class Editor {
     this.render()
   }
 
+  handleDeviceRotateClick(evt) {
+    this.isDeviceRotated = !this.isDeviceRotated
+    this.render()
+  }
+
+  handleDeviceSwitchClick(evt) {
+    const target = findParentByClassname(evt.target, 'editor__preview__size')
+    this.device = target.dataset.device
+    this.render()
+  }
+
+  handleDeviceToggleClick(evt) {
+    this.isDeviceView = !this.isDeviceView
+    this.render()
+  }
+
   handleLoadPod(response) {
     this._pod = response['pod']
     this.listeners.trigger('load.pod', {
@@ -472,20 +489,11 @@ export default class Editor {
     this.render()
   }
 
-  handleDeviceRotateClick(evt) {
-    this.isDeviceRotated = !this.isDeviceRotated
-    this.render()
-  }
-
-  handleDeviceSwitchClick(evt) {
-    const target = findParentByClassname(evt.target, 'editor__preview__size')
-    this.device = target.dataset.device
-    this.render()
-  }
-
-  handleDeviceToggleClick(evt) {
-    this.isDeviceView = !this.isDeviceView
-    this.render()
+  handleLoadStrings(response) {
+    this._strings = response['strings']
+    this.listeners.trigger('load.strings', {
+      strings: this._strings,
+    })
   }
 
   handleLocalize(evt) {
@@ -612,6 +620,15 @@ export default class Editor {
 
   loadSource(podPath) {
     this.api.getDocument(podPath).then(this.handleLoadSourceResponse.bind(this))
+  }
+
+  loadStrings(force) {
+    if (!force && this._isLoading['strings']) {
+      // Already loading the pod paths, do not re-request.
+      return
+    }
+    this._isLoading['strings'] = true
+    this.api.getStrings().then(this.handleLoadStrings.bind(this))
   }
 
   pushState(podPath) {

@@ -6,4 +6,24 @@
 .selective__field__constructor__file_icon
   +field-clickable
   +field-color
-  padding: 0 $ge-pad/2
+  padding: 0 0 0 $ge-pad/2
+
+.selective__field__constructor__preview
+  align-items: center
+  display: flex
+  flex-flow: row
+  font-size: $ge-font-size-small
+  font-style: oblique
+  margin: $ge-pad/2 0
+
+  .material-icons
+    font-size: $ge-font-size-icon-small
+
+  & > *
+    margin: 0 $ge-pad/4
+
+.selective__field__constructor__preview__value
+  overflow: hidden
+  max-width: 100%
+  text-overflow: ellipsis
+  white-space: nowrap

@@ -31,6 +31,9 @@ export default class EditorAutoFields extends AutoFields {
         case '!g.yaml':
           return 'yaml'
           break
+        case '!g.string':
+          return 'string'
+          break
       }
     }
 

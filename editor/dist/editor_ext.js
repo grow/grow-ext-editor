@@ -47327,6 +47327,10 @@ class EditorAutoFields extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Auto
         case '!g.yaml':
           return 'yaml';
           break;
+
+        case '!g.string':
+          return 'string';
+          break;
       }
     }
 
@@ -47500,7 +47504,8 @@ class Editor {
     this._isRendering = false;
     this._pendingRender = false;
     this._podPaths = null;
-    this._routes = null; // Track the serving path of the iframe when it is different.
+    this._routes = null;
+    this._strings = null; // Track the serving path of the iframe when it is different.
 
     this._unverifiedServingPath = null;
     this.selective = new selective_edit__WEBPACK_IMPORTED_MODULE_5__["default"](null, {}); // Add the editor reference to the selective object for field access.
@@ -47839,6 +47844,22 @@ class Editor {
     this.render();
   }
 
+  handleDeviceRotateClick(evt) {
+    this.isDeviceRotated = !this.isDeviceRotated;
+    this.render();
+  }
+
+  handleDeviceSwitchClick(evt) {
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_9__["findParentByClassname"])(evt.target, 'editor__preview__size');
+    this.device = target.dataset.device;
+    this.render();
+  }
+
+  handleDeviceToggleClick(evt) {
+    this.isDeviceView = !this.isDeviceView;
+    this.render();
+  }
+
   handleLoadPod(response) {
     this._pod = response['pod'];
     this.listeners.trigger('load.pod', {
@@ -47874,20 +47895,11 @@ class Editor {
     this.render();
   }
 
-  handleDeviceRotateClick(evt) {
-    this.isDeviceRotated = !this.isDeviceRotated;
-    this.render();
-  }
-
-  handleDeviceSwitchClick(evt) {
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_9__["findParentByClassname"])(evt.target, 'editor__preview__size');
-    this.device = target.dataset.device;
-    this.render();
-  }
-
-  handleDeviceToggleClick(evt) {
-    this.isDeviceView = !this.isDeviceView;
-    this.render();
+  handleLoadStrings(response) {
+    this._strings = response['strings'];
+    this.listeners.trigger('load.strings', {
+      strings: this._strings
+    });
   }
 
   handleLocalize(evt) {
@@ -48015,6 +48027,16 @@ class Editor {
 
   loadSource(podPath) {
     this.api.getDocument(podPath).then(this.handleLoadSourceResponse.bind(this));
+  }
+
+  loadStrings(force) {
+    if (!force && this._isLoading['strings']) {
+      // Already loading the pod paths, do not re-request.
+      return;
+    }
+
+    this._isLoading['strings'] = true;
+    this.api.getStrings().then(this.handleLoadStrings.bind(this));
   }
 
   pushState(podPath) {
@@ -48337,6 +48359,14 @@ class EditorApi extends _utility_api__WEBPACK_IMPORTED_MODULE_0__["default"] {
     return result.promise;
   }
 
+  getStrings() {
+    const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
+    this.request.get(this.apiPath('strings')).then(res => {
+      result.resolve(res.body);
+    });
+    return result.promise;
+  }
+
   saveDocumentFields(podPath, frontMatter, locale, content) {
     const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
     const saveRequest = {
@@ -48433,6 +48463,7 @@ const defaultFields = {
   'markdown': _field_standard__WEBPACK_IMPORTED_MODULE_4__["MarkdownField"],
   'partials': _field_partials__WEBPACK_IMPORTED_MODULE_3__["PartialsField"],
   'select': _field_standard__WEBPACK_IMPORTED_MODULE_4__["SelectField"],
+  'string': _field_constructor__WEBPACK_IMPORTED_MODULE_1__["StringField"],
   'text': _field_standard__WEBPACK_IMPORTED_MODULE_4__["TextField"],
   'textarea': _field_standard__WEBPACK_IMPORTED_MODULE_4__["TextareaField"],
   'yaml': _field_constructor__WEBPACK_IMPORTED_MODULE_1__["YamlField"]
@@ -48444,7 +48475,7 @@ const defaultFields = {
 /*!********************************************!*\
   !*** ./source/editor/field/constructor.js ***!
   \********************************************/
-/*! exports provided: ConstructorField, ConstructorFileField, DocumentField, YamlField */
+/*! exports provided: ConstructorField, ConstructorFileField, DocumentField, StringField, YamlField */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48452,13 +48483,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ConstructorField", function() { return ConstructorField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ConstructorFileField", function() { return ConstructorFileField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DocumentField", function() { return DocumentField; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "StringField", function() { return StringField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "YamlField", function() { return YamlField; });
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
 /* harmony import */ var _utility_filter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/filter */ "./source/utility/filter.js");
-/* harmony import */ var _ui_file__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../ui/file */ "./source/editor/ui/file.js");
+/* harmony import */ var _utility_dataType__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/dataType */ "./source/utility/dataType.js");
+/* harmony import */ var _ui_file__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../ui/file */ "./source/editor/ui/file.js");
+/* harmony import */ var _ui_string__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../ui/string */ "./source/editor/ui/string.js");
 /**
  * Constructor field types for the editor extension.
  */
+
+
 
 
 
@@ -48495,6 +48531,7 @@ class ConstructorFileField extends ConstructorField {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
     this._fileListUi = {};
+    this._fileListCls = _ui_file__WEBPACK_IMPORTED_MODULE_3__["FileListUI"];
     this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["createWhiteBlackFilter"])( // Whitelist.
     Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(this.config.get('whitelist')), // Blacklist.
     Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(this.config.get('blacklist')));
@@ -48514,7 +48551,7 @@ class ConstructorFileField extends ConstructorField {
     const localeKey = this.keyForLocale(locale);
 
     if (!this._fileListUi[localeKey]) {
-      this._fileListUi[localeKey] = new _ui_file__WEBPACK_IMPORTED_MODULE_2__["FileListUI"]({
+      this._fileListUi[localeKey] = new this._fileListCls({
         'filterFunc': this.filterFunc
       }); // Bind the pod path listener event for the UI.
 
@@ -48547,7 +48584,7 @@ class ConstructorFileField extends ConstructorField {
           placeholder=${this.config.placeholder || ''}
           data-locale=${locale || ''}
           @input=${this.handleInput.bind(this)}
-          value=${value.value || ''} />
+          value=${value.value || (_utility_dataType__WEBPACK_IMPORTED_MODULE_2__["default"].isObject(value) ? '' : value) || ''} />
         <i
             class=${this.classesFileIcon(value, fileListUi)}
             title="Select pod path"
@@ -48556,7 +48593,12 @@ class ConstructorFileField extends ConstructorField {
           list_alt
         </i>
       </div>
+      ${this.renderMeta(selective, data, locale, value)}
       ${fileListUi.renderFileList(selective, data, locale)}`;
+  }
+
+  renderMeta(selective, data, locale, value) {
+    return '';
   }
 
 }
@@ -48568,6 +48610,66 @@ class DocumentField extends ConstructorFileField {
     this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["createWhiteBlackFilter"])( // Whitelist.
     Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(this.config.get('whitelist'), [/^\/content\//]), // Blacklist.
     Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(this.config.get('blacklist')));
+  }
+
+}
+class StringField extends ConstructorFileField {
+  constructor(config, extendedConfig) {
+    super(config, extendedConfig);
+    this.fieldType = 'string';
+    this.tag = '!g.string';
+    this._fileListUi = {};
+    this._fileListCls = _ui_string__WEBPACK_IMPORTED_MODULE_4__["StringListUI"];
+    this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["createWhiteBlackFilter"])( // Whitelist.
+    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(this.config.get('whitelist')), // Blacklist.
+    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(this.config.get('blacklist')));
+  }
+
+  handleInput(evt) {
+    const locale = evt.target.dataset.locale;
+    const fileListUi = this.fileListUiForLocale(locale);
+    const inputValue = evt.target.value;
+    let value = inputValue; // Constructors are represented as objects in json.
+    // Let it be a normal string if there is not matching string.
+
+    if (fileListUi.isValueValidReference(inputValue)) {
+      console.log('inputValue is valid reference.', inputValue);
+      value = {
+        'value': value,
+        'tag': this.tag
+      };
+    }
+
+    this.setValueForLocale(locale, value);
+  }
+
+  renderInput(selective, data, locale) {
+    // Need to load the strings to validate the value.
+    // Editor ensures it only loads once.
+    selective.editor.loadStrings();
+    return super.renderInput(selective, data, locale);
+  }
+
+  renderMeta(selective, data, locale, value) {
+    // If the value of the field is a string reference show a preview of the
+    // string value.
+    if (_utility_dataType__WEBPACK_IMPORTED_MODULE_2__["default"].isObject(value)) {
+      const fileListUi = this.fileListUiForLocale(locale);
+      const metaValue = fileListUi.valueFromReference(value.value);
+
+      if (metaValue) {
+        return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+          <div
+              class="selective__field__constructor__preview">
+            <i class="material-icons">input</i>
+            <div class="selective__field__constructor__preview__value">
+              ${metaValue}
+            </div>
+          </div>`;
+      }
+    }
+
+    return '';
   }
 
 }
@@ -50561,59 +50663,6 @@ class FileListUI extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["UI"] {
     this.showFileList = false;
   }
 
-  renderFilterInput(selective, data, locale) {
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <input
-        id="${this.uid}-filter"
-        type="text"
-        @input=${this.handleInputFilter.bind(this)}
-        placeholder="Filter..." />`;
-  }
-
-  renderFileList(selective, data, locale) {
-    this.bindListeners(selective);
-
-    if (!this.showFileList) {
-      return '';
-    } // If the pod paths have not loaded, show the loading status.
-
-
-    if (!this.podPaths) {
-      // Editor ensures it only loads once.
-      selective.editor.loadPodPaths();
-      return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__file_list">
-        ${this.renderFilterInput(selective, data, locale)}
-        <div class="selective__file_list__list" data-locale=${locale || ''}>
-          <div class="editor__loading editor__loading--small editor__loading--pad"></div>
-        </div>
-      </div>`;
-    }
-
-    let podPaths = this.podPaths; // Allow the current value to also filter the pod paths.
-
-    if (this.filterValue && this.filterValue != '') {
-      podPaths = podPaths.filter(Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createValueFilter"])(this.filterValue));
-    }
-
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__file_list">
-      ${this.renderFilterInput(selective, data, locale)}
-      <div class="selective__file_list__list" data-locale=${locale || ''}>
-        ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(podPaths, podPath => podPath, (podPath, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-          <div
-              class="selective__file_list__file"
-              data-pod-path=${podPath}
-              @click=${this.handleFileClick.bind(this)}>
-            ${podPath}
-          </div>
-        `)}
-        ${podPaths.length == 0 ? selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-          <div class="selective__file_list__file selective__file_list__file--empty">
-            No matches found.
-          </div>` : ''}
-      </div>
-    </div>`;
-  }
-
   bindListeners(selective) {
     // Bind the field to the pod paths loading.
     if (!this._listeningForPodPaths) {
@@ -50658,6 +50707,66 @@ class FileListUI extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["UI"] {
     this.render();
   }
 
+  renderFilterInput(selective, data, locale) {
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <input
+        id="${this.uid}-filter"
+        type="text"
+        @input=${this.handleInputFilter.bind(this)}
+        placeholder="Filter..." />`;
+  }
+
+  renderFileList(selective, data, locale) {
+    this.bindListeners(selective);
+
+    if (!this.showFileList) {
+      return '';
+    } // If the pod paths have not loaded, show the loading status.
+
+
+    if (!this.podPaths) {
+      this.triggerLoad(selective);
+      return this.renderLoading(selective, data, locale);
+    }
+
+    return this.renderFiles(selective, data, locale);
+  }
+
+  renderFiles(selective, data, locale) {
+    let podPaths = this.podPaths; // Allow the current value to also filter the pod paths.
+
+    if (this.filterValue && this.filterValue != '') {
+      podPaths = podPaths.filter(Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createValueFilter"])(this.filterValue));
+    }
+
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__file_list">
+      ${this.renderFilterInput(selective, data, locale)}
+      <div class="selective__file_list__list" data-locale=${locale || ''}>
+        ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(podPaths, podPath => podPath, (podPath, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+          <div
+              class="selective__file_list__file"
+              data-pod-path=${podPath}
+              @click=${this.handleFileClick.bind(this)}>
+            ${podPath}
+          </div>
+        `)}
+        ${podPaths.length == 0 ? selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+          <div class="selective__file_list__file selective__file_list__file--empty">
+            No matches found.
+          </div>` : ''}
+      </div>
+    </div>`;
+  }
+
+  renderLoading(selective, data, locale) {
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__file_list">
+      ${this.renderFilterInput(selective, data, locale)}
+      <div class="selective__file_list__list" data-locale=${locale || ''}>
+        <div class="editor__loading editor__loading--small editor__loading--pad"></div>
+      </div>
+    </div>`;
+  }
+
   toggle() {
     this.showFileList = !this.showFileList;
 
@@ -50666,6 +50775,179 @@ class FileListUI extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["UI"] {
     }
 
     this.render();
+  }
+
+  triggerLoad(selective) {
+    // Editor ensures it only loads once.
+    selective.editor.loadPodPaths();
+  }
+
+}
+
+/***/ }),
+
+/***/ "./source/editor/ui/string.js":
+/*!************************************!*\
+  !*** ./source/editor/ui/string.js ***!
+  \************************************/
+/*! exports provided: StringListUI */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "StringListUI", function() { return StringListUI; });
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var _utility_dataType__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dataType */ "./source/utility/dataType.js");
+/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/deepObject */ "./source/utility/deepObject.js");
+/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
+/* harmony import */ var _utility_filter__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../utility/filter */ "./source/utility/filter.js");
+/* harmony import */ var _ui_file__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../ui/file */ "./source/editor/ui/file.js");
+/**
+ * UI elements for the working with string files.
+ */
+
+
+
+
+
+
+class StringListUI extends _ui_file__WEBPACK_IMPORTED_MODULE_5__["FileListUI"] {
+  constructor(config) {
+    super(config);
+    this._listeningForStrings = false;
+  }
+
+  bindListeners(selective) {
+    // Bind the field to the pod paths loading.
+    if (!this._listeningForStrings) {
+      this._listeningForStrings = true; // Check if the pod paths are already loaded.
+
+      if (selective.editor._strings) {
+        this.handleStrings({
+          strings: selective.editor._strings
+        });
+      } // Bind to the load event to listen for future changes to the strings.
+
+
+      selective.editor.listeners.add('load.strings', this.handleStrings.bind(this));
+    }
+  }
+
+  handleFileClick(evt) {
+    const localeTarget = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_3__["findParentByClassname"])(evt.target, 'selective__file_list__list');
+    const dataTarget = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_3__["findParentByClassname"])(evt.target, 'selective__file_list__file');
+    const locale = localeTarget.dataset.locale;
+    const podPath = dataTarget.dataset.podPath;
+    const key = dataTarget.dataset.key;
+    const filename = podPath.split('/').pop();
+    const filebase = filename.replace(/.y[a]?ml$/i, '');
+    const reference = `${filebase}.${key}`;
+    this.showFileList = false;
+    this.listeners.trigger('podPath', reference, locale);
+  }
+
+  handleStrings(response) {
+    this.podPaths = response.strings; // TODO: filter the keys using the filter function.
+    // .sort().filter(this.filterFunc)
+
+    this.delayedFocus();
+    this.render();
+  }
+
+  isValueValidReference(reference) {
+    return Boolean(this.valueFromReference(reference));
+  }
+
+  _partsFromReference(reference) {
+    if (!reference || !this.podPaths) {
+      return null;
+    }
+
+    const referenceParts = reference.split('.'); // String references need at least 2 parts: filebase and key.
+
+    if (referenceParts.length < 2) {
+      return null;
+    }
+
+    const filebase = referenceParts.shift();
+    const podPath = `/content/strings/${filebase}.yaml`;
+    return {
+      'podPath': podPath,
+      'reference': referenceParts.join('.')
+    };
+  }
+
+  renderFiles(selective, data, locale) {
+    let podPaths = this.podPaths; // TODO: Allow the current value to also filter the strings.
+    // if (this.filterValue && this.filterValue != '') {
+    //   podPaths = podPaths.filter(createValueFilter(this.filterValue))
+    // }
+
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__file_list">
+      ${this.renderFilterInput(selective, data, locale)}
+      <div class="selective__file_list__list selective__file_list__list--grouped" data-locale=${locale || ''}>
+        ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(Object.keys(podPaths), podPath => podPath, (podPath, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+          <div
+              class="selective__file_list__group">
+            ${podPath}
+          </div>
+          ${this.renderStringsDeep(selective, podPath, podPaths[podPath])}
+        `)}
+        ${podPaths.length == 0 ? selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+          <div class="selective__file_list__file selective__file_list__file--empty">
+            No matches found.
+          </div>` : ''}
+      </div>
+    </div>`;
+  }
+
+  renderStringsDeep(selective, podPath, value, keys) {
+    keys = keys || [];
+
+    if (_utility_dataType__WEBPACK_IMPORTED_MODULE_1__["default"].isObject(value)) {
+      return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+        ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(Object.keys(value).sort(), key => keys.concat([key]).join('_'), (key, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+          ${this.renderStringsDeep(selective, podPath, value[key], keys.concat([key]))}
+        `)}`;
+    } else {
+      return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+        <div
+            class="selective__file_list__file"
+            data-pod-path=${podPath}
+            data-key=${keys.join('.')}
+            @click=${this.handleFileClick.bind(this)}>
+          <div class="selective__file_list__file__key">
+            ${keys.join('.')}
+          </div>
+          <div class="selective__file_list__file__value">
+            ${value}
+          </div>
+        </div>`;
+    }
+  }
+
+  triggerLoad(selective) {
+    // Editor ensures it only loads once.
+    selective.editor.loadStrings();
+  }
+
+  valueFromReference(reference) {
+    if (!this.podPaths) {
+      return null;
+    }
+
+    const parts = this._partsFromReference(reference);
+
+    if (!parts) {
+      return null;
+    }
+
+    if (!this.podPaths[parts.podPath]) {
+      return null;
+    }
+
+    const deepValue = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_2__["autoDeepObject"])(this.podPaths[parts.podPath]);
+    return deepValue.get(parts.reference);
   }
 
 }
@@ -50840,6 +51122,72 @@ class Config {
   set(key, value) {
     this._config[key] = value;
     return this[key] = value;
+  }
+
+}
+
+/***/ }),
+
+/***/ "./source/utility/dataType.js":
+/*!************************************!*\
+  !*** ./source/utility/dataType.js ***!
+  \************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return DataType; });
+/**
+ * Utility for determining the type of a data value.
+ */
+class DataType {
+  static isArray(value) {
+    if (Array.isArray) {
+      return Array.isArray(value);
+    }
+
+    return value && typeof value === 'object' && value.constructor === Array;
+  }
+
+  static isBoolean(value) {
+    return typeof value === 'boolean';
+  }
+
+  static isDate(value) {
+    return value instanceof Date;
+  }
+
+  static isFunction(value) {
+    return typeof value === 'function';
+  }
+
+  static isNumber(value) {
+    return typeof value === 'number' && isFinite(value);
+  }
+
+  static isNull(value) {
+    return value === null;
+  }
+
+  static isObject(value) {
+    return value && typeof value === 'object' && value.constructor === Object;
+  }
+
+  static isRegExp(value) {
+    return value && typeof value === 'object' && value.constructor === RegExp;
+  }
+
+  static isString(value) {
+    return typeof value === 'string' || value instanceof String;
+  }
+
+  static isSymbol(value) {
+    return typeof value === 'symbol';
+  }
+
+  static isUndefined(value) {
+    return typeof value === 'undefined';
   }
 
 }

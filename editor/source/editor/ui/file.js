@@ -33,61 +33,6 @@ export class FileListUI extends UI {
     this.showFileList = false
   }
 
-  renderFilterInput(selective, data, locale) {
-    return html`
-      <input
-        id="${this.uid}-filter"
-        type="text"
-        @input=${this.handleInputFilter.bind(this)}
-        placeholder="Filter..." />`
-  }
-
-  renderFileList(selective, data, locale) {
-    this.bindListeners(selective)
-
-    if (!this.showFileList) {
-      return ''
-    }
-
-    // If the pod paths have not loaded, show the loading status.
-    if (!this.podPaths) {
-      // Editor ensures it only loads once.
-      selective.editor.loadPodPaths()
-
-      return html`<div class="selective__file_list">
-        ${this.renderFilterInput(selective, data, locale)}
-        <div class="selective__file_list__list" data-locale=${locale || ''}>
-          <div class="editor__loading editor__loading--small editor__loading--pad"></div>
-        </div>
-      </div>`
-    }
-
-    let podPaths = this.podPaths
-
-    // Allow the current value to also filter the pod paths.
-    if (this.filterValue && this.filterValue != '') {
-      podPaths = podPaths.filter(createValueFilter(this.filterValue))
-    }
-
-    return html`<div class="selective__file_list">
-      ${this.renderFilterInput(selective, data, locale)}
-      <div class="selective__file_list__list" data-locale=${locale || ''}>
-        ${repeat(podPaths, (podPath) => podPath, (podPath, index) => html`
-          <div
-              class="selective__file_list__file"
-              data-pod-path=${podPath}
-              @click=${this.handleFileClick.bind(this)}>
-            ${podPath}
-          </div>
-        `)}
-        ${podPaths.length == 0 ? html`
-          <div class="selective__file_list__file selective__file_list__file--empty">
-            No matches found.
-          </div>` : ''}
-      </div>
-    </div>`
-  }
-
   bindListeners(selective) {
     // Bind the field to the pod paths loading.
     if (!this._listeningForPodPaths) {
@@ -133,11 +78,77 @@ export class FileListUI extends UI {
     this.render()
   }
 
+  renderFilterInput(selective, data, locale) {
+    return html`
+      <input
+        id="${this.uid}-filter"
+        type="text"
+        @input=${this.handleInputFilter.bind(this)}
+        placeholder="Filter..." />`
+  }
+
+  renderFileList(selective, data, locale) {
+    this.bindListeners(selective)
+
+    if (!this.showFileList) {
+      return ''
+    }
+
+    // If the pod paths have not loaded, show the loading status.
+    if (!this.podPaths) {
+      this.triggerLoad(selective)
+      return this.renderLoading(selective, data, locale)
+    }
+
+    return this.renderFiles(selective, data, locale)
+  }
+
+  renderFiles(selective, data, locale) {
+    let podPaths = this.podPaths
+
+    // Allow the current value to also filter the pod paths.
+    if (this.filterValue && this.filterValue != '') {
+      podPaths = podPaths.filter(createValueFilter(this.filterValue))
+    }
+
+    return html`<div class="selective__file_list">
+      ${this.renderFilterInput(selective, data, locale)}
+      <div class="selective__file_list__list" data-locale=${locale || ''}>
+        ${repeat(podPaths, (podPath) => podPath, (podPath, index) => html`
+          <div
+              class="selective__file_list__file"
+              data-pod-path=${podPath}
+              @click=${this.handleFileClick.bind(this)}>
+            ${podPath}
+          </div>
+        `)}
+        ${podPaths.length == 0 ? html`
+          <div class="selective__file_list__file selective__file_list__file--empty">
+            No matches found.
+          </div>` : ''}
+      </div>
+    </div>`
+  }
+
+  renderLoading(selective, data, locale) {
+    return html`<div class="selective__file_list">
+      ${this.renderFilterInput(selective, data, locale)}
+      <div class="selective__file_list__list" data-locale=${locale || ''}>
+        <div class="editor__loading editor__loading--small editor__loading--pad"></div>
+      </div>
+    </div>`
+  }
+
   toggle() {
     this.showFileList = !this.showFileList
     if(this.showFileList) {
       this.delayedFocus()
     }
     this.render()
+  }
+
+  triggerLoad(selective) {
+    // Editor ensures it only loads once.
+    selective.editor.loadPodPaths()
   }
 }
