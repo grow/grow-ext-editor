@@ -406,8 +406,13 @@ export default class Editor {
           break
         }
       }
+
       if (contentConfigIndex) {
         fieldConfigs.splice(contentConfigIndex, 1)
+      }
+
+      for (const fieldConfig of fieldConfigs) {
+        fieldConfig.isGuessed = true
       }
     }
 

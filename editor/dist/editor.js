@@ -616,6 +616,10 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compos
       classes.push('selective__field--translatable');
     }
 
+    if (this.config.isGuessed) {
+      classes.push('selective__field--guess');
+    }
+
     return classes.join(' ');
   }
 
@@ -985,7 +989,12 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
 
 
       for (let fieldConfig of fieldConfigs || []) {
-        fieldConfig = Object(_utility_config__WEBPACK_IMPORTED_MODULE_6__["autoConfig"])(fieldConfig, this.globalConfig);
+        fieldConfig = Object(_utility_config__WEBPACK_IMPORTED_MODULE_6__["autoConfig"])(fieldConfig, this.globalConfig); // Mark the auto fields.
+
+        if (this._useAutoFields) {
+          fieldConfig.set('isGuessed', true);
+        }
+
         fields.addField(fieldConfig, this.globalConfig);
       } // When an is not expanded it does not get the value
       // updated correctly so we need to manually call the data update.
@@ -1389,7 +1398,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
     const origValue = this.getOriginalValueForLocale(locale) || [];
     const origValueLen = origValue.length;
     return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
-      <div class="selective__list ${this._useAutoFields ? 'selective__list--auto' : ''}">
+      <div class="selective__list">
         ${Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__["repeat"])(items, item => item.uid, (item, index) => this.renderItem(selective, index < origValueLen ? origValue[index] : item.fields.defaultValue, item, index, locale))}
         ${items.length < 1 ? this.renderItemEmpty(selective, data, 0, locale) : ''}
       </div>
@@ -47799,6 +47808,10 @@ class Editor {
       if (contentConfigIndex) {
         fieldConfigs.splice(contentConfigIndex, 1);
       }
+
+      for (const fieldConfig of fieldConfigs) {
+        fieldConfig.isGuessed = true;
+      }
     }
 
     for (const fieldConfig of fieldConfigs) {
@@ -48445,9 +48458,9 @@ const defaultFields = {
   'document': _field_constructor__WEBPACK_IMPORTED_MODULE_1__["DocumentField"],
   'google_image': _field_image__WEBPACK_IMPORTED_MODULE_2__["GoogleImageField"],
   'group': selective_edit__WEBPACK_IMPORTED_MODULE_0__["GroupField"],
+  'html': _field_standard__WEBPACK_IMPORTED_MODULE_4__["HtmlField"],
   'image': _field_image__WEBPACK_IMPORTED_MODULE_2__["ImageFileField"],
   'list': selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListField"],
-  'html': _field_standard__WEBPACK_IMPORTED_MODULE_4__["HtmlField"],
   'markdown': _field_standard__WEBPACK_IMPORTED_MODULE_4__["MarkdownField"],
   'partials': _field_partials__WEBPACK_IMPORTED_MODULE_3__["PartialsField"],
   'select': _field_standard__WEBPACK_IMPORTED_MODULE_4__["SelectField"],
