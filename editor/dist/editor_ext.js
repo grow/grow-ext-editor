@@ -1134,6 +1134,13 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
 
       if (previewValue) {
         return previewValue;
+      } // Also check for translation marked keys.
+
+
+      previewValue = dataDeepObject.get(`${key}@`);
+
+      if (previewValue) {
+        return previewValue;
       }
     }
 
