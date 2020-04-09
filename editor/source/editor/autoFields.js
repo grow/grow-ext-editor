@@ -20,6 +20,16 @@ export default class EditorAutoFields extends AutoFields {
   }
 
   /**
+   * From a key guess the label of the field.
+   */
+  labelFromKey(key) {
+    let label = super.labelFromKey(key)
+    // Strip off translation @.
+    label = label.replace(/@$/, '')
+    return label
+  }
+
+  /**
    * From a value, guess the type of field.
    */
   typeFromValue(value) {
