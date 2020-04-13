@@ -9,6 +9,9 @@ import {
   ListField,
   ListItem,
 } from 'selective-edit'
+import {
+  findParentByClassname,
+} from '../../utility/dom'
 import EditorAutoFields from '../autoFields'
 
 export class PartialsField extends ListField {
@@ -18,6 +21,7 @@ export class PartialsField extends ListField {
     this.partialTypes = null
     this.api = this.config.get('api')
     this.api.getPartials().then(this.handleLoadPartialsResponse.bind(this))
+    this._showPartialList = false
   }
 
   getPartialConfig(partialKey) {
@@ -97,8 +101,18 @@ export class PartialsField extends ListField {
     }
   }
 
+  delayedScroll() {
+    // Wait for the render then scroll to the list.
+    document.addEventListener('selective.render.complete', () => {
+      document.querySelector('#partials_list').scrollIntoView(true)
+    }, {
+      once: true,
+    })
+  }
+
   handleAddItem(evt, selective) {
-    const partialKey = evt.target.value
+    const target = findParentByClassname(evt.target, `selective__partials__list__item`)
+    const partialKey = target.dataset.partialKey
 
     if (!partialKey) {
       return
@@ -138,18 +152,48 @@ export class PartialsField extends ListField {
     this.render()
   }
 
+  handleTogglePartialList() {
+    this._showPartialList = !this._showPartialList
+    this.render()
+  }
+
   renderActionsFooter(selective, data, locale) {
     if (!this.partialTypes) {
       return ''
     }
 
+    if (this._showPartialList) {
+      this.delayedScroll()
+      return html`<div class="selective__partials__list" id="partials_list">
+          <div class="selective__actions">
+            <button
+                class="selective__button"
+                @click=${this.handleTogglePartialList.bind(this)}>
+              ${this.config.hideLabel || 'Hide partials'}
+            </button>
+          </div>
+          ${repeat(Object.entries(this.partialTypes), (item) => item[0], (item, index) => html`
+            <div
+                class="selective__partials__list__item"
+                data-partial-key=${item[1]['key']}
+                @click=${(evt) => {this.handleAddItem(evt, selective)}}>
+              <div class="selective__partials__list__details">
+                <h3>${item[1]['label']}</h3>
+                ${item[1]['description'] ? html`<p>${item[1]['description']}</p>` : ''}
+              </div>
+              <div class="selective__partials__list__preview">
+                ${item[1]['preview_image'] ? html`<img src="${item[1]['preview_image']}" alt="${item[1]['description']}">` : ''}
+              </div>
+            </div>`)}
+        </div>`
+    }
+
     return html`<div class="selective__actions">
-      <select class="selective__actions__add" @change=${(evt) => {this.handleAddItem(evt, selective)}}>
-        <option value="">${this.config.addLabel || 'Add partial'}</option>
-        ${repeat(Object.entries(this.partialTypes), (item) => item[0], (item, index) => html`
-          <option value="${item[1]['key']}">${item[1]['label']}</option>
-        `)}
-      </select>
+      <button
+          class="selective__button"
+          @click=${this.handleTogglePartialList.bind(this)}>
+        ${this.config.addLabel || 'Add partial'}
+      </button>
     </div>`
   }
 
