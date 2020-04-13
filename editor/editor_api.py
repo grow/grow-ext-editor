@@ -14,13 +14,12 @@ from grow.common import yaml_utils
 from grow.documents import document
 from grow.documents import document_front_matter
 from grow.routing import router as grow_router
+from api import yaml_conversion
 
 
 class PodApi(object):
     """Basic pod api."""
 
-    DATE_RE = re.compile(r'^[\d]{4}-[\d]{2}-[\d]{2}$')
-    DATETIME_RE = re.compile(r'^[\d]{4}-[\d]{2}-[\d]{2}T[\d]{2}:[\d]{2}$')
     EDITOR_FILE_NAME = '_editor.yaml'
     PARTIALS_VIEWS_PATH = '/views/partials'
     STRINGS_PATH = '/content/strings'
@@ -57,42 +56,6 @@ class PodApi(object):
         """Generate a response object from the request information."""
         data = json.dumps(self.data, cls=json_encoder.GrowJSONEncoder)
         return wrappers.Response(data, mimetype='application/json')
-
-    def _convert_fields(self, fields):
-        """Convert raw field data from submission to use objects when needed."""
-        # Convert the !g constructors into their objects.
-        def _walk_field(item, key, node, parent_node):
-            # Convert dates.
-            try:
-                value = node[key]
-                if self.DATETIME_RE.match(value):
-                    node[key] = datetime.datetime.strptime(value, "%Y-%m-%dT%H:%M")
-                elif self.DATE_RE.match(value):
-                    tempValue = datetime.datetime.strptime(value, "%Y-%m-%d")
-                    node[key] = datetime.date(tempValue.year, tempValue.month, tempValue.day)
-            except:
-                pass
-
-            # Convert constructors.
-            if key == 'tag' and item.startswith('!g.') and 'value' in node:
-                newValue = ConstructorReference(item, node['value'])
-
-                try:
-                    # Try as an array.
-                    for index, parent_key in enumerate(parent_node):
-                        if parent_node[index] == node:
-                            parent_node[index] = newValue
-                            break
-                except KeyError:
-                    # Try as a dict.
-                    for parent_key in parent_node:
-                        if parent_node[parent_key] == node:
-                            parent_node[parent_key] = newValue
-
-
-        utils.walk(fields, _walk_field)
-
-        return fields
 
     def _editor_config(self, doc):
         """Return the editor configuration for the document."""
@@ -424,16 +387,14 @@ class PodApi(object):
             doc.write()
         elif 'front_matter' in self.request.POST:
             fields = json.loads(self.request.POST['front_matter'])
-            fields = self._convert_fields(fields)
+            fields = yaml_conversion.convert_fields(fields)
 
-            # TODO: Array updates don't work well.
-            doc.format.front_matter.update_fields(fields)
             if 'content' in self.request.POST:
                 content = self.request.POST['content']
                 content = content.encode('utf-8')
-                doc.write(body=content)
+                doc.write(fields=fields, body=content)
             else:
-                doc.write()
+                doc.write(fields=fields)
 
         self.pod.podcache.document_cache.remove(doc)
         self.data = self._load_doc(pod_path)
@@ -451,18 +412,3 @@ def serve_api(pod, request, matched, **_kwargs):
     """Serve the default console page."""
     api = PodApi(pod, request, matched)
     return api.response
-
-
-# Allow the yaml dump to write out a representation of the !g.yaml.
-def g_representer(dumper, data):
-    return dumper.represent_scalar(data.tag, data.pod_path)
-
-
-class ConstructorReference:
-    """Helper class to serialize !g.* fields."""
-
-    def __init__(self, tag, pod_path):
-        self.tag = tag
-        self.pod_path = pod_path
-
-yaml.SafeDumper.add_representer(ConstructorReference, g_representer)

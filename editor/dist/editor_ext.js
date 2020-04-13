@@ -87,9 +87,9 @@
 /******/ ({
 
 /***/ "../../../selective-edit/js/mixin/config.js":
-/*!********************************************************************!*\
-  !*** /Users/randymerrill/blinkk/selective-edit/js/mixin/config.js ***!
-  \********************************************************************/
+/*!******************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/mixin/config.js ***!
+  \******************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -122,9 +122,9 @@ const ConfigMixin = superclass => class extends superclass {
 /***/ }),
 
 /***/ "../../../selective-edit/js/mixin/uid.js":
-/*!*****************************************************************!*\
-  !*** /Users/randymerrill/blinkk/selective-edit/js/mixin/uid.js ***!
-  \*****************************************************************/
+/*!***************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/mixin/uid.js ***!
+  \***************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -152,9 +152,9 @@ const UidMixin = superclass => class extends superclass {
 /***/ }),
 
 /***/ "../../../selective-edit/js/selective.js":
-/*!*****************************************************************!*\
-  !*** /Users/randymerrill/blinkk/selective-edit/js/selective.js ***!
-  \*****************************************************************/
+/*!***************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/selective.js ***!
+  \***************************************************************/
 /*! exports provided: default, Field, GroupField, ListField, ListItem, Fields, AutoFields, UI, directive, html, repeat, render, autoConfig, autoDeepObject */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -218,9 +218,9 @@ const Selective = _selective_editor__WEBPACK_IMPORTED_MODULE_2__["default"];
 /***/ }),
 
 /***/ "../../../selective-edit/js/selective/autoFields.js":
-/*!****************************************************************************!*\
-  !*** /Users/randymerrill/blinkk/selective-edit/js/selective/autoFields.js ***!
-  \****************************************************************************/
+/*!**************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/selective/autoFields.js ***!
+  \**************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -381,9 +381,9 @@ class AutoFields extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_1__["c
 /***/ }),
 
 /***/ "../../../selective-edit/js/selective/editor.js":
-/*!************************************************************************!*\
-  !*** /Users/randymerrill/blinkk/selective-edit/js/selective/editor.js ***!
-  \************************************************************************/
+/*!**********************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/selective/editor.js ***!
+  \**********************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -545,9 +545,9 @@ class Editor extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["compo
 /***/ }),
 
 /***/ "../../../selective-edit/js/selective/field/field.js":
-/*!*****************************************************************************!*\
-  !*** /Users/randymerrill/blinkk/selective-edit/js/selective/field/field.js ***!
-  \*****************************************************************************/
+/*!***************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/selective/field/field.js ***!
+  \***************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -906,9 +906,9 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compos
 /***/ }),
 
 /***/ "../../../selective-edit/js/selective/field/list.js":
-/*!****************************************************************************!*\
-  !*** /Users/randymerrill/blinkk/selective-edit/js/selective/field/list.js ***!
-  \****************************************************************************/
+/*!**************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/selective/field/list.js ***!
+  \**************************************************************************/
 /*! exports provided: ListField, ListItem */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1564,9 +1564,9 @@ class ListItem extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["com
 /***/ }),
 
 /***/ "../../../selective-edit/js/selective/field/structure.js":
-/*!*********************************************************************************!*\
-  !*** /Users/randymerrill/blinkk/selective-edit/js/selective/field/structure.js ***!
-  \*********************************************************************************/
+/*!*******************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/selective/field/structure.js ***!
+  \*******************************************************************************/
 /*! exports provided: GroupField */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1691,9 +1691,9 @@ class GroupField extends _field__WEBPACK_IMPORTED_MODULE_6__["default"] {
 /***/ }),
 
 /***/ "../../../selective-edit/js/selective/fieldTypes.js":
-/*!****************************************************************************!*\
-  !*** /Users/randymerrill/blinkk/selective-edit/js/selective/fieldTypes.js ***!
-  \****************************************************************************/
+/*!**************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/selective/fieldTypes.js ***!
+  \**************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1736,9 +1736,9 @@ class FieldTypes extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_1__["c
 /***/ }),
 
 /***/ "../../../selective-edit/js/selective/fields/fields.js":
-/*!*******************************************************************************!*\
-  !*** /Users/randymerrill/blinkk/selective-edit/js/selective/fields/fields.js ***!
-  \*******************************************************************************/
+/*!*****************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/selective/fields/fields.js ***!
+  \*****************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1921,9 +1921,9 @@ class Fields extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["compo
 /***/ }),
 
 /***/ "../../../selective-edit/js/selective/ui/sortable.js":
-/*!*****************************************************************************!*\
-  !*** /Users/randymerrill/blinkk/selective-edit/js/selective/ui/sortable.js ***!
-  \*****************************************************************************/
+/*!***************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/selective/ui/sortable.js ***!
+  \***************************************************************************/
 /*! exports provided: SortableUI */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2046,9 +2046,9 @@ class SortableUI extends _ui__WEBPACK_IMPORTED_MODULE_3__["default"] {
 /***/ }),
 
 /***/ "../../../selective-edit/js/selective/ui/ui.js":
-/*!***********************************************************************!*\
-  !*** /Users/randymerrill/blinkk/selective-edit/js/selective/ui/ui.js ***!
-  \***********************************************************************/
+/*!*********************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/selective/ui/ui.js ***!
+  \*********************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2091,9 +2091,9 @@ class UI extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_0__["compose"]
 /***/ }),
 
 /***/ "../../../selective-edit/js/utility/compose.js":
-/*!***********************************************************************!*\
-  !*** /Users/randymerrill/blinkk/selective-edit/js/utility/compose.js ***!
-  \***********************************************************************/
+/*!*********************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/utility/compose.js ***!
+  \*********************************************************************/
 /*! exports provided: Base, compose */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2128,9 +2128,9 @@ class Base {}
 /***/ }),
 
 /***/ "../../../selective-edit/js/utility/config.js":
-/*!**********************************************************************!*\
-  !*** /Users/randymerrill/blinkk/selective-edit/js/utility/config.js ***!
-  \**********************************************************************/
+/*!********************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/utility/config.js ***!
+  \********************************************************************/
 /*! exports provided: default, autoConfig */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2176,9 +2176,9 @@ const autoConfig = (value, defaultValues) => {
 /***/ }),
 
 /***/ "../../../selective-edit/js/utility/dataType.js":
-/*!************************************************************************!*\
-  !*** /Users/randymerrill/blinkk/selective-edit/js/utility/dataType.js ***!
-  \************************************************************************/
+/*!**********************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/utility/dataType.js ***!
+  \**********************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2242,9 +2242,9 @@ class DataType {
 /***/ }),
 
 /***/ "../../../selective-edit/js/utility/deepObject.js":
-/*!**************************************************************************!*\
-  !*** /Users/randymerrill/blinkk/selective-edit/js/utility/deepObject.js ***!
-  \**************************************************************************/
+/*!************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/utility/deepObject.js ***!
+  \************************************************************************/
 /*! exports provided: default, autoDeepObject */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2339,9 +2339,9 @@ const autoDeepObject = value => {
 /***/ }),
 
 /***/ "../../../selective-edit/js/utility/dom.js":
-/*!*******************************************************************!*\
-  !*** /Users/randymerrill/blinkk/selective-edit/js/utility/dom.js ***!
-  \*******************************************************************/
+/*!*****************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/utility/dom.js ***!
+  \*****************************************************************/
 /*! exports provided: findParentByClassname, findParentDraggable */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2380,9 +2380,9 @@ const findParentDraggable = target => {
 /***/ }),
 
 /***/ "../../../selective-edit/js/utility/listeners.js":
-/*!*************************************************************************!*\
-  !*** /Users/randymerrill/blinkk/selective-edit/js/utility/listeners.js ***!
-  \*************************************************************************/
+/*!***********************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/utility/listeners.js ***!
+  \***********************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2421,9 +2421,9 @@ class Listeners {
 /***/ }),
 
 /***/ "../../../selective-edit/js/utility/uuid.js":
-/*!********************************************************************!*\
-  !*** /Users/randymerrill/blinkk/selective-edit/js/utility/uuid.js ***!
-  \********************************************************************/
+/*!******************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/utility/uuid.js ***!
+  \******************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2449,9 +2449,9 @@ const generateUUID = () => {
 /***/ }),
 
 /***/ "../../../selective-edit/node_modules/deep-extend/lib/deep-extend.js":
-/*!*********************************************************************************************!*\
-  !*** /Users/randymerrill/blinkk/selective-edit/node_modules/deep-extend/lib/deep-extend.js ***!
-  \*********************************************************************************************/
+/*!*******************************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/node_modules/deep-extend/lib/deep-extend.js ***!
+  \*******************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2612,9 +2612,9 @@ var deepExtend = module.exports = function (/*obj_1, [obj_2], [obj_N]*/) {
 /***/ }),
 
 /***/ "../../../selective-edit/node_modules/json-stable-stringify/index.js":
-/*!*********************************************************************************************!*\
-  !*** /Users/randymerrill/blinkk/selective-edit/node_modules/json-stable-stringify/index.js ***!
-  \*********************************************************************************************/
+/*!*******************************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/node_modules/json-stable-stringify/index.js ***!
+  \*******************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2707,9 +2707,9 @@ var objectKeys = Object.keys || function (obj) {
 /***/ }),
 
 /***/ "../../../selective-edit/node_modules/jsonify/index.js":
-/*!*******************************************************************************!*\
-  !*** /Users/randymerrill/blinkk/selective-edit/node_modules/jsonify/index.js ***!
-  \*******************************************************************************/
+/*!*****************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/node_modules/jsonify/index.js ***!
+  \*****************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2720,9 +2720,9 @@ exports.stringify = __webpack_require__(/*! ./lib/stringify */ "../../../selecti
 /***/ }),
 
 /***/ "../../../selective-edit/node_modules/jsonify/lib/parse.js":
-/*!***********************************************************************************!*\
-  !*** /Users/randymerrill/blinkk/selective-edit/node_modules/jsonify/lib/parse.js ***!
-  \***********************************************************************************/
+/*!*********************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/node_modules/jsonify/lib/parse.js ***!
+  \*********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -3004,9 +3004,9 @@ module.exports = function (source, reviver) {
 /***/ }),
 
 /***/ "../../../selective-edit/node_modules/jsonify/lib/stringify.js":
-/*!***************************************************************************************!*\
-  !*** /Users/randymerrill/blinkk/selective-edit/node_modules/jsonify/lib/stringify.js ***!
-  \***************************************************************************************/
+/*!*************************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/node_modules/jsonify/lib/stringify.js ***!
+  \*************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -3169,9 +3169,9 @@ module.exports = function (value, replacer, space) {
 /***/ }),
 
 /***/ "../../../selective-edit/node_modules/lit-html/directives/repeat.js":
-/*!********************************************************************************************!*\
-  !*** /Users/randymerrill/blinkk/selective-edit/node_modules/lit-html/directives/repeat.js ***!
-  \********************************************************************************************/
+/*!******************************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/node_modules/lit-html/directives/repeat.js ***!
+  \******************************************************************************************/
 /*! exports provided: repeat */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3598,9 +3598,9 @@ const repeat = Object(_lit_html_js__WEBPACK_IMPORTED_MODULE_0__["directive"])((i
 /***/ }),
 
 /***/ "../../../selective-edit/node_modules/lit-html/lib/default-template-processor.js":
-/*!*********************************************************************************************************!*\
-  !*** /Users/randymerrill/blinkk/selective-edit/node_modules/lit-html/lib/default-template-processor.js ***!
-  \*********************************************************************************************************/
+/*!*******************************************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/node_modules/lit-html/lib/default-template-processor.js ***!
+  \*******************************************************************************************************/
 /*! exports provided: DefaultTemplateProcessor, defaultTemplateProcessor */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3665,9 +3665,9 @@ const defaultTemplateProcessor = new DefaultTemplateProcessor();
 /***/ }),
 
 /***/ "../../../selective-edit/node_modules/lit-html/lib/directive.js":
-/*!****************************************************************************************!*\
-  !*** /Users/randymerrill/blinkk/selective-edit/node_modules/lit-html/lib/directive.js ***!
-  \****************************************************************************************/
+/*!**************************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/node_modules/lit-html/lib/directive.js ***!
+  \**************************************************************************************/
 /*! exports provided: directive, isDirective */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3742,9 +3742,9 @@ const isDirective = (o) => {
 /***/ }),
 
 /***/ "../../../selective-edit/node_modules/lit-html/lib/dom.js":
-/*!**********************************************************************************!*\
-  !*** /Users/randymerrill/blinkk/selective-edit/node_modules/lit-html/lib/dom.js ***!
-  \**********************************************************************************/
+/*!********************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/node_modules/lit-html/lib/dom.js ***!
+  \********************************************************************************/
 /*! exports provided: isCEPolyfill, reparentNodes, removeNodes */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3801,9 +3801,9 @@ const removeNodes = (container, start, end = null) => {
 /***/ }),
 
 /***/ "../../../selective-edit/node_modules/lit-html/lib/part.js":
-/*!***********************************************************************************!*\
-  !*** /Users/randymerrill/blinkk/selective-edit/node_modules/lit-html/lib/part.js ***!
-  \***********************************************************************************/
+/*!*********************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/node_modules/lit-html/lib/part.js ***!
+  \*********************************************************************************/
 /*! exports provided: noChange, nothing */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3838,9 +3838,9 @@ const nothing = {};
 /***/ }),
 
 /***/ "../../../selective-edit/node_modules/lit-html/lib/parts.js":
-/*!************************************************************************************!*\
-  !*** /Users/randymerrill/blinkk/selective-edit/node_modules/lit-html/lib/parts.js ***!
-  \************************************************************************************/
+/*!**********************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/node_modules/lit-html/lib/parts.js ***!
+  \**********************************************************************************/
 /*! exports provided: isPrimitive, isIterable, AttributeCommitter, AttributePart, NodePart, BooleanAttributePart, PropertyCommitter, PropertyPart, EventPart */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -4321,9 +4321,9 @@ const getOptions = (o) => o &&
 /***/ }),
 
 /***/ "../../../selective-edit/node_modules/lit-html/lib/render.js":
-/*!*************************************************************************************!*\
-  !*** /Users/randymerrill/blinkk/selective-edit/node_modules/lit-html/lib/render.js ***!
-  \*************************************************************************************/
+/*!***********************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/node_modules/lit-html/lib/render.js ***!
+  \***********************************************************************************/
 /*! exports provided: parts, render */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -4384,9 +4384,9 @@ const render = (result, container, options) => {
 /***/ }),
 
 /***/ "../../../selective-edit/node_modules/lit-html/lib/template-factory.js":
-/*!***********************************************************************************************!*\
-  !*** /Users/randymerrill/blinkk/selective-edit/node_modules/lit-html/lib/template-factory.js ***!
-  \***********************************************************************************************/
+/*!*********************************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/node_modules/lit-html/lib/template-factory.js ***!
+  \*********************************************************************************************/
 /*! exports provided: templateFactory, templateCaches */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -4447,9 +4447,9 @@ const templateCaches = new Map();
 /***/ }),
 
 /***/ "../../../selective-edit/node_modules/lit-html/lib/template-instance.js":
-/*!************************************************************************************************!*\
-  !*** /Users/randymerrill/blinkk/selective-edit/node_modules/lit-html/lib/template-instance.js ***!
-  \************************************************************************************************/
+/*!**********************************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/node_modules/lit-html/lib/template-instance.js ***!
+  \**********************************************************************************************/
 /*! exports provided: TemplateInstance */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -4599,9 +4599,9 @@ class TemplateInstance {
 /***/ }),
 
 /***/ "../../../selective-edit/node_modules/lit-html/lib/template-result.js":
-/*!**********************************************************************************************!*\
-  !*** /Users/randymerrill/blinkk/selective-edit/node_modules/lit-html/lib/template-result.js ***!
-  \**********************************************************************************************/
+/*!********************************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/node_modules/lit-html/lib/template-result.js ***!
+  \********************************************************************************************/
 /*! exports provided: TemplateResult, SVGTemplateResult */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -4728,9 +4728,9 @@ class SVGTemplateResult extends TemplateResult {
 /***/ }),
 
 /***/ "../../../selective-edit/node_modules/lit-html/lib/template.js":
-/*!***************************************************************************************!*\
-  !*** /Users/randymerrill/blinkk/selective-edit/node_modules/lit-html/lib/template.js ***!
-  \***************************************************************************************/
+/*!*************************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/node_modules/lit-html/lib/template.js ***!
+  \*************************************************************************************/
 /*! exports provided: marker, nodeMarker, markerRegex, boundAttributeSuffix, Template, isTemplatePartActive, createMarker, lastAttributeNameRegex */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -4963,9 +4963,9 @@ const lastAttributeNameRegex =
 /***/ }),
 
 /***/ "../../../selective-edit/node_modules/lit-html/lit-html.js":
-/*!***********************************************************************************!*\
-  !*** /Users/randymerrill/blinkk/selective-edit/node_modules/lit-html/lit-html.js ***!
-  \***********************************************************************************/
+/*!*********************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/node_modules/lit-html/lit-html.js ***!
+  \*********************************************************************************/
 /*! exports provided: DefaultTemplateProcessor, defaultTemplateProcessor, directive, isDirective, removeNodes, reparentNodes, noChange, nothing, AttributeCommitter, AttributePart, BooleanAttributePart, EventPart, isIterable, isPrimitive, NodePart, PropertyCommitter, PropertyPart, parts, render, templateCaches, templateFactory, TemplateInstance, SVGTemplateResult, TemplateResult, createMarker, isTemplatePartActive, Template, html, svg */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
