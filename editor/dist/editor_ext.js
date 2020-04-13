@@ -49194,10 +49194,12 @@ class GoogleImageField extends ImageField {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PartialsField", function() { return PartialsField; });
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
-/* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../autoFields */ "./source/editor/autoFields.js");
+/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
+/* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../autoFields */ "./source/editor/autoFields.js");
 /**
  * Partials field types for the editor extension.
  */
+
 
 
 class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListField"] {
@@ -49207,6 +49209,7 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListFie
     this.partialTypes = null;
     this.api = this.config.get('api');
     this.api.getPartials().then(this.handleLoadPartialsResponse.bind(this));
+    this._showPartialList = false;
   }
 
   getPartialConfig(partialKey) {
@@ -49243,7 +49246,7 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListFie
     }
 
     listItems = [];
-    const AutoFieldsCls = this.config.get('AutoFieldsCls', _autoFields__WEBPACK_IMPORTED_MODULE_1__["default"]);
+    const AutoFieldsCls = this.config.get('AutoFieldsCls', _autoFields__WEBPACK_IMPORTED_MODULE_2__["default"]);
     const ListItemCls = this.config.get('ListItemCls', selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListItem"]);
 
     for (const itemData of value) {
@@ -49285,8 +49288,18 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListFie
     }
   }
 
+  delayedScroll() {
+    // Wait for the render then scroll to the list.
+    document.addEventListener('selective.render.complete', () => {
+      document.querySelector('#partials_list').scrollIntoView(true);
+    }, {
+      once: true
+    });
+  }
+
   handleAddItem(evt, selective) {
-    const partialKey = evt.target.value;
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, `selective__partials__list__item`);
+    const partialKey = target.dataset.partialKey;
 
     if (!partialKey) {
       return;
@@ -49324,20 +49337,50 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListFie
     this.render();
   }
 
+  handleTogglePartialList() {
+    this._showPartialList = !this._showPartialList;
+    this.render();
+  }
+
   renderActionsFooter(selective, data, locale) {
     if (!this.partialTypes) {
       return '';
     }
 
+    if (this._showPartialList) {
+      this.delayedScroll();
+      return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__partials__list" id="partials_list">
+          <div class="selective__actions">
+            <button
+                class="selective__button"
+                @click=${this.handleTogglePartialList.bind(this)}>
+              ${this.config.hideLabel || 'Hide partials'}
+            </button>
+          </div>
+          ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(Object.entries(this.partialTypes), item => item[0], (item, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+            <div
+                class="selective__partials__list__item"
+                data-partial-key=${item[1]['key']}
+                @click=${evt => {
+        this.handleAddItem(evt, selective);
+      }}>
+              <div class="selective__partials__list__details">
+                <h3>${item[1]['label']}</h3>
+                ${item[1]['description'] ? selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<p>${item[1]['description']}</p>` : ''}
+              </div>
+              <div class="selective__partials__list__preview">
+                ${item[1]['preview_image'] ? selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<img src="${item[1]['preview_image']}" alt="${item[1]['description']}">` : ''}
+              </div>
+            </div>`)}
+        </div>`;
+    }
+
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__actions">
-      <select class="selective__actions__add" @change=${evt => {
-      this.handleAddItem(evt, selective);
-    }}>
-        <option value="">${this.config.addLabel || 'Add partial'}</option>
-        ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(Object.entries(this.partialTypes), item => item[0], (item, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-          <option value="${item[1]['key']}">${item[1]['label']}</option>
-        `)}
-      </select>
+      <button
+          class="selective__button"
+          @click=${this.handleTogglePartialList.bind(this)}>
+        ${this.config.addLabel || 'Add partial'}
+      </button>
     </div>`;
   }
 
