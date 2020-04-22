@@ -2,17 +2,22 @@
  * Content editor.
  */
 
-import Config from '../utility/config'
-import Listeners from '../utility/listeners'
-import Document from './document'
-import EditorApi from './editorApi'
-import Menu from './menu/menu'
+import CodeMirror from 'codemirror/lib/codemirror.js'
+import 'codemirror/mode/htmlmixed/htmlmixed.js'
+import 'codemirror/mode/markdown/markdown.js'
+import 'codemirror/mode/yaml/yaml.js'
+import { dump } from 'js-yaml/lib/js-yaml.js'
 import {
   html,
   render,
   repeat,
 } from 'selective-edit'
 import Selective from 'selective-edit'
+import Config from '../utility/config'
+import Listeners from '../utility/listeners'
+import Document from './document'
+import EditorApi from './editorApi'
+import Menu from './menu/menu'
 import EditorAutoFields from './autoFields'
 import { defaultFields } from './field'
 import { zoomIframe } from './zoomIframe'
@@ -22,6 +27,11 @@ import Storage from '../utility/storage'
 
 
 const CONTENT_KEY = '__content__'
+const CODEMIRROR_OPTIONS = {
+  lineNumbers: true,
+  tabSize: 2,
+  theme: 'elegant',
+}
 
 
 export default class Editor {
@@ -79,11 +89,14 @@ export default class Editor {
     this._isDeviceRotated = this.storage.getItem('selective.isDeviceRotated') == 'true'
     this._isDeviceView = this.storage.getItem('selective.isDeviceView') == 'true'
     this._isFullMarkdownEditor = false;
+    this._hasLoadedFields = false;
 
     this._isLoading = {}
     this._isSaving = false
     this._isRendering = false
     this._pendingRender = false
+
+    this._codeMirrors = {}
 
     this._podPaths = null
     this._routes = null
@@ -209,8 +222,13 @@ export default class Editor {
 
   get templateEditorOrSource() {
     if (this.isEditingSource) {
+      const contentHtml = this.document.content != ''
+        ? html`<textarea class="editor__source__content" @input=${this.handleRawContent.bind(this)}>${this.document.content}</textarea>`
+        : ''
+
       return html`<div class="editor__source">
-        <textarea @input=${this.handleRawInput.bind(this)}>${this.document.rawFrontMatter}</textarea>
+        <textarea class="editor__source__frontmatter" @input=${this.handleRawInput.bind(this)}>${this.document.rawFrontMatter}</textarea>
+        ${contentHtml}
       </div>`
     }
     return html`<div class="editor__selective">
@@ -363,6 +381,16 @@ export default class Editor {
 
   handleFieldsClick(evt) {
     this.isEditingSource = false
+
+    // Need to remove the code mirror for source since it no longer exists.
+    delete this._codeMirrors['source']
+    delete this._codeMirrors['content']
+
+    // Handle the case that the field information has not been loaded yet.
+    if (!this._hasLoadedFields) {
+      this.load(this.podPath)
+    }
+
     this.render()
   }
 
@@ -386,6 +414,7 @@ export default class Editor {
   }
 
   handleLoadFieldsResponse(response) {
+    this._hasLoadedFields = true
     this._isEditingSource = false
     this._isFullMarkdownEditor = false
     this.documentFromResponse(response)
@@ -555,6 +584,10 @@ export default class Editor {
     this.loadRoutes()
   }
 
+  handleRawContent(evt) {
+    this.document.content = evt.target.value
+  }
+
   handleRawInput(evt) {
     this.document.rawFrontMatter = evt.target.value
   }
@@ -580,6 +613,14 @@ export default class Editor {
   }
 
   handleSourceClick(evt) {
+    if (!this.isEditingSource && !this.isClean) {
+      const newFrontMatter = this.selective.value
+      const content = newFrontMatter[CONTENT_KEY]
+      delete newFrontMatter[CONTENT_KEY]
+      this.document.rawFrontMatter = dump(newFrontMatter)
+      this.document.content = content
+    }
+
     this.isEditingSource = true
     this.render()
   }
@@ -684,6 +725,27 @@ export default class Editor {
     // Adjust the iframe size.
     this.adjustIframeSize()
 
+    // Make the code editor if editing raw.
+    if(this.isEditingSource && !this._codeMirrors['source']) {
+      const frontmatterTextarea = this.containerEl.querySelector('.editor__source textarea.editor__source__frontmatter')
+      this._codeMirrors['source'] = CodeMirror.fromTextArea(frontmatterTextarea, Object.assign({}, CODEMIRROR_OPTIONS, {
+        mode: 'yaml',
+      }))
+      this._codeMirrors['source'].on('change', (cMirror) => {
+        this.document.rawFrontMatter = cMirror.getValue()
+        this.render()
+      })
+
+      const contentTextarea = this.containerEl.querySelector('.editor__source textarea.editor__source__content')
+      this._codeMirrors['content'] = CodeMirror.fromTextArea(contentTextarea, Object.assign({}, CODEMIRROR_OPTIONS, {
+        mode: 'htmlmixed',
+      }))
+      this._codeMirrors['content'].on('change', (cMirror) => {
+        this.document.content = cMirror.getValue()
+        this.render()
+      })
+    }
+
     // Allow selective to run its post render process.
     this.selective.postRender(this.containerEl)
 
@@ -725,8 +787,8 @@ export default class Editor {
               ${editor.isClean ? 'No changes' : editor._isSaving ? 'Saving...' : 'Save'}
             </button>
             <div class="editor__actions">
-              <button class="editor__style__fields editor__button--secondary ${this.isEditingSource ? '' : 'editor__button--selected'}" @click=${editor.handleFieldsClick.bind(editor)}>Fields</button>
-              <button class="editor__style__raw editor__button--secondary ${this.isEditingSource ? 'editor__button--selected' : ''}" @click=${editor.handleSourceClick.bind(editor)}>Raw</button>
+              <button class="editor__style__fields editor__button--secondary ${this.isEditingSource ? '' : 'editor__button--selected'}" @click=${editor.handleFieldsClick.bind(editor)} ?disabled=${!editor.isClean}>Fields</button>
+              <button class="editor__style__raw editor__button--secondary ${this.isEditingSource ? 'editor__button--selected' : ''}" @click=${editor.handleSourceClick.bind(editor)} ?disabled=${!editor.isClean}>Raw</button>
             </div>
           </div>
           ${editor.templateEditorOrSource}

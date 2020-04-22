@@ -190,9 +190,20 @@
   flex-flow: column
   flex-grow: 1
 
+  .CodeMirror
+    +field-border
+    border-radius: $ge-radius-2
+    flex-grow: 1
+    margin-bottom: $ge-pad
+
+    &:last-child
+      margin-bottom: 0
+
   textarea
     font-family: $ge-font-family-mono
     height: 100%
+    overflow-x: auto
+    white-space: nowrap
     width: 100%
 
 .editor__preview
@@ -308,3 +319,7 @@
     &:focus,
     &:hover
       visibility: visible
+
+// Import theme for codemirror.
+@import 'codemirror/lib/codemirror.css'
+@import 'codemirror/theme/elegant.css'
