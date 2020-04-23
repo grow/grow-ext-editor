@@ -75457,6 +75457,19 @@ class HtmlField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
 
         if (!editorEl.editor) {
           editorEl.editor = new quill_quill__WEBPACK_IMPORTED_MODULE_1__["default"](editorEl, {
+            modules: {
+              toolbar: [[{
+                'header': [1, 2, 3, 4, 5, 6, false]
+              }], ['bold', 'italic', 'underline', 'strike'], ['blockquote', 'code-block'], [{
+                'list': 'ordered'
+              }, {
+                'list': 'bullet'
+              }], [{
+                'indent': '-1'
+              }, {
+                'indent': '+1'
+              }], ['link', 'image'], ['clean']]
+            },
             theme: 'snow'
           });
           editorEl.editor.on('text-change', () => {
