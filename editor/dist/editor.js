@@ -1225,7 +1225,6 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
     const uid = target.dataset.itemUid;
     const locale = target.dataset.locale;
     const listItems = this._getListItemsForLocale(locale) || [];
-    const value = this.getValueForLocale(locale) || [];
     let deleteIndex = -1;
 
     for (const index in listItems) {
@@ -1236,8 +1235,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
     }
 
     if (deleteIndex > -1) {
-      listItems.splice(deleteIndex, 1);
-      value.splice(deleteIndex, 1); // Lock the fields to prevent the values from being updated at the same
+      listItems.splice(deleteIndex, 1); // Lock the fields to prevent the values from being updated at the same
       // time as the original value.
 
       const downstreamItems = listItems.slice(deleteIndex);
@@ -1246,7 +1244,10 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
         listItem.fields.lock();
       }
 
-      this.lock(); // Unlock fields after rendering is complete to let the values be updated when clean.
+      this.lock();
+
+      this._setListItemsForLocale(locale, listItems); // Unlock fields after rendering is complete to let the values be updated when clean.
+
 
       document.addEventListener('selective.unlock', () => {
         for (const listItem of downstreamItems) {

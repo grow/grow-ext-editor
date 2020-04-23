@@ -12,6 +12,7 @@ setup(
     include_package_data=True,
     packages=[
         'editor',
+        'editor/api',
     ],
     package_data={
         'editor': ['dist/*.js', 'dist/*.css', 'dist/*.map', 'dist/*.html']
