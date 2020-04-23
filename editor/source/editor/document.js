@@ -14,6 +14,7 @@ export default class Document {
     this.defaultLocale = defaultLocale || 'en'
     this.locale = this.defaultLocale
     this.locales = locales || [this.defaultLocale]
+    this._content = content
     this.content = content
     this.hash = hash
   }
@@ -33,7 +34,8 @@ export default class Document {
 
   get isClean() {
     // If the raw front matter changes it is not clean.
-    return this.rawFrontMatter == this._rawFrontMatter
+    return (this.rawFrontMatter == this._rawFrontMatter
+      && this.content == this._content)
   }
 
   get servingPath() {
@@ -43,12 +45,13 @@ export default class Document {
   update(podPath, frontMatter, rawFrontMatter, servingPaths, defaultLocale, locales, content, hash) {
     this.podPath = podPath
     this.frontMatter = autoDeepObject(frontMatter)
-    this.rawFrontMatter = rawFrontMatter
     this._rawFrontMatter = rawFrontMatter
+    this.rawFrontMatter = rawFrontMatter
     this.servingPaths = servingPaths
     this.defaultLocale = defaultLocale || 'en'
     this.locale = this.defaultLocale
     this.locales = locales || [this.defaultLocale]
+    this._content = content
     this.content = content
     this.hash = hash
   }
