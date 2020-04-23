@@ -3,17 +3,18 @@
  */
 
 import {
+  Field,
   html,
   repeat,
-  Field,
+  unsafeHTML,
 } from 'selective-edit'
+import Quill from 'quill/quill'
 import {
   findParentByClassname,
   inputFocusAtPosition,
 } from '../../utility/dom'
 import Editor from '@toast-ui/editor'
 import ExternalLink from '../tui-editor/externalLink'
-
 
 export class CheckboxField extends Field {
   constructor(config, extendedConfig) {
@@ -131,7 +132,7 @@ export class HtmlField extends Field {
       <div
           id="${this.getUid()}${locale || ''}"
           class="selective__html html_editor"
-          data-locale=${locale || ''}></div>`
+          data-locale=${locale || ''}>${unsafeHTML(value)}</div>`
   }
 
   postRender(containerEl) {
@@ -143,39 +144,13 @@ export class HtmlField extends Field {
         const value = this.getValueForLocale(locale) || ''
 
         if (!editorEl.editor) {
-          editorEl.editor = new Editor({
-            el: editorEl,
-            initialEditType: 'wysiwyg',
-            previewStyle: 'horizontal',
-            usageStatistics: false,
-            events: {
-              change: () => {
-                this.setValueForLocale(locale, editorEl.editor.getHtml().trim())
-              }
-            },
-            hideModeSwitch: true,
-            placeholder: this.config.placeholder || '',
-            plugins: [ExternalLink],
-            // Need custom list since the external link needs to replace normal link.
-            toolbarItems: [
-              'heading',
-              'bold',
-              'italic',
-              'strike',
-              'divider',
-              'quote',
-              'divider',
-              'ul',
-              'ol',
-              'indent',
-              'outdent',
-              'divider',
-              'table',
-            ]
+          editorEl.editor = new Quill(editorEl, {
+            theme: 'snow',
           })
-          editorEl.editor.setHtml(value || '')
-        } else if (this.isClean) {
-           // editorEl.editor.setHtml(value || '')
+
+          editorEl.editor.on('text-change', () => {
+            this.setValueForLocale(locale, editorEl.editor.root.innerHTML)
+          })
         }
       }
     }
