@@ -75446,37 +75446,30 @@ class HtmlField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
 
     if (!this.api) {
       console.error('Missing api for image upload.');
-    } // TODO: Better way to determine if using google images?
-
-
-    if (this.config.get('google_image', false)) {
-      // TODO: Change to use the API after the extension is updated to the new
-      // Extension style.
-      // const _extension_config_promise = this.api.getExtensionConfig(
-      //   'extensions.google_cloud_images.GoogleCloudImageExtension')
-      const _extension_config_promise = this.api.getExtensionConfig('extensions.editor.EditorExtension');
-
-      this.imageUploader = new _quill_image_upload__WEBPACK_IMPORTED_MODULE_5__["default"](async imageBlob => {
-        const extension_config = await _extension_config_promise;
-        let uploadUrl = extension_config['googleImageUploadUrl'];
-
-        if (!uploadUrl) {
-          console.error('Unable to retrieve the upload url.');
-          this._errors['uploadUrl'] = 'Unable to retrieve the upload url setting.';
-          this.render();
-          return;
-        }
-
-        const result = await this.api.saveGoogleImage(imageBlob, uploadUrl);
-        return result['url'];
-      });
-    } else {
-      const destination = this.config.get('destination', '/static/img/upload');
-      this.imageUploader = new _quill_image_upload__WEBPACK_IMPORTED_MODULE_5__["default"](async imageBlob => {
-        const result = await this.api.saveImage(imageBlob, destination);
-        return result['serving_url'];
-      });
     }
+
+    this.imageUploader = null; // TODO: Change to use the google image after the extension is updated to the new
+    // Extension style.
+    // this._extension_config_promise = this.api.getExtensionConfig(
+    //   'extensions.google_cloud_images.GoogleCloudImageExtension')
+
+    this._extension_config_promise = this.api.getExtensionConfig('extensions.editor.EditorExtension');
+
+    this._extension_config_promise.then(extension_config => {
+      if (extension_config['googleImageUploadUrl']) {
+        let uploadUrl = extension_config['googleImageUploadUrl'];
+        this.imageUploader = new _quill_image_upload__WEBPACK_IMPORTED_MODULE_5__["default"](async imageBlob => {
+          const result = await this.api.saveGoogleImage(imageBlob, uploadUrl);
+          return result['url'];
+        });
+      } else {
+        const destination = this.config.get('destination', '/static/img/upload');
+        this.imageUploader = new _quill_image_upload__WEBPACK_IMPORTED_MODULE_5__["default"](async imageBlob => {
+          const result = await this.api.saveImage(imageBlob, destination);
+          return result['serving_url'];
+        });
+      }
+    });
   } // Original values may extra blank space.
 
 
@@ -75533,10 +75526,14 @@ class HtmlField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
             const pendingImgs = Array.from(editorEl.editor.root.querySelectorAll('img[src^="data:"]:not(.selective__image__uploading)'));
 
             for (const pendingImg of pendingImgs) {
-              pendingImg.classList.add("selective__image__uploading");
-              this.imageUpload(pendingImg).then(url => {
-                pendingImg.setAttribute("src", url);
-                pendingImg.classList.remove("selective__image__uploading");
+              pendingImg.classList.add("selective__image__uploading"); // Make sure that the extension has loaded before uploading
+              // to make sure it is uploading to the correct place.
+
+              this._extension_config_promise.then(() => {
+                this.imageUpload(pendingImg).then(url => {
+                  pendingImg.setAttribute("src", url);
+                  pendingImg.classList.remove("selective__image__uploading");
+                });
               });
             }
 
