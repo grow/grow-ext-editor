@@ -2,10 +2,22 @@
 
 import os
 from grow import extensions
+from grow.common import colors
 from grow.extensions import hooks
 from grow.routing import router as grow_router
 from . import editor_api
 from . import handlers
+
+
+try:
+    DevManagerMessageHook = hooks.DevManagerMessageHook
+except:
+    # TODO: Remove try when grow 0.8.25 is common.
+    try:
+        DevManagerMessageHook = hooks.StubHook
+    except:
+        from grow.extensions.hooks import base_hook
+        DevManagerMessageHook = base_hook.BaseHook
 
 
 class EditorDevHandlerHook(hooks.DevHandlerHook):
@@ -34,6 +46,14 @@ class EditorDevHandlerHook(hooks.DevHandlerHook):
             '/_grow/editor',
             grow_router.RouteInfo('console', meta=editor_meta))
 
+
+class EditorDevManagerMessageHook(DevManagerMessageHook):
+    """Handle the router add hook."""
+
+    def trigger(self, previous_result, display_func, url, *_args, **_kwargs):
+        """Execute static dir validation."""
+        display_func('Content Editor:', url + '_grow/editor/', colors.HIGHLIGHT)
+        return previous_result
 
 class EditorPodspecStaticDirHook(hooks.PodspecStaticDirHook):
     """Handle the router add hook."""
@@ -65,4 +85,8 @@ class EditorExtension(extensions.BaseExtension):
     @property
     def available_hooks(self):
         """Returns the available hook classes."""
-        return [EditorDevHandlerHook, EditorPodspecStaticDirHook]
+        return [
+            EditorDevHandlerHook,
+            EditorPodspecStaticDirHook,
+            EditorDevManagerMessageHook,
+        ]
