@@ -75332,13 +75332,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TextareaField", function() { return TextareaField; });
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
 /* harmony import */ var quill_quill__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! quill/quill */ "./node_modules/quill/quill.js");
-/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
-/* harmony import */ var _toast_ui_editor__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @toast-ui/editor */ "./node_modules/@toast-ui/editor/dist/toastui-editor.js");
-/* harmony import */ var _toast_ui_editor__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_toast_ui_editor__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _tui_editor_externalLink__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../tui-editor/externalLink */ "./source/editor/tui-editor/externalLink.js");
+/* harmony import */ var _toast_ui_editor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @toast-ui/editor */ "./node_modules/@toast-ui/editor/dist/toastui-editor.js");
+/* harmony import */ var _toast_ui_editor__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_toast_ui_editor__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _tui_editor_externalLink__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../tui-editor/externalLink */ "./source/editor/tui-editor/externalLink.js");
+/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
+/* harmony import */ var _quill_image_upload__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../quill/image-upload */ "./source/editor/quill/image-upload.js");
 /**
  * Standard field types for the editor extension.
  */
+
 
 
 
@@ -75361,7 +75363,7 @@ class CheckboxField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"]
   }
 
   handleInput(evt) {
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_2__["findParentByClassname"])(evt.target, 'selective__field__input__option');
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_4__["findParentByClassname"])(evt.target, 'selective__field__input__option');
     const locale = target.dataset.locale;
     const value = !(this.getValueForLocale(locale) || false);
     this.setValueForLocale(locale, value);
@@ -75440,6 +75442,41 @@ class HtmlField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
     this.fieldType = 'html';
+    this.api = this.config.get('api');
+
+    if (!this.api) {
+      console.error('Missing api for image upload.');
+    } // TODO: Better way to determine if using google images?
+
+
+    if (this.config.get('google_image', false)) {
+      // TODO: Change to use the API after the extension is updated to the new
+      // Extension style.
+      // const _extension_config_promise = this.api.getExtensionConfig(
+      //   'extensions.google_cloud_images.GoogleCloudImageExtension')
+      const _extension_config_promise = this.api.getExtensionConfig('extensions.editor.EditorExtension');
+
+      this.imageUploader = new _quill_image_upload__WEBPACK_IMPORTED_MODULE_5__["default"](async imageBlob => {
+        const extension_config = await _extension_config_promise;
+        let uploadUrl = extension_config['googleImageUploadUrl'];
+
+        if (!uploadUrl) {
+          console.error('Unable to retrieve the upload url.');
+          this._errors['uploadUrl'] = 'Unable to retrieve the upload url setting.';
+          this.render();
+          return;
+        }
+
+        const result = await this.api.saveGoogleImage(imageBlob, uploadUrl);
+        return result['url'];
+      });
+    } else {
+      const destination = this.config.get('destination', '/static/img/upload');
+      this.imageUploader = new _quill_image_upload__WEBPACK_IMPORTED_MODULE_5__["default"](async imageBlob => {
+        const result = await this.api.saveImage(imageBlob, destination);
+        return result['serving_url'];
+      });
+    }
   } // Original values may extra blank space.
 
 
@@ -75449,6 +75486,11 @@ class HtmlField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
     }
 
     return value;
+  }
+
+  imageUpload(element) {
+    const base64Str = element.getAttribute('src');
+    return this.imageUploader.uploadBase64(base64Str);
   }
 
   renderInput(selective, data, locale) {
@@ -75488,6 +75530,16 @@ class HtmlField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
             theme: 'snow'
           });
           editorEl.editor.on('text-change', () => {
+            const pendingImgs = Array.from(editorEl.editor.root.querySelectorAll('img[src^="data:"]:not(.selective__image__uploading)'));
+
+            for (const pendingImg of pendingImgs) {
+              pendingImg.classList.add("selective__image__uploading");
+              this.imageUpload(pendingImg).then(url => {
+                pendingImg.setAttribute("src", url);
+                pendingImg.classList.remove("selective__image__uploading");
+              });
+            }
+
             this.setValueForLocale(locale, editorEl.editor.root.innerHTML);
           });
         }
@@ -75522,7 +75574,7 @@ class MarkdownField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"]
         const value = this.getValueForLocale(locale) || '';
 
         if (!editorEl.editor) {
-          editorEl.editor = new _toast_ui_editor__WEBPACK_IMPORTED_MODULE_3___default.a({
+          editorEl.editor = new _toast_ui_editor__WEBPACK_IMPORTED_MODULE_2___default.a({
             el: editorEl,
             initialValue: value,
             initialEditType: 'markdown',
@@ -75576,7 +75628,7 @@ class SelectField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
   }
 
   handleInput(evt) {
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_2__["findParentByClassname"])(evt.target, 'selective__field__select__option');
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_4__["findParentByClassname"])(evt.target, 'selective__field__select__option');
     const locale = target.dataset.locale;
     let value = target.dataset.value;
 
@@ -75651,7 +75703,7 @@ class TextField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
       const position = target.selectionStart; // Trigger auto focus after a delay for rendering.
 
       document.addEventListener('selective.render.complete', () => {
-        Object(_utility_dom__WEBPACK_IMPORTED_MODULE_2__["inputFocusAtPosition"])(id, position);
+        Object(_utility_dom__WEBPACK_IMPORTED_MODULE_4__["inputFocusAtPosition"])(id, position);
       }, {
         once: true
       });
@@ -76531,6 +76583,41 @@ class TreeMenu extends _base__WEBPACK_IMPORTED_MODULE_2__["default"] {
 
 /***/ }),
 
+/***/ "./source/editor/quill/image-upload.js":
+/*!*********************************************!*\
+  !*** ./source/editor/quill/image-upload.js ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ImageUploader; });
+/* harmony import */ var _utility_base64__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../utility/base64 */ "./source/utility/base64.js");
+// Adapted from github.com/quilljs/quill/issues/1089#issuecomment-614313509
+
+class ImageUploader {
+  constructor(uploadFunc) {
+    this.uploadFunc = uploadFunc;
+  }
+
+  uploadBase64(base64Str) {
+    if (typeof base64Str !== 'string' || base64Str.length < 100) {
+      return base64Str;
+    } // Convert into a blob.
+
+
+    const block = base64Str.split(";");
+    const contentType = block[0].split(":")[1];
+    const imageData = block[1].split(",")[1];
+    const imageBlob = Object(_utility_base64__WEBPACK_IMPORTED_MODULE_0__["default"])(imageData, contentType);
+    return this.uploadFunc(imageBlob);
+  }
+
+}
+
+/***/ }),
+
 /***/ "./source/editor/tui-editor/externalLink.js":
 /*!**************************************************!*\
   !*** ./source/editor/tui-editor/externalLink.js ***!
@@ -77098,6 +77185,41 @@ class Api {
     return `${this.config.get('basePath', '/')}${path}`;
   }
 
+}
+
+/***/ }),
+
+/***/ "./source/utility/base64.js":
+/*!**********************************!*\
+  !*** ./source/utility/base64.js ***!
+  \**********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return base64toBlob; });
+function base64toBlob(base64Data, contentType, sliceSize) {
+  contentType = contentType || '';
+  sliceSize = sliceSize || 512;
+  var byteCharacters = atob(base64Data);
+  var byteArrays = [];
+
+  for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+    const slice = byteCharacters.slice(offset, offset + sliceSize);
+    const byteNumbers = new Array(slice.length);
+
+    for (var i = 0; i < slice.length; i++) {
+      byteNumbers[i] = slice.charCodeAt(i);
+    }
+
+    const byteArray = new Uint8Array(byteNumbers);
+    byteArrays.push(byteArray);
+  }
+
+  return new Blob(byteArrays, {
+    type: contentType
+  });
 }
 
 /***/ }),

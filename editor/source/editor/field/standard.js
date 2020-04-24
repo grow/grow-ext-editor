@@ -9,12 +9,13 @@ import {
   unsafeHTML,
 } from 'selective-edit'
 import Quill from 'quill/quill'
+import Editor from '@toast-ui/editor'
+import ExternalLink from '../tui-editor/externalLink'
 import {
   findParentByClassname,
   inputFocusAtPosition,
 } from '../../utility/dom'
-import Editor from '@toast-ui/editor'
-import ExternalLink from '../tui-editor/externalLink'
+import ImageUploader from '../quill/image-upload'
 
 export class CheckboxField extends Field {
   constructor(config, extendedConfig) {
@@ -116,6 +117,43 @@ export class HtmlField extends Field {
   constructor(config, extendedConfig) {
     super(config, extendedConfig)
     this.fieldType = 'html'
+    this.api = this.config.get('api')
+
+    if (!this.api) {
+      console.error('Missing api for image upload.')
+    }
+
+    // TODO: Better way to determine if using google images?
+    if (this.config.get('google_image', false)) {
+      // TODO: Change to use the API after the extension is updated to the new
+      // Extension style.
+      // const _extension_config_promise = this.api.getExtensionConfig(
+      //   'extensions.google_cloud_images.GoogleCloudImageExtension')
+      const _extension_config_promise = this.api.getExtensionConfig(
+        'extensions.editor.EditorExtension')
+
+      this.imageUploader = new ImageUploader(async (imageBlob) => {
+        const extension_config = await _extension_config_promise
+        let uploadUrl = extension_config['googleImageUploadUrl']
+
+        if (!uploadUrl) {
+          console.error('Unable to retrieve the upload url.');
+          this._errors['uploadUrl'] = 'Unable to retrieve the upload url setting.'
+          this.render()
+          return
+        }
+
+        const result = await this.api.saveGoogleImage(imageBlob, uploadUrl)
+        return result['url']
+      })
+    } else {
+      const destination = this.config.get('destination', '/static/img/upload')
+
+      this.imageUploader = new ImageUploader(async (imageBlob) => {
+        const result = await this.api.saveImage(imageBlob, destination)
+        return result['serving_url']
+      })
+    }
   }
 
   // Original values may extra blank space.
@@ -124,6 +162,11 @@ export class HtmlField extends Field {
       value = value.trim()
     }
     return value
+  }
+
+  imageUpload(element) {
+    const base64Str = element.getAttribute('src')
+    return this.imageUploader.uploadBase64(base64Str)
   }
 
   renderInput(selective, data, locale) {
@@ -160,6 +203,19 @@ export class HtmlField extends Field {
           })
 
           editorEl.editor.on('text-change', () => {
+            const pendingImgs = Array.from(
+              editorEl.editor.root.querySelectorAll(
+                'img[src^="data:"]:not(.selective__image__uploading)')
+            )
+
+            for (const pendingImg of pendingImgs) {
+              pendingImg.classList.add("selective__image__uploading")
+              this.imageUpload(pendingImg).then((url) => {
+                pendingImg.setAttribute("src", url)
+                pendingImg.classList.remove("selective__image__uploading")
+              })
+            }
+
             this.setValueForLocale(locale, editorEl.editor.root.innerHTML)
           })
         }
