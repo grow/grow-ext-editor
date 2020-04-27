@@ -469,7 +469,9 @@ export default class Editor {
         contentType = 'html'
         this._isFullMarkdownEditor = true
       }
+
       this.selective.addField({
+        classes: ['selective__field__type__html--content'],
         type: contentType,
         key: CONTENT_KEY,
         label: 'Content',

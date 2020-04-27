@@ -1,0 +1,38 @@
+@import "quill/dist/quill.core.css"
+@import "quill/dist/quill.snow.css"
+
+.selective__html
+  +field-border
+  background-color: $ge-color-field-back
+  color: $ge-color-on-field-back
+  transition: all $ge-speed-faster ease-in-out
+
+  // Alternate with nesting.
+  +list-nesting
+    background-color: $ge-color-field-back-alt
+    color: $ge-color-on-field-back-alt
+
+  +list-nesting-alt
+    background-color: $ge-color-field-back
+    color: $ge-color-on-field-back
+
+.ql-toolbar.ql-snow
+  border: none
+
+.ql-editor
+  line-height: 1.2em
+  max-height: $ge-pad * 40
+  min-height: $ge-pad * 20
+
+  .selective__field__type__html--content &
+    max-height: 60vh
+
+  // ***
+  // * Configure common html formatting for inside the editor.
+  // ***
+
+  h1, h2, h3, h4, h5, h6
+    margin: $ge-pad/2 0
+
+  p
+    margin: $ge-pad/2 0

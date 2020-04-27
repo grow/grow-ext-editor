@@ -33,10 +33,15 @@ module.exports = (isProduction) => {
       }),
     ],
     module: {
-      rules: [{
+      rules: [
+        {
           test: /\.js$/,
           exclude: /(node_modules|bower_components)/,
           loader: 'babel-loader',
+        },
+        {
+          test: /\.svg$/,
+          loader: 'svg-inline-loader',
         },
         {
           test: /\.(sa|sc|c)ss$/,

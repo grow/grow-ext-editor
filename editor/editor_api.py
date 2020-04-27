@@ -2,6 +2,7 @@
 
 from __future__ import print_function
 import datetime
+import hashlib
 import json
 import os
 import re
@@ -37,6 +38,13 @@ class PodApi(object):
         '/extensions/',
         '/node_modules/',
     )
+    MIME_TO_TYPE = {
+      'image/jpeg': 'jpg',
+      'image/png': 'png',
+      'image/svg+xml': 'svg',
+      'image/webp': 'webp',
+      'image/gif': 'gif',
+    }
 
     def __init__(self, pod, request, matched):
         self.pod = pod
@@ -403,8 +411,19 @@ class PodApi(object):
         """Handle the request to save an image."""
         destination = self.request.POST['destination']
         upload_file = self.request.POST['file']
-        pod_path = os.path.join(destination, upload_file.filename)
-        self.pod.write_file(pod_path, upload_file.file.read())
+        file_contents = upload_file.file.read()
+
+        # Generate a random filename if the upload was a blob.
+        filename = upload_file.filename
+        if filename == 'blob' or not filename:
+            file_extension = self.MIME_TO_TYPE[upload_file.type]
+            # Hash the content to come up with a name.
+            hash_digest = hashlib.sha256()
+            hash_digest.update(file_contents)
+            filename = '{}.{}'.format(hash_digest.hexdigest(), file_extension)
+
+        pod_path = os.path.join(destination, filename)
+        self.pod.write_file(pod_path, file_contents)
         self.data = self._load_static_doc(pod_path)
 
 

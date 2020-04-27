@@ -3,17 +3,19 @@
  */
 
 import {
+  Field,
   html,
   repeat,
-  Field,
+  unsafeHTML,
 } from 'selective-edit'
+import Quill from 'quill/quill'
+import Editor from '@toast-ui/editor'
+import ExternalLink from '../tui-editor/externalLink'
 import {
   findParentByClassname,
   inputFocusAtPosition,
 } from '../../utility/dom'
-import Editor from '@toast-ui/editor'
-import ExternalLink from '../tui-editor/externalLink'
-
+import ImageUploader from '../quill/image-upload'
 
 export class CheckboxField extends Field {
   constructor(config, extendedConfig) {
@@ -115,6 +117,36 @@ export class HtmlField extends Field {
   constructor(config, extendedConfig) {
     super(config, extendedConfig)
     this.fieldType = 'html'
+    this.api = this.config.get('api')
+
+    if (!this.api) {
+      console.error('Missing api for image upload.')
+    }
+
+    this.imageUploader = null
+
+    // TODO: Change to use the google image after the extension is updated to the new
+    // Extension style.
+    // this._extension_config_promise = this.api.getExtensionConfig(
+    //   'extensions.google_cloud_images.GoogleCloudImageExtension')
+    this._extension_config_promise = this.api.getExtensionConfig('extensions.editor.EditorExtension')
+    this._extension_config_promise.then((extension_config) => {
+      if (extension_config['googleImageUploadUrl']) {
+        let uploadUrl = extension_config['googleImageUploadUrl']
+
+        this.imageUploader = new ImageUploader(async (imageBlob) => {
+          const result = await this.api.saveGoogleImage(imageBlob, uploadUrl)
+          return result['url']
+        })
+      } else {
+        const destination = this.config.get('destination', '/static/img/upload')
+
+        this.imageUploader = new ImageUploader(async (imageBlob) => {
+          const result = await this.api.saveImage(imageBlob, destination)
+          return result['serving_url']
+        })
+      }
+    })
   }
 
   // Original values may extra blank space.
@@ -125,13 +157,18 @@ export class HtmlField extends Field {
     return value
   }
 
+  imageUpload(element) {
+    const base64Str = element.getAttribute('src')
+    return this.imageUploader.uploadBase64(base64Str)
+  }
+
   renderInput(selective, data, locale) {
     const value = this.getValueForLocale(locale) || ''
     return html`
       <div
           id="${this.getUid()}${locale || ''}"
           class="selective__html html_editor"
-          data-locale=${locale || ''}></div>`
+          data-locale=${locale || ''}>${unsafeHTML(value)}</div>`
   }
 
   postRender(containerEl) {
@@ -143,39 +180,41 @@ export class HtmlField extends Field {
         const value = this.getValueForLocale(locale) || ''
 
         if (!editorEl.editor) {
-          editorEl.editor = new Editor({
-            el: editorEl,
-            initialEditType: 'wysiwyg',
-            previewStyle: 'horizontal',
-            usageStatistics: false,
-            events: {
-              change: () => {
-                this.setValueForLocale(locale, editorEl.editor.getHtml().trim())
-              }
+          editorEl.editor = new Quill(editorEl, {
+            modules: {
+              toolbar: [
+                [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+                ['bold', 'italic', 'underline', 'strike'],
+                ['blockquote', 'code-block'],
+                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                [{ 'indent': '-1'}, { 'indent': '+1' }],
+                ['link', 'image'],
+                ['clean'],
+              ]
             },
-            hideModeSwitch: true,
-            placeholder: this.config.placeholder || '',
-            plugins: [ExternalLink],
-            // Need custom list since the external link needs to replace normal link.
-            toolbarItems: [
-              'heading',
-              'bold',
-              'italic',
-              'strike',
-              'divider',
-              'quote',
-              'divider',
-              'ul',
-              'ol',
-              'indent',
-              'outdent',
-              'divider',
-              'table',
-            ]
+            theme: 'snow',
           })
-          editorEl.editor.setHtml(value || '')
-        } else if (this.isClean) {
-           // editorEl.editor.setHtml(value || '')
+
+          editorEl.editor.on('text-change', () => {
+            const pendingImgs = Array.from(
+              editorEl.editor.root.querySelectorAll(
+                'img[src^="data:"]:not(.selective__image__uploading)')
+            )
+
+            for (const pendingImg of pendingImgs) {
+              pendingImg.classList.add("selective__image__uploading")
+              // Make sure that the extension has loaded before uploading
+              // to make sure it is uploading to the correct place.
+              this._extension_config_promise.then(() => {
+                this.imageUpload(pendingImg).then((url) => {
+                  pendingImg.setAttribute("src", url)
+                  pendingImg.classList.remove("selective__image__uploading")
+                })
+              })
+            }
+
+            this.setValueForLocale(locale, editorEl.editor.root.innerHTML)
+          })
         }
       }
     }
