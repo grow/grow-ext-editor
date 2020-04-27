@@ -223,11 +223,18 @@ export default class Editor {
   get templateEditorOrSource() {
     if (this.isEditingSource) {
       const contentHtml = this.document.content != ''
-        ? html`<textarea class="editor__source__content" @input=${this.handleRawContent.bind(this)}>${this.document.content}</textarea>`
+        ? html`
+          <div class="editor__source__section">
+            <div class="editor__source__title">Content</div>
+            <textarea class="editor__source__content" @input=${this.handleRawContent.bind(this)}>${this.document.content}</textarea>
+          </div>`
         : ''
 
       return html`<div class="editor__source">
-        <textarea class="editor__source__frontmatter" @input=${this.handleRawInput.bind(this)}>${this.document.rawFrontMatter}</textarea>
+        <div class="editor__source__section">
+          <div class="editor__source__title">Front Matter</div>
+          <textarea class="editor__source__frontmatter" @input=${this.handleRawInput.bind(this)}>${this.document.rawFrontMatter}</textarea>
+        </div>
         ${contentHtml}
       </div>`
     }
@@ -737,15 +744,19 @@ export default class Editor {
         this.document.rawFrontMatter = cMirror.getValue()
         this.render()
       })
+    }
 
+    if(this.isEditingSource && !this._codeMirrors['content']) {
       const contentTextarea = this.containerEl.querySelector('.editor__source textarea.editor__source__content')
-      this._codeMirrors['content'] = CodeMirror.fromTextArea(contentTextarea, Object.assign({}, CODEMIRROR_OPTIONS, {
-        mode: 'htmlmixed',
-      }))
-      this._codeMirrors['content'].on('change', (cMirror) => {
-        this.document.content = cMirror.getValue()
-        this.render()
-      })
+      if (contentTextarea) {
+        this._codeMirrors['content'] = CodeMirror.fromTextArea(contentTextarea, Object.assign({}, CODEMIRROR_OPTIONS, {
+          mode: this.podPath.endsWith('.html') ? 'htmlmixed' : 'markdown',
+        }))
+        this._codeMirrors['content'].on('change', (cMirror) => {
+          this.document.content = cMirror.getValue()
+          this.render()
+        })
+      }
     }
 
     // Allow selective to run its post render process.
