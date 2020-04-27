@@ -35,62 +35,60 @@
       +field-control
 
   button
-    // Ignore the buttons in rich fields.
-    not(.selective__html) &
+    background-color: $ge-color-field-back-alt
+    border-radius: $ge-radius-5
+    color: $ge-color-on-field-back-alt
+    border: 1px solid $ge-color-back-light
+    font-family: $ge-font-family
+    font-size: $ge-font-size
+    padding: $ge-pad/2 $ge-pad
+
+    // Alternate with nesting.
+    +list-nesting
       background-color: $ge-color-field-back-alt
-      border-radius: $ge-radius-5
       color: $ge-color-on-field-back-alt
-      border: 1px solid $ge-color-back-light
-      font-family: $ge-font-family
-      font-size: $ge-font-size
-      padding: $ge-pad/2 $ge-pad
 
-      // Alternate with nesting.
-      +list-nesting
-        background-color: $ge-color-field-back-alt
-        color: $ge-color-on-field-back-alt
+    +list-nesting-alt
+      background-color: $ge-color-field-back
+      color: $ge-color-on-field-back
 
-      +list-nesting-alt
-        background-color: $ge-color-field-back
-        color: $ge-color-on-field-back
+    &[disabled]
+      opacity: .5
 
-      &[disabled]
-        opacity: .5
+    &:focus
+      outline: none
+      box-shadow: $ge-focus-shadow-secondary
+
+    &:hover
+      box-shadow: $ge-focus-shadow-secondary
+
+    &.selective__button--primary
+      background: $ge-color-primary
+      border-color: $ge-color-primary
+      color: $ge-color-on-primary
+      font-weight: bold
 
       &:focus
         outline: none
-        box-shadow: $ge-focus-shadow-secondary
+        box-shadow: $ge-focus-shadow-primary
 
       &:hover
-        box-shadow: $ge-focus-shadow-secondary
+        box-shadow: $ge-focus-shadow-primary
 
-      &.selective__button--primary
-        background: $ge-color-primary
-        border-color: $ge-color-primary
-        color: $ge-color-on-primary
-        font-weight: bold
+    &.selective__button--secondary
+      background: none
+      border: none
+      color: lighten($ge-color-on-back, 50%)
+      font-weight: bold
 
-        &:focus
-          outline: none
-          box-shadow: $ge-focus-shadow-primary
+      &.selective__button--selected
+        color: $ge-color-on-back
 
-        &:hover
-          box-shadow: $ge-focus-shadow-primary
+      &:hover
+        color: $ge-color-on-back
 
-      &.selective__button--secondary
-        background: none
-        border: none
-        color: lighten($ge-color-on-back, 50%)
-        font-weight: bold
-
-        &.selective__button--selected
-          color: $ge-color-on-back
-
-        &:hover
-          color: $ge-color-on-back
-
-        &:focus
-          box-shadow: none
+      &:focus
+        box-shadow: none
 
   &--data
     input,
