@@ -1152,7 +1152,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
       previewValue = null;
     }
 
-    if (previewType == 'image') {
+    if (previewType == 'image' && previewValue) {
       if (previewValue.startsWith('http') || previewValue.startsWith('//')) {
         return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`<img src="${previewValue}" class="selective__image__fingernail">`;
       } else if (previewValue.startsWith('/')) {// TODO: Handle local images.
