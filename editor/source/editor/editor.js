@@ -59,6 +59,8 @@ export default class Editor {
     this.document = null
     this.autosaveID = null
 
+    this.urlParams = new URLSearchParams(window.location.search)
+
     // TODO: Make devices configurable.
     this.devices = {
       desktop: {
@@ -271,6 +273,23 @@ export default class Editor {
   set podPath(value) {
     this._podPath = value.trim()
     this.listeners.trigger('podPath', this._podPath)
+  }
+
+  // Automatically highlight fields specified in the url params.
+  _autoHighlight() {
+    const fieldRaw = this.urlParams.get('field')
+
+    if (!fieldRaw) {
+      return
+    }
+
+    const fieldKeys = fieldRaw.split(',')
+    for (const fieldKey of fieldKeys) {
+      const fields = this.containerEl.querySelectorAll(`.selective__field[data-field-full-key="${fieldKey}"]`)
+      for (const field of fields) {
+        field.classList.add('selective__field--linked')
+      }
+    }
   }
 
   _sizeLabel(device, rotate) {
@@ -780,6 +799,8 @@ export default class Editor {
       const iframe = this.containerEl.querySelector('iframe')
       iframe && iframe.contentWindow.location.reload(true)
     }
+
+    this._autoHighlight()
 
     // Mark as done rendering.
     this._isRendering = false
