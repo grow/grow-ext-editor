@@ -637,6 +637,16 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compos
     return classes.join(' ');
   }
 
+  get fullKey() {
+    const parentKey = this.config.get('parentKey');
+
+    if (parentKey) {
+      return `${parentKey}.${this.key}`;
+    }
+
+    return this.key;
+  }
+
   get isClean() {
     // When locked, the field is automatically considered dirty.
     if (this._isLocked) {
@@ -808,7 +818,8 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compos
     return lit_html__WEBPACK_IMPORTED_MODULE_2__["html"]`
       <div
           class=${this.classesField}
-          data-field-type="${this.fieldType}">
+          data-field-type="${this.fieldType}"
+          data-field-full-key="${this.fullKey}">
         ${this.renderField(selective, data)}
       </div>`;
   }
@@ -1003,7 +1014,8 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
 
 
       for (let fieldConfig of fieldConfigs || []) {
-        fieldConfig = Object(_utility_config__WEBPACK_IMPORTED_MODULE_6__["autoConfig"])(fieldConfig, this.globalConfig); // Mark the auto fields.
+        fieldConfig = Object(_utility_config__WEBPACK_IMPORTED_MODULE_6__["autoConfig"])(fieldConfig, this.globalConfig);
+        fieldConfig.set('parentKey', this.fullKey); // Mark the auto fields.
 
         if (this._useAutoFields) {
           fieldConfig.set('isGuessed', true);
@@ -1188,6 +1200,12 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
 
     for (let fieldConfig of fieldConfigs || []) {
       fieldConfig = Object(_utility_config__WEBPACK_IMPORTED_MODULE_6__["autoConfig"])(fieldConfig, this.globalConfig);
+      fieldConfig.set('parentKey', this.fullKey); // Mark the auto fields.
+
+      if (this._useAutoFields) {
+        fieldConfig.set('isGuessed', true);
+      }
+
       fields.addField(fieldConfig, this.globalConfig);
     }
 
@@ -75134,6 +75152,16 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListFie
     this._showPartialList = false;
   }
 
+  get fullKey() {
+    const parentKey = this.config.get('parentKey');
+
+    if (parentKey) {
+      return `${parentKey}.${this.key}`;
+    }
+
+    return this.key;
+  }
+
   getPartialConfig(partialKey) {
     if (!this.partialTypes) {
       return {};
@@ -75189,7 +75217,14 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListFie
 
 
       for (let fieldConfig of fieldConfigs || []) {
-        fieldConfig = Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["autoConfig"])(fieldConfig, this.globalConfig);
+        fieldConfig = Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["autoConfig"])(fieldConfig, this.globalConfig); // Add the partial key as part of the parent key.
+
+        fieldConfig.set('parentKey', `${this.fullKey}.${partialKey}`); // Mark the auto fields.
+
+        if (this._useAutoFields) {
+          fieldConfig.set('isGuessed', true);
+        }
+
         fields.addField(fieldConfig, this.globalConfig);
       } // When an is not expanded it does not get the value
       // updated correctly so we need to manually call the data update.
@@ -75243,7 +75278,14 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListFie
 
 
     for (let fieldConfig of fieldConfigs || []) {
-      fieldConfig = Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["autoConfig"])(fieldConfig, this.globalConfig);
+      fieldConfig = Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["autoConfig"])(fieldConfig, this.globalConfig); // Add the partial key as part of the parent key.
+
+      fieldConfig.set('parentKey', `${this.fullKey}.${partialKey}`); // Mark the auto fields.
+
+      if (this._useAutoFields) {
+        fieldConfig.set('isGuessed', true);
+      }
+
       fields.addField(fieldConfig, this.globalConfig);
     }
 

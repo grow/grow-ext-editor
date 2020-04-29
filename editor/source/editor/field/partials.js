@@ -24,6 +24,14 @@ export class PartialsField extends ListField {
     this._showPartialList = false
   }
 
+  get fullKey() {
+    const parentKey = this.config.get('parentKey')
+    if (parentKey) {
+      return `${parentKey}.${this.key}`
+    }
+    return this.key
+  }
+
   getPartialConfig(partialKey) {
     if (!this.partialTypes) {
       return {}
@@ -81,6 +89,15 @@ export class PartialsField extends ListField {
       // Create the fields based on the config.
       for (let fieldConfig of fieldConfigs || []) {
         fieldConfig = autoConfig(fieldConfig, this.globalConfig)
+
+        // Add the partial key as part of the parent key.
+        fieldConfig.set('parentKey', `${this.fullKey}.${partialKey}`)
+
+        // Mark the auto fields.
+        if (this._useAutoFields) {
+          fieldConfig.set('isGuessed', true)
+        }
+
         fields.addField(fieldConfig, this.globalConfig)
       }
 
@@ -135,6 +152,15 @@ export class PartialsField extends ListField {
     // Create the fields based on the config.
     for (let fieldConfig of fieldConfigs || []) {
       fieldConfig = autoConfig(fieldConfig, this.globalConfig)
+
+      // Add the partial key as part of the parent key.
+      fieldConfig.set('parentKey', `${this.fullKey}.${partialKey}`)
+
+      // Mark the auto fields.
+      if (this._useAutoFields) {
+        fieldConfig.set('isGuessed', true)
+      }
+
       fields.addField(fieldConfig, this.globalConfig)
     }
 
