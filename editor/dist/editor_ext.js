@@ -73640,7 +73640,9 @@ class Editor {
       });
     }); // Check for navigated iframe when the routes load.
 
-    this.listeners.add('load.routes', this.verifyPreviewIframe.bind(this));
+    this.listeners.add('load.routes', this.verifyPreviewIframe.bind(this)); // Watch for the history popstate.
+
+    window.addEventListener('popstate', this.popState.bind(this));
   }
 
   bindKeyboard() {
@@ -73982,6 +73984,13 @@ class Editor {
     this.api.getStrings().then(this.handleLoadStrings.bind(this));
   }
 
+  popState(evt) {
+    if (evt.state.podPath) {
+      this.podPath = evt.state.podPath;
+      this.load(this.podPath);
+    }
+  }
+
   pushState(podPath) {
     // Update the url if the document loaded is a different pod path.
     const basePath = this.config.get('base', '/_grow/editor');
@@ -73989,7 +73998,9 @@ class Editor {
     const newPath = `${basePath}${podPath}`;
 
     if (origPath != newPath && !this.testing) {
-      history.pushState({}, '', newPath);
+      history.pushState({
+        'podPath': podPath
+      }, '', newPath);
     }
   }
 
