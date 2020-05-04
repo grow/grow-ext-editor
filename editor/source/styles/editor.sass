@@ -72,6 +72,8 @@
   flex-grow: 1
   height: calc(100vh - #{$ge-header-height})
   overflow-y: auto
+  // Attempt to keep scroll sticky menu from overlapping linked fields.
+  scroll-margin-top: $ge-font-size * 3
 
 .editor__card
   background-color: $ge-color-back
@@ -94,9 +96,6 @@
     margin: $ge-pad auto
     max-width: $ge-edit-column-max-width
     width: calc(100% - #{$ge-pad * 2})
-
-.editor__field_list
-  scroll-margin-top: $ge-font-size * 3
 
 .editor__dev_tools
   align-items: center
