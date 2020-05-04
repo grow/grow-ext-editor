@@ -754,7 +754,7 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compos
     document.dispatchEvent(new CustomEvent('selective.field.deep_link', {
       detail: {
         field: this.fullKey,
-        operation: evt.shiftKey ? 'add' : 'replace'
+        operation: evt.shiftKey ? 'toggle' : 'replace'
       }
     }));
   }
@@ -73712,14 +73712,19 @@ class Editor {
       const linkedField = evt.detail.field;
       const operation = evt.detail.operation;
 
-      if (operation == 'add') {
+      if (operation == 'toggle') {
         // Allow for linking to multiple fields at once.
-        const newField = [linkedField];
+        let newField = (this.urlParams.get('field') || '').split(',');
 
-        if (this.urlParams.get('field')) {
-          newField.push(this.urlParams.get('field'));
+        if (newField.includes(linkedField)) {
+          // Remove existing item.
+          newField = newField.filter(item => item !== linkedField);
+        } else {
+          // Add as new item.
+          newField.push(linkedField);
         }
 
+        newField.sort();
         this.urlParams.set('field', newField.join(','));
       } else {
         this.urlParams.set('field', linkedField);
