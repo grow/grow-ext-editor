@@ -634,6 +634,10 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compos
       classes.push('selective__field--dirty');
     }
 
+    if (this.isLinkedField) {
+      classes.push('selective__field--linked');
+    }
+
     return classes.join(' ');
   }
 
@@ -668,6 +672,19 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compos
     }
 
     return this.originalValue == this.value;
+  }
+
+  get isLinkedField() {
+    // Is the field a linked field in the config.
+    const fullKey = this.fullKey;
+
+    for (const linkedField of this.config.get('linkedFields', [])) {
+      if (linkedField == fullKey) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   get key() {
@@ -1577,11 +1594,26 @@ class ListItem extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["com
     super();
     this.setConfig(config);
     this.fields = fields;
-    this.expanded = false;
+    this.isExpanded = this.isDefaultExpanded;
   }
 
   get config() {
     return this.getConfig();
+  }
+
+  get isDefaultExpanded() {
+    // Check the fields in the list item to see if they match the linked fields.
+    for (const field of this.fields.fields) {
+      const fullKey = field.fullKey;
+
+      for (const linkedField of field.config.get('linkedFields', [])) {
+        if (linkedField.startsWith(fullKey)) {
+          return true;
+        }
+      }
+    }
+
+    return false;
   }
 
   get uid() {
@@ -73472,6 +73504,16 @@ class Editor {
     return this.config.get('testing', false);
   }
 
+  get linkedFields() {
+    const fieldRaw = this.urlParams.get('field');
+
+    if (!fieldRaw) {
+      return [];
+    }
+
+    return fieldRaw.split(',');
+  }
+
   get podPath() {
     return this._podPath;
   }
@@ -73572,25 +73614,6 @@ class Editor {
   set podPath(value) {
     this._podPath = value.trim();
     this.listeners.trigger('podPath', this._podPath);
-  } // Automatically highlight fields specified in the url params.
-
-
-  _autoHighlight() {
-    const fieldRaw = this.urlParams.get('field');
-
-    if (!fieldRaw) {
-      return;
-    }
-
-    const fieldKeys = fieldRaw.split(',');
-
-    for (const fieldKey of fieldKeys) {
-      const fields = this.containerEl.querySelectorAll(`.selective__field[data-field-full-key="${fieldKey}"]`);
-
-      for (const field of fields) {
-        field.classList.add('selective__field--linked');
-      }
-    }
   }
 
   _sizeLabel(device, rotate) {
@@ -73665,7 +73688,9 @@ class Editor {
 
     this.listeners.add('load.routes', this.verifyPreviewIframe.bind(this)); // Watch for the history popstate.
 
-    window.addEventListener('popstate', this.popState.bind(this));
+    window.addEventListener('popstate', this.popState.bind(this)); // On first load watch for selected fields.
+
+    this.scrollToLinkedField();
   }
 
   bindKeyboard() {
@@ -73767,6 +73792,7 @@ class Editor {
     for (const fieldConfig of fieldConfigs) {
       this.selective.addField(fieldConfig, {
         api: this.api,
+        linkedFields: this.linkedFields,
         AutoFieldsCls: _autoFields__WEBPACK_IMPORTED_MODULE_11__["default"]
       });
     } // Add the ability to edit the document body.
@@ -73789,7 +73815,9 @@ class Editor {
         key: CONTENT_KEY,
         label: 'Content'
       }, {
-        api: this.api
+        api: this.api,
+        linkedFields: this.linkedFields,
+        AutoFieldsCls: _autoFields__WEBPACK_IMPORTED_MODULE_11__["default"]
       });
     }
 
@@ -74084,9 +74112,7 @@ class Editor {
       // Test for iframe first, as it may be hidden.
       const iframe = this.containerEl.querySelector('iframe');
       iframe && iframe.contentWindow.location.reload(true);
-    }
-
-    this._autoHighlight(); // Mark as done rendering.
+    } // Mark as done rendering.
 
 
     this._isRendering = false;
@@ -74109,7 +74135,7 @@ class Editor {
         <i class="material-icons" @click=${editor.handleFullScreenClick.bind(editor)} title="Fullscreen">${editor.isFullScreen ? 'fullscreen_exit' : 'fullscreen'}</i>
       </div>
       <div class="editor__cards">
-        <div class="editor__card">
+        <div class="editor__card editor__field_list">
           <div class="editor__menu">
             <button
                 ?disabled=${editor._isSaving || editor.isClean}
@@ -74223,6 +74249,42 @@ class Editor {
         result.catch(err => this.handleSaveError(err));
       }
     });
+  }
+
+  scrollToLinkedField() {
+    if (!this.linkedFields.length) {
+      return;
+    }
+
+    let searchCount = 0;
+
+    const searchForLinkedField = () => {
+      document.addEventListener('selective.render.complete', evt => {
+        const selectedFields = this.containerEl.querySelectorAll('.selective__field--linked');
+
+        if (!selectedFields.length) {
+          if (searchCount > 20) {
+            // Probably doesn't exist, so stop watching for it.
+            return;
+          } // Try again next render.
+
+
+          searchCount++;
+          searchForLinkedField();
+          return;
+        }
+
+        selectedFields[0].scrollIntoView({
+          behavior: 'smooth',
+          // block: 'start', // Does not work correctly with sticky menu.
+          block: 'center'
+        });
+      }, {
+        once: true
+      });
+    };
+
+    searchForLinkedField();
   }
 
   startAutosave() {
