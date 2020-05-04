@@ -171,6 +171,15 @@ export default class Editor {
     return this.config.get('testing', false)
   }
 
+  get linkedFields() {
+    const fieldRaw = this.urlParams.get('field')
+
+    if (!fieldRaw) {
+      return []
+    }
+    return fieldRaw.split(',')
+  }
+
   get podPath() {
     return this._podPath
   }
@@ -275,23 +284,6 @@ export default class Editor {
     this.listeners.trigger('podPath', this._podPath)
   }
 
-  // Automatically highlight fields specified in the url params.
-  _autoHighlight() {
-    const fieldRaw = this.urlParams.get('field')
-
-    if (!fieldRaw) {
-      return
-    }
-
-    const fieldKeys = fieldRaw.split(',')
-    for (const fieldKey of fieldKeys) {
-      const fields = this.containerEl.querySelectorAll(`.selective__field[data-field-full-key="${fieldKey}"]`)
-      for (const field of fields) {
-        field.classList.add('selective__field--linked')
-      }
-    }
-  }
-
   _sizeLabel(device, rotate) {
     if (device.width && device.height) {
       if (rotate) {
@@ -370,6 +362,9 @@ export default class Editor {
 
     // Watch for the history popstate.
     window.addEventListener('popstate', this.popState.bind(this))
+
+    // On first load watch for selected fields.
+    this.scrollToLinkedField()
   }
 
   bindKeyboard() {
@@ -484,6 +479,7 @@ export default class Editor {
     for (const fieldConfig of fieldConfigs) {
       this.selective.addField(fieldConfig, {
         api: this.api,
+        linkedFields: this.linkedFields,
         AutoFieldsCls: EditorAutoFields,
       })
     }
@@ -506,6 +502,8 @@ export default class Editor {
         label: 'Content',
       }, {
         api: this.api,
+        linkedFields: this.linkedFields,
+        AutoFieldsCls: EditorAutoFields,
       })
     }
 
@@ -800,8 +798,6 @@ export default class Editor {
       iframe && iframe.contentWindow.location.reload(true)
     }
 
-    this._autoHighlight()
-
     // Mark as done rendering.
     this._isRendering = false
     document.dispatchEvent(new CustomEvent('selective.render.complete'))
@@ -824,7 +820,7 @@ export default class Editor {
         <i class="material-icons" @click=${editor.handleFullScreenClick.bind(editor)} title="Fullscreen">${editor.isFullScreen ? 'fullscreen_exit' : 'fullscreen'}</i>
       </div>
       <div class="editor__cards">
-        <div class="editor__card">
+        <div class="editor__card editor__field_list">
           <div class="editor__menu">
             <button
                 ?disabled=${editor._isSaving || editor.isClean}
@@ -943,6 +939,41 @@ export default class Editor {
         result.catch((err) => this.handleSaveError(err))
       }
     })
+  }
+
+  scrollToLinkedField() {
+    if (!this.linkedFields.length) {
+      return
+    }
+
+    let searchCount = 0
+    const searchForLinkedField = () => {
+      document.addEventListener('selective.render.complete', (evt) => {
+        const selectedFields = this.containerEl.querySelectorAll('.selective__field--linked')
+        if (!selectedFields.length) {
+          if (searchCount > 20) {
+            // Probably doesn't exist, so stop watching for it.
+            return
+          }
+
+          // Try again next render.
+          searchCount++
+          searchForLinkedField()
+
+          return
+        }
+
+        selectedFields[0].scrollIntoView({
+          behavior: 'smooth',
+          // block: 'start', // Does not work correctly with sticky menu.
+          block: 'center',
+        })
+      }, {
+        once: true,
+      })
+    }
+
+    searchForLinkedField()
   }
 
   startAutosave() {
