@@ -25,10 +25,21 @@
     padding: $ge-pad/2
 
 .selective__field__label
+  align-items: center
+  cursor: pointer
+  display: flex
+  flex-flow: row
   margin: $ge-pad/2 0
 
   label
     display: block
+
+.selective__field__deep_link
+  display: none
+  margin-right: $ge-pad/2
+
+  .editor--highlight-linked &
+    display: inherit
 
 .selective__field__input
   margin: $ge-pad/2 0
