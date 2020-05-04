@@ -365,7 +365,17 @@ export default class Editor {
     // Watch for the deep link event.
     document.addEventListener('selective.field.deep_link', (evt) => {
       const linkedField = evt.detail.field
-      this.urlParams.set('field', linkedField)
+      const operation = evt.detail.operation
+      if (operation == 'add') {
+        // Allow for linking to multiple fields at once.
+        const newField = [linkedField]
+        if (this.urlParams.get('field')) {
+            newField.push(this.urlParams.get('field'))
+        }
+        this.urlParams.set('field', newField.join(','))
+      } else {
+        this.urlParams.set('field', linkedField)
+      }
       this.pushState(this.document.podPath, this.urlParams.toString())
       this.render()
     })
