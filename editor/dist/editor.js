@@ -677,8 +677,9 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compos
   get isLinkedField() {
     // Is the field a linked field in the config.
     const fullKey = this.fullKey;
+    const linkedFields = this.config.get('linkedFieldsFunc', () => [])();
 
-    for (const linkedField of this.config.get('linkedFields', [])) {
+    for (const linkedField of linkedFields) {
       if (linkedField == fullKey) {
         return true;
       }
@@ -748,6 +749,16 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compos
     this.setValueForLocale(locale, value);
   }
 
+  handleDeepLink(evt) {
+    // Trigger a deep link event.
+    document.dispatchEvent(new CustomEvent('selective.field.deep_link', {
+      detail: {
+        field: this.fullKey,
+        operation: evt.shiftKey ? 'add' : 'replace'
+      }
+    }));
+  }
+
   keyForLocale(locale) {
     // Default locale does not get tagged.
     if (locale == this.defaultLocale || !locale || locale == undefined) {
@@ -805,6 +816,11 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compos
     }
 
     return lit_html__WEBPACK_IMPORTED_MODULE_2__["html"]`<div class="selective__field__label">
+      <span
+          class="selective__field__deep_link"
+          @click=${this.handleDeepLink.bind(this)}>
+        <i class="material-icons">link</i>
+      </span>
       <label for="${this.uid}">${this.config.label}</label>
     </div>`;
   }
@@ -1605,8 +1621,9 @@ class ListItem extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["com
     // Check the fields in the list item to see if they match the linked fields.
     for (const field of this.fields.fields) {
       const fullKey = field.fullKey;
+      const linkedFields = field.config.get('linkedFieldsFunc', () => [])();
 
-      for (const linkedField of field.config.get('linkedFields', [])) {
+      for (const linkedField of linkedFields) {
         if (linkedField.startsWith(fullKey)) {
           return true;
         }
@@ -73430,7 +73447,8 @@ class Editor {
     this._isFullScreen = this.storage.getItem('selective.isFullScreen') == 'true';
     this._isHighlighted = {
       dirty: this.storage.getItem('selective.isHightlighted.dirty') == 'true',
-      guess: this.storage.getItem('selective.isHightlighted.guess') == 'true'
+      guess: this.storage.getItem('selective.isHightlighted.guess') == 'true',
+      linked: this.storage.getItem('selective.isHightlighted.linked') == 'true'
     };
     this._isDeviceRotated = this.storage.getItem('selective.isDeviceRotated') == 'true';
     this._isDeviceView = this.storage.getItem('selective.isDeviceView') == 'true';
@@ -73562,6 +73580,10 @@ class Editor {
       styles.push('editor--highlight-dirty');
     }
 
+    if (this.isHightlighted('linked')) {
+      styles.push('editor--highlight-linked');
+    }
+
     return styles.join(' ');
   }
 
@@ -73684,13 +73706,32 @@ class Editor {
       }).catch(error => {
         console.error(error);
       });
+    }); // Watch for the deep link event.
+
+    document.addEventListener('selective.field.deep_link', evt => {
+      const linkedField = evt.detail.field;
+      const operation = evt.detail.operation;
+
+      if (operation == 'add') {
+        // Allow for linking to multiple fields at once.
+        const newField = [linkedField];
+
+        if (this.urlParams.get('field')) {
+          newField.push(this.urlParams.get('field'));
+        }
+
+        this.urlParams.set('field', newField.join(','));
+      } else {
+        this.urlParams.set('field', linkedField);
+      }
+
+      this.pushState(this.document.podPath, this.urlParams.toString());
+      this.render();
     }); // Check for navigated iframe when the routes load.
 
     this.listeners.add('load.routes', this.verifyPreviewIframe.bind(this)); // Watch for the history popstate.
 
-    window.addEventListener('popstate', this.popState.bind(this)); // On first load watch for selected fields.
-
-    this.scrollToLinkedField();
+    window.addEventListener('popstate', this.popState.bind(this));
   }
 
   bindKeyboard() {
@@ -73753,6 +73794,12 @@ class Editor {
     this.render();
   }
 
+  handleHighlightLinked(evt) {
+    this._isHighlighted.linked = !this.isHightlighted('linked');
+    this.storage.setItem('selective.isHightlighted.linked', this._isHighlighted.linked);
+    this.render();
+  }
+
   handleLoadFieldsResponse(response) {
     this._hasLoadedFields = true;
     this._isEditingSource = false;
@@ -73792,7 +73839,7 @@ class Editor {
     for (const fieldConfig of fieldConfigs) {
       this.selective.addField(fieldConfig, {
         api: this.api,
-        linkedFields: this.linkedFields,
+        linkedFieldsFunc: () => this.linkedFields,
         AutoFieldsCls: _autoFields__WEBPACK_IMPORTED_MODULE_11__["default"]
       });
     } // Add the ability to edit the document body.
@@ -73816,10 +73863,12 @@ class Editor {
         label: 'Content'
       }, {
         api: this.api,
-        linkedFields: this.linkedFields,
+        linkedFieldsFunc: () => this.linkedFields,
         AutoFieldsCls: _autoFields__WEBPACK_IMPORTED_MODULE_11__["default"]
       });
     }
+
+    this.scrollToLinkedField(); // On load watch for selected fields.
 
     this.render();
   }
@@ -74038,19 +74087,21 @@ class Editor {
   popState(evt) {
     if (evt.state.podPath) {
       this.podPath = evt.state.podPath;
+      this.urlParams = new URLSearchParams(window.location.search);
       this.load(this.podPath);
     }
   }
 
-  pushState(podPath) {
+  pushState(podPath, paramString) {
     // Update the url if the document loaded is a different pod path.
     const basePath = this.config.get('base', '/_grow/editor');
     const origPath = window.location.pathname;
-    const newPath = `${basePath}${podPath}`;
+    const newPath = `${basePath}${podPath}${paramString ? `?${paramString}` : ''}`;
 
     if (origPath != newPath && !this.testing) {
       history.pushState({
-        'podPath': podPath
+        'podPath': podPath,
+        'paramString': paramString
       }, '', newPath);
     }
   }
@@ -74158,6 +74209,12 @@ class Editor {
                 @click=${editor.handleHighlightGuess.bind(editor)}
                 title="Highlight auto fields">
               assistant
+            </i>
+            <i
+                class="editor__dev_tools__icon ${editor.isHightlighted('linked') ? 'editor__dev_tools__icon--selected' : ''} material-icons"
+                @click=${editor.handleHighlightLinked.bind(editor)}
+                title="Deep link to fields">
+              link
             </i>
             <i
                 class="editor__dev_tools__icon ${editor.isHightlighted('dirty') ? 'editor__dev_tools__icon--selected' : ''} material-icons"

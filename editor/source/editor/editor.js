@@ -86,6 +86,7 @@ export default class Editor {
     this._isHighlighted = {
       dirty: this.storage.getItem('selective.isHightlighted.dirty') == 'true',
       guess: this.storage.getItem('selective.isHightlighted.guess') == 'true',
+      linked: this.storage.getItem('selective.isHightlighted.linked') == 'true',
     }
 
     this._isDeviceRotated = this.storage.getItem('selective.isDeviceRotated') == 'true'
@@ -228,6 +229,10 @@ export default class Editor {
       styles.push('editor--highlight-dirty')
     }
 
+    if (this.isHightlighted('linked')) {
+      styles.push('editor--highlight-linked')
+    }
+
     return styles.join(' ')
   }
 
@@ -357,14 +362,29 @@ export default class Editor {
       })
     })
 
+    // Watch for the deep link event.
+    document.addEventListener('selective.field.deep_link', (evt) => {
+      const linkedField = evt.detail.field
+      const operation = evt.detail.operation
+      if (operation == 'add') {
+        // Allow for linking to multiple fields at once.
+        const newField = [linkedField]
+        if (this.urlParams.get('field')) {
+            newField.push(this.urlParams.get('field'))
+        }
+        this.urlParams.set('field', newField.join(','))
+      } else {
+        this.urlParams.set('field', linkedField)
+      }
+      this.pushState(this.document.podPath, this.urlParams.toString())
+      this.render()
+    })
+
     // Check for navigated iframe when the routes load.
     this.listeners.add('load.routes', this.verifyPreviewIframe.bind(this))
 
     // Watch for the history popstate.
     window.addEventListener('popstate', this.popState.bind(this))
-
-    // On first load watch for selected fields.
-    this.scrollToLinkedField()
   }
 
   bindKeyboard() {
@@ -437,6 +457,13 @@ export default class Editor {
     this.render()
   }
 
+  handleHighlightLinked(evt) {
+    this._isHighlighted.linked = !this.isHightlighted('linked')
+    this.storage.setItem('selective.isHightlighted.linked', this._isHighlighted.linked)
+
+    this.render()
+  }
+
   handleLoadFieldsResponse(response) {
     this._hasLoadedFields = true
     this._isEditingSource = false
@@ -479,7 +506,7 @@ export default class Editor {
     for (const fieldConfig of fieldConfigs) {
       this.selective.addField(fieldConfig, {
         api: this.api,
-        linkedFields: this.linkedFields,
+        linkedFieldsFunc: () => this.linkedFields,
         AutoFieldsCls: EditorAutoFields,
       })
     }
@@ -502,11 +529,12 @@ export default class Editor {
         label: 'Content',
       }, {
         api: this.api,
-        linkedFields: this.linkedFields,
+        linkedFieldsFunc: () => this.linkedFields,
         AutoFieldsCls: EditorAutoFields,
       })
     }
 
+    this.scrollToLinkedField()  // On load watch for selected fields.
     this.render()
   }
 
@@ -722,18 +750,20 @@ export default class Editor {
   popState(evt) {
     if (evt.state.podPath) {
       this.podPath = evt.state.podPath
+      this.urlParams = new URLSearchParams(window.location.search)
       this.load(this.podPath)
     }
   }
 
-  pushState(podPath) {
+  pushState(podPath, paramString) {
     // Update the url if the document loaded is a different pod path.
     const basePath = this.config.get('base', '/_grow/editor')
     const origPath = window.location.pathname
-    const newPath = `${basePath}${podPath}`
+    const newPath = `${basePath}${podPath}${paramString ? `?${paramString}` : ''}`
     if (origPath != newPath && !this.testing) {
       history.pushState({
         'podPath': podPath,
+        'paramString': paramString,
       }, '', newPath)
     }
   }
@@ -843,6 +873,12 @@ export default class Editor {
                 @click=${editor.handleHighlightGuess.bind(editor)}
                 title="Highlight auto fields">
               assistant
+            </i>
+            <i
+                class="editor__dev_tools__icon ${editor.isHightlighted('linked') ? 'editor__dev_tools__icon--selected': ''} material-icons"
+                @click=${editor.handleHighlightLinked.bind(editor)}
+                title="Deep link to fields">
+              link
             </i>
             <i
                 class="editor__dev_tools__icon ${editor.isHightlighted('dirty') ? 'editor__dev_tools__icon--selected': ''} material-icons"
