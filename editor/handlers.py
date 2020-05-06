@@ -32,7 +32,12 @@ class RenderTemplateController(render_controller.RenderDocumentController):
 
             # Find the template file to load the template from.
             template_path = os.path.join(collection_path, TEMPLATE_FILE_NAME)
-            template_info = self.pod.read_yaml(template_path)
+
+            try:
+                template_info = self.pod.read_yaml(template_path)
+            except IOError:
+                raise werkzeug_exceptions.NotFound(
+                    'No template file found for collection: {}'.format(template_path))
 
             template_meta = template_info.get(key)
 
