@@ -15,6 +15,7 @@ from grow.common import yaml_utils
 from grow.documents import document
 from grow.documents import document_front_matter
 from grow.routing import router as grow_router
+from .api import screenshot
 from .api import yaml_conversion
 
 
@@ -376,6 +377,9 @@ class PodApi(object):
         elif path == 'repo':
             if method == 'GET':
                 self.get_repo()
+        elif path == 'screenshot/template':
+            if method == 'GET':
+                self.screenshot_template()
         elif path == 'static_serving_path':
             if method == 'GET':
                 self.get_static_serving_path()
@@ -425,6 +429,51 @@ class PodApi(object):
         pod_path = os.path.join(destination, filename)
         self.pod.write_file(pod_path, file_contents)
         self.data = self._load_static_doc(pod_path)
+
+    def screenshot_template(self):
+        """Handle the request to screenshot a preview."""
+        collection_path = self.request.params.get('collection_path')
+        if not collection_path.startswith('/'):
+            collection_path = '/{}'.format(collection_path)
+        if not collection_path.endswith('/'):
+            collection_path = '{}/'.format(collection_path)
+
+        key = self.request.params.get('key')
+
+        screenshot_pod_dir = self.ext_config.get('screenshot_dir', screenshot.DEFAULT_SCREENSHOT_DIR)
+
+        # Pull the resolutions from config.
+        resolutions_raw = self.ext_config.get('resolutions', [{
+            'width': 1280,
+            'height': 1600,
+        }])
+        resolutions = []
+        for resolution_raw in resolutions_raw:
+            resolutions.append(screenshot.ScreenshotResolution(
+                resolution_raw['width'], resolution_raw['height']))
+
+        screenshotter = screenshot.EditorScreenshot(
+            os.environ.get(screenshot.ENV_DRIVER_PATH, self.ext_config.get('driver_path')))
+
+        self.data = {
+            collection_path: {},
+        }
+
+        url = 'http://{host}/_grow/screenshot/template{collection_path}{key}'.format(
+            host=self.request.host,
+            collection_path=collection_path,
+            key=key)
+
+        screenshots = screenshotter.screenshot(url, resolutions)
+        screenshot_file_base = '{collection_path}{key}'.format(
+            collection_path=collection_path,
+            key=key).strip('/')
+
+        for resolution, shot in screenshots.items():
+            screenshot_pod_path = os.path.join(
+                screenshot_pod_dir, resolution.filename(screenshot_file_base))
+            self.pod.write_file(screenshot_pod_path, shot)
+            self.data[collection_path][resolution.resolution] = self._load_static_doc(screenshot_pod_path)
 
 
 def serve_api(pod, request, matched, **_kwargs):

@@ -46,6 +46,19 @@ class EditorDevHandlerHook(hooks.DevHandlerHook):
             '/_grow/editor',
             grow_router.RouteInfo('console', meta=editor_meta))
 
+        template_meta = {
+            'handler': handlers.serve_template,
+            'meta': {
+                'app': {
+                    'host': host,
+                    'port': port,
+                },
+            },
+        }
+        routes.add(
+            '/_grow/screenshot/template/*collection',
+            grow_router.RouteInfo('console', meta=template_meta))
+
 
 class EditorDevManagerMessageHook(DevManagerMessageHook):
     """Handle the router add hook."""

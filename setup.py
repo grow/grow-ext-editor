@@ -18,6 +18,7 @@ setup(
         'editor': ['dist/*.js', 'dist/*.css', 'dist/*.map', 'dist/*.html']
     },
     install_requires=[
+        'selenium',
         'werkzeug',
     ],
 )
