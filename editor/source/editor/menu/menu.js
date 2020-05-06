@@ -37,6 +37,7 @@ export default class Menu extends MenuBase {
       podPaths: null,
       repo: null,
       routes: null,
+      templates: null,
     }
 
     this.filterFunc = this.config.get('filterFunc') || createWhiteBlackFilter(
@@ -61,6 +62,7 @@ export default class Menu extends MenuBase {
     this.editor.listeners.add('load.podPaths', this.handleLoadPodPaths.bind(this))
     this.editor.listeners.add('load.repo', this.handleLoadRepo.bind(this))
     this.editor.listeners.add('load.routes', this.handleLoadRoutes.bind(this))
+    this.editor.listeners.add('load.templates', this.handleLoadTemplates.bind(this))
   }
 
   handleLoadPodPaths(response) {
@@ -75,6 +77,11 @@ export default class Menu extends MenuBase {
 
   handleLoadRoutes(response) {
     this._state.routes = response.routes
+    this.render()
+  }
+
+  handleLoadTemplates(response) {
+    this._state.templates = response.templates
     this.render()
   }
 

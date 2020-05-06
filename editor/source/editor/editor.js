@@ -104,6 +104,7 @@ export default class Editor {
     this._podPaths = null
     this._routes = null
     this._strings = null
+    this._templates = null
 
     // Track the serving path of the iframe when it is different.
     this._unverifiedServingPath = null
@@ -587,6 +588,13 @@ export default class Editor {
     })
   }
 
+  handleLoadTemplates(response) {
+    this._templates = response['templates']
+    this.listeners.trigger('load.templates', {
+      templates: this._templates,
+    })
+  }
+
   handleLoadSourceResponse(response) {
     this._isEditingSource = true
     this.documentFromResponse(response)
@@ -705,7 +713,7 @@ export default class Editor {
 
   loadPod(force) {
     if (!force && this._isLoading['pod']) {
-      // Already loading the pod paths, do not re-request.
+      // Already loading, do not re-request.
       return
     }
     this._isLoading['pod'] = true
@@ -714,7 +722,7 @@ export default class Editor {
 
   loadPodPaths(force) {
     if (!force && this._isLoading['podPaths']) {
-      // Already loading the pod paths, do not re-request.
+      // Already loading, do not re-request.
       return
     }
     this._isLoading['podPaths'] = true
@@ -723,7 +731,7 @@ export default class Editor {
 
   loadRepo(force) {
     if (!force && this._isLoading['repo']) {
-      // Already loading the pod paths, do not re-request.
+      // Already loading, do not re-request.
       return
     }
     this._isLoading['repo'] = true
@@ -732,7 +740,7 @@ export default class Editor {
 
   loadRoutes(force) {
     if (!force && this._isLoading['routes']) {
-      // Already loading the pod paths, do not re-request.
+      // Already loading, do not re-request.
       return
     }
     this._isLoading['routes'] = true
@@ -745,11 +753,20 @@ export default class Editor {
 
   loadStrings(force) {
     if (!force && this._isLoading['strings']) {
-      // Already loading the pod paths, do not re-request.
+      // Already loading, do not re-request.
       return
     }
     this._isLoading['strings'] = true
     this.api.getStrings().then(this.handleLoadStrings.bind(this))
+  }
+
+  loadTemplates(force) {
+    if (!force && this._isLoading['templates']) {
+      // Already loading, do not re-request.
+      return
+    }
+    this._isLoading['templates'] = true
+    this.api.getTemplates().then(this.handleLoadTemplates.bind(this))
   }
 
   popState(evt) {

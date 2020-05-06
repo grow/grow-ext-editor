@@ -74055,7 +74055,8 @@ class Editor {
     this._codeMirrors = {};
     this._podPaths = null;
     this._routes = null;
-    this._strings = null; // Track the serving path of the iframe when it is different.
+    this._strings = null;
+    this._templates = null; // Track the serving path of the iframe when it is different.
 
     this._unverifiedServingPath = null;
     this.selective = new selective_edit__WEBPACK_IMPORTED_MODULE_5__["default"](null, {
@@ -74516,6 +74517,13 @@ class Editor {
     });
   }
 
+  handleLoadTemplates(response) {
+    this._templates = response['templates'];
+    this.listeners.trigger('load.templates', {
+      templates: this._templates
+    });
+  }
+
   handleLoadSourceResponse(response) {
     this._isEditingSource = true;
     this.documentFromResponse(response);
@@ -74631,7 +74639,7 @@ class Editor {
 
   loadPod(force) {
     if (!force && this._isLoading['pod']) {
-      // Already loading the pod paths, do not re-request.
+      // Already loading, do not re-request.
       return;
     }
 
@@ -74641,7 +74649,7 @@ class Editor {
 
   loadPodPaths(force) {
     if (!force && this._isLoading['podPaths']) {
-      // Already loading the pod paths, do not re-request.
+      // Already loading, do not re-request.
       return;
     }
 
@@ -74651,7 +74659,7 @@ class Editor {
 
   loadRepo(force) {
     if (!force && this._isLoading['repo']) {
-      // Already loading the pod paths, do not re-request.
+      // Already loading, do not re-request.
       return;
     }
 
@@ -74661,7 +74669,7 @@ class Editor {
 
   loadRoutes(force) {
     if (!force && this._isLoading['routes']) {
-      // Already loading the pod paths, do not re-request.
+      // Already loading, do not re-request.
       return;
     }
 
@@ -74675,12 +74683,22 @@ class Editor {
 
   loadStrings(force) {
     if (!force && this._isLoading['strings']) {
-      // Already loading the pod paths, do not re-request.
+      // Already loading, do not re-request.
       return;
     }
 
     this._isLoading['strings'] = true;
     this.api.getStrings().then(this.handleLoadStrings.bind(this));
+  }
+
+  loadTemplates(force) {
+    if (!force && this._isLoading['templates']) {
+      // Already loading, do not re-request.
+      return;
+    }
+
+    this._isLoading['templates'] = true;
+    this.api.getTemplates().then(this.handleLoadTemplates.bind(this));
   }
 
   popState(evt) {
@@ -76723,9 +76741,10 @@ class FileTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
   }
 
   renderTree(editor, menuState, eventHandlers) {
-    if (!menuState.podPaths) {
+    if (!menuState.podPaths || !menuState.templates) {
       // Editor handles multiple call resolution.
       editor.loadPodPaths();
+      editor.loadTemplates();
       return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="editor__loading" title="Loading..."></div>`;
     } // Pod path has changed, make sure that the pod path folder is
     // expanded by default. Can still be toggled by clicking folder.
@@ -76941,7 +76960,8 @@ class Menu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
       podPath: editor.podPath,
       podPaths: null,
       repo: null,
-      routes: null
+      routes: null,
+      templates: null
     };
     this.filterFunc = this.config.get('filterFunc') || Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createWhiteBlackFilter"])([/\/content\//, /\/podspec.yaml/], // Whitelist.
     [] // Blacklist.
@@ -76961,6 +76981,7 @@ class Menu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
     this.editor.listeners.add('load.podPaths', this.handleLoadPodPaths.bind(this));
     this.editor.listeners.add('load.repo', this.handleLoadRepo.bind(this));
     this.editor.listeners.add('load.routes', this.handleLoadRoutes.bind(this));
+    this.editor.listeners.add('load.templates', this.handleLoadTemplates.bind(this));
   }
 
   handleLoadPodPaths(response) {
@@ -76975,6 +76996,11 @@ class Menu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
 
   handleLoadRoutes(response) {
     this._state.routes = response.routes;
+    this.render();
+  }
+
+  handleLoadTemplates(response) {
+    this._state.templates = response.templates;
     this.render();
   }
 

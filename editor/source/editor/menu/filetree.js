@@ -80,9 +80,10 @@ export default class FileTreeMenu extends MenuBase {
   }
 
   renderTree(editor, menuState, eventHandlers) {
-    if (!menuState.podPaths) {
+    if (!menuState.podPaths || !menuState.templates) {
       // Editor handles multiple call resolution.
       editor.loadPodPaths()
+      editor.loadTemplates()
       return html`<div class="editor__loading" title="Loading..."></div>`
     }
 
