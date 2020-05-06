@@ -9,6 +9,7 @@ import re
 import yaml
 from werkzeug import wrappers
 from werkzeug.exceptions import BadRequest, NotFound
+from selenium.common import exceptions as selenium_exceptions
 from grow.common import json_encoder
 from grow.common import utils
 from grow.common import yaml_utils
@@ -464,7 +465,14 @@ class PodApi(object):
             collection_path=collection_path,
             key=key)
 
-        screenshots = screenshotter.screenshot(url, resolutions)
+        try:
+            screenshots = screenshotter.screenshot(url, resolutions)
+        except selenium_exceptions.WebDriverException as selenium_exception:
+            if 'executable' in selenium_exception.msg:
+                raise BadRequest(
+                    'Bad chromedriver path or {} not set.'.format(screenshot.ENV_DRIVER_PATH))
+            raise
+
         screenshot_file_base = '{collection_path}{key}'.format(
             collection_path=collection_path,
             key=key).strip('/')
