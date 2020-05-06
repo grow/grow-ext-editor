@@ -75008,6 +75008,8 @@ class EditorApi extends _utility_api__WEBPACK_IMPORTED_MODULE_0__["default"] {
       'new_pod_path': newPodPath
     }).then(res => {
       result.resolve(res.body);
+    }).catch(err => {
+      result.reject(err);
     });
     return result.promise;
   }
@@ -75018,6 +75020,8 @@ class EditorApi extends _utility_api__WEBPACK_IMPORTED_MODULE_0__["default"] {
       'pod_path': podPath
     }).then(res => {
       result.resolve(res.body);
+    }).catch(err => {
+      result.reject(err);
     });
     return result.promise;
   }
@@ -75028,6 +75032,8 @@ class EditorApi extends _utility_api__WEBPACK_IMPORTED_MODULE_0__["default"] {
       'pod_path': podPath
     }).then(res => {
       result.resolve(res.body);
+    }).catch(err => {
+      result.reject(err);
     });
     return result.promise;
   }
@@ -75038,6 +75044,8 @@ class EditorApi extends _utility_api__WEBPACK_IMPORTED_MODULE_0__["default"] {
       'extension_path': extension_path
     }).then(res => {
       result.resolve(res.body);
+    }).catch(err => {
+      result.reject(err);
     });
     return result.promise;
   }
@@ -75046,6 +75054,8 @@ class EditorApi extends _utility_api__WEBPACK_IMPORTED_MODULE_0__["default"] {
     const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
     this.request.get(this.apiPath('routes')).then(res => {
       result.resolve(res.body);
+    }).catch(err => {
+      result.reject(err);
     });
     return result.promise;
   }
@@ -75054,6 +75064,8 @@ class EditorApi extends _utility_api__WEBPACK_IMPORTED_MODULE_0__["default"] {
     const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
     this.request.get(this.apiPath('partials')).then(res => {
       result.resolve(res.body);
+    }).catch(err => {
+      result.reject(err);
     });
     return result.promise;
   }
@@ -75062,6 +75074,8 @@ class EditorApi extends _utility_api__WEBPACK_IMPORTED_MODULE_0__["default"] {
     const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
     this.request.get(this.apiPath('pod')).then(res => {
       result.resolve(res.body);
+    }).catch(err => {
+      result.reject(err);
     });
     return result.promise;
   }
@@ -75070,6 +75084,8 @@ class EditorApi extends _utility_api__WEBPACK_IMPORTED_MODULE_0__["default"] {
     const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
     this.request.get(this.apiPath('pod_paths')).then(res => {
       result.resolve(res.body);
+    }).catch(err => {
+      result.reject(err);
     });
     return result.promise;
   }
@@ -75078,6 +75094,8 @@ class EditorApi extends _utility_api__WEBPACK_IMPORTED_MODULE_0__["default"] {
     const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
     this.request.get(this.apiPath('repo')).then(res => {
       result.resolve(res.body);
+    }).catch(err => {
+      result.reject(err);
     });
     return result.promise;
   }
@@ -75088,6 +75106,8 @@ class EditorApi extends _utility_api__WEBPACK_IMPORTED_MODULE_0__["default"] {
       'pod_path': podPath
     }).then(res => {
       result.resolve(res.body);
+    }).catch(err => {
+      result.reject(err);
     });
     return result.promise;
   }
@@ -75096,6 +75116,18 @@ class EditorApi extends _utility_api__WEBPACK_IMPORTED_MODULE_0__["default"] {
     const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
     this.request.get(this.apiPath('strings')).then(res => {
       result.resolve(res.body);
+    }).catch(err => {
+      result.reject(err);
+    });
+    return result.promise;
+  }
+
+  getTemplates() {
+    const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
+    this.request.get(this.apiPath('templates')).then(res => {
+      result.resolve(res.body);
+    }).catch(err => {
+      result.reject(err);
     });
     return result.promise;
   }

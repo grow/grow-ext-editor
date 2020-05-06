@@ -24,6 +24,7 @@ class PodApi(object):
     """Basic pod api."""
 
     EDITOR_FILE_NAME = '_editor.yaml'
+    TEMPLATE_FILE_NAME = '_template.yaml'
     PARTIALS_VIEWS_PATH = '/views/partials'
     STRINGS_PATH = '/content/strings'
     IGNORED_PREFIXES = (
@@ -88,6 +89,30 @@ class PodApi(object):
         if self.pod.file_exists(editor_path):
             return self.pod.read_yaml(editor_path) or {}
         return {}
+
+    def _format_screenshot_base(self, path, key):
+        """Format the screenshot base name."""
+        if not path.endswith('/'):
+            path = '{}/'.format(path)
+        return '{path}{key}'.format(
+            path=path,
+            key=key).strip('/')
+
+    def _get_resolutions(self):
+        """Pull the resolutions from config."""
+        resolutions_raw = self.ext_config.get('resolutions', [{
+            'width': 1280,
+            'height': 1600,
+        }])
+        resolutions = []
+        for resolution_raw in resolutions_raw:
+            resolutions.append(screenshot.ScreenshotResolution(
+                resolution_raw['width'], resolution_raw['height']))
+        return resolutions
+
+    def _get_screenshot_dir(self):
+        """Pull the screenshot dir from config."""
+        return self.ext_config.get('screenshot_dir', screenshot.DEFAULT_SCREENSHOT_DIR)
 
     def _is_ignored_dir(self, full_path):
         ignored_dirs = self.ext_config.get('ignored_dirs', tuple())
@@ -339,8 +364,49 @@ class PodApi(object):
             },
         }
 
+    def get_templates(self):
+        """Handle the request for template information."""
+        templates = {}
+
+        collections = self.pod.list_collections()
+
+        # Check each collection to see if it has defined the template file.
+        for collection in collections:
+            template_pod_path = os.path.join(
+                collection.pod_path, self.TEMPLATE_FILE_NAME)
+            if self.pod.file_exists(template_pod_path):
+                raw_content = self.pod.read_file(template_pod_path)
+                template_info = yaml.load(
+                    raw_content, Loader=yaml_utils.PlainTextYamlLoader)
+                templates[collection.pod_path] = {}
+
+                for key, template_meta in template_info.items():
+                    screenshots = {}
+
+                    # Find any existing screenshots.
+                    screenshot_pod_dir = self._get_screenshot_dir()
+                    screenshot_file_base = self._format_screenshot_base(collection.pod_path, key)
+                    resolutions = self._get_resolutions()
+
+                    for resolution in resolutions:
+                        screenshot_pod_path = os.path.join(
+                            screenshot_pod_dir, resolution.filename(screenshot_file_base))
+                        if self.pod.file_exists(screenshot_pod_path):
+                            screenshots[resolution.resolution] = self._load_static_doc(screenshot_pod_path)
+
+                    templates[collection.pod_path][key] = {
+                        'label': template_meta.get('label', key),
+                        'description': template_meta.get('description', ''),
+                        'screenshots': screenshots,
+                    }
+
+        self.data = {
+            'templates': templates,
+        }
+
     def handle_request(self):
         """Determine how to handle the request."""
+
         path = self.matched.params['path']
         method = self.request.method
         if path == 'content':
@@ -384,6 +450,9 @@ class PodApi(object):
         elif path == 'static_serving_path':
             if method == 'GET':
                 self.get_static_serving_path()
+        elif path == 'templates':
+            if method == 'GET':
+                self.get_templates()
         else:
             # TODO Give 404 response.
             raise NotFound('{} not found.'.format(path))
@@ -441,17 +510,8 @@ class PodApi(object):
 
         key = self.request.params.get('key')
 
-        screenshot_pod_dir = self.ext_config.get('screenshot_dir', screenshot.DEFAULT_SCREENSHOT_DIR)
-
-        # Pull the resolutions from config.
-        resolutions_raw = self.ext_config.get('resolutions', [{
-            'width': 1280,
-            'height': 1600,
-        }])
-        resolutions = []
-        for resolution_raw in resolutions_raw:
-            resolutions.append(screenshot.ScreenshotResolution(
-                resolution_raw['width'], resolution_raw['height']))
+        screenshot_pod_dir = self._get_screenshot_dir()
+        resolutions = self._get_resolutions()
 
         screenshotter = screenshot.EditorScreenshot(
             os.environ.get(screenshot.ENV_DRIVER_PATH, self.ext_config.get('driver_path')))
@@ -460,10 +520,11 @@ class PodApi(object):
             collection_path: {},
         }
 
-        url = 'http://{host}/_grow/screenshot/template{collection_path}{key}'.format(
+        screenshot_file_base = self._format_screenshot_base(collection_path, key)
+
+        url = 'http://{host}/_grow/screenshot/template/{screenshot_file_base}'.format(
             host=self.request.host,
-            collection_path=collection_path,
-            key=key)
+            screenshot_file_base=screenshot_file_base)
 
         try:
             screenshots = screenshotter.screenshot(url, resolutions)
@@ -472,10 +533,6 @@ class PodApi(object):
                 raise BadRequest(
                     'Bad chromedriver path or {} not set.'.format(screenshot.ENV_DRIVER_PATH))
             raise
-
-        screenshot_file_base = '{collection_path}{key}'.format(
-            collection_path=collection_path,
-            key=key).strip('/')
 
         for resolution, shot in screenshots.items():
             screenshot_pod_path = os.path.join(
