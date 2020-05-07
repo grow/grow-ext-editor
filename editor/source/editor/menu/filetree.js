@@ -13,7 +13,7 @@ import { defaultFields } from '../field'
 import generateUUID from '../../utility/uuid'
 import MenuBase from './base'
 import FolderStructure from './folderStructure'
-import ModalWindow from '../utility/modal'
+import ModalWindow from '../parts/modal'
 
 
 export default class FileTreeMenu extends MenuBase {

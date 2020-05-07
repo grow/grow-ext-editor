@@ -100,7 +100,8 @@ class PodApi(object):
 
     def _get_resolutions(self):
         """Pull the resolutions from config."""
-        resolutions_raw = self.ext_config.get('resolutions', [{
+        screenshot_config = self.ext_config.get('screenshots', {})
+        resolutions_raw = screenshot_config.get('resolutions', [{
             'width': 1280,
             'height': 1600,
         }])
@@ -112,7 +113,8 @@ class PodApi(object):
 
     def _get_screenshot_dir(self):
         """Pull the screenshot dir from config."""
-        return self.ext_config.get('screenshot_dir', screenshot.DEFAULT_SCREENSHOT_DIR)
+        screenshot_config = self.ext_config.get('screenshots', {})
+        return screenshot_config.get('static_dir', screenshot.DEFAULT_SCREENSHOT_DIR)
 
     def _get_collection_templates(self, collection):
         """Find any collection templates for a collection."""
@@ -543,8 +545,10 @@ class PodApi(object):
         screenshot_pod_dir = self._get_screenshot_dir()
         resolutions = self._get_resolutions()
 
-        screenshotter = screenshot.EditorScreenshot(
-            os.environ.get(screenshot.ENV_DRIVER_PATH, self.ext_config.get('driver_path')))
+        screenshot_config = self.ext_config.get('screenshots', {})
+        driver_path = os.environ.get(
+            screenshot.ENV_DRIVER_PATH, screenshot_config.get('driver_path'))
+        screenshotter = screenshot.EditorScreenshot(driver_path)
 
         self.data = {
             collection_path: {

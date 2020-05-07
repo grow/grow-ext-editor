@@ -76709,7 +76709,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utility_uuid__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utility/uuid */ "./source/utility/uuid.js");
 /* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./base */ "./source/editor/menu/base.js");
 /* harmony import */ var _folderStructure__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./folderStructure */ "./source/editor/menu/folderStructure.js");
-/* harmony import */ var _utility_modal__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utility/modal */ "./source/editor/utility/modal.js");
+/* harmony import */ var _parts_modal__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../parts/modal */ "./source/editor/parts/modal.js");
 /**
  * Content editor.
  */
@@ -76726,7 +76726,7 @@ class FileTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
     super(config);
     this.podPath = null;
     this.expandedFolders = [];
-    this.modalWindow = new _utility_modal__WEBPACK_IMPORTED_MODULE_6__["default"](this.render);
+    this.modalWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_6__["default"](this.render);
     this.newFileFolder = null;
     this._selectives = {};
   }
@@ -77635,6 +77635,89 @@ class TreeMenu extends _base__WEBPACK_IMPORTED_MODULE_2__["default"] {
 
 /***/ }),
 
+/***/ "./source/editor/parts/modal.js":
+/*!**************************************!*\
+  !*** ./source/editor/parts/modal.js ***!
+  \**************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ModalWindow; });
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
+/**
+ * Utility for creating and controlling modal windows.
+ */
+
+
+class ModalWindow {
+  constructor(renderFunc) {
+    this.isOpen = false;
+    this.renderFunc = renderFunc;
+
+    this.contentRenderFunc = () => '';
+
+    this.clickToClose = true;
+
+    this.canClickToCloseFunc = () => this.clickToClose;
+  }
+
+  get template() {
+    if (!this.isOpen) {
+      return '';
+    }
+
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <div class="modal">
+        <div
+            class="modal__wrapper"
+            @click=${this.handleOffsetClick.bind(this)}>
+          <div class="modal__content">
+            ${this.contentRenderFunc()}
+          </div>
+        </div>
+      </div>`;
+  }
+
+  close() {
+    this.isOpen = false;
+    this.renderFunc();
+  }
+
+  handleOffsetClick(evt) {
+    evt.preventDefault();
+    evt.stopPropagation();
+
+    if (!this.clickToClose || !this.canClickToCloseFunc()) {
+      return;
+    } // Test if the click was from within the content section.
+
+
+    const contentParent = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'modal__content');
+
+    if (contentParent) {
+      return;
+    }
+
+    this.close();
+  }
+
+  open() {
+    this.isOpen = true;
+    this.renderFunc();
+  }
+
+  toggle() {
+    this.isOpen = !this.isOpen;
+    this.renderFunc();
+  }
+
+}
+
+/***/ }),
+
 /***/ "./source/editor/quill/image-upload.js":
 /*!*********************************************!*\
   !*** ./source/editor/quill/image-upload.js ***!
@@ -78101,89 +78184,6 @@ class StringListUI extends _ui_file__WEBPACK_IMPORTED_MODULE_5__["FileListUI"] {
 
     const deepValue = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_2__["autoDeepObject"])(this.podPaths[parts.podPath]);
     return deepValue.get(parts.reference);
-  }
-
-}
-
-/***/ }),
-
-/***/ "./source/editor/utility/modal.js":
-/*!****************************************!*\
-  !*** ./source/editor/utility/modal.js ***!
-  \****************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ModalWindow; });
-/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
-/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
-/**
- * Utility for creating and controlling modal windows.
- */
-
-
-class ModalWindow {
-  constructor(renderFunc) {
-    this.isOpen = false;
-    this.renderFunc = renderFunc;
-
-    this.contentRenderFunc = () => '';
-
-    this.clickToClose = true;
-
-    this.canClickToCloseFunc = () => this.clickToClose;
-  }
-
-  get template() {
-    if (!this.isOpen) {
-      return '';
-    }
-
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <div class="modal">
-        <div
-            class="modal__wrapper"
-            @click=${this.handleOffsetClick.bind(this)}>
-          <div class="modal__content">
-            ${this.contentRenderFunc()}
-          </div>
-        </div>
-      </div>`;
-  }
-
-  close() {
-    this.isOpen = false;
-    this.renderFunc();
-  }
-
-  handleOffsetClick(evt) {
-    evt.preventDefault();
-    evt.stopPropagation();
-
-    if (!this.clickToClose || !this.canClickToCloseFunc()) {
-      return;
-    } // Test if the click was from within the content section.
-
-
-    const contentParent = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'modal__content');
-
-    if (contentParent) {
-      return;
-    }
-
-    this.close();
-  }
-
-  open() {
-    this.isOpen = true;
-    this.renderFunc();
-  }
-
-  toggle() {
-    this.isOpen = !this.isOpen;
-    this.renderFunc();
   }
 
 }
