@@ -20,12 +20,14 @@
   .menu__tree__folder--collapsed &
     display: none
 
-.menu__tree__folder__label
+.menu__tree__folder__directory
+  align-items: center
   cursor: pointer
+  display: flex
+  flex-flow: row
   font-weight: 700
   margin: $ge-pad/2 0
 
-.menu__tree__folder__label,
 .menu__tree__folder__file
   align-items: center
   border-radius: $ge-radius-2
@@ -49,5 +51,23 @@
     .menu__trees &
       font-size: $ge-font-size
 
+.menu__tree__folder__directory__label,
 .menu__tree__folder__file__label
   flex-grow: 1
+
+.menu__tree__new__template
+  padding: $ge-pad
+
+  .editor__button
+
+.menu__tree__new__template__option__screenshots
+  margin: $ge-pad/2 0
+
+  img
+    margin-right: $ge-pad/2
+
+.menu__tree__new__template__actions
+  margin: $ge-pad 0
+
+  button
+    margin-right: $ge-pad

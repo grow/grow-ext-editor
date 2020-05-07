@@ -278,4 +278,23 @@ export default class EditorApi extends Api {
 
     return result.promise
   }
+
+  templateFile(collectionPath, key, fileName) {
+    const result = new Defer()
+
+    this.request.get(this.apiPath('content/template'))
+      .query({
+        'collection_path': collectionPath,
+        'file_name': fileName,
+        'key': key,
+      })
+      .then((res) => {
+        result.resolve(res.body)
+      })
+      .catch((err) => {
+        result.reject(err)
+      })
+
+    return result.promise
+  }
 }

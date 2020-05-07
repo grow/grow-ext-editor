@@ -131,46 +131,46 @@
   top: 0
   z-index: 1
 
-  button
-    background: $ge-color-back
-    border-radius: $ge-radius-5
-    color: $ge-color-on-back
-    border: 1px solid $ge-color-back-light
-    font-family: $ge-font-family
-    font-size: $ge-font-size
-    padding: $ge-pad/2 $ge-pad
+.editor__button
+  background: $ge-color-back
+  border-radius: $ge-radius-5
+  color: $ge-color-on-back
+  border: 1px solid $ge-color-back-light
+  font-family: $ge-font-family
+  font-size: $ge-font-size
+  padding: $ge-pad/2 $ge-pad
 
-    &[disabled]
-      opacity: .5
+  &[disabled]
+    opacity: .5
+
+  &:focus
+    outline: none
+    box-shadow: $ge-focus-shadow-secondary
+
+  &.editor__button--primary
+    background: $ge-color-primary
+    border-color: $ge-color-primary
+    color: $ge-color-on-primary
+    font-weight: bold
 
     &:focus
       outline: none
-      box-shadow: $ge-focus-shadow-secondary
+      box-shadow: $ge-focus-shadow-primary
 
-    &.editor__button--primary
-      background: $ge-color-primary
-      border-color: $ge-color-primary
-      color: $ge-color-on-primary
-      font-weight: bold
+  &.editor__button--secondary
+    background: none
+    border: none
+    color: lighten($ge-color-on-back, 50%)
+    font-weight: bold
 
-      &:focus
-        outline: none
-        box-shadow: $ge-focus-shadow-primary
+    &.editor__button--selected
+      color: $ge-color-on-back
 
-    &.editor__button--secondary
-      background: none
-      border: none
-      color: lighten($ge-color-on-back, 50%)
-      font-weight: bold
+    &:hover
+      color: $ge-color-on-back
 
-      &.editor__button--selected
-        color: $ge-color-on-back
-
-      &:hover
-        color: $ge-color-on-back
-
-      &:focus
-        box-shadow: none
+    &:focus
+      box-shadow: none
 
 .editor__actions
   display: flex

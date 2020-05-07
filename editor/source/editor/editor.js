@@ -320,13 +320,6 @@ export default class Editor {
       this.render(forceReload)
     })
 
-    // Allow triggering a new pod path to load.
-    document.addEventListener('selective.path.update', (evt) => {
-      const podPath = evt.detail['path']
-      this.podPath = podPath
-      this.load(podPath)
-    })
-
     // Allow copying files.
     document.addEventListener('selective.path.copy', (evt) => {
       const podPath = evt.detail['path']
@@ -361,6 +354,27 @@ export default class Editor {
       }).catch((error) => {
         console.error(error)
       })
+    })
+
+    // Allow new files from templates.
+    document.addEventListener('selective.path.template', (evt) => {
+      const collectionPath = evt.detail['collectionPath']
+      const fileName = evt.detail['fileName']
+      const template = evt.detail['template']
+      this.api.templateFile(collectionPath, template, fileName).then(() => {
+        if (this._podPaths) {
+          this.loadPodPaths(true)
+        }
+      }).catch((error) => {
+        console.error(error)
+      })
+    })
+
+    // Allow triggering a new pod path to load.
+    document.addEventListener('selective.path.update', (evt) => {
+      const podPath = evt.detail['path']
+      this.podPath = podPath
+      this.load(podPath)
     })
 
     // Watch for the deep link event.
@@ -876,13 +890,13 @@ export default class Editor {
           <div class="editor__menu">
             <button
                 ?disabled=${editor._isSaving || editor.isClean}
-                class="editor__save editor__button--primary ${editor._isSaving ? 'editor__save--saving' : ''}"
+                class="editor__save editor__button editor__button--primary ${editor._isSaving ? 'editor__save--saving' : ''}"
                 @click=${editor.save.bind(editor)}>
               ${editor.isClean ? 'No changes' : editor._isSaving ? 'Saving...' : 'Save'}
             </button>
             <div class="editor__actions">
-              <button class="editor__style__fields editor__button--secondary ${this.isEditingSource ? '' : 'editor__button--selected'}" @click=${editor.handleFieldsClick.bind(editor)} ?disabled=${!editor.isClean}>Fields</button>
-              <button class="editor__style__raw editor__button--secondary ${this.isEditingSource ? 'editor__button--selected' : ''}" @click=${editor.handleSourceClick.bind(editor)} ?disabled=${!editor.isClean}>Raw</button>
+              <button class="editor__style__fields editor__button editor__button--secondary ${this.isEditingSource ? '' : 'editor__button--selected'}" @click=${editor.handleFieldsClick.bind(editor)} ?disabled=${!editor.isClean}>Fields</button>
+              <button class="editor__style__raw editor__button editor__button--secondary ${this.isEditingSource ? 'editor__button--selected' : ''}" @click=${editor.handleSourceClick.bind(editor)} ?disabled=${!editor.isClean}>Raw</button>
             </div>
           </div>
           ${editor.templateEditorOrSource}

@@ -120,7 +120,7 @@ export default class SiteTreeMenu extends MenuBase {
       }
     }
 
-    const folderStructure = new FolderStructure(paths, '/')
+    const folderStructure = new FolderStructure(paths, {}, '/')
 
     const lookupFunc = (path) => {
       if (menuState.routes[path]) {

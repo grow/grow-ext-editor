@@ -114,6 +114,14 @@ class PodApi(object):
         """Pull the screenshot dir from config."""
         return self.ext_config.get('screenshot_dir', screenshot.DEFAULT_SCREENSHOT_DIR)
 
+    def _get_collection_templates(self, collection):
+        """Find any collection templates for a collection."""
+        template_pod_path = os.path.join(
+            collection.pod_path, self.TEMPLATE_FILE_NAME)
+        if self.pod.file_exists(template_pod_path):
+            return self.pod.read_yaml(template_pod_path)
+        return None
+
     def _is_ignored_dir(self, full_path):
         ignored_dirs = self.ext_config.get('ignored_dirs', tuple())
         if full_path.startswith(self.IGNORED_DIRS + ignored_dirs):
@@ -180,6 +188,27 @@ class PodApi(object):
             'pod_path': static_doc.pod_path,
             'serving_url': static_doc.url.path,
         }
+
+    def content_from_template(self):
+        """Handle the request for copying files."""
+        collection_path = self.request.params.get('collection_path')
+        key = self.request.params.get('key')
+        file_name_base = self.request.params.get('file_name')
+        collection = self.pod.get_collection(collection_path)
+        templates = self._get_collection_templates(collection)
+
+        template_meta = templates.get(key)
+        if not template_meta:
+            raise BadRequest('{} is not a template in the {} collection'.format(
+                key, collection.pod_path))
+
+        file_name = '{}.{}'.format(file_name_base, template_meta.get('extension', 'html'))
+        pod_path = os.path.join(collection.pod_path, file_name)
+        doc = document.Document(
+            pod_path, _pod=self.pod, _collection=collection)
+        doc.format.update(
+            fields=template_meta.get('front_matter'), content=template_meta.get('content'))
+        doc.write()
 
     def copy_pod_path(self):
         """Handle the request for copying files."""
@@ -372,33 +401,31 @@ class PodApi(object):
 
         # Check each collection to see if it has defined the template file.
         for collection in collections:
-            template_pod_path = os.path.join(
-                collection.pod_path, self.TEMPLATE_FILE_NAME)
-            if self.pod.file_exists(template_pod_path):
-                raw_content = self.pod.read_file(template_pod_path)
-                template_info = yaml.load(
-                    raw_content, Loader=yaml_utils.PlainTextYamlLoader)
-                templates[collection.pod_path] = {}
+            template_info = self._get_collection_templates(collection)
+            if not template_info:
+                continue
 
-                for key, template_meta in template_info.items():
-                    screenshots = {}
+            templates[collection.pod_path] = {}
 
-                    # Find any existing screenshots.
-                    screenshot_pod_dir = self._get_screenshot_dir()
-                    screenshot_file_base = self._format_screenshot_base(collection.pod_path, key)
-                    resolutions = self._get_resolutions()
+            for key, template_meta in template_info.items():
+                screenshots = {}
 
-                    for resolution in resolutions:
-                        screenshot_pod_path = os.path.join(
-                            screenshot_pod_dir, resolution.filename(screenshot_file_base))
-                        if self.pod.file_exists(screenshot_pod_path):
-                            screenshots[resolution.resolution] = self._load_static_doc(screenshot_pod_path)
+                # Find any existing screenshots.
+                screenshot_pod_dir = self._get_screenshot_dir()
+                screenshot_file_base = self._format_screenshot_base(collection.pod_path, key)
+                resolutions = self._get_resolutions()
 
-                    templates[collection.pod_path][key] = {
-                        'label': template_meta.get('label', key),
-                        'description': template_meta.get('description', ''),
-                        'screenshots': screenshots,
-                    }
+                for resolution in resolutions:
+                    screenshot_pod_path = os.path.join(
+                        screenshot_pod_dir, resolution.filename(screenshot_file_base))
+                    if self.pod.file_exists(screenshot_pod_path):
+                        screenshots[resolution.resolution] = self._load_static_doc(screenshot_pod_path)
+
+                templates[collection.pod_path][key] = {
+                    'label': template_meta.get('label', key),
+                    'description': template_meta.get('description', ''),
+                    'screenshots': screenshots,
+                }
 
         self.data = {
             'templates': templates,
@@ -420,6 +447,9 @@ class PodApi(object):
         elif path == 'content/delete':
             if method == 'GET':
                 self.delete_pod_path()
+        elif path == 'content/template':
+            if method == 'GET':
+                self.content_from_template()
         elif path == 'extension/config':
             if method == 'GET':
                 self.get_extension_config()
