@@ -107,19 +107,17 @@ export default class FolderStructure {
     return html`<div class=${classes.join(' ')}>
       ${level > threshold
         ? html`
-          <div class="menu__tree__folder__directory" data-folder=${folder} @click=${eventHandlers.handleFolderToggle}>
+          <div class="menu__tree__folder__directory icons" data-folder=${folder} @click=${eventHandlers.handleFolderToggle}>
             <i class="material-icons">${isExpanded ? 'expand_more' : 'expand_less'}</i>
             <div class="menu__tree__folder__directory__label">
               ${this.folderInfo.folderBase}
             </div>
-            ${hasTemplate(this.templates, folder)
-              ? html`<i
-                  class="material-icons icon"
-                  title="New file from template"
-                  @click=${eventHandlers.handleFileTemplateNewClick}>
-                add
-              </i>`
-              : ''}
+            <i
+                class="material-icons icon icon--hover-only"
+                title="New file"
+                @click=${eventHandlers.handleFileNewClick}>
+              add
+            </i>
           </div>`
         : ''}
       <div class=${level > threshold ? 'menu__tree__folder__level' : ''}>

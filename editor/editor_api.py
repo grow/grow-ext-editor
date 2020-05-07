@@ -122,7 +122,7 @@ class PodApi(object):
             collection.pod_path, self.TEMPLATE_FILE_NAME)
         if self.pod.file_exists(template_pod_path):
             return self.pod.read_yaml(template_pod_path)
-        return None
+        return {}
 
     def _is_ignored_dir(self, full_path):
         ignored_dirs = self.ext_config.get('ignored_dirs', tuple())
@@ -195,16 +195,28 @@ class PodApi(object):
         """Handle the request for copying files."""
         collection_path = self.request.params.get('collection_path')
         key = self.request.params.get('key')
-        file_name_base = self.request.params.get('file_name')
+        file_name = self.request.params.get('file_name').strip()
         collection = self.pod.get_collection(collection_path)
         templates = self._get_collection_templates(collection)
 
         template_meta = templates.get(key)
-        if not template_meta:
-            raise BadRequest('{} is not a template in the {} collection'.format(
-                key, collection.pod_path))
 
-        file_name = '{}.{}'.format(file_name_base, template_meta.get('extension', 'html'))
+        # Allow collection to define a default page template.
+        if not template_meta:
+            template_meta = templates.get('_default')
+
+        # No template selected, making an arbitrary blank page.
+        if not template_meta:
+            # Write a blank file.
+            pod_path = os.path.join(collection.pod_path, file_name)
+            self.pod.write_file(pod_path, '')
+            return
+
+        # Add the extension if not provided.
+        file_ext = template_meta.get('extension')
+        if file_ext and not file_name.endswith(file_ext):
+            file_name = '{}.{}'.format(file_name, file_ext)
+
         pod_path = os.path.join(collection.pod_path, file_name)
         doc = document.Document(
             pod_path, _pod=self.pod, _collection=collection)

@@ -44,23 +44,31 @@ export default class FileTreeMenu extends MenuBase {
 
   _createSelective(templates) {
     // Selective editor for the form to add new file.
-    const templateSelective = new Selective(null)
-    templateSelective.data = {}
+    const newSelective = new Selective(null)
+    newSelective.data = {}
 
     // Add the editor extension default field types.
     for (const key of Object.keys(defaultFields)) {
-      templateSelective.addFieldType(key, defaultFields[key])
+      newSelective.addFieldType(key, defaultFields[key])
     }
 
-    templateSelective.addField({
+    newSelective.addField({
       'type': 'text',
       'key': 'fileName',
       'label': 'File name',
       'help': 'May also be used for the url stub.',
     })
 
-    const keys = Object.keys(templates).sort()
-    const options = []
+    const keys = Object.keys(templates || {}).sort()
+    const options = [{
+      'label': html`
+        <div class="menu__tree__new__template__option">
+          <div class="menu__tree__new__template__option__label">
+            <h3>Empty page</h3>
+          </div>
+        </div>`,
+      'value': '',
+    }]
 
     for (const key of keys) {
       const template = templates[key]
@@ -91,7 +99,7 @@ export default class FileTreeMenu extends MenuBase {
       })
     }
 
-    templateSelective.addField({
+    newSelective.addField({
       'type': 'select',
       'key': 'template',
       'label': 'Template',
@@ -99,7 +107,7 @@ export default class FileTreeMenu extends MenuBase {
       'options': options
     })
 
-    return templateSelective
+    return newSelective
   }
 
   _getOrCreateSelective(folder, templates) {
@@ -141,13 +149,13 @@ export default class FileTreeMenu extends MenuBase {
     }))
   }
 
-  handleFileTemplateNewCancel(evt) {
+  handleFileNewCancel(evt) {
     evt.stopPropagation()
     this.newFileFolder = null
     this.modalWindow.close()
   }
 
-  handleFileTemplateNewClick(evt) {
+  handleFileNewClick(evt) {
     evt.stopPropagation()
 
     const target = findParentByClassname(evt.target, 'menu__tree__folder__directory')
@@ -156,7 +164,7 @@ export default class FileTreeMenu extends MenuBase {
     this.modalWindow.open()
   }
 
-  handleFileTemplateNewSubmit(evt) {
+  handleFileNewSubmit(evt) {
     evt.stopPropagation()
 
     const target = findParentByClassname(evt.target, 'menu__tree__new__template')
@@ -211,17 +219,17 @@ export default class FileTreeMenu extends MenuBase {
 
         return html`
           <div class="menu__tree__new__template" data-folder=${this.newFileFolder}>
-            <h2>New file from template</h2>
+            <h2>New page</h2>
             ${newFileSelective.template(newFileSelective, newFileSelective.data)}
             <div class="menu__tree__new__template__actions">
               <button
                   class="editor__button editor__button--primary"
-                  @click=${this.handleFileTemplateNewSubmit.bind(this)}>
+                  @click=${this.handleFileNewSubmit.bind(this)}>
                 Create file
               </button>
               <button
                   class="editor__button editor__button--secondary"
-                  @click=${this.handleFileTemplateNewCancel.bind(this)}>
+                  @click=${this.handleFileNewCancel.bind(this)}>
                 Cancel
               </button>
             </div>
@@ -237,7 +245,7 @@ export default class FileTreeMenu extends MenuBase {
         handleFileClick: this.handleFileClick.bind(this),
         handleFileCopyClick: this.handleFileCopyClick.bind(this),
         handleFileDeleteClick: this.handleFileDeleteClick.bind(this),
-        handleFileTemplateNewClick: this.handleFileTemplateNewClick.bind(this),
+        handleFileNewClick: this.handleFileNewClick.bind(this),
       },
       1)}
       ${this.modalWindow.template}`

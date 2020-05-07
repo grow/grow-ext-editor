@@ -76763,21 +76763,29 @@ class FileTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
 
   _createSelective(templates) {
     // Selective editor for the form to add new file.
-    const templateSelective = new selective_edit__WEBPACK_IMPORTED_MODULE_0__["default"](null);
-    templateSelective.data = {}; // Add the editor extension default field types.
+    const newSelective = new selective_edit__WEBPACK_IMPORTED_MODULE_0__["default"](null);
+    newSelective.data = {}; // Add the editor extension default field types.
 
     for (const key of Object.keys(_field__WEBPACK_IMPORTED_MODULE_2__["defaultFields"])) {
-      templateSelective.addFieldType(key, _field__WEBPACK_IMPORTED_MODULE_2__["defaultFields"][key]);
+      newSelective.addFieldType(key, _field__WEBPACK_IMPORTED_MODULE_2__["defaultFields"][key]);
     }
 
-    templateSelective.addField({
+    newSelective.addField({
       'type': 'text',
       'key': 'fileName',
       'label': 'File name',
       'help': 'May also be used for the url stub.'
     });
-    const keys = Object.keys(templates).sort();
-    const options = [];
+    const keys = Object.keys(templates || {}).sort();
+    const options = [{
+      'label': selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+        <div class="menu__tree__new__template__option">
+          <div class="menu__tree__new__template__option__label">
+            <h3>Empty page</h3>
+          </div>
+        </div>`,
+      'value': ''
+    }];
 
     for (const key of keys) {
       const template = templates[key];
@@ -76808,14 +76816,14 @@ class FileTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
       });
     }
 
-    templateSelective.addField({
+    newSelective.addField({
       'type': 'select',
       'key': 'template',
       'label': 'Template',
       'help': 'Template to base the new file off of.',
       'options': options
     });
-    return templateSelective;
+    return newSelective;
   }
 
   _getOrCreateSelective(folder, templates) {
@@ -76858,13 +76866,13 @@ class FileTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
     }));
   }
 
-  handleFileTemplateNewCancel(evt) {
+  handleFileNewCancel(evt) {
     evt.stopPropagation();
     this.newFileFolder = null;
     this.modalWindow.close();
   }
 
-  handleFileTemplateNewClick(evt) {
+  handleFileNewClick(evt) {
     evt.stopPropagation();
     const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'menu__tree__folder__directory');
     const folder = target.dataset.folder;
@@ -76872,7 +76880,7 @@ class FileTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
     this.modalWindow.open();
   }
 
-  handleFileTemplateNewSubmit(evt) {
+  handleFileNewSubmit(evt) {
     evt.stopPropagation();
     const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'menu__tree__new__template');
     const folder = target.dataset.folder;
@@ -76932,17 +76940,17 @@ class FileTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
 
         return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
           <div class="menu__tree__new__template" data-folder=${this.newFileFolder}>
-            <h2>New file from template</h2>
+            <h2>New page</h2>
             ${newFileSelective.template(newFileSelective, newFileSelective.data)}
             <div class="menu__tree__new__template__actions">
               <button
                   class="editor__button editor__button--primary"
-                  @click=${this.handleFileTemplateNewSubmit.bind(this)}>
+                  @click=${this.handleFileNewSubmit.bind(this)}>
                 Create file
               </button>
               <button
                   class="editor__button editor__button--secondary"
-                  @click=${this.handleFileTemplateNewCancel.bind(this)}>
+                  @click=${this.handleFileNewCancel.bind(this)}>
                 Cancel
               </button>
             </div>
@@ -76955,7 +76963,7 @@ class FileTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
       handleFileClick: this.handleFileClick.bind(this),
       handleFileCopyClick: this.handleFileCopyClick.bind(this),
       handleFileDeleteClick: this.handleFileDeleteClick.bind(this),
-      handleFileTemplateNewClick: this.handleFileTemplateNewClick.bind(this)
+      handleFileNewClick: this.handleFileNewClick.bind(this)
     }, 1)}
       ${this.modalWindow.template}`;
   }
@@ -77071,17 +77079,17 @@ class FolderStructure {
 
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class=${classes.join(' ')}>
       ${level > threshold ? selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-          <div class="menu__tree__folder__directory" data-folder=${folder} @click=${eventHandlers.handleFolderToggle}>
+          <div class="menu__tree__folder__directory icons" data-folder=${folder} @click=${eventHandlers.handleFolderToggle}>
             <i class="material-icons">${isExpanded ? 'expand_more' : 'expand_less'}</i>
             <div class="menu__tree__folder__directory__label">
               ${this.folderInfo.folderBase}
             </div>
-            ${hasTemplate(this.templates, folder) ? selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<i
-                  class="material-icons icon"
-                  title="New file from template"
-                  @click=${eventHandlers.handleFileTemplateNewClick}>
-                add
-              </i>` : ''}
+            <i
+                class="material-icons icon icon--hover-only"
+                title="New file"
+                @click=${eventHandlers.handleFileNewClick}>
+              add
+            </i>
           </div>` : ''}
       <div class=${level > threshold ? 'menu__tree__folder__level' : ''}>
         <div class=${level > threshold ? 'menu__tree__folder__folder' : ''}>
