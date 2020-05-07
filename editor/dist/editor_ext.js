@@ -1409,6 +1409,17 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
       once: true
     });
     this.render();
+  } // TODO: Remove? Directives?
+
+
+  postRender(containerEl) {
+    for (const localeKey of Object.keys(this._listItems)) {
+      const listItems = this._listItems[localeKey];
+
+      for (const listItem of listItems) {
+        listItem.fields.postRender(containerEl);
+      }
+    }
   }
 
   renderActionsFooter(selective, data, locale) {
