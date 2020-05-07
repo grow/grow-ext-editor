@@ -547,7 +547,9 @@ class PodApi(object):
             os.environ.get(screenshot.ENV_DRIVER_PATH, self.ext_config.get('driver_path')))
 
         self.data = {
-            collection_path: {},
+            collection_path: {
+                key: {},
+            },
         }
 
         screenshot_file_base = self._format_screenshot_base(collection_path, key)
@@ -568,7 +570,7 @@ class PodApi(object):
             screenshot_pod_path = os.path.join(
                 screenshot_pod_dir, resolution.filename(screenshot_file_base))
             self.pod.write_file(screenshot_pod_path, shot)
-            self.data[collection_path][resolution.resolution] = self._load_static_doc(screenshot_pod_path)
+            self.data[collection_path][key][resolution.resolution] = self._load_static_doc(screenshot_pod_path)
 
 
 def serve_api(pod, request, matched, **_kwargs):

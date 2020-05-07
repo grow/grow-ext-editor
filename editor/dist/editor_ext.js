@@ -74534,7 +74534,27 @@ class Editor {
     this._templates = response['templates'];
     this.listeners.trigger('load.templates', {
       templates: this._templates
-    });
+    }); // Check for missing screenshots.
+
+    for (const collectionPath of Object.keys(this._templates)) {
+      const template = this._templates[collectionPath];
+
+      for (const key of Object.keys(template)) {
+        const templateMeta = template[key];
+        const screenshots = templateMeta.screenshots; // Missing template screenshot. Request it.
+
+        if (!Object.keys(screenshots).length) {
+          this.api.screenshotTemplate(collectionPath, key).then(response => {
+            for (const responseCollection of Object.keys(response)) {
+              templateMeta.screenshots = response[collectionPath + '/'][key];
+              this.listeners.trigger('load.templates', {
+                templates: this._templates
+              });
+            }
+          });
+        }
+      }
+    }
   }
 
   handleLoadSourceResponse(response) {
