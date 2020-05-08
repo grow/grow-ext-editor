@@ -9,12 +9,14 @@ import re
 import yaml
 from werkzeug import wrappers
 from werkzeug.exceptions import BadRequest, NotFound
+from selenium.common import exceptions as selenium_exceptions
 from grow.common import json_encoder
 from grow.common import utils
 from grow.common import yaml_utils
 from grow.documents import document
 from grow.documents import document_front_matter
 from grow.routing import router as grow_router
+from .api import screenshot
 from .api import yaml_conversion
 
 
@@ -22,6 +24,7 @@ class PodApi(object):
     """Basic pod api."""
 
     EDITOR_FILE_NAME = '_editor.yaml'
+    TEMPLATE_FILE_NAME = '_template.yaml'
     PARTIALS_VIEWS_PATH = '/views/partials'
     STRINGS_PATH = '/content/strings'
     IGNORED_PREFIXES = (
@@ -85,6 +88,40 @@ class PodApi(object):
         editor_path = '{}/{}'.format(partial.pod_path, self.EDITOR_FILE_NAME)
         if self.pod.file_exists(editor_path):
             return self.pod.read_yaml(editor_path) or {}
+        return {}
+
+    def _format_screenshot_base(self, path, key):
+        """Format the screenshot base name."""
+        if not path.endswith('/'):
+            path = '{}/'.format(path)
+        return '{path}{key}'.format(
+            path=path,
+            key=key).strip('/')
+
+    def _get_resolutions(self):
+        """Pull the resolutions from config."""
+        screenshot_config = self.ext_config.get('screenshots', {})
+        resolutions_raw = screenshot_config.get('resolutions', [{
+            'width': 1280,
+            'height': 1600,
+        }])
+        resolutions = []
+        for resolution_raw in resolutions_raw:
+            resolutions.append(screenshot.ScreenshotResolution(
+                resolution_raw['width'], resolution_raw['height']))
+        return resolutions
+
+    def _get_screenshot_dir(self):
+        """Pull the screenshot dir from config."""
+        screenshot_config = self.ext_config.get('screenshots', {})
+        return screenshot_config.get('static_dir', screenshot.DEFAULT_SCREENSHOT_DIR)
+
+    def _get_collection_templates(self, collection):
+        """Find any collection templates for a collection."""
+        template_pod_path = os.path.join(
+            collection.pod_path, self.TEMPLATE_FILE_NAME)
+        if self.pod.file_exists(template_pod_path):
+            return self.pod.read_yaml(template_pod_path)
         return {}
 
     def _is_ignored_dir(self, full_path):
@@ -153,6 +190,39 @@ class PodApi(object):
             'pod_path': static_doc.pod_path,
             'serving_url': static_doc.url.path,
         }
+
+    def content_from_template(self):
+        """Handle the request for copying files."""
+        collection_path = self.request.params.get('collection_path')
+        key = self.request.params.get('key')
+        file_name = self.request.params.get('file_name').strip()
+        collection = self.pod.get_collection(collection_path)
+        templates = self._get_collection_templates(collection)
+
+        template_meta = templates.get(key)
+
+        # Allow collection to define a default page template.
+        if not template_meta:
+            template_meta = templates.get('_default')
+
+        # No template selected, making an arbitrary blank page.
+        if not template_meta:
+            # Write a blank file.
+            pod_path = os.path.join(collection.pod_path, file_name)
+            self.pod.write_file(pod_path, '')
+            return
+
+        # Add the extension if not provided.
+        file_ext = template_meta.get('extension')
+        if file_ext and not file_name.endswith(file_ext):
+            file_name = '{}.{}'.format(file_name, file_ext)
+
+        pod_path = os.path.join(collection.pod_path, file_name)
+        doc = document.Document(
+            pod_path, _pod=self.pod, _collection=collection)
+        doc.format.update(
+            fields=template_meta.get('front_matter'), content=template_meta.get('content'))
+        doc.write()
 
     def copy_pod_path(self):
         """Handle the request for copying files."""
@@ -337,8 +407,47 @@ class PodApi(object):
             },
         }
 
+    def get_templates(self):
+        """Handle the request for template information."""
+        templates = {}
+
+        collections = self.pod.list_collections()
+
+        # Check each collection to see if it has defined the template file.
+        for collection in collections:
+            template_info = self._get_collection_templates(collection)
+            if not template_info:
+                continue
+
+            templates[collection.pod_path] = {}
+
+            for key, template_meta in template_info.items():
+                screenshots = {}
+
+                # Find any existing screenshots.
+                screenshot_pod_dir = self._get_screenshot_dir()
+                screenshot_file_base = self._format_screenshot_base(collection.pod_path, key)
+                resolutions = self._get_resolutions()
+
+                for resolution in resolutions:
+                    screenshot_pod_path = os.path.join(
+                        screenshot_pod_dir, resolution.filename(screenshot_file_base))
+                    if self.pod.file_exists(screenshot_pod_path):
+                        screenshots[resolution.resolution] = self._load_static_doc(screenshot_pod_path)
+
+                templates[collection.pod_path][key] = {
+                    'label': template_meta.get('label', key),
+                    'description': template_meta.get('description', ''),
+                    'screenshots': screenshots,
+                }
+
+        self.data = {
+            'templates': templates,
+        }
+
     def handle_request(self):
         """Determine how to handle the request."""
+
         path = self.matched.params['path']
         method = self.request.method
         if path == 'content':
@@ -352,6 +461,9 @@ class PodApi(object):
         elif path == 'content/delete':
             if method == 'GET':
                 self.delete_pod_path()
+        elif path == 'content/template':
+            if method == 'GET':
+                self.content_from_template()
         elif path == 'extension/config':
             if method == 'GET':
                 self.get_extension_config()
@@ -376,9 +488,15 @@ class PodApi(object):
         elif path == 'repo':
             if method == 'GET':
                 self.get_repo()
+        elif path == 'screenshot/template':
+            if method == 'GET':
+                self.screenshot_template()
         elif path == 'static_serving_path':
             if method == 'GET':
                 self.get_static_serving_path()
+        elif path == 'templates':
+            if method == 'GET':
+                self.get_templates()
         else:
             # TODO Give 404 response.
             raise NotFound('{} not found.'.format(path))
@@ -425,6 +543,63 @@ class PodApi(object):
         pod_path = os.path.join(destination, filename)
         self.pod.write_file(pod_path, file_contents)
         self.data = self._load_static_doc(pod_path)
+
+    def screenshot_template(self):
+        """Handle the request to screenshot a preview."""
+        collection_path = self.request.params.get('collection_path')
+        if not collection_path.startswith('/'):
+            collection_path = '/{}'.format(collection_path)
+        if not collection_path.endswith('/'):
+            collection_path = '{}/'.format(collection_path)
+
+        keys = []
+        key = self.request.params.get('key')
+        if key:
+            keys.append(key)
+        else:
+            # Do screenshots for all templates if no key provided.
+            collection = self.pod.get_collection(collection_path)
+            template_info = self._get_collection_templates(collection)
+            for key in template_info:
+                keys.append(key)
+
+        self.data = {
+            collection_path: {},
+        }
+
+        if not keys:
+            return
+
+        screenshot_pod_dir = self._get_screenshot_dir()
+        resolutions = self._get_resolutions()
+
+        screenshot_config = self.ext_config.get('screenshots', {})
+        driver_path = os.environ.get(
+            screenshot.ENV_DRIVER_PATH, screenshot_config.get('driver_path'))
+        screenshotter = screenshot.EditorScreenshot(driver_path)
+
+        for key in keys:
+            screenshot_file_base = self._format_screenshot_base(collection_path, key)
+
+            url = 'http://{host}/_grow/screenshot/template/{screenshot_file_base}'.format(
+                host=self.request.host,
+                screenshot_file_base=screenshot_file_base)
+
+            try:
+                screenshots = screenshotter.screenshot(url, resolutions)
+            except selenium_exceptions.WebDriverException as selenium_exception:
+                if 'executable' in selenium_exception.msg:
+                    raise BadRequest(
+                        'Bad chromedriver path or {} not set.'.format(screenshot.ENV_DRIVER_PATH))
+                raise
+
+            for resolution, shot in screenshots.items():
+                screenshot_pod_path = os.path.join(
+                    screenshot_pod_dir, resolution.filename(screenshot_file_base))
+                self.pod.write_file(screenshot_pod_path, shot)
+                if not key in self.data[collection_path]:
+                    self.data[collection_path][key] = {}
+                self.data[collection_path][key][resolution.resolution] = self._load_static_doc(screenshot_pod_path)
 
 
 def serve_api(pod, request, matched, **_kwargs):

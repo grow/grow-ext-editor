@@ -18,6 +18,9 @@ export default class EditorApi extends Api {
       .then((res) => {
         result.resolve(res.body)
       })
+      .catch((err) => {
+        result.reject(err)
+      })
 
     return result.promise
   }
@@ -29,6 +32,9 @@ export default class EditorApi extends Api {
       .query({ 'pod_path': podPath })
       .then((res) => {
         result.resolve(res.body)
+      })
+      .catch((err) => {
+        result.reject(err)
       })
 
     return result.promise
@@ -42,6 +48,9 @@ export default class EditorApi extends Api {
       .then((res) => {
         result.resolve(res.body)
       })
+      .catch((err) => {
+        result.reject(err)
+      })
 
     return result.promise
   }
@@ -54,6 +63,9 @@ export default class EditorApi extends Api {
       .then((res) => {
         result.resolve(res.body)
       })
+      .catch((err) => {
+        result.reject(err)
+      })
 
     return result.promise
   }
@@ -64,6 +76,9 @@ export default class EditorApi extends Api {
     this.request.get(this.apiPath('routes'))
       .then((res) => {
         result.resolve(res.body)
+      })
+      .catch((err) => {
+        result.reject(err)
       })
 
     return result.promise
@@ -76,6 +91,9 @@ export default class EditorApi extends Api {
       .then((res) => {
         result.resolve(res.body)
       })
+      .catch((err) => {
+        result.reject(err)
+      })
 
     return result.promise
   }
@@ -86,6 +104,9 @@ export default class EditorApi extends Api {
     this.request.get(this.apiPath('pod'))
       .then((res) => {
         result.resolve(res.body)
+      })
+      .catch((err) => {
+        result.reject(err)
       })
 
     return result.promise
@@ -98,6 +119,9 @@ export default class EditorApi extends Api {
       .then((res) => {
         result.resolve(res.body)
       })
+      .catch((err) => {
+        result.reject(err)
+      })
 
     return result.promise
   }
@@ -108,6 +132,9 @@ export default class EditorApi extends Api {
     this.request.get(this.apiPath('repo'))
       .then((res) => {
         result.resolve(res.body)
+      })
+      .catch((err) => {
+        result.reject(err)
       })
 
     return result.promise
@@ -121,6 +148,9 @@ export default class EditorApi extends Api {
       .then((res) => {
         result.resolve(res.body)
       })
+      .catch((err) => {
+        result.reject(err)
+      })
 
     return result.promise
   }
@@ -131,6 +161,23 @@ export default class EditorApi extends Api {
     this.request.get(this.apiPath('strings'))
       .then((res) => {
         result.resolve(res.body)
+      })
+      .catch((err) => {
+        result.reject(err)
+      })
+
+    return result.promise
+  }
+
+  getTemplates() {
+    const result = new Defer()
+
+    this.request.get(this.apiPath('templates'))
+      .then((res) => {
+        result.resolve(res.body)
+      })
+      .catch((err) => {
+        result.reject(err)
       })
 
     return result.promise
@@ -204,6 +251,43 @@ export default class EditorApi extends Api {
 
     this.request.post(this.apiPath('image'))
       .send(formData)
+      .then((res) => {
+        result.resolve(res.body)
+      })
+      .catch((err) => {
+        result.reject(err)
+      })
+
+    return result.promise
+  }
+
+  screenshotTemplate(collectionPath, key) {
+    const result = new Defer()
+
+    this.request.get(this.apiPath('screenshot/template'))
+      .query({
+        'collection_path': collectionPath,
+        'key': key,
+       })
+      .then((res) => {
+        result.resolve(res.body)
+      })
+      .catch((err) => {
+        result.reject(err)
+      })
+
+    return result.promise
+  }
+
+  templateFile(collectionPath, key, fileName) {
+    const result = new Defer()
+
+    this.request.get(this.apiPath('content/template'))
+      .query({
+        'collection_path': collectionPath,
+        'file_name': fileName,
+        'key': key,
+      })
       .then((res) => {
         result.resolve(res.body)
       })

@@ -104,6 +104,7 @@ export default class Editor {
     this._podPaths = null
     this._routes = null
     this._strings = null
+    this._templates = null
 
     // Track the serving path of the iframe when it is different.
     this._unverifiedServingPath = null
@@ -319,13 +320,6 @@ export default class Editor {
       this.render(forceReload)
     })
 
-    // Allow triggering a new pod path to load.
-    document.addEventListener('selective.path.update', (evt) => {
-      const podPath = evt.detail['path']
-      this.podPath = podPath
-      this.load(podPath)
-    })
-
     // Allow copying files.
     document.addEventListener('selective.path.copy', (evt) => {
       const podPath = evt.detail['path']
@@ -360,6 +354,27 @@ export default class Editor {
       }).catch((error) => {
         console.error(error)
       })
+    })
+
+    // Allow new files from templates.
+    document.addEventListener('selective.path.template', (evt) => {
+      const collectionPath = evt.detail['collectionPath']
+      const fileName = evt.detail['fileName']
+      const template = evt.detail['template']
+      this.api.templateFile(collectionPath, template, fileName).then(() => {
+        if (this._podPaths) {
+          this.loadPodPaths(true)
+        }
+      }).catch((error) => {
+        console.error(error)
+      })
+    })
+
+    // Allow triggering a new pod path to load.
+    document.addEventListener('selective.path.update', (evt) => {
+      const podPath = evt.detail['path']
+      this.podPath = podPath
+      this.load(podPath)
     })
 
     // Watch for the deep link event.
@@ -587,6 +602,34 @@ export default class Editor {
     })
   }
 
+  handleLoadTemplates(response) {
+    this._templates = response['templates']
+    this.listeners.trigger('load.templates', {
+      templates: this._templates,
+    })
+
+    // Check for missing screenshots.
+    for (const collectionPath of Object.keys(this._templates)) {
+      const template = this._templates[collectionPath]
+      for (const key of Object.keys(template)) {
+        const templateMeta = template[key]
+        const screenshots = templateMeta.screenshots
+
+        // Missing template screenshot. Request it.
+        if (!Object.keys(screenshots).length) {
+          this.api.screenshotTemplate(collectionPath, key).then((response) => {
+            for (const responseCollection of Object.keys(response)) {
+              templateMeta.screenshots = response[collectionPath + '/'][key]
+              this.listeners.trigger('load.templates', {
+                templates: this._templates,
+              })
+            }
+          })
+        }
+      }
+    }
+  }
+
   handleLoadSourceResponse(response) {
     this._isEditingSource = true
     this.documentFromResponse(response)
@@ -705,7 +748,7 @@ export default class Editor {
 
   loadPod(force) {
     if (!force && this._isLoading['pod']) {
-      // Already loading the pod paths, do not re-request.
+      // Already loading, do not re-request.
       return
     }
     this._isLoading['pod'] = true
@@ -714,7 +757,7 @@ export default class Editor {
 
   loadPodPaths(force) {
     if (!force && this._isLoading['podPaths']) {
-      // Already loading the pod paths, do not re-request.
+      // Already loading, do not re-request.
       return
     }
     this._isLoading['podPaths'] = true
@@ -723,7 +766,7 @@ export default class Editor {
 
   loadRepo(force) {
     if (!force && this._isLoading['repo']) {
-      // Already loading the pod paths, do not re-request.
+      // Already loading, do not re-request.
       return
     }
     this._isLoading['repo'] = true
@@ -732,7 +775,7 @@ export default class Editor {
 
   loadRoutes(force) {
     if (!force && this._isLoading['routes']) {
-      // Already loading the pod paths, do not re-request.
+      // Already loading, do not re-request.
       return
     }
     this._isLoading['routes'] = true
@@ -745,11 +788,20 @@ export default class Editor {
 
   loadStrings(force) {
     if (!force && this._isLoading['strings']) {
-      // Already loading the pod paths, do not re-request.
+      // Already loading, do not re-request.
       return
     }
     this._isLoading['strings'] = true
     this.api.getStrings().then(this.handleLoadStrings.bind(this))
+  }
+
+  loadTemplates(force) {
+    if (!force && this._isLoading['templates']) {
+      // Already loading, do not re-request.
+      return
+    }
+    this._isLoading['templates'] = true
+    this.api.getTemplates().then(this.handleLoadTemplates.bind(this))
   }
 
   popState(evt) {
@@ -859,13 +911,13 @@ export default class Editor {
           <div class="editor__menu">
             <button
                 ?disabled=${editor._isSaving || editor.isClean}
-                class="editor__save editor__button--primary ${editor._isSaving ? 'editor__save--saving' : ''}"
+                class="editor__save editor__button editor__button--primary ${editor._isSaving ? 'editor__save--saving' : ''}"
                 @click=${editor.save.bind(editor)}>
               ${editor.isClean ? 'No changes' : editor._isSaving ? 'Saving...' : 'Save'}
             </button>
             <div class="editor__actions">
-              <button class="editor__style__fields editor__button--secondary ${this.isEditingSource ? '' : 'editor__button--selected'}" @click=${editor.handleFieldsClick.bind(editor)} ?disabled=${!editor.isClean}>Fields</button>
-              <button class="editor__style__raw editor__button--secondary ${this.isEditingSource ? 'editor__button--selected' : ''}" @click=${editor.handleSourceClick.bind(editor)} ?disabled=${!editor.isClean}>Raw</button>
+              <button class="editor__style__fields editor__button editor__button--secondary ${this.isEditingSource ? '' : 'editor__button--selected'}" @click=${editor.handleFieldsClick.bind(editor)} ?disabled=${!editor.isClean}>Fields</button>
+              <button class="editor__style__raw editor__button editor__button--secondary ${this.isEditingSource ? 'editor__button--selected' : ''}" @click=${editor.handleSourceClick.bind(editor)} ?disabled=${!editor.isClean}>Raw</button>
             </div>
           </div>
           ${editor.templateEditorOrSource}

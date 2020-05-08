@@ -3,9 +3,57 @@
 import os
 import jinja2
 from werkzeug import wrappers
+from werkzeug import exceptions as werkzeug_exceptions
 from grow import storage
 from grow.common import utils
+from grow.documents import document
+from grow.rendering import render_controller
 from grow.templates import filters
+
+
+TEMPLATE_FILE_NAME = '_template.yaml'
+
+
+class RenderTemplateController(render_controller.RenderDocumentController):
+    """Controller for handling rendering for documents."""
+
+    def __repr__(self):
+        return '<RenderTemplateController({})>'.format(self.params['collection'])
+
+    @property
+    def doc(self):
+        """Doc for the controller."""
+        if not self._doc:
+            collection_path = '/{}'.format(self.params['collection'])
+            collection_path_parts = collection_path.split('/')
+            key = collection_path_parts.pop()
+            collection_path = '/'.join(collection_path_parts)
+            col = self.pod.get_collection(collection_path)
+
+            # Find the template file to load the template from.
+            template_path = os.path.join(collection_path, TEMPLATE_FILE_NAME)
+
+            try:
+                template_info = self.pod.read_yaml(template_path)
+            except IOError:
+                raise werkzeug_exceptions.NotFound(
+                    'No template file found for collection: {}'.format(template_path))
+
+            template_meta = template_info.get(key)
+
+            if not template_meta:
+                raise werkzeug_exceptions.NotFound(
+                    'Unable to find template: {}'.format(key))
+
+            locale = self.route_info.meta.get(
+                'locale', self.params.get('locale'))
+            pod_path = os.path.join(collection_path, '_template.{}'.format(
+                template_meta.get('file_extension', 'html')))
+            self._doc = document.Document(
+                pod_path, locale=locale, _pod=self.pod, _collection=col)
+            self._doc.format.update(
+                fields=template_meta.get('front_matter'), content=template_meta.get('content'))
+        return self._doc
 
 
 @utils.memoize
@@ -42,4 +90,22 @@ def serve_editor(pod, _request, matched, meta=None, **_kwargs):
     content = template.render(kwargs)
     response = wrappers.Response(content)
     response.headers['Content-Type'] = 'text/html'
+    return response
+
+
+def serve_template(pod, request, matched, meta=None, **_kwargs):
+    """Serve pod contents using the template."""
+    controller = RenderTemplateController(
+        pod, request.path, matched.value, params=matched.params)
+    response = None
+    headers = controller.get_http_headers()
+    if 'X-AppEngine-BlobKey' in headers:
+        return Response(headers=headers)
+    jinja_env = pod.render_pool.get_jinja_env(
+        controller.doc.locale) if controller.use_jinja else None
+    rendered_document = controller.render(jinja_env=jinja_env, request=request)
+    content = rendered_document.read()
+    response = wrappers.Response(content)
+    # TODO: headers.update is not found...?
+    response.headers.extend(headers)
     return response

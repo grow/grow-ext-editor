@@ -21,21 +21,28 @@ const PROTECTED_FROM_DELETE_PATHS = [
 ]
 
 
-const isProtectedFromCopy = (pod_path) => {
-  // TODO: Expand to let the config also define protected files.
-  return PROTECTED_FROM_COPY_PATHS.includes(pod_path)
+const hasTemplate = (templates, folder) => {
+  const collections = Object.keys(templates)
+  return collections.includes(folder)
 }
 
 
-const isProtectedFromDelete = (pod_path) => {
+const isProtectedFromCopy = (podPath) => {
   // TODO: Expand to let the config also define protected files.
-  return PROTECTED_FROM_DELETE_PATHS.includes(pod_path)
+  return PROTECTED_FROM_COPY_PATHS.includes(podPath)
+}
+
+
+const isProtectedFromDelete = (podPath) => {
+  // TODO: Expand to let the config also define protected files.
+  return PROTECTED_FROM_DELETE_PATHS.includes(podPath)
 }
 
 
 export default class FolderStructure {
-  constructor(paths, folder, folderBase) {
+  constructor(paths, templates, folder, folderBase) {
     this.uid = generateUUID()
+    this.templates = templates
     this.folderInfo = {
       folder: folder || '/',
       folderBase: folderBase,
@@ -64,7 +71,7 @@ export default class FolderStructure {
 
           subFolders.push(subFolder)
           this.folderInfo.folders.push(
-            new FolderStructure(paths, `${prefix}${subFolder}`, subFolder))
+            new FolderStructure(paths, this.templates, `${prefix}${subFolder}`, subFolder))
         } else {
           const fileName = subPathParts[0]
           let fileExt = ''
@@ -100,9 +107,17 @@ export default class FolderStructure {
     return html`<div class=${classes.join(' ')}>
       ${level > threshold
         ? html`
-          <div class="menu__tree__folder__label" data-folder=${folder} @click=${eventHandlers.handleFolderToggle}>
+          <div class="menu__tree__folder__directory icons" data-folder=${folder} @click=${eventHandlers.handleFolderToggle}>
             <i class="material-icons">${isExpanded ? 'expand_more' : 'expand_less'}</i>
-            ${this.folderInfo.folderBase}
+            <div class="menu__tree__folder__directory__label">
+              ${this.folderInfo.folderBase}
+            </div>
+            <i
+                class="material-icons icon icon--hover-only"
+                title="New file"
+                @click=${eventHandlers.handleFileNewClick}>
+              add
+            </i>
           </div>`
         : ''}
       <div class=${level > threshold ? 'menu__tree__folder__level' : ''}>
@@ -112,7 +127,7 @@ export default class FolderStructure {
         </div>
         <div class=${level > threshold ? 'menu__tree__folder__files' : ''}>
           ${repeat(this.folderInfo.files, (file) => `${filePrefix}${file.fileName}`, (file, index) => {
-            const pod_path = lookupFunc ? lookupFunc(`${filePrefix}${file.fileName}`) : `${filePrefix}${file.fileName}`
+            const podPath = lookupFunc ? lookupFunc(`${filePrefix}${file.fileName}`) : `${filePrefix}${file.fileName}`
 
             return html`
               <div
@@ -120,13 +135,13 @@ export default class FolderStructure {
                     path == `${filePrefix}${file.fileName}` || path == `${filePrefix}${file.fileName}/`
                     ? 'menu__tree__folder__file--selected'
                     : ''} icons"
-                  data-pod-path=${pod_path}
+                  data-pod-path=${podPath}
                   @click=${eventHandlers.handleFileClick}>
                 <i class="material-icons">notes</i>
                 <div class="menu__tree__folder__file__label">
                   ${file.fileBase || '/'}
                 </div>
-                ${isProtectedFromCopy(pod_path)
+                ${isProtectedFromCopy(podPath)
                   ? ''
                   : html`<i
                       class="material-icons icon icon--hover-only"
@@ -134,7 +149,7 @@ export default class FolderStructure {
                       @click=${eventHandlers.handleFileCopyClick}>
                     file_copy
                   </i>`}
-                ${isProtectedFromDelete(pod_path)
+                ${isProtectedFromDelete(podPath)
                   ? ''
                   : html`<i
                       class="material-icons icon icon--hover-only"
