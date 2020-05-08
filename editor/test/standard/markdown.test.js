@@ -73,7 +73,7 @@ describe('markdown field', () => {
     })
     expect(isClean).toBe(true)
 
-    await page.waitForSelector('.selective__field__type__markdown .cm-header')
+    await page.waitForSelector('.selective__field__type__markdown')
 
     // TODO: Get working with the editor.
     // // Change the title.
@@ -121,7 +121,7 @@ describe('markdown field', () => {
     // Enable localization.
     const localizationIcon = await page.$('i[title="Localize content"]')
     await localizationIcon.click()
-    await page.waitForSelector('.selective__field__type__markdown [data-locale=en] .cm-header')
+    await page.waitForSelector('.selective__field__type__markdown [data-locale=en]')
 
     // TODO: Get working with the editor.
     // // Change the en title.

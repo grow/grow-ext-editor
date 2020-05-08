@@ -119,7 +119,7 @@ describe('html field', () => {
     // Enable localization.
     const localizationIcon = await page.$('i[title="Localize content"]')
     await localizationIcon.click()
-    await page.waitForSelector('.selective__field__type__html [data-locale=en] .tui-editor-contents')
+    await page.waitForSelector('.selective__field__type__html [data-locale=en]')
 
     // TODO: Get working with the editor.
     // // Change the en title.
