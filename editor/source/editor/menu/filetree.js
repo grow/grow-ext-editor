@@ -99,13 +99,16 @@ export default class FileTreeMenu extends MenuBase {
       })
     }
 
-    newSelective.addField({
-      'type': 'select',
-      'key': 'template',
-      'label': 'Template',
-      'help': 'Template to base the new file off of.',
-      'options': options
-    })
+    // Only add template if there are templates.
+    if (options.length > 1) {
+      newSelective.addField({
+        'type': 'select',
+        'key': 'template',
+        'label': 'Template',
+        'help': 'Template to base the new file off of.',
+        'options': options
+      })
+    }
 
     return newSelective
   }

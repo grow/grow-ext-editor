@@ -76814,15 +76814,19 @@ class FileTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
           </div>`,
         'value': key
       });
+    } // Only add template if there are templates.
+
+
+    if (options.length > 1) {
+      newSelective.addField({
+        'type': 'select',
+        'key': 'template',
+        'label': 'Template',
+        'help': 'Template to base the new file off of.',
+        'options': options
+      });
     }
 
-    newSelective.addField({
-      'type': 'select',
-      'key': 'template',
-      'label': 'Template',
-      'help': 'Template to base the new file off of.',
-      'options': options
-    });
     return newSelective;
   }
 
@@ -77180,7 +77184,7 @@ class Menu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
       routes: null,
       templates: null
     };
-    this.filterFunc = this.config.get('filterFunc') || Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createWhiteBlackFilter"])([/\/content\//, /\/podspec.yaml/], // Whitelist.
+    this.filterFunc = this.config.get('filterFunc') || Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createWhiteBlackFilter"])([/\/content\//], // Whitelist.
     [] // Blacklist.
     );
     this.bindEvents();
