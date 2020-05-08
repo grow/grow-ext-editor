@@ -1,4 +1,4 @@
-"""Screeting utility for the editor."""
+"""Screenshotting utility for the editor."""
 
 from __future__ import print_function
 import os

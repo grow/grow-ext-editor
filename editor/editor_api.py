@@ -552,7 +552,23 @@ class PodApi(object):
         if not collection_path.endswith('/'):
             collection_path = '{}/'.format(collection_path)
 
+        keys = []
         key = self.request.params.get('key')
+        if key:
+            keys.append(key)
+        else:
+            # Do screenshots for all templates if no key provided.
+            collection = self.pod.get_collection(collection_path)
+            template_info = self._get_collection_templates(collection)
+            for key in template_info:
+                keys.append(key)
+
+        self.data = {
+            collection_path: {},
+        }
+
+        if not keys:
+            return
 
         screenshot_pod_dir = self._get_screenshot_dir()
         resolutions = self._get_resolutions()
@@ -562,31 +578,28 @@ class PodApi(object):
             screenshot.ENV_DRIVER_PATH, screenshot_config.get('driver_path'))
         screenshotter = screenshot.EditorScreenshot(driver_path)
 
-        self.data = {
-            collection_path: {
-                key: {},
-            },
-        }
+        for key in keys:
+            screenshot_file_base = self._format_screenshot_base(collection_path, key)
 
-        screenshot_file_base = self._format_screenshot_base(collection_path, key)
+            url = 'http://{host}/_grow/screenshot/template/{screenshot_file_base}'.format(
+                host=self.request.host,
+                screenshot_file_base=screenshot_file_base)
 
-        url = 'http://{host}/_grow/screenshot/template/{screenshot_file_base}'.format(
-            host=self.request.host,
-            screenshot_file_base=screenshot_file_base)
+            try:
+                screenshots = screenshotter.screenshot(url, resolutions)
+            except selenium_exceptions.WebDriverException as selenium_exception:
+                if 'executable' in selenium_exception.msg:
+                    raise BadRequest(
+                        'Bad chromedriver path or {} not set.'.format(screenshot.ENV_DRIVER_PATH))
+                raise
 
-        try:
-            screenshots = screenshotter.screenshot(url, resolutions)
-        except selenium_exceptions.WebDriverException as selenium_exception:
-            if 'executable' in selenium_exception.msg:
-                raise BadRequest(
-                    'Bad chromedriver path or {} not set.'.format(screenshot.ENV_DRIVER_PATH))
-            raise
-
-        for resolution, shot in screenshots.items():
-            screenshot_pod_path = os.path.join(
-                screenshot_pod_dir, resolution.filename(screenshot_file_base))
-            self.pod.write_file(screenshot_pod_path, shot)
-            self.data[collection_path][key][resolution.resolution] = self._load_static_doc(screenshot_pod_path)
+            for resolution, shot in screenshots.items():
+                screenshot_pod_path = os.path.join(
+                    screenshot_pod_dir, resolution.filename(screenshot_file_base))
+                self.pod.write_file(screenshot_pod_path, shot)
+                if not key in self.data[collection_path]:
+                    self.data[collection_path][key] = {}
+                self.data[collection_path][key][resolution.resolution] = self._load_static_doc(screenshot_pod_path)
 
 
 def serve_api(pod, request, matched, **_kwargs):
