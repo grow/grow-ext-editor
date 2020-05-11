@@ -14,6 +14,7 @@ import generateUUID from '../../utility/uuid'
 import MenuBase from './base'
 import FolderStructure from './folderStructure'
 import ModalWindow from '../parts/modal'
+import { ConfirmWindow } from '../parts/modal'
 
 
 export default class FileTreeMenu extends MenuBase {
@@ -22,9 +23,16 @@ export default class FileTreeMenu extends MenuBase {
 
     this.podPath = null
     this.expandedFolders = []
-    this.modalWindow = new ModalWindow(this.render)
     this.newFileFolder = null
     this._selectives = {}
+
+    this.modalWindow = new ModalWindow(this.render, 'New page')
+    this.modalWindow.addAction(
+      'Create file', this.handleFileNewSubmit.bind(this), true)
+    this.modalWindow.addAction(
+      'Cancel', this.handleFileNewCancel.bind(this), false, true)
+
+    this.confirmDelete = null
   }
 
   get template() {
@@ -115,6 +123,9 @@ export default class FileTreeMenu extends MenuBase {
 
   _getOrCreateSelective(folder, templates) {
     if (!this._selectives[folder]) {
+      if (!templates) {
+        console.error('Unable to create selective editor without templates.')
+      }
       this._selectives[folder] = this._createSelective(templates)
     }
     return this._selectives[folder]
@@ -145,11 +156,22 @@ export default class FileTreeMenu extends MenuBase {
     evt.stopPropagation()
     const target = findParentByClassname(evt.target, 'menu__tree__folder__file')
     const podPath = target.dataset.podPath
-    document.dispatchEvent(new CustomEvent('selective.path.delete', {
-      detail: {
-        path: podPath,
-      }
-    }))
+
+    this.confirmDelete = new ConfirmWindow(
+      this.render, 'Delete page', 'Delete page')
+    this.confirmDelete.contentRenderFunc = () => {
+      return html`Are you sure you want to delete the page at <strong>${podPath}</strong>?`
+    }
+
+    this.confirmDelete.promise.then(() => {
+      document.dispatchEvent(new CustomEvent('selective.path.delete', {
+        detail: {
+          path: podPath,
+        }
+      }))
+    })
+
+    this.confirmDelete.open()
   }
 
   handleFileNewCancel(evt) {
@@ -170,13 +192,12 @@ export default class FileTreeMenu extends MenuBase {
   handleFileNewSubmit(evt) {
     evt.stopPropagation()
 
-    const target = findParentByClassname(evt.target, 'menu__tree__new__template')
-    const folder = target.dataset.folder
-    const value = this._getOrCreateSelective(folder).value
+    const newFileSelective = this._getOrCreateSelective(this.newFileFolder)
+    const value = newFileSelective.value
 
     document.dispatchEvent(new CustomEvent('selective.path.template', {
       detail: {
-        collectionPath: folder,
+        collectionPath: this.newFileFolder,
         fileName: value.fileName,
         template: value.template,
       }
@@ -213,30 +234,15 @@ export default class FileTreeMenu extends MenuBase {
     const folderStructure = new FolderStructure(menuState.podPaths, menuState.templates, '/')
 
     if (this.newFileFolder) {
-      this.modalWindow.contentRenderFunc = () => {
-        const templates = menuState.templates[this.newFileFolder]
-        const newFileSelective = this._getOrCreateSelective(this.newFileFolder, templates)
-        this.modalWindow.canClickToCloseFunc = () => {
-          return newFileSelective.isClean
-        }
+      const templates = menuState.templates[this.newFileFolder]
+      const newFileSelective = this._getOrCreateSelective(this.newFileFolder, templates)
 
-        return html`
-          <div class="menu__tree__new__template" data-folder=${this.newFileFolder}>
-            <h2>New page</h2>
-            ${newFileSelective.template(newFileSelective, newFileSelective.data)}
-            <div class="menu__tree__new__template__actions">
-              <button
-                  class="editor__button editor__button--primary"
-                  @click=${this.handleFileNewSubmit.bind(this)}>
-                Create file
-              </button>
-              <button
-                  class="editor__button editor__button--secondary"
-                  @click=${this.handleFileNewCancel.bind(this)}>
-                Cancel
-              </button>
-            </div>
-          </div>`
+      this.modalWindow.canClickToCloseFunc = () => {
+        return newFileSelective.isClean
+      }
+
+      this.modalWindow.contentRenderFunc = () => {
+        return newFileSelective.template(newFileSelective, newFileSelective.data)
       }
     }
 
@@ -251,6 +257,7 @@ export default class FileTreeMenu extends MenuBase {
         handleFileNewClick: this.handleFileNewClick.bind(this),
       },
       1)}
-      ${this.modalWindow.template}`
+      ${this.modalWindow.template}
+      ${this.confirmDelete ? this.confirmDelete.template : ''}`
   }
 }

@@ -45,7 +45,7 @@ describe('select multi field', () => {
 
     page.on('request', request => {
       if (request.url().includes('/_grow/api/editor/content')) {
-        console.log('Intercepted content', request.url(), request.method())
+        // console.log('Intercepted content', request.url(), request.method())
         if (request.method() == 'POST') {
           // Respond to posts with the same front matter.
           const postData = qs.parse(request.postData())

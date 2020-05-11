@@ -4,7 +4,6 @@
 
 import {
   GroupField,
-  ListField,
 } from 'selective-edit'
 import {
   DocumentField,
@@ -15,6 +14,9 @@ import {
   ImageFileField,
   GoogleImageField,
 } from './field/image'
+import {
+  EditorListField,
+} from './field/list'
 import {
   PartialsField,
 } from './field/partials'
@@ -38,7 +40,7 @@ export const defaultFields = {
   'group': GroupField,
   'html': HtmlField,
   'image': ImageFileField,
-  'list': ListField,
+  'list': EditorListField,
   'markdown': MarkdownField,
   'partials': PartialsField,
   'select': SelectField,

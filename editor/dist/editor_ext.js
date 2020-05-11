@@ -782,10 +782,12 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compos
 
   renderField(selective, data) {
     return lit_html__WEBPACK_IMPORTED_MODULE_2__["html"]`
+      ${this.renderHeader(selective, data)}
       ${this.renderLabel(selective, data)}
       ${this.renderLocalization(selective, data)}
       ${this.renderError(selective, data)}
-      ${this.renderHelp(selective, data)}`;
+      ${this.renderHelp(selective, data)}
+      ${this.renderFooter(selective, data)}`;
   }
 
   renderError(selective, data) {
@@ -796,6 +798,14 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compos
     }
 
     return lit_html__WEBPACK_IMPORTED_MODULE_2__["html"]`<div class="selective__field__errors">${errorKeys}</div>`;
+  }
+
+  renderFooter(selective, data) {
+    return '';
+  }
+
+  renderHeader(selective, data) {
+    return '';
   }
 
   renderHelp(selective, data) {
@@ -74294,11 +74304,6 @@ class Editor {
 
     document.addEventListener('selective.path.delete', evt => {
       const podPath = evt.detail['path'];
-
-      if (!window.confirm(`Are you sure you want to delete the ${podPath} file?`)) {
-        return;
-      }
-
       this.api.deleteFile(podPath).then(() => {
         if (this._podPaths) {
           this.loadPodPaths(true);
@@ -75294,8 +75299,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
 /* harmony import */ var _field_constructor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./field/constructor */ "./source/editor/field/constructor.js");
 /* harmony import */ var _field_image__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./field/image */ "./source/editor/field/image.js");
-/* harmony import */ var _field_partials__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./field/partials */ "./source/editor/field/partials.js");
-/* harmony import */ var _field_standard__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./field/standard */ "./source/editor/field/standard.js");
+/* harmony import */ var _field_list__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./field/list */ "./source/editor/field/list.js");
+/* harmony import */ var _field_partials__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./field/partials */ "./source/editor/field/partials.js");
+/* harmony import */ var _field_standard__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./field/standard */ "./source/editor/field/standard.js");
 /**
  * Field types for the editor extension.
  */
@@ -75304,22 +75310,23 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 const defaultFields = {
-  'checkbox': _field_standard__WEBPACK_IMPORTED_MODULE_4__["CheckboxField"],
-  'date': _field_standard__WEBPACK_IMPORTED_MODULE_4__["DateField"],
-  'datetime': _field_standard__WEBPACK_IMPORTED_MODULE_4__["DateTimeField"],
+  'checkbox': _field_standard__WEBPACK_IMPORTED_MODULE_5__["CheckboxField"],
+  'date': _field_standard__WEBPACK_IMPORTED_MODULE_5__["DateField"],
+  'datetime': _field_standard__WEBPACK_IMPORTED_MODULE_5__["DateTimeField"],
   'document': _field_constructor__WEBPACK_IMPORTED_MODULE_1__["DocumentField"],
   'google_image': _field_image__WEBPACK_IMPORTED_MODULE_2__["GoogleImageField"],
   'group': selective_edit__WEBPACK_IMPORTED_MODULE_0__["GroupField"],
-  'html': _field_standard__WEBPACK_IMPORTED_MODULE_4__["HtmlField"],
+  'html': _field_standard__WEBPACK_IMPORTED_MODULE_5__["HtmlField"],
   'image': _field_image__WEBPACK_IMPORTED_MODULE_2__["ImageFileField"],
-  'list': selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListField"],
-  'markdown': _field_standard__WEBPACK_IMPORTED_MODULE_4__["MarkdownField"],
-  'partials': _field_partials__WEBPACK_IMPORTED_MODULE_3__["PartialsField"],
-  'select': _field_standard__WEBPACK_IMPORTED_MODULE_4__["SelectField"],
+  'list': _field_list__WEBPACK_IMPORTED_MODULE_3__["EditorListField"],
+  'markdown': _field_standard__WEBPACK_IMPORTED_MODULE_5__["MarkdownField"],
+  'partials': _field_partials__WEBPACK_IMPORTED_MODULE_4__["PartialsField"],
+  'select': _field_standard__WEBPACK_IMPORTED_MODULE_5__["SelectField"],
   'string': _field_constructor__WEBPACK_IMPORTED_MODULE_1__["StringField"],
-  'text': _field_standard__WEBPACK_IMPORTED_MODULE_4__["TextField"],
-  'textarea': _field_standard__WEBPACK_IMPORTED_MODULE_4__["TextareaField"],
+  'text': _field_standard__WEBPACK_IMPORTED_MODULE_5__["TextField"],
+  'textarea': _field_standard__WEBPACK_IMPORTED_MODULE_5__["TextareaField"],
   'yaml': _field_constructor__WEBPACK_IMPORTED_MODULE_1__["YamlField"]
 };
 
@@ -75963,6 +75970,71 @@ class GoogleImageField extends ImageField {
         this.render();
       });
     });
+  }
+
+}
+
+/***/ }),
+
+/***/ "./source/editor/field/list.js":
+/*!*************************************!*\
+  !*** ./source/editor/field/list.js ***!
+  \*************************************/
+/*! exports provided: EditorListField */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EditorListField", function() { return EditorListField; });
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var _parts_modal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../parts/modal */ "./source/editor/parts/modal.js");
+/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
+/**
+ * Customized list field.
+ */
+
+
+
+
+class EditorListField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListField"] {
+  // Add the confirmation for delete to the list field.
+  handleDeleteItem(evt) {
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_2__["findParentByClassname"])(evt.target, 'selective__list__item__delete');
+    const uid = target.dataset.itemUid;
+    const locale = target.dataset.locale;
+    const listItems = this._getListItemsForLocale(locale) || [];
+    let deleteIndex = -1;
+
+    for (const index in listItems) {
+      if (listItems[index].uid == uid) {
+        deleteIndex = index;
+        break;
+      }
+    }
+
+    if (deleteIndex < 0) {
+      return;
+    }
+
+    if (!this.confirmDelete) {
+      this.confirmDelete = new _parts_modal__WEBPACK_IMPORTED_MODULE_1__["ConfirmWindow"](this.render, 'Delete item', 'Delete item');
+    }
+
+    this.confirmDelete.contentRenderFunc = () => {
+      const preview = this.guessPreview(listItems[deleteIndex], deleteIndex);
+      return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`Are you sure you want to delete <strong>${preview}</strong>?`;
+    };
+
+    this.confirmDelete.promise.then(() => {
+      super.handleDeleteItem(evt);
+    });
+    this.confirmDelete.open();
+  }
+
+  renderFooter(selective, data) {
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      ${super.renderFooter(selective, data)}
+      ${this.confirmDelete ? this.confirmDelete.template : ''}`;
   }
 
 }
@@ -76736,14 +76808,18 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 class FileTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
   constructor(config) {
     super(config);
     this.podPath = null;
     this.expandedFolders = [];
-    this.modalWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_6__["default"](this.render);
     this.newFileFolder = null;
     this._selectives = {};
+    this.modalWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_6__["default"](this.render, 'New page');
+    this.modalWindow.addAction('Create file', this.handleFileNewSubmit.bind(this), true);
+    this.modalWindow.addAction('Cancel', this.handleFileNewCancel.bind(this), false, true);
+    this.confirmDelete = null;
   }
 
   get template() {
@@ -76832,6 +76908,10 @@ class FileTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
 
   _getOrCreateSelective(folder, templates) {
     if (!this._selectives[folder]) {
+      if (!templates) {
+        console.error('Unable to create selective editor without templates.');
+      }
+
       this._selectives[folder] = this._createSelective(templates);
     }
 
@@ -76863,11 +76943,20 @@ class FileTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
     evt.stopPropagation();
     const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'menu__tree__folder__file');
     const podPath = target.dataset.podPath;
-    document.dispatchEvent(new CustomEvent('selective.path.delete', {
-      detail: {
-        path: podPath
-      }
-    }));
+    this.confirmDelete = new _parts_modal__WEBPACK_IMPORTED_MODULE_6__["ConfirmWindow"](this.render, 'Delete page', 'Delete page');
+
+    this.confirmDelete.contentRenderFunc = () => {
+      return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`Are you sure you want to delete the page at <strong>${podPath}</strong>?`;
+    };
+
+    this.confirmDelete.promise.then(() => {
+      document.dispatchEvent(new CustomEvent('selective.path.delete', {
+        detail: {
+          path: podPath
+        }
+      }));
+    });
+    this.confirmDelete.open();
   }
 
   handleFileNewCancel(evt) {
@@ -76886,14 +76975,13 @@ class FileTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
 
   handleFileNewSubmit(evt) {
     evt.stopPropagation();
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'menu__tree__new__template');
-    const folder = target.dataset.folder;
 
-    const value = this._getOrCreateSelective(folder).value;
+    const newFileSelective = this._getOrCreateSelective(this.newFileFolder);
 
+    const value = newFileSelective.value;
     document.dispatchEvent(new CustomEvent('selective.path.template', {
       detail: {
-        collectionPath: folder,
+        collectionPath: this.newFileFolder,
         fileName: value.fileName,
         template: value.template
       }
@@ -76933,32 +77021,16 @@ class FileTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
     const folderStructure = new _folderStructure__WEBPACK_IMPORTED_MODULE_5__["default"](menuState.podPaths, menuState.templates, '/');
 
     if (this.newFileFolder) {
+      const templates = menuState.templates[this.newFileFolder];
+
+      const newFileSelective = this._getOrCreateSelective(this.newFileFolder, templates);
+
+      this.modalWindow.canClickToCloseFunc = () => {
+        return newFileSelective.isClean;
+      };
+
       this.modalWindow.contentRenderFunc = () => {
-        const templates = menuState.templates[this.newFileFolder];
-
-        const newFileSelective = this._getOrCreateSelective(this.newFileFolder, templates);
-
-        this.modalWindow.canClickToCloseFunc = () => {
-          return newFileSelective.isClean;
-        };
-
-        return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-          <div class="menu__tree__new__template" data-folder=${this.newFileFolder}>
-            <h2>New page</h2>
-            ${newFileSelective.template(newFileSelective, newFileSelective.data)}
-            <div class="menu__tree__new__template__actions">
-              <button
-                  class="editor__button editor__button--primary"
-                  @click=${this.handleFileNewSubmit.bind(this)}>
-                Create file
-              </button>
-              <button
-                  class="editor__button editor__button--secondary"
-                  @click=${this.handleFileNewCancel.bind(this)}>
-                Cancel
-              </button>
-            </div>
-          </div>`;
+        return newFileSelective.template(newFileSelective, newFileSelective.data);
       };
     }
 
@@ -76969,7 +77041,8 @@ class FileTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
       handleFileDeleteClick: this.handleFileDeleteClick.bind(this),
       handleFileNewClick: this.handleFileNewClick.bind(this)
     }, 1)}
-      ${this.modalWindow.template}`;
+      ${this.modalWindow.template}
+      ${this.confirmDelete ? this.confirmDelete.template : ''}`;
   }
 
 }
@@ -77666,29 +77739,51 @@ class TreeMenu extends _base__WEBPACK_IMPORTED_MODULE_2__["default"] {
 /*!**************************************!*\
   !*** ./source/editor/parts/modal.js ***!
   \**************************************/
-/*! exports provided: default */
+/*! exports provided: default, ConfirmWindow */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ModalWindow; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ConfirmWindow", function() { return ConfirmWindow; });
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
+/* harmony import */ var _utility_defer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/defer */ "./source/utility/defer.js");
+/* harmony import */ var _utility_uuid__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utility/uuid */ "./source/utility/uuid.js");
 /**
  * Utility for creating and controlling modal windows.
  */
 
 
+
+
 class ModalWindow {
-  constructor(renderFunc) {
+  constructor(renderFunc, title) {
     this.isOpen = false;
     this.renderFunc = renderFunc;
+    this.title = title;
 
     this.contentRenderFunc = () => '';
 
     this.clickToClose = true;
 
     this.canClickToCloseFunc = () => this.clickToClose;
+
+    this.actions = [];
+  }
+
+  get actionsTemplate() {
+    if (!this.actions.length) {
+      return '';
+    }
+
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(this.actions, action => action.uid, (action, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <button
+          class="editor__button ${action.classes}"
+          @click=${action.callback}>
+        ${action.label}
+      </button>
+    `)}`;
   }
 
   get template() {
@@ -77701,11 +77796,38 @@ class ModalWindow {
         <div
             class="modal__wrapper"
             @click=${this.handleOffsetClick.bind(this)}>
-          <div class="modal__content">
-            ${this.contentRenderFunc()}
+          <div class="modal__container">
+            ${this.title ? selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<h2>${this.title}</h2>` : ''}
+            <div class="modal__content">
+              ${this.contentRenderFunc()}
+            </div>
+            <div class="modal__actions">
+              ${this.actionsTemplate}
+            </div>
           </div>
         </div>
       </div>`;
+  }
+
+  addAction(label, callback, isPrimary, isSecondary) {
+    const classes = [];
+
+    if (isPrimary) {
+      classes.push('editor__button--primary');
+    }
+
+    if (isSecondary) {
+      classes.push('editor__button--secondary');
+    }
+
+    this.actions.push({
+      uid: Object(_utility_uuid__WEBPACK_IMPORTED_MODULE_3__["default"])(),
+      label: label,
+      callback: callback,
+      classes: classes,
+      isPrimary: isPrimary,
+      isSecondary: isSecondary
+    });
   }
 
   close() {
@@ -77717,7 +77839,7 @@ class ModalWindow {
     evt.preventDefault();
     evt.stopPropagation();
 
-    if (!this.clickToClose || !this.canClickToCloseFunc()) {
+    if (!this.canClickToCloseFunc()) {
       return;
     } // Test if the click was from within the content section.
 
@@ -77739,6 +77861,23 @@ class ModalWindow {
   toggle() {
     this.isOpen = !this.isOpen;
     this.renderFunc();
+  }
+
+}
+class ConfirmWindow extends ModalWindow {
+  constructor(renderFunc, title, submitLabel, cancelLabel) {
+    super(renderFunc, title);
+    this.result = new _utility_defer__WEBPACK_IMPORTED_MODULE_2__["default"]();
+    this.addAction(submitLabel || 'Confirm', () => {
+      this.result.resolve();
+    }, true);
+    this.addAction(cancelLabel || 'Cancel', () => {
+      this.result.reject();
+    });
+  }
+
+  get promise() {
+    return this.result.promise;
   }
 
 }

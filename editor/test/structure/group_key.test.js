@@ -33,16 +33,7 @@ describe('group field with key', () => {
 
     page.on('request', request => {
       if (request.url().includes('/_grow/api/editor/content')) {
-        console.log(JSON.stringify(Object.assign({}, defaults.documentResponse, {
-          'front_matter': {
-            'group': {
-              'title': defaultEn,
-              'title@es': defaultEs,
-            },
-          },
-          'editor': editorConfig,
-        })));
-        console.log('Intercepted content', request.url(), request.method())
+        // console.log('Intercepted content', request.url(), request.method())
         if (request.method() == 'POST') {
           // Respond to posts with the same front matter.
           const postData = qs.parse(request.postData())

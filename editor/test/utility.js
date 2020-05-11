@@ -9,7 +9,7 @@ async function dragAndDrop(page, originSelector, destinationSelector, snapshotNa
   const ob = await origin.boundingBox()
   const db = await destination.boundingBox()
 
-  console.log(`Dragging from ${ob.x + ob.width / 2}, ${ob.y + ob.height / 2}`)
+  // console.log(`Dragging from ${ob.x + ob.width / 2}, ${ob.y + ob.height / 2}`)
   await page.mouse.move(ob.x + ob.width / 2, ob.y + ob.height / 2)
   await page.mouse.down()
 
@@ -17,7 +17,7 @@ async function dragAndDrop(page, originSelector, destinationSelector, snapshotNa
     await percySnapshot(page, snapshotName, defaults.snapshotOptions)
   }
 
-  console.log(`Dropping at   ${db.x + db.width / 2}, ${db.y + db.height / 2}`)
+  // console.log(`Dropping at   ${db.x + db.width / 2}, ${db.y + db.height / 2}`)
   await page.mouse.move(db.x + db.width / 2, db.y + db.height / 2)
   await page.mouse.up()
 }

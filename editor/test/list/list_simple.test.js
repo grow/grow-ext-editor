@@ -31,7 +31,7 @@ describe('list simple field', () => {
 
     page.on('request', request => {
       if (request.url().includes('/_grow/api/editor/content')) {
-        console.log('Intercepted content', request.url(), request.method())
+        // console.log('Intercepted content', request.url(), request.method())
         if (request.method() == 'POST') {
           // Respond to posts with the same front matter.
           const postData = qs.parse(request.postData())
@@ -241,8 +241,21 @@ describe('list simple field', () => {
     await deleteButton.click()
 
     // Remove the es value.
+    await page.waitForSelector('.modal')
+    let confirmButton = await page.$('.modal .editor__button--primary')
+    await confirmButton.click()
+    await page.waitForSelector('.modal', { hidden: true })
+
+    // Remove the es value.
     deleteButton = await page.$('.selective__list__item[data-locale=es]:last-child .selective__list__item__delete')
     await deleteButton.click()
+
+    // Remove the es value.
+    await page.waitForSelector('.modal')
+    await percySnapshot(page, 'List field simple confirm delete on localization', defaults.snapshotOptions)
+    confirmButton = await page.$('.modal .editor__button--primary')
+    await confirmButton.click()
+    await page.waitForSelector('.modal', { hidden: true })
 
     // Editor should now be dirty.
     isClean = await page.evaluate(_ => {

@@ -343,9 +343,6 @@ export default class Editor {
     // Allow deleting files.
     document.addEventListener('selective.path.delete', (evt) => {
       const podPath = evt.detail['path']
-      if (!window.confirm(`Are you sure you want to delete the ${podPath} file?`)) {
-        return
-      }
 
       this.api.deleteFile(podPath).then(() => {
         if (this._podPaths) {
