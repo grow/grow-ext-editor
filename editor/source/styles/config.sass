@@ -27,7 +27,8 @@ $ge-color-on-back-dark: lighten($ge-color-on-back-light, 15%) !default
 $ge-color-on-back-highlight: #000000 !default
 $ge-color-on-back-oclude: #ffffff !default
 
-$ge-color-light-border: rgba(0,0,0,0.3) !default
+$ge-color-border: rgba(0,0,0,0.3) !default
+$ge-color-border-light: rgba(0,0,0,0.1) !default
 $ge-color-bar: rgba(0,0,0,0.1) !default
 
 // Input colors
@@ -54,17 +55,17 @@ $ge-speed-slower: 1500ms !default
 $ge-timing-cubic-bezier: cubic-bezier(0, 1, 0.5, 1) !default
 
 // Padding unit
-$ge-pad: 1em !default
+$ge-pad: 10px !default
 
 // Typography
 $ge-font-family: Roboto !default
 $ge-font-family-mono: "Roboto Mono", monospace !default
-$ge-font-size: 12px !default
+$ge-font-size: 14px !default
 $ge-font-size-small: $ge-font-size * .8 !default
 $ge-font-size-icon: 18px !default
 $ge-font-size-icon-small: 14px !default
 $ge-font-size-icon-large: 22px !default
-$ge-line-height: 14px !default
+$ge-line-height: 18px !default
 
 // Shadows
 $ge-shadow-1: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24) !default
@@ -118,7 +119,7 @@ $ge-menu-column-min-width: 20em !default
     outline: none
 
   &:hover
-    border: $ge-border-size solid $ge-color-light-border
+    border: $ge-border-size solid $ge-color-border
 
     &:focus
       border: $ge-border-size solid $ge-color-primary
@@ -137,7 +138,7 @@ $ge-menu-column-min-width: 20em !default
     color: $ge-color-primary
 
   &:hover
-    color: $ge-color-light-border
+    color: $ge-color-border
 
     &:focus
       color: $ge-color-primary
