@@ -35,7 +35,7 @@ describe('image field', () => {
 
     page.on('request', request => {
       if (request.url().includes('/_grow/api/editor/content')) {
-        console.log('Intercepted content', request.url(), request.method())
+        // console.log('Intercepted content', request.url(), request.method())
         if (request.method() == 'POST') {
           // Respond to posts with the same front matter.
           const postData = qs.parse(request.postData())
@@ -60,7 +60,7 @@ describe('image field', () => {
           })
         }
       } else if (request.url().includes('/_grow/api/editor/pod_paths')) {
-        console.log('Intercepted content', request.url(), request.method())
+        // console.log('Intercepted content', request.url(), request.method())
         request.respond({
           contentType: 'application/json',
           body: JSON.stringify({
@@ -75,11 +75,9 @@ describe('image field', () => {
           })
         })
       } else if (request.url().includes('/_grow/api/editor/static_serving_path')) {
-        console.log('Intercepted content', request.url(), request.method())
+        // console.log('Intercepted content', request.url(), request.method())
         const params = (new URL(request.url())).searchParams
         const podPath = params.get('pod_path')
-
-        console.log(podPath, podPathToImg[podPath]);
         request.respond({
           contentType: 'application/json',
           body: JSON.stringify({
