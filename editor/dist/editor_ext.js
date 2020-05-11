@@ -782,10 +782,12 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compos
 
   renderField(selective, data) {
     return lit_html__WEBPACK_IMPORTED_MODULE_2__["html"]`
+      ${this.renderHeader(selective, data)}
       ${this.renderLabel(selective, data)}
       ${this.renderLocalization(selective, data)}
       ${this.renderError(selective, data)}
-      ${this.renderHelp(selective, data)}`;
+      ${this.renderHelp(selective, data)}
+      ${this.renderFooter(selective, data)}`;
   }
 
   renderError(selective, data) {
@@ -796,6 +798,14 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compos
     }
 
     return lit_html__WEBPACK_IMPORTED_MODULE_2__["html"]`<div class="selective__field__errors">${errorKeys}</div>`;
+  }
+
+  renderFooter(selective, data) {
+    return '';
+  }
+
+  renderHeader(selective, data) {
+    return '';
   }
 
   renderHelp(selective, data) {
@@ -75289,8 +75299,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
 /* harmony import */ var _field_constructor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./field/constructor */ "./source/editor/field/constructor.js");
 /* harmony import */ var _field_image__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./field/image */ "./source/editor/field/image.js");
-/* harmony import */ var _field_partials__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./field/partials */ "./source/editor/field/partials.js");
-/* harmony import */ var _field_standard__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./field/standard */ "./source/editor/field/standard.js");
+/* harmony import */ var _field_list__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./field/list */ "./source/editor/field/list.js");
+/* harmony import */ var _field_partials__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./field/partials */ "./source/editor/field/partials.js");
+/* harmony import */ var _field_standard__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./field/standard */ "./source/editor/field/standard.js");
 /**
  * Field types for the editor extension.
  */
@@ -75299,22 +75310,23 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 const defaultFields = {
-  'checkbox': _field_standard__WEBPACK_IMPORTED_MODULE_4__["CheckboxField"],
-  'date': _field_standard__WEBPACK_IMPORTED_MODULE_4__["DateField"],
-  'datetime': _field_standard__WEBPACK_IMPORTED_MODULE_4__["DateTimeField"],
+  'checkbox': _field_standard__WEBPACK_IMPORTED_MODULE_5__["CheckboxField"],
+  'date': _field_standard__WEBPACK_IMPORTED_MODULE_5__["DateField"],
+  'datetime': _field_standard__WEBPACK_IMPORTED_MODULE_5__["DateTimeField"],
   'document': _field_constructor__WEBPACK_IMPORTED_MODULE_1__["DocumentField"],
   'google_image': _field_image__WEBPACK_IMPORTED_MODULE_2__["GoogleImageField"],
   'group': selective_edit__WEBPACK_IMPORTED_MODULE_0__["GroupField"],
-  'html': _field_standard__WEBPACK_IMPORTED_MODULE_4__["HtmlField"],
+  'html': _field_standard__WEBPACK_IMPORTED_MODULE_5__["HtmlField"],
   'image': _field_image__WEBPACK_IMPORTED_MODULE_2__["ImageFileField"],
-  'list': selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListField"],
-  'markdown': _field_standard__WEBPACK_IMPORTED_MODULE_4__["MarkdownField"],
-  'partials': _field_partials__WEBPACK_IMPORTED_MODULE_3__["PartialsField"],
-  'select': _field_standard__WEBPACK_IMPORTED_MODULE_4__["SelectField"],
+  'list': _field_list__WEBPACK_IMPORTED_MODULE_3__["EditorListField"],
+  'markdown': _field_standard__WEBPACK_IMPORTED_MODULE_5__["MarkdownField"],
+  'partials': _field_partials__WEBPACK_IMPORTED_MODULE_4__["PartialsField"],
+  'select': _field_standard__WEBPACK_IMPORTED_MODULE_5__["SelectField"],
   'string': _field_constructor__WEBPACK_IMPORTED_MODULE_1__["StringField"],
-  'text': _field_standard__WEBPACK_IMPORTED_MODULE_4__["TextField"],
-  'textarea': _field_standard__WEBPACK_IMPORTED_MODULE_4__["TextareaField"],
+  'text': _field_standard__WEBPACK_IMPORTED_MODULE_5__["TextField"],
+  'textarea': _field_standard__WEBPACK_IMPORTED_MODULE_5__["TextareaField"],
   'yaml': _field_constructor__WEBPACK_IMPORTED_MODULE_1__["YamlField"]
 };
 
@@ -75958,6 +75970,71 @@ class GoogleImageField extends ImageField {
         this.render();
       });
     });
+  }
+
+}
+
+/***/ }),
+
+/***/ "./source/editor/field/list.js":
+/*!*************************************!*\
+  !*** ./source/editor/field/list.js ***!
+  \*************************************/
+/*! exports provided: EditorListField */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EditorListField", function() { return EditorListField; });
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var _parts_modal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../parts/modal */ "./source/editor/parts/modal.js");
+/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
+/**
+ * Customized list field.
+ */
+
+
+
+
+class EditorListField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListField"] {
+  // Add the confirmation for delete to the list field.
+  handleDeleteItem(evt) {
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_2__["findParentByClassname"])(evt.target, 'selective__list__item__delete');
+    const uid = target.dataset.itemUid;
+    const locale = target.dataset.locale;
+    const listItems = this._getListItemsForLocale(locale) || [];
+    let deleteIndex = -1;
+
+    for (const index in listItems) {
+      if (listItems[index].uid == uid) {
+        deleteIndex = index;
+        break;
+      }
+    }
+
+    if (deleteIndex < 0) {
+      return;
+    }
+
+    if (!this.confirmDelete) {
+      this.confirmDelete = new _parts_modal__WEBPACK_IMPORTED_MODULE_1__["ConfirmWindow"](this.render, 'Delete item', 'Delete item');
+    }
+
+    this.confirmDelete.contentRenderFunc = () => {
+      const preview = this.guessPreview(listItems[deleteIndex], deleteIndex);
+      return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`Are you sure you want to delete <strong>${preview}</strong>?`;
+    };
+
+    this.confirmDelete.promise.then(() => {
+      super.handleDeleteItem(evt);
+    });
+    this.confirmDelete.open();
+  }
+
+  renderFooter(selective, data) {
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      ${super.renderFooter(selective, data)}
+      ${this.confirmDelete ? this.confirmDelete.template : ''}`;
   }
 
 }
