@@ -41,7 +41,7 @@ export default class Menu extends MenuBase {
     }
 
     this.filterFunc = this.config.get('filterFunc') || createWhiteBlackFilter(
-      [/\/content\//],  // Whitelist.
+      [/^\/content\//],  // Whitelist.
       [],  // Blacklist.
     )
 

@@ -77242,7 +77242,7 @@ class Menu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
       routes: null,
       templates: null
     };
-    this.filterFunc = this.config.get('filterFunc') || Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createWhiteBlackFilter"])([/\/content\//], // Whitelist.
+    this.filterFunc = this.config.get('filterFunc') || Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createWhiteBlackFilter"])([/^\/content\//], // Whitelist.
     [] // Blacklist.
     );
     this.bindEvents();
