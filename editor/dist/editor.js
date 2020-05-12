@@ -74345,7 +74345,14 @@ class Editor {
 
     this.listeners.add('load.routes', this.verifyPreviewIframe.bind(this)); // Watch for the history popstate.
 
-    window.addEventListener('popstate', this.popState.bind(this));
+    window.addEventListener('popstate', this.popState.bind(this)); // Message when there are pending changes.
+
+    window.addEventListener('beforeunload', evt => {
+      if (!this.isClean) {
+        evt.preventDefault();
+        evt.returnValue = ''; // Chrome requires returnValue to be set.
+      }
+    });
   }
 
   bindKeyboard() {
