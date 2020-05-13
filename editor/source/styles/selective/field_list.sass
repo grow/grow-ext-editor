@@ -1,20 +1,20 @@
 .selective__list__item
-  background: $ge-color-field-back
-  border: $ge-border-size solid transparent
+  // background: $ge-color-field-back
+  border: $ge-border-size solid $ge-color-border
   border-radius: $ge-radius-2
-  color: $ge-color-on-field-back
+  // color: $ge-color-on-field-back
   margin: $ge-pad/2 0
   padding: $ge-pad
   transition: all $ge-speed-faster ease-in-out
 
   // Alternate with nesting.
-  +list-nesting
-    background-color: $ge-color-field-back-alt
-    color: $ge-color-on-field-back-alt
-
-  +list-nesting-alt
-    background-color: $ge-color-field-back
-    color: $ge-color-on-field-back
+  // +list-nesting
+  //   background-color: $ge-color-field-back-alt
+  //   color: $ge-color-on-field-back-alt
+  //
+  // +list-nesting-alt
+  //   background-color: $ge-color-field-back
+  //   color: $ge-color-on-field-back
 
   &:hover
     box-shadow: $ge-shadow-1
@@ -33,7 +33,7 @@
     display: flex
     flex-flow: row
     align-items: center
-    padding: $ge-pad/2 0
+    padding: $ge-pad 0
 
     .selective__field
       flex-grow: 1

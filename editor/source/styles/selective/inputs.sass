@@ -5,16 +5,17 @@
     font-family: $ge-font-family
     font-size: $ge-font-size
     line-height: $ge-line-height-paragraph
+    padding: $ge-pad
     transition: all $ge-speed-faster ease-in-out
 
     // Alternate with nesting.
-    +list-nesting
-      background-color: $ge-color-field-back-alt
-      color: $ge-color-on-field-back-alt
-
-    +list-nesting-alt
-      background-color: $ge-color-field-back
-      color: $ge-color-on-field-back
+    // +list-nesting
+    //   background-color: $ge-color-field-back-alt
+    //   color: $ge-color-on-field-back-alt
+    //
+    // +list-nesting-alt
+    //   background-color: $ge-color-field-back
+    //   color: $ge-color-on-field-back
 
   textarea
     +field-border
@@ -22,16 +23,17 @@
     font-family: $ge-font-family
     font-size: $ge-font-size
     line-height: $ge-line-height-paragraph
+    padding: $ge-pad
     transition: all $ge-speed-slow ease-in-out
 
     // Alternate with nesting.
-    +list-nesting
-      background-color: $ge-color-field-back-alt
-      color: $ge-color-on-field-back-alt
-
-    +list-nesting-alt
-      background-color: $ge-color-field-back
-      color: $ge-color-on-field-back
+    // +list-nesting
+    //   background-color: $ge-color-field-back-alt
+    //   color: $ge-color-on-field-back-alt
+    //
+    // +list-nesting-alt
+    //   background-color: $ge-color-field-back
+    //   color: $ge-color-on-field-back
 
   [contenteditable=true]
     &:not(.tui-editor-contents)
@@ -48,13 +50,13 @@
     padding: $ge-pad/2 $ge-pad
 
     // Alternate with nesting.
-    +list-nesting
-      background-color: $ge-color-field-back-alt
-      color: $ge-color-on-field-back-alt
-
-    +list-nesting-alt
-      background-color: $ge-color-field-back
-      color: $ge-color-on-field-back
+    // +list-nesting
+    //   background-color: $ge-color-field-back-alt
+    //   color: $ge-color-on-field-back-alt
+    //
+    // +list-nesting-alt
+    //   background-color: $ge-color-field-back
+    //   color: $ge-color-on-field-back
 
     &[disabled]
       opacity: .5
