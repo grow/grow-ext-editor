@@ -388,9 +388,10 @@ class PodApi(object):
         # Handle repo with no commits.
         if repo.head.ref:
             for commit in repo.iter_commits(branch, max_count=10):
+                committed_date = datetime.datetime.utcfromtimestamp(commit.committed_date)
                 commits.append({
                     'message': commit.message,
-                    'commit_date': commit.committed_date,
+                    'commit_date': committed_date.isoformat(),
                     'sha': commit.hexsha,
                     'author': {
                         'name': commit.author.name,
