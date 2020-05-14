@@ -97158,7 +97158,7 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListFie
 
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__actions">
       <button
-          class="selective__button"
+          class="selective__button selective__actions__add"
           @click=${this.handleTogglePartialList.bind(this)}>
         ${this.config.addLabel || 'Add partial'}
       </button>
@@ -97866,7 +97866,7 @@ class FileTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
 
   handleFileNewClick(evt) {
     evt.stopPropagation();
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'menu__tree__folder__directory');
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'menu__tree__folder__actions');
     const folder = target.dataset.folder;
     this.newFileFolder = folder;
     this.modalWindow.open();
@@ -98060,12 +98060,6 @@ class FolderStructure {
             <div class="menu__tree__folder__directory__label">
               ${this.folderInfo.folderBase}
             </div>
-            <i
-                class="material-icons icon icon--hover-only"
-                title="New file"
-                @click=${eventHandlers.handleFileNewClick}>
-              add
-            </i>
           </div>` : ''}
       <div class=${level > threshold ? 'menu__tree__folder__level' : ''}>
         <div class=${level > threshold ? 'menu__tree__folder__folder' : ''}>
@@ -98073,6 +98067,10 @@ class FolderStructure {
             ${folder.render(path, expandedFolders, eventHandlers, threshold, lookupFunc)}`)}
         </div>
         <div class=${level > threshold ? 'menu__tree__folder__files' : ''}>
+          ${level > threshold ? selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+            <div data-folder=${folder} class="menu__tree__folder__actions">
+              <button class="editor__button editor__actions__add" @click=${eventHandlers.handleFileNewClick}>New file</button>
+            </div>` : ''}
           ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(this.folderInfo.files, file => `${filePrefix}${file.fileName}`, (file, index) => {
       const podPath = lookupFunc ? lookupFunc(`${filePrefix}${file.fileName}`) : `${filePrefix}${file.fileName}`;
       return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`

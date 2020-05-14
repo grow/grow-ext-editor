@@ -134,6 +134,7 @@
   z-index: 1
 
 .editor__button
+  +field-border
   background: $ge-color-back
   border-radius: $ge-radius-5
   color: $ge-color-on-back
@@ -337,6 +338,12 @@
     &:focus,
     &:hover
       visibility: visible
+
+.editor__actions__add
+  background-repeat: no-repeat
+  background-position: left $ge-pad center
+  background-image: url('data:image/svg+xml;utf8,<svg class="svg" width="12" height="12" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg"><path d="M5 5V0h1v5h5v1H6v5H5V6H0V5h5z" fill-rule="nonzero" fill-opacity="1" fill="%23000" stroke="none"></path></svg>')
+  padding-left: $ge-pad * 3
 
 // Import theme for codemirror.
 @import 'codemirror/lib/codemirror.css'

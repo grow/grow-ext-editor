@@ -216,7 +216,7 @@ export class PartialsField extends ListField {
 
     return html`<div class="selective__actions">
       <button
-          class="selective__button"
+          class="selective__button selective__actions__add"
           @click=${this.handleTogglePartialList.bind(this)}>
         ${this.config.addLabel || 'Add partial'}
       </button>

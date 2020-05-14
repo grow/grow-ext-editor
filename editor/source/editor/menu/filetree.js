@@ -183,7 +183,7 @@ export default class FileTreeMenu extends MenuBase {
   handleFileNewClick(evt) {
     evt.stopPropagation()
 
-    const target = findParentByClassname(evt.target, 'menu__tree__folder__directory')
+    const target = findParentByClassname(evt.target, 'menu__tree__folder__actions')
     const folder = target.dataset.folder
     this.newFileFolder = folder
     this.modalWindow.open()
