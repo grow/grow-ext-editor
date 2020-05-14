@@ -7,6 +7,7 @@ import {
   render,
   repeat,
 } from 'selective-edit'
+import moment from 'moment'
 import { findParentByClassname } from '../../utility/dom'
 import MenuBase from './base'
 
@@ -22,22 +23,56 @@ export default class RepoMenu extends MenuBase {
     </div>`
   }
 
+  webUrlForBranch(repo, branch) {
+    if (branch != 'master') {
+      if (repo.web_url.includes('github.com')) {
+        return `${repo.web_url}/tree/${branch}`
+      }
+    }
+
+    return repo.web_url
+  }
+
+  webUrlForCommit(repo, commitHash) {
+    if (repo.web_url.includes('github.com')) {
+      return `${repo.web_url}/commit/${commitHash}`
+    }
+
+    return repo.web_url
+  }
+
   renderBranch(editor, menuState, eventHandlers) {
     editor.loadRepo()
 
+    let lastCommitDate = null
+    if (menuState.repo) {
+      // Need to append the `Z` so that it knows there is no timezone offset.
+      lastCommitDate = moment(menuState.repo.commits[0].commit_date + 'Z', moment.ISO_8601)
+    }
+
     return html`
       <div class="menu__repo__label">
-        Branch:
+      ${ menuState.repo
+        ? html`
+          <a
+              href=${this.webUrlForBranch(menuState.repo, menuState.repo.branch)}
+              target="_blank">
+            ${menuState.repo.branch}
+          </a>`
+        : '…'}
       </div>
-      <div class="menu__repo__name">
+      <div class="menu__repo__value">
         ${ menuState.repo
           ? html`
-            <a
-                href=${menuState.repo.web_url}
+            @ <a
+                href=${this.webUrlForCommit(menuState.repo, menuState.repo.commits[0].sha)}
                 target="_blank">
-              ${menuState.repo.branch} @ ${menuState.repo.commits[0].sha.substring(0, 6)}
+              ${menuState.repo.commits[0].sha.substring(0, 6)}
+              <span class="menu__repo__time" title="${lastCommitDate.format('D MMM YYYY, h:mm:ss a')}">
+                (${lastCommitDate.fromNow()})
+              </span>
             </a>`
-          : html`…`}
+          : ''}
       </div>`
   }
 }
