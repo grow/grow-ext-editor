@@ -98273,11 +98273,14 @@ class RepoMenu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
 
   renderBranch(editor, menuState, eventHandlers) {
     editor.loadRepo();
+    let lastCommitAuthor = null;
     let lastCommitDate = null;
 
     if (menuState.repo) {
-      // Need to append the `Z` so that it knows there is no timezone offset.
-      lastCommitDate = moment__WEBPACK_IMPORTED_MODULE_1___default()(menuState.repo.commits[0].commit_date + 'Z', moment__WEBPACK_IMPORTED_MODULE_1___default.a.ISO_8601);
+      const lastCommit = menuState.repo.commits[0]; // Need to append the `Z` so that it knows there is no timezone offset.
+
+      lastCommitDate = moment__WEBPACK_IMPORTED_MODULE_1___default()(lastCommit.commit_date + 'Z', moment__WEBPACK_IMPORTED_MODULE_1___default.a.ISO_8601);
+      lastCommitAuthor = selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<a href="mailto:${lastCommit.author.email}">${lastCommit.author.name}</a>`;
     }
 
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
@@ -98299,6 +98302,9 @@ class RepoMenu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
                 (${lastCommitDate.fromNow()})
               </span>
             </a>` : ''}
+      </div>
+      <div class="menu__repo__author">
+        by ${lastCommitAuthor}
       </div>`;
   }
 

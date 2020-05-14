@@ -44,10 +44,13 @@ export default class RepoMenu extends MenuBase {
   renderBranch(editor, menuState, eventHandlers) {
     editor.loadRepo()
 
+    let lastCommitAuthor = null
     let lastCommitDate = null
     if (menuState.repo) {
+      const lastCommit = menuState.repo.commits[0]
       // Need to append the `Z` so that it knows there is no timezone offset.
-      lastCommitDate = moment(menuState.repo.commits[0].commit_date + 'Z', moment.ISO_8601)
+      lastCommitDate = moment(lastCommit.commit_date + 'Z', moment.ISO_8601)
+      lastCommitAuthor = html`<a href="mailto:${lastCommit.author.email}">${lastCommit.author.name}</a>`
     }
 
     return html`
@@ -73,6 +76,9 @@ export default class RepoMenu extends MenuBase {
               </span>
             </a>`
           : ''}
+      </div>
+      <div class="menu__repo__author">
+        by ${lastCommitAuthor}
       </div>`
   }
 }
