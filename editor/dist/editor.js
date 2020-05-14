@@ -98293,7 +98293,7 @@ class RepoMenu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
       </div>
       <div class="menu__repo__value">
         ${menuState.repo ? selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-            <a
+            @ <a
                 href=${this.webUrlForCommit(menuState.repo, menuState.repo.commits[0].sha)}
                 target="_blank">
               ${menuState.repo.commits[0].sha.substring(0, 6)}

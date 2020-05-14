@@ -64,7 +64,7 @@ export default class RepoMenu extends MenuBase {
       <div class="menu__repo__value">
         ${ menuState.repo
           ? html`
-            <a
+            @ <a
                 href=${this.webUrlForCommit(menuState.repo, menuState.repo.commits[0].sha)}
                 target="_blank">
               ${menuState.repo.commits[0].sha.substring(0, 6)}
