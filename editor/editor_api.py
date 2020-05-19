@@ -489,6 +489,9 @@ class PodApi(object):
         elif path == 'repo':
             if method == 'GET':
                 self.get_repo()
+        elif path == 'screenshot/partial':
+            if method == 'GET':
+                self.screenshot_partial()
         elif path == 'screenshot/template':
             if method == 'GET':
                 self.screenshot_template()
@@ -544,6 +547,56 @@ class PodApi(object):
         pod_path = os.path.join(destination, filename)
         self.pod.write_file(pod_path, file_contents)
         self.data = self._load_static_doc(pod_path)
+
+    def screenshot_partial(self):
+        """Handle the request to screenshot a partial."""
+        partial_key = self.request.params.get('partial')
+
+        keys = []
+        key = self.request.params.get('key')
+        if key:
+            keys.append(key)
+        else:
+            # TODO: screenshots for all examples if no key provided.
+            pass
+
+        self.data = {
+            partial_key: {},
+        }
+
+        if not keys:
+            return
+
+        screenshot_pod_dir = self._get_screenshot_dir()
+        resolutions = self._get_resolutions()
+
+        screenshot_config = self.ext_config.get('screenshots', {})
+        screenshot_partials_config = screenshot_config.get('partials', {})
+        driver_path = os.environ.get(
+            screenshot.ENV_DRIVER_PATH, screenshot_config.get('driver_path'))
+        screenshotter = screenshot.EditorScreenshot(driver_path)
+
+        for key in keys:
+            screenshot_file_base = self._format_screenshot_base(partial_key, key)
+            url = 'http://{host}/_grow/screenshot/partial/{screenshot_file_base}'.format(
+                host=self.request.host,
+                screenshot_file_base=screenshot_file_base)
+
+            try:
+                screenshots = screenshotter.screenshot(url, resolutions)
+            except selenium_exceptions.WebDriverException as selenium_exception:
+                if 'executable' in selenium_exception.msg:
+                    raise BadRequest(
+                        'Bad chromedriver path or {} not set.'.format(screenshot.ENV_DRIVER_PATH))
+                raise
+
+            for resolution, shot in screenshots.items():
+                screenshot_pod_path = os.path.join(
+                    screenshot_pod_dir, 'partials', resolution.filename(screenshot_file_base))
+                self.pod.write_file(screenshot_pod_path, shot)
+                if not key in self.data[partial_key]:
+                    self.data[partial_key][key] = {}
+                self.data[partial_key][key][resolution.resolution] = self._load_static_doc(screenshot_pod_path)
 
     def screenshot_template(self):
         """Handle the request to screenshot a preview."""
