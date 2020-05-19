@@ -30,7 +30,7 @@ For example:
 
 ```
 ext:
-- extensions.editor.EditorExtension
+- extensions.editor.EditorExtension:
     enabled@env.prod: False
 
 deployments:

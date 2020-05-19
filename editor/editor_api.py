@@ -25,7 +25,6 @@ class PodApi(object):
 
     EDITOR_FILE_NAME = '_editor.yaml'
     TEMPLATE_FILE_NAME = '_template.yaml'
-    PARTIALS_VIEWS_PATH = '/views/partials'
     STRINGS_PATH = '/content/strings'
     IGNORED_PREFIXES = (
         '.',
@@ -287,25 +286,8 @@ class PodApi(object):
 
         # Stand alone partials.
         for partial in self.pod.partials.get_partials():
-            editor_config = self._editor_config_partial(partial)
-            if editor_config:
-                partials[partial.key] = editor_config
-
-        # View partials.
-        view_pod_paths = []
-        split_front_matter = document_front_matter.DocumentFrontMatter.split_front_matter
-        for root, dirs, files in self.pod.walk(self.PARTIALS_VIEWS_PATH):
-            pod_dir = root.replace(self.pod.root, '')
-            for file_name in files:
-                view_pod_paths.append(os.path.join(pod_dir, file_name))
-
-        for view_pod_path in view_pod_paths:
-            partial_key, _ = os.path.splitext(os.path.basename(view_pod_path))
-            front_matter, _ = split_front_matter(self.pod.read_file(view_pod_path))
-            if front_matter:
-                editor_config = utils.parse_yaml(
-                    front_matter, pod=self.pod, locale=None) or {}
-                partials[partial_key] = editor_config.get('editor', {})
+            partials[partial.key] = partial.config.get(
+                'editor', {})
 
         self.data = {
             'partials': partials,

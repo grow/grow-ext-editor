@@ -16,30 +16,6 @@ from grow.templates import filters
 TEMPLATE_FILE_NAME = '_template.yaml'
 
 
-# TODO: Centralize the partial config loading.
-def get_partials(pod):
-    """Handle the request for editor content."""
-    partials = {}
-
-    # View partials.
-    view_pod_paths = []
-    split_front_matter = document_front_matter.DocumentFrontMatter.split_front_matter
-    for root, dirs, files in pod.walk('/views/partials/'):
-        pod_dir = root.replace(pod.root, '')
-        for file_name in files:
-            view_pod_paths.append(os.path.join(pod_dir, file_name))
-
-    for view_pod_path in view_pod_paths:
-        partial_key, _ = os.path.splitext(os.path.basename(view_pod_path))
-        front_matter, _ = split_front_matter(pod.read_file(view_pod_path))
-        if front_matter:
-            editor_config = utils.parse_yaml(
-                front_matter, pod=pod, locale=None) or {}
-            partials[partial_key] = editor_config.get('editor', {})
-
-    return partials
-
-
 class RenderPartialController(render_controller.RenderDocumentController):
     """Controller for handling rendering for partial previews."""
 
@@ -63,10 +39,11 @@ class RenderPartialController(render_controller.RenderDocumentController):
 
             col = self.pod.get_collection(collection_path)
 
-            partials = get_partials(self.pod)
-            partial_config = partials.get(partial)
-            partial_example = partial_config.get(
-                'examples', {}).get(self.params['key'])
+            pod_partial = self.pod.partials.get_partial(partial)
+            partial_example = pod_partial.config.get(
+                'editor', {}).get(
+                    'examples', {}).get(
+                        self.params['key'])
             if not partial_example:
                 raise werkzeug_exceptions.NotFound(
                     'Unable to find example in partial: {}'.format(self.params['key']))
