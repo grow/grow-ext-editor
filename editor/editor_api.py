@@ -289,6 +289,24 @@ class PodApi(object):
             partials[partial.key] = partial.config.get(
                 'editor', {})
 
+            screenshots = {}
+
+            # Find any existing screenshots.
+            screenshot_pod_dir = self._get_screenshot_dir()
+            examples = partials[partial.key].get('examples', [])
+            for example in examples:
+                screenshots[example] = {}
+                screenshot_file_base = self._format_screenshot_base(partial.key, example)
+                resolutions = self._get_resolutions()
+
+                for resolution in resolutions:
+                    screenshot_pod_path = os.path.join(
+                        screenshot_pod_dir, 'partials', resolution.filename(screenshot_file_base))
+                    if self.pod.file_exists(screenshot_pod_path):
+                        screenshots[example][resolution.resolution] = self._load_static_doc(screenshot_pod_path)
+
+            partials[partial.key]['screenshots'] = screenshots
+
         self.data = {
             'partials': partials,
         }
@@ -539,8 +557,10 @@ class PodApi(object):
         if key:
             keys.append(key)
         else:
-            # TODO: screenshots for all examples if no key provided.
-            pass
+            partial = self.pod.partials.get_partial(partial_key)
+            editor_config = partial.config.get('editor', {})
+            for key in editor_config.get('examples', {}).keys():
+                keys.append(key)
 
         self.data = {
             partial_key: {},

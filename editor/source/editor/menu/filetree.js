@@ -26,7 +26,7 @@ export default class FileTreeMenu extends MenuBase {
     this.newFileFolder = null
     this._selectives = {}
 
-    this.modalWindow = new ModalWindow(this.render, 'New page')
+    this.modalWindow = new ModalWindow('New page')
     this.modalWindow.addAction(
       'Create file', this.handleFileNewSubmit.bind(this), true)
     this.modalWindow.addAction(
@@ -157,8 +157,7 @@ export default class FileTreeMenu extends MenuBase {
     const target = findParentByClassname(evt.target, 'menu__tree__folder__file')
     const podPath = target.dataset.podPath
 
-    this.confirmDelete = new ConfirmWindow(
-      this.render, 'Delete page', 'Delete page')
+    this.confirmDelete = new ConfirmWindow('Delete page', 'Delete page')
     this.confirmDelete.contentRenderFunc = () => {
       return html`Are you sure you want to delete the page at <strong>${podPath}</strong>?`
     }

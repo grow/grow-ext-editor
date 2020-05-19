@@ -9,12 +9,13 @@ import {
 import { findParentByClassname } from '../../utility/dom'
 import Defer from '../../utility/defer'
 import generateUUID from '../../utility/uuid'
+import BasePart from './base'
 
 
-export default class ModalWindow {
-  constructor(renderFunc, title) {
+export default class ModalWindow extends BasePart {
+  constructor(title) {
+    super()
     this.isOpen = false
-    this.renderFunc = renderFunc
     this.title = title
     this.contentRenderFunc = () => ''
     this.clickToClose = true
@@ -81,7 +82,7 @@ export default class ModalWindow {
 
   close() {
     this.isOpen = false
-    this.renderFunc()
+    this.render()
   }
 
   handleOffsetClick(evt) {
@@ -93,7 +94,7 @@ export default class ModalWindow {
     }
 
     // Test if the click was from within the content section.
-    const contentParent = findParentByClassname(evt.target, 'modal__content')
+    const contentParent = findParentByClassname(evt.target, 'modal__container')
     if (contentParent) {
       return
     }
@@ -103,18 +104,18 @@ export default class ModalWindow {
 
   open() {
     this.isOpen = true
-    this.renderFunc()
+    this.render()
   }
 
   toggle() {
     this.isOpen = !this.isOpen
-    this.renderFunc()
+    this.render()
   }
 }
 
 export class ConfirmWindow extends ModalWindow {
-  constructor(renderFunc, title, submitLabel, cancelLabel) {
-    super(renderFunc, title)
+  constructor(title, submitLabel, cancelLabel) {
+    super(title)
 
     this.result = new Defer()
 

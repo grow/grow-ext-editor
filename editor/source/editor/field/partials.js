@@ -13,6 +13,7 @@ import {
   findParentByClassname,
 } from '../../utility/dom'
 import EditorAutoFields from '../autoFields'
+import ModalWindow from '../parts/modal'
 
 export class PartialsField extends ListField {
   constructor(config, globalConfig) {
@@ -21,7 +22,7 @@ export class PartialsField extends ListField {
     this.partialTypes = null
     this.api = this.config.get('api')
     this.api.getPartials().then(this.handleLoadPartialsResponse.bind(this))
-    this._showPartialList = false
+    this.modalWindow = new ModalWindow(this.config.addLabel || 'Add partial')
   }
 
   get fullKey() {
@@ -118,17 +119,9 @@ export class PartialsField extends ListField {
     }
   }
 
-  delayedScroll() {
-    // Wait for the render then scroll to the list.
-    document.addEventListener('selective.render.complete', () => {
-      document.querySelector('#partials_list').scrollIntoView(true)
-    }, {
-      once: true,
-    })
-  }
-
   handleAddItem(evt, selective) {
-    const target = findParentByClassname(evt.target, `selective__partials__list__item`)
+    this.modalWindow.close()
+    const target = findParentByClassname(evt.target, `selective__partials__gallery__item`)
     const partialKey = target.dataset.partialKey
 
     if (!partialKey) {
@@ -179,8 +172,7 @@ export class PartialsField extends ListField {
   }
 
   handleTogglePartialList() {
-    this._showPartialList = !this._showPartialList
-    this.render()
+    this.modalWindow.toggle()
   }
 
   renderActionsFooter(selective, data, locale) {
@@ -188,39 +180,51 @@ export class PartialsField extends ListField {
       return ''
     }
 
-    if (this._showPartialList) {
-      this.delayedScroll()
-      return html`<div class="selective__partials__list" id="partials_list">
-          <div class="selective__actions">
-            <button
-                class="selective__button"
-                @click=${this.handleTogglePartialList.bind(this)}>
-              ${this.config.hideLabel || 'Hide partials'}
-            </button>
-          </div>
-          ${repeat(Object.entries(this.partialTypes), (item) => item[0], (item, index) => html`
-            <div
-                class="selective__partials__list__item"
-                data-partial-key=${item[1]['key']}
-                @click=${(evt) => {this.handleAddItem(evt, selective)}}>
-              <div class="selective__partials__list__details">
-                <h3>${item[1]['label']}</h3>
-                ${item[1]['description'] ? html`<p>${item[1]['description']}</p>` : ''}
-              </div>
-              <div class="selective__partials__list__preview">
-                ${item[1]['preview_image'] ? html`<img src="${item[1]['preview_image']}" alt="${item[1]['description']}">` : ''}
-              </div>
-            </div>`)}
-        </div>`
+    if (!this.modalWindow.isOpen) {
+      const renderScreenshots = (screenshots) => {
+        const screenshotKeys = Object.keys(screenshots).sort()
+        if (!screenshotKeys) {
+          return ''
+        }
+        return html`
+          <div class="selective__partials__gallery__preview">
+            ${repeat(screenshotKeys, (key) => key, (key, index) => html`
+              ${repeat(Object.keys(screenshots[key]), (resolutionKey) => `${key}-${resolutionKey}`, (resolutionKey, index) => html`
+                <img src="${screenshots[key][resolutionKey].serving_url}">
+              `)}
+            `)}
+          </div>`
+      }
+
+      this.modalWindow.contentRenderFunc = () => {
+        return html`
+          <div class="selective__partials__gallery">
+            ${repeat(Object.keys(this.partialTypes), (key) => key, (key, index) => html`
+              <div
+                  class="selective__partials__gallery__item"
+                  data-partial-key=${this.partialTypes[key].key}
+                  @click=${(evt) => {this.handleAddItem(evt, selective)}}>
+                <div class="selective__partials__gallery__details">
+                  <h3>${this.partialTypes[key].label || this.partialTypes[key].key}</h3>
+                  ${this.partialTypes[key].description
+                    ? html`<p>${this.partialTypes[key].description}</p>`
+                    : ''}
+                </div>
+                ${renderScreenshots(this.partialTypes[key].screenshots)}
+              </div>`)}
+          </div>`
+      }
     }
 
-    return html`<div class="selective__actions">
-      <button
-          class="selective__button selective__actions__add"
-          @click=${this.handleTogglePartialList.bind(this)}>
-        ${this.config.addLabel || 'Add partial'}
-      </button>
-    </div>`
+    return html`
+      ${this.modalWindow.template}
+      <div class="selective__actions">
+        <button
+            class="selective__button selective__actions__add"
+            @click=${this.handleTogglePartialList.bind(this)}>
+          ${this.config.addLabel || 'Add partial'}
+        </button>
+      </div>`
   }
 
   renderPreview(selective, data, item, index, locale) {
