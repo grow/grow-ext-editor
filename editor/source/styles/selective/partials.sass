@@ -1,43 +1,23 @@
-.selective__partials__list
-  border: $ge-border-size solid $ge-color-border
-  border-radius: $ge-radius-2
-  max-height: $ge-pad * 25
-  margin-top: $ge-pad
-  overflow-y: auto
-
-  .selective__actions
-    background: $ge-color-back
-    box-shadow: $ge-shadow-1
-    left: 0
-    margin-bottom: $ge-pad
-    margin-left: -$ge-pad/2
-    margin-right: -$ge-pad/2
-    margin-top: -$ge-pad/2
-    padding: $ge-pad/2
-    position: sticky
-    right: 0
-    top: 0
-
-.selective__partials__list__item
+.selective__partials__gallery__item
   +field-border
   +field-clickable
-  align-items: flex-start
-  display: flex
-  flex-flow: row
   margin: $ge-pad/2
   padding: $ge-pad/2
 
-.selective__partials__list__details
+.selective__partials__gallery__details
   flex-grow: 1
 
   h3
     font-size: $ge-font-size
     font-weight: 700
-    margin: 0
+    margin: $ge-pad/2 0
 
-.selective__partials__list__preview
-  flex-basis: 25%
-  flex-shrink: 1
+.selective__partials__gallery__preview
+  max-width: 100%
+  margin-top: $ge-pad
+  overflow-x: auto
+  white-space: nowrap
 
   img
     max-width: 100%
+    max-height: 25vh

@@ -261,6 +261,24 @@ export default class EditorApi extends Api {
     return result.promise
   }
 
+  screenshotPartial(partial, key) {
+    const result = new Defer()
+
+    this.request.get(this.apiPath('screenshot/partial'))
+      .query({
+        'partial': partial,
+        'key': key,
+       })
+      .then((res) => {
+        result.resolve(res.body)
+      })
+      .catch((err) => {
+        result.reject(err)
+      })
+
+    return result.promise
+  }
+
   screenshotTemplate(collectionPath, key) {
     const result = new Defer()
 

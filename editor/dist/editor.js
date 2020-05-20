@@ -96182,6 +96182,19 @@ class EditorApi extends _utility_api__WEBPACK_IMPORTED_MODULE_0__["default"] {
     return result.promise;
   }
 
+  screenshotPartial(partial, key) {
+    const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
+    this.request.get(this.apiPath('screenshot/partial')).query({
+      'partial': partial,
+      'key': key
+    }).then(res => {
+      result.resolve(res.body);
+    }).catch(err => {
+      result.reject(err);
+    });
+    return result.promise;
+  }
+
   screenshotTemplate(collectionPath, key) {
     const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
     this.request.get(this.apiPath('screenshot/template')).query({
@@ -96981,9 +96994,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
 /* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../autoFields */ "./source/editor/autoFields.js");
+/* harmony import */ var _parts_modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../parts/modal */ "./source/editor/parts/modal.js");
 /**
  * Partials field types for the editor extension.
  */
+
 
 
 
@@ -96994,7 +97009,7 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListFie
     this.partialTypes = null;
     this.api = this.config.get('api');
     this.api.getPartials().then(this.handleLoadPartialsResponse.bind(this));
-    this._showPartialList = false;
+    this.modalWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_3__["default"](this.config.addLabel || 'Add partial');
   }
 
   get fullKey() {
@@ -97027,7 +97042,28 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListFie
     }
 
     this.partialTypes = partialTypes;
-    this.render();
+    this.render(); // Check for missing screenshots.
+
+    for (const partialKey of Object.keys(this.partialTypes)) {
+      const partial = this.partialTypes[partialKey];
+
+      if (partial.examples) {
+        for (const exampleKey of Object.keys(partial.examples)) {
+          const screenshots = partial.screenshots[exampleKey] || {}; // Missing screenshot. Request it.
+
+          if (!Object.keys(screenshots).length) {
+            this.api.screenshotPartial(partialKey, exampleKey).then(response => {
+              if (!this.partialTypes[partialKey].screenshots) {
+                this.partialTypes[partialKey].screenshots = {};
+              }
+
+              this.partialTypes[partialKey].screenshots[exampleKey] = response[partialKey][exampleKey];
+              this.render();
+            });
+          }
+        }
+      }
+    }
   }
 
   _createItems(selective, data, locale) {
@@ -97090,17 +97126,9 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListFie
     }
   }
 
-  delayedScroll() {
-    // Wait for the render then scroll to the list.
-    document.addEventListener('selective.render.complete', () => {
-      document.querySelector('#partials_list').scrollIntoView(true);
-    }, {
-      once: true
-    });
-  }
-
   handleAddItem(evt, selective) {
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, `selective__partials__list__item`);
+    this.modalWindow.close();
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, `selective__partials__gallery__item`);
     const partialKey = target.dataset.partialKey;
 
     if (!partialKey) {
@@ -97147,8 +97175,7 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListFie
   }
 
   handleTogglePartialList() {
-    this._showPartialList = !this._showPartialList;
-    this.render();
+    this.modalWindow.toggle();
   }
 
   renderActionsFooter(selective, data, locale) {
@@ -97156,41 +97183,53 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListFie
       return '';
     }
 
-    if (this._showPartialList) {
-      this.delayedScroll();
-      return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__partials__list" id="partials_list">
-          <div class="selective__actions">
-            <button
-                class="selective__button"
-                @click=${this.handleTogglePartialList.bind(this)}>
-              ${this.config.hideLabel || 'Hide partials'}
-            </button>
-          </div>
-          ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(Object.entries(this.partialTypes), item => item[0], (item, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-            <div
-                class="selective__partials__list__item"
-                data-partial-key=${item[1]['key']}
-                @click=${evt => {
-        this.handleAddItem(evt, selective);
-      }}>
-              <div class="selective__partials__list__details">
-                <h3>${item[1]['label']}</h3>
-                ${item[1]['description'] ? selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<p>${item[1]['description']}</p>` : ''}
-              </div>
-              <div class="selective__partials__list__preview">
-                ${item[1]['preview_image'] ? selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<img src="${item[1]['preview_image']}" alt="${item[1]['description']}">` : ''}
-              </div>
-            </div>`)}
-        </div>`;
+    if (!this.modalWindow.isOpen) {
+      const renderScreenshots = screenshots => {
+        const screenshotKeys = Object.keys(screenshots).sort();
+
+        if (!screenshotKeys) {
+          return '';
+        }
+
+        return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+          <div class="selective__partials__gallery__preview">
+            ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(screenshotKeys, key => key, (key, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+              ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(Object.keys(screenshots[key]), resolutionKey => `${key}-${resolutionKey}`, (resolutionKey, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+                <img src="${screenshots[key][resolutionKey].serving_url}">
+              `)}
+            `)}
+          </div>`;
+      };
+
+      this.modalWindow.contentRenderFunc = () => {
+        return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+          <div class="selective__partials__gallery">
+            ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(Object.keys(this.partialTypes), key => key, (key, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+              <div
+                  class="selective__partials__gallery__item"
+                  data-partial-key=${this.partialTypes[key].key}
+                  @click=${evt => {
+          this.handleAddItem(evt, selective);
+        }}>
+                <div class="selective__partials__gallery__details">
+                  <h3>${this.partialTypes[key].label || this.partialTypes[key].key}</h3>
+                  ${this.partialTypes[key].description ? selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<p>${this.partialTypes[key].description}</p>` : ''}
+                </div>
+                ${renderScreenshots(this.partialTypes[key].screenshots)}
+              </div>`)}
+          </div>`;
+      };
     }
 
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__actions">
-      <button
-          class="selective__button selective__actions__add"
-          @click=${this.handleTogglePartialList.bind(this)}>
-        ${this.config.addLabel || 'Add partial'}
-      </button>
-    </div>`;
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      ${this.modalWindow.template}
+      <div class="selective__actions">
+        <button
+            class="selective__button selective__actions__add"
+            @click=${this.handleTogglePartialList.bind(this)}>
+          ${this.config.addLabel || 'Add partial'}
+        </button>
+      </div>`;
   }
 
   renderPreview(selective, data, item, index, locale) {
@@ -97743,7 +97782,7 @@ class FileTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
     this.expandedFolders = [];
     this.newFileFolder = null;
     this._selectives = {};
-    this.modalWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_6__["default"](this.render, 'New page');
+    this.modalWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_6__["default"]('New page');
     this.modalWindow.addAction('Create file', this.handleFileNewSubmit.bind(this), true);
     this.modalWindow.addAction('Cancel', this.handleFileNewCancel.bind(this), false, true);
     this.confirmDelete = null;
@@ -97870,7 +97909,7 @@ class FileTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
     evt.stopPropagation();
     const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'menu__tree__folder__file');
     const podPath = target.dataset.podPath;
-    this.confirmDelete = new _parts_modal__WEBPACK_IMPORTED_MODULE_6__["ConfirmWindow"](this.render, 'Delete page', 'Delete page');
+    this.confirmDelete = new _parts_modal__WEBPACK_IMPORTED_MODULE_6__["ConfirmWindow"]('Delete page', 'Delete page');
 
     this.confirmDelete.contentRenderFunc = () => {
       return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`Are you sure you want to delete the page at <strong>${podPath}</strong>?`;
@@ -98250,7 +98289,7 @@ class Menu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
 
   renderOpenedMenu(editor) {
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-    <div class="app__menu__contents">
+    <div class="menu__contents">
       ${this._siteMenu.template(editor, this._state, {
       toggleMenu: this.handleToggleMenu.bind(this)
     })}
@@ -98702,6 +98741,29 @@ class TreeMenu extends _base__WEBPACK_IMPORTED_MODULE_2__["default"] {
 
 /***/ }),
 
+/***/ "./source/editor/parts/base.js":
+/*!*************************************!*\
+  !*** ./source/editor/parts/base.js ***!
+  \*************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return BasePart; });
+/**
+ * Base class for UI parts.
+ */
+class BasePart {
+  render() {
+    // Trigger a render event.
+    document.dispatchEvent(new CustomEvent('selective.render'));
+  }
+
+}
+
+/***/ }),
+
 /***/ "./source/editor/parts/modal.js":
 /*!**************************************!*\
   !*** ./source/editor/parts/modal.js ***!
@@ -98717,6 +98779,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
 /* harmony import */ var _utility_defer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/defer */ "./source/utility/defer.js");
 /* harmony import */ var _utility_uuid__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utility/uuid */ "./source/utility/uuid.js");
+/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./base */ "./source/editor/parts/base.js");
 /**
  * Utility for creating and controlling modal windows.
  */
@@ -98724,10 +98787,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class ModalWindow {
-  constructor(renderFunc, title) {
+
+class ModalWindow extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
+  constructor(title) {
+    super();
     this.isOpen = false;
-    this.renderFunc = renderFunc;
     this.title = title;
 
     this.contentRenderFunc = () => '';
@@ -98799,7 +98863,7 @@ class ModalWindow {
 
   close() {
     this.isOpen = false;
-    this.renderFunc();
+    this.render();
   }
 
   handleOffsetClick(evt) {
@@ -98811,7 +98875,7 @@ class ModalWindow {
     } // Test if the click was from within the content section.
 
 
-    const contentParent = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'modal__content');
+    const contentParent = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'modal__container');
 
     if (contentParent) {
       return;
@@ -98822,18 +98886,18 @@ class ModalWindow {
 
   open() {
     this.isOpen = true;
-    this.renderFunc();
+    this.render();
   }
 
   toggle() {
     this.isOpen = !this.isOpen;
-    this.renderFunc();
+    this.render();
   }
 
 }
 class ConfirmWindow extends ModalWindow {
-  constructor(renderFunc, title, submitLabel, cancelLabel) {
-    super(renderFunc, title);
+  constructor(title, submitLabel, cancelLabel) {
+    super(title);
     this.result = new _utility_defer__WEBPACK_IMPORTED_MODULE_2__["default"]();
     this.addAction(submitLabel || 'Confirm', () => {
       this.result.resolve();
