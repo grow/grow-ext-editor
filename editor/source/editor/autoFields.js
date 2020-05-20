@@ -32,18 +32,26 @@ export default class EditorAutoFields extends AutoFields {
   /**
    * From a value, guess the type of field.
    */
-  typeFromValue(value) {
-    if (this.DataType.isObject(value) && this._isConstructor(value)) {
-      switch (value['tag']) {
-        case '!g.doc':
+  typeFromValue(value, key) {
+    if (this.DataType.isArray(value)) {
+      if (key == 'partials') {
+        return 'partials'
+      }
+    }
+
+    if (this.DataType.isObject(value)) {
+      if (this._isConstructor(value)) {
+        switch (value['tag']) {
+          case '!g.doc':
           return 'document'
           break
-        case '!g.yaml':
+          case '!g.yaml':
           return 'yaml'
           break
-        case '!g.string':
+          case '!g.string':
           return 'string'
           break
+        }
       }
     }
 
@@ -51,6 +59,6 @@ export default class EditorAutoFields extends AutoFields {
       return 'checkbox'
     }
 
-    return super.typeFromValue(value)
+    return super.typeFromValue(value, key)
   }
 }
