@@ -97057,7 +97057,28 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListFie
     }
 
     this.partialTypes = partialTypes;
-    this.render();
+    this.render(); // Check for missing screenshots.
+
+    for (const partialKey of Object.keys(this.partialTypes)) {
+      const partial = this.partialTypes[partialKey];
+
+      if (partial.examples) {
+        for (const exampleKey of Object.keys(partial.examples)) {
+          const screenshots = partial.screenshots[exampleKey] || {}; // Missing screenshot. Request it.
+
+          if (!Object.keys(screenshots).length) {
+            this.api.screenshotPartial(partialKey, exampleKey).then(response => {
+              if (!this.partialTypes[partialKey].screenshots) {
+                this.partialTypes[partialKey].screenshots = {};
+              }
+
+              this.partialTypes[partialKey].screenshots[exampleKey] = response[partialKey][exampleKey];
+              this.render();
+            });
+          }
+        }
+      }
+    }
   }
 
   _createItems(selective, data, locale) {

@@ -54,6 +54,27 @@ export class PartialsField extends ListField {
 
     this.partialTypes = partialTypes
     this.render()
+
+    // Check for missing screenshots.
+    for (const partialKey of Object.keys(this.partialTypes)) {
+      const partial = this.partialTypes[partialKey]
+      if (partial.examples) {
+        for (const exampleKey of Object.keys(partial.examples)) {
+          const screenshots = partial.screenshots[exampleKey] || {}
+
+          // Missing screenshot. Request it.
+          if (!Object.keys(screenshots).length) {
+            this.api.screenshotPartial(partialKey, exampleKey).then((response) => {
+              if (!this.partialTypes[partialKey].screenshots) {
+                this.partialTypes[partialKey].screenshots = {}
+              }
+              this.partialTypes[partialKey].screenshots[exampleKey] = response[partialKey][exampleKey]
+              this.render()
+            })
+          }
+        }
+      }
+    }
   }
 
   _createItems(selective, data, locale) {
