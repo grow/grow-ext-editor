@@ -271,7 +271,7 @@ class AutoFields extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_1__["c
     let fields = [];
     keyBase = keyBase || [];
 
-    if (_utility_dataType__WEBPACK_IMPORTED_MODULE_3__["default"].isArray(data)) {
+    if (this.DataType.isArray(data)) {
       const firstValue = data.length ? data[0] : null;
       fields.push(this._fieldConfig('', firstValue));
     } else {
@@ -298,7 +298,7 @@ class AutoFields extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_1__["c
       const newKeyBase = keyBase.concat([key]);
       const newData = data[key];
 
-      if (_utility_dataType__WEBPACK_IMPORTED_MODULE_3__["default"].isObject(newData)) {
+      if (this.DataType.isObject(newData)) {
         fields = fields.concat(this._deepGuessObject(newData, newKeyBase));
       } else {
         fields.push(this._deepGuessSimple(data[key], newKeyBase));
@@ -314,7 +314,7 @@ class AutoFields extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_1__["c
   }
 
   _fieldConfig(key, value) {
-    const fieldType = this.typeFromValue(value);
+    const fieldType = this.typeFromValue(value, key);
     const label = this.labelFromKey(key);
     const fieldConfig = {
       "type": fieldType
@@ -336,7 +336,7 @@ class AutoFields extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_1__["c
 
 
   guess(key) {
-    return this._fieldConfig(key, this.typeFromValue(this._data.get(key)));
+    return this._fieldConfig(key, this.typeFromValue(this._data.get(key), key));
   }
   /**
    * Guess all the field configuration from the data.
@@ -364,12 +364,12 @@ class AutoFields extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_1__["c
    */
 
 
-  typeFromValue(value) {
+  typeFromValue(value, key) {
     if (value === null || value === undefined) {
       return 'text';
     }
 
-    if (_utility_dataType__WEBPACK_IMPORTED_MODULE_3__["default"].isArray(value)) {
+    if (this.DataType.isArray(value)) {
       return 'list';
     }
 
@@ -94786,20 +94786,28 @@ class EditorAutoFields extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Auto
    */
 
 
-  typeFromValue(value) {
-    if (this.DataType.isObject(value) && this._isConstructor(value)) {
-      switch (value['tag']) {
-        case '!g.doc':
-          return 'document';
-          break;
+  typeFromValue(value, key) {
+    if (this.DataType.isArray(value)) {
+      if (key == 'partials') {
+        return 'partials';
+      }
+    }
 
-        case '!g.yaml':
-          return 'yaml';
-          break;
+    if (this.DataType.isObject(value)) {
+      if (this._isConstructor(value)) {
+        switch (value['tag']) {
+          case '!g.doc':
+            return 'document';
+            break;
 
-        case '!g.string':
-          return 'string';
-          break;
+          case '!g.yaml':
+            return 'yaml';
+            break;
+
+          case '!g.string':
+            return 'string';
+            break;
+        }
       }
     }
 
@@ -94807,7 +94815,7 @@ class EditorAutoFields extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Auto
       return 'checkbox';
     }
 
-    return super.typeFromValue(value);
+    return super.typeFromValue(value, key);
   }
 
 }
