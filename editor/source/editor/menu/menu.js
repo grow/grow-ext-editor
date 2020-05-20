@@ -112,7 +112,7 @@ export default class Menu extends MenuBase {
 
   renderOpenedMenu(editor) {
     return html`
-    <div class="app__menu__contents">
+    <div class="menu__contents">
       ${this._siteMenu.template(editor, this._state, {
         toggleMenu: this.handleToggleMenu.bind(this),
       })}

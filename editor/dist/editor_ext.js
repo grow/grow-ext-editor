@@ -98283,7 +98283,7 @@ class Menu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
 
   renderOpenedMenu(editor) {
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-    <div class="app__menu__contents">
+    <div class="menu__contents">
       ${this._siteMenu.template(editor, this._state, {
       toggleMenu: this.handleToggleMenu.bind(this)
     })}
