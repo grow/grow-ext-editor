@@ -43,14 +43,14 @@ export default class EditorAutoFields extends AutoFields {
       if (this._isConstructor(value)) {
         switch (value['tag']) {
           case '!g.doc':
-          return 'document'
-          break
+            return 'document'
+            break
           case '!g.yaml':
-          return 'yaml'
-          break
+            return 'yaml'
+            break
           case '!g.string':
-          return 'string'
-          break
+            return 'string'
+            break
         }
       }
     }
