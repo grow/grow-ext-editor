@@ -162,7 +162,7 @@ code:
 ```sh
 cd editor
 yarn install
-# After you have clonded and linked the selective-edit project:
+# After you have cloned and linked the selective-edit project:
 yarn link selective-edit
 yarn run watch
 ```
