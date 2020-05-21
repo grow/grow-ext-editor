@@ -155,7 +155,7 @@ const UidMixin = superclass => class extends superclass {
 /*!***************************************************************!*\
   !*** /Users/randy/code/blinkk/selective-edit/js/selective.js ***!
   \***************************************************************/
-/*! exports provided: default, AutoFields, Field, Fields, GroupField, ListField, ListItem, UI, autoConfig, autoDeepObject, directive, html, repeat, render, unsafeHTML */
+/*! exports provided: default, AutoFields, Field, Fields, GroupField, ListField, ListItem, UI, VariantField, autoConfig, autoDeepObject, directive, html, repeat, render, unsafeHTML */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -187,6 +187,8 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony import */ var _selective_field_structure__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./selective/field/structure */ "../../../selective-edit/js/selective/field/structure.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "GroupField", function() { return _selective_field_structure__WEBPACK_IMPORTED_MODULE_7__["GroupField"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "VariantField", function() { return _selective_field_structure__WEBPACK_IMPORTED_MODULE_7__["VariantField"]; });
 
 /* harmony import */ var _selective_fields_fields__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./selective/fields/fields */ "../../../selective-edit/js/selective/fields/fields.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Fields", function() { return _selective_fields_fields__WEBPACK_IMPORTED_MODULE_8__["default"]; });
@@ -1252,7 +1254,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
       fields.addField(fieldConfig, this.globalConfig);
     }
 
-    fields.updateOriginal(fields.defaultValue);
+    fields.updateOriginal(selective, fields.defaultValue);
     const listItem = new ListItem({
       'fields': fieldConfigs
     }, fields);
@@ -1666,20 +1668,22 @@ class ListItem extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["com
 /*!*******************************************************************************!*\
   !*** /Users/randy/code/blinkk/selective-edit/js/selective/field/structure.js ***!
   \*******************************************************************************/
-/*! exports provided: GroupField */
+/*! exports provided: GroupField, VariantField */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GroupField", function() { return GroupField; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VariantField", function() { return VariantField; });
 /* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! deep-extend */ "../../../selective-edit/node_modules/deep-extend/lib/deep-extend.js");
 /* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(deep_extend__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lit-html */ "../../../selective-edit/node_modules/lit-html/lit-html.js");
 /* harmony import */ var lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lit-html/directives/repeat */ "../../../selective-edit/node_modules/lit-html/directives/repeat.js");
 /* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utility/config */ "../../../selective-edit/js/utility/config.js");
-/* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../autoFields */ "../../../selective-edit/js/selective/autoFields.js");
-/* harmony import */ var _fields_fields__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../fields/fields */ "../../../selective-edit/js/selective/fields/fields.js");
-/* harmony import */ var _field__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./field */ "../../../selective-edit/js/selective/field/field.js");
+/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../utility/dom */ "../../../selective-edit/js/utility/dom.js");
+/* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../autoFields */ "../../../selective-edit/js/selective/autoFields.js");
+/* harmony import */ var _fields_fields__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../fields/fields */ "../../../selective-edit/js/selective/fields/fields.js");
+/* harmony import */ var _field__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./field */ "../../../selective-edit/js/selective/field/field.js");
 /**
  * Structure fields for controlling the flow of fields.
  */
@@ -1690,7 +1694,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class GroupField extends _field__WEBPACK_IMPORTED_MODULE_6__["default"] {
+
+class GroupField extends _field__WEBPACK_IMPORTED_MODULE_7__["default"] {
   constructor(config, globalConfig) {
     super(config, globalConfig);
     this.fieldType = 'group';
@@ -1727,15 +1732,15 @@ class GroupField extends _field__WEBPACK_IMPORTED_MODULE_6__["default"] {
   }
 
   _createFields(selective, data) {
-    const FieldsCls = this.config.get('FieldsCls', _fields_fields__WEBPACK_IMPORTED_MODULE_5__["default"]);
+    const FieldsCls = this.config.get('FieldsCls', _fields_fields__WEBPACK_IMPORTED_MODULE_6__["default"]);
     const fields = new FieldsCls(selective.fieldTypes);
-    fields.updateOriginal(this.originalValue);
+    fields.updateOriginal(selective, this.originalValue);
     let fieldConfigs = this.config.fields || [];
     this._useAutoFields = fieldConfigs.length == 0;
 
     if (this._useAutoFields) {
       // Auto guess the fields if they are not defined.
-      const AutoFieldsCls = this.config.get('AutoFieldsCls', _autoFields__WEBPACK_IMPORTED_MODULE_4__["default"]);
+      const AutoFieldsCls = this.config.get('AutoFieldsCls', _autoFields__WEBPACK_IMPORTED_MODULE_5__["default"]);
       fieldConfigs = new AutoFieldsCls(this.originalValue).config['fields'];
     }
 
@@ -1782,6 +1787,146 @@ class GroupField extends _field__WEBPACK_IMPORTED_MODULE_6__["default"] {
           </i>
           <label>${this.config.label || '(Group)'}</label>
         </div>
+      </div>`;
+  }
+
+}
+class VariantField extends _field__WEBPACK_IMPORTED_MODULE_7__["default"] {
+  constructor(config, globalConfig) {
+    super(config, globalConfig);
+    this.fieldType = 'variant';
+    this.ignoreLocalize = true;
+    this.variant = null;
+    this.fields = null;
+    this._useAutoFields = false;
+  }
+
+  get isClean() {
+    // Check for the clean data.
+    if (!this.isDataClean) {
+      return false;
+    } // Check for changes to the variant.
+
+
+    if (this.originalValue && this.originalValue._variant != this.variant) {
+      return false;
+    }
+
+    return true;
+  }
+
+  get isDataClean() {
+    // If there are no fields, nothing has changed.
+    if (!this.fields) {
+      return true;
+    }
+
+    for (const field of this.fields.fields) {
+      if (!field.isClean) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  get value() {
+    if (!this.fields) {
+      return this.originalValue;
+    }
+
+    return deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, this.originalValue, this.fields.value, {
+      '_variant': this.variant
+    });
+  }
+
+  set value(value) {// Ignore.
+  }
+
+  _createFields(selective, data, variant) {
+    if (!variant) {
+      return null;
+    }
+
+    const FieldsCls = this.config.get('FieldsCls', _fields_fields__WEBPACK_IMPORTED_MODULE_6__["default"]);
+    const fields = new FieldsCls(selective.fieldTypes);
+    fields.updateOriginal(selective, this.originalValue);
+    const variantConfig = this.config.variants[variant] || {};
+    let fieldConfigs = variantConfig.fields || [];
+    this._useAutoFields = fieldConfigs.length == 0;
+
+    if (this._useAutoFields) {
+      // Auto guess the fields if they are not defined.
+      const AutoFieldsCls = this.config.get('AutoFieldsCls', _autoFields__WEBPACK_IMPORTED_MODULE_5__["default"]);
+      fieldConfigs = new AutoFieldsCls(this.originalValue).config['fields'];
+    }
+
+    for (let fieldConfig of fieldConfigs || []) {
+      fieldConfig = Object(_utility_config__WEBPACK_IMPORTED_MODULE_3__["autoConfig"])(fieldConfig, this.globalConfig);
+      fields.addField(fieldConfig, this.globalConfig);
+    }
+
+    for (const field of fields.fields) {
+      field.updateOriginal(selective, this.originalValue);
+    }
+
+    return fields;
+  }
+
+  ensureFields(selective, data) {
+    // Determine the type of variant if not initialized.
+    // Need to wait until the original value is initialized from data.
+    if (!this.variant && this.originalValue) {
+      this.variant = this.originalValue._variant || this.config.default;
+      this.fields = null;
+    }
+
+    if (!this.fields) {
+      this.fields = this._createFields(selective, data, this.variant);
+    }
+  }
+
+  handleVariantClick(evt) {
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_4__["findParentByClassname"])(evt.target, 'selective__variant__variant');
+    const variant = target.dataset.variant;
+
+    if (variant == this.variant) {
+      return;
+    }
+
+    this.variant = variant;
+    this.fields = null;
+    this.render();
+  }
+
+  renderInput(selective, data, locale) {
+    this.ensureFields(selective, data);
+    let fieldsOutput = '';
+
+    if (this.fields) {
+      fieldsOutput = this.fields.template(selective, this.originalValue);
+    }
+
+    return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
+      ${this.renderVariants(selective, data, locale)}
+      ${fieldsOutput}`;
+  }
+
+  renderVariants(selective, data, locale) {
+    const variants = this.config.variants;
+    const variantKeys = Object.keys(variants).sort();
+    return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
+      <div class="selective__variant__variants">
+        <label>${this.config.variant_label || 'Variant'}:</label>
+        ${Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__["repeat"])(variantKeys, variantKey => variantKey, (variantKey, index) => lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
+            <button
+                class="selective__variant__variant ${this.variant == variantKey ? 'selective__variant__variant--selected selective__button--primary' : ''}"
+                data-variant="${variantKey}"
+                ?disabled=${this.variant != variantKey && !this.isDataClean}
+                @click=${this.handleVariantClick.bind(this)}>
+              ${variants[variantKey].label || variantKey}
+            </button>
+          `)}
       </div>`;
   }
 
@@ -97162,15 +97307,15 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListFie
       fields.addField(fieldConfig, this.globalConfig);
     }
 
-    fields.updateOriginal(fields.defaultValue);
+    fields.updateOriginal(selective, Object.assign({}, fields.defaultValue, {
+      'partial': partialKey
+    }));
     const listItem = new selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListItem"](partialConfig, fields);
     listItem.isExpanded = true;
     listItems.push(listItem);
 
-    this._setListItemsForLocale(locale, listItems); // Reset the value for the select field to allow easily selecting another.
+    this._setListItemsForLocale(locale, listItems);
 
-
-    evt.target.value = '';
     this.render();
   }
 
