@@ -4,6 +4,7 @@
 
 import {
   GroupField,
+  VariantField,
 } from 'selective-edit'
 import {
   DocumentField,
@@ -47,5 +48,6 @@ export const defaultFields = {
   'string': StringField,
   'text': TextField,
   'textarea': TextareaField,
+  'variant': VariantField,
   'yaml': YamlField,
 }

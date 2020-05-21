@@ -148,9 +148,13 @@ The following field types are currently available for use in the editor configur
 - `string` - Grow string reference field. Allows for referencing strings from the `/content/strings/` files. Appears as `!g.string ...` in yaml.
 - `text` - Standard text field. Converts from input to textarea when text becomes longer.
 - `textarea` - Standard textarea field.
+- `variant` - Show different sets of sub fields based on a selected variant.
 - `yaml` - Grow yaml file reference. Appears as `!g.yaml ...` in yaml.
 
 ## Development
+
+Note: The editor requires the (`selective-edit`)[https://github.com/grow/selective-edit] library.
+For development the `selective-edit` library should be cloned and linked (using `yarn link`) first to make development seamless.
 
 To develop the editor extension you need to run a command to watch and compile the
 code:
@@ -158,6 +162,8 @@ code:
 ```sh
 cd editor
 yarn install
+# After you have clonded and linked the selective-edit project:
+yarn link selective-edit
 yarn run watch
 ```
 

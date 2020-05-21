@@ -96427,6 +96427,7 @@ const defaultFields = {
   'string': _field_constructor__WEBPACK_IMPORTED_MODULE_1__["StringField"],
   'text': _field_standard__WEBPACK_IMPORTED_MODULE_5__["TextField"],
   'textarea': _field_standard__WEBPACK_IMPORTED_MODULE_5__["TextareaField"],
+  'variant': selective_edit__WEBPACK_IMPORTED_MODULE_0__["VariantField"],
   'yaml': _field_constructor__WEBPACK_IMPORTED_MODULE_1__["YamlField"]
 };
 

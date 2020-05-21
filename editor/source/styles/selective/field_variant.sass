@@ -1,0 +1,17 @@
+.selective__variant__variants
+  align-items: center
+  display: flex
+  flex-flow: row
+
+.selective__variant__variant
+  +field-border
+  +field-clickable
+  border: $ge-border-size solid $ge-color-border-light
+  margin: $ge-pad/2
+  padding: $ge-pad/2
+
+  &:first-child
+    margin-left: 0
+
+  &:last-child
+    margin-right: 0
