@@ -178,17 +178,15 @@ export class PartialsField extends ListField {
       fields.addField(fieldConfig, this.globalConfig)
     }
 
-    fields.updateOriginal(fields.defaultValue)
+    fields.updateOriginal(selective, Object.assign({}, fields.defaultValue, {
+      'partial': partialKey,
+    }))
 
     const listItem = new ListItem(partialConfig, fields)
     listItem.isExpanded = true
     listItems.push(listItem)
 
     this._setListItemsForLocale(locale, listItems)
-
-    // Reset the value for the select field to allow easily selecting another.
-    evt.target.value = ''
-
     this.render()
   }
 

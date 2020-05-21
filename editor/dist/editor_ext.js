@@ -1254,7 +1254,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
       fields.addField(fieldConfig, this.globalConfig);
     }
 
-    fields.updateOriginal(fields.defaultValue);
+    fields.updateOriginal(selective, fields.defaultValue);
     const listItem = new ListItem({
       'fields': fieldConfigs
     }, fields);
@@ -1734,7 +1734,7 @@ class GroupField extends _field__WEBPACK_IMPORTED_MODULE_7__["default"] {
   _createFields(selective, data) {
     const FieldsCls = this.config.get('FieldsCls', _fields_fields__WEBPACK_IMPORTED_MODULE_6__["default"]);
     const fields = new FieldsCls(selective.fieldTypes);
-    fields.updateOriginal(this.originalValue);
+    fields.updateOriginal(selective, this.originalValue);
     let fieldConfigs = this.config.fields || [];
     this._useAutoFields = fieldConfigs.length == 0;
 
@@ -1850,7 +1850,7 @@ class VariantField extends _field__WEBPACK_IMPORTED_MODULE_7__["default"] {
 
     const FieldsCls = this.config.get('FieldsCls', _fields_fields__WEBPACK_IMPORTED_MODULE_6__["default"]);
     const fields = new FieldsCls(selective.fieldTypes);
-    fields.updateOriginal(this.originalValue);
+    fields.updateOriginal(selective, this.originalValue);
     const variantConfig = this.config.variants[variant] || {};
     let fieldConfigs = variantConfig.fields || [];
     this._useAutoFields = fieldConfigs.length == 0;
@@ -97323,15 +97323,15 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListFie
       fields.addField(fieldConfig, this.globalConfig);
     }
 
-    fields.updateOriginal(fields.defaultValue);
+    fields.updateOriginal(selective, Object.assign({}, fields.defaultValue, {
+      'partial': partialKey
+    }));
     const listItem = new selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListItem"](partialConfig, fields);
     listItem.isExpanded = true;
     listItems.push(listItem);
 
-    this._setListItemsForLocale(locale, listItems); // Reset the value for the select field to allow easily selecting another.
+    this._setListItemsForLocale(locale, listItems);
 
-
-    evt.target.value = '';
     this.render();
   }
 
