@@ -97307,9 +97307,7 @@ class EditorListField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListF
       return;
     }
 
-    if (!this.confirmDelete) {
-      this.confirmDelete = new _parts_modal__WEBPACK_IMPORTED_MODULE_1__["ConfirmWindow"](this.render, 'Delete item', 'Delete item');
-    }
+    this.confirmDelete = new _parts_modal__WEBPACK_IMPORTED_MODULE_1__["ConfirmWindow"]('Delete item', 'Delete item');
 
     this.confirmDelete.contentRenderFunc = () => {
       const preview = this.guessPreview(listItems[deleteIndex], deleteIndex);
@@ -97318,6 +97316,9 @@ class EditorListField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListF
 
     this.confirmDelete.promise.then(() => {
       super.handleDeleteItem(evt);
+      this.confirmDelete.close();
+    }).catch(() => {
+      this.confirmDelete.close();
     });
     this.confirmDelete.open();
   }
@@ -98272,6 +98273,9 @@ class FileTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
           path: podPath
         }
       }));
+      this.confirmDelete.close();
+    }).catch(() => {
+      this.confirmDelete.close();
     });
     this.confirmDelete.open();
   }
@@ -99106,6 +99110,8 @@ __webpack_require__.r(__webpack_exports__);
  * Base class for UI parts.
  */
 class BasePart {
+  constructor() {}
+
   render() {
     // Trigger a render event.
     document.dispatchEvent(new CustomEvent('selective.render'));

@@ -240,8 +240,9 @@ describe('list simple field', () => {
     let deleteButton = await page.$('.selective__list__item[data-locale=en]:last-child .selective__list__item__delete')
     await deleteButton.click()
 
-    // Remove the es value.
+    // Remove the en value.
     await page.waitForSelector('.modal')
+    await percySnapshot(page, 'List field simple confirm delete on localization', defaults.snapshotOptions)
     let confirmButton = await page.$('.modal .editor__button--primary')
     await confirmButton.click()
     await page.waitForSelector('.modal', { hidden: true })
@@ -252,7 +253,6 @@ describe('list simple field', () => {
 
     // Remove the es value.
     await page.waitForSelector('.modal')
-    await percySnapshot(page, 'List field simple confirm delete on localization', defaults.snapshotOptions)
     confirmButton = await page.$('.modal .editor__button--primary')
     await confirmButton.click()
     await page.waitForSelector('.modal', { hidden: true })

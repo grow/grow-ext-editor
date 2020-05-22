@@ -28,10 +28,7 @@ export class EditorListField extends ListField {
       return
     }
 
-    if (!this.confirmDelete) {
-      this.confirmDelete = new ConfirmWindow(
-        this.render, 'Delete item', 'Delete item')
-    }
+    this.confirmDelete = new ConfirmWindow('Delete item', 'Delete item')
 
     this.confirmDelete.contentRenderFunc = () => {
       const preview = this.guessPreview(listItems[deleteIndex], deleteIndex)
@@ -40,6 +37,9 @@ export class EditorListField extends ListField {
 
     this.confirmDelete.promise.then(() => {
       super.handleDeleteItem(evt)
+      this.confirmDelete.close()
+    }).catch(() => {
+      this.confirmDelete.close()
     })
 
     this.confirmDelete.open()

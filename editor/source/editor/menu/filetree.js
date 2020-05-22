@@ -158,6 +158,7 @@ export default class FileTreeMenu extends MenuBase {
     const podPath = target.dataset.podPath
 
     this.confirmDelete = new ConfirmWindow('Delete page', 'Delete page')
+    
     this.confirmDelete.contentRenderFunc = () => {
       return html`Are you sure you want to delete the page at <strong>${podPath}</strong>?`
     }
@@ -168,6 +169,9 @@ export default class FileTreeMenu extends MenuBase {
           path: podPath,
         }
       }))
+      this.confirmDelete.close()
+    }).catch(() => {
+      this.confirmDelete.close()
     })
 
     this.confirmDelete.open()
