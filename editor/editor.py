@@ -92,14 +92,10 @@ class EditorPodspecStaticDirHook(hooks.PodspecStaticDirHook):
         if not self.extension.config.get('enabled', True):
             return previous_result
 
-        serve_at = '/_grow/ext/editor/'
-        static_dist_dir = os.path.dirname(__file__)[len(self.pod.root):]
-        static_dist_dir = '{}/'.format(os.path.join(static_dist_dir, 'dist'))
-
         # Add the config for a static directory for the extension assets.
         previous_result.append({
-            'static_dir': static_dist_dir,
-            'serve_at': serve_at,
+            'static_dir': '/extensions/editor/dist/',
+            'serve_at': '/_grow/ext/editor/',
             'fingerprinted': True,
         })
 
