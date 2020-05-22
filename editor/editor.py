@@ -1,6 +1,5 @@
 """Editor extension for editing content in Grow."""
 
-import os
 from grow import extensions
 from grow.common import colors
 from grow.extensions import hooks
