@@ -95193,12 +95193,16 @@ class EditorAutoFields extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Auto
             return 'document';
             break;
 
-          case '!g.yaml':
-            return 'yaml';
+          case '!g.static':
+            return 'static';
             break;
 
           case '!g.string':
             return 'string';
+            break;
+
+          case '!g.yaml':
+            return 'yaml';
             break;
         }
       }
@@ -96672,6 +96676,7 @@ const defaultFields = {
   'markdown': _field_standard__WEBPACK_IMPORTED_MODULE_5__["MarkdownField"],
   'partials': _field_partials__WEBPACK_IMPORTED_MODULE_4__["PartialsField"],
   'select': _field_standard__WEBPACK_IMPORTED_MODULE_5__["SelectField"],
+  'static': _field_constructor__WEBPACK_IMPORTED_MODULE_1__["StaticField"],
   'string': _field_constructor__WEBPACK_IMPORTED_MODULE_1__["StringField"],
   'text': _field_standard__WEBPACK_IMPORTED_MODULE_5__["TextField"],
   'textarea': _field_standard__WEBPACK_IMPORTED_MODULE_5__["TextareaField"],
@@ -96685,7 +96690,7 @@ const defaultFields = {
 /*!********************************************!*\
   !*** ./source/editor/field/constructor.js ***!
   \********************************************/
-/*! exports provided: ConstructorField, ConstructorFileField, DocumentField, StringField, YamlField */
+/*! exports provided: ConstructorField, ConstructorFileField, DocumentField, StaticField, StringField, YamlField */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -96693,6 +96698,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ConstructorField", function() { return ConstructorField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ConstructorFileField", function() { return ConstructorFileField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DocumentField", function() { return DocumentField; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "StaticField", function() { return StaticField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "StringField", function() { return StringField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "YamlField", function() { return YamlField; });
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
@@ -96819,6 +96825,17 @@ class DocumentField extends ConstructorFileField {
     this.tag = '!g.doc';
     this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["createWhiteBlackFilter"])( // Whitelist.
     Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(this.config.get('whitelist'), [/^\/content\//]), // Blacklist.
+    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(this.config.get('blacklist')));
+  }
+
+}
+class StaticField extends ConstructorFileField {
+  constructor(config, extendedConfig) {
+    super(config, extendedConfig);
+    this.fieldType = 'static';
+    this.tag = '!g.static';
+    this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["createWhiteBlackFilter"])( // Whitelist.
+    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(this.config.get('whitelist'), [/^.*\.(png|svg|jpg|jpeg|gif)$/, /^\/source\/static\//, /^\/static\//]), // Blacklist.
     Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(this.config.get('blacklist')));
   }
 

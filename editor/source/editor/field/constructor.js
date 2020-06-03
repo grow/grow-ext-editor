@@ -145,6 +145,24 @@ export class DocumentField extends ConstructorFileField {
   }
 }
 
+export class StaticField extends ConstructorFileField {
+  constructor(config, extendedConfig) {
+    super(config, extendedConfig)
+    this.fieldType = 'static'
+    this.tag = '!g.static'
+    this.filterFunc = createWhiteBlackFilter(
+      // Whitelist.
+      regexList(this.config.get('whitelist'), [
+        /^.*\.(png|svg|jpg|jpeg|gif)$/,
+        /^\/source\/static\//,
+        /^\/static\//,
+      ]),
+      // Blacklist.
+      regexList(this.config.get('blacklist')),
+    )
+  }
+}
+
 export class StringField extends ConstructorFileField {
   constructor(config, extendedConfig) {
     super(config, extendedConfig)

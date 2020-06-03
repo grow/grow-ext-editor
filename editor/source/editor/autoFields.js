@@ -45,11 +45,14 @@ export default class EditorAutoFields extends AutoFields {
           case '!g.doc':
             return 'document'
             break
-          case '!g.yaml':
-            return 'yaml'
+          case '!g.static':
+            return 'static'
             break
           case '!g.string':
             return 'string'
+            break
+          case '!g.yaml':
+            return 'yaml'
             break
         }
       }
