@@ -65,7 +65,7 @@ export default class Editor {
     this.devices = {
       desktop: {
         label: 'Desktop',
-        width: 1024,
+        width: 1440,
       },
       tablet: {
         label: 'Tablet',
