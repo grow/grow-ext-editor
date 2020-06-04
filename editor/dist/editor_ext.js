@@ -97866,7 +97866,7 @@ class HtmlField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
     const value = this.getValueForLocale(locale) || '';
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
       <div
-          id="${this.getUid()}${locale || ''}"
+          id="${this.uid}${locale || ''}"
           class="selective__html html_editor"
           data-locale=${locale || ''}>${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["unsafeHTML"])(value)}</div>`;
   }
@@ -97878,7 +97878,12 @@ class HtmlField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
       const editorEls = fieldInstance.querySelectorAll('.html_editor');
 
       for (const editorEl of editorEls) {
-        const locale = editorEl.dataset.locale;
+        const locale = editorEl.dataset.locale; // Skip if the editor element does not match the current field instance.
+
+        if (editorEl.id != `${this.uid}${locale || ''}`) {
+          continue;
+        }
+
         const value = this.getValueForLocale(locale) || '';
 
         if (!editorEl.editor) {
@@ -97931,7 +97936,7 @@ class MarkdownField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"]
     const value = this.getValueForLocale(locale) || '';
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
       <div
-          id="${this.getUid()}${locale || ''}"
+          id="${this.uid}${locale || ''}"
           class="selective__markdown markdown_editor"
           data-locale=${locale || ''}></div>`;
   }
@@ -97943,7 +97948,12 @@ class MarkdownField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"]
       const editorEls = fieldInstance.querySelectorAll('.markdown_editor');
 
       for (const editorEl of editorEls) {
-        const locale = editorEl.dataset.locale;
+        const locale = editorEl.dataset.locale; // Skip if the editor element does not match the current field instance.
+
+        if (editorEl.id != `${this.uid}${locale || ''}`) {
+          continue;
+        }
+
         const value = this.getValueForLocale(locale) || '';
 
         if (!editorEl.editor) {

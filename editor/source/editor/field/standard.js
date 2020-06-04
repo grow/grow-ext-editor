@@ -166,7 +166,7 @@ export class HtmlField extends Field {
     const value = this.getValueForLocale(locale) || ''
     return html`
       <div
-          id="${this.getUid()}${locale || ''}"
+          id="${this.uid}${locale || ''}"
           class="selective__html html_editor"
           data-locale=${locale || ''}>${unsafeHTML(value)}</div>`
   }
@@ -177,6 +177,12 @@ export class HtmlField extends Field {
       const editorEls = fieldInstance.querySelectorAll('.html_editor')
       for (const editorEl of editorEls) {
         const locale = editorEl.dataset.locale
+
+        // Skip if the editor element does not match the current field instance.
+        if (editorEl.id != `${this.uid}${locale || ''}`) {
+          continue
+        }
+
         const value = this.getValueForLocale(locale) || ''
 
         if (!editorEl.editor) {
@@ -231,7 +237,7 @@ export class MarkdownField extends Field {
     const value = this.getValueForLocale(locale) || ''
     return html`
       <div
-          id="${this.getUid()}${locale || ''}"
+          id="${this.uid}${locale || ''}"
           class="selective__markdown markdown_editor"
           data-locale=${locale || ''}></div>`
   }
@@ -242,6 +248,12 @@ export class MarkdownField extends Field {
       const editorEls = fieldInstance.querySelectorAll('.markdown_editor')
       for (const editorEl of editorEls) {
         const locale = editorEl.dataset.locale
+
+        // Skip if the editor element does not match the current field instance.
+        if (editorEl.id != `${this.uid}${locale || ''}`) {
+          continue
+        }
+
         const value = this.getValueForLocale(locale) || ''
 
         if (!editorEl.editor) {
