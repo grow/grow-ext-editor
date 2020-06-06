@@ -522,6 +522,10 @@ class PodApi(object):
             if 'content' in self.request.POST:
                 content = self.request.POST['content']
                 content = content.encode('utf-8')
+                try:
+                    content = content.decode('utf-8')
+                except (UnicodeDecodeError, AttributeError):
+                    pass
                 doc.write(fields=fields, body=content)
             else:
                 doc.write(fields=fields)
