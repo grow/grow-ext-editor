@@ -4,6 +4,11 @@
 
 import { AutoFields } from 'selective-edit'
 
+
+const IMAGE_REGEX = /\.(jp[e]?g|png|svg|webp|gif)$/i
+const GOOGLE_IMAGE_REGEX = /\.googleusercontent.com\//i
+
+
 export default class EditorAutoFields extends AutoFields {
   _deepGuessObject(data, keyBase) {
     // Handle the `!g.*` constructors.
@@ -60,6 +65,16 @@ export default class EditorAutoFields extends AutoFields {
 
     if (typeof value == 'boolean') {
       return 'checkbox'
+    }
+
+    if (value) {
+      if(value.match(GOOGLE_IMAGE_REGEX)) {
+        return 'google_image'
+      }
+
+      if (value.startsWith('/') && value.match(IMAGE_REGEX)) {
+        return 'image'
+      }
     }
 
     return super.typeFromValue(value, key)
