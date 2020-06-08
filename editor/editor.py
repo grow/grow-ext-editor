@@ -79,7 +79,7 @@ class EditorDevManagerMessageHook(DevManagerMessageHook):
     def trigger(self, previous_result, display_func, url_base, url_root, *_args, **_kwargs):
         """Execute static dir validation."""
         url_editor = '{}_grow/editor'.format(url_base)
-        display_func('Content Editor:', url_editor, colors.HIGHLIGHT)
+        display_func('Editor:', url_editor, colors.HIGHLIGHT)
 
         # Append the url so that it can be opened with using the `-b` flag.
         previous_result = previous_result or []
