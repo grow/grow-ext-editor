@@ -95199,7 +95199,7 @@ class EditorAutoFields extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Auto
       return 'checkbox';
     }
 
-    if (value) {
+    if (value && typeof value == 'string') {
       if (value.match(GOOGLE_IMAGE_REGEX)) {
         return 'google_image';
       }

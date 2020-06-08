@@ -67,7 +67,7 @@ export default class EditorAutoFields extends AutoFields {
       return 'checkbox'
     }
 
-    if (value) {
+    if (value && typeof value == 'string') {
       if(value.match(GOOGLE_IMAGE_REGEX)) {
         return 'google_image'
       }

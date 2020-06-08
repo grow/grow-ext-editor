@@ -76,9 +76,14 @@ class EditorDevHandlerHook(hooks.DevHandlerHook):
 class EditorDevManagerMessageHook(DevManagerMessageHook):
     """Handle the router add hook."""
 
-    def trigger(self, previous_result, display_func, url, *_args, **_kwargs):
+    def trigger(self, previous_result, display_func, url_base, url_root, *_args, **_kwargs):
         """Execute static dir validation."""
-        display_func('Content Editor:', url + '_grow/editor/', colors.HIGHLIGHT)
+        url_editor = '{}_grow/editor'.format(url_base)
+        display_func('Content Editor:', url_editor, colors.HIGHLIGHT)
+
+        # Append the url so that it can be opened with using the `-b` flag.
+        previous_result = previous_result or []
+        previous_result.append(url_editor)
         return previous_result
 
 class EditorPodspecStaticDirHook(hooks.PodspecStaticDirHook):
