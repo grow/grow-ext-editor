@@ -95149,6 +95149,8 @@ __webpack_require__.r(__webpack_exports__);
  * Automatically guess the field configuration from data.
  */
 
+const IMAGE_REGEX = /\.(jp[e]?g|png|svg|webp|gif)$/i;
+const GOOGLE_IMAGE_REGEX = /\.googleusercontent.com\//i;
 class EditorAutoFields extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["AutoFields"] {
   _deepGuessObject(data, keyBase) {
     // Handle the `!g.*` constructors.
@@ -95210,6 +95212,16 @@ class EditorAutoFields extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Auto
 
     if (typeof value == 'boolean') {
       return 'checkbox';
+    }
+
+    if (value) {
+      if (value.match(GOOGLE_IMAGE_REGEX)) {
+        return 'google_image';
+      }
+
+      if (value.startsWith('/') && value.match(IMAGE_REGEX)) {
+        return 'image';
+      }
     }
 
     return super.typeFromValue(value, key);
