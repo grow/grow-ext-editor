@@ -28,7 +28,11 @@ def convert_fields(fields):
 
         # Convert the !g constructors into their objects.
         if key == 'tag' and item.startswith('!g.') and 'value' in node:
-            newValue = ConstructorReference(item, node['value'])
+            # If the value was removed, remove the constructor.
+            if not node['value']:
+                newValue = None
+            else:
+                newValue = ConstructorReference(item, node['value'])
 
             try:
                 # Try as an array.
