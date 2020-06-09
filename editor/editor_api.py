@@ -97,6 +97,14 @@ class PodApi(object):
             path=path,
             key=key).strip('/')
 
+    def _get_param(self, request, param_name):
+        """Support getting params from different request types."""
+        try:
+            return request.params.get(param_name)
+        except AttributeError:
+            # Support flask requests.
+            return request.args.get(param_name)
+
     def _get_resolutions(self):
         """Pull the resolutions from config."""
         screenshot_config = self.ext_config.get('screenshots', {})
@@ -192,9 +200,9 @@ class PodApi(object):
 
     def content_from_template(self):
         """Handle the request for copying files."""
-        collection_path = self.request.params.get('collection_path')
-        key = self.request.params.get('key')
-        file_name = self.request.params.get('file_name').strip()
+        collection_path = self._get_param(self.request, 'collection_path')
+        key = self._get_param(self.request, 'key')
+        file_name = self._get_param(self.request, 'file_name').strip()
         collection = self.pod.get_collection(collection_path)
         templates = self._get_collection_templates(collection)
 
@@ -225,8 +233,8 @@ class PodApi(object):
 
     def copy_pod_path(self):
         """Handle the request for copying files."""
-        pod_path = self.request.params.get('pod_path')
-        new_pod_path = self.request.params.get('new_pod_path')
+        pod_path = self._get_param(self.request, 'pod_path')
+        new_pod_path = self._get_param(self.request, 'new_pod_path')
         if not self.pod.file_exists(pod_path):
             raise BadRequest('{} does not exist in the pod'.format(pod_path))
         if self.pod.file_exists(new_pod_path):
@@ -236,7 +244,7 @@ class PodApi(object):
 
     def delete_pod_path(self):
         """Handle the request for deleting files."""
-        pod_path = self.request.params.get('pod_path')
+        pod_path = self._get_param(self.request, 'pod_path')
         if not self.pod.file_exists(pod_path):
             raise BadRequest('{} does not exist in the pod'.format(pod_path))
         self.pod.delete_file(pod_path)
@@ -264,12 +272,12 @@ class PodApi(object):
 
     def get_editor_content(self):
         """Handle the request for editor content."""
-        pod_path = self.request.params.get('pod_path')
+        pod_path = self._get_param(self.request, 'pod_path')
         self.data = self._load_doc(pod_path)
 
     def get_extension_config(self):
         """Handle the request for editor content."""
-        extension_path = self.request.params.get('extension_path')
+        extension_path = self._get_param(self.request, 'extension_path')
 
         try:
             ext_config = self.pod.extensions_controller.extension_config(
@@ -341,7 +349,7 @@ class PodApi(object):
 
     def get_static_serving_path(self):
         """Handle the request for pod path to serving path."""
-        pod_path = self.request.params.get('pod_path')
+        pod_path = self._get_param(self.request, 'pod_path')
         static_doc = self.pod.get_static(pod_path)
 
         self.data = {
@@ -554,10 +562,10 @@ class PodApi(object):
 
     def screenshot_partial(self):
         """Handle the request to screenshot a partial."""
-        partial_key = self.request.params.get('partial')
+        partial_key = self._get_param(self.request, 'partial')
 
         keys = []
-        key = self.request.params.get('key')
+        key = self._get_param(self.request, 'key')
         if key:
             keys.append(key)
         else:
@@ -606,14 +614,14 @@ class PodApi(object):
 
     def screenshot_template(self):
         """Handle the request to screenshot a preview."""
-        collection_path = self.request.params.get('collection_path')
+        collection_path = self._get_param(self.request, 'collection_path')
         if not collection_path.startswith('/'):
             collection_path = '/{}'.format(collection_path)
         if not collection_path.endswith('/'):
             collection_path = '{}/'.format(collection_path)
 
         keys = []
-        key = self.request.params.get('key')
+        key = self._get_param(self.request, 'key')
         if key:
             keys.append(key)
         else:
