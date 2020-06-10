@@ -97,13 +97,21 @@ class PodApi(object):
             path=path,
             key=key).strip('/')
 
-    def _get_param(self, request, param_name):
+    def _get_param(self, param_name):
         """Support getting params from different request types."""
         try:
-            return request.params.get(param_name)
+            return self.request.params.get(param_name)
         except AttributeError:
             # Support flask requests.
-            return request.args.get(param_name)
+            return self.request.args.get(param_name)
+
+    def _get_post(self, param_name):
+        """Support getting form data from different request types."""
+        try:
+            return self.request.POST.get(param_name)
+        except AttributeError:
+            # Support flask requests.
+            return self.request.form.get(param_name)
 
     def _get_resolutions(self):
         """Pull the resolutions from config."""
@@ -200,9 +208,9 @@ class PodApi(object):
 
     def content_from_template(self):
         """Handle the request for copying files."""
-        collection_path = self._get_param(self.request, 'collection_path')
-        key = self._get_param(self.request, 'key')
-        file_name = self._get_param(self.request, 'file_name').strip()
+        collection_path = self._get_param('collection_path')
+        key = self._get_param('key')
+        file_name = self._get_param('file_name').strip()
         collection = self.pod.get_collection(collection_path)
         templates = self._get_collection_templates(collection)
 
@@ -233,8 +241,8 @@ class PodApi(object):
 
     def copy_pod_path(self):
         """Handle the request for copying files."""
-        pod_path = self._get_param(self.request, 'pod_path')
-        new_pod_path = self._get_param(self.request, 'new_pod_path')
+        pod_path = self._get_param('pod_path')
+        new_pod_path = self._get_param('new_pod_path')
         if not self.pod.file_exists(pod_path):
             raise BadRequest('{} does not exist in the pod'.format(pod_path))
         if self.pod.file_exists(new_pod_path):
@@ -244,7 +252,7 @@ class PodApi(object):
 
     def delete_pod_path(self):
         """Handle the request for deleting files."""
-        pod_path = self._get_param(self.request, 'pod_path')
+        pod_path = self._get_param('pod_path')
         if not self.pod.file_exists(pod_path):
             raise BadRequest('{} does not exist in the pod'.format(pod_path))
         self.pod.delete_file(pod_path)
@@ -272,12 +280,12 @@ class PodApi(object):
 
     def get_editor_content(self):
         """Handle the request for editor content."""
-        pod_path = self._get_param(self.request, 'pod_path')
+        pod_path = self._get_param('pod_path')
         self.data = self._load_doc(pod_path)
 
     def get_extension_config(self):
         """Handle the request for editor content."""
-        extension_path = self._get_param(self.request, 'extension_path')
+        extension_path = self._get_param('extension_path')
 
         try:
             ext_config = self.pod.extensions_controller.extension_config(
@@ -349,7 +357,7 @@ class PodApi(object):
 
     def get_static_serving_path(self):
         """Handle the request for pod path to serving path."""
-        pod_path = self._get_param(self.request, 'pod_path')
+        pod_path = self._get_param('pod_path')
         static_doc = self.pod.get_static(pod_path)
 
         self.data = {
@@ -516,19 +524,19 @@ class PodApi(object):
     def post_editor_content(self):
         """Handle the request to save editor content."""
 
-        pod_path = self.request.POST['pod_path']
+        pod_path = self._get_post('pod_path')
         doc = self.pod.get_doc(pod_path)
         if 'raw_front_matter' in self.request.POST:
-            front_matter_content = self.request.POST['raw_front_matter']
+            front_matter_content = self._get_post('raw_front_matter')
             front_matter_content = front_matter_content.encode('utf-8')
             doc.format.front_matter.update_raw_front_matter(front_matter_content)
             doc.write()
         elif 'front_matter' in self.request.POST:
-            fields = json.loads(self.request.POST['front_matter'])
+            fields = json.loads(self._get_post('front_matter'))
             fields = yaml_conversion.convert_fields(fields)
 
             if 'content' in self.request.POST:
-                content = self.request.POST['content']
+                content = self._get_post('content')
                 content = content.encode('utf-8')
                 try:
                     content = content.decode('utf-8')
@@ -543,8 +551,8 @@ class PodApi(object):
 
     def post_image(self):
         """Handle the request to save an image."""
-        destination = self.request.POST['destination']
-        upload_file = self.request.POST['file']
+        destination = self._get_post('destination')
+        upload_file = self._get_post('file')
         file_contents = upload_file.file.read()
 
         # Generate a random filename if the upload was a blob.
@@ -562,10 +570,10 @@ class PodApi(object):
 
     def screenshot_partial(self):
         """Handle the request to screenshot a partial."""
-        partial_key = self._get_param(self.request, 'partial')
+        partial_key = self._get_param('partial')
 
         keys = []
-        key = self._get_param(self.request, 'key')
+        key = self._get_param('key')
         if key:
             keys.append(key)
         else:
@@ -614,14 +622,14 @@ class PodApi(object):
 
     def screenshot_template(self):
         """Handle the request to screenshot a preview."""
-        collection_path = self._get_param(self.request, 'collection_path')
+        collection_path = self._get_param('collection_path')
         if not collection_path.startswith('/'):
             collection_path = '/{}'.format(collection_path)
         if not collection_path.endswith('/'):
             collection_path = '{}/'.format(collection_path)
 
         keys = []
-        key = self._get_param(self.request, 'key')
+        key = self._get_param('key')
         if key:
             keys.append(key)
         else:
