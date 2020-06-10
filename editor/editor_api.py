@@ -139,6 +139,14 @@ class PodApi(object):
             return self.pod.read_yaml(template_pod_path)
         return {}
 
+    def _has_post(self, param_name):
+        """Support detecting form data from different request types."""
+        try:
+            return param_name in self.request.POST
+        except AttributeError:
+            # Support flask requests.
+            return param_name in self.request.form
+
     def _is_ignored_dir(self, full_path):
         ignored_dirs = self.ext_config.get('ignored_dirs', tuple())
         if full_path.startswith(self.IGNORED_DIRS + ignored_dirs):
@@ -526,16 +534,16 @@ class PodApi(object):
 
         pod_path = self._get_post('pod_path')
         doc = self.pod.get_doc(pod_path)
-        if 'raw_front_matter' in self.request.POST:
+        if self._has_post('raw_front_matter'):
             front_matter_content = self._get_post('raw_front_matter')
             front_matter_content = front_matter_content.encode('utf-8')
             doc.format.front_matter.update_raw_front_matter(front_matter_content)
             doc.write()
-        elif 'front_matter' in self.request.POST:
+        elif self._has_post('front_matter'):
             fields = json.loads(self._get_post('front_matter'))
             fields = yaml_conversion.convert_fields(fields)
 
-            if 'content' in self.request.POST:
+            if self._has_post('content'):
                 content = self._get_post('content')
                 content = content.encode('utf-8')
                 try:
