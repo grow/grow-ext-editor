@@ -21,7 +21,7 @@ export default class Menu extends MenuBase {
   constructor(config, editor) {
     super(config)
     this.editor = editor
-    this._isOpen = this.storage.getItem('selective.menu.open') == 'true'
+    this._isOpen = this.storage.getItem('selective.menu.open') == 'true' || !editor.podPath
     this._repoMenu = new RepoMenu({
       testing: this.isTesting,
     })

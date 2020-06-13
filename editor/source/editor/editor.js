@@ -40,8 +40,8 @@ export default class Editor {
     this.config = new Config(config || {})
     this.template = (editor, selective) => html`<div class="editor ${editor.stylesEditor}">
       ${this.menu.template(editor)}
-      ${editor.renderEditor(editor, selective)}
-      ${editor.renderPreview(editor, selective)}
+      ${this.podPath ? editor.renderEditor(editor, selective) : ''}
+      ${this.podPath ? editor.renderPreview(editor, selective) : ''}
     </div>`
     this.storage = new Storage(this.isTesting)
 
@@ -127,7 +127,11 @@ export default class Editor {
     this.bindEvents()
     this.bindKeyboard()
 
-    this.load(this.podPath)
+    if (this.podPath) {
+      this.load(this.podPath)
+    } else {
+      this.render()
+    }
 
     // TODO Start the autosave depending on local storage.
     // this.startAutosave()
@@ -143,6 +147,10 @@ export default class Editor {
   }
 
   get isClean() {
+    if (!this.document) {
+      return true
+    }
+
     return this.document.isClean && this.selective.isClean
   }
 
@@ -499,7 +507,7 @@ export default class Editor {
     // Set the data from the document front matter.
     this.selective.data = this.document.data
     this.selective.config.set('defaultLocale', this.document.defaultLocale)
-    this.selective.config.set('locales', this.document.locales)
+    this.selective.config.set('locales', this.document ? this.document.locales : [])
     this.selective.fields.reset()
 
     // Load the field configuration from the response.

@@ -95366,8 +95366,8 @@ class Editor {
 
     this.template = (editor, selective) => selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`<div class="editor ${editor.stylesEditor}">
       ${this.menu.template(editor)}
-      ${editor.renderEditor(editor, selective)}
-      ${editor.renderPreview(editor, selective)}
+      ${this.podPath ? editor.renderEditor(editor, selective) : ''}
+      ${this.podPath ? editor.renderPreview(editor, selective) : ''}
     </div>`;
 
     this.storage = new _utility_storage__WEBPACK_IMPORTED_MODULE_16__["default"](this.isTesting);
@@ -95438,8 +95438,14 @@ class Editor {
 
     this.bindEvents();
     this.bindKeyboard();
-    this.load(this.podPath); // TODO Start the autosave depending on local storage.
+
+    if (this.podPath) {
+      this.load(this.podPath);
+    } else {
+      this.render();
+    } // TODO Start the autosave depending on local storage.
     // this.startAutosave()
+
   }
 
   get device() {
@@ -95452,6 +95458,10 @@ class Editor {
   }
 
   get isClean() {
+    if (!this.document) {
+      return true;
+    }
+
     return this.document.isClean && this.selective.isClean;
   }
 
@@ -95789,7 +95799,7 @@ class Editor {
 
     this.selective.data = this.document.data;
     this.selective.config.set('defaultLocale', this.document.defaultLocale);
-    this.selective.config.set('locales', this.document.locales);
+    this.selective.config.set('locales', this.document ? this.document.locales : []);
     this.selective.fields.reset(); // Load the field configuration from the response.
 
     let fieldConfigs = response['editor']['fields'] || []; // If no fields defined, guess.
@@ -98655,7 +98665,7 @@ class Menu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
   constructor(config, editor) {
     super(config);
     this.editor = editor;
-    this._isOpen = this.storage.getItem('selective.menu.open') == 'true';
+    this._isOpen = this.storage.getItem('selective.menu.open') == 'true' || !editor.podPath;
     this._repoMenu = new _repo__WEBPACK_IMPORTED_MODULE_4__["default"]({
       testing: this.isTesting
     });
