@@ -21,7 +21,7 @@ export default class Menu extends MenuBase {
   constructor(config, editor) {
     super(config)
     this.editor = editor
-    this._isOpen = this.storage.getItem('selective.menu.open') == 'true' || !editor.podPath
+    this._isOpen = this.storage.getItem('selective.menu.open') == 'true'
     this._repoMenu = new RepoMenu({
       testing: this.isTesting,
     })
@@ -50,7 +50,7 @@ export default class Menu extends MenuBase {
 
   get template() {
     return (editor) => html`<div class="menu">
-      ${this._isOpen
+      ${this._isOpen || !editor.podPath
         ? this.renderOpenedMenu(editor)
         : this.renderClosedMenu(editor)}
     </div>`

@@ -1083,7 +1083,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
     this._setListItemsForLocale(locale, listItems); // Trigger a new render to make sure the expand/collapse buttons show.
 
 
-    if (listItems.length > 1) {
+    if (listItems.length > 1 || !this.useSimpleField) {
       this.render();
     }
   }
@@ -1154,6 +1154,11 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
     }
 
     return true;
+  } // Use the simple field only when there is not a preview field.
+
+
+  get useSimpleField() {
+    return !Boolean(this.config.get('preview_field'));
   }
 
   get localizedValues() {
@@ -1464,7 +1469,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
     let areAllCollapsed = true;
 
     for (const item of listItems) {
-      if (!item.fields.isSimpleField) {
+      if (!item.fields.isSimpleField || !this.useSimpleField) {
         areSimpleFields = false;
       }
 
@@ -1517,7 +1522,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
   }
 
   renderItem(selective, data, item, index, locale) {
-    if (item.fields.isSimpleField) {
+    if (item.fields.isSimpleField && this.useSimpleField) {
       return this.renderItemSimple(selective, data, item, index, locale);
     } else if (item.isExpanded) {
       return this.renderItemExpanded(selective, data, item, index, locale);
@@ -98650,7 +98655,7 @@ class Menu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
   constructor(config, editor) {
     super(config);
     this.editor = editor;
-    this._isOpen = this.storage.getItem('selective.menu.open') == 'true' || !editor.podPath;
+    this._isOpen = this.storage.getItem('selective.menu.open') == 'true';
     this._repoMenu = new _repo__WEBPACK_IMPORTED_MODULE_4__["default"]({
       testing: this.isTesting
     });
@@ -98676,7 +98681,7 @@ class Menu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
 
   get template() {
     return editor => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="menu">
-      ${this._isOpen ? this.renderOpenedMenu(editor) : this.renderClosedMenu(editor)}
+      ${this._isOpen || !editor.podPath ? this.renderOpenedMenu(editor) : this.renderClosedMenu(editor)}
     </div>`;
   }
 
