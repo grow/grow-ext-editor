@@ -11,6 +11,9 @@ import { findParentByClassname } from '../../utility/dom'
 import {
   createWhiteBlackFilter,
 } from '../../utility/filter'
+import {
+  MenuWindow,
+} from '../parts/modal'
 import MenuBase from './base'
 import RepoMenu from './repo'
 import SiteMenu from './site'
@@ -21,7 +24,7 @@ export default class Menu extends MenuBase {
   constructor(config, editor) {
     super(config)
     this.editor = editor
-    this._isOpen = this.storage.getItem('selective.menu.open') == 'true'
+    this.menuWindow = new MenuWindow()
     this._repoMenu = new RepoMenu({
       testing: this.isTesting,
     })
@@ -50,9 +53,8 @@ export default class Menu extends MenuBase {
 
   get template() {
     return (editor) => html`<div class="menu">
-      ${this._isOpen || !editor.podPath
-        ? this.renderOpenedMenu(editor)
-        : this.renderClosedMenu(editor)}
+      ${this.renderMenuBar(editor)}
+      ${this.renderMenu(editor)}
     </div>`
   }
 
@@ -95,29 +97,38 @@ export default class Menu extends MenuBase {
   }
 
   handleToggleMenu(evt) {
-    this._isOpen = !this._isOpen
-    this.storage.setItem('selective.menu.open', this._isOpen)
-    this.render()
+    this.menuWindow.toggle()
   }
 
-  renderClosedMenu(editor) {
+  renderMenu(editor) {
+    // Always show the menu when there is not a pod path.
+    const isOpen = this.menuWindow.isOpen || !editor.podPath
+
+    if (isOpen) {
+      this.menuWindow.contentRenderFunc = () => {
+        return html`
+          <div class="menu__contents">
+            ${this._siteMenu.template(editor, this._state, {
+              toggleMenu: this.handleToggleMenu.bind(this),
+            })}
+            ${this._repoMenu.template(editor, this._state, {})}
+            ${this._treeMenu.template(editor, this._state, {})}
+          </div>`
+      }
+    }
+
+    return this.menuWindow.template
+  }
+
+  renderMenuBar(editor) {
     return html`
-      <div
-          class="menu__hamburger"
-          @click=${this.handleToggleMenu.bind(this)}
-          title="Open menu">
-        <i class="material-icons">menu</i>
+      <div class="menu__bar">
+        <div
+            class="menu__hamburger"
+            @click=${this.handleToggleMenu.bind(this)}
+            title="Open menu">
+          <i class="material-icons">menu</i>
+        </div>
       </div>`
-  }
-
-  renderOpenedMenu(editor) {
-    return html`
-    <div class="menu__contents">
-      ${this._siteMenu.template(editor, this._state, {
-        toggleMenu: this.handleToggleMenu.bind(this),
-      })}
-      ${this._repoMenu.template(editor, this._state, {})}
-      ${this._treeMenu.template(editor, this._state, {})}
-    </div>`
   }
 }

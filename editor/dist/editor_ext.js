@@ -95371,8 +95371,10 @@ class Editor {
 
     this.template = (editor, selective) => selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`<div class="editor ${editor.stylesEditor}">
       ${this.menu.template(editor)}
-      ${this.podPath ? editor.renderEditor(editor, selective) : ''}
-      ${this.podPath ? editor.renderPreview(editor, selective) : ''}
+      <div class="editor__frame">
+        ${this.podPath ? editor.renderEditor(editor, selective) : ''}
+        ${this.podPath ? editor.renderPreview(editor, selective) : ''}
+      </div>
     </div>`;
 
     this.storage = new _utility_storage__WEBPACK_IMPORTED_MODULE_16__["default"](this.isTesting);
@@ -98652,10 +98654,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
 /* harmony import */ var _utility_filter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/filter */ "./source/utility/filter.js");
-/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./base */ "./source/editor/menu/base.js");
-/* harmony import */ var _repo__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./repo */ "./source/editor/menu/repo.js");
-/* harmony import */ var _site__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./site */ "./source/editor/menu/site.js");
-/* harmony import */ var _tree__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./tree */ "./source/editor/menu/tree.js");
+/* harmony import */ var _parts_modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../parts/modal */ "./source/editor/parts/modal.js");
+/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./base */ "./source/editor/menu/base.js");
+/* harmony import */ var _repo__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./repo */ "./source/editor/menu/repo.js");
+/* harmony import */ var _site__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./site */ "./source/editor/menu/site.js");
+/* harmony import */ var _tree__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./tree */ "./source/editor/menu/tree.js");
 /**
  * Content editor.
  */
@@ -98666,18 +98669,19 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class Menu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
+
+class Menu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
   constructor(config, editor) {
     super(config);
     this.editor = editor;
-    this._isOpen = this.storage.getItem('selective.menu.open') == 'true';
-    this._repoMenu = new _repo__WEBPACK_IMPORTED_MODULE_4__["default"]({
+    this.menuWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_3__["MenuWindow"]();
+    this._repoMenu = new _repo__WEBPACK_IMPORTED_MODULE_5__["default"]({
       testing: this.isTesting
     });
-    this._siteMenu = new _site__WEBPACK_IMPORTED_MODULE_5__["default"]({
+    this._siteMenu = new _site__WEBPACK_IMPORTED_MODULE_6__["default"]({
       testing: this.isTesting
     });
-    this._treeMenu = new _tree__WEBPACK_IMPORTED_MODULE_6__["default"]({
+    this._treeMenu = new _tree__WEBPACK_IMPORTED_MODULE_7__["default"]({
       testing: this.isTesting
     });
     this._state = {
@@ -98696,7 +98700,8 @@ class Menu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
 
   get template() {
     return editor => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="menu">
-      ${this._isOpen || !editor.podPath ? this.renderOpenedMenu(editor) : this.renderClosedMenu(editor)}
+      ${this.renderMenuBar(editor)}
+      ${this.renderMenu(editor)}
     </div>`;
   }
 
@@ -98739,30 +98744,39 @@ class Menu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
   }
 
   handleToggleMenu(evt) {
-    this._isOpen = !this._isOpen;
-    this.storage.setItem('selective.menu.open', this._isOpen);
-    this.render();
+    this.menuWindow.toggle();
   }
 
-  renderClosedMenu(editor) {
+  renderMenu(editor) {
+    // Always show the menu when there is not a pod path.
+    const isOpen = this.menuWindow.isOpen || !editor.podPath;
+
+    if (isOpen) {
+      this.menuWindow.contentRenderFunc = () => {
+        return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+          <div class="menu__contents">
+            ${this._siteMenu.template(editor, this._state, {
+          toggleMenu: this.handleToggleMenu.bind(this)
+        })}
+            ${this._repoMenu.template(editor, this._state, {})}
+            ${this._treeMenu.template(editor, this._state, {})}
+          </div>`;
+      };
+    }
+
+    return this.menuWindow.template;
+  }
+
+  renderMenuBar(editor) {
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <div
-          class="menu__hamburger"
-          @click=${this.handleToggleMenu.bind(this)}
-          title="Open menu">
-        <i class="material-icons">menu</i>
+      <div class="menu__bar">
+        <div
+            class="menu__hamburger"
+            @click=${this.handleToggleMenu.bind(this)}
+            title="Open menu">
+          <i class="material-icons">menu</i>
+        </div>
       </div>`;
-  }
-
-  renderOpenedMenu(editor) {
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-    <div class="menu__contents">
-      ${this._siteMenu.template(editor, this._state, {
-      toggleMenu: this.handleToggleMenu.bind(this)
-    })}
-      ${this._repoMenu.template(editor, this._state, {})}
-      ${this._treeMenu.template(editor, this._state, {})}
-    </div>`;
   }
 
 }
@@ -99237,13 +99251,14 @@ class BasePart {
 /*!**************************************!*\
   !*** ./source/editor/parts/modal.js ***!
   \**************************************/
-/*! exports provided: default, ConfirmWindow */
+/*! exports provided: default, ConfirmWindow, MenuWindow */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ModalWindow; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ConfirmWindow", function() { return ConfirmWindow; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MenuWindow", function() { return MenuWindow; });
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
 /* harmony import */ var _utility_defer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/defer */ "./source/utility/defer.js");
@@ -99286,13 +99301,17 @@ class ModalWindow extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
     `)}`;
   }
 
+  get classesMain() {
+    return ['modal'];
+  }
+
   get template() {
     if (!this.isOpen) {
       return '';
     }
 
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <div class="modal">
+      <div class=${this.classesMain}>
         <div
             class="modal__wrapper"
             @click=${this.handleOffsetClick.bind(this)}>
@@ -99378,6 +99397,14 @@ class ConfirmWindow extends ModalWindow {
 
   get promise() {
     return this.result.promise;
+  }
+
+}
+class MenuWindow extends ModalWindow {
+  get classesMain() {
+    const superClasses = super.classesMain;
+    superClasses.push('modal--menu');
+    return superClasses.join(' ');
   }
 
 }

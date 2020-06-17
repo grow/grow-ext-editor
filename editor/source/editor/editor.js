@@ -40,8 +40,10 @@ export default class Editor {
     this.config = new Config(config || {})
     this.template = (editor, selective) => html`<div class="editor ${editor.stylesEditor}">
       ${this.menu.template(editor)}
-      ${this.podPath ? editor.renderEditor(editor, selective) : ''}
-      ${this.podPath ? editor.renderPreview(editor, selective) : ''}
+      <div class="editor__frame">
+        ${this.podPath ? editor.renderEditor(editor, selective) : ''}
+        ${this.podPath ? editor.renderPreview(editor, selective) : ''}
+      </div>
     </div>`
     this.storage = new Storage(this.isTesting)
 

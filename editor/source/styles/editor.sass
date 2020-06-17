@@ -1,11 +1,11 @@
 .editor
   background-color: $ge-color-back-light
   display: flex
-  flex-flow: row
+  flex-flow: column
   font-family: $ge-font-family
   font-size: $ge-font-size
   line-height: $ge-line-height
-  min-height: 100vh
+  height: 100vh
 
   *
     box-sizing: border-box
@@ -14,6 +14,12 @@
     display: inline-flex
     font-size: $ge-font-size-icon
     vertical-align: middle
+
+.editor__frame
+  align-items: stretch
+  display: flex
+  flex-flow: row
+  flex-grow: 1
 
 .editor__edit
   flex-basis: 40%
@@ -72,7 +78,7 @@
   display: flex
   flex-flow: column
   flex-grow: 1
-  height: calc(100vh - #{$ge-header-height})
+  max-height: calc(100vh - #{$ge-header-height * 2})
   overflow-y: auto
   // Attempt to keep scroll sticky menu from overlapping linked fields.
   scroll-margin-top: $ge-font-size * 3

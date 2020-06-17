@@ -3,8 +3,9 @@
   box-shadow: $ge-shadow-1
   color: $ge-color-on-back
   display: flex
-  flex-flow: row-reverse
-  max-height: 100vh
+  flex-flow: row
+  flex-grow: 0
+  flex-shrink: 0
   overflow-y: auto
   z-index: 10
 
@@ -14,6 +15,15 @@
 
   &--hidden
     display: none
+
+.modal--menu
+  .modal__container
+    bottom: 0
+    left: 0
+    min-width: $ge-menu-column-min-width
+    padding: 0
+    position: absolute
+    top: 0
 
 .menu__contents
   display: flex
