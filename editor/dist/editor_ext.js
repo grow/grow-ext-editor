@@ -98240,18 +98240,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 class FileTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
   constructor(config) {
     super(config);
     this.podPath = null;
     this.expandedFolders = [];
-    this.newFileFolder = null;
     this._selectives = {};
-    this.modalWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_6__["default"]('New page');
-    this.modalWindow.addAction('Create file', this.handleFileNewSubmit.bind(this), true);
-    this.modalWindow.addAction('Cancel', this.handleFileNewCancel.bind(this), false, true);
     this.confirmDelete = null;
+    this.modalWindow = this.config.get('newFileModal');
   }
 
   get template() {
@@ -98394,34 +98390,12 @@ class FileTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
     this.confirmDelete.open();
   }
 
-  handleFileNewCancel(evt) {
-    evt.stopPropagation();
-    this.newFileFolder = null;
-    this.modalWindow.close();
-  }
-
   handleFileNewClick(evt) {
     evt.stopPropagation();
     const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'menu__tree__folder__actions');
     const folder = target.dataset.folder;
-    this.newFileFolder = folder;
+    this.modalWindow.newFileFolder = folder;
     this.modalWindow.open();
-  }
-
-  handleFileNewSubmit(evt) {
-    evt.stopPropagation();
-
-    const newFileSelective = this._getOrCreateSelective(this.newFileFolder);
-
-    const value = newFileSelective.value;
-    document.dispatchEvent(new CustomEvent('selective.path.template', {
-      detail: {
-        collectionPath: this.newFileFolder,
-        fileName: value.fileName,
-        template: value.template
-      }
-    }));
-    this.modalWindow.close();
   }
 
   handleFolderToggle(evt) {
@@ -98455,10 +98429,13 @@ class FileTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
 
     const folderStructure = new _folderStructure__WEBPACK_IMPORTED_MODULE_5__["default"](menuState.podPaths, menuState.templates, '/');
 
-    if (this.newFileFolder) {
-      const templates = menuState.templates[this.newFileFolder];
+    if (this.modalWindow.newFileFolder) {
+      const templates = menuState.templates[this.modalWindow.newFileFolder];
 
-      const newFileSelective = this._getOrCreateSelective(this.newFileFolder, templates);
+      const newFileSelective = this._getOrCreateSelective(this.modalWindow.newFileFolder, templates); // Store the selective editor for the new file for processing in the menu.
+
+
+      this.modalWindow.fileSelective = newFileSelective;
 
       this.modalWindow.canClickToCloseFunc = () => {
         return newFileSelective.isClean;
@@ -98476,7 +98453,6 @@ class FileTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
       handleFileDeleteClick: this.handleFileDeleteClick.bind(this),
       handleFileNewClick: this.handleFileNewClick.bind(this)
     }, 1)}
-      ${this.modalWindow.template}
       ${this.confirmDelete ? this.confirmDelete.template : ''}`;
   }
 
@@ -98605,7 +98581,7 @@ class FolderStructure {
         <div class=${level > threshold ? 'menu__tree__folder__files' : ''}>
           ${level > threshold ? selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
             <div data-folder=${folder} class="menu__tree__folder__actions">
-              <button class="editor__button editor__actions__add" @click=${eventHandlers.handleFileNewClick}>New file</button>
+              <button class="editor__button editor__actions--add" @click=${eventHandlers.handleFileNewClick}>New file</button>
             </div>` : ''}
           ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(this.folderInfo.files, file => `${filePrefix}${file.fileName}`, (file, index) => {
       const podPath = lookupFunc ? lookupFunc(`${filePrefix}${file.fileName}`) : `${filePrefix}${file.fileName}`;
@@ -98658,7 +98634,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./base */ "./source/editor/menu/base.js");
 /* harmony import */ var _repo__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./repo */ "./source/editor/menu/repo.js");
 /* harmony import */ var _site__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./site */ "./source/editor/menu/site.js");
-/* harmony import */ var _tree__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./tree */ "./source/editor/menu/tree.js");
 /**
  * Content editor.
  */
@@ -98675,13 +98650,17 @@ class Menu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
     super(config);
     this.editor = editor;
     this.menuWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_3__["MenuWindow"]();
+    this.menuWindow.isOpen = true; // TODO: Remove
+    // Create the new page modal outside of the modal for the menu.
+
+    this.newFileWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_3__["default"]('New page');
+    this.newFileWindow.addAction('Create file', this.handleFileNewSubmit.bind(this), true);
+    this.newFileWindow.addAction('Cancel', this.handleFileNewCancel.bind(this), false, true);
     this._repoMenu = new _repo__WEBPACK_IMPORTED_MODULE_5__["default"]({
       testing: this.isTesting
     });
     this._siteMenu = new _site__WEBPACK_IMPORTED_MODULE_6__["default"]({
-      testing: this.isTesting
-    });
-    this._treeMenu = new _tree__WEBPACK_IMPORTED_MODULE_7__["default"]({
+      newFileModal: this.newFileWindow,
       testing: this.isTesting
     });
     this._state = {
@@ -98690,7 +98669,15 @@ class Menu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
       podPaths: null,
       repo: null,
       routes: null,
-      templates: null
+      templates: null,
+      trees: {
+        file: {
+          isOpen: this.storage.getItem('selective.menu.tree.file.open') == 'true'
+        },
+        site: {
+          isOpen: this.storage.getItem('selective.menu.tree.site.open') == 'true'
+        }
+      }
     };
     this.filterFunc = this.config.get('filterFunc') || Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createWhiteBlackFilter"])([/^\/content\//, /^\/data\//], // Whitelist.
     [] // Blacklist.
@@ -98712,6 +98699,26 @@ class Menu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
     this.editor.listeners.add('load.repo', this.handleLoadRepo.bind(this));
     this.editor.listeners.add('load.routes', this.handleLoadRoutes.bind(this));
     this.editor.listeners.add('load.templates', this.handleLoadTemplates.bind(this));
+  }
+
+  handleFileNewCancel(evt) {
+    evt.stopPropagation();
+    this.newFileWindow.newFileFolder = null;
+    this.newFileWindow.close();
+  }
+
+  handleFileNewSubmit(evt) {
+    evt.stopPropagation();
+    const newFileSelective = this.newFileWindow.fileSelective;
+    const value = newFileSelective.value;
+    document.dispatchEvent(new CustomEvent('selective.path.template', {
+      detail: {
+        collectionPath: this.newFileWindow.newFileFolder,
+        fileName: value.fileName,
+        template: value.template
+      }
+    }));
+    this.newFileWindow.close();
   }
 
   handleLoadPodPaths(response) {
@@ -98747,23 +98754,47 @@ class Menu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
     this.menuWindow.toggle();
   }
 
+  handleToggleTree(evt) {
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'menu__tree__title');
+    const tree = target.dataset.tree;
+    const isOpen = !this._state.trees[tree].isOpen;
+    this._state.trees[tree].isOpen = isOpen;
+    this.storage.setItem(`selective.menu.tree.${tree}.open`, isOpen);
+    this.render();
+  }
+
   renderMenu(editor) {
     // Always show the menu when there is not a pod path.
     const isOpen = this.menuWindow.isOpen || !editor.podPath;
+
+    if (!this._state.pod) {
+      editor.loadPod();
+    }
 
     if (isOpen) {
       this.menuWindow.contentRenderFunc = () => {
         return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
           <div class="menu__contents">
+            <div class="menu__section">
+              <div class="menu__site">
+                <div class="menu__site__title">
+                  ${this._state.pod ? this._state.pod.title : ''}
+                </div>
+                <i class="material-icons" @click=${this.handleToggleMenu.bind(this)} title="Close menu">
+                  close
+                </i>
+              </div>
+            </div>
             ${this._siteMenu.template(editor, this._state, {
-          toggleMenu: this.handleToggleMenu.bind(this)
+          handleToggleTree: this.handleToggleTree.bind(this)
         })}
-            ${this._treeMenu.template(editor, this._state, {})}
           </div>`;
       };
     }
 
-    return this.menuWindow.template;
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      ${this.menuWindow.template}
+      ${this.newFileWindow.template}`;
   }
 
   renderMenuBar(editor) {
@@ -98898,33 +98929,37 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
 /* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./base */ "./source/editor/menu/base.js");
+/* harmony import */ var _tree__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./tree */ "./source/editor/menu/tree.js");
 /**
  * Content editor.
  */
 
 
 
+
 class SiteMenu extends _base__WEBPACK_IMPORTED_MODULE_2__["default"] {
   constructor(config) {
     super(config);
-    this._isOpen = this.storage.getItem('selective.menu.open') == 'true';
+    this._treeMenu = new _tree__WEBPACK_IMPORTED_MODULE_3__["default"]({
+      newFileModal: this.config.get('newFileModal'),
+      testing: this.isTesting
+    });
   }
 
   get template() {
-    return (editor, menuState, eventHandlers) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="menu__section">
-      <div class="menu__site">
-        <div class="menu__site__title">${this.renderSiteTitle(editor, menuState, eventHandlers)}</div>
-        <i class="material-icons" @click=${eventHandlers.toggleMenu} title="Close menu">
-          close
-        </i>
-      </div>
-    </div>`;
+    return (editor, menuState, eventHandlers) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <div class="menu__section">
+        <div class="menu__section__title">
+          Site
+        </div>
+        ${this._treeMenu.template(editor, menuState, eventHandlers)}
+      </div>`;
   }
 
   renderSiteTitle(editor, menuState, eventHandlers) {
     if (!menuState.pod) {
       editor.loadPod();
-      return 'Site';
+      return '…';
     }
 
     return menuState.pod.title;
@@ -99087,66 +99122,6 @@ class SiteTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
 
 /***/ }),
 
-/***/ "./source/editor/menu/submenu.js":
-/*!***************************************!*\
-  !*** ./source/editor/menu/submenu.js ***!
-  \***************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return SubMenu; });
-/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
-/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
-/* harmony import */ var _utility_listeners__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/listeners */ "./source/utility/listeners.js");
-/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./base */ "./source/editor/menu/base.js");
-/**
- * Content editor.
- */
-
-
-
-
-class SubMenu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
-  constructor(config) {
-    super(config);
-    this.items = this.config.get('items', []);
-    this.selected = this.storage.getItem('selective.menu.tree') || this.items[0];
-    this.listeners = new _utility_listeners__WEBPACK_IMPORTED_MODULE_2__["default"]();
-  }
-
-  get template() {
-    // Do not show when the length is not long enough.
-    if (this.items.length < 2) {
-      return editor => '';
-    }
-
-    return editor => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <div class="menu__section">
-        <div class="menu__sub_menu">
-          ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(this.items, item => item, (item, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-            <div
-                class="menu__sub_menu__item ${this.selected == item ? 'menu__sub_menu__item--selected' : ''}"
-                data-item=${item}
-                @click=${this.handleChange.bind(this)}>
-              ${item}
-            </div>`)}
-        </div>
-      </div>`;
-  }
-
-  handleChange(evt) {
-    this.selected = evt.target.dataset.item;
-    this.storage.setItem('selective.menu.tree', this.selected);
-    this.listeners.trigger('change', this.selected);
-    this.render();
-  }
-
-}
-
-/***/ }),
-
 /***/ "./source/editor/menu/tree.js":
 /*!************************************!*\
   !*** ./source/editor/menu/tree.js ***!
@@ -99160,9 +99135,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
 /* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./base */ "./source/editor/menu/base.js");
-/* harmony import */ var _submenu__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./submenu */ "./source/editor/menu/submenu.js");
-/* harmony import */ var _filetree__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./filetree */ "./source/editor/menu/filetree.js");
-/* harmony import */ var _sitetree__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./sitetree */ "./source/editor/menu/sitetree.js");
+/* harmony import */ var _filetree__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./filetree */ "./source/editor/menu/filetree.js");
+/* harmony import */ var _sitetree__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./sitetree */ "./source/editor/menu/sitetree.js");
 /**
  * Content editor.
  */
@@ -99171,29 +99145,21 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 class TreeMenu extends _base__WEBPACK_IMPORTED_MODULE_2__["default"] {
   constructor(config) {
     super(config);
-    this._subMenu = new _submenu__WEBPACK_IMPORTED_MODULE_3__["default"]({
-      testing: this.isTesting,
-      items: ['Filetree', 'Sitemap'],
-      storageKey: 'selective.menu.tree'
-    });
-    this._fileTreeMenu = new _filetree__WEBPACK_IMPORTED_MODULE_4__["default"]({
+    this._fileTreeMenu = new _filetree__WEBPACK_IMPORTED_MODULE_3__["default"]({
+      newFileModal: this.config.get('newFileModal'),
       testing: this.isTesting
     });
-    this._siteTreeMenu = new _sitetree__WEBPACK_IMPORTED_MODULE_5__["default"]({
+    this._siteTreeMenu = new _sitetree__WEBPACK_IMPORTED_MODULE_4__["default"]({
+      newFileModal: this.config.get('newFileModal'),
       testing: this.isTesting
     });
-    this.selected = this._subMenu.selected;
-
-    this._subMenu.listeners.add('change', this.handleSubMenuSwitch.bind(this));
   }
 
   get template() {
     return (editor, menuState, eventHandlers) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      ${this._subMenu.template(editor)}
       ${this.renderTree(editor, menuState, eventHandlers)}`;
   }
 
@@ -99203,26 +99169,30 @@ class TreeMenu extends _base__WEBPACK_IMPORTED_MODULE_2__["default"] {
   }
 
   renderTree(editor, menuState, eventHandlers) {
-    let treeClass = '';
-    let treeMenu = null;
-
-    switch (this.selected) {
-      case 'Filetree':
-        treeClass = 'menu__tree__filetree';
-        treeMenu = this._fileTreeMenu;
-        break;
-
-      case 'Sitemap':
-        treeClass = 'menu__tree__sitetree';
-        treeMenu = this._siteTreeMenu;
-        break;
-    }
-
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <div class="menu__section">
-        <div class="menu__trees">
-          <div class="menu__tree ${treeClass}">
-            ${treeMenu.template(editor, menuState, eventHandlers)}
+      <div class="menu__trees">
+        <div class="menu__tree">
+          <div
+              class="menu__tree__title"
+              data-tree="file"
+              @click=${eventHandlers.handleToggleTree}>
+            <i class="material-icons">${menuState.trees.file.isOpen ? 'expand_more' : 'expand_less'}</i>
+            Collections
+          </div>
+          <div class="menu__tree__tree">
+            ${menuState.trees.file.isOpen ? this._fileTreeMenu.template(editor, menuState, eventHandlers) : ''}
+          </div>
+        </div>
+        <div class="menu__tree">
+          <div
+              class="menu__tree__title"
+              data-tree="site"
+              @click=${eventHandlers.handleToggleTree}>
+            <i class="material-icons">${menuState.trees.site.isOpen ? 'expand_more' : 'expand_less'}</i>
+            Sitemap
+          </div>
+          <div class="menu__tree__tree">
+            ${menuState.trees.site.isOpen ? this._siteTreeMenu.template(editor, menuState, eventHandlers) : ''}
           </div>
         </div>
       </div>`;

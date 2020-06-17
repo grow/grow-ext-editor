@@ -13,7 +13,6 @@ import { defaultFields } from '../field'
 import generateUUID from '../../utility/uuid'
 import MenuBase from './base'
 import FolderStructure from './folderStructure'
-import ModalWindow from '../parts/modal'
 import { ConfirmWindow } from '../parts/modal'
 
 
@@ -23,16 +22,10 @@ export default class FileTreeMenu extends MenuBase {
 
     this.podPath = null
     this.expandedFolders = []
-    this.newFileFolder = null
     this._selectives = {}
-
-    this.modalWindow = new ModalWindow('New page')
-    this.modalWindow.addAction(
-      'Create file', this.handleFileNewSubmit.bind(this), true)
-    this.modalWindow.addAction(
-      'Cancel', this.handleFileNewCancel.bind(this), false, true)
-
     this.confirmDelete = null
+
+    this.modalWindow = this.config.get('newFileModal')
   }
 
   get template() {
@@ -158,7 +151,7 @@ export default class FileTreeMenu extends MenuBase {
     const podPath = target.dataset.podPath
 
     this.confirmDelete = new ConfirmWindow('Delete page', 'Delete page')
-    
+
     this.confirmDelete.contentRenderFunc = () => {
       return html`Are you sure you want to delete the page at <strong>${podPath}</strong>?`
     }
@@ -177,35 +170,13 @@ export default class FileTreeMenu extends MenuBase {
     this.confirmDelete.open()
   }
 
-  handleFileNewCancel(evt) {
-    evt.stopPropagation()
-    this.newFileFolder = null
-    this.modalWindow.close()
-  }
-
   handleFileNewClick(evt) {
     evt.stopPropagation()
 
     const target = findParentByClassname(evt.target, 'menu__tree__folder__actions')
     const folder = target.dataset.folder
-    this.newFileFolder = folder
+    this.modalWindow.newFileFolder = folder
     this.modalWindow.open()
-  }
-
-  handleFileNewSubmit(evt) {
-    evt.stopPropagation()
-
-    const newFileSelective = this._getOrCreateSelective(this.newFileFolder)
-    const value = newFileSelective.value
-
-    document.dispatchEvent(new CustomEvent('selective.path.template', {
-      detail: {
-        collectionPath: this.newFileFolder,
-        fileName: value.fileName,
-        template: value.template,
-      }
-    }))
-    this.modalWindow.close()
   }
 
   handleFolderToggle(evt) {
@@ -236,9 +207,12 @@ export default class FileTreeMenu extends MenuBase {
 
     const folderStructure = new FolderStructure(menuState.podPaths, menuState.templates, '/')
 
-    if (this.newFileFolder) {
-      const templates = menuState.templates[this.newFileFolder]
-      const newFileSelective = this._getOrCreateSelective(this.newFileFolder, templates)
+    if (this.modalWindow.newFileFolder) {
+      const templates = menuState.templates[this.modalWindow.newFileFolder]
+      const newFileSelective = this._getOrCreateSelective(this.modalWindow.newFileFolder, templates)
+
+      // Store the selective editor for the new file for processing in the menu.
+      this.modalWindow.fileSelective = newFileSelective
 
       this.modalWindow.canClickToCloseFunc = () => {
         return newFileSelective.isClean
@@ -260,7 +234,6 @@ export default class FileTreeMenu extends MenuBase {
         handleFileNewClick: this.handleFileNewClick.bind(this),
       },
       1)}
-      ${this.modalWindow.template}
       ${this.confirmDelete ? this.confirmDelete.template : ''}`
   }
 }

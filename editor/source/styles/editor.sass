@@ -189,6 +189,19 @@
   button
     margin-left: $ge-pad/2
 
+  &--add
+    background-repeat: no-repeat
+    background-position: left $ge-pad/2 center
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><path d="M-2-2h24v24H-2V-2z" fill="none"/><path d="M10 2.5c-4.1 0-7.5 3.4-7.5 7.5s3.4 7.5 7.5 7.5 7.5-3.4 7.5-7.5-3.4-7.5-7.5-7.5zm3.8 8.3h-3v3H9.2v-3h-3V9.3h3v-3h1.5v3h3v1.5z"/></svg>')
+    border: none
+    cursor: pointer
+    font-weight: 700
+    padding-left: $ge-pad * 3
+
+    &:focus,
+    &:hover
+      border: none
+
 .editor__source,
 .editor__selective
   padding: $ge-pad*2
@@ -345,12 +358,6 @@
     &:focus,
     &:hover
       visibility: visible
-
-.editor__actions__add
-  background-repeat: no-repeat
-  background-position: left $ge-pad center
-  background-image: url('data:image/svg+xml;utf8,<svg class="svg" width="12" height="12" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg"><path d="M5 5V0h1v5h5v1H6v5H5V6H0V5h5z" fill-rule="nonzero" fill-opacity="1" fill="%23000" stroke="none"></path></svg>')
-  padding-left: $ge-pad * 3
 
 // Import theme for codemirror.
 @import 'codemirror/lib/codemirror.css'

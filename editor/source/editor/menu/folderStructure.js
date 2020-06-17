@@ -122,7 +122,7 @@ export default class FolderStructure {
         <div class=${level > threshold ? 'menu__tree__folder__files' : ''}>
           ${level > threshold ? html`
             <div data-folder=${folder} class="menu__tree__folder__actions">
-              <button class="editor__button editor__actions__add" @click=${eventHandlers.handleFileNewClick}>New file</button>
+              <button class="editor__button editor__actions--add" @click=${eventHandlers.handleFileNewClick}>New file</button>
             </div>` : ''}
           ${repeat(this.folderInfo.files, (file) => `${filePrefix}${file.fileName}`, (file, index) => {
             const podPath = lookupFunc ? lookupFunc(`${filePrefix}${file.fileName}`) : `${filePrefix}${file.fileName}`
