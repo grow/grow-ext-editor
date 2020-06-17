@@ -37,11 +37,8 @@
 
 .menu__tree__folder__file
   align-items: center
-  border-radius: $ge-radius-2
   display: flex
   flex-flow: row
-
-.menu__tree__folder__file
   padding: $ge-pad/2
   border: $ge-border-size solid transparent
   transition: all $ge-speed-faster ease-in-out
@@ -51,8 +48,8 @@
     cursor: pointer
 
   &--selected
-    background-color: $ge-color-back-light
-    color: $ge-color-on-back
+    background-color: $ge-color-back-dark
+    color: $ge-color-on-back-dark
 
   .material-icons
     .menu__trees &
@@ -64,8 +61,6 @@
 
 .menu__tree__new__template
   padding: $ge-pad
-
-  .editor__button
 
 .menu__tree__new__template__option__screenshots
   margin: $ge-pad/2 0
