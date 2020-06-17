@@ -95395,7 +95395,8 @@ class Editor {
     this._device = this.storage.getItem('selective.device') || this._defaultDevice; // Persistent settings in local storage.
 
     this._isEditingSource = this.storage.getItem('selective.isEditingSource') == 'true';
-    this._isFullScreen = this.storage.getItem('selective.isFullScreen') == 'true';
+    this._isFullScreenEditor = this.storage.getItem('selective.isFullScreenEditor') == 'true';
+    this._isFullScreenPreview = this.storage.getItem('selective.isFullScreenPreview') == 'true';
     this._isHighlighted = {
       dirty: this.storage.getItem('selective.isHightlighted.dirty') == 'true',
       guess: this.storage.getItem('selective.isHightlighted.guess') == 'true',
@@ -95469,7 +95470,7 @@ class Editor {
     return this._isEditingSource;
   }
 
-  get isFullScreen() {
+  get isFullScreenEditor() {
     // Default to full-screen mode for documents without serving paths.
     // TODO: We probably want to add a new checkbox to "disable the link"
     // between the preview and the editor. When the preview is disabled,
@@ -95477,7 +95478,11 @@ class Editor {
     // allow the user to be editing a partial document and then refresh the
     // full preview (corresponding to another doc), without having to
     // toggle the full-screen view.
-    return this._isFullScreen || !this.servingPath;
+    return this._isFullScreenEditor || !this.servingPath;
+  }
+
+  get isFullScreenPreview() {
+    return this._isFullScreenPreview;
   }
 
   get isTesting() {
@@ -95526,8 +95531,12 @@ class Editor {
       styles.push('editor--raw');
     }
 
-    if (this.isFullScreen) {
-      styles.push('editor--fullscreen');
+    if (this.isFullScreenEditor) {
+      styles.push('editor--fullscreen-editor');
+    }
+
+    if (this.isFullScreenPreview) {
+      styles.push('editor--fullscreen-preview');
     }
 
     if (this._isFullMarkdownEditor) {
@@ -95580,9 +95589,14 @@ class Editor {
     this.storage.setItem('selective.isEditingSource', this._isEditingSource);
   }
 
-  set isFullScreen(value) {
-    this._isFullScreen = value;
-    this.storage.setItem('selective.isFullScreen', this._isFullScreen);
+  set isFullScreenEditor(value) {
+    this._isFullScreenEditor = value;
+    this.storage.setItem('selective.isFullScreenEditor', this._isFullScreenEditor);
+  }
+
+  set isFullScreenPreview(value) {
+    this._isFullScreenPreview = value;
+    this.storage.setItem('selective.isFullScreenPreview', this._isFullScreenPreview);
   }
 
   set isDeviceRotated(value) {
@@ -95759,8 +95773,13 @@ class Editor {
     this.render();
   }
 
-  handleFullScreenClick(evt) {
-    this.isFullScreen = !this.isFullScreen;
+  handleFullScreenEditorClick(evt) {
+    this.isFullScreenEditor = !this.isFullScreenEditor;
+    this.render();
+  }
+
+  handleFullScreenPreviewClick(evt) {
+    this.isFullScreenPreview = !this.isFullScreenPreview;
     this.render();
   }
 
@@ -96196,13 +96215,17 @@ class Editor {
   }
 
   renderEditor(editor, selective) {
+    if (editor.isFullScreenPreview) {
+      return '';
+    }
+
     return selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`<div class="editor__edit">
       <div class="editor__pod_path">
         <input type="text" value="${editor.podPath}"
           @change=${editor.handlePodPathChange.bind(editor)}
           @input=${editor.handlePodPathInput.bind(editor)}>
         ${editor.document.locales.length > 1 ? selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`<i class="material-icons" @click=${editor.handleLocalize.bind(editor)} title="Localize content">translate</i>` : ''}
-        <i class="material-icons" @click=${editor.handleFullScreenClick.bind(editor)} title="Fullscreen">${editor.isFullScreen ? 'fullscreen_exit' : 'fullscreen'}</i>
+        <i class="material-icons" @click=${editor.handleFullScreenEditorClick.bind(editor)} title="Fullscreen">${editor.isFullScreenEditor ? 'fullscreen_exit' : 'fullscreen'}</i>
       </div>
       <div class="editor__cards">
         <div class="editor__card editor__field_list">
@@ -96248,7 +96271,7 @@ class Editor {
   }
 
   renderPreview(editor, selective) {
-    if (editor.isFullScreen) {
+    if (editor.isFullScreenEditor) {
       return '';
     }
 
@@ -96271,15 +96294,16 @@ class Editor {
 
     return selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`<div class="editor__preview">
       <div class="editor__preview__header">
+        <div class="editor__preview__header__icons">
+          <i class="material-icons" @click=${editor.handleFullScreenPreviewClick.bind(editor)} title="Fullscreen">${editor.isFullScreenPreview ? 'fullscreen_exit' : 'fullscreen'}</i>
+        </div>
         <div class="editor__preview__header__label">
           Preview
         </div>
         ${previewSizes}
         <div class="editor__preview__header__icons">
-          ${editor.isFullScreen ? '' : selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`
-            <i class="material-icons" @click=${editor.handleDeviceToggleClick.bind(editor)} title="Toggle device view">devices</i>
-            <i class="material-icons editor--device-only" @click=${editor.handleDeviceRotateClick.bind(editor)} title="Rotate device view">screen_rotation</i>
-          `}
+          <i class="material-icons" @click=${editor.handleDeviceToggleClick.bind(editor)} title="Toggle device view">devices</i>
+          <i class="material-icons editor--device-only" @click=${editor.handleDeviceRotateClick.bind(editor)} title="Rotate device view">screen_rotation</i>
           <i class="material-icons" @click=${editor.handleOpenInNew.bind(editor)} title="Preview in new window">open_in_new</i>
         </div>
       </div>
@@ -98634,8 +98658,7 @@ class Menu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
   constructor(config, editor) {
     super(config);
     this.editor = editor;
-    this.menuWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_3__["MenuWindow"]();
-    this.menuWindow.isOpen = true; // TODO: Remove
+    this.menuWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_3__["MenuWindow"](); // this.menuWindow.isOpen = true  // TODO: Remove
     // Create the new page modal outside of the modal for the menu.
 
     this.newFileWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_3__["default"]('New page');
