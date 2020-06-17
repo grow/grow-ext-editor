@@ -327,6 +327,7 @@ export default class Editor {
   adjustIframeSize() {
     const iframeContainerEl = this.containerEl.querySelector('.editor__preview__frame')
     const iframeEl = this.containerEl.querySelector('.editor__preview iframe')
+    console.log(iframeContainerEl, iframeEl);
     zoomIframe(
       iframeContainerEl, iframeEl, this.isDeviceView, this.isDeviceRotated,
       this.devices[this.device], 'editor__preview__frame--contained')
@@ -1028,8 +1029,8 @@ export default class Editor {
         <div class="editor__preview__header__label">
           Preview
         </div>
-        ${previewSizes}
         <div class="editor__preview__header__icons">
+          ${previewSizes}
           <i class="material-icons" @click=${editor.handleDeviceToggleClick.bind(editor)} title="Toggle device view">devices</i>
           <i class="material-icons editor--device-only" @click=${editor.handleDeviceRotateClick.bind(editor)} title="Rotate device view">screen_rotation</i>
           <i class="material-icons" @click=${editor.handleOpenInNew.bind(editor)} title="Preview in new window">open_in_new</i>

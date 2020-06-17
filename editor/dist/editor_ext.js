@@ -95644,6 +95644,7 @@ class Editor {
   adjustIframeSize() {
     const iframeContainerEl = this.containerEl.querySelector('.editor__preview__frame');
     const iframeEl = this.containerEl.querySelector('.editor__preview iframe');
+    console.log(iframeContainerEl, iframeEl);
     Object(_zoomIframe__WEBPACK_IMPORTED_MODULE_13__["zoomIframe"])(iframeContainerEl, iframeEl, this.isDeviceView, this.isDeviceRotated, this.devices[this.device], 'editor__preview__frame--contained');
   }
 
@@ -96326,8 +96327,8 @@ class Editor {
         <div class="editor__preview__header__label">
           Preview
         </div>
-        ${previewSizes}
         <div class="editor__preview__header__icons">
+          ${previewSizes}
           <i class="material-icons" @click=${editor.handleDeviceToggleClick.bind(editor)} title="Toggle device view">devices</i>
           <i class="material-icons editor--device-only" @click=${editor.handleDeviceRotateClick.bind(editor)} title="Rotate device view">screen_rotation</i>
           <i class="material-icons" @click=${editor.handleOpenInNew.bind(editor)} title="Preview in new window">open_in_new</i>
@@ -99954,7 +99955,7 @@ const zoomIframe = (containerEl, iframeEl, isDeviceView, isRotated, device, cont
       } else {
         // Width does not fit. Scale down.
         adjustHeight = deviceHeight * (deviceWidth / containerWidth);
-        adjustMaxHeight = deviceHeight * (deviceWidth / containerWidth);
+        adjustMaxHeight = adjustHeight;
         adjustWidth = deviceWidth;
         adjustScale = containerWidth / deviceWidth;
       }
@@ -99967,7 +99968,7 @@ const zoomIframe = (containerEl, iframeEl, isDeviceView, isRotated, device, cont
         adjustWidth = deviceWidth;
       } else {
         adjustHeight = containerHeight * (deviceWidth / containerWidth);
-        adjustMaxHeight = containerHeight * (deviceWidth / containerWidth);
+        adjustMaxHeight = adjustHeight;
         adjustWidth = deviceWidth;
         adjustScale = containerWidth / deviceWidth;
       }
@@ -99979,17 +99980,18 @@ const zoomIframe = (containerEl, iframeEl, isDeviceView, isRotated, device, cont
         adjustHeight = deviceHeight;
       } else {
         adjustHeight = deviceHeight;
-        adjustMaxHeight = containerWidth * (deviceHeight / containerHeight);
         adjustWidth = containerWidth * (deviceHeight / containerHeight);
+        adjustMaxHeight = adjustWidth;
         adjustScale = containerHeight / deviceHeight;
       }
     } // Make sure that the framing container does not expand.
 
 
     containerEl.style.maxWidth = `${containerWidth}px`;
-  }
+  } // TODO: This is not working after adding the menu row.
+  // iframeEl.style.height = adjustHeight == 'auto' ? 'auto' : `${adjustHeight}px`
 
-  iframeEl.style.height = adjustHeight == 'auto' ? 'auto' : `${adjustHeight}px`;
+
   iframeEl.style.maxHeight = adjustMaxHeight == 'auto' ? null : `${adjustMaxHeight}px`;
   iframeEl.style.transform = `scale(${adjustScale})`;
   iframeEl.style.width = adjustWidth == 'auto' ? 'auto' : `${adjustWidth}px`;
