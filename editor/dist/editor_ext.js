@@ -96234,13 +96234,24 @@ class Editor {
       return '';
     }
 
+    console.log(editor.document.data);
     return selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`<div class="editor__edit">
-      <div class="editor__pod_path">
-        <input type="text" value="${editor.podPath}"
-          @change=${editor.handlePodPathChange.bind(editor)}
-          @input=${editor.handlePodPathInput.bind(editor)}>
-        ${editor.document.locales.length > 1 ? selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`<i class="material-icons" @click=${editor.handleLocalize.bind(editor)} title="Localize content">translate</i>` : ''}
-        <i class="material-icons" @click=${editor.handleFullScreenEditorClick.bind(editor)} title="Fullscreen">${editor.isFullScreenEditor ? 'fullscreen_exit' : 'fullscreen'}</i>
+      <div class="editor__edit__header">
+        <div class="editor__edit__header__section">
+          <div class="editor__edit__header__label">
+            Page:
+          </div>
+          <div class="editor__edit__header__title">
+            ${editor.document.data['$title'] || editor.document.data['$title@']}
+          </div>
+        </div>
+        <div class="editor__edit__header__section">
+          <div class="editor__edit__header__pod_path">
+            ${editor.podPath}
+          </div>
+          ${editor.document.locales.length > 1 ? selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`<i class="material-icons" @click=${editor.handleLocalize.bind(editor)} title="Localize content">translate</i>` : ''}
+          <i class="material-icons" @click=${editor.handleFullScreenEditorClick.bind(editor)} title="Fullscreen">${editor.isFullScreenEditor ? 'fullscreen_exit' : 'fullscreen'}</i>
+        </div>
       </div>
       <div class="editor__cards">
         <div class="editor__card editor__field_list">

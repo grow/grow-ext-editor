@@ -37,13 +37,14 @@
     flex-grow: 1
     max-width: 100%
 
-.editor__pod_path
+.editor__edit__header
   align-items: center
   background: $ge-color-secondary
   box-shadow: $ge-shadow-1
   color: $ge-color-on-secondary
   display: flex
   flex-flow: row
+  justify-content: space-between
   height: $ge-header-height
   padding: $ge-pad/2
   z-index: 15
@@ -74,6 +75,23 @@
         .editor--device &
           cursor: pointer
           opacity: 1
+
+.editor__edit__header__label
+  font-weight: 700
+  margin: 0 $ge-pad
+  text-transform: uppercase
+
+.editor__edit__header__title
+  margin: 0 $ge-pad
+
+.editor__edit__header__section
+  align-items: center
+  display: flex
+  flex-flow: row
+
+.editor__edit__header__pod_path
+  font-size: $ge-font-size-small
+  margin-right: $ge-pad
 
 .editor__cards
   display: flex
@@ -304,6 +322,7 @@
 
 .editor__preview__header__label
   font-weight: 700
+  text-transform: uppercase
 
 .editor__preview__frame
   align-items: stretch
