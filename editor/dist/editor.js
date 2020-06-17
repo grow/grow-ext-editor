@@ -98743,7 +98743,6 @@ class Menu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
             ${this._siteMenu.template(editor, this._state, {
           toggleMenu: this.handleToggleMenu.bind(this)
         })}
-            ${this._repoMenu.template(editor, this._state, {})}
             ${this._treeMenu.template(editor, this._state, {})}
           </div>`;
       };
@@ -98753,13 +98752,25 @@ class Menu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
   }
 
   renderMenuBar(editor) {
+    if (!this._state.pod) {
+      editor.loadPod();
+    }
+
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
       <div class="menu__bar">
-        <div
-            class="menu__hamburger"
-            @click=${this.handleToggleMenu.bind(this)}
-            title="Open menu">
-          <i class="material-icons">menu</i>
+        <div class="menu__bar__section">
+          <div
+              class="menu__hamburger"
+              @click=${this.handleToggleMenu.bind(this)}
+              title="Open menu">
+            <i class="material-icons">menu</i>
+          </div>
+          <div class="menu__bar__title">
+            ${this._state.pod ? this._state.pod.title : ''}
+          </div>
+        </div>
+        <div class="menu__bar__section">
+          ${this._repoMenu.template(editor, this._state, {})}
         </div>
       </div>`;
   }
@@ -98794,6 +98805,9 @@ class RepoMenu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
   get template() {
     return (editor, menuState, eventHandlers) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="menu__section">
       <div class="menu__repo">
+        <div class="menu__repo__label">
+          Workspace:
+        </div>
         <div class="menu__repo__info">
           ${this.renderBranch(editor, menuState, eventHandlers)}
         </div>
@@ -98829,30 +98843,26 @@ class RepoMenu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
 
       lastCommitDate = moment__WEBPACK_IMPORTED_MODULE_1___default()(lastCommit.commit_date + 'Z', moment__WEBPACK_IMPORTED_MODULE_1___default.a.ISO_8601);
       lastCommitAuthor = selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<a href="mailto:${lastCommit.author.email}">${lastCommit.author.name}</a>`;
+    } else {
+      return '…';
     }
 
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <div class="menu__repo__label">
-      ${menuState.repo ? selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-          <a
-              href=${this.webUrlForBranch(menuState.repo, menuState.repo.branch)}
-              target="_blank">
-            ${menuState.repo.branch}
-          </a>` : '…'}
-      </div>
-      <div class="menu__repo__value">
-        ${menuState.repo ? selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-            @ <a
-                href=${this.webUrlForCommit(menuState.repo, menuState.repo.commits[0].sha)}
-                target="_blank">
-              ${menuState.repo.commits[0].sha.substring(0, 6)}
-              <span class="menu__repo__time" title="${lastCommitDate.format('D MMM YYYY, h:mm:ss a')}">
-                (${lastCommitDate.fromNow()})
-              </span>
-            </a>` : ''}
-      </div>
-      <div class="menu__repo__author">
+      <div class="menu__repo__workspace menu__repo__value">
+        <a
+            href=${this.webUrlForBranch(menuState.repo, menuState.repo.branch)}
+            target="_blank">
+          ${menuState.repo.branch}
+        </a>
+        @ <a
+            href=${this.webUrlForCommit(menuState.repo, menuState.repo.commits[0].sha)}
+            target="_blank">
+          ${menuState.repo.commits[0].sha.substring(0, 6)}
+        </a>
         by ${lastCommitAuthor}
+        <span class="menu__repo__time" title="${lastCommitDate.format('D MMM YYYY, h:mm:ss a')}">
+          (${lastCommitDate.fromNow()})
+        </span>
       </div>`;
   }
 

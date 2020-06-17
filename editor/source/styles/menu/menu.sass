@@ -4,10 +4,23 @@
   color: $ge-color-on-back
   display: flex
   flex-flow: row
-  flex-grow: 0
-  flex-shrink: 0
   overflow-y: auto
   z-index: 10
+
+.menu__bar
+  align-items: center
+  display: flex
+  flex-flow: row
+  flex-grow: 1
+  justify-content: space-between
+
+.menu__bar__section
+  align-items: center
+  display: flex
+  flex-flow: row
+
+.menu__bar__title
+  font-weight: 700
 
 .menu__hamburger
   cursor: pointer
@@ -39,7 +52,7 @@
 
 .menu__section
   border-bottom: 1px solid $ge-color-back-light
-  padding: $ge-pad
+  margin: $ge-pad
 
   &:last-child
     border-bottom: none

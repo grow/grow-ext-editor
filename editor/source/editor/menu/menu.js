@@ -111,7 +111,6 @@ export default class Menu extends MenuBase {
             ${this._siteMenu.template(editor, this._state, {
               toggleMenu: this.handleToggleMenu.bind(this),
             })}
-            ${this._repoMenu.template(editor, this._state, {})}
             ${this._treeMenu.template(editor, this._state, {})}
           </div>`
       }
@@ -121,13 +120,25 @@ export default class Menu extends MenuBase {
   }
 
   renderMenuBar(editor) {
+    if (!this._state.pod) {
+      editor.loadPod()
+    }
+
     return html`
       <div class="menu__bar">
-        <div
-            class="menu__hamburger"
-            @click=${this.handleToggleMenu.bind(this)}
-            title="Open menu">
-          <i class="material-icons">menu</i>
+        <div class="menu__bar__section">
+          <div
+              class="menu__hamburger"
+              @click=${this.handleToggleMenu.bind(this)}
+              title="Open menu">
+            <i class="material-icons">menu</i>
+          </div>
+          <div class="menu__bar__title">
+            ${this._state.pod ? this._state.pod.title : ''}
+          </div>
+        </div>
+        <div class="menu__bar__section">
+          ${this._repoMenu.template(editor, this._state, {})}
         </div>
       </div>`
   }
