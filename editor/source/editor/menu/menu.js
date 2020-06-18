@@ -81,6 +81,11 @@ export default class Menu extends MenuBase {
     this.editor.listeners.add('load.repo', this.handleLoadRepo.bind(this))
     this.editor.listeners.add('load.routes', this.handleLoadRoutes.bind(this))
     this.editor.listeners.add('load.templates', this.handleLoadTemplates.bind(this))
+
+    // Close the menu when updating the path.
+    document.addEventListener('selective.path.update', (evt) => {
+      this.menuWindow.close()
+    })
   }
 
   handleFileNewCancel(evt) {

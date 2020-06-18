@@ -95373,7 +95373,7 @@ class Editor {
       ${this.menu.template(editor)}
       <div class="editor__frame">
         ${this.podPath ? editor.renderEditor(editor, selective) : ''}
-        ${this.podPath ? editor.renderPreview(editor, selective) : ''}
+        ${this.podPath && this.document.servingPath ? editor.renderPreview(editor, selective) : ''}
       </div>
     </div>`;
 
@@ -95527,7 +95527,7 @@ class Editor {
       styles.push('editor--source');
     }
 
-    if (this.settingFullScreenEditor.on) {
+    if (this.settingFullScreenEditor.on || !this.document.servingPath) {
       styles.push('editor--fullscreen-editor');
     }
 
@@ -98777,7 +98777,11 @@ class Menu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
     this.editor.listeners.add('load.podPaths', this.handleLoadPodPaths.bind(this));
     this.editor.listeners.add('load.repo', this.handleLoadRepo.bind(this));
     this.editor.listeners.add('load.routes', this.handleLoadRoutes.bind(this));
-    this.editor.listeners.add('load.templates', this.handleLoadTemplates.bind(this));
+    this.editor.listeners.add('load.templates', this.handleLoadTemplates.bind(this)); // Close the menu when updating the path.
+
+    document.addEventListener('selective.path.update', evt => {
+      this.menuWindow.close();
+    });
   }
 
   handleFileNewCancel(evt) {

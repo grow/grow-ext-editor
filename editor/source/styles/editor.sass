@@ -91,6 +91,7 @@
   margin-right: $ge-pad
 
 .editor__cards
+  align-items: center
   display: flex
   flex-flow: column
   flex-grow: 1
@@ -102,7 +103,8 @@
 
 .editor__card
   padding: 0 $ge-pad*2
-  margin-bottom: $ge-pad*2
+  max-width: $ge-edit-column-max-width
+  width: 100%
 
   &--flush
     padding: 0
@@ -129,7 +131,7 @@
   display: flex
   flex-flow: row
   justify-content: flex-end
-  margin: $ge-pad/2 $ge-pad
+  margin: $ge-pad*2 $ge-pad
 
 .editor__dev_tools__icon
   color: $ge-color-icon-on-back
@@ -152,6 +154,7 @@
   display: flex
   flex-flow: row
   justify-content: space-between
+  margin-bottom: $ge-pad*2
   position: sticky
   padding: $ge-pad*1.5 $ge-pad*2
   top: 0

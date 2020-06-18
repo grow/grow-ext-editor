@@ -45,7 +45,7 @@ export default class Editor {
       ${this.menu.template(editor)}
       <div class="editor__frame">
         ${this.podPath ? editor.renderEditor(editor, selective) : ''}
-        ${this.podPath ? editor.renderPreview(editor, selective) : ''}
+        ${this.podPath && this.document.servingPath ? editor.renderPreview(editor, selective) : ''}
       </div>
     </div>`
     this.storage = new Storage(this.isTesting)
@@ -215,7 +215,7 @@ export default class Editor {
       styles.push('editor--source')
     }
 
-    if (this.settingFullScreenEditor.on) {
+    if (this.settingFullScreenEditor.on || !this.document.servingPath) {
       styles.push('editor--fullscreen-editor')
     }
 
