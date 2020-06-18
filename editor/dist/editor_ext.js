@@ -95447,7 +95447,7 @@ class Editor {
     this.bindEvents();
     this.bindKeyboard();
 
-    if (this.podPath) {
+    if (this.podPath && this.podPath.length) {
       this.load(this.podPath);
     } else {
       this.render();
