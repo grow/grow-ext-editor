@@ -1,6 +1,7 @@
 .editor
   align-items: stretch
-  background-color: $ge-color-back-light
+  background-color: $ge-color-back
+  color: $ge-color-on-back
   display: flex
   flex-flow: column
   font-family: $ge-font-family
@@ -29,7 +30,7 @@
   min-width: $ge-edit-column-min-width
 
   .editor--markdown &,
-  .editor--raw &
+  .editor--source &
     display: flex
     flex-flow: column
 
@@ -81,9 +82,6 @@
   margin: 0 $ge-pad
   text-transform: uppercase
 
-.editor__edit__header__title
-  margin: 0 $ge-pad
-
 .editor__edit__header__section
   align-items: center
   display: flex
@@ -99,16 +97,14 @@
   flex-grow: 1
   max-height: calc(100vh - #{$ge-header-height * 2})
   overflow-y: auto
+  padding-bottom: $ge-pad
   // Attempt to keep scroll sticky menu from overlapping linked fields.
   scroll-margin-top: $ge-font-size * 3
 
 .editor__card
-  background-color: $ge-color-back
-  border-radius: $ge-radius-2
-  box-shadow: $ge-shadow-2
   display: flex
-  margin: $ge-pad
   flex-flow: column
+  margin-bottom: $ge-pad
 
   &--flush-top
     margin-top: 0
@@ -116,7 +112,7 @@
     border-top-right-radius: 0
 
   .editor--markdown &,
-  .editor--raw &
+  .editor--source &
     flex-grow: 1
 
   .editor--fullscreen &
@@ -161,7 +157,6 @@
 .editor__button
   +field-border
   background: $ge-color-back
-  border-radius: $ge-radius-5
   color: $ge-color-on-back
   border: 1px solid $ge-color-back-light
   font-family: $ge-font-family

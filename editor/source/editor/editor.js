@@ -83,7 +83,7 @@ export default class Editor {
     this._device = this.storage.getItem('selective.device') || this._defaultDevice
 
     // Persistent settings in local storage.
-    this._isEditingSource = this.storage.getItem('selective.isEditingSource') == 'true'
+    this._editorPane = this.storage.getItem('selective.editorPane')
     this._isFullScreenEditor = this.storage.getItem('selective.isFullScreenEditor') == 'true'
     this._isFullScreenPreview = this.storage.getItem('selective.isFullScreenPreview') == 'true'
     this._isHighlighted = {
@@ -165,8 +165,16 @@ export default class Editor {
     return this._isDeviceView
   }
 
+  get isEditingFields() {
+    return this._editorPane == 'fields' || !this._editorPane
+  }
+
+  get isEditingHistory() {
+    return this._editorPane == 'history'
+  }
+
   get isEditingSource() {
-    return this._isEditingSource
+    return this._editorPane == 'source'
   }
 
   get isFullScreenEditor() {
@@ -225,8 +233,16 @@ export default class Editor {
       }
     }
 
+    if (this.isEditingFields) {
+      styles.push('editor--fields')
+    }
+
+    if (this.isEditingHistory) {
+      styles.push('editor--history')
+    }
+
     if (this.isEditingSource) {
-      styles.push('editor--raw')
+      styles.push('editor--source')
     }
 
     if (this.isFullScreenEditor) {
@@ -256,7 +272,7 @@ export default class Editor {
     return styles.join(' ')
   }
 
-  get templateEditorOrSource() {
+  get templatePane() {
     if (this.isEditingSource) {
       const contentHtml = this.document.content != ''
         ? html`
@@ -274,6 +290,11 @@ export default class Editor {
         ${contentHtml}
       </div>`
     }
+
+    if (this.isEditingHistory) {
+      return html`TODO: History!`
+    }
+
     return html`<div class="editor__selective">
       ${this.selective.template(this.selective, this.selective.data)}
     </div>`
@@ -284,9 +305,19 @@ export default class Editor {
     this.storage.setItem('selective.device', this._device)
   }
 
+  set isEditingFields(value) {
+    this._editorPane = 'fields'
+    this.storage.setItem('selective.editorPane', this._editorPane)
+  }
+
+  set isEditingHistory(value) {
+    this._editorPane = Boolean(value) ? 'history' : 'fields'
+    this.storage.setItem('selective.editorPane', this._editorPane)
+  }
+
   set isEditingSource(value) {
-    this._isEditingSource = value
-    this.storage.setItem('selective.isEditingSource', this._isEditingSource)
+    this._editorPane = Boolean(value) ? 'source' : 'fields'
+    this.storage.setItem('selective.editorPane', this._editorPane)
   }
 
   set isFullScreenEditor(value) {
@@ -474,7 +505,7 @@ export default class Editor {
   }
 
   handleFieldsClick(evt) {
-    this.isEditingSource = false
+    this.isEditingFields = true
 
     // Need to remove the code mirror for source since it no longer exists.
     delete this._codeMirrors['source']
@@ -521,8 +552,8 @@ export default class Editor {
 
   handleLoadFieldsResponse(response) {
     this._hasLoadedFields = true
-    this._isEditingSource = false
     this._isFullMarkdownEditor = false
+    this.isEditingFields = true
     this.documentFromResponse(response)
     this.pushState(this.document.podPath)
 
@@ -609,6 +640,11 @@ export default class Editor {
     this.render()
   }
 
+  handleHistoryClick(evt) {
+    this.isEditingHistory = true
+    this.render()
+  }
+
   handleLoadPod(response) {
     this._pod = response['pod']
     this.listeners.trigger('load.pod', {
@@ -666,7 +702,7 @@ export default class Editor {
   }
 
   handleLoadSourceResponse(response) {
-    this._isEditingSource = true
+    this.isEditingSource = true
     this.documentFromResponse(response)
     this.pushState(this.document.podPath)
     this.render()
@@ -753,13 +789,14 @@ export default class Editor {
   }
 
   handleSourceClick(evt) {
-    if (!this.isEditingSource && !this.isClean) {
-      const newFrontMatter = this.selective.value
-      const content = newFrontMatter[CONTENT_KEY]
-      delete newFrontMatter[CONTENT_KEY]
-      this.document.rawFrontMatter = dump(newFrontMatter)
-      this.document.content = content
-    }
+    // TODO: Add ability to switch while there are unsaved changes.
+    // if (this._editorPane != 'source' && !this.isClean) {
+    //   const newFrontMatter = this.selective.value
+    //   const content = newFrontMatter[CONTENT_KEY]
+    //   delete newFrontMatter[CONTENT_KEY]
+    //   this.document.rawFrontMatter = dump(newFrontMatter)
+    //   this.document.content = content
+    // }
 
     this.isEditingSource = true
     this.render()
@@ -772,6 +809,8 @@ export default class Editor {
   load(podPath) {
     if (this.isEditingSource) {
       this.loadSource(podPath)
+    } else if (this.isEditingHistory) {
+      // TODO: Load history.
     } else {
       this.loadFields(podPath)
     }
@@ -960,18 +999,19 @@ export default class Editor {
       <div class="editor__cards">
         <div class="editor__card editor__field_list">
           <div class="editor__menu">
+            <div class="editor__actions">
+              <button class="editor__style__fields editor__button editor__button--secondary ${this.isEditingFields ? '' : 'editor__button--selected'}" @click=${editor.handleFieldsClick.bind(editor)} ?disabled=${!editor.isClean}>Fields</button>
+              <button class="editor__style__raw editor__button editor__button--secondary ${this.isEditingSource ? 'editor__button--selected' : ''}" @click=${editor.handleSourceClick.bind(editor)} ?disabled=${!editor.isClean}>Raw</button>
+              <!-- <button class="editor__style__raw editor__button editor__button--secondary ${this.isEditingHistory ? 'editor__button--selected' : ''}" @click=${editor.handleHistoryClick.bind(editor)} ?disabled=${!editor.isClean}>History</button> -->
+            </div>
             <button
                 ?disabled=${editor._isSaving || editor.isClean}
                 class="editor__save editor__button editor__button--primary ${editor._isSaving ? 'editor__save--saving' : ''}"
                 @click=${editor.save.bind(editor)}>
               ${editor.isClean ? 'No changes' : editor._isSaving ? 'Saving...' : 'Save'}
             </button>
-            <div class="editor__actions">
-              <button class="editor__style__fields editor__button editor__button--secondary ${this.isEditingSource ? '' : 'editor__button--selected'}" @click=${editor.handleFieldsClick.bind(editor)} ?disabled=${!editor.isClean}>Fields</button>
-              <button class="editor__style__raw editor__button editor__button--secondary ${this.isEditingSource ? 'editor__button--selected' : ''}" @click=${editor.handleSourceClick.bind(editor)} ?disabled=${!editor.isClean}>Raw</button>
-            </div>
           </div>
-          ${editor.templateEditorOrSource}
+          ${editor.templatePane}
         </div>
         <div class="editor__dev_tools">
           <div>Developer tools:</div>
@@ -1052,7 +1092,7 @@ export default class Editor {
     this.render()
 
     this.listeners.trigger('save.start', {
-      isEditingSource: this.isEditingSource,
+      editorPane: this._editorPane,
     })
 
     // Pull the latest document content before saving.
