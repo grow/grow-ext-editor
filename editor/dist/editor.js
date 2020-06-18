@@ -96374,7 +96374,7 @@ class Editor {
             class="editor__workspace__url"
             data-locale="${path[0]}">
           <a href="${path[1]}">${path[1]}</a>
-          ${this.document.defaultLocale == path[0] ? '' : selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`<span class="editor__workspace__locale">(${path[0]})</span>`}
+          ${this.document.defaultLocale == path[0] ? '' : selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`<span class="editor__workspace__locale">${path[0]}</span>`}
         </div>`)}
     </div>`;
   }

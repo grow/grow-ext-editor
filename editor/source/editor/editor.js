@@ -1094,7 +1094,7 @@ export default class Editor {
             class="editor__workspace__url"
             data-locale="${path[0]}">
           <a href="${path[1]}">${path[1]}</a>
-          ${this.document.defaultLocale == path[0] ? '' : html`<span class="editor__workspace__locale">(${path[0]})</span>`}
+          ${this.document.defaultLocale == path[0] ? '' : html`<span class="editor__workspace__locale">${path[0]}</span>`}
         </div>`)}
     </div>`
   }
