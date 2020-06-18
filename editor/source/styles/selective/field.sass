@@ -27,6 +27,23 @@
     border-radius: $ge-radius-4
     padding: $ge-pad/2
 
+.selective__actions
+  align-items: center
+  display: flex
+  flex-flow: row
+
+  > *
+    margin: 0 $ge-pad/2
+
+    &:first-child
+      margin-left: 0
+
+    &:last-child
+      margin-right: 0
+
+  .material-icons
+    cursor: pointer
+
 .selective__field__label
   align-items: center
   display: flex

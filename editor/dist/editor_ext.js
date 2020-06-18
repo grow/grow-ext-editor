@@ -1487,21 +1487,21 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
     }
 
     actions.push(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
-      <button
+      <div
           ?disabled=${areAllExpanded}
-          class="selective__action__expand"
+          class="selective__action selective__action__expand"
           data-locale=${locale || ''}
           @click=${this.handleExpandAll.bind(this)}>
-        Expand All
-      </button>`);
+        <i class="material-icons">unfold_more</i>
+      </div>`);
     actions.push(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
-      <button
+      <div
           ?disabled=${areAllCollapsed}
-          class="selective__action__collapse"
+          class="selective__action selective__action__collapse"
           data-locale=${locale || ''}
           @click=${this.handleCollapseAll.bind(this)}>
-        Collapse All
-      </button>`);
+        <i class="material-icons">unfold_less</i>
+      </div>`);
     return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__actions">
       ${actions}
     </div>`;
@@ -95335,12 +95335,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _field__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./field */ "./source/editor/field.js");
 /* harmony import */ var _zoomIframe__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./zoomIframe */ "./source/editor/zoomIframe.js");
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../utility/dom */ "./source/utility/dom.js");
-/* harmony import */ var _utility_expandObject__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../utility/expandObject */ "./source/utility/expandObject.js");
-/* harmony import */ var _utility_storage__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../utility/storage */ "./source/utility/storage.js");
+/* harmony import */ var _utility_storage__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../utility/storage */ "./source/utility/storage.js");
 /**
  * Content editor.
  */
-
 
 
 
@@ -95377,7 +95375,7 @@ class Editor {
       </div>
     </div>`;
 
-    this.storage = new _utility_storage__WEBPACK_IMPORTED_MODULE_16__["default"](this.isTesting);
+    this.storage = new _utility_storage__WEBPACK_IMPORTED_MODULE_15__["default"](this.isTesting);
     const EditorApiCls = this.config.get('EditorApiCls', _editorApi__WEBPACK_IMPORTED_MODULE_9__["default"]);
     this.api = new EditorApiCls();
     this.listeners = new _utility_listeners__WEBPACK_IMPORTED_MODULE_7__["default"]();
@@ -95674,7 +95672,6 @@ class Editor {
   adjustIframeSize() {
     const iframeContainerEl = this.containerEl.querySelector('.editor__preview__frame');
     const iframeEl = this.containerEl.querySelector('.editor__preview iframe');
-    console.log(iframeContainerEl, iframeEl);
     Object(_zoomIframe__WEBPACK_IMPORTED_MODULE_13__["zoomIframe"])(iframeContainerEl, iframeEl, this.isDeviceView, this.isDeviceRotated, this.devices[this.device], 'editor__preview__frame--contained');
   }
 
@@ -96271,7 +96268,6 @@ class Editor {
       return '';
     }
 
-    console.log(editor.document.data);
     return selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`<div class="editor__edit">
       <div class="editor__edit__header">
         <div class="editor__edit__header__section">
@@ -96291,8 +96287,7 @@ class Editor {
         </div>
       </div>
       <div class="editor__cards">
-        <div class="editor__card editor__field_list">
-          <div class="editor__menu">
+        <div class="editor__card editor__menu">
             <div class="editor__actions">
               <button class="editor__style__fields editor__button editor__button--secondary ${this.isEditingFields ? '' : 'editor__button--selected'}" @click=${editor.handleFieldsClick.bind(editor)} ?disabled=${!editor.isClean}>Fields</button>
               <button class="editor__style__raw editor__button editor__button--secondary ${this.isEditingSource ? 'editor__button--selected' : ''}" @click=${editor.handleSourceClick.bind(editor)} ?disabled=${!editor.isClean}>Raw</button>
@@ -96304,6 +96299,16 @@ class Editor {
                 @click=${editor.save.bind(editor)}>
               ${editor.isClean ? 'No changes' : editor._isSaving ? 'Saving...' : 'Save'}
             </button>
+        </div>
+        <div class="editor__card">
+          <div class="editor__card__title">
+            Workspace
+          </div>
+          ${this.renderWorkspace(editor, selective)}
+        </div>
+        <div class="editor__card editor__field_list">
+          <div class="editor__card__title">
+            Content
           </div>
           ${editor.templatePane}
         </div>
@@ -96374,6 +96379,18 @@ class Editor {
       <div class="editor__preview__frame">
         <iframe src="${editor.previewUrl}" @load=${editor.handlePreviewIframeNavigation.bind(editor)}></iframe>
       </div>
+    </div>`;
+  }
+
+  renderWorkspace(editor, selective) {
+    return selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`<div class="editor__workspace">
+      ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_5__["repeat"])(Object.entries(this.document.servingPaths), path => path[0], (path, index) => selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`
+        <div
+            class="editor__workspace__url"
+            data-locale="${path[0]}">
+          <a href="${path[1]}">${path[1]}</a>
+          ${this.document.defaultLocale == path[0] ? '' : selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`<span class="editor__workspace__locale">(${path[0]})</span>`}
+        </div>`)}
     </div>`;
   }
 
@@ -100367,62 +100384,6 @@ const inputFocusAtPosition = (elementId, position) => {
 
   inputEl.selectionStart = inputEl.selectionEnd = position;
 };
-
-/***/ }),
-
-/***/ "./source/utility/expandObject.js":
-/*!****************************************!*\
-  !*** ./source/utility/expandObject.js ***!
-  \****************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return expandObject; });
-/**
- * Expand a short keyed object ('key.subkey') into a full object.
- */
-function expandObject(original) {
-  const expanded = {};
-
-  for (const prop in original) {
-    deepExpandPath(expanded, prop, original[prop]);
-  }
-
-  return expanded;
-}
-
-function deepExpandPath(obj, path, value) {
-  const parts = path.split('.');
-
-  if (parts.length == 1) {
-    if (Array.isArray(value)) {
-      deepExpandArray(value);
-    }
-
-    obj[path] = value;
-  } else {
-    const initialKey = parts[0];
-
-    if (initialKey in obj === false) {
-      obj[initialKey] = {};
-      deepExpandPath(obj[initialKey], parts.slice(1).join('.'), value);
-    }
-  }
-}
-
-function deepExpandArray(arr) {
-  for (let i = 0; i < arr.length; i++) {
-    if (typeof arr[i] === 'object') {
-      arr[i] = expandObject(arr[i]);
-    } else if (Array.isArray(arr[i])) {
-      deepExpandArray(arr[i]);
-    } else {
-      console.warn('Unknown deep expand for array: ', arr[i]);
-    }
-  }
-}
 
 /***/ }),
 

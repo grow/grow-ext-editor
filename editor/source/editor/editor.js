@@ -22,7 +22,6 @@ import EditorAutoFields from './autoFields'
 import { defaultFields } from './field'
 import { zoomIframe } from './zoomIframe'
 import { findParentByClassname } from '../utility/dom'
-import expandObject from '../utility/expandObject'
 import Storage from '../utility/storage'
 
 
@@ -358,7 +357,6 @@ export default class Editor {
   adjustIframeSize() {
     const iframeContainerEl = this.containerEl.querySelector('.editor__preview__frame')
     const iframeEl = this.containerEl.querySelector('.editor__preview iframe')
-    console.log(iframeContainerEl, iframeEl);
     zoomIframe(
       iframeContainerEl, iframeEl, this.isDeviceView, this.isDeviceRotated,
       this.devices[this.device], 'editor__preview__frame--contained')
@@ -976,8 +974,6 @@ export default class Editor {
       return ''
     }
 
-    console.log(editor.document.data);
-
     return html`<div class="editor__edit">
       <div class="editor__edit__header">
         <div class="editor__edit__header__section">
@@ -997,8 +993,7 @@ export default class Editor {
         </div>
       </div>
       <div class="editor__cards">
-        <div class="editor__card editor__field_list">
-          <div class="editor__menu">
+        <div class="editor__card editor__menu">
             <div class="editor__actions">
               <button class="editor__style__fields editor__button editor__button--secondary ${this.isEditingFields ? '' : 'editor__button--selected'}" @click=${editor.handleFieldsClick.bind(editor)} ?disabled=${!editor.isClean}>Fields</button>
               <button class="editor__style__raw editor__button editor__button--secondary ${this.isEditingSource ? 'editor__button--selected' : ''}" @click=${editor.handleSourceClick.bind(editor)} ?disabled=${!editor.isClean}>Raw</button>
@@ -1010,6 +1005,16 @@ export default class Editor {
                 @click=${editor.save.bind(editor)}>
               ${editor.isClean ? 'No changes' : editor._isSaving ? 'Saving...' : 'Save'}
             </button>
+        </div>
+        <div class="editor__card">
+          <div class="editor__card__title">
+            Workspace
+          </div>
+          ${this.renderWorkspace(editor, selective)}
+        </div>
+        <div class="editor__card editor__field_list">
+          <div class="editor__card__title">
+            Content
           </div>
           ${editor.templatePane}
         </div>
@@ -1079,6 +1084,18 @@ export default class Editor {
       <div class="editor__preview__frame">
         <iframe src="${editor.previewUrl}" @load=${editor.handlePreviewIframeNavigation.bind(editor)}></iframe>
       </div>
+    </div>`
+  }
+
+  renderWorkspace(editor, selective) {
+    return html`<div class="editor__workspace">
+      ${repeat(Object.entries(this.document.servingPaths), (path) => path[0], (path, index) => html`
+        <div
+            class="editor__workspace__url"
+            data-locale="${path[0]}">
+          <a href="${path[1]}">${path[1]}</a>
+          ${this.document.defaultLocale == path[0] ? '' : html`<span class="editor__workspace__locale">(${path[0]})</span>`}
+        </div>`)}
     </div>`
   }
 

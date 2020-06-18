@@ -41,7 +41,6 @@
 .editor__edit__header
   align-items: center
   background: $ge-color-secondary
-  box-shadow: $ge-shadow-1
   color: $ge-color-on-secondary
   display: flex
   flex-flow: row
@@ -97,28 +96,32 @@
   flex-grow: 1
   max-height: calc(100vh - #{$ge-header-height * 2})
   overflow-y: auto
-  padding-bottom: $ge-pad
+  padding-bottom: $ge-pad * 2
   // Attempt to keep scroll sticky menu from overlapping linked fields.
   scroll-margin-top: $ge-font-size * 3
 
 .editor__card
-  display: flex
-  flex-flow: column
-  margin-bottom: $ge-pad
+  padding: 0 $ge-pad*2
+  margin-bottom: $ge-pad*2
+
+  &--flush
+    padding: 0
+    margin: 0
 
   &--flush-top
     margin-top: 0
     border-top-left-radius: 0
     border-top-right-radius: 0
 
-  .editor--markdown &,
-  .editor--source &
-    flex-grow: 1
-
   .editor--fullscreen &
     margin: $ge-pad auto
     max-width: $ge-edit-column-max-width
     width: calc(100% - #{$ge-pad * 2})
+
+.editor__card__title
+  font-weight: 700
+  margin: 0 0 $ge-pad*2 0
+  text-transform: uppercase
 
 .editor__dev_tools
   align-items: center
@@ -145,7 +148,7 @@
 .editor__menu
   align-items: center
   background-color: $ge-color-back
-  border-bottom: 1px solid $ge-color-back-light
+  border-bottom: $ge-border-size solid $ge-color-back-light
   display: flex
   flex-flow: row
   justify-content: space-between
@@ -158,7 +161,7 @@
   +field-border
   background: $ge-color-back
   color: $ge-color-on-back
-  border: 1px solid $ge-color-back-light
+  border: $ge-border-size solid $ge-color-back-light
   font-family: $ge-font-family
   font-size: $ge-font-size
   padding: $ge-pad/2 $ge-pad
@@ -184,6 +187,7 @@
     background: none
     border: none
     color: lighten($ge-color-on-back, 50%)
+    cursor: pointer
     font-weight: bold
 
     &.editor__button--selected
@@ -200,7 +204,13 @@
   flex-flow: row
 
   button
-    margin-left: $ge-pad/2
+    margin: 0 $ge-pad/2
+
+    &:first-child
+      margin-left: 0
+
+    &:last-child
+      margin-right: 0
 
   &--add
     background-repeat: no-repeat
@@ -214,14 +224,6 @@
     &:focus,
     &:hover
       border: none
-
-.editor__source,
-.editor__selective
-  padding: $ge-pad*2
-
-  .editor--markdown &
-    display: flex
-    flex-grow: 1
 
 .editor__source
   display: flex
@@ -276,7 +278,6 @@
 .editor__preview__header
   align-items: center
   background: $ge-color-secondary
-  box-shadow: $ge-shadow-1
   color: $ge-color-on-secondary
   display: flex
   flex-flow: row
@@ -367,6 +368,12 @@
 
 .editor__preview__size__dimension
   font-size: $ge-font-size * .8
+
+.editor__workspace__url
+  margin: $ge-pad 0
+
+.editor__workspace__locale
+  font-size: $ge-font-size-small
 
 .icon
   &--hover-only
