@@ -95336,9 +95336,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _zoomIframe__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./zoomIframe */ "./source/editor/zoomIframe.js");
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../utility/dom */ "./source/utility/dom.js");
 /* harmony import */ var _utility_storage__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../utility/storage */ "./source/utility/storage.js");
+/* harmony import */ var _utility_settings__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../utility/settings */ "./source/utility/settings.js");
 /**
  * Content editor.
  */
+
 
 
 
@@ -95407,16 +95409,16 @@ class Editor {
     this._defaultDevice = 'desktop';
     this._device = this.storage.getItem('selective.device') || this._defaultDevice; // Persistent settings in local storage.
 
+    this.settingDeviceRotated = new _utility_settings__WEBPACK_IMPORTED_MODULE_16__["SettingToggle"](false, this.storage, 'selective.device.rotated');
+    this.settingDeviceView = new _utility_settings__WEBPACK_IMPORTED_MODULE_16__["SettingToggle"](false, this.storage, 'selective.device.view');
+    this.settingFullScreenEditor = new _utility_settings__WEBPACK_IMPORTED_MODULE_16__["SettingToggle"](false, this.storage, 'selective.fullScreenEditor');
+    this.settingFullScreenPreview = new _utility_settings__WEBPACK_IMPORTED_MODULE_16__["SettingToggle"](false, this.storage, 'selective.fullScreenPreview');
+    this.settingHighlightDirty = new _utility_settings__WEBPACK_IMPORTED_MODULE_16__["SettingToggle"](false, this.storage, 'selective.highlight.dirty');
+    this.settingHighlightGuess = new _utility_settings__WEBPACK_IMPORTED_MODULE_16__["SettingToggle"](false, this.storage, 'selective.highlight.guess');
+    this.settingHighlightLinked = new _utility_settings__WEBPACK_IMPORTED_MODULE_16__["SettingToggle"](false, this.storage, 'selective.highlight.linked');
+    this.settingLocalize = new _utility_settings__WEBPACK_IMPORTED_MODULE_16__["SettingToggle"](false, this.storage, 'selective.localize');
+    this.settingLocalizeUrls = new _utility_settings__WEBPACK_IMPORTED_MODULE_16__["SettingToggle"](false, this.storage, 'selective.localize.urls');
     this._editorPane = this.storage.getItem('selective.editorPane');
-    this._isFullScreenEditor = this.storage.getItem('selective.isFullScreenEditor') == 'true';
-    this._isFullScreenPreview = this.storage.getItem('selective.isFullScreenPreview') == 'true';
-    this._isHighlighted = {
-      dirty: this.storage.getItem('selective.isHightlighted.dirty') == 'true',
-      guess: this.storage.getItem('selective.isHightlighted.guess') == 'true',
-      linked: this.storage.getItem('selective.isHightlighted.linked') == 'true'
-    };
-    this._isDeviceRotated = this.storage.getItem('selective.isDeviceRotated') == 'true';
-    this._isDeviceView = this.storage.getItem('selective.isDeviceView') == 'true';
     this._isFullMarkdownEditor = false;
     this._hasLoadedFields = false;
     this._isLoading = {};
@@ -95436,7 +95438,7 @@ class Editor {
 
     this.selective.editor = this; // Load the selective editor preference for localize.
 
-    this.selective.localize = this.storage.getItem('selective.localize') == 'true'; // Add the editor extension default field types.
+    this.selective.localize = this.settingLocalize.on; // Add the editor extension default field types.
 
     for (const key of Object.keys(_field__WEBPACK_IMPORTED_MODULE_12__["defaultFields"])) {
       this.selective.addFieldType(key, _field__WEBPACK_IMPORTED_MODULE_12__["defaultFields"][key]);
@@ -95471,14 +95473,6 @@ class Editor {
     return this.document.isClean && this.selective.isClean;
   }
 
-  get isDeviceRotated() {
-    return this._isDeviceRotated;
-  }
-
-  get isDeviceView() {
-    return this._isDeviceView;
-  }
-
   get isEditingFields() {
     return this._editorPane == 'fields' || !this._editorPane;
   }
@@ -95489,21 +95483,6 @@ class Editor {
 
   get isEditingSource() {
     return this._editorPane == 'source';
-  }
-
-  get isFullScreenEditor() {
-    // Default to full-screen mode for documents without serving paths.
-    // TODO: We probably want to add a new checkbox to "disable the link"
-    // between the preview and the editor. When the preview is disabled,
-    // we do not want to override the full-screen setting. The goal is to
-    // allow the user to be editing a partial document and then refresh the
-    // full preview (corresponding to another doc), without having to
-    // toggle the full-screen view.
-    return this._isFullScreenEditor || !this.servingPath;
-  }
-
-  get isFullScreenPreview() {
-    return this._isFullScreenPreview;
   }
 
   get isTesting() {
@@ -95540,10 +95519,10 @@ class Editor {
   get stylesEditor() {
     const styles = [];
 
-    if (this.isDeviceView) {
+    if (this.settingDeviceView.on) {
       styles.push('editor--device'); // Only allow the rotated when in device view.
 
-      if (this.isDeviceRotated) {
+      if (this.settingDeviceRotated.on) {
         styles.push('editor--rotated');
       }
     }
@@ -95560,11 +95539,11 @@ class Editor {
       styles.push('editor--source');
     }
 
-    if (this.isFullScreenEditor) {
+    if (this.settingFullScreenEditor.on) {
       styles.push('editor--fullscreen-editor');
     }
 
-    if (this.isFullScreenPreview) {
+    if (this.settingFullScreenPreview.on) {
       styles.push('editor--fullscreen-preview');
     }
 
@@ -95572,15 +95551,15 @@ class Editor {
       styles.push('editor--markdown');
     }
 
-    if (this.isHightlighted('guess')) {
+    if (this.settingHighlightGuess.on) {
       styles.push('editor--highlight-guess');
     }
 
-    if (this.isHightlighted('dirty')) {
+    if (this.settingHighlightDirty.on) {
       styles.push('editor--highlight-dirty');
     }
 
-    if (this.isHightlighted('linked')) {
+    if (this.settingHighlightLinked.on) {
       styles.push('editor--highlight-linked');
     }
 
@@ -95632,26 +95611,6 @@ class Editor {
     this.storage.setItem('selective.editorPane', this._editorPane);
   }
 
-  set isFullScreenEditor(value) {
-    this._isFullScreenEditor = value;
-    this.storage.setItem('selective.isFullScreenEditor', this._isFullScreenEditor);
-  }
-
-  set isFullScreenPreview(value) {
-    this._isFullScreenPreview = value;
-    this.storage.setItem('selective.isFullScreenPreview', this._isFullScreenPreview);
-  }
-
-  set isDeviceRotated(value) {
-    this._isDeviceRotated = value;
-    this.storage.setItem('selective.isDeviceRotated', this._isDeviceRotated);
-  }
-
-  set isDeviceView(value) {
-    this._isDeviceView = value;
-    this.storage.setItem('selective.isDeviceView', this._isDeviceView);
-  }
-
   set podPath(value) {
     this._podPath = value.trim();
     this.listeners.trigger('podPath', this._podPath);
@@ -95672,7 +95631,7 @@ class Editor {
   adjustIframeSize() {
     const iframeContainerEl = this.containerEl.querySelector('.editor__preview__frame');
     const iframeEl = this.containerEl.querySelector('.editor__preview iframe');
-    Object(_zoomIframe__WEBPACK_IMPORTED_MODULE_13__["zoomIframe"])(iframeContainerEl, iframeEl, this.isDeviceView, this.isDeviceRotated, this.devices[this.device], 'editor__preview__frame--contained');
+    Object(_zoomIframe__WEBPACK_IMPORTED_MODULE_13__["zoomIframe"])(iframeContainerEl, iframeEl, this.settingDeviceView.on, this.settingDeviceRotated.on, this.devices[this.device], 'editor__preview__frame--contained');
   }
 
   bindEvents() {
@@ -95817,30 +95776,27 @@ class Editor {
   }
 
   handleFullScreenEditorClick(evt) {
-    this.isFullScreenEditor = !this.isFullScreenEditor;
+    this.settingFullScreenEditor.toggle();
     this.render();
   }
 
   handleFullScreenPreviewClick(evt) {
-    this.isFullScreenPreview = !this.isFullScreenPreview;
+    this.settingFullScreenPreview.toggle();
     this.render();
   }
 
   handleHighlightDirty(evt) {
-    this._isHighlighted.dirty = !this.isHightlighted('dirty');
-    this.storage.setItem('selective.isHightlighted.dirty', this._isHighlighted.dirty);
+    this.settingHighlightDirty.toggle();
     this.render();
   }
 
   handleHighlightGuess(evt) {
-    this._isHighlighted.guess = !this.isHightlighted('guess');
-    this.storage.setItem('selective.isHightlighted.guess', this._isHighlighted.guess);
+    this.settingHighlightGuess.toggle();
     this.render();
   }
 
   handleHighlightLinked(evt) {
-    this._isHighlighted.linked = !this.isHightlighted('linked');
-    this.storage.setItem('selective.isHightlighted.linked', this._isHighlighted.linked);
+    this.settingHighlightLinked.toggle();
     this.render();
   }
 
@@ -95918,7 +95874,7 @@ class Editor {
   }
 
   handleDeviceRotateClick(evt) {
-    this.isDeviceRotated = !this.isDeviceRotated;
+    this.settingDeviceRotated.toggle();
     this.render();
   }
 
@@ -95929,7 +95885,7 @@ class Editor {
   }
 
   handleDeviceToggleClick(evt) {
-    this.isDeviceView = !this.isDeviceView;
+    this.settingDeviceView.toggle();
     this.render();
   }
 
@@ -96008,8 +95964,14 @@ class Editor {
   }
 
   handleLocalize(evt) {
-    this.selective.localize = !this.selective.localize;
-    this.storage.setItem('selective.localize', this.selective.localize);
+    this.settingLocalize.toggle();
+    this.selective.localize = this.settingLocalize.on;
+    this.render();
+  }
+
+  handleLocalizeUrlsClick(evt) {
+    evt.preventDefault();
+    this.settingLocalizeUrls.toggle();
     this.render();
   }
 
@@ -96088,10 +96050,6 @@ class Editor {
     // }
     this.isEditingSource = true;
     this.render();
-  }
-
-  isHightlighted(key) {
-    return this._isHighlighted[key];
   }
 
   load(podPath) {
@@ -96264,7 +96222,7 @@ class Editor {
   }
 
   renderEditor(editor, selective) {
-    if (editor.isFullScreenPreview) {
+    if (editor.settingFullScreenPreview.on) {
       return '';
     }
 
@@ -96283,7 +96241,7 @@ class Editor {
             ${editor.podPath}
           </div>
           ${editor.document.locales.length > 1 ? selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`<i class="material-icons" @click=${editor.handleLocalize.bind(editor)} title="Localize content">translate</i>` : ''}
-          <i class="material-icons" @click=${editor.handleFullScreenEditorClick.bind(editor)} title="Fullscreen">${editor.isFullScreenEditor ? 'fullscreen_exit' : 'fullscreen'}</i>
+          <i class="material-icons" @click=${editor.handleFullScreenEditorClick.bind(editor)} title="Fullscreen">${editor.settingFullScreenEditor.on || !this.servingPath ? 'fullscreen_exit' : 'fullscreen'}</i>
         </div>
       </div>
       <div class="editor__cards">
@@ -96316,19 +96274,19 @@ class Editor {
           <div>Developer tools:</div>
           <div class="editor__dev_tools__icons">
             <i
-                class="editor__dev_tools__icon ${editor.isHightlighted('guess') ? 'editor__dev_tools__icon--selected' : ''} material-icons"
+                class="editor__dev_tools__icon ${editor.settingHighlightGuess.on ? 'editor__dev_tools__icon--selected' : ''} material-icons"
                 @click=${editor.handleHighlightGuess.bind(editor)}
                 title="Highlight auto fields">
               assistant
             </i>
             <i
-                class="editor__dev_tools__icon ${editor.isHightlighted('linked') ? 'editor__dev_tools__icon--selected' : ''} material-icons"
+                class="editor__dev_tools__icon ${editor.settingHighlightLinked.on ? 'editor__dev_tools__icon--selected' : ''} material-icons"
                 @click=${editor.handleHighlightLinked.bind(editor)}
                 title="Deep link to fields">
               link
             </i>
             <i
-                class="editor__dev_tools__icon ${editor.isHightlighted('dirty') ? 'editor__dev_tools__icon--selected' : ''} material-icons"
+                class="editor__dev_tools__icon ${editor.settingHighlightDirty.on ? 'editor__dev_tools__icon--selected' : ''} material-icons"
                 @click=${editor.handleHighlightDirty.bind(editor)}
                 title="Highlight dirty fields">
               change_history
@@ -96340,13 +96298,13 @@ class Editor {
   }
 
   renderPreview(editor, selective) {
-    if (editor.isFullScreenEditor) {
+    if (this.settingFullScreenEditor.on || !this.servingPath) {
       return '';
     }
 
     let previewSizes = '';
 
-    if (editor.isDeviceView) {
+    if (editor.settingDeviceView.on) {
       previewSizes = selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`<div class="editor__preview__sizes">
         ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_5__["repeat"])(Object.entries(this.devices), device => device[0], (device, index) => selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`
           <div
@@ -96355,7 +96313,7 @@ class Editor {
               @click=${editor.handleDeviceSwitchClick.bind(editor)}>
             ${device[1].label}
             <span class="editor__preview__size__dimension">
-              (${editor._sizeLabel(device[1], editor.isDeviceRotated)})
+              (${editor._sizeLabel(device[1], editor.settingDeviceRotated.on)})
             </span>
           </div>`)}
       </div>`;
@@ -96364,7 +96322,7 @@ class Editor {
     return selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`<div class="editor__preview">
       <div class="editor__preview__header">
         <div class="editor__preview__header__icons">
-          <i class="material-icons" @click=${editor.handleFullScreenPreviewClick.bind(editor)} title="Fullscreen">${editor.isFullScreenPreview ? 'fullscreen_exit' : 'fullscreen'}</i>
+          <i class="material-icons" @click=${editor.handleFullScreenPreviewClick.bind(editor)} title="Fullscreen">${editor.settingFullScreenPreview.on ? 'fullscreen_exit' : 'fullscreen'}</i>
         </div>
         <div class="editor__preview__header__label">
           Preview
@@ -96383,14 +96341,53 @@ class Editor {
   }
 
   renderWorkspace(editor, selective) {
-    return selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`<div class="editor__workspace">
-      ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_5__["repeat"])(Object.entries(this.document.servingPaths), path => path[0], (path, index) => selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`
+    const locales = Object.keys(editor.document.servingPaths);
+    let urlList = '';
+    let moreLocales = '';
+
+    if (locales.length > 1) {
+      if (this.settingLocalizeUrls.on) {
+        moreLocales = selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`
+          <a
+              class="editor__workspace__url__more"
+              @click=${editor.handleLocalizeUrlsClick.bind(this)}
+              href="#">
+            (show less)
+          </a>`;
+      } else {
+        moreLocales = selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`
+          <a
+              class="editor__workspace__url__more"
+              @click=${editor.handleLocalizeUrlsClick.bind(this)}
+              href="#">
+            +${locales.length - 1}
+          </a>`;
+      }
+    }
+
+    if (this.settingLocalizeUrls.on) {
+      urlList = selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`
+        ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_5__["repeat"])(Object.entries(editor.document.servingPaths), path => path[0], (path, index) => selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`
+          <div
+              class="editor__workspace__url"
+              data-locale="${path[0]}">
+            <a href="${path[1]}">${path[1]}</a>
+            ${this.document.defaultLocale == path[0] ? moreLocales : selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`<span class="editor__workspace__locale">${path[0]}</span>`}
+          </div>`)}`;
+    } else {
+      const defaultLocale = editor.document.defaultLocale;
+      const localeUrl = editor.document.servingPaths[defaultLocale];
+      urlList = selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`
         <div
             class="editor__workspace__url"
-            data-locale="${path[0]}">
-          <a href="${path[1]}">${path[1]}</a>
-          ${this.document.defaultLocale == path[0] ? '' : selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`<span class="editor__workspace__locale">${path[0]}</span>`}
-        </div>`)}
+            data-locale="${defaultLocale}">
+          <a href="${localeUrl}">${localeUrl}</a>
+          ${moreLocales}
+        </div>`;
+    }
+
+    return selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`<div class="editor__workspace">
+      ${urlList}
     </div>`;
   }
 
@@ -100532,6 +100529,78 @@ class Listeners {
     for (const listener of this.listenersForEvent(eventName)) {
       listener(...data);
     }
+  }
+
+}
+
+/***/ }),
+
+/***/ "./source/utility/settings.js":
+/*!************************************!*\
+  !*** ./source/utility/settings.js ***!
+  \************************************/
+/*! exports provided: SettingToggle */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SettingToggle", function() { return SettingToggle; });
+/**
+ * Utility for managing settings easily.
+ *
+ * Includes support for persistent storage.
+ */
+class SettingBase {
+  constructor(defaultValue, storage, storageKey) {
+    this.defaultValue = defaultValue;
+    this.storage = storage;
+    this.storageKey = storageKey;
+    this._value = null;
+
+    if (this.storage && this.storageKey) {
+      this.value = this.retrieve();
+    } else {
+      this.value = this.defaultValue;
+    }
+  }
+
+  get value() {
+    return this._value;
+  }
+
+  set value(value) {
+    this._value = value;
+
+    if (this.storage && this.storageKey) {
+      this.storage.setItem(this.storageKey, this._value);
+    }
+  }
+
+  retrieve() {
+    return this.storage.getItem(this.storageKey);
+  }
+
+}
+
+class SettingToggle extends SettingBase {
+  get off() {
+    return this._value != true;
+  }
+
+  get on() {
+    return this._value == true;
+  }
+
+  set value(value) {
+    super.value = Boolean(value);
+  }
+
+  retrieve() {
+    return this.storage.getItem(this.storageKey) == 'true';
+  }
+
+  toggle() {
+    this.value = !this._value;
   }
 
 }
