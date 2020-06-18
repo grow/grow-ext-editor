@@ -23,7 +23,10 @@ import { defaultFields } from './field'
 import { zoomIframe } from './zoomIframe'
 import { findParentByClassname } from '../utility/dom'
 import Storage from '../utility/storage'
-import { SettingToggle } from '../utility/settings'
+import {
+  SettingSet,
+  SettingToggle,
+} from '../utility/settings'
 
 
 const CONTENT_KEY = '__content__'
@@ -92,8 +95,9 @@ export default class Editor {
     this.settingHighlightLinked = new SettingToggle(false, this.storage, 'selective.highlight.linked')
     this.settingLocalize = new SettingToggle(false, this.storage, 'selective.localize')
     this.settingLocalizeUrls = new SettingToggle(false, this.storage, 'selective.localize.urls')
-
-    this._editorPane = this.storage.getItem('selective.editorPane')
+    this.settingEditorPane = new SettingSet(
+      ['fields', 'source', 'history'],
+      'fields', this.storage, 'selective.editor.pane')
 
     this._isFullMarkdownEditor = false;
     this._hasLoadedFields = false;
@@ -158,18 +162,6 @@ export default class Editor {
     return this.document.isClean && this.selective.isClean
   }
 
-  get isEditingFields() {
-    return this._editorPane == 'fields' || !this._editorPane
-  }
-
-  get isEditingHistory() {
-    return this._editorPane == 'history'
-  }
-
-  get isEditingSource() {
-    return this._editorPane == 'source'
-  }
-
   get isTesting() {
     return this.config.get('testing', false)
   }
@@ -211,15 +203,15 @@ export default class Editor {
       }
     }
 
-    if (this.isEditingFields) {
+    if (this.settingEditorPane.is('fields')) {
       styles.push('editor--fields')
     }
 
-    if (this.isEditingHistory) {
+    if (this.settingEditorPane.is('history')) {
       styles.push('editor--history')
     }
 
-    if (this.isEditingSource) {
+    if (this.settingEditorPane.is('source')) {
       styles.push('editor--source')
     }
 
@@ -251,7 +243,7 @@ export default class Editor {
   }
 
   get templatePane() {
-    if (this.isEditingSource) {
+    if (this.settingEditorPane.is('source')) {
       const contentHtml = this.document.content != ''
         ? html`
           <div class="editor__source__section">
@@ -260,42 +252,68 @@ export default class Editor {
           </div>`
         : ''
 
-      return html`<div class="editor__source">
-        <div class="editor__source__section">
-          <div class="editor__source__title">Front Matter</div>
-          <textarea class="editor__source__frontmatter" @input=${this.handleRawInput.bind(this)}>${this.document.rawFrontMatter}</textarea>
+      return html`
+        <div class="editor__card">
+          <div class="editor__card__title">
+            Source
+          </div>
+          <div class="editor__source">
+            <div class="editor__source__section">
+              <div class="editor__source__title">Front Matter</div>
+              <textarea class="editor__source__frontmatter" @input=${this.handleRawInput.bind(this)}>${this.document.rawFrontMatter}</textarea>
+            </div>
+            ${contentHtml}
+          </div>
+        </div>`
+    }
+
+    if (this.settingEditorPane.is('history')) {
+      return html`
+        <div class="editor__card">
+          <div class="editor__card__title">
+            History
+          </div>
+        </div>`
+    }
+
+    return html`
+      ${this.renderWorkspace(this, this.selective)}
+      <div class="editor__card editor__field_list">
+        <div class="editor__card__title">
+          Content
         </div>
-        ${contentHtml}
+        <div class="editor__selective">
+          ${this.selective.template(this.selective, this.selective.data)}
+        </div>
+      </div>
+      <div class="editor__dev_tools">
+        <div>Developer tools:</div>
+        <div class="editor__dev_tools__icons">
+          <i
+              class="editor__dev_tools__icon ${this.settingHighlightGuess.on ? 'editor__dev_tools__icon--selected': ''} material-icons"
+              @click=${this.handleHighlightGuess.bind(this)}
+              title="Highlight auto fields">
+            assistant
+          </i>
+          <i
+              class="editor__dev_tools__icon ${this.settingHighlightLinked.on ? 'editor__dev_tools__icon--selected': ''} material-icons"
+              @click=${this.handleHighlightLinked.bind(this)}
+              title="Deep link to fields">
+            link
+          </i>
+          <i
+              class="editor__dev_tools__icon ${this.settingHighlightDirty.on ? 'editor__dev_tools__icon--selected': ''} material-icons"
+              @click=${this.handleHighlightDirty.bind(this)}
+              title="Highlight dirty fields">
+            change_history
+          </i>
+        </div>
       </div>`
-    }
-
-    if (this.isEditingHistory) {
-      return html`TODO: History!`
-    }
-
-    return html`<div class="editor__selective">
-      ${this.selective.template(this.selective, this.selective.data)}
-    </div>`
   }
 
   set device(value) {
     this._device = value
     this.storage.setItem('selective.device', this._device)
-  }
-
-  set isEditingFields(value) {
-    this._editorPane = 'fields'
-    this.storage.setItem('selective.editorPane', this._editorPane)
-  }
-
-  set isEditingHistory(value) {
-    this._editorPane = Boolean(value) ? 'history' : 'fields'
-    this.storage.setItem('selective.editorPane', this._editorPane)
-  }
-
-  set isEditingSource(value) {
-    this._editorPane = Boolean(value) ? 'source' : 'fields'
-    this.storage.setItem('selective.editorPane', this._editorPane)
   }
 
   set podPath(value) {
@@ -462,7 +480,7 @@ export default class Editor {
   }
 
   handleFieldsClick(evt) {
-    this.isEditingFields = true
+    this.settingEditorPane.value = 'fields'
 
     // Need to remove the code mirror for source since it no longer exists.
     delete this._codeMirrors['source']
@@ -504,7 +522,7 @@ export default class Editor {
   handleLoadFieldsResponse(response) {
     this._hasLoadedFields = true
     this._isFullMarkdownEditor = false
-    this.isEditingFields = true
+    this.settingEditorPane.value = 'fields'
     this.documentFromResponse(response)
     this.pushState(this.document.podPath)
 
@@ -592,7 +610,7 @@ export default class Editor {
   }
 
   handleHistoryClick(evt) {
-    this.isEditingHistory = true
+    this.settingEditorPane.value = 'history'
     this.render()
   }
 
@@ -653,7 +671,7 @@ export default class Editor {
   }
 
   handleLoadSourceResponse(response) {
-    this.isEditingSource = true
+    this.settingEditorPane.value = 'source'
     this.documentFromResponse(response)
     this.pushState(this.document.podPath)
     this.render()
@@ -747,7 +765,7 @@ export default class Editor {
 
   handleSourceClick(evt) {
     // TODO: Add ability to switch while there are unsaved changes.
-    // if (this._editorPane != 'source' && !this.isClean) {
+    // if (!this.settingEditorPane.is('source') && !this.isClean) {
     //   const newFrontMatter = this.selective.value
     //   const content = newFrontMatter[CONTENT_KEY]
     //   delete newFrontMatter[CONTENT_KEY]
@@ -755,14 +773,14 @@ export default class Editor {
     //   this.document.content = content
     // }
 
-    this.isEditingSource = true
+    this.settingEditorPane.value = 'source'
     this.render()
   }
 
   load(podPath) {
-    if (this.isEditingSource) {
+    if (this.settingEditorPane.is('source')) {
       this.loadSource(podPath)
-    } else if (this.isEditingHistory) {
+    } else if (this.settingEditorPane.is('history')) {
       // TODO: Load history.
     } else {
       this.loadFields(podPath)
@@ -878,7 +896,7 @@ export default class Editor {
     this.adjustIframeSize()
 
     // Make the code editor if editing raw.
-    if(this.isEditingSource && !this._codeMirrors['source']) {
+    if(this.settingEditorPane.is('source') && !this._codeMirrors['source']) {
       const frontmatterTextarea = this.containerEl.querySelector('.editor__source textarea.editor__source__frontmatter')
       this._codeMirrors['source'] = CodeMirror.fromTextArea(frontmatterTextarea, Object.assign({}, CODEMIRROR_OPTIONS, {
         mode: 'yaml',
@@ -889,7 +907,7 @@ export default class Editor {
       })
     }
 
-    if(this.isEditingSource && !this._codeMirrors['content']) {
+    if(this.settingEditorPane.is('source') && !this._codeMirrors['content']) {
       const contentTextarea = this.containerEl.querySelector('.editor__source textarea.editor__source__content')
       if (contentTextarea) {
         this._codeMirrors['content'] = CodeMirror.fromTextArea(contentTextarea, Object.assign({}, CODEMIRROR_OPTIONS, {
@@ -950,9 +968,9 @@ export default class Editor {
       <div class="editor__cards">
         <div class="editor__card editor__menu">
             <div class="editor__actions">
-              <button class="editor__style__fields editor__button editor__button--secondary ${this.isEditingFields ? '' : 'editor__button--selected'}" @click=${editor.handleFieldsClick.bind(editor)} ?disabled=${!editor.isClean}>Fields</button>
-              <button class="editor__style__raw editor__button editor__button--secondary ${this.isEditingSource ? 'editor__button--selected' : ''}" @click=${editor.handleSourceClick.bind(editor)} ?disabled=${!editor.isClean}>Raw</button>
-              <!-- <button class="editor__style__raw editor__button editor__button--secondary ${this.isEditingHistory ? 'editor__button--selected' : ''}" @click=${editor.handleHistoryClick.bind(editor)} ?disabled=${!editor.isClean}>History</button> -->
+              <button class="editor__style__fields editor__button editor__button--secondary ${this.settingEditorPane.is('fields') ? '' : 'editor__button--selected'}" @click=${editor.handleFieldsClick.bind(editor)} ?disabled=${!editor.isClean}>Fields</button>
+              <button class="editor__style__raw editor__button editor__button--secondary ${this.settingEditorPane.is('source') ? 'editor__button--selected' : ''}" @click=${editor.handleSourceClick.bind(editor)} ?disabled=${!editor.isClean}>Source</button>
+              <!-- <button class="editor__style__raw editor__button editor__button--secondary ${this.settingEditorPane.is('history') ? 'editor__button--selected' : ''}" @click=${editor.handleHistoryClick.bind(editor)} ?disabled=${!editor.isClean}>History</button> -->
             </div>
             <button
                 ?disabled=${editor._isSaving || editor.isClean}
@@ -961,41 +979,7 @@ export default class Editor {
               ${editor.isClean ? 'No changes' : editor._isSaving ? 'Saving...' : 'Save'}
             </button>
         </div>
-        <div class="editor__card">
-          <div class="editor__card__title">
-            Workspace
-          </div>
-          ${this.renderWorkspace(editor, selective)}
-        </div>
-        <div class="editor__card editor__field_list">
-          <div class="editor__card__title">
-            Content
-          </div>
-          ${editor.templatePane}
-        </div>
-        <div class="editor__dev_tools">
-          <div>Developer tools:</div>
-          <div class="editor__dev_tools__icons">
-            <i
-                class="editor__dev_tools__icon ${editor.settingHighlightGuess.on ? 'editor__dev_tools__icon--selected': ''} material-icons"
-                @click=${editor.handleHighlightGuess.bind(editor)}
-                title="Highlight auto fields">
-              assistant
-            </i>
-            <i
-                class="editor__dev_tools__icon ${editor.settingHighlightLinked.on ? 'editor__dev_tools__icon--selected': ''} material-icons"
-                @click=${editor.handleHighlightLinked.bind(editor)}
-                title="Deep link to fields">
-              link
-            </i>
-            <i
-                class="editor__dev_tools__icon ${editor.settingHighlightDirty.on ? 'editor__dev_tools__icon--selected': ''} material-icons"
-                @click=${editor.handleHighlightDirty.bind(editor)}
-                title="Highlight dirty fields">
-              change_history
-            </i>
-          </div>
-        </div>
+        ${editor.templatePane}
       </div>
     </div>`
   }
@@ -1044,6 +1028,11 @@ export default class Editor {
 
   renderWorkspace(editor, selective) {
     const locales = Object.keys(editor.document.servingPaths)
+
+    if (!locales.length) {
+      return ''
+    }
+
     let urlList = ''
     let moreLocales = ''
 
@@ -1089,9 +1078,15 @@ export default class Editor {
         </div>`
     }
 
-    return html`<div class="editor__workspace">
-      ${urlList}
-    </div>`
+    return html`
+      <div class="editor__card">
+        <div class="editor__card__title">
+          Workspace
+        </div>
+        <div class="editor__workspace">
+          ${urlList}
+        </div>
+      </div>`
   }
 
   save(force, isAutosave) {
@@ -1104,12 +1099,12 @@ export default class Editor {
     this.render()
 
     this.listeners.trigger('save.start', {
-      editorPane: this._editorPane,
+      editorPane: this.settingEditorPane.value,
     })
 
     // Pull the latest document content before saving.
     this.api.getDocument(this.podPath).then((response) => {
-      if (this.isEditingSource) {
+      if (this.settingEditorPane.is('source')) {
         if (response.hash != this.document.hash) {
           this.listeners.trigger('save.error', 'Content has changed remotely.')
           return

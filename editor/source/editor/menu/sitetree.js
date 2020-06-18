@@ -80,6 +80,8 @@ export default class SiteTreeMenu extends MenuBase {
     } else {
       this.expandedFolders.push(folder)
     }
+    evt.preventDefault()
+    evt.stopPropagation()
     this.render()
   }
 
