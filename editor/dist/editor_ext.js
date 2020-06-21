@@ -1487,21 +1487,21 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
     }
 
     actions.push(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
-      <div
+      <button
           ?disabled=${areAllExpanded}
-          class="selective__action selective__action__expand"
+          class="selective__action__expand"
           data-locale=${locale || ''}
           @click=${this.handleExpandAll.bind(this)}>
-        <i class="material-icons">unfold_more</i>
-      </div>`);
+        Expand All
+      </button>`);
     actions.push(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
-      <div
+      <button
           ?disabled=${areAllCollapsed}
-          class="selective__action selective__action__collapse"
+          class="selective__action__collapse"
           data-locale=${locale || ''}
           @click=${this.handleCollapseAll.bind(this)}>
-        <i class="material-icons">unfold_less</i>
-      </div>`);
+        Collapse All
+      </button>`);
     return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__actions">
       ${actions}
     </div>`;
@@ -97527,11 +97527,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PartialsField", function() { return PartialsField; });
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
-/* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../autoFields */ "./source/editor/autoFields.js");
-/* harmony import */ var _parts_modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../parts/modal */ "./source/editor/parts/modal.js");
+/* harmony import */ var _fields_fields__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../fields/fields */ "./source/editor/fields/fields.js");
+/* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../autoFields */ "./source/editor/autoFields.js");
+/* harmony import */ var _parts_modal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../parts/modal */ "./source/editor/parts/modal.js");
 /**
  * Partials field types for the editor extension.
  */
+
 
 
 
@@ -97543,7 +97545,11 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListFie
     this.partialTypes = null;
     this.api = this.config.get('api');
     this.api.getPartials().then(this.handleLoadPartialsResponse.bind(this));
-    this.modalWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_3__["default"](this.config.addLabel || 'Add partial');
+    this.modalWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_4__["default"](this.config.addLabel || 'Add partial');
+  }
+
+  _createFields(fieldTypes, config, partialKey) {
+    return new _fields_fields__WEBPACK_IMPORTED_MODULE_2__["default"](fieldTypes, config, partialKey);
   }
 
   get fullKey() {
@@ -97611,14 +97617,14 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListFie
     }
 
     listItems = [];
-    const AutoFieldsCls = this.config.get('AutoFieldsCls', _autoFields__WEBPACK_IMPORTED_MODULE_2__["default"]);
+    const AutoFieldsCls = this.config.get('AutoFieldsCls', _autoFields__WEBPACK_IMPORTED_MODULE_3__["default"]);
     const ListItemCls = this.config.get('ListItemCls', selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListItem"]);
 
     for (const itemData of value) {
       const partialKey = itemData.partial;
       const partialConfig = this.getPartialConfig(partialKey);
 
-      const fields = this._createFields(selective.fieldTypes);
+      const fields = this._createFields(selective.fieldTypes, {}, partialKey);
 
       fields.label = partialConfig.label || partialKey;
       fields.updateOriginal(selective, itemData); // Use the partial key to find the field configs.
@@ -97673,7 +97679,7 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListFie
     const locale = evt.target.dataset.locale;
     const listItems = this._getListItemsForLocale(locale) || [];
 
-    const fields = this._createFields(selective.fieldTypes);
+    const fields = this._createFields(selective.fieldTypes, {}, partialKey);
 
     fields.label = partialConfig.label || partialKey; // Use the field config for the list items to create the correct field types.
 
@@ -97696,9 +97702,7 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListFie
       fields.addField(fieldConfig, this.globalConfig);
     }
 
-    fields.updateOriginal(selective, Object.assign({}, fields.defaultValue, {
-      'partial': partialKey
-    }));
+    fields.updateOriginal(selective, fields.defaultValue);
     const listItem = new selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListItem"](partialConfig, fields);
     listItem.isExpanded = true;
     listItems.push(listItem);
@@ -98246,6 +98250,37 @@ class TextareaField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"]
         placeholder=${this.config.placeholder || ''}
         data-locale=${locale || ''}
         @input=${this.handleInput.bind(this)}>${value}</textarea>`;
+  }
+
+}
+
+/***/ }),
+
+/***/ "./source/editor/fields/fields.js":
+/*!****************************************!*\
+  !*** ./source/editor/fields/fields.js ***!
+  \****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return PartialsFields; });
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/**
+ * Partials fields.
+ */
+
+class PartialsFields extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Fields"] {
+  constructor(fieldTypes, config, partialKey) {
+    super(fieldTypes, config);
+    this._partialKey = partialKey;
+  }
+
+  get defaultValue() {
+    return {
+      'partial': this._partialKey
+    };
   }
 
 }
