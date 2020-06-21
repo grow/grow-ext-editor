@@ -1487,21 +1487,21 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
     }
 
     actions.push(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
-      <div
+      <button
           ?disabled=${areAllExpanded}
-          class="selective__action selective__action__expand"
+          class="selective__action__expand"
           data-locale=${locale || ''}
           @click=${this.handleExpandAll.bind(this)}>
-        <i class="material-icons">unfold_more</i>
-      </div>`);
+        Expand All
+      </button>`);
     actions.push(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
-      <div
+      <button
           ?disabled=${areAllCollapsed}
-          class="selective__action selective__action__collapse"
+          class="selective__action__collapse"
           data-locale=${locale || ''}
           @click=${this.handleCollapseAll.bind(this)}>
-        <i class="material-icons">unfold_less</i>
-      </div>`);
+        Collapse All
+      </button>`);
     return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__actions">
       ${actions}
     </div>`;
