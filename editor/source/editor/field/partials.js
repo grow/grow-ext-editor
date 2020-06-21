@@ -12,6 +12,7 @@ import {
 import {
   findParentByClassname,
 } from '../../utility/dom'
+import PartialsFields from '../fields/fields'
 import EditorAutoFields from '../autoFields'
 import ModalWindow from '../parts/modal'
 
@@ -23,6 +24,10 @@ export class PartialsField extends ListField {
     this.api = this.config.get('api')
     this.api.getPartials().then(this.handleLoadPartialsResponse.bind(this))
     this.modalWindow = new ModalWindow(this.config.addLabel || 'Add partial')
+  }
+
+  _createFields(fieldTypes, config, partialKey) {
+    return new PartialsFields(fieldTypes, config, partialKey)
   }
 
   get fullKey() {
@@ -95,7 +100,8 @@ export class PartialsField extends ListField {
       const partialKey = itemData.partial
       const partialConfig = this.getPartialConfig(partialKey)
 
-      const fields = this._createFields(selective.fieldTypes)
+      const fields = this._createFields(
+        selective.fieldTypes, {}, partialKey)
       fields.label = partialConfig.label || partialKey
       fields.updateOriginal(selective, itemData)
 
@@ -152,7 +158,8 @@ export class PartialsField extends ListField {
     const partialConfig = this.getPartialConfig(partialKey)
     const locale = evt.target.dataset.locale
     const listItems = this._getListItemsForLocale(locale) || []
-    const fields = this._createFields(selective.fieldTypes)
+    const fields = this._createFields(
+      selective.fieldTypes, {}, partialKey)
     fields.label = partialConfig.label || partialKey
 
     // Use the field config for the list items to create the correct field types.
@@ -178,9 +185,7 @@ export class PartialsField extends ListField {
       fields.addField(fieldConfig, this.globalConfig)
     }
 
-    fields.updateOriginal(selective, Object.assign({}, fields.defaultValue, {
-      'partial': partialKey,
-    }))
+    fields.updateOriginal(selective, fields.defaultValue)
 
     const listItem = new ListItem(partialConfig, fields)
     listItem.isExpanded = true
