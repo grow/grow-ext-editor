@@ -97642,12 +97642,27 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListFie
               `)}
             `)}
           </div>`;
-      };
+      }; // Sort the partials by the label, not the key.
+
+
+      const partialLabelToKey = {};
+
+      for (const key of Object.keys(this.partialTypes)) {
+        // Make the sort case insensitive.
+        const partialLabel = (this.partialTypes[key].label || this.partialTypes[key].key).toLowerCase();
+        partialLabelToKey[partialLabel] = key;
+      }
+
+      const sortedPartialKeys = [];
+
+      for (const label of Object.keys(partialLabelToKey).sort()) {
+        sortedPartialKeys.push(partialLabelToKey[label]);
+      }
 
       this.modalWindow.contentRenderFunc = () => {
         return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
           <div class="selective__partials__gallery">
-            ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(Object.keys(this.partialTypes), key => key, (key, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+            ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(sortedPartialKeys, key => key, (key, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
               <div
                   class="selective__partials__gallery__item"
                   data-partial-key=${this.partialTypes[key].key}
