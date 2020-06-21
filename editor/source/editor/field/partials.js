@@ -220,10 +220,22 @@ export class PartialsField extends ListField {
           </div>`
       }
 
+      // Sort the partials by the label, not the key.
+      const partialLabelToKey = {}
+      for (const key of Object.keys(this.partialTypes)) {
+        // Make the sort case insensitive.
+        const partialLabel = (this.partialTypes[key].label || this.partialTypes[key].key).toLowerCase()
+        partialLabelToKey[partialLabel] = key
+      }
+      const sortedPartialKeys = []
+      for (const label of Object.keys(partialLabelToKey).sort()) {
+        sortedPartialKeys.push(partialLabelToKey[label])
+      }
+
       this.modalWindow.contentRenderFunc = () => {
         return html`
           <div class="selective__partials__gallery">
-            ${repeat(Object.keys(this.partialTypes), (key) => key, (key, index) => html`
+            ${repeat(sortedPartialKeys, (key) => key, (key, index) => html`
               <div
                   class="selective__partials__gallery__item"
                   data-partial-key=${this.partialTypes[key].key}
