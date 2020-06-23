@@ -12,6 +12,9 @@
   *
     box-sizing: border-box
 
+  svg
+    fill: currentColor
+
   .material-icons
     display: inline-flex
     font-size: $ge-font-size-icon
@@ -24,6 +27,7 @@
   flex-grow: 1
 
 .editor__edit
+  border-right: $ge-border-size-thick solid $ge-color-border
   flex-basis: 40%
   max-height: 100vh
   max-width: $ge-edit-column-max-width
@@ -263,7 +267,6 @@
     .editor__source__title
       margin-top: 0
 
-
 .editor__preview
   align-items: stretch
   display: flex
@@ -299,6 +302,10 @@
     opacity: 0.25
     transition: opacity $ge-speed-fast ease-in-out
 
+  select
+    opacity: 0.25
+    transition: opacity $ge-speed-fast ease-in-out
+
   input
     background: transparent
     border: none
@@ -319,6 +326,9 @@
         .editor--device &
           cursor: pointer
           opacity: 1
+
+    select
+      opacity: 1
 
 .editor__preview__header__label
   font-weight: 700
@@ -372,6 +382,17 @@
 
 .editor__preview__size__dimension
   font-size: $ge-font-size * .8
+
+.editor__locales
+  background-color: transparent
+  border: 0
+  color: inherit
+  display: block
+  font-size: $ge-font-size
+  padding: $ge-pad/2 $ge-pad/4
+
+  &:focus
+    outline: none
 
 .editor__workspace__url
   margin: $ge-pad 0

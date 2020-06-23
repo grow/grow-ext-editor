@@ -98,6 +98,7 @@ export default class Editor {
     this.settingEditorPane = new SettingSet(
       ['fields', 'source', 'history'],
       'fields', this.storage, 'selective.editor.pane')
+    this.settingLocale = null
 
     this._isFullMarkdownEditor = false;
     this._hasLoadedFields = false;
@@ -187,6 +188,15 @@ export default class Editor {
   get servingPath() {
     if (!this.document) {
       return ''
+    }
+
+    // Localize preview pages when a locale is selected.
+    if (this.settingLocalize.on && this.settingLocale) {
+      const localizedServingPath = this.document.servingPaths[
+        this.settingLocale.value]
+      if (localizedServingPath) {
+        return localizedServingPath
+      }
     }
     return this.document.servingPath
   }
@@ -477,6 +487,12 @@ export default class Editor {
       response['locales'],
       response['content'],
       response['hash'])
+
+    this.settingLocale = new SettingSet(
+      this.document.locales,
+      this.document.defaultLocale,
+      this.storage,
+      'selective.editor.locale')
   }
 
   handleFieldsClick(evt) {
@@ -529,7 +545,7 @@ export default class Editor {
     // Set the data from the document front matter.
     this.selective.data = this.document.data
     this.selective.config.set('defaultLocale', this.document.defaultLocale)
-    this.selective.config.set('locales', this.document ? this.document.locales : [])
+    this.updateSelectiveLocalization()
     this.selective.fields.reset()
 
     // Load the field configuration from the response.
@@ -687,6 +703,14 @@ export default class Editor {
   handleLocalize(evt) {
     this.settingLocalize.toggle()
     this.selective.localize = this.settingLocalize.on
+    this.render()
+  }
+
+  handleLocalizeSelect(evt) {
+    this.settingLocalize.value = true
+    this.selective.localize = this.settingLocalize.on
+    this.settingLocale.value = evt.target.value
+    this.updateSelectiveLocalization()
     this.render()
   }
 
@@ -961,7 +985,6 @@ export default class Editor {
           <div class="editor__edit__header__pod_path">
             ${editor.podPath}
           </div>
-          ${editor.document.locales.length > 1 ? html`<i class="material-icons" @click=${editor.handleLocalize.bind(editor)} title="Localize content">translate</i>` : ''}
           ${this.servingPath ? html`<i class="material-icons" @click=${editor.handleFullScreenEditorClick.bind(editor)} title="Fullscreen">${editor.settingFullScreenEditor.on || !this.servingPath ? 'fullscreen_exit' : 'fullscreen'}</i>` : ''}
         </div>
       </div>
@@ -1005,10 +1028,36 @@ export default class Editor {
       </div>`
     }
 
+    let localize = ''
+    if (editor.document.locales.length > 1) {
+      const locales = [...editor.document.locales].sort()
+      const defaultLocaleIndex = locales.indexOf(this.document.defaultLocale)
+      if (defaultLocaleIndex) {
+        locales.splice(defaultLocaleIndex, 1)
+      }
+
+      localize = html`
+        <i class="material-icons" @click=${editor.handleLocalize.bind(editor)} title="Localize content">translate</i>
+        <select class="editor__locales" @change=${editor.handleLocalizeSelect.bind(editor)}>
+          <option
+              data-locale="${this.document.defaultLocale}"
+              ?selected=${this.settingLocale.value == this.document.defaultLocale}>
+            ${this.document.defaultLocale}
+          </option>
+          ${repeat(locales, (locale) => locale, (locale, index) => html`
+            <option
+                data-locale="${locale}"
+                ?selected=${this.settingLocale.value == locale}>
+              ${locale}
+            </option>`)}
+        </select>`
+    }
+
     return html`<div class="editor__preview">
       <div class="editor__preview__header">
         <div class="editor__preview__header__icons">
           <i class="material-icons" @click=${editor.handleFullScreenPreviewClick.bind(editor)} title="Fullscreen">${editor.settingFullScreenPreview.on ? 'fullscreen_exit' : 'fullscreen'}</i>
+          ${localize}
         </div>
         <div class="editor__preview__header__label">
           Preview
@@ -1194,6 +1243,15 @@ export default class Editor {
       response['locales'],
       response['content'],
       response['hash'])
+  }
+
+  updateSelectiveLocalization() {
+    // Determine the locales from the default and selected locale or from document.
+    if (this.settingLocale && this.settingLocale.value != this.document.defaultLocale) {
+      this.selective.config.set('locales', [this.document.defaultLocale, this.settingLocale.value])
+    } else {
+      this.selective.config.set('locales', this.document ? this.document.locales : [])
+    }
   }
 
   verifyPreviewIframe() {
