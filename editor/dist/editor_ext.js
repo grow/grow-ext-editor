@@ -850,7 +850,7 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compos
       <div class="selective__field__localization">
         ${Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_3__["repeat"])(this.locales, locale => locale, (locale, index) => lit_html__WEBPACK_IMPORTED_MODULE_2__["html"]`
             <div class="selective__field__locale">
-              <label for="${this.uid}${locale}">${locale}</label>
+              <label for="${this.uid}${locale}">${locale} ${locale == this.defaultLocale ? lit_html__WEBPACK_IMPORTED_MODULE_2__["html"]`<span>(default)</span>` : ''}</label>
             </div>
             <div class="selective__field__input">
               ${this.renderInput(selective, data, locale)}
@@ -902,8 +902,18 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compos
 
     const isClean = this.isClean;
     this.isLocalized = selective.localize;
-    this.defaultLocale = selective.config.defaultLocale || 'en';
-    this.locales = selective.config.locales || ['en']; // Certain formats in the data may need to be cleaned up
+    this.defaultLocale = selective.config.defaultLocale || 'en'; // Order the locales so that the first locale is always the default locale.
+
+    const sortedLocales = (selective.config.locales || [this.defaultLocale]).sort();
+    const newLocales = [this.defaultLocale];
+
+    for (const locale of sortedLocales) {
+      if (locale != this.defaultLocale) {
+        newLocales.push(locale);
+      }
+    }
+
+    this.locales = newLocales; // Certain formats in the data may need to be cleaned up
 
     newValue = this._cleanOriginalValue(newValue); // Copy the array to prevent shared array.
 
