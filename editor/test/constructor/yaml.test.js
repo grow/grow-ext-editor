@@ -52,9 +52,7 @@ describe('yaml field', () => {
   beforeEach(async () => {
     // Need a new page to prevent requests already being handled.
     page = await browser.newPage()
-    await page.goto('http://localhost:3000/editor.html')
     await page.setRequestInterception(true)
-
     page.on('request', defaults.interceptRequest([
       contentIntercept,
       podIntercept,
@@ -62,6 +60,7 @@ describe('yaml field', () => {
       podPathsIntercept,
     ]))
 
+    await page.goto('http://localhost:3000/editor.html')
     await page.evaluate(_ => {
       window.editorInst = new Editor(document.querySelector('.container'), {
         'testing': true,
