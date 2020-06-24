@@ -6,11 +6,28 @@ const qs = require('querystring')
 class BaseIntercept {
   constructor(urlPart) {
     this.urlPart = urlPart
+    this._callbacks = {
+      get: null,
+      head: null,
+      post: null,
+    }
     this._responses = {
       get: null,
       head: null,
       post: null,
     }
+  }
+
+  get callbackGet() {
+    return this._callbacks.get
+  }
+
+  get callbackHead() {
+    return this._callbacks.head
+  }
+
+  get callbackPost() {
+    return this._callbacks.post
   }
 
   get responseGet() {
@@ -23,6 +40,18 @@ class BaseIntercept {
 
   get responsePost() {
     return this._responses.post
+  }
+
+  set callbackGet(value) {
+    this._callbacks.get = value
+  }
+
+  set callbackHead(value) {
+    this._callbacks.head = value
+  }
+
+  set callbackPost(value) {
+    this._callbacks.post = value
   }
 
   set responseGet(value) {
@@ -87,7 +116,12 @@ class JsonIntercept extends BaseIntercept {
   }
 
   handleGet(request) {
-    const data = this.dataGet(request)
+    let data = null
+    if (this.callbackGet) {
+      data = this.callbackGet(request)
+    } else {
+      data = this.dataGet(request)
+    }
 
     if (data) {
       request.respond({
@@ -100,7 +134,12 @@ class JsonIntercept extends BaseIntercept {
   }
 
   handleHead(request) {
-    const data = this.dataHead(request)
+    let data = null
+    if (this.callbackHead) {
+      data = this.callbackHead(request)
+    } else {
+      data = this.dataHead(request)
+    }
 
     if (data) {
       request.respond({
@@ -113,7 +152,12 @@ class JsonIntercept extends BaseIntercept {
   }
 
   handlePost(request) {
-    const data = this.dataPost(request)
+    let data = null
+    if (this.callbackPost) {
+      data = this.callbackPost(request)
+    } else {
+      data = this.dataPost(request)
+    }
 
     if (data) {
       request.respond({

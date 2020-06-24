@@ -6,6 +6,8 @@ const qs = require('querystring')
 
 const contentIntercept = new intercept.ContentIntercept(
   '/_grow/api/editor/content')
+const podPathsIntercept = new intercept.JsonIntercept(
+  '/_grow/api/editor/pod_paths')
 
 const defaultEn = '/content/pages/en.yaml'
 const defaultEs = '/content/pages/es.yaml'
@@ -35,6 +37,18 @@ contentIntercept.responseGet = {
   },
 }
 
+podPathsIntercept.responseGet = {
+  'pod_paths': [
+    '/content/pages/en.yaml',
+    '/content/pages/es.yaml',
+    '/content/pages/en_new.yaml',
+    '/content/pages/es_new.yaml',
+    '/content/should/be/filtered.html',
+    '/content/should/be/filtered.md',
+    '/views/should/be/filtered.html',
+  ],
+}
+
 describe('yaml field', () => {
   beforeEach(async () => {
     // Need a new page to prevent requests already being handled.
@@ -45,22 +59,8 @@ describe('yaml field', () => {
     page.on('request', request => {
       if (contentIntercept.processRequest(request)) {
         // Intercepted.
-      } else if (request.url().includes('/_grow/api/editor/pod_paths')) {
-        // console.log('Intercepted content', request.url(), request.method())
-        request.respond({
-          contentType: 'application/json',
-          body: JSON.stringify({
-            'pod_paths': [
-              '/content/pages/en.yaml',
-              '/content/pages/es.yaml',
-              '/content/pages/en_new.yaml',
-              '/content/pages/es_new.yaml',
-              '/content/should/be/filtered.html',
-              '/content/should/be/filtered.md',
-              '/views/should/be/filtered.html',
-            ],
-          })
-        })
+      } else if (podPathsIntercept.processRequest(request)) {
+        // Intercepted.
       } else {
         // console.log('Piped request', request.url(), request.method())
         request.continue()

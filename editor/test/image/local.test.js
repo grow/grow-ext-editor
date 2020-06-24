@@ -6,6 +6,10 @@ const qs = require('querystring')
 
 const contentIntercept = new intercept.ContentIntercept(
   '/_grow/api/editor/content')
+const podPathsIntercept = new intercept.JsonIntercept(
+  '/_grow/api/editor/pod_paths')
+const staticServingPathIntercept = new intercept.JsonIntercept(
+  '/_grow/api/editor/static_serving_path')
 
 const defaultEn = '/static/img/upload/defaultEn.png'
 const defaultEs = '/static/img/upload/defaultEs.png'
@@ -18,6 +22,12 @@ let newValueEs = '/static/img/upload/newValueEs.png'
 
 let newValueImageEn = 'https://avatars0.githubusercontent.com/u/5324394'
 let newValueImageEs = 'http://blinkk.com/static/logo.svg'
+
+const podPathToImg = {}
+podPathToImg[defaultEn] = defaultImageEn
+podPathToImg[defaultEs] = defaultImageEs
+podPathToImg[newValueEn] = newValueImageEn
+podPathToImg[newValueEs] = newValueImageEs
 
 contentIntercept.responseGet = {
   'editor': {
@@ -34,11 +44,26 @@ contentIntercept.responseGet = {
     'image@es': defaultEs,
   },
 }
-const podPathToImg = {}
-podPathToImg[defaultEn] = defaultImageEn
-podPathToImg[defaultEs] = defaultImageEs
-podPathToImg[newValueEn] = newValueImageEn
-podPathToImg[newValueEs] = newValueImageEs
+
+podPathsIntercept.responseGet = {
+  'pod_paths': [
+    '/content/should/be/filtered.html',
+    defaultEn,
+    defaultEs,
+    newValueEn,
+    newValueEs,
+    '/views/should/be/filtered.html',
+  ],
+}
+
+staticServingPathIntercept.callbackGet = (request) => {
+  const params = (new URL(request.url())).searchParams
+  const podPath = params.get('pod_path')
+  return {
+    'pod_path': podPath,
+    'serving_url': podPathToImg[podPath],
+  }
+}
 
 describe('image field', () => {
   beforeEach(async () => {
@@ -50,32 +75,10 @@ describe('image field', () => {
     page.on('request', request => {
       if (contentIntercept.processRequest(request)) {
         // Intercepted.
-      } else if (request.url().includes('/_grow/api/editor/pod_paths')) {
-        // console.log('Intercepted content', request.url(), request.method())
-        request.respond({
-          contentType: 'application/json',
-          body: JSON.stringify({
-            'pod_paths': [
-              '/content/should/be/filtered.html',
-              defaultEn,
-              defaultEs,
-              newValueEn,
-              newValueEs,
-              '/views/should/be/filtered.html',
-            ],
-          })
-        })
-      } else if (request.url().includes('/_grow/api/editor/static_serving_path')) {
-        // console.log('Intercepted content', request.url(), request.method())
-        const params = (new URL(request.url())).searchParams
-        const podPath = params.get('pod_path')
-        request.respond({
-          contentType: 'application/json',
-          body: JSON.stringify({
-            'pod_path': podPath,
-            'serving_url': podPathToImg[podPath],
-          })
-        })
+      } else if (podPathsIntercept.processRequest(request)) {
+        // Intercepted.
+      } else if (staticServingPathIntercept.processRequest(request)) {
+        // Intercepted.
       } else {
         // console.log('Piped request', request.url(), request.method())
         request.continue()
