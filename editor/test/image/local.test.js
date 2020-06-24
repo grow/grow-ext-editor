@@ -1,15 +1,12 @@
 const defaults = require('../defaults')
-const intercept = require('../intercept')
 const { percySnapshot } = require('@percy/puppeteer')
 const path = require('path')
 const qs = require('querystring')
 
-const contentIntercept = new intercept.ContentIntercept(
-  '/_grow/api/editor/content')
-const podPathsIntercept = new intercept.JsonIntercept(
-  '/_grow/api/editor/pod_paths')
-const staticServingPathIntercept = new intercept.JsonIntercept(
-  '/_grow/api/editor/static_serving_path')
+const podIntercept = defaults.intercept.pod()
+const contentIntercept = defaults.intercept.content()
+const podPathsIntercept = defaults.intercept.podPaths()
+const staticServingPathIntercept = defaults.intercept.staticServingPath()
 
 const defaultEn = '/static/img/upload/defaultEn.png'
 const defaultEs = '/static/img/upload/defaultEs.png'
@@ -78,6 +75,8 @@ describe('image field', () => {
       } else if (podPathsIntercept.processRequest(request)) {
         // Intercepted.
       } else if (staticServingPathIntercept.processRequest(request)) {
+        // Intercepted.
+      } else if (podIntercept.processRequest(request)) {
         // Intercepted.
       } else {
         // console.log('Piped request', request.url(), request.method())

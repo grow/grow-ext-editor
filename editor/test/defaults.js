@@ -1,15 +1,40 @@
-module.exports = {
-  'documentResponse': {
-    'raw_front_matter': '',
-    'front_matter': {},
-    'default_locale': 'en',
-    'locales': ['en', 'es'],
-    'serving_paths': {
-      'en': '/',
-      'es': '/es/',
+const intercept = require('./intercept')
+
+const contentIntercept = () => {
+  const interceptObj = new intercept.ContentIntercept(
+    '/_grow/api/editor/content')
+  return interceptObj
+}
+
+const podIntercept = () => {
+  const interceptObj = new intercept.JsonIntercept(
+    '/_grow/api/editor/pod')
+  interceptObj.responseGet = {
+    pod: {
+      title: 'Test Pod',
     },
-    'pod_path': '/content/test/test.yaml',
-    'editor': {}
+  }
+  return interceptObj
+}
+
+const podPathsIntercept = () => {
+  const interceptObj = new intercept.JsonIntercept(
+    '/_grow/api/editor/pod_paths')
+  return interceptObj
+}
+
+const staticServingPathIntercept = () => {
+  const interceptObj = new intercept.JsonIntercept(
+    '/_grow/api/editor/static_serving_path')
+  return interceptObj
+}
+
+module.exports = {
+  intercept: {
+    content: contentIntercept,
+    pod: podIntercept,
+    podPaths: podPathsIntercept,
+    staticServingPath: staticServingPathIntercept,
   },
   saveWaitFor: 100,
   snapshotOptions: {

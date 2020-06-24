@@ -1,11 +1,10 @@
 const defaults = require('../defaults')
-const intercept = require('../intercept')
 const { percySnapshot } = require('@percy/puppeteer')
 const path = require('path')
 const qs = require('querystring')
 
-const contentIntercept = new intercept.ContentIntercept(
-  '/_grow/api/editor/content')
+const podIntercept = defaults.intercept.pod()
+const contentIntercept = defaults.intercept.content()
 
 const defaultEn = 'Trumpet'
 const defaultEs = 'Trompeta'
@@ -38,6 +37,8 @@ describe('text field', () => {
 
     page.on('request', request => {
       if (contentIntercept.processRequest(request)) {
+        // Intercepted.
+      } else if (podIntercept.processRequest(request)) {
         // Intercepted.
       } else {
         // console.log('Piped request', request.url(), request.method())

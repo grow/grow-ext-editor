@@ -1,13 +1,11 @@
 const defaults = require('../defaults')
-const intercept = require('../intercept')
 const { percySnapshot } = require('@percy/puppeteer')
 const path = require('path')
 const qs = require('querystring')
 
-const contentIntercept = new intercept.ContentIntercept(
-  '/_grow/api/editor/content')
-const podPathsIntercept = new intercept.JsonIntercept(
-  '/_grow/api/editor/pod_paths')
+const podIntercept = defaults.intercept.pod()
+const contentIntercept = defaults.intercept.content()
+const podPathsIntercept = defaults.intercept.podPaths()
 
 const defaultEn = '/content/pages/en.yaml'
 const defaultEs = '/content/pages/es.yaml'
@@ -60,6 +58,8 @@ describe('yaml field', () => {
       if (contentIntercept.processRequest(request)) {
         // Intercepted.
       } else if (podPathsIntercept.processRequest(request)) {
+        // Intercepted.
+      } else if (podIntercept.processRequest(request)) {
         // Intercepted.
       } else {
         // console.log('Piped request', request.url(), request.method())

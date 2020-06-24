@@ -1,11 +1,10 @@
 const defaults = require('../defaults')
-const intercept = require('../intercept')
 const { percySnapshot } = require('@percy/puppeteer')
 const path = require('path')
 const qs = require('querystring')
 
-const contentIntercept = new intercept.ContentIntercept(
-  '/_grow/api/editor/content')
+const podIntercept = defaults.intercept.pod()
+const contentIntercept = defaults.intercept.content()
 
 const defaultEn = '# But why is the toilet paper gone?'
 const defaultEs = '# ¿Pero por qué se fue el papel higiénico?'
@@ -41,6 +40,8 @@ describe('markdown field', () => {
 
     page.on('request', request => {
       if (contentIntercept.processRequest(request)) {
+        // Intercepted.
+      } else if (podIntercept.processRequest(request)) {
         // Intercepted.
       } else {
         // console.log('Piped request', request.url(), request.method())
