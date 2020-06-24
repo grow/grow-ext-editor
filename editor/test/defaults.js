@@ -30,11 +30,12 @@ const repoIntercept = () => {
   // Use relative dates to allow nice date comparison.
   // EX: 2 days ago
   const commitDate1 = new Date()
-  commitDate1.setDate(commitDate1.getDate() - 1)
+  commitDate1.setDate(commitDate1.getDate() - 3)
   const commitDate2 = new Date()
-  commitDate2.setDate(commitDate2.getDate() - 1)
+  commitDate2.setDate(commitDate2.getDate() - 2)
   const commitDate3 = new Date()
   commitDate3.setDate(commitDate3.getDate() - 1)
+  const tsLength = '2020-06-23T20:39:57'.length
 
   interceptObj.responseGet = {
     repo: {
@@ -45,7 +46,7 @@ const repoIntercept = () => {
       commits: [
         {
           message: "Test commit 3",
-          commit_date: commitDate3.toISOString(),
+          commit_date: commitDate3.toISOString().slice(0, tsLength),
           sha: "9aebd1307077aecf024c9b2ca56587b26cf67143",
           author: {
             name: "Author Name",
@@ -54,7 +55,7 @@ const repoIntercept = () => {
         },
         {
           message: "Test commit 2",
-          commit_date: commitDate2.toISOString(),
+          commit_date: commitDate2.toISOString().slice(0, tsLength),
           sha: "0187226478d3bd094ec9379b74469b3b71303cb3",
           author: {
             name: "Author Name",
@@ -63,7 +64,7 @@ const repoIntercept = () => {
         },
         {
           message: "Test commit 1",
-          commit_date: commitDate1.toISOString(),
+          commit_date: commitDate1.toISOString().slice(0, tsLength),
           sha: "8b78a0bf28076ce6ddc795b9ca528b5029c8d027",
           author: {
             name: "Author Name",
