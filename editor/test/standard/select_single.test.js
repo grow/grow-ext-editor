@@ -4,6 +4,7 @@ const path = require('path')
 const qs = require('querystring')
 
 const podIntercept = defaults.intercept.pod()
+const repoIntercept = defaults.intercept.repo()
 const contentIntercept = defaults.intercept.content()
 
 const defaultEn = 'blue'
@@ -49,16 +50,11 @@ describe('select single field', () => {
     await page.goto('http://localhost:3000/editor.html')
     await page.setRequestInterception(true)
 
-    page.on('request', request => {
-      if (contentIntercept.processRequest(request)) {
-        // Intercepted.
-      } else if (podIntercept.processRequest(request)) {
-        // Intercepted.
-      } else {
-        // console.log('Piped request', request.url(), request.method())
-        request.continue()
-      }
-    })
+    page.on('request', defaults.interceptRequest([
+      contentIntercept,
+      podIntercept,
+      repoIntercept,
+    ]))
 
     await page.evaluate(_ => {
       window.editorInst = new Editor(document.querySelector('.container'), {

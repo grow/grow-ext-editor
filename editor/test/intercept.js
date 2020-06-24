@@ -3,9 +3,24 @@
 const qs = require('querystring')
 
 
+const interceptRequest = (interceptors) => {
+  return (request) => {
+    for (const interceptor of interceptors) {
+      if (interceptor.processRequest(request)) {
+        // console.log('Intercepted request', request.url(), request.method());
+        return
+      }
+    }
+    // console.log('Piped request', request.url(), request.method())
+    request.continue()
+  }
+}
+
+
 class BaseIntercept {
-  constructor(urlPart) {
-    this.urlPart = urlPart
+  constructor(urlPath) {
+    this.urlPath = urlPath
+    this.urlPathStrict = true
     this._callbacks = {
       get: null,
       head: null,
@@ -91,7 +106,16 @@ class BaseIntercept {
   }
 
   processRequest(request) {
-    if (request.url().includes(this.urlPart)) {
+    const requestUrl = new URL(request.url())
+    let matchesUrl = null
+
+    if (this.urlPathStrict) {
+      matchesUrl = requestUrl.pathname == this.urlPath
+    } else {
+      matchesUrl = requestUrl.pathname.includes(this.urlPart)
+    }
+
+    if (matchesUrl) {
       if (request.method() == 'POST') {
         if (this.handlePost(request)) {
           return true
@@ -111,8 +135,8 @@ class BaseIntercept {
 }
 
 class JsonIntercept extends BaseIntercept {
-  constructor(urlPart) {
-    super(urlPart)
+  constructor(urlPath) {
+    super(urlPath)
   }
 
   handleGet(request) {
@@ -171,8 +195,8 @@ class JsonIntercept extends BaseIntercept {
 }
 
 class ContentIntercept extends JsonIntercept {
-  constructor(urlPart) {
-    super(urlPart)
+  constructor(urlPath) {
+    super(urlPath)
 
     this._defaultResponse = {
       'raw_front_matter': '',
@@ -203,6 +227,7 @@ class ContentIntercept extends JsonIntercept {
 }
 
 module.exports = {
+  interceptRequest: interceptRequest,
   ContentIntercept: ContentIntercept,
   JsonIntercept: JsonIntercept,
 }
