@@ -1,27 +1,40 @@
 const defaults = require('../defaults')
+const intercept = require('../intercept')
 const { percySnapshot } = require('@percy/puppeteer')
 const path = require('path')
 const qs = require('querystring')
 
-const editorConfig = {
-  'fields': [
-    {
-      'type': 'datetime',
-      'key': 'published',
-      'label': 'Published',
-    }
-  ]
-}
+const contentIntercept = new intercept.ContentIntercept(
+  '/_grow/api/editor/content')
+
 const defaultEn = ''
 const defaultEs = ''
-let newValueEn = '2021-04-02T14:05'
-let newValueEs = '2020-07-25T05:18'
 
 // Format the typing for the order that the field shows in en_US.
 let newDateTypeEn = '04-02-2021'
 let newDateTypeEs = '07-25-2020'
+
 let newTimeTypeEn = '02-05p'
 let newTimeTypeEs = '05-18a'
+
+contentIntercept.responseGet = {
+  'editor': {
+    'fields': [
+      {
+        'type': 'datetime',
+        'key': 'published',
+        'label': 'Published',
+      },
+    ]
+  },
+  'front_matter': {
+    'published': defaultEn,
+    'published@es': defaultEs,
+  },
+}
+
+let newValueEn = '2021-04-02T14:05'
+let newValueEs = '2020-07-25T05:18'
 
 describe('datetime field', () => {
   beforeEach(async () => {
@@ -31,31 +44,8 @@ describe('datetime field', () => {
     await page.setRequestInterception(true)
 
     page.on('request', request => {
-      if (request.url().includes('/_grow/api/editor/content')) {
-        // console.log('Intercepted content', request.url(), request.method())
-        if (request.method() == 'POST') {
-          // Respond to posts with the same front matter.
-          const postData = qs.parse(request.postData())
-          const frontMatter = JSON.parse(postData.front_matter)
-          request.respond({
-            contentType: 'application/json',
-            body: JSON.stringify(Object.assign({}, defaults.documentResponse, {
-              'front_matter': frontMatter,
-              'editor': editorConfig,
-            }))
-          })
-        } else {
-          request.respond({
-            contentType: 'application/json',
-            body: JSON.stringify(Object.assign({}, defaults.documentResponse, {
-              'front_matter': {
-                'published': defaultEn,
-                'published@es': defaultEs,
-              },
-              'editor': editorConfig,
-            }))
-          })
-        }
+      if (contentIntercept.processRequest(request)) {
+        // Intercepted.
       } else {
         // console.log('Piped request', request.url(), request.method())
         request.continue()

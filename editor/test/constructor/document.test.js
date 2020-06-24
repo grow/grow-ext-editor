@@ -1,21 +1,39 @@
 const defaults = require('../defaults')
+const intercept = require('../intercept')
 const { percySnapshot } = require('@percy/puppeteer')
 const path = require('path')
 const qs = require('querystring')
 
-const editorConfig = {
-  'fields': [
-    {
-      'type': 'document',
-      'key': 'doc',
-      'label': 'Document',
-    }
-  ]
-}
+const contentIntercept = new intercept.ContentIntercept(
+  '/_grow/api/editor/content')
+
 const defaultEn = '/content/pages/en.yaml'
 const defaultEs = '/content/pages/es.yaml'
+
 let newValueEn = '/content/pages/en_new.yaml'
 let newValueEs = '/content/pages/es_new.yaml'
+
+contentIntercept.responseGet = {
+  'editor': {
+    'fields': [
+      {
+        'type': 'document',
+        'key': 'doc',
+        'label': 'Document',
+      },
+    ]
+  },
+  'front_matter': {
+    'doc': {
+      'tag': '!g.doc',
+      'value': defaultEn,
+    },
+    'doc@es': {
+      'tag': '!g.doc',
+      'value': defaultEs,
+    },
+  },
+}
 
 describe('document field', () => {
   beforeEach(async () => {
@@ -25,37 +43,8 @@ describe('document field', () => {
     await page.setRequestInterception(true)
 
     page.on('request', request => {
-      if (request.url().includes('/_grow/api/editor/content')) {
-        // console.log('Intercepted content', request.url(), request.method())
-        if (request.method() == 'POST') {
-          // Respond to posts with the same front matter.
-          const postData = qs.parse(request.postData())
-          const frontMatter = JSON.parse(postData.front_matter)
-          request.respond({
-            contentType: 'application/json',
-            body: JSON.stringify(Object.assign({}, defaults.documentResponse, {
-              'front_matter': frontMatter,
-              'editor': editorConfig,
-            }))
-          })
-        } else {
-          request.respond({
-            contentType: 'application/json',
-            body: JSON.stringify(Object.assign({}, defaults.documentResponse, {
-              'front_matter': {
-                'doc': {
-                  'tag': '!g.doc',
-                  'value': defaultEn,
-                },
-                'doc@es': {
-                  'tag': '!g.doc',
-                  'value': defaultEs,
-                },
-              },
-              'editor': editorConfig,
-            }))
-          })
-        }
+      if (contentIntercept.processRequest(request)) {
+        // Intercepted.
       } else if (request.url().includes('/_grow/api/editor/pod_paths')) {
         // console.log('Intercepted content', request.url(), request.method())
         request.respond({

@@ -1,21 +1,33 @@
 const defaults = require('../defaults')
+const intercept = require('../intercept')
 const { percySnapshot } = require('@percy/puppeteer')
 const path = require('path')
 const qs = require('querystring')
 
-const editorConfig = {
-  'fields': [
-    {
-      'type': 'textarea',
-      'key': 'description',
-      'label': 'Description',
-    }
-  ]
-}
+const contentIntercept = new intercept.ContentIntercept(
+  '/_grow/api/editor/content')
+
 const defaultEn = 'But why is the toilet paper gone?'
 const defaultEs = '¿Pero por qué se fue el papel higiénico?'
+
 let newValueEn = 'Toilet paper is the new gold currency.'
 let newValueEs = 'El papel higiénico es la nueva moneda de oro.'
+
+contentIntercept.responseGet = {
+  'editor': {
+    'fields': [
+      {
+        'type': 'textarea',
+        'key': 'description',
+        'label': 'Description',
+      },
+    ]
+  },
+  'front_matter': {
+    'description': defaultEn,
+    'description@es': defaultEs,
+  },
+}
 
 describe('textarea field', () => {
   beforeEach(async () => {
@@ -25,31 +37,8 @@ describe('textarea field', () => {
     await page.setRequestInterception(true)
 
     page.on('request', request => {
-      if (request.url().includes('/_grow/api/editor/content')) {
-        // console.log('Intercepted content', request.url(), request.method())
-        if (request.method() == 'POST') {
-          // Respond to posts with the same front matter.
-          const postData = qs.parse(request.postData())
-          const frontMatter = JSON.parse(postData.front_matter)
-          request.respond({
-            contentType: 'application/json',
-            body: JSON.stringify(Object.assign({}, defaults.documentResponse, {
-              'front_matter': frontMatter,
-              'editor': editorConfig,
-            }))
-          })
-        } else {
-          request.respond({
-            contentType: 'application/json',
-            body: JSON.stringify(Object.assign({}, defaults.documentResponse, {
-              'front_matter': {
-                'description': defaultEn,
-                'description@es': defaultEs,
-              },
-              'editor': editorConfig,
-            }))
-          })
-        }
+      if (contentIntercept.processRequest(request)) {
+        // Intercepted.
       } else {
         // console.log('Piped request', request.url(), request.method())
         request.continue()

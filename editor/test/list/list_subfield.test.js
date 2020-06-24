@@ -1,33 +1,55 @@
 const defaults = require('../defaults')
+const intercept = require('../intercept')
 const { percySnapshot } = require('@percy/puppeteer')
 const path = require('path')
 const qs = require('querystring')
 
-const editorConfig = {
-  'fields': [
-    {
-      'type': 'list',
-      'key': 'list',
-      'label': 'List (simple)',
-      'fields': [
-        {
-          'type': 'text',
-          'key': 'title',
-          'label': 'Title',
-        },
-        {
-          'type': 'checkbox',
-          'key': 'is_awesome',
-          'label': 'Is Awesome?',
-        },
-      ],
-    }
-  ]
-}
+const contentIntercept = new intercept.ContentIntercept(
+  '/_grow/api/editor/content')
+
 const defaultEn = 'Trumpet'
 const defaultEs = 'Trompeta'
+
 let newValueEn = 'Trombone'
 let newValueEs = 'Trombón'
+
+contentIntercept.responseGet = {
+  'editor': {
+    'fields': [
+      {
+        'type': 'list',
+        'key': 'list',
+        'label': 'List (simple)',
+        'fields': [
+          {
+            'type': 'text',
+            'key': 'title',
+            'label': 'Title',
+          },
+          {
+            'type': 'checkbox',
+            'key': 'is_awesome',
+            'label': 'Is Awesome?',
+          },
+        ],
+      },
+    ]
+  },
+  'front_matter': {
+    'list': [
+      {
+        'title': defaultEn,
+        'is_awesome': true,
+      },
+    ],
+    'list@es': [
+      {
+        'title': defaultEs,
+        'is_awesome': true,
+      },
+    ],
+  },
+}
 
 describe('list subfield multi field', () => {
   beforeEach(async () => {
@@ -37,41 +59,8 @@ describe('list subfield multi field', () => {
     await page.setRequestInterception(true)
 
     page.on('request', request => {
-      if (request.url().includes('/_grow/api/editor/content')) {
-        // console.log('Intercepted content', request.url(), request.method())
-        if (request.method() == 'POST') {
-          // Respond to posts with the same front matter.
-          const postData = qs.parse(request.postData())
-          const frontMatter = JSON.parse(postData.front_matter)
-          request.respond({
-            contentType: 'application/json',
-            body: JSON.stringify(Object.assign({}, defaults.documentResponse, {
-              'front_matter': frontMatter,
-              'editor': editorConfig,
-            }))
-          })
-        } else {
-          request.respond({
-            contentType: 'application/json',
-            body: JSON.stringify(Object.assign({}, defaults.documentResponse, {
-              'front_matter': {
-                'list': [
-                  {
-                    'title': defaultEn,
-                    'is_awesome': true,
-                  },
-                ],
-                'list@es': [
-                  {
-                    'title': defaultEs,
-                    'is_awesome': true,
-                  },
-                ],
-              },
-              'editor': editorConfig,
-            }))
-          })
-        }
+      if (contentIntercept.processRequest(request)) {
+        // Intercepted.
       } else {
         // console.log('Piped request', request.url(), request.method())
         request.continue()

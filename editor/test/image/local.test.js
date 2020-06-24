@@ -1,25 +1,39 @@
 const defaults = require('../defaults')
+const intercept = require('../intercept')
 const { percySnapshot } = require('@percy/puppeteer')
 const path = require('path')
 const qs = require('querystring')
 
-const editorConfig = {
-  'fields': [
-    {
-      'type': 'image',
-      'key': 'image',
-      'label': 'Image',
-    }
-  ]
-}
+const contentIntercept = new intercept.ContentIntercept(
+  '/_grow/api/editor/content')
+
 const defaultEn = '/static/img/upload/defaultEn.png'
 const defaultEs = '/static/img/upload/defaultEs.png'
-let newValueEn = '/static/img/upload/newValueEn.png'
-let newValueEs = '/static/img/upload/newValueEs.png'
+
 const defaultImageEn = 'http://blinkk.com/static/logo.svg'
 const defaultImageEs = 'https://avatars0.githubusercontent.com/u/5324394'
+
+let newValueEn = '/static/img/upload/newValueEn.png'
+let newValueEs = '/static/img/upload/newValueEs.png'
+
 let newValueImageEn = 'https://avatars0.githubusercontent.com/u/5324394'
 let newValueImageEs = 'http://blinkk.com/static/logo.svg'
+
+contentIntercept.responseGet = {
+  'editor': {
+    'fields': [
+      {
+        'type': 'image',
+        'key': 'image',
+        'label': 'Image',
+      },
+    ]
+  },
+  'front_matter': {
+    'image': defaultEn,
+    'image@es': defaultEs,
+  },
+}
 const podPathToImg = {}
 podPathToImg[defaultEn] = defaultImageEn
 podPathToImg[defaultEs] = defaultImageEs
@@ -34,31 +48,8 @@ describe('image field', () => {
     await page.setRequestInterception(true)
 
     page.on('request', request => {
-      if (request.url().includes('/_grow/api/editor/content')) {
-        // console.log('Intercepted content', request.url(), request.method())
-        if (request.method() == 'POST') {
-          // Respond to posts with the same front matter.
-          const postData = qs.parse(request.postData())
-          const frontMatter = JSON.parse(postData.front_matter)
-          request.respond({
-            contentType: 'application/json',
-            body: JSON.stringify(Object.assign({}, defaults.documentResponse, {
-              'front_matter': frontMatter,
-              'editor': editorConfig,
-            }))
-          })
-        } else {
-          request.respond({
-            contentType: 'application/json',
-            body: JSON.stringify(Object.assign({}, defaults.documentResponse, {
-              'front_matter': {
-                'image': defaultEn,
-                'image@es': defaultEs,
-              },
-              'editor': editorConfig,
-            }))
-          })
-        }
+      if (contentIntercept.processRequest(request)) {
+        // Intercepted.
       } else if (request.url().includes('/_grow/api/editor/pod_paths')) {
         // console.log('Intercepted content', request.url(), request.method())
         request.respond({
