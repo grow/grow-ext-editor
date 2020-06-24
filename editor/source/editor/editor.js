@@ -22,8 +22,11 @@ import EditorAutoFields from './autoFields'
 import { defaultFields } from './field'
 import { zoomIframe } from './zoomIframe'
 import { findParentByClassname } from '../utility/dom'
-import expandObject from '../utility/expandObject'
 import Storage from '../utility/storage'
+import {
+  SettingSet,
+  SettingToggle,
+} from '../utility/settings'
 
 
 const CONTENT_KEY = '__content__'
@@ -40,8 +43,10 @@ export default class Editor {
     this.config = new Config(config || {})
     this.template = (editor, selective) => html`<div class="editor ${editor.stylesEditor}">
       ${this.menu.template(editor)}
-      ${this.podPath ? editor.renderEditor(editor, selective) : ''}
-      ${this.podPath ? editor.renderPreview(editor, selective) : ''}
+      <div class="editor__frame">
+        ${this.podPath ? editor.renderEditor(editor, selective) : ''}
+        ${this.podPath && this.document.servingPath ? editor.renderPreview(editor, selective) : ''}
+      </div>
     </div>`
     this.storage = new Storage(this.isTesting)
 
@@ -81,16 +86,20 @@ export default class Editor {
     this._device = this.storage.getItem('selective.device') || this._defaultDevice
 
     // Persistent settings in local storage.
-    this._isEditingSource = this.storage.getItem('selective.isEditingSource') == 'true'
-    this._isFullScreen = this.storage.getItem('selective.isFullScreen') == 'true'
-    this._isHighlighted = {
-      dirty: this.storage.getItem('selective.isHightlighted.dirty') == 'true',
-      guess: this.storage.getItem('selective.isHightlighted.guess') == 'true',
-      linked: this.storage.getItem('selective.isHightlighted.linked') == 'true',
-    }
+    this.settingDeviceRotated = new SettingToggle(false, this.storage, 'selective.device.rotated')
+    this.settingDeviceView = new SettingToggle(false, this.storage, 'selective.device.view')
+    this.settingFullScreenEditor = new SettingToggle(false, this.storage, 'selective.fullScreenEditor')
+    this.settingFullScreenPreview = new SettingToggle(false, this.storage, 'selective.fullScreenPreview')
+    this.settingHighlightDirty = new SettingToggle(false, this.storage, 'selective.highlight.dirty')
+    this.settingHighlightGuess = new SettingToggle(false, this.storage, 'selective.highlight.guess')
+    this.settingHighlightLinked = new SettingToggle(false, this.storage, 'selective.highlight.linked')
+    this.settingLocalize = new SettingToggle(false, this.storage, 'selective.localize')
+    this.settingLocalizeUrls = new SettingToggle(false, this.storage, 'selective.localize.urls')
+    this.settingEditorPane = new SettingSet(
+      ['fields', 'source', 'history'],
+      'fields', this.storage, 'selective.editor.pane')
+    this.settingLocale = null
 
-    this._isDeviceRotated = this.storage.getItem('selective.isDeviceRotated') == 'true'
-    this._isDeviceView = this.storage.getItem('selective.isDeviceView') == 'true'
     this._isFullMarkdownEditor = false;
     this._hasLoadedFields = false;
 
@@ -117,7 +126,7 @@ export default class Editor {
     this.selective.editor = this
 
     // Load the selective editor preference for localize.
-    this.selective.localize = this.storage.getItem('selective.localize') == 'true'
+    this.selective.localize = this.settingLocalize.on
 
     // Add the editor extension default field types.
     for (const key of Object.keys(defaultFields)) {
@@ -127,7 +136,7 @@ export default class Editor {
     this.bindEvents()
     this.bindKeyboard()
 
-    if (this.podPath) {
+    if (this.podPath && this.podPath.length) {
       this.load(this.podPath)
     } else {
       this.render()
@@ -152,29 +161,6 @@ export default class Editor {
     }
 
     return this.document.isClean && this.selective.isClean
-  }
-
-  get isDeviceRotated() {
-    return this._isDeviceRotated
-  }
-
-  get isDeviceView() {
-    return this._isDeviceView
-  }
-
-  get isEditingSource() {
-    return this._isEditingSource
-  }
-
-  get isFullScreen() {
-    // Default to full-screen mode for documents without serving paths.
-    // TODO: We probably want to add a new checkbox to "disable the link"
-    // between the preview and the editor. When the preview is disabled,
-    // we do not want to override the full-screen setting. The goal is to
-    // allow the user to be editing a partial document and then refresh the
-    // full preview (corresponding to another doc), without having to
-    // toggle the full-screen view.
-    return this._isFullScreen || !this.servingPath
   }
 
   get isTesting() {
@@ -203,50 +189,71 @@ export default class Editor {
     if (!this.document) {
       return ''
     }
+
+    // Localize preview pages when a locale is selected.
+    if (this.settingLocalize.on && this.settingLocale) {
+      const localizedServingPath = this.document.servingPaths[
+        this.settingLocale.value]
+      if (localizedServingPath) {
+        return localizedServingPath
+      }
+    }
     return this.document.servingPath
   }
 
   get stylesEditor() {
     const styles = []
 
-    if (this.isDeviceView) {
+    if (this.settingDeviceView.on) {
       styles.push('editor--device')
 
       // Only allow the rotated when in device view.
-      if (this.isDeviceRotated) {
+      if (this.settingDeviceRotated.on) {
         styles.push('editor--rotated')
       }
     }
 
-    if (this.isEditingSource) {
-      styles.push('editor--raw')
+    if (this.settingEditorPane.is('fields')) {
+      styles.push('editor--fields')
     }
 
-    if (this.isFullScreen) {
-      styles.push('editor--fullscreen')
+    if (this.settingEditorPane.is('history')) {
+      styles.push('editor--history')
+    }
+
+    if (this.settingEditorPane.is('source')) {
+      styles.push('editor--source')
+    }
+
+    if (this.settingFullScreenEditor.on || !this.document.servingPath) {
+      styles.push('editor--fullscreen-editor')
+    }
+
+    if (this.settingFullScreenPreview.on) {
+      styles.push('editor--fullscreen-preview')
     }
 
     if (this._isFullMarkdownEditor) {
       styles.push('editor--markdown')
     }
 
-    if (this.isHightlighted('guess')) {
+    if (this.settingHighlightGuess.on) {
       styles.push('editor--highlight-guess')
     }
 
-    if (this.isHightlighted('dirty')) {
+    if (this.settingHighlightDirty.on) {
       styles.push('editor--highlight-dirty')
     }
 
-    if (this.isHightlighted('linked')) {
+    if (this.settingHighlightLinked.on) {
       styles.push('editor--highlight-linked')
     }
 
     return styles.join(' ')
   }
 
-  get templateEditorOrSource() {
-    if (this.isEditingSource) {
+  get templatePane() {
+    if (this.settingEditorPane.is('source')) {
       const contentHtml = this.document.content != ''
         ? html`
           <div class="editor__source__section">
@@ -255,42 +262,68 @@ export default class Editor {
           </div>`
         : ''
 
-      return html`<div class="editor__source">
-        <div class="editor__source__section">
-          <div class="editor__source__title">Front Matter</div>
-          <textarea class="editor__source__frontmatter" @input=${this.handleRawInput.bind(this)}>${this.document.rawFrontMatter}</textarea>
-        </div>
-        ${contentHtml}
-      </div>`
+      return html`
+        <div class="editor__card">
+          <div class="editor__card__title">
+            Source
+          </div>
+          <div class="editor__source">
+            <div class="editor__source__section">
+              <div class="editor__source__title">Front Matter</div>
+              <textarea class="editor__source__frontmatter" @input=${this.handleRawInput.bind(this)}>${this.document.rawFrontMatter}</textarea>
+            </div>
+            ${contentHtml}
+          </div>
+        </div>`
     }
-    return html`<div class="editor__selective">
-      ${this.selective.template(this.selective, this.selective.data)}
-    </div>`
+
+    if (this.settingEditorPane.is('history')) {
+      return html`
+        <div class="editor__card">
+          <div class="editor__card__title">
+            History
+          </div>
+        </div>`
+    }
+
+    return html`
+      ${this.renderWorkspace(this, this.selective)}
+      <div class="editor__card editor__field_list">
+        <div class="editor__card__title">
+          Content
+        </div>
+        <div class="editor__selective">
+          ${this.selective.template(this.selective, this.selective.data)}
+        </div>
+      </div>
+      <div class="editor__dev_tools">
+        <div>Developer tools:</div>
+        <div class="editor__dev_tools__icons">
+          <i
+              class="editor__dev_tools__icon ${this.settingHighlightGuess.on ? 'editor__dev_tools__icon--selected': ''} material-icons"
+              @click=${this.handleHighlightGuess.bind(this)}
+              title="Highlight auto fields">
+            assistant
+          </i>
+          <i
+              class="editor__dev_tools__icon ${this.settingHighlightLinked.on ? 'editor__dev_tools__icon--selected': ''} material-icons"
+              @click=${this.handleHighlightLinked.bind(this)}
+              title="Deep link to fields">
+            link
+          </i>
+          <i
+              class="editor__dev_tools__icon ${this.settingHighlightDirty.on ? 'editor__dev_tools__icon--selected': ''} material-icons"
+              @click=${this.handleHighlightDirty.bind(this)}
+              title="Highlight dirty fields">
+            change_history
+          </i>
+        </div>
+      </div>`
   }
 
   set device(value) {
     this._device = value
     this.storage.setItem('selective.device', this._device)
-  }
-
-  set isEditingSource(value) {
-    this._isEditingSource = value
-    this.storage.setItem('selective.isEditingSource', this._isEditingSource)
-  }
-
-  set isFullScreen(value) {
-    this._isFullScreen = value
-    this.storage.setItem('selective.isFullScreen', this._isFullScreen)
-  }
-
-  set isDeviceRotated(value) {
-    this._isDeviceRotated = value
-    this.storage.setItem('selective.isDeviceRotated', this._isDeviceRotated)
-  }
-
-  set isDeviceView(value) {
-    this._isDeviceView = value
-    this.storage.setItem('selective.isDeviceView', this._isDeviceView)
   }
 
   set podPath(value) {
@@ -312,7 +345,7 @@ export default class Editor {
     const iframeContainerEl = this.containerEl.querySelector('.editor__preview__frame')
     const iframeEl = this.containerEl.querySelector('.editor__preview iframe')
     zoomIframe(
-      iframeContainerEl, iframeEl, this.isDeviceView, this.isDeviceRotated,
+      iframeContainerEl, iframeEl, this.settingDeviceView.on, this.settingDeviceRotated.on,
       this.devices[this.device], 'editor__preview__frame--contained')
   }
 
@@ -454,10 +487,16 @@ export default class Editor {
       response['locales'],
       response['content'],
       response['hash'])
+
+    this.settingLocale = new SettingSet(
+      this.document.locales,
+      this.document.defaultLocale,
+      this.storage,
+      'selective.editor.locale')
   }
 
   handleFieldsClick(evt) {
-    this.isEditingSource = false
+    this.settingEditorPane.value = 'fields'
 
     // Need to remove the code mirror for source since it no longer exists.
     delete this._codeMirrors['source']
@@ -471,43 +510,42 @@ export default class Editor {
     this.render()
   }
 
-  handleFullScreenClick(evt) {
-    this.isFullScreen = !this.isFullScreen
+  handleFullScreenEditorClick(evt) {
+    this.settingFullScreenEditor.toggle()
+    this.render()
+  }
+
+  handleFullScreenPreviewClick(evt) {
+    this.settingFullScreenPreview.toggle()
     this.render()
   }
 
   handleHighlightDirty(evt) {
-    this._isHighlighted.dirty = !this.isHightlighted('dirty')
-    this.storage.setItem('selective.isHightlighted.dirty', this._isHighlighted.dirty)
-
+    this.settingHighlightDirty.toggle()
     this.render()
   }
 
   handleHighlightGuess(evt) {
-    this._isHighlighted.guess = !this.isHightlighted('guess')
-    this.storage.setItem('selective.isHightlighted.guess', this._isHighlighted.guess)
-
+    this.settingHighlightGuess.toggle()
     this.render()
   }
 
   handleHighlightLinked(evt) {
-    this._isHighlighted.linked = !this.isHightlighted('linked')
-    this.storage.setItem('selective.isHightlighted.linked', this._isHighlighted.linked)
-
+    this.settingHighlightLinked.toggle()
     this.render()
   }
 
   handleLoadFieldsResponse(response) {
     this._hasLoadedFields = true
-    this._isEditingSource = false
     this._isFullMarkdownEditor = false
+    this.settingEditorPane.value = 'fields'
     this.documentFromResponse(response)
     this.pushState(this.document.podPath)
 
     // Set the data from the document front matter.
     this.selective.data = this.document.data
     this.selective.config.set('defaultLocale', this.document.defaultLocale)
-    this.selective.config.set('locales', this.document ? this.document.locales : [])
+    this.updateSelectiveLocalization()
     this.selective.fields.reset()
 
     // Load the field configuration from the response.
@@ -572,7 +610,7 @@ export default class Editor {
   }
 
   handleDeviceRotateClick(evt) {
-    this.isDeviceRotated = !this.isDeviceRotated
+    this.settingDeviceRotated.toggle()
     this.render()
   }
 
@@ -583,7 +621,12 @@ export default class Editor {
   }
 
   handleDeviceToggleClick(evt) {
-    this.isDeviceView = !this.isDeviceView
+    this.settingDeviceView.toggle()
+    this.render()
+  }
+
+  handleHistoryClick(evt) {
+    this.settingEditorPane.value = 'history'
     this.render()
   }
 
@@ -644,7 +687,7 @@ export default class Editor {
   }
 
   handleLoadSourceResponse(response) {
-    this._isEditingSource = true
+    this.settingEditorPane.value = 'source'
     this.documentFromResponse(response)
     this.pushState(this.document.podPath)
     this.render()
@@ -658,8 +701,22 @@ export default class Editor {
   }
 
   handleLocalize(evt) {
-    this.selective.localize = !this.selective.localize
-    this.storage.setItem('selective.localize', this.selective.localize)
+    this.settingLocalize.toggle()
+    this.selective.localize = this.settingLocalize.on
+    this.render()
+  }
+
+  handleLocalizeSelect(evt) {
+    this.settingLocalize.value = true
+    this.selective.localize = this.settingLocalize.on
+    this.settingLocale.value = evt.target.value
+    this.updateSelectiveLocalization()
+    this.render()
+  }
+
+  handleLocalizeUrlsClick(evt) {
+    evt.preventDefault()
+    this.settingLocalizeUrls.toggle()
     this.render()
   }
 
@@ -731,25 +788,24 @@ export default class Editor {
   }
 
   handleSourceClick(evt) {
-    if (!this.isEditingSource && !this.isClean) {
-      const newFrontMatter = this.selective.value
-      const content = newFrontMatter[CONTENT_KEY]
-      delete newFrontMatter[CONTENT_KEY]
-      this.document.rawFrontMatter = dump(newFrontMatter)
-      this.document.content = content
-    }
+    // TODO: Add ability to switch while there are unsaved changes.
+    // if (!this.settingEditorPane.is('source') && !this.isClean) {
+    //   const newFrontMatter = this.selective.value
+    //   const content = newFrontMatter[CONTENT_KEY]
+    //   delete newFrontMatter[CONTENT_KEY]
+    //   this.document.rawFrontMatter = dump(newFrontMatter)
+    //   this.document.content = content
+    // }
 
-    this.isEditingSource = true
+    this.settingEditorPane.value = 'source'
     this.render()
   }
 
-  isHightlighted(key) {
-    return this._isHighlighted[key]
-  }
-
   load(podPath) {
-    if (this.isEditingSource) {
+    if (this.settingEditorPane.is('source')) {
       this.loadSource(podPath)
+    } else if (this.settingEditorPane.is('history')) {
+      // TODO: Load history.
     } else {
       this.loadFields(podPath)
     }
@@ -864,7 +920,7 @@ export default class Editor {
     this.adjustIframeSize()
 
     // Make the code editor if editing raw.
-    if(this.isEditingSource && !this._codeMirrors['source']) {
+    if(this.settingEditorPane.is('source') && !this._codeMirrors['source']) {
       const frontmatterTextarea = this.containerEl.querySelector('.editor__source textarea.editor__source__frontmatter')
       this._codeMirrors['source'] = CodeMirror.fromTextArea(frontmatterTextarea, Object.assign({}, CODEMIRROR_OPTIONS, {
         mode: 'yaml',
@@ -875,7 +931,7 @@ export default class Editor {
       })
     }
 
-    if(this.isEditingSource && !this._codeMirrors['content']) {
+    if(this.settingEditorPane.is('source') && !this._codeMirrors['content']) {
       const contentTextarea = this.containerEl.querySelector('.editor__source textarea.editor__source__content')
       if (contentTextarea) {
         this._codeMirrors['content'] = CodeMirror.fromTextArea(contentTextarea, Object.assign({}, CODEMIRROR_OPTIONS, {
@@ -911,64 +967,53 @@ export default class Editor {
   }
 
   renderEditor(editor, selective) {
+    if (editor.settingFullScreenPreview.on) {
+      return ''
+    }
+
     return html`<div class="editor__edit">
-      <div class="editor__pod_path">
-        <input type="text" value="${editor.podPath}"
-          @change=${editor.handlePodPathChange.bind(editor)}
-          @input=${editor.handlePodPathInput.bind(editor)}>
-        ${editor.document.locales.length > 1 ? html`<i class="material-icons" @click=${editor.handleLocalize.bind(editor)} title="Localize content">translate</i>` : ''}
-        <i class="material-icons" @click=${editor.handleFullScreenClick.bind(editor)} title="Fullscreen">${editor.isFullScreen ? 'fullscreen_exit' : 'fullscreen'}</i>
+      <div class="editor__edit__header">
+        <div class="editor__edit__header__section">
+          <div class="editor__edit__header__label">
+            Page:
+          </div>
+          <div class="editor__edit__header__title">
+            ${editor.document.data['$title'] || editor.document.data['$title@']}
+          </div>
+        </div>
+        <div class="editor__edit__header__section">
+          <div class="editor__edit__header__pod_path">
+            ${editor.podPath}
+          </div>
+          ${this.servingPath ? html`<i class="material-icons" @click=${editor.handleFullScreenEditorClick.bind(editor)} title="Fullscreen">${editor.settingFullScreenEditor.on || !this.servingPath ? 'fullscreen_exit' : 'fullscreen'}</i>` : ''}
+        </div>
       </div>
       <div class="editor__cards">
-        <div class="editor__card editor__field_list">
-          <div class="editor__menu">
+        <div class="editor__card editor__menu">
+            <div class="editor__actions">
+              <button class="editor__style__fields editor__button editor__button--secondary ${this.settingEditorPane.is('fields') ? '' : 'editor__button--selected'}" @click=${editor.handleFieldsClick.bind(editor)} ?disabled=${!editor.isClean}>Fields</button>
+              <button class="editor__style__raw editor__button editor__button--secondary ${this.settingEditorPane.is('source') ? 'editor__button--selected' : ''}" @click=${editor.handleSourceClick.bind(editor)} ?disabled=${!editor.isClean}>Source</button>
+              <!-- <button class="editor__style__raw editor__button editor__button--secondary ${this.settingEditorPane.is('history') ? 'editor__button--selected' : ''}" @click=${editor.handleHistoryClick.bind(editor)} ?disabled=${!editor.isClean}>History</button> -->
+            </div>
             <button
                 ?disabled=${editor._isSaving || editor.isClean}
                 class="editor__save editor__button editor__button--primary ${editor._isSaving ? 'editor__save--saving' : ''}"
                 @click=${editor.save.bind(editor)}>
               ${editor.isClean ? 'No changes' : editor._isSaving ? 'Saving...' : 'Save'}
             </button>
-            <div class="editor__actions">
-              <button class="editor__style__fields editor__button editor__button--secondary ${this.isEditingSource ? '' : 'editor__button--selected'}" @click=${editor.handleFieldsClick.bind(editor)} ?disabled=${!editor.isClean}>Fields</button>
-              <button class="editor__style__raw editor__button editor__button--secondary ${this.isEditingSource ? 'editor__button--selected' : ''}" @click=${editor.handleSourceClick.bind(editor)} ?disabled=${!editor.isClean}>Raw</button>
-            </div>
-          </div>
-          ${editor.templateEditorOrSource}
         </div>
-        <div class="editor__dev_tools">
-          <div>Developer tools:</div>
-          <div class="editor__dev_tools__icons">
-            <i
-                class="editor__dev_tools__icon ${editor.isHightlighted('guess') ? 'editor__dev_tools__icon--selected': ''} material-icons"
-                @click=${editor.handleHighlightGuess.bind(editor)}
-                title="Highlight auto fields">
-              assistant
-            </i>
-            <i
-                class="editor__dev_tools__icon ${editor.isHightlighted('linked') ? 'editor__dev_tools__icon--selected': ''} material-icons"
-                @click=${editor.handleHighlightLinked.bind(editor)}
-                title="Deep link to fields">
-              link
-            </i>
-            <i
-                class="editor__dev_tools__icon ${editor.isHightlighted('dirty') ? 'editor__dev_tools__icon--selected': ''} material-icons"
-                @click=${editor.handleHighlightDirty.bind(editor)}
-                title="Highlight dirty fields">
-              change_history
-            </i>
-          </div>
-        </div>
+        ${editor.templatePane}
       </div>
     </div>`
   }
 
   renderPreview(editor, selective) {
-    if (editor.isFullScreen) {
+    if (this.settingFullScreenEditor.on || !this.servingPath) {
       return ''
     }
 
     let previewSizes = ''
-    if (editor.isDeviceView) {
+    if (editor.settingDeviceView.on) {
       previewSizes = html`<div class="editor__preview__sizes">
         ${repeat(Object.entries(this.devices), (device) => device[0], (device, index) => html`
           <div
@@ -977,23 +1022,50 @@ export default class Editor {
               @click=${editor.handleDeviceSwitchClick.bind(editor)}>
             ${device[1].label}
             <span class="editor__preview__size__dimension">
-              (${editor._sizeLabel(device[1], editor.isDeviceRotated)})
+              (${editor._sizeLabel(device[1], editor.settingDeviceRotated.on)})
             </span>
           </div>`)}
       </div>`
     }
 
+    let localize = ''
+    if (editor.document.locales.length > 1) {
+      const locales = [...editor.document.locales].sort()
+      const defaultLocaleIndex = locales.indexOf(this.document.defaultLocale)
+      if (defaultLocaleIndex) {
+        locales.splice(defaultLocaleIndex, 1)
+      }
+
+      localize = html`
+        <i class="material-icons" @click=${editor.handleLocalize.bind(editor)} title="Localize content">translate</i>
+        <select class="editor__locales" @change=${editor.handleLocalizeSelect.bind(editor)}>
+          <option
+              data-locale="${this.document.defaultLocale}"
+              ?selected=${this.settingLocale.value == this.document.defaultLocale}>
+            ${this.document.defaultLocale}
+          </option>
+          ${repeat(locales, (locale) => locale, (locale, index) => html`
+            <option
+                data-locale="${locale}"
+                ?selected=${this.settingLocale.value == locale}>
+              ${locale}
+            </option>`)}
+        </select>`
+    }
+
     return html`<div class="editor__preview">
       <div class="editor__preview__header">
+        <div class="editor__preview__header__icons">
+          <i class="material-icons" @click=${editor.handleFullScreenPreviewClick.bind(editor)} title="Fullscreen">${editor.settingFullScreenPreview.on ? 'fullscreen_exit' : 'fullscreen'}</i>
+          ${localize}
+        </div>
         <div class="editor__preview__header__label">
           Preview
         </div>
-        ${previewSizes}
         <div class="editor__preview__header__icons">
-          ${editor.isFullScreen ? '' : html`
-            <i class="material-icons" @click=${editor.handleDeviceToggleClick.bind(editor)} title="Toggle device view">devices</i>
-            <i class="material-icons editor--device-only" @click=${editor.handleDeviceRotateClick.bind(editor)} title="Rotate device view">screen_rotation</i>
-          `}
+          ${previewSizes}
+          <i class="material-icons" @click=${editor.handleDeviceToggleClick.bind(editor)} title="Toggle device view">devices</i>
+          <i class="material-icons editor--device-only" @click=${editor.handleDeviceRotateClick.bind(editor)} title="Rotate device view">screen_rotation</i>
           <i class="material-icons" @click=${editor.handleOpenInNew.bind(editor)} title="Preview in new window">open_in_new</i>
         </div>
       </div>
@@ -1001,6 +1073,69 @@ export default class Editor {
         <iframe src="${editor.previewUrl}" @load=${editor.handlePreviewIframeNavigation.bind(editor)}></iframe>
       </div>
     </div>`
+  }
+
+  renderWorkspace(editor, selective) {
+    const locales = Object.keys(editor.document.servingPaths)
+
+    if (!locales.length) {
+      return ''
+    }
+
+    let urlList = ''
+    let moreLocales = ''
+
+    if (locales.length > 1) {
+      if (this.settingLocalizeUrls.on) {
+        moreLocales = html`
+          <a
+              class="editor__workspace__url__more"
+              @click=${editor.handleLocalizeUrlsClick.bind(this)}
+              href="#">
+            (show less)
+          </a>`
+      } else {
+        moreLocales = html`
+          <a
+              class="editor__workspace__url__more"
+              @click=${editor.handleLocalizeUrlsClick.bind(this)}
+              href="#">
+            +${locales.length - 1}
+          </a>`
+      }
+    }
+
+    if (this.settingLocalizeUrls.on) {
+      urlList = html`
+        ${repeat(Object.entries(editor.document.servingPaths), (path) => path[0], (path, index) => html`
+          <div
+              class="editor__workspace__url"
+              data-locale="${path[0]}">
+            <a href="${path[1]}">${path[1]}</a>
+            ${this.document.defaultLocale == path[0] ? moreLocales : html`<span class="editor__workspace__locale">${path[0]}</span>`}
+          </div>`)}`
+    } else {
+      const defaultLocale = editor.document.defaultLocale
+      const localeUrl = editor.document.servingPaths[defaultLocale]
+
+      urlList = html`
+        <div
+            class="editor__workspace__url"
+            data-locale="${defaultLocale}">
+          <a href="${localeUrl}">${localeUrl}</a>
+          ${moreLocales}
+        </div>`
+    }
+
+    return html`
+      <div class="editor__card">
+        <div class="editor__card__title">
+          Workspace
+        </div>
+        <div class="editor__workspace">
+          ${urlList}
+        </div>
+      </div>`
   }
 
   save(force, isAutosave) {
@@ -1013,12 +1148,12 @@ export default class Editor {
     this.render()
 
     this.listeners.trigger('save.start', {
-      isEditingSource: this.isEditingSource,
+      editorPane: this.settingEditorPane.value,
     })
 
     // Pull the latest document content before saving.
     this.api.getDocument(this.podPath).then((response) => {
-      if (this.isEditingSource) {
+      if (this.settingEditorPane.is('source')) {
         if (response.hash != this.document.hash) {
           this.listeners.trigger('save.error', 'Content has changed remotely.')
           return
@@ -1108,6 +1243,15 @@ export default class Editor {
       response['locales'],
       response['content'],
       response['hash'])
+  }
+
+  updateSelectiveLocalization() {
+    // Determine the locales from the default and selected locale or from document.
+    if (this.settingLocale && this.settingLocale.value != this.document.defaultLocale) {
+      this.selective.config.set('locales', [this.document.defaultLocale, this.settingLocale.value])
+    } else {
+      this.selective.config.set('locales', this.document ? this.document.locales : [])
+    }
   }
 
   verifyPreviewIframe() {

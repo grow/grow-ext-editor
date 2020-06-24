@@ -850,7 +850,7 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compos
       <div class="selective__field__localization">
         ${Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_3__["repeat"])(this.locales, locale => locale, (locale, index) => lit_html__WEBPACK_IMPORTED_MODULE_2__["html"]`
             <div class="selective__field__locale">
-              <label for="${this.uid}${locale}">${locale}</label>
+              <label for="${this.uid}${locale}">${locale} ${locale == this.defaultLocale ? lit_html__WEBPACK_IMPORTED_MODULE_2__["html"]`<span>(default)</span>` : ''}</label>
             </div>
             <div class="selective__field__input">
               ${this.renderInput(selective, data, locale)}
@@ -902,8 +902,18 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compos
 
     const isClean = this.isClean;
     this.isLocalized = selective.localize;
-    this.defaultLocale = selective.config.defaultLocale || 'en';
-    this.locales = selective.config.locales || ['en']; // Certain formats in the data may need to be cleaned up
+    this.defaultLocale = selective.config.defaultLocale || 'en'; // Order the locales so that the first locale is always the default locale.
+
+    const sortedLocales = (selective.config.locales || [this.defaultLocale]).sort();
+    const newLocales = [this.defaultLocale];
+
+    for (const locale of sortedLocales) {
+      if (locale != this.defaultLocale) {
+        newLocales.push(locale);
+      }
+    }
+
+    this.locales = newLocales; // Certain formats in the data may need to be cleaned up
 
     newValue = this._cleanOriginalValue(newValue); // Copy the array to prevent shared array.
 
@@ -1487,21 +1497,21 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
     }
 
     actions.push(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
-      <button
+      <div
           ?disabled=${areAllExpanded}
-          class="selective__action__expand"
+          class="selective__action selective__action__expand"
           data-locale=${locale || ''}
           @click=${this.handleExpandAll.bind(this)}>
-        Expand All
-      </button>`);
+        <i class="material-icons">unfold_more</i>
+      </div>`);
     actions.push(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
-      <button
+      <div
           ?disabled=${areAllCollapsed}
-          class="selective__action__collapse"
+          class="selective__action selective__action__collapse"
           data-locale=${locale || ''}
           @click=${this.handleCollapseAll.bind(this)}>
-        Collapse All
-      </button>`);
+        <i class="material-icons">unfold_less</i>
+      </div>`);
     return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__actions">
       ${actions}
     </div>`;
@@ -95320,8 +95330,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _field__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./field */ "./source/editor/field.js");
 /* harmony import */ var _zoomIframe__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./zoomIframe */ "./source/editor/zoomIframe.js");
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../utility/dom */ "./source/utility/dom.js");
-/* harmony import */ var _utility_expandObject__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../utility/expandObject */ "./source/utility/expandObject.js");
-/* harmony import */ var _utility_storage__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../utility/storage */ "./source/utility/storage.js");
+/* harmony import */ var _utility_storage__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../utility/storage */ "./source/utility/storage.js");
+/* harmony import */ var _utility_settings__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../utility/settings */ "./source/utility/settings.js");
 /**
  * Content editor.
  */
@@ -95356,11 +95366,13 @@ class Editor {
 
     this.template = (editor, selective) => selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`<div class="editor ${editor.stylesEditor}">
       ${this.menu.template(editor)}
-      ${this.podPath ? editor.renderEditor(editor, selective) : ''}
-      ${this.podPath ? editor.renderPreview(editor, selective) : ''}
+      <div class="editor__frame">
+        ${this.podPath ? editor.renderEditor(editor, selective) : ''}
+        ${this.podPath && this.document.servingPath ? editor.renderPreview(editor, selective) : ''}
+      </div>
     </div>`;
 
-    this.storage = new _utility_storage__WEBPACK_IMPORTED_MODULE_16__["default"](this.isTesting);
+    this.storage = new _utility_storage__WEBPACK_IMPORTED_MODULE_15__["default"](this.isTesting);
     const EditorApiCls = this.config.get('EditorApiCls', _editorApi__WEBPACK_IMPORTED_MODULE_9__["default"]);
     this.api = new EditorApiCls();
     this.listeners = new _utility_listeners__WEBPACK_IMPORTED_MODULE_7__["default"]();
@@ -95392,15 +95404,17 @@ class Editor {
     this._defaultDevice = 'desktop';
     this._device = this.storage.getItem('selective.device') || this._defaultDevice; // Persistent settings in local storage.
 
-    this._isEditingSource = this.storage.getItem('selective.isEditingSource') == 'true';
-    this._isFullScreen = this.storage.getItem('selective.isFullScreen') == 'true';
-    this._isHighlighted = {
-      dirty: this.storage.getItem('selective.isHightlighted.dirty') == 'true',
-      guess: this.storage.getItem('selective.isHightlighted.guess') == 'true',
-      linked: this.storage.getItem('selective.isHightlighted.linked') == 'true'
-    };
-    this._isDeviceRotated = this.storage.getItem('selective.isDeviceRotated') == 'true';
-    this._isDeviceView = this.storage.getItem('selective.isDeviceView') == 'true';
+    this.settingDeviceRotated = new _utility_settings__WEBPACK_IMPORTED_MODULE_16__["SettingToggle"](false, this.storage, 'selective.device.rotated');
+    this.settingDeviceView = new _utility_settings__WEBPACK_IMPORTED_MODULE_16__["SettingToggle"](false, this.storage, 'selective.device.view');
+    this.settingFullScreenEditor = new _utility_settings__WEBPACK_IMPORTED_MODULE_16__["SettingToggle"](false, this.storage, 'selective.fullScreenEditor');
+    this.settingFullScreenPreview = new _utility_settings__WEBPACK_IMPORTED_MODULE_16__["SettingToggle"](false, this.storage, 'selective.fullScreenPreview');
+    this.settingHighlightDirty = new _utility_settings__WEBPACK_IMPORTED_MODULE_16__["SettingToggle"](false, this.storage, 'selective.highlight.dirty');
+    this.settingHighlightGuess = new _utility_settings__WEBPACK_IMPORTED_MODULE_16__["SettingToggle"](false, this.storage, 'selective.highlight.guess');
+    this.settingHighlightLinked = new _utility_settings__WEBPACK_IMPORTED_MODULE_16__["SettingToggle"](false, this.storage, 'selective.highlight.linked');
+    this.settingLocalize = new _utility_settings__WEBPACK_IMPORTED_MODULE_16__["SettingToggle"](false, this.storage, 'selective.localize');
+    this.settingLocalizeUrls = new _utility_settings__WEBPACK_IMPORTED_MODULE_16__["SettingToggle"](false, this.storage, 'selective.localize.urls');
+    this.settingEditorPane = new _utility_settings__WEBPACK_IMPORTED_MODULE_16__["SettingSet"](['fields', 'source', 'history'], 'fields', this.storage, 'selective.editor.pane');
+    this.settingLocale = null;
     this._isFullMarkdownEditor = false;
     this._hasLoadedFields = false;
     this._isLoading = {};
@@ -95420,7 +95434,7 @@ class Editor {
 
     this.selective.editor = this; // Load the selective editor preference for localize.
 
-    this.selective.localize = this.storage.getItem('selective.localize') == 'true'; // Add the editor extension default field types.
+    this.selective.localize = this.settingLocalize.on; // Add the editor extension default field types.
 
     for (const key of Object.keys(_field__WEBPACK_IMPORTED_MODULE_12__["defaultFields"])) {
       this.selective.addFieldType(key, _field__WEBPACK_IMPORTED_MODULE_12__["defaultFields"][key]);
@@ -95429,7 +95443,7 @@ class Editor {
     this.bindEvents();
     this.bindKeyboard();
 
-    if (this.podPath) {
+    if (this.podPath && this.podPath.length) {
       this.load(this.podPath);
     } else {
       this.render();
@@ -95453,29 +95467,6 @@ class Editor {
     }
 
     return this.document.isClean && this.selective.isClean;
-  }
-
-  get isDeviceRotated() {
-    return this._isDeviceRotated;
-  }
-
-  get isDeviceView() {
-    return this._isDeviceView;
-  }
-
-  get isEditingSource() {
-    return this._isEditingSource;
-  }
-
-  get isFullScreen() {
-    // Default to full-screen mode for documents without serving paths.
-    // TODO: We probably want to add a new checkbox to "disable the link"
-    // between the preview and the editor. When the preview is disabled,
-    // we do not want to override the full-screen setting. The goal is to
-    // allow the user to be editing a partial document and then refresh the
-    // full preview (corresponding to another doc), without having to
-    // toggle the full-screen view.
-    return this._isFullScreen || !this.servingPath;
   }
 
   get isTesting() {
@@ -95504,6 +95495,15 @@ class Editor {
   get servingPath() {
     if (!this.document) {
       return '';
+    } // Localize preview pages when a locale is selected.
+
+
+    if (this.settingLocalize.on && this.settingLocale) {
+      const localizedServingPath = this.document.servingPaths[this.settingLocale.value];
+
+      if (localizedServingPath) {
+        return localizedServingPath;
+      }
     }
 
     return this.document.servingPath;
@@ -95512,85 +95512,122 @@ class Editor {
   get stylesEditor() {
     const styles = [];
 
-    if (this.isDeviceView) {
+    if (this.settingDeviceView.on) {
       styles.push('editor--device'); // Only allow the rotated when in device view.
 
-      if (this.isDeviceRotated) {
+      if (this.settingDeviceRotated.on) {
         styles.push('editor--rotated');
       }
     }
 
-    if (this.isEditingSource) {
-      styles.push('editor--raw');
+    if (this.settingEditorPane.is('fields')) {
+      styles.push('editor--fields');
     }
 
-    if (this.isFullScreen) {
-      styles.push('editor--fullscreen');
+    if (this.settingEditorPane.is('history')) {
+      styles.push('editor--history');
+    }
+
+    if (this.settingEditorPane.is('source')) {
+      styles.push('editor--source');
+    }
+
+    if (this.settingFullScreenEditor.on || !this.document.servingPath) {
+      styles.push('editor--fullscreen-editor');
+    }
+
+    if (this.settingFullScreenPreview.on) {
+      styles.push('editor--fullscreen-preview');
     }
 
     if (this._isFullMarkdownEditor) {
       styles.push('editor--markdown');
     }
 
-    if (this.isHightlighted('guess')) {
+    if (this.settingHighlightGuess.on) {
       styles.push('editor--highlight-guess');
     }
 
-    if (this.isHightlighted('dirty')) {
+    if (this.settingHighlightDirty.on) {
       styles.push('editor--highlight-dirty');
     }
 
-    if (this.isHightlighted('linked')) {
+    if (this.settingHighlightLinked.on) {
       styles.push('editor--highlight-linked');
     }
 
     return styles.join(' ');
   }
 
-  get templateEditorOrSource() {
-    if (this.isEditingSource) {
+  get templatePane() {
+    if (this.settingEditorPane.is('source')) {
       const contentHtml = this.document.content != '' ? selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`
           <div class="editor__source__section">
             <div class="editor__source__title">Content</div>
             <textarea class="editor__source__content" @input=${this.handleRawContent.bind(this)}>${this.document.content}</textarea>
           </div>` : '';
-      return selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`<div class="editor__source">
-        <div class="editor__source__section">
-          <div class="editor__source__title">Front Matter</div>
-          <textarea class="editor__source__frontmatter" @input=${this.handleRawInput.bind(this)}>${this.document.rawFrontMatter}</textarea>
-        </div>
-        ${contentHtml}
-      </div>`;
+      return selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`
+        <div class="editor__card">
+          <div class="editor__card__title">
+            Source
+          </div>
+          <div class="editor__source">
+            <div class="editor__source__section">
+              <div class="editor__source__title">Front Matter</div>
+              <textarea class="editor__source__frontmatter" @input=${this.handleRawInput.bind(this)}>${this.document.rawFrontMatter}</textarea>
+            </div>
+            ${contentHtml}
+          </div>
+        </div>`;
     }
 
-    return selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`<div class="editor__selective">
-      ${this.selective.template(this.selective, this.selective.data)}
-    </div>`;
+    if (this.settingEditorPane.is('history')) {
+      return selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`
+        <div class="editor__card">
+          <div class="editor__card__title">
+            History
+          </div>
+        </div>`;
+    }
+
+    return selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`
+      ${this.renderWorkspace(this, this.selective)}
+      <div class="editor__card editor__field_list">
+        <div class="editor__card__title">
+          Content
+        </div>
+        <div class="editor__selective">
+          ${this.selective.template(this.selective, this.selective.data)}
+        </div>
+      </div>
+      <div class="editor__dev_tools">
+        <div>Developer tools:</div>
+        <div class="editor__dev_tools__icons">
+          <i
+              class="editor__dev_tools__icon ${this.settingHighlightGuess.on ? 'editor__dev_tools__icon--selected' : ''} material-icons"
+              @click=${this.handleHighlightGuess.bind(this)}
+              title="Highlight auto fields">
+            assistant
+          </i>
+          <i
+              class="editor__dev_tools__icon ${this.settingHighlightLinked.on ? 'editor__dev_tools__icon--selected' : ''} material-icons"
+              @click=${this.handleHighlightLinked.bind(this)}
+              title="Deep link to fields">
+            link
+          </i>
+          <i
+              class="editor__dev_tools__icon ${this.settingHighlightDirty.on ? 'editor__dev_tools__icon--selected' : ''} material-icons"
+              @click=${this.handleHighlightDirty.bind(this)}
+              title="Highlight dirty fields">
+            change_history
+          </i>
+        </div>
+      </div>`;
   }
 
   set device(value) {
     this._device = value;
     this.storage.setItem('selective.device', this._device);
-  }
-
-  set isEditingSource(value) {
-    this._isEditingSource = value;
-    this.storage.setItem('selective.isEditingSource', this._isEditingSource);
-  }
-
-  set isFullScreen(value) {
-    this._isFullScreen = value;
-    this.storage.setItem('selective.isFullScreen', this._isFullScreen);
-  }
-
-  set isDeviceRotated(value) {
-    this._isDeviceRotated = value;
-    this.storage.setItem('selective.isDeviceRotated', this._isDeviceRotated);
-  }
-
-  set isDeviceView(value) {
-    this._isDeviceView = value;
-    this.storage.setItem('selective.isDeviceView', this._isDeviceView);
   }
 
   set podPath(value) {
@@ -95613,7 +95650,7 @@ class Editor {
   adjustIframeSize() {
     const iframeContainerEl = this.containerEl.querySelector('.editor__preview__frame');
     const iframeEl = this.containerEl.querySelector('.editor__preview iframe');
-    Object(_zoomIframe__WEBPACK_IMPORTED_MODULE_13__["zoomIframe"])(iframeContainerEl, iframeEl, this.isDeviceView, this.isDeviceRotated, this.devices[this.device], 'editor__preview__frame--contained');
+    Object(_zoomIframe__WEBPACK_IMPORTED_MODULE_13__["zoomIframe"])(iframeContainerEl, iframeEl, this.settingDeviceView.on, this.settingDeviceRotated.on, this.devices[this.device], 'editor__preview__frame--contained');
   }
 
   bindEvents() {
@@ -95742,10 +95779,11 @@ class Editor {
 
   documentFromResponse(response) {
     this.document = new _document__WEBPACK_IMPORTED_MODULE_8__["default"](response['pod_path'], response['front_matter'], response['raw_front_matter'], response['serving_paths'], response['default_locale'], response['locales'], response['content'], response['hash']);
+    this.settingLocale = new _utility_settings__WEBPACK_IMPORTED_MODULE_16__["SettingSet"](this.document.locales, this.document.defaultLocale, this.storage, 'selective.editor.locale');
   }
 
   handleFieldsClick(evt) {
-    this.isEditingSource = false; // Need to remove the code mirror for source since it no longer exists.
+    this.settingEditorPane.value = 'fields'; // Need to remove the code mirror for source since it no longer exists.
 
     delete this._codeMirrors['source'];
     delete this._codeMirrors['content']; // Handle the case that the field information has not been loaded yet.
@@ -95757,39 +95795,41 @@ class Editor {
     this.render();
   }
 
-  handleFullScreenClick(evt) {
-    this.isFullScreen = !this.isFullScreen;
+  handleFullScreenEditorClick(evt) {
+    this.settingFullScreenEditor.toggle();
+    this.render();
+  }
+
+  handleFullScreenPreviewClick(evt) {
+    this.settingFullScreenPreview.toggle();
     this.render();
   }
 
   handleHighlightDirty(evt) {
-    this._isHighlighted.dirty = !this.isHightlighted('dirty');
-    this.storage.setItem('selective.isHightlighted.dirty', this._isHighlighted.dirty);
+    this.settingHighlightDirty.toggle();
     this.render();
   }
 
   handleHighlightGuess(evt) {
-    this._isHighlighted.guess = !this.isHightlighted('guess');
-    this.storage.setItem('selective.isHightlighted.guess', this._isHighlighted.guess);
+    this.settingHighlightGuess.toggle();
     this.render();
   }
 
   handleHighlightLinked(evt) {
-    this._isHighlighted.linked = !this.isHightlighted('linked');
-    this.storage.setItem('selective.isHightlighted.linked', this._isHighlighted.linked);
+    this.settingHighlightLinked.toggle();
     this.render();
   }
 
   handleLoadFieldsResponse(response) {
     this._hasLoadedFields = true;
-    this._isEditingSource = false;
     this._isFullMarkdownEditor = false;
+    this.settingEditorPane.value = 'fields';
     this.documentFromResponse(response);
     this.pushState(this.document.podPath); // Set the data from the document front matter.
 
     this.selective.data = this.document.data;
     this.selective.config.set('defaultLocale', this.document.defaultLocale);
-    this.selective.config.set('locales', this.document ? this.document.locales : []);
+    this.updateSelectiveLocalization();
     this.selective.fields.reset(); // Load the field configuration from the response.
 
     let fieldConfigs = response['editor']['fields'] || []; // If no fields defined, guess.
@@ -95854,7 +95894,7 @@ class Editor {
   }
 
   handleDeviceRotateClick(evt) {
-    this.isDeviceRotated = !this.isDeviceRotated;
+    this.settingDeviceRotated.toggle();
     this.render();
   }
 
@@ -95865,7 +95905,12 @@ class Editor {
   }
 
   handleDeviceToggleClick(evt) {
-    this.isDeviceView = !this.isDeviceView;
+    this.settingDeviceView.toggle();
+    this.render();
+  }
+
+  handleHistoryClick(evt) {
+    this.settingEditorPane.value = 'history';
     this.render();
   }
 
@@ -95925,7 +95970,7 @@ class Editor {
   }
 
   handleLoadSourceResponse(response) {
-    this._isEditingSource = true;
+    this.settingEditorPane.value = 'source';
     this.documentFromResponse(response);
     this.pushState(this.document.podPath);
     this.render();
@@ -95939,8 +95984,22 @@ class Editor {
   }
 
   handleLocalize(evt) {
-    this.selective.localize = !this.selective.localize;
-    this.storage.setItem('selective.localize', this.selective.localize);
+    this.settingLocalize.toggle();
+    this.selective.localize = this.settingLocalize.on;
+    this.render();
+  }
+
+  handleLocalizeSelect(evt) {
+    this.settingLocalize.value = true;
+    this.selective.localize = this.settingLocalize.on;
+    this.settingLocale.value = evt.target.value;
+    this.updateSelectiveLocalization();
+    this.render();
+  }
+
+  handleLocalizeUrlsClick(evt) {
+    evt.preventDefault();
+    this.settingLocalizeUrls.toggle();
     this.render();
   }
 
@@ -96009,25 +96068,22 @@ class Editor {
   }
 
   handleSourceClick(evt) {
-    if (!this.isEditingSource && !this.isClean) {
-      const newFrontMatter = this.selective.value;
-      const content = newFrontMatter[CONTENT_KEY];
-      delete newFrontMatter[CONTENT_KEY];
-      this.document.rawFrontMatter = Object(js_yaml_lib_js_yaml_js__WEBPACK_IMPORTED_MODULE_4__["dump"])(newFrontMatter);
-      this.document.content = content;
-    }
-
-    this.isEditingSource = true;
+    // TODO: Add ability to switch while there are unsaved changes.
+    // if (!this.settingEditorPane.is('source') && !this.isClean) {
+    //   const newFrontMatter = this.selective.value
+    //   const content = newFrontMatter[CONTENT_KEY]
+    //   delete newFrontMatter[CONTENT_KEY]
+    //   this.document.rawFrontMatter = dump(newFrontMatter)
+    //   this.document.content = content
+    // }
+    this.settingEditorPane.value = 'source';
     this.render();
   }
 
-  isHightlighted(key) {
-    return this._isHighlighted[key];
-  }
-
   load(podPath) {
-    if (this.isEditingSource) {
+    if (this.settingEditorPane.is('source')) {
       this.loadSource(podPath);
+    } else if (this.settingEditorPane.is('history')) {// TODO: Load history.
     } else {
       this.loadFields(podPath);
     }
@@ -96145,7 +96201,7 @@ class Editor {
 
     this.adjustIframeSize(); // Make the code editor if editing raw.
 
-    if (this.isEditingSource && !this._codeMirrors['source']) {
+    if (this.settingEditorPane.is('source') && !this._codeMirrors['source']) {
       const frontmatterTextarea = this.containerEl.querySelector('.editor__source textarea.editor__source__frontmatter');
       this._codeMirrors['source'] = codemirror_lib_codemirror_js__WEBPACK_IMPORTED_MODULE_0___default.a.fromTextArea(frontmatterTextarea, Object.assign({}, CODEMIRROR_OPTIONS, {
         mode: 'yaml'
@@ -96157,7 +96213,7 @@ class Editor {
       });
     }
 
-    if (this.isEditingSource && !this._codeMirrors['content']) {
+    if (this.settingEditorPane.is('source') && !this._codeMirrors['content']) {
       const contentTextarea = this.containerEl.querySelector('.editor__source textarea.editor__source__content');
 
       if (contentTextarea) {
@@ -96194,65 +96250,54 @@ class Editor {
   }
 
   renderEditor(editor, selective) {
+    if (editor.settingFullScreenPreview.on) {
+      return '';
+    }
+
     return selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`<div class="editor__edit">
-      <div class="editor__pod_path">
-        <input type="text" value="${editor.podPath}"
-          @change=${editor.handlePodPathChange.bind(editor)}
-          @input=${editor.handlePodPathInput.bind(editor)}>
-        ${editor.document.locales.length > 1 ? selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`<i class="material-icons" @click=${editor.handleLocalize.bind(editor)} title="Localize content">translate</i>` : ''}
-        <i class="material-icons" @click=${editor.handleFullScreenClick.bind(editor)} title="Fullscreen">${editor.isFullScreen ? 'fullscreen_exit' : 'fullscreen'}</i>
+      <div class="editor__edit__header">
+        <div class="editor__edit__header__section">
+          <div class="editor__edit__header__label">
+            Page:
+          </div>
+          <div class="editor__edit__header__title">
+            ${editor.document.data['$title'] || editor.document.data['$title@']}
+          </div>
+        </div>
+        <div class="editor__edit__header__section">
+          <div class="editor__edit__header__pod_path">
+            ${editor.podPath}
+          </div>
+          ${this.servingPath ? selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`<i class="material-icons" @click=${editor.handleFullScreenEditorClick.bind(editor)} title="Fullscreen">${editor.settingFullScreenEditor.on || !this.servingPath ? 'fullscreen_exit' : 'fullscreen'}</i>` : ''}
+        </div>
       </div>
       <div class="editor__cards">
-        <div class="editor__card editor__field_list">
-          <div class="editor__menu">
+        <div class="editor__card editor__menu">
+            <div class="editor__actions">
+              <button class="editor__style__fields editor__button editor__button--secondary ${this.settingEditorPane.is('fields') ? '' : 'editor__button--selected'}" @click=${editor.handleFieldsClick.bind(editor)} ?disabled=${!editor.isClean}>Fields</button>
+              <button class="editor__style__raw editor__button editor__button--secondary ${this.settingEditorPane.is('source') ? 'editor__button--selected' : ''}" @click=${editor.handleSourceClick.bind(editor)} ?disabled=${!editor.isClean}>Source</button>
+              <!-- <button class="editor__style__raw editor__button editor__button--secondary ${this.settingEditorPane.is('history') ? 'editor__button--selected' : ''}" @click=${editor.handleHistoryClick.bind(editor)} ?disabled=${!editor.isClean}>History</button> -->
+            </div>
             <button
                 ?disabled=${editor._isSaving || editor.isClean}
                 class="editor__save editor__button editor__button--primary ${editor._isSaving ? 'editor__save--saving' : ''}"
                 @click=${editor.save.bind(editor)}>
               ${editor.isClean ? 'No changes' : editor._isSaving ? 'Saving...' : 'Save'}
             </button>
-            <div class="editor__actions">
-              <button class="editor__style__fields editor__button editor__button--secondary ${this.isEditingSource ? '' : 'editor__button--selected'}" @click=${editor.handleFieldsClick.bind(editor)} ?disabled=${!editor.isClean}>Fields</button>
-              <button class="editor__style__raw editor__button editor__button--secondary ${this.isEditingSource ? 'editor__button--selected' : ''}" @click=${editor.handleSourceClick.bind(editor)} ?disabled=${!editor.isClean}>Raw</button>
-            </div>
-          </div>
-          ${editor.templateEditorOrSource}
         </div>
-        <div class="editor__dev_tools">
-          <div>Developer tools:</div>
-          <div class="editor__dev_tools__icons">
-            <i
-                class="editor__dev_tools__icon ${editor.isHightlighted('guess') ? 'editor__dev_tools__icon--selected' : ''} material-icons"
-                @click=${editor.handleHighlightGuess.bind(editor)}
-                title="Highlight auto fields">
-              assistant
-            </i>
-            <i
-                class="editor__dev_tools__icon ${editor.isHightlighted('linked') ? 'editor__dev_tools__icon--selected' : ''} material-icons"
-                @click=${editor.handleHighlightLinked.bind(editor)}
-                title="Deep link to fields">
-              link
-            </i>
-            <i
-                class="editor__dev_tools__icon ${editor.isHightlighted('dirty') ? 'editor__dev_tools__icon--selected' : ''} material-icons"
-                @click=${editor.handleHighlightDirty.bind(editor)}
-                title="Highlight dirty fields">
-              change_history
-            </i>
-          </div>
-        </div>
+        ${editor.templatePane}
       </div>
     </div>`;
   }
 
   renderPreview(editor, selective) {
-    if (editor.isFullScreen) {
+    if (this.settingFullScreenEditor.on || !this.servingPath) {
       return '';
     }
 
     let previewSizes = '';
 
-    if (editor.isDeviceView) {
+    if (editor.settingDeviceView.on) {
       previewSizes = selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`<div class="editor__preview__sizes">
         ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_5__["repeat"])(Object.entries(this.devices), device => device[0], (device, index) => selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`
           <div
@@ -96261,23 +96306,52 @@ class Editor {
               @click=${editor.handleDeviceSwitchClick.bind(editor)}>
             ${device[1].label}
             <span class="editor__preview__size__dimension">
-              (${editor._sizeLabel(device[1], editor.isDeviceRotated)})
+              (${editor._sizeLabel(device[1], editor.settingDeviceRotated.on)})
             </span>
           </div>`)}
       </div>`;
     }
 
+    let localize = '';
+
+    if (editor.document.locales.length > 1) {
+      const locales = [...editor.document.locales].sort();
+      const defaultLocaleIndex = locales.indexOf(this.document.defaultLocale);
+
+      if (defaultLocaleIndex) {
+        locales.splice(defaultLocaleIndex, 1);
+      }
+
+      localize = selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`
+        <i class="material-icons" @click=${editor.handleLocalize.bind(editor)} title="Localize content">translate</i>
+        <select class="editor__locales" @change=${editor.handleLocalizeSelect.bind(editor)}>
+          <option
+              data-locale="${this.document.defaultLocale}"
+              ?selected=${this.settingLocale.value == this.document.defaultLocale}>
+            ${this.document.defaultLocale}
+          </option>
+          ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_5__["repeat"])(locales, locale => locale, (locale, index) => selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`
+            <option
+                data-locale="${locale}"
+                ?selected=${this.settingLocale.value == locale}>
+              ${locale}
+            </option>`)}
+        </select>`;
+    }
+
     return selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`<div class="editor__preview">
       <div class="editor__preview__header">
+        <div class="editor__preview__header__icons">
+          <i class="material-icons" @click=${editor.handleFullScreenPreviewClick.bind(editor)} title="Fullscreen">${editor.settingFullScreenPreview.on ? 'fullscreen_exit' : 'fullscreen'}</i>
+          ${localize}
+        </div>
         <div class="editor__preview__header__label">
           Preview
         </div>
-        ${previewSizes}
         <div class="editor__preview__header__icons">
-          ${editor.isFullScreen ? '' : selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`
-            <i class="material-icons" @click=${editor.handleDeviceToggleClick.bind(editor)} title="Toggle device view">devices</i>
-            <i class="material-icons editor--device-only" @click=${editor.handleDeviceRotateClick.bind(editor)} title="Rotate device view">screen_rotation</i>
-          `}
+          ${previewSizes}
+          <i class="material-icons" @click=${editor.handleDeviceToggleClick.bind(editor)} title="Toggle device view">devices</i>
+          <i class="material-icons editor--device-only" @click=${editor.handleDeviceRotateClick.bind(editor)} title="Rotate device view">screen_rotation</i>
           <i class="material-icons" @click=${editor.handleOpenInNew.bind(editor)} title="Preview in new window">open_in_new</i>
         </div>
       </div>
@@ -96285,6 +96359,68 @@ class Editor {
         <iframe src="${editor.previewUrl}" @load=${editor.handlePreviewIframeNavigation.bind(editor)}></iframe>
       </div>
     </div>`;
+  }
+
+  renderWorkspace(editor, selective) {
+    const locales = Object.keys(editor.document.servingPaths);
+
+    if (!locales.length) {
+      return '';
+    }
+
+    let urlList = '';
+    let moreLocales = '';
+
+    if (locales.length > 1) {
+      if (this.settingLocalizeUrls.on) {
+        moreLocales = selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`
+          <a
+              class="editor__workspace__url__more"
+              @click=${editor.handleLocalizeUrlsClick.bind(this)}
+              href="#">
+            (show less)
+          </a>`;
+      } else {
+        moreLocales = selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`
+          <a
+              class="editor__workspace__url__more"
+              @click=${editor.handleLocalizeUrlsClick.bind(this)}
+              href="#">
+            +${locales.length - 1}
+          </a>`;
+      }
+    }
+
+    if (this.settingLocalizeUrls.on) {
+      urlList = selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`
+        ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_5__["repeat"])(Object.entries(editor.document.servingPaths), path => path[0], (path, index) => selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`
+          <div
+              class="editor__workspace__url"
+              data-locale="${path[0]}">
+            <a href="${path[1]}">${path[1]}</a>
+            ${this.document.defaultLocale == path[0] ? moreLocales : selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`<span class="editor__workspace__locale">${path[0]}</span>`}
+          </div>`)}`;
+    } else {
+      const defaultLocale = editor.document.defaultLocale;
+      const localeUrl = editor.document.servingPaths[defaultLocale];
+      urlList = selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`
+        <div
+            class="editor__workspace__url"
+            data-locale="${defaultLocale}">
+          <a href="${localeUrl}">${localeUrl}</a>
+          ${moreLocales}
+        </div>`;
+    }
+
+    return selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`
+      <div class="editor__card">
+        <div class="editor__card__title">
+          Workspace
+        </div>
+        <div class="editor__workspace">
+          ${urlList}
+        </div>
+      </div>`;
   }
 
   save(force, isAutosave) {
@@ -96296,11 +96432,11 @@ class Editor {
     this._isSaving = true;
     this.render();
     this.listeners.trigger('save.start', {
-      isEditingSource: this.isEditingSource
+      editorPane: this.settingEditorPane.value
     }); // Pull the latest document content before saving.
 
     this.api.getDocument(this.podPath).then(response => {
-      if (this.isEditingSource) {
+      if (this.settingEditorPane.is('source')) {
         if (response.hash != this.document.hash) {
           this.listeners.trigger('save.error', 'Content has changed remotely.');
           return;
@@ -96379,6 +96515,15 @@ class Editor {
 
   updateDocumentFromResponse(response) {
     this.document.update(response['pod_path'], response['front_matter'], response['raw_front_matter'], response['serving_paths'], response['default_locale'], response['locales'], response['content'], response['hash']);
+  }
+
+  updateSelectiveLocalization() {
+    // Determine the locales from the default and selected locale or from document.
+    if (this.settingLocale && this.settingLocale.value != this.document.defaultLocale) {
+      this.selective.config.set('locales', [this.document.defaultLocale, this.settingLocale.value]);
+    } else {
+      this.selective.config.set('locales', this.document ? this.document.locales : []);
+    }
   }
 
   verifyPreviewIframe() {
@@ -98273,18 +98418,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 class FileTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
   constructor(config) {
     super(config);
     this.podPath = null;
     this.expandedFolders = [];
-    this.newFileFolder = null;
     this._selectives = {};
-    this.modalWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_6__["default"]('New page');
-    this.modalWindow.addAction('Create file', this.handleFileNewSubmit.bind(this), true);
-    this.modalWindow.addAction('Cancel', this.handleFileNewCancel.bind(this), false, true);
     this.confirmDelete = null;
+    this.modalWindow = this.config.get('newFileModal');
   }
 
   get template() {
@@ -98427,34 +98568,12 @@ class FileTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
     this.confirmDelete.open();
   }
 
-  handleFileNewCancel(evt) {
-    evt.stopPropagation();
-    this.newFileFolder = null;
-    this.modalWindow.close();
-  }
-
   handleFileNewClick(evt) {
     evt.stopPropagation();
     const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'menu__tree__folder__actions');
     const folder = target.dataset.folder;
-    this.newFileFolder = folder;
+    this.modalWindow.newFileFolder = folder;
     this.modalWindow.open();
-  }
-
-  handleFileNewSubmit(evt) {
-    evt.stopPropagation();
-
-    const newFileSelective = this._getOrCreateSelective(this.newFileFolder);
-
-    const value = newFileSelective.value;
-    document.dispatchEvent(new CustomEvent('selective.path.template', {
-      detail: {
-        collectionPath: this.newFileFolder,
-        fileName: value.fileName,
-        template: value.template
-      }
-    }));
-    this.modalWindow.close();
   }
 
   handleFolderToggle(evt) {
@@ -98467,6 +98586,8 @@ class FileTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
       this.expandedFolders.push(folder);
     }
 
+    evt.preventDefault();
+    evt.stopPropagation();
     this.render();
   }
 
@@ -98488,10 +98609,13 @@ class FileTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
 
     const folderStructure = new _folderStructure__WEBPACK_IMPORTED_MODULE_5__["default"](menuState.podPaths, menuState.templates, '/');
 
-    if (this.newFileFolder) {
-      const templates = menuState.templates[this.newFileFolder];
+    if (this.modalWindow.newFileFolder) {
+      const templates = menuState.templates[this.modalWindow.newFileFolder];
 
-      const newFileSelective = this._getOrCreateSelective(this.newFileFolder, templates);
+      const newFileSelective = this._getOrCreateSelective(this.modalWindow.newFileFolder, templates); // Store the selective editor for the new file for processing in the menu.
+
+
+      this.modalWindow.fileSelective = newFileSelective;
 
       this.modalWindow.canClickToCloseFunc = () => {
         return newFileSelective.isClean;
@@ -98509,7 +98633,6 @@ class FileTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
       handleFileDeleteClick: this.handleFileDeleteClick.bind(this),
       handleFileNewClick: this.handleFileNewClick.bind(this)
     }, 1)}
-      ${this.modalWindow.template}
       ${this.confirmDelete ? this.confirmDelete.template : ''}`;
   }
 
@@ -98638,7 +98761,7 @@ class FolderStructure {
         <div class=${level > threshold ? 'menu__tree__folder__files' : ''}>
           ${level > threshold ? selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
             <div data-folder=${folder} class="menu__tree__folder__actions">
-              <button class="editor__button editor__actions__add" @click=${eventHandlers.handleFileNewClick}>New file</button>
+              <button class="editor__button editor__actions--add" @click=${eventHandlers.handleFileNewClick}>New file</button>
             </div>` : ''}
           ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(this.folderInfo.files, file => `${filePrefix}${file.fileName}`, (file, index) => {
       const podPath = lookupFunc ? lookupFunc(`${filePrefix}${file.fileName}`) : `${filePrefix}${file.fileName}`;
@@ -98687,10 +98810,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
 /* harmony import */ var _utility_filter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/filter */ "./source/utility/filter.js");
-/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./base */ "./source/editor/menu/base.js");
-/* harmony import */ var _repo__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./repo */ "./source/editor/menu/repo.js");
-/* harmony import */ var _site__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./site */ "./source/editor/menu/site.js");
-/* harmony import */ var _tree__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./tree */ "./source/editor/menu/tree.js");
+/* harmony import */ var _parts_modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../parts/modal */ "./source/editor/parts/modal.js");
+/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./base */ "./source/editor/menu/base.js");
+/* harmony import */ var _repo__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./repo */ "./source/editor/menu/repo.js");
+/* harmony import */ var _site__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./site */ "./source/editor/menu/site.js");
 /**
  * Content editor.
  */
@@ -98701,18 +98824,22 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class Menu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
+
+class Menu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
   constructor(config, editor) {
     super(config);
     this.editor = editor;
-    this._isOpen = this.storage.getItem('selective.menu.open') == 'true';
-    this._repoMenu = new _repo__WEBPACK_IMPORTED_MODULE_4__["default"]({
+    this.menuWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_3__["MenuWindow"](); // this.menuWindow.isOpen = true  // TODO: Remove
+    // Create the new page modal outside of the modal for the menu.
+
+    this.newFileWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_3__["default"]('New page');
+    this.newFileWindow.addAction('Create file', this.handleFileNewSubmit.bind(this), true);
+    this.newFileWindow.addAction('Cancel', this.handleFileNewCancel.bind(this), false, true);
+    this._repoMenu = new _repo__WEBPACK_IMPORTED_MODULE_5__["default"]({
       testing: this.isTesting
     });
-    this._siteMenu = new _site__WEBPACK_IMPORTED_MODULE_5__["default"]({
-      testing: this.isTesting
-    });
-    this._treeMenu = new _tree__WEBPACK_IMPORTED_MODULE_6__["default"]({
+    this._siteMenu = new _site__WEBPACK_IMPORTED_MODULE_6__["default"]({
+      newFileModal: this.newFileWindow,
       testing: this.isTesting
     });
     this._state = {
@@ -98721,7 +98848,15 @@ class Menu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
       podPaths: null,
       repo: null,
       routes: null,
-      templates: null
+      templates: null,
+      trees: {
+        file: {
+          isOpen: this.storage.getItem('selective.menu.tree.file.open') == 'true'
+        },
+        site: {
+          isOpen: this.storage.getItem('selective.menu.tree.site.open') == 'true'
+        }
+      }
     };
     this.filterFunc = this.config.get('filterFunc') || Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createWhiteBlackFilter"])([/^\/content\//, /^\/data\//], // Whitelist.
     [] // Blacklist.
@@ -98731,7 +98866,8 @@ class Menu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
 
   get template() {
     return editor => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="menu">
-      ${this._isOpen || !editor.podPath ? this.renderOpenedMenu(editor) : this.renderClosedMenu(editor)}
+      ${this.renderMenuBar(editor)}
+      ${this.renderMenu(editor)}
     </div>`;
   }
 
@@ -98741,7 +98877,31 @@ class Menu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
     this.editor.listeners.add('load.podPaths', this.handleLoadPodPaths.bind(this));
     this.editor.listeners.add('load.repo', this.handleLoadRepo.bind(this));
     this.editor.listeners.add('load.routes', this.handleLoadRoutes.bind(this));
-    this.editor.listeners.add('load.templates', this.handleLoadTemplates.bind(this));
+    this.editor.listeners.add('load.templates', this.handleLoadTemplates.bind(this)); // Close the menu when updating the path.
+
+    document.addEventListener('selective.path.update', evt => {
+      this.menuWindow.close();
+    });
+  }
+
+  handleFileNewCancel(evt) {
+    evt.stopPropagation();
+    this.newFileWindow.newFileFolder = null;
+    this.newFileWindow.close();
+  }
+
+  handleFileNewSubmit(evt) {
+    evt.stopPropagation();
+    const newFileSelective = this.newFileWindow.fileSelective;
+    const value = newFileSelective.value;
+    document.dispatchEvent(new CustomEvent('selective.path.template', {
+      detail: {
+        collectionPath: this.newFileWindow.newFileFolder,
+        fileName: value.fileName,
+        template: value.template
+      }
+    }));
+    this.newFileWindow.close();
   }
 
   handleLoadPodPaths(response) {
@@ -98774,30 +98934,74 @@ class Menu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
   }
 
   handleToggleMenu(evt) {
-    this._isOpen = !this._isOpen;
-    this.storage.setItem('selective.menu.open', this._isOpen);
+    this.menuWindow.toggle();
+  }
+
+  handleToggleTree(evt) {
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'menu__tree__title');
+    const tree = target.dataset.tree;
+    const isOpen = !this._state.trees[tree].isOpen;
+    this._state.trees[tree].isOpen = isOpen;
+    this.storage.setItem(`selective.menu.tree.${tree}.open`, isOpen);
     this.render();
   }
 
-  renderClosedMenu(editor) {
+  renderMenu(editor) {
+    // Always show the menu when there is not a pod path.
+    const isOpen = this.menuWindow.isOpen || !editor.podPath;
+
+    if (!this._state.pod) {
+      editor.loadPod();
+    }
+
+    if (isOpen) {
+      this.menuWindow.contentRenderFunc = () => {
+        return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+          <div class="menu__contents">
+            <div class="menu__section">
+              <div class="menu__site">
+                <div class="menu__site__title">
+                  ${this._state.pod ? this._state.pod.title : ''}
+                </div>
+                <i class="material-icons" @click=${this.handleToggleMenu.bind(this)} title="Close menu">
+                  close
+                </i>
+              </div>
+            </div>
+            ${this._siteMenu.template(editor, this._state, {
+          handleToggleTree: this.handleToggleTree.bind(this)
+        })}
+          </div>`;
+      };
+    }
+
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <div
-          class="menu__hamburger"
-          @click=${this.handleToggleMenu.bind(this)}
-          title="Open menu">
-        <i class="material-icons">menu</i>
-      </div>`;
+      ${this.menuWindow.template}
+      ${this.newFileWindow.template}`;
   }
 
-  renderOpenedMenu(editor) {
+  renderMenuBar(editor) {
+    if (!this._state.pod) {
+      editor.loadPod();
+    }
+
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-    <div class="menu__contents">
-      ${this._siteMenu.template(editor, this._state, {
-      toggleMenu: this.handleToggleMenu.bind(this)
-    })}
-      ${this._repoMenu.template(editor, this._state, {})}
-      ${this._treeMenu.template(editor, this._state, {})}
-    </div>`;
+      <div class="menu__bar">
+        <div class="menu__bar__section">
+          <div
+              class="menu__hamburger"
+              @click=${this.handleToggleMenu.bind(this)}
+              title="Open menu">
+            <i class="material-icons">menu</i>
+          </div>
+          <div class="menu__bar__title">
+            ${this._state.pod ? this._state.pod.title : ''}
+          </div>
+        </div>
+        <div class="menu__bar__section">
+          ${this._repoMenu.template(editor, this._state, {})}
+        </div>
+      </div>`;
   }
 
 }
@@ -98830,6 +99034,9 @@ class RepoMenu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
   get template() {
     return (editor, menuState, eventHandlers) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="menu__section">
       <div class="menu__repo">
+        <div class="menu__repo__label">
+          Workspace:
+        </div>
         <div class="menu__repo__info">
           ${this.renderBranch(editor, menuState, eventHandlers)}
         </div>
@@ -98865,30 +99072,26 @@ class RepoMenu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
 
       lastCommitDate = moment__WEBPACK_IMPORTED_MODULE_1___default()(lastCommit.commit_date + 'Z', moment__WEBPACK_IMPORTED_MODULE_1___default.a.ISO_8601);
       lastCommitAuthor = selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<a href="mailto:${lastCommit.author.email}">${lastCommit.author.name}</a>`;
+    } else {
+      return '…';
     }
 
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <div class="menu__repo__label">
-      ${menuState.repo ? selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-          <a
-              href=${this.webUrlForBranch(menuState.repo, menuState.repo.branch)}
-              target="_blank">
-            ${menuState.repo.branch}
-          </a>` : '…'}
-      </div>
-      <div class="menu__repo__value">
-        ${menuState.repo ? selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-            @ <a
-                href=${this.webUrlForCommit(menuState.repo, menuState.repo.commits[0].sha)}
-                target="_blank">
-              ${menuState.repo.commits[0].sha.substring(0, 6)}
-              <span class="menu__repo__time" title="${lastCommitDate.format('D MMM YYYY, h:mm:ss a')}">
-                (${lastCommitDate.fromNow()})
-              </span>
-            </a>` : ''}
-      </div>
-      <div class="menu__repo__author">
+      <div class="menu__repo__workspace menu__repo__value">
+        <a
+            href=${this.webUrlForBranch(menuState.repo, menuState.repo.branch)}
+            target="_blank">
+          ${menuState.repo.branch}
+        </a>
+        @ <a
+            href=${this.webUrlForCommit(menuState.repo, menuState.repo.commits[0].sha)}
+            target="_blank">
+          ${menuState.repo.commits[0].sha.substring(0, 6)}
+        </a>
         by ${lastCommitAuthor}
+        <span class="menu__repo__time" title="${lastCommitDate.format('D MMM YYYY, h:mm:ss a')}">
+          (${lastCommitDate.fromNow()})
+        </span>
       </div>`;
   }
 
@@ -98909,33 +99112,37 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
 /* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./base */ "./source/editor/menu/base.js");
+/* harmony import */ var _tree__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./tree */ "./source/editor/menu/tree.js");
 /**
  * Content editor.
  */
 
 
 
+
 class SiteMenu extends _base__WEBPACK_IMPORTED_MODULE_2__["default"] {
   constructor(config) {
     super(config);
-    this._isOpen = this.storage.getItem('selective.menu.open') == 'true';
+    this._treeMenu = new _tree__WEBPACK_IMPORTED_MODULE_3__["default"]({
+      newFileModal: this.config.get('newFileModal'),
+      testing: this.isTesting
+    });
   }
 
   get template() {
-    return (editor, menuState, eventHandlers) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="menu__section">
-      <div class="menu__site">
-        <div class="menu__site__title">${this.renderSiteTitle(editor, menuState, eventHandlers)}</div>
-        <i class="material-icons" @click=${eventHandlers.toggleMenu} title="Close menu">
-          close
-        </i>
-      </div>
-    </div>`;
+    return (editor, menuState, eventHandlers) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <div class="menu__section">
+        <div class="menu__section__title">
+          Site
+        </div>
+        ${this._treeMenu.template(editor, menuState, eventHandlers)}
+      </div>`;
   }
 
   renderSiteTitle(editor, menuState, eventHandlers) {
     if (!menuState.pod) {
       editor.loadPod();
-      return 'Site';
+      return '…';
     }
 
     return menuState.pod.title;
@@ -99035,6 +99242,8 @@ class SiteTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
       this.expandedFolders.push(folder);
     }
 
+    evt.preventDefault();
+    evt.stopPropagation();
     this.render();
   }
 
@@ -99098,66 +99307,6 @@ class SiteTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
 
 /***/ }),
 
-/***/ "./source/editor/menu/submenu.js":
-/*!***************************************!*\
-  !*** ./source/editor/menu/submenu.js ***!
-  \***************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return SubMenu; });
-/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
-/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
-/* harmony import */ var _utility_listeners__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/listeners */ "./source/utility/listeners.js");
-/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./base */ "./source/editor/menu/base.js");
-/**
- * Content editor.
- */
-
-
-
-
-class SubMenu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
-  constructor(config) {
-    super(config);
-    this.items = this.config.get('items', []);
-    this.selected = this.storage.getItem('selective.menu.tree') || this.items[0];
-    this.listeners = new _utility_listeners__WEBPACK_IMPORTED_MODULE_2__["default"]();
-  }
-
-  get template() {
-    // Do not show when the length is not long enough.
-    if (this.items.length < 2) {
-      return editor => '';
-    }
-
-    return editor => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <div class="menu__section">
-        <div class="menu__sub_menu">
-          ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(this.items, item => item, (item, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-            <div
-                class="menu__sub_menu__item ${this.selected == item ? 'menu__sub_menu__item--selected' : ''}"
-                data-item=${item}
-                @click=${this.handleChange.bind(this)}>
-              ${item}
-            </div>`)}
-        </div>
-      </div>`;
-  }
-
-  handleChange(evt) {
-    this.selected = evt.target.dataset.item;
-    this.storage.setItem('selective.menu.tree', this.selected);
-    this.listeners.trigger('change', this.selected);
-    this.render();
-  }
-
-}
-
-/***/ }),
-
 /***/ "./source/editor/menu/tree.js":
 /*!************************************!*\
   !*** ./source/editor/menu/tree.js ***!
@@ -99171,9 +99320,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
 /* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./base */ "./source/editor/menu/base.js");
-/* harmony import */ var _submenu__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./submenu */ "./source/editor/menu/submenu.js");
-/* harmony import */ var _filetree__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./filetree */ "./source/editor/menu/filetree.js");
-/* harmony import */ var _sitetree__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./sitetree */ "./source/editor/menu/sitetree.js");
+/* harmony import */ var _filetree__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./filetree */ "./source/editor/menu/filetree.js");
+/* harmony import */ var _sitetree__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./sitetree */ "./source/editor/menu/sitetree.js");
 /**
  * Content editor.
  */
@@ -99182,29 +99330,21 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 class TreeMenu extends _base__WEBPACK_IMPORTED_MODULE_2__["default"] {
   constructor(config) {
     super(config);
-    this._subMenu = new _submenu__WEBPACK_IMPORTED_MODULE_3__["default"]({
-      testing: this.isTesting,
-      items: ['Filetree', 'Sitemap'],
-      storageKey: 'selective.menu.tree'
-    });
-    this._fileTreeMenu = new _filetree__WEBPACK_IMPORTED_MODULE_4__["default"]({
+    this._fileTreeMenu = new _filetree__WEBPACK_IMPORTED_MODULE_3__["default"]({
+      newFileModal: this.config.get('newFileModal'),
       testing: this.isTesting
     });
-    this._siteTreeMenu = new _sitetree__WEBPACK_IMPORTED_MODULE_5__["default"]({
+    this._siteTreeMenu = new _sitetree__WEBPACK_IMPORTED_MODULE_4__["default"]({
+      newFileModal: this.config.get('newFileModal'),
       testing: this.isTesting
     });
-    this.selected = this._subMenu.selected;
-
-    this._subMenu.listeners.add('change', this.handleSubMenuSwitch.bind(this));
   }
 
   get template() {
     return (editor, menuState, eventHandlers) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      ${this._subMenu.template(editor)}
       ${this.renderTree(editor, menuState, eventHandlers)}`;
   }
 
@@ -99214,26 +99354,30 @@ class TreeMenu extends _base__WEBPACK_IMPORTED_MODULE_2__["default"] {
   }
 
   renderTree(editor, menuState, eventHandlers) {
-    let treeClass = '';
-    let treeMenu = null;
-
-    switch (this.selected) {
-      case 'Filetree':
-        treeClass = 'menu__tree__filetree';
-        treeMenu = this._fileTreeMenu;
-        break;
-
-      case 'Sitemap':
-        treeClass = 'menu__tree__sitetree';
-        treeMenu = this._siteTreeMenu;
-        break;
-    }
-
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <div class="menu__section">
-        <div class="menu__trees">
-          <div class="menu__tree ${treeClass}">
-            ${treeMenu.template(editor, menuState, eventHandlers)}
+      <div class="menu__trees">
+        <div class="menu__tree">
+          <div
+              class="menu__tree__title"
+              data-tree="file"
+              @click=${eventHandlers.handleToggleTree}>
+            <i class="material-icons">${menuState.trees.file.isOpen ? 'expand_more' : 'expand_less'}</i>
+            Collections
+          </div>
+          <div class="menu__tree__tree">
+            ${menuState.trees.file.isOpen ? this._fileTreeMenu.template(editor, menuState, eventHandlers) : ''}
+          </div>
+        </div>
+        <div class="menu__tree">
+          <div
+              class="menu__tree__title"
+              data-tree="site"
+              @click=${eventHandlers.handleToggleTree}>
+            <i class="material-icons">${menuState.trees.site.isOpen ? 'expand_more' : 'expand_less'}</i>
+            Sitemap
+          </div>
+          <div class="menu__tree__tree">
+            ${menuState.trees.site.isOpen ? this._siteTreeMenu.template(editor, menuState, eventHandlers) : ''}
           </div>
         </div>
       </div>`;
@@ -99272,13 +99416,14 @@ class BasePart {
 /*!**************************************!*\
   !*** ./source/editor/parts/modal.js ***!
   \**************************************/
-/*! exports provided: default, ConfirmWindow */
+/*! exports provided: default, ConfirmWindow, MenuWindow */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ModalWindow; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ConfirmWindow", function() { return ConfirmWindow; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MenuWindow", function() { return MenuWindow; });
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
 /* harmony import */ var _utility_defer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/defer */ "./source/utility/defer.js");
@@ -99321,13 +99466,17 @@ class ModalWindow extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
     `)}`;
   }
 
+  get classesMain() {
+    return ['modal'];
+  }
+
   get template() {
     if (!this.isOpen) {
       return '';
     }
 
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <div class="modal">
+      <div class=${this.classesMain}>
         <div
             class="modal__wrapper"
             @click=${this.handleOffsetClick.bind(this)}>
@@ -99413,6 +99562,14 @@ class ConfirmWindow extends ModalWindow {
 
   get promise() {
     return this.result.promise;
+  }
+
+}
+class MenuWindow extends ModalWindow {
+  get classesMain() {
+    const superClasses = super.classesMain;
+    superClasses.push('modal--menu');
+    return superClasses.join(' ');
   }
 
 }
@@ -99948,7 +100105,7 @@ const zoomIframe = (containerEl, iframeEl, isDeviceView, isRotated, device, cont
       } else {
         // Width does not fit. Scale down.
         adjustHeight = deviceHeight * (deviceWidth / containerWidth);
-        adjustMaxHeight = deviceHeight * (deviceWidth / containerWidth);
+        adjustMaxHeight = adjustHeight;
         adjustWidth = deviceWidth;
         adjustScale = containerWidth / deviceWidth;
       }
@@ -99961,7 +100118,7 @@ const zoomIframe = (containerEl, iframeEl, isDeviceView, isRotated, device, cont
         adjustWidth = deviceWidth;
       } else {
         adjustHeight = containerHeight * (deviceWidth / containerWidth);
-        adjustMaxHeight = containerHeight * (deviceWidth / containerWidth);
+        adjustMaxHeight = adjustHeight;
         adjustWidth = deviceWidth;
         adjustScale = containerWidth / deviceWidth;
       }
@@ -99973,17 +100130,18 @@ const zoomIframe = (containerEl, iframeEl, isDeviceView, isRotated, device, cont
         adjustHeight = deviceHeight;
       } else {
         adjustHeight = deviceHeight;
-        adjustMaxHeight = containerWidth * (deviceHeight / containerHeight);
         adjustWidth = containerWidth * (deviceHeight / containerHeight);
+        adjustMaxHeight = adjustWidth;
         adjustScale = containerHeight / deviceHeight;
       }
     } // Make sure that the framing container does not expand.
 
 
     containerEl.style.maxWidth = `${containerWidth}px`;
-  }
+  } // TODO: This is not working after adding the menu row.
+  // iframeEl.style.height = adjustHeight == 'auto' ? 'auto' : `${adjustHeight}px`
 
-  iframeEl.style.height = adjustHeight == 'auto' ? 'auto' : `${adjustHeight}px`;
+
   iframeEl.style.maxHeight = adjustMaxHeight == 'auto' ? null : `${adjustMaxHeight}px`;
   iframeEl.style.transform = `scale(${adjustScale})`;
   iframeEl.style.width = adjustWidth == 'auto' ? 'auto' : `${adjustWidth}px`;
@@ -100325,62 +100483,6 @@ const inputFocusAtPosition = (elementId, position) => {
 
 /***/ }),
 
-/***/ "./source/utility/expandObject.js":
-/*!****************************************!*\
-  !*** ./source/utility/expandObject.js ***!
-  \****************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return expandObject; });
-/**
- * Expand a short keyed object ('key.subkey') into a full object.
- */
-function expandObject(original) {
-  const expanded = {};
-
-  for (const prop in original) {
-    deepExpandPath(expanded, prop, original[prop]);
-  }
-
-  return expanded;
-}
-
-function deepExpandPath(obj, path, value) {
-  const parts = path.split('.');
-
-  if (parts.length == 1) {
-    if (Array.isArray(value)) {
-      deepExpandArray(value);
-    }
-
-    obj[path] = value;
-  } else {
-    const initialKey = parts[0];
-
-    if (initialKey in obj === false) {
-      obj[initialKey] = {};
-      deepExpandPath(obj[initialKey], parts.slice(1).join('.'), value);
-    }
-  }
-}
-
-function deepExpandArray(arr) {
-  for (let i = 0; i < arr.length; i++) {
-    if (typeof arr[i] === 'object') {
-      arr[i] = expandObject(arr[i]);
-    } else if (Array.isArray(arr[i])) {
-      deepExpandArray(arr[i]);
-    } else {
-      console.warn('Unknown deep expand for array: ', arr[i]);
-    }
-  }
-}
-
-/***/ }),
-
 /***/ "./source/utility/filter.js":
 /*!**********************************!*\
   !*** ./source/utility/filter.js ***!
@@ -100526,6 +100628,112 @@ class Listeners {
     for (const listener of this.listenersForEvent(eventName)) {
       listener(...data);
     }
+  }
+
+}
+
+/***/ }),
+
+/***/ "./source/utility/settings.js":
+/*!************************************!*\
+  !*** ./source/utility/settings.js ***!
+  \************************************/
+/*! exports provided: SettingSet, SettingToggle */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SettingSet", function() { return SettingSet; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SettingToggle", function() { return SettingToggle; });
+/**
+ * Utility for managing settings easily.
+ *
+ * Includes support for persistent storage.
+ */
+class SettingBase {
+  constructor(defaultValue, storage, storageKey) {
+    this.defaultValue = defaultValue;
+    this.storage = storage;
+    this.storageKey = storageKey;
+    this._value = null;
+
+    if (this.storage && this.storageKey) {
+      this.value = this.retrieve();
+    } else {
+      this.value = this.defaultValue;
+    }
+  }
+
+  get value() {
+    return this._value;
+  }
+
+  set value(value) {
+    this._value = value;
+
+    if (this.storage && this.storageKey) {
+      this.storage.setItem(this.storageKey, this._value);
+    }
+  }
+
+  retrieve() {
+    const storageValue = this.storage.getItem(this.storageKey);
+
+    if (typeof storageValue == 'undefined' || storageValue == null) {
+      return this.defaultValue;
+    }
+
+    return storageValue;
+  }
+
+}
+
+class SettingSet extends SettingBase {
+  constructor(validValues, defaultValue, storage, storageKey) {
+    super(defaultValue, storage, storageKey);
+    this.validValues = validValues;
+  }
+
+  get value() {
+    return super.value;
+  }
+
+  set value(value) {
+    if (!this.validValues || this.validValues.includes(value)) {
+      super.value = value;
+    } else {
+      super.value = this.defaultValue;
+    }
+  }
+
+  is(value) {
+    return this.value == value;
+  }
+
+}
+class SettingToggle extends SettingBase {
+  get off() {
+    return this._value != true;
+  }
+
+  get on() {
+    return this._value == true;
+  }
+
+  get value() {
+    return super.value;
+  }
+
+  set value(value) {
+    super.value = Boolean(value);
+  }
+
+  retrieve() {
+    return this.storage.getItem(this.storageKey) == 'true';
+  }
+
+  toggle() {
+    this.value = !this._value;
   }
 
 }

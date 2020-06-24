@@ -3,10 +3,24 @@
   box-shadow: $ge-shadow-1
   color: $ge-color-on-back
   display: flex
-  flex-flow: row-reverse
-  max-height: 100vh
+  flex-flow: row
   overflow-y: auto
   z-index: 10
+
+.menu__bar
+  align-items: center
+  display: flex
+  flex-flow: row
+  flex-grow: 1
+  justify-content: space-between
+
+.menu__bar__section
+  align-items: center
+  display: flex
+  flex-flow: row
+
+.menu__bar__title
+  font-weight: 700
 
 .menu__hamburger
   cursor: pointer
@@ -14,6 +28,16 @@
 
   &--hidden
     display: none
+
+.modal--menu
+  > .modal__wrapper
+    > .modal__container
+      bottom: 0
+      left: 0
+      min-width: $ge-menu-column-min-width
+      padding: 0
+      position: absolute
+      top: 0
 
 .menu__contents
   display: flex
@@ -28,7 +52,7 @@
     display: none
 
 .menu__section
-  border-bottom: 1px solid $ge-color-back-light
+  border-bottom: $ge-border-size-thick solid $ge-color-back-light
   padding: $ge-pad
 
   &:last-child
@@ -39,6 +63,11 @@
   a
     color: inherit
     text-decoration: none
+
+.menu__section__title
+  font-weight: 700
+  text-transform: uppercase
+  margin-bottom: $ge-pad
 
 .menu__sub_menu
   display: flex

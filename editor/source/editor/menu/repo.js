@@ -16,6 +16,9 @@ export default class RepoMenu extends MenuBase {
   get template() {
     return (editor, menuState, eventHandlers) => html`<div class="menu__section">
       <div class="menu__repo">
+        <div class="menu__repo__label">
+          Workspace:
+        </div>
         <div class="menu__repo__info">
           ${this.renderBranch(editor, menuState, eventHandlers)}
         </div>
@@ -51,34 +54,26 @@ export default class RepoMenu extends MenuBase {
       // Need to append the `Z` so that it knows there is no timezone offset.
       lastCommitDate = moment(lastCommit.commit_date + 'Z', moment.ISO_8601)
       lastCommitAuthor = html`<a href="mailto:${lastCommit.author.email}">${lastCommit.author.name}</a>`
+    } else {
+      return '…'
     }
 
     return html`
-      <div class="menu__repo__label">
-      ${ menuState.repo
-        ? html`
-          <a
-              href=${this.webUrlForBranch(menuState.repo, menuState.repo.branch)}
-              target="_blank">
-            ${menuState.repo.branch}
-          </a>`
-        : '…'}
-      </div>
-      <div class="menu__repo__value">
-        ${ menuState.repo
-          ? html`
-            @ <a
-                href=${this.webUrlForCommit(menuState.repo, menuState.repo.commits[0].sha)}
-                target="_blank">
-              ${menuState.repo.commits[0].sha.substring(0, 6)}
-              <span class="menu__repo__time" title="${lastCommitDate.format('D MMM YYYY, h:mm:ss a')}">
-                (${lastCommitDate.fromNow()})
-              </span>
-            </a>`
-          : ''}
-      </div>
-      <div class="menu__repo__author">
+      <div class="menu__repo__workspace menu__repo__value">
+        <a
+            href=${this.webUrlForBranch(menuState.repo, menuState.repo.branch)}
+            target="_blank">
+          ${menuState.repo.branch}
+        </a>
+        @ <a
+            href=${this.webUrlForCommit(menuState.repo, menuState.repo.commits[0].sha)}
+            target="_blank">
+          ${menuState.repo.commits[0].sha.substring(0, 6)}
+        </a>
         by ${lastCommitAuthor}
+        <span class="menu__repo__time" title="${lastCommitDate.format('D MMM YYYY, h:mm:ss a')}">
+          (${lastCommitDate.fromNow()})
+        </span>
       </div>`
   }
 }

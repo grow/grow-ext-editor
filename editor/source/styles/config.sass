@@ -108,12 +108,11 @@ $ge-loading-size: 50px !default
 $ge-loading-border-size: 4px !default
 
 // Menu
-$ge-menu-column-width: 20vw !default
+$ge-menu-column-width: clamp(250px, 400px, 35vw) !default
 $ge-menu-column-min-width: 20em !default
 
 =field-border
   border: $ge-border-size solid transparent
-  border-radius: $ge-radius-2
 
   &:focus
     border: $ge-border-size solid $ge-color-primary

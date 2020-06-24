@@ -1,42 +1,54 @@
 .editor
-  background-color: $ge-color-back-light
+  align-items: stretch
+  background-color: $ge-color-back
+  color: $ge-color-on-back
   display: flex
-  flex-flow: row
+  flex-flow: column
   font-family: $ge-font-family
   font-size: $ge-font-size
   line-height: $ge-line-height
-  min-height: 100vh
+  height: 100vh
 
   *
     box-sizing: border-box
+
+  svg
+    fill: currentColor
 
   .material-icons
     display: inline-flex
     font-size: $ge-font-size-icon
     vertical-align: middle
 
+.editor__frame
+  align-items: stretch
+  display: flex
+  flex-flow: row
+  flex-grow: 1
+
 .editor__edit
+  border-right: $ge-border-size-thick solid $ge-color-border
   flex-basis: 40%
   max-height: 100vh
   max-width: $ge-edit-column-max-width
   min-width: $ge-edit-column-min-width
 
   .editor--markdown &,
-  .editor--raw &
+  .editor--source &
     display: flex
     flex-flow: column
 
-  .editor--fullscreen &
+  .editor--fullscreen-editor &
     flex-grow: 1
     max-width: 100%
 
-.editor__pod_path
+.editor__edit__header
   align-items: center
   background: $ge-color-secondary
-  box-shadow: $ge-shadow-1
   color: $ge-color-on-secondary
   display: flex
   flex-flow: row
+  justify-content: space-between
   height: $ge-header-height
   padding: $ge-pad/2
   z-index: 15
@@ -68,36 +80,55 @@
           cursor: pointer
           opacity: 1
 
+.editor__edit__header__label
+  font-weight: 700
+  margin: 0 $ge-pad
+  text-transform: uppercase
+
+.editor__edit__header__section
+  align-items: center
+  display: flex
+  flex-flow: row
+
+.editor__edit__header__pod_path
+  font-size: $ge-font-size-small
+  margin-right: $ge-pad
+
 .editor__cards
+  align-items: center
   display: flex
   flex-flow: column
   flex-grow: 1
-  height: calc(100vh - #{$ge-header-height})
+  max-height: calc(100vh - #{$ge-header-height * 2})
   overflow-y: auto
+  padding-bottom: $ge-pad * 2
   // Attempt to keep scroll sticky menu from overlapping linked fields.
   scroll-margin-top: $ge-font-size * 3
 
 .editor__card
-  background-color: $ge-color-back
-  border-radius: $ge-radius-2
-  box-shadow: $ge-shadow-2
-  display: flex
-  margin: $ge-pad
-  flex-flow: column
+  padding: 0 $ge-pad*2
+  margin: $ge-pad 0
+  max-width: $ge-edit-column-max-width
+  width: 100%
+
+  &--flush
+    padding: 0
+    margin: 0
 
   &--flush-top
     margin-top: 0
     border-top-left-radius: 0
     border-top-right-radius: 0
 
-  .editor--markdown &,
-  .editor--raw &
-    flex-grow: 1
-
   .editor--fullscreen &
     margin: $ge-pad auto
     max-width: $ge-edit-column-max-width
     width: calc(100% - #{$ge-pad * 2})
+
+.editor__card__title
+  font-weight: 700
+  margin: 0 0 $ge-pad*2 0
+  text-transform: uppercase
 
 .editor__dev_tools
   align-items: center
@@ -105,7 +136,7 @@
   display: flex
   flex-flow: row
   justify-content: flex-end
-  margin: $ge-pad/2 $ge-pad
+  margin: $ge-pad*2 $ge-pad
 
 .editor__dev_tools__icon
   color: $ge-color-icon-on-back
@@ -124,10 +155,11 @@
 .editor__menu
   align-items: center
   background-color: $ge-color-back
-  border-bottom: 1px solid $ge-color-back-light
+  border-bottom: $ge-border-size solid $ge-color-back-light
   display: flex
   flex-flow: row
   justify-content: space-between
+  margin-bottom: $ge-pad*2
   position: sticky
   padding: $ge-pad*1.5 $ge-pad*2
   top: 0
@@ -136,9 +168,8 @@
 .editor__button
   +field-border
   background: $ge-color-back
-  border-radius: $ge-radius-5
   color: $ge-color-on-back
-  border: 1px solid $ge-color-back-light
+  border: $ge-border-size solid $ge-color-back-light
   font-family: $ge-font-family
   font-size: $ge-font-size
   padding: $ge-pad/2 $ge-pad
@@ -164,6 +195,7 @@
     background: none
     border: none
     color: lighten($ge-color-on-back, 50%)
+    cursor: pointer
     font-weight: bold
 
     &.editor__button--selected
@@ -180,15 +212,26 @@
   flex-flow: row
 
   button
-    margin-left: $ge-pad/2
+    margin: 0 $ge-pad/2
 
-.editor__source,
-.editor__selective
-  padding: $ge-pad*2
+    &:first-child
+      margin-left: 0
 
-  .editor--markdown &
-    display: flex
-    flex-grow: 1
+    &:last-child
+      margin-right: 0
+
+  &--add
+    background-repeat: no-repeat
+    background-position: left $ge-pad/2 center
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><path d="M-2-2h24v24H-2V-2z" fill="none"/><path d="M10 2.5c-4.1 0-7.5 3.4-7.5 7.5s3.4 7.5 7.5 7.5 7.5-3.4 7.5-7.5-3.4-7.5-7.5-7.5zm3.8 8.3h-3v3H9.2v-3h-3V9.3h3v-3h1.5v3h3v1.5h.1z"/></svg>')
+    border: none
+    cursor: pointer
+    font-weight: 700
+    padding-left: $ge-pad * 3
+
+    &:focus,
+    &:hover
+      border: none
 
 .editor__source
   display: flex
@@ -224,7 +267,6 @@
     .editor__source__title
       margin-top: 0
 
-
 .editor__preview
   align-items: stretch
   display: flex
@@ -242,8 +284,8 @@
 
 .editor__preview__header
   align-items: center
-  background: $ge-color-back
-  color: $ge-color-on-back
+  background: $ge-color-secondary
+  color: $ge-color-on-secondary
   display: flex
   flex-flow: row
   height: $ge-header-height
@@ -257,6 +299,10 @@
   i
     cursor: pointer
     margin: 0 $ge-pad/4
+    opacity: 0.25
+    transition: opacity $ge-speed-fast ease-in-out
+
+  select
     opacity: 0.25
     transition: opacity $ge-speed-fast ease-in-out
 
@@ -281,8 +327,17 @@
           cursor: pointer
           opacity: 1
 
+    select
+      opacity: 1
+
 .editor__preview__header__label
   font-weight: 700
+  text-transform: uppercase
+
+.editor__preview__header__icons
+  align-items: center
+  display: flex
+  flex-flow: row
 
 .editor__preview__frame
   align-items: stretch
@@ -313,7 +368,6 @@
       box-shadow: $ge-shadow-3
 
 .editor__preview__sizes
-  color: $ge-color-secondary
   display: flex
   flex-flow: row
   z-index: 10
@@ -329,6 +383,29 @@
 .editor__preview__size__dimension
   font-size: $ge-font-size * .8
 
+.editor__locales
+  background-color: transparent
+  border: 0
+  color: inherit
+  display: block
+  font-size: $ge-font-size
+  padding: $ge-pad/2 $ge-pad/4
+
+  &:focus
+    outline: none
+
+.editor__workspace__url
+  margin: $ge-pad 0
+
+.editor__workspace__url__more
+  font-size: $ge-font-size-small
+  margin-left: $ge-pad
+  text-decoration: none
+
+.editor__workspace__locale
+  font-size: $ge-font-size-small
+  margin-left: $ge-pad
+
 .icon
   &--hover-only
     visibility: hidden
@@ -338,12 +415,6 @@
     &:focus,
     &:hover
       visibility: visible
-
-.editor__actions__add
-  background-repeat: no-repeat
-  background-position: left $ge-pad center
-  background-image: url('data:image/svg+xml;utf8,<svg class="svg" width="12" height="12" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg"><path d="M5 5V0h1v5h5v1H6v5H5V6H0V5h5z" fill-rule="nonzero" fill-opacity="1" fill="%23000" stroke="none"></path></svg>')
-  padding-left: $ge-pad * 3
 
 // Import theme for codemirror.
 @import 'codemirror/lib/codemirror.css'

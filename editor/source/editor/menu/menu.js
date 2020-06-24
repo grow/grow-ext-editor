@@ -11,24 +11,35 @@ import { findParentByClassname } from '../../utility/dom'
 import {
   createWhiteBlackFilter,
 } from '../../utility/filter'
+import {
+  MenuWindow,
+} from '../parts/modal'
+import ModalWindow from '../parts/modal'
 import MenuBase from './base'
 import RepoMenu from './repo'
 import SiteMenu from './site'
-import TreeMenu from './tree'
 
 
 export default class Menu extends MenuBase {
   constructor(config, editor) {
     super(config)
     this.editor = editor
-    this._isOpen = this.storage.getItem('selective.menu.open') == 'true'
+    this.menuWindow = new MenuWindow()
+    // this.menuWindow.isOpen = true  // TODO: Remove
+
+    // Create the new page modal outside of the modal for the menu.
+    this.newFileWindow = new ModalWindow('New page')
+    this.newFileWindow.addAction(
+      'Create file', this.handleFileNewSubmit.bind(this), true)
+    this.newFileWindow.addAction(
+      'Cancel', this.handleFileNewCancel.bind(this), false, true)
+
+
     this._repoMenu = new RepoMenu({
       testing: this.isTesting,
     })
     this._siteMenu = new SiteMenu({
-      testing: this.isTesting,
-    })
-    this._treeMenu = new TreeMenu({
+      newFileModal: this.newFileWindow,
       testing: this.isTesting,
     })
     this._state = {
@@ -38,6 +49,14 @@ export default class Menu extends MenuBase {
       repo: null,
       routes: null,
       templates: null,
+      trees: {
+        file: {
+          isOpen: this.storage.getItem('selective.menu.tree.file.open') == 'true'
+        },
+        site: {
+          isOpen: this.storage.getItem('selective.menu.tree.site.open') == 'true'
+        },
+      },
     }
 
     this.filterFunc = this.config.get('filterFunc') || createWhiteBlackFilter(
@@ -50,9 +69,8 @@ export default class Menu extends MenuBase {
 
   get template() {
     return (editor) => html`<div class="menu">
-      ${this._isOpen || !editor.podPath
-        ? this.renderOpenedMenu(editor)
-        : this.renderClosedMenu(editor)}
+      ${this.renderMenuBar(editor)}
+      ${this.renderMenu(editor)}
     </div>`
   }
 
@@ -63,6 +81,33 @@ export default class Menu extends MenuBase {
     this.editor.listeners.add('load.repo', this.handleLoadRepo.bind(this))
     this.editor.listeners.add('load.routes', this.handleLoadRoutes.bind(this))
     this.editor.listeners.add('load.templates', this.handleLoadTemplates.bind(this))
+
+    // Close the menu when updating the path.
+    document.addEventListener('selective.path.update', (evt) => {
+      this.menuWindow.close()
+    })
+  }
+
+  handleFileNewCancel(evt) {
+    evt.stopPropagation()
+    this.newFileWindow.newFileFolder = null
+    this.newFileWindow.close()
+  }
+
+  handleFileNewSubmit(evt) {
+    evt.stopPropagation()
+
+    const newFileSelective = this.newFileWindow.fileSelective
+    const value = newFileSelective.value
+
+    document.dispatchEvent(new CustomEvent('selective.path.template', {
+      detail: {
+        collectionPath: this.newFileWindow.newFileFolder,
+        fileName: value.fileName,
+        template: value.template,
+      }
+    }))
+    this.newFileWindow.close()
   }
 
   handleLoadPodPaths(response) {
@@ -95,29 +140,73 @@ export default class Menu extends MenuBase {
   }
 
   handleToggleMenu(evt) {
-    this._isOpen = !this._isOpen
-    this.storage.setItem('selective.menu.open', this._isOpen)
+    this.menuWindow.toggle()
+  }
+
+  handleToggleTree(evt) {
+    const target = findParentByClassname(evt.target, 'menu__tree__title')
+    const tree = target.dataset.tree
+    const isOpen = !this._state.trees[tree].isOpen
+    this._state.trees[tree].isOpen = isOpen
+    this.storage.setItem(`selective.menu.tree.${tree}.open`, isOpen)
     this.render()
   }
 
-  renderClosedMenu(editor) {
+  renderMenu(editor) {
+    // Always show the menu when there is not a pod path.
+    const isOpen = this.menuWindow.isOpen || !editor.podPath
+
+    if (!this._state.pod) {
+      editor.loadPod()
+    }
+
+    if (isOpen) {
+      this.menuWindow.contentRenderFunc = () => {
+        return html`
+          <div class="menu__contents">
+            <div class="menu__section">
+              <div class="menu__site">
+                <div class="menu__site__title">
+                  ${this._state.pod ? this._state.pod.title : ''}
+                </div>
+                <i class="material-icons" @click=${this.handleToggleMenu.bind(this)} title="Close menu">
+                  close
+                </i>
+              </div>
+            </div>
+            ${this._siteMenu.template(editor, this._state, {
+              handleToggleTree: this.handleToggleTree.bind(this),
+            })}
+          </div>`
+      }
+    }
+
     return html`
-      <div
-          class="menu__hamburger"
-          @click=${this.handleToggleMenu.bind(this)}
-          title="Open menu">
-        <i class="material-icons">menu</i>
-      </div>`
+      ${this.menuWindow.template}
+      ${this.newFileWindow.template}`
   }
 
-  renderOpenedMenu(editor) {
+  renderMenuBar(editor) {
+    if (!this._state.pod) {
+      editor.loadPod()
+    }
+
     return html`
-    <div class="menu__contents">
-      ${this._siteMenu.template(editor, this._state, {
-        toggleMenu: this.handleToggleMenu.bind(this),
-      })}
-      ${this._repoMenu.template(editor, this._state, {})}
-      ${this._treeMenu.template(editor, this._state, {})}
-    </div>`
+      <div class="menu__bar">
+        <div class="menu__bar__section">
+          <div
+              class="menu__hamburger"
+              @click=${this.handleToggleMenu.bind(this)}
+              title="Open menu">
+            <i class="material-icons">menu</i>
+          </div>
+          <div class="menu__bar__title">
+            ${this._state.pod ? this._state.pod.title : ''}
+          </div>
+        </div>
+        <div class="menu__bar__section">
+          ${this._repoMenu.template(editor, this._state, {})}
+        </div>
+      </div>`
   }
 }

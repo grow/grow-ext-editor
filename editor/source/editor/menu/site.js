@@ -9,29 +9,33 @@ import {
 } from 'selective-edit'
 import { findParentByClassname } from '../../utility/dom'
 import MenuBase from './base'
+import TreeMenu from './tree'
 
 
 export default class SiteMenu extends MenuBase {
   constructor(config) {
     super(config)
-    this._isOpen = this.storage.getItem('selective.menu.open') == 'true'
+
+    this._treeMenu = new TreeMenu({
+      newFileModal: this.config.get('newFileModal'),
+      testing: this.isTesting,
+    })
   }
 
   get template() {
-    return (editor, menuState, eventHandlers) => html`<div class="menu__section">
-      <div class="menu__site">
-        <div class="menu__site__title">${this.renderSiteTitle(editor, menuState, eventHandlers)}</div>
-        <i class="material-icons" @click=${eventHandlers.toggleMenu} title="Close menu">
-          close
-        </i>
-      </div>
-    </div>`
+    return (editor, menuState, eventHandlers) => html`
+      <div class="menu__section">
+        <div class="menu__section__title">
+          Site
+        </div>
+        ${this._treeMenu.template(editor, menuState, eventHandlers)}
+      </div>`
   }
 
   renderSiteTitle(editor, menuState, eventHandlers) {
     if (!menuState.pod) {
       editor.loadPod()
-      return 'Site'
+      return '…'
     }
 
     return menuState.pod.title

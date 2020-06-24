@@ -37,12 +37,16 @@ export default class ModalWindow extends BasePart {
     `)}`
   }
 
+  get classesMain() {
+    return ['modal']
+  }
+
   get template() {
     if (!this.isOpen) {
       return ''
     }
     return html`
-      <div class="modal">
+      <div class=${this.classesMain}>
         <div
             class="modal__wrapper"
             @click=${this.handleOffsetClick.bind(this)}>
@@ -127,5 +131,13 @@ export class ConfirmWindow extends ModalWindow {
 
   get promise() {
     return this.result.promise
+  }
+}
+
+export class MenuWindow extends ModalWindow {
+  get classesMain() {
+    const superClasses = super.classesMain
+    superClasses.push('modal--menu')
+    return superClasses.join(' ')
   }
 }

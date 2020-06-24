@@ -47,7 +47,7 @@ export const zoomIframe = (containerEl, iframeEl, isDeviceView, isRotated, devic
       } else {
         // Width does not fit. Scale down.
         adjustHeight = deviceHeight * (deviceWidth / containerWidth)
-        adjustMaxHeight = deviceHeight * (deviceWidth / containerWidth)
+        adjustMaxHeight = adjustHeight
         adjustWidth = deviceWidth
         adjustScale = containerWidth / deviceWidth
       }
@@ -59,7 +59,7 @@ export const zoomIframe = (containerEl, iframeEl, isDeviceView, isRotated, devic
         adjustWidth = deviceWidth
       } else {
         adjustHeight = containerHeight * (deviceWidth / containerWidth)
-        adjustMaxHeight = containerHeight * (deviceWidth / containerWidth)
+        adjustMaxHeight = adjustHeight
         adjustWidth = deviceWidth
         adjustScale = containerWidth / deviceWidth
       }
@@ -70,8 +70,8 @@ export const zoomIframe = (containerEl, iframeEl, isDeviceView, isRotated, devic
         adjustHeight = deviceHeight
       } else {
         adjustHeight = deviceHeight
-        adjustMaxHeight = containerWidth * (deviceHeight / containerHeight)
         adjustWidth = containerWidth * (deviceHeight / containerHeight)
+        adjustMaxHeight = adjustWidth
         adjustScale = containerHeight / deviceHeight
       }
     }
@@ -80,7 +80,8 @@ export const zoomIframe = (containerEl, iframeEl, isDeviceView, isRotated, devic
     containerEl.style.maxWidth = `${containerWidth}px`
   }
 
-  iframeEl.style.height = adjustHeight == 'auto' ? 'auto' : `${adjustHeight}px`
+  // TODO: This is not working after adding the menu row.
+  // iframeEl.style.height = adjustHeight == 'auto' ? 'auto' : `${adjustHeight}px`
   iframeEl.style.maxHeight = adjustMaxHeight == 'auto' ? null : `${adjustMaxHeight}px`
   iframeEl.style.transform = `scale(${adjustScale})`
   iframeEl.style.width = adjustWidth == 'auto' ? 'auto' : `${adjustWidth}px`
