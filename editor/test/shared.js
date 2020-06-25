@@ -77,9 +77,24 @@ const repoIntercept = () => {
   return interceptObj
 }
 
+const routesIntercept = () => {
+  const interceptObj = new intercept.JsonIntercept(
+    '/_grow/api/editor/routes')
+  return interceptObj
+}
+
 const staticServingPathIntercept = () => {
   const interceptObj = new intercept.JsonIntercept(
     '/_grow/api/editor/static_serving_path')
+  return interceptObj
+}
+
+const templatesIntercept = () => {
+  const interceptObj = new intercept.JsonIntercept(
+    '/_grow/api/editor/templates')
+  interceptObj.responseGet = {
+    templates: {},
+  }
   return interceptObj
 }
 
@@ -106,7 +121,9 @@ module.exports = {
     pod: podIntercept,
     podPaths: podPathsIntercept,
     repo: repoIntercept,
+    routes: routesIntercept,
     staticServingPath: staticServingPathIntercept,
+    templates: templatesIntercept,
   },
   interceptRequest: intercept.interceptRequest,
   pageSetup: pageSetup,
