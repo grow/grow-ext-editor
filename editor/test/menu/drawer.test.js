@@ -59,6 +59,30 @@ describe('menu drawer', () => {
     ])
   })
 
+  it('should open and close with icon', async () => {
+    // Open the menu.
+    await page.click('.menu__hamburger')
+    await page.waitForSelector('.menu__contents')
+
+    // Close the file tree using icon.
+    await page.click('.menu__site .material-icons')
+    await page.waitForSelector('.menu__contents', {
+      hidden: true,
+    })
+  })
+
+  it('should open and close with off-menu click', async () => {
+    // Open the menu.
+    await page.click('.menu__hamburger')
+    await page.waitForSelector('.menu__contents')
+
+    // Close the file tree by clicking off menu.
+    await page.click('.menu__repo__info')
+    await page.waitForSelector('.menu__contents', {
+      hidden: true,
+    })
+  })
+
   it('should show file tree', async () => {
     // Open the menu.
     await page.click('.menu__hamburger')
