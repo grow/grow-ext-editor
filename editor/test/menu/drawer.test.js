@@ -100,6 +100,25 @@ describe('menu drawer', () => {
     await percySnapshot(page, 'Menu file tree expanded.', shared.snapshotOptions)
   })
 
+  it('should show new file dialog from file tree', async () => {
+    // Open the menu.
+    await page.click('.menu__hamburger')
+    await page.waitForSelector('.menu__contents')
+    await page.waitForSelector('.menu__tree__tree[data-tree=file] .menu__tree__folder', {
+      hidden: true,
+    })
+
+    // Expand the file tree.
+    await page.click('.menu__tree__title[data-tree=file]')
+    await page.waitForSelector('.menu__tree__tree[data-tree=file] .menu__tree__folder')
+
+    // Click the add file option.
+    await page.click('.menu__tree__tree[data-tree=file] .editor__actions--add')
+    await page.waitForSelector('.selective__field[data-field-full-key=fileName]')
+
+    await percySnapshot(page, 'Menu file tree new file dialog.', shared.snapshotOptions)
+  })
+
   it('should show sitemap tree', async () => {
     // Open the menu.
     await page.click('.menu__hamburger')
