@@ -1,102 +1,75 @@
-const defaults = require('../defaults')
+const shared = require('../shared')
 const { percySnapshot } = require('@percy/puppeteer')
 const path = require('path')
 const qs = require('querystring')
 
-const editorConfig = {
-  'fields': [
-    {
-      'type': 'image',
-      'key': 'image',
-      'label': 'Image',
-    }
-  ]
-}
+const contentIntercept = shared.intercept.content()
+const podPathsIntercept = shared.intercept.podPaths()
+const staticServingPathIntercept = shared.intercept.staticServingPath()
+
 const defaultEn = '/static/img/upload/defaultEn.png'
 const defaultEs = '/static/img/upload/defaultEs.png'
-let newValueEn = '/static/img/upload/newValueEn.png'
-let newValueEs = '/static/img/upload/newValueEs.png'
+
 const defaultImageEn = 'http://blinkk.com/static/logo.svg'
 const defaultImageEs = 'https://avatars0.githubusercontent.com/u/5324394'
+
+let newValueEn = '/static/img/upload/newValueEn.png'
+let newValueEs = '/static/img/upload/newValueEs.png'
+
 let newValueImageEn = 'https://avatars0.githubusercontent.com/u/5324394'
 let newValueImageEs = 'http://blinkk.com/static/logo.svg'
+
 const podPathToImg = {}
 podPathToImg[defaultEn] = defaultImageEn
 podPathToImg[defaultEs] = defaultImageEs
 podPathToImg[newValueEn] = newValueImageEn
 podPathToImg[newValueEs] = newValueImageEs
 
+contentIntercept.responseGet = {
+  'editor': {
+    'fields': [
+      {
+        'type': 'image',
+        'key': 'image',
+        'label': 'Image',
+      },
+    ]
+  },
+  'front_matter': {
+    'image': defaultEn,
+    'image@es': defaultEs,
+  },
+}
+
+podPathsIntercept.responseGet = {
+  'pod_paths': [
+    '/content/should/be/filtered.jpg',
+    defaultEn,
+    defaultEs,
+    newValueEn,
+    newValueEs,
+    '/views/should/be/filtered.png',
+  ],
+}
+
+staticServingPathIntercept.callbackGet = (request) => {
+  const params = (new URL(request.url())).searchParams
+  const podPath = params.get('pod_path')
+  return {
+    'pod_path': podPath,
+    'serving_url': podPathToImg[podPath],
+  }
+}
+
 describe('image field', () => {
   beforeEach(async () => {
     // Need a new page to prevent requests already being handled.
     page = await browser.newPage()
-    await page.goto('http://localhost:3000/editor.html')
-    await page.setRequestInterception(true)
-
-    page.on('request', request => {
-      if (request.url().includes('/_grow/api/editor/content')) {
-        // console.log('Intercepted content', request.url(), request.method())
-        if (request.method() == 'POST') {
-          // Respond to posts with the same front matter.
-          const postData = qs.parse(request.postData())
-          const frontMatter = JSON.parse(postData.front_matter)
-          request.respond({
-            contentType: 'application/json',
-            body: JSON.stringify(Object.assign({}, defaults.documentResponse, {
-              'front_matter': frontMatter,
-              'editor': editorConfig,
-            }))
-          })
-        } else {
-          request.respond({
-            contentType: 'application/json',
-            body: JSON.stringify(Object.assign({}, defaults.documentResponse, {
-              'front_matter': {
-                'image': defaultEn,
-                'image@es': defaultEs,
-              },
-              'editor': editorConfig,
-            }))
-          })
-        }
-      } else if (request.url().includes('/_grow/api/editor/pod_paths')) {
-        // console.log('Intercepted content', request.url(), request.method())
-        request.respond({
-          contentType: 'application/json',
-          body: JSON.stringify({
-            'pod_paths': [
-              '/content/should/be/filtered.html',
-              defaultEn,
-              defaultEs,
-              newValueEn,
-              newValueEs,
-              '/views/should/be/filtered.html',
-            ],
-          })
-        })
-      } else if (request.url().includes('/_grow/api/editor/static_serving_path')) {
-        // console.log('Intercepted content', request.url(), request.method())
-        const params = (new URL(request.url())).searchParams
-        const podPath = params.get('pod_path')
-        request.respond({
-          contentType: 'application/json',
-          body: JSON.stringify({
-            'pod_path': podPath,
-            'serving_url': podPathToImg[podPath],
-          })
-        })
-      } else {
-        // console.log('Piped request', request.url(), request.method())
-        request.continue()
-      }
-    })
-
-    await page.evaluate(_ => {
-      window.editorInst = new Editor(document.querySelector('.container'), {
-        'testing': true,
-      })
-    })
-    await page.waitForSelector('.selective')
+    await shared.pageSetup(page, [
+      contentIntercept,
+      podPathsIntercept,
+      staticServingPathIntercept,
+    ])
   })
 
   it('should accept input', async () => {
@@ -121,7 +94,7 @@ describe('image field', () => {
     // Save the changes.
     const saveButton = await page.$('.editor__save')
     await saveButton.click()
-    await page.waitFor(defaults.saveWaitFor)
+    await page.waitFor(shared.saveWaitFor)
     await page.waitForSelector('.editor__save:not(.editor__save--saving)')
 
     // Verify the new value was saved.
@@ -139,13 +112,13 @@ describe('image field', () => {
     })
     expect(isClean).toBe(true)
 
-    await percySnapshot(page, 'Image field after save', defaults.snapshotOptions)
+    await percySnapshot(page, 'Image field after save', shared.snapshotOptions)
 
     await page.evaluate(_ => {
       document.querySelector('.selective__field__image_file__wrapper').classList.add(
         'selective__image--hover')
     })
-    await percySnapshot(page, 'Image field hover state', defaults.snapshotOptions)
+    await percySnapshot(page, 'Image field hover state', shared.snapshotOptions)
   })
 
   it('should work with file list', async () => {
@@ -159,8 +132,9 @@ describe('image field', () => {
     let fileListIcon = await page.$('.selective__field__type__image_file .selective__field__image_file__file_icon')
     await fileListIcon.click()
     await page.waitForSelector('.selective__file_list__file')
+    await page.waitForSelector('.selective__image__preview__meta__size')
 
-    await percySnapshot(page, 'Image field after file list load', defaults.snapshotOptions)
+    await percySnapshot(page, 'Image field after file list load', shared.snapshotOptions)
 
     // Click on a file in the list.
     let listItem = await page.$(`.selective__file_list__file[data-pod-path="${newValueEn}"]`)
@@ -179,7 +153,7 @@ describe('image field', () => {
     // Save the changes.
     const saveButton = await page.$('.editor__save')
     await saveButton.click()
-    await page.waitFor(defaults.saveWaitFor)
+    await page.waitFor(shared.saveWaitFor)
     await page.waitForSelector('.editor__save:not(.editor__save--saving)')
 
     // Verify the new value was saved.
@@ -197,7 +171,7 @@ describe('image field', () => {
     })
     expect(isClean).toBe(true)
 
-    await percySnapshot(page, 'Image field after file list save', defaults.snapshotOptions)
+    await percySnapshot(page, 'Image field after file list save', shared.snapshotOptions)
   })
 
   it('should accept input on localization', async () => {
@@ -233,7 +207,7 @@ describe('image field', () => {
     // Save the changes.
     const saveButton = await page.$('.editor__save')
     await saveButton.click()
-    await page.waitFor(defaults.saveWaitFor)
+    await page.waitFor(shared.saveWaitFor)
     await page.waitForSelector('.editor__save:not(.editor__save--saving)')
 
     // Verify the new value was saved.
@@ -251,7 +225,7 @@ describe('image field', () => {
     })
     expect(isClean).toBe(true)
 
-    await percySnapshot(page, 'Image field after localization save', defaults.snapshotOptions)
+    await percySnapshot(page, 'Image field after localization save', shared.snapshotOptions)
   })
 
   it('should work with file list on localization', async () => {
@@ -274,7 +248,7 @@ describe('image field', () => {
     await page.waitForSelector('[data-locale=en] .selective__file_list__file')
     await page.waitForSelector('.selective__field__image_file__wrapper[data-locale=en] .selective__image__preview__meta')
 
-    await percySnapshot(page, 'Image field after file list on en localization load', defaults.snapshotOptions)
+    await percySnapshot(page, 'Image field after file list on en localization load', shared.snapshotOptions)
 
     // Click on a file in the en list.
     let listItem = await page.$(`[data-locale=en] .selective__file_list__file[data-pod-path="${newValueEn}"]`)
@@ -289,7 +263,7 @@ describe('image field', () => {
     await fileListIcon.click()
     await page.waitForSelector('[data-locale=es] .selective__file_list__file')
 
-    await percySnapshot(page, 'Image field after file list on es localization load', defaults.snapshotOptions)
+    await percySnapshot(page, 'Image field after file list on es localization load', shared.snapshotOptions)
 
     // Click on a file in the es list.
     listItem = await page.$(`[data-locale=es] .selective__file_list__file[data-pod-path="${newValueEs}"]`)
@@ -308,7 +282,7 @@ describe('image field', () => {
     // Save the changes.
     const saveButton = await page.$('.editor__save')
     await saveButton.click()
-    await page.waitFor(defaults.saveWaitFor)
+    await page.waitFor(shared.saveWaitFor)
     await page.waitForSelector('.editor__save:not(.editor__save--saving)')
 
     // Verify the new value was saved.
@@ -326,6 +300,6 @@ describe('image field', () => {
     })
     expect(isClean).toBe(true)
 
-    await percySnapshot(page, 'Image field after file list localization save', defaults.snapshotOptions)
+    await percySnapshot(page, 'Image field after file list localization save', shared.snapshotOptions)
   })
 })

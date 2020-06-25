@@ -1,4 +1,4 @@
-const defaults = require('./defaults')
+const shared = require('./shared')
 const { percySnapshot } = require('@percy/puppeteer')
 
 async function dragAndDrop(page, originSelector, destinationSelector, snapshotName) {
@@ -14,7 +14,7 @@ async function dragAndDrop(page, originSelector, destinationSelector, snapshotNa
   await page.mouse.down()
 
   if (snapshotName) {
-    await percySnapshot(page, snapshotName, defaults.snapshotOptions)
+    await percySnapshot(page, snapshotName, shared.snapshotOptions)
   }
 
   // console.log(`Dropping at   ${db.x + db.width / 2}, ${db.y + db.height / 2}`)

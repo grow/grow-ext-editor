@@ -1,73 +1,46 @@
-const defaults = require('../defaults')
+const shared = require('../shared')
 const { percySnapshot } = require('@percy/puppeteer')
 const path = require('path')
 const qs = require('querystring')
 
-const editorConfig = {
-  'fields': [
-    {
-      'type': 'datetime',
-      'key': 'published',
-      'label': 'Published',
-    }
-  ]
-}
+const contentIntercept = shared.intercept.content()
+
 const defaultEn = ''
 const defaultEs = ''
-let newValueEn = '2021-04-02T14:05'
-let newValueEs = '2020-07-25T05:18'
 
 // Format the typing for the order that the field shows in en_US.
 let newDateTypeEn = '04-02-2021'
 let newDateTypeEs = '07-25-2020'
+
 let newTimeTypeEn = '02-05p'
 let newTimeTypeEs = '05-18a'
+
+contentIntercept.responseGet = {
+  'editor': {
+    'fields': [
+      {
+        'type': 'datetime',
+        'key': 'published',
+        'label': 'Published',
+      },
+    ]
+  },
+  'front_matter': {
+    'published': defaultEn,
+    'published@es': defaultEs,
+  },
+}
+
+let newValueEn = '2021-04-02T14:05'
+let newValueEs = '2020-07-25T05:18'
 
 describe('datetime field', () => {
   beforeEach(async () => {
     // Need a new page to prevent requests already being handled.
     page = await browser.newPage()
-    await page.goto('http://localhost:3000/editor.html')
-    await page.setRequestInterception(true)
-
-    page.on('request', request => {
-      if (request.url().includes('/_grow/api/editor/content')) {
-        // console.log('Intercepted content', request.url(), request.method())
-        if (request.method() == 'POST') {
-          // Respond to posts with the same front matter.
-          const postData = qs.parse(request.postData())
-          const frontMatter = JSON.parse(postData.front_matter)
-          request.respond({
-            contentType: 'application/json',
-            body: JSON.stringify(Object.assign({}, defaults.documentResponse, {
-              'front_matter': frontMatter,
-              'editor': editorConfig,
-            }))
-          })
-        } else {
-          request.respond({
-            contentType: 'application/json',
-            body: JSON.stringify(Object.assign({}, defaults.documentResponse, {
-              'front_matter': {
-                'published': defaultEn,
-                'published@es': defaultEs,
-              },
-              'editor': editorConfig,
-            }))
-          })
-        }
-      } else {
-        // console.log('Piped request', request.url(), request.method())
-        request.continue()
-      }
-    })
-
-    await page.evaluate(_ => {
-      window.editorInst = new Editor(document.querySelector('.container'), {
-        'testing': true,
-      })
-    })
-    await page.waitForSelector('.selective')
+    await shared.pageSetup(page, [
+      contentIntercept,
+    ])
   })
 
   it('should accept input', async () => {
@@ -92,7 +65,7 @@ describe('datetime field', () => {
     // Save the changes.
     const saveButton = await page.$('.editor__save')
     await saveButton.click()
-    await page.waitFor(defaults.saveWaitFor)
+    await page.waitFor(shared.saveWaitFor)
     await page.waitForSelector('.editor__save:not(.editor__save--saving)')
 
     // Verify the new value was saved.
@@ -110,7 +83,7 @@ describe('datetime field', () => {
     })
     expect(isClean).toBe(true)
 
-    await percySnapshot(page, 'Datetime field after save', defaults.snapshotOptions)
+    await percySnapshot(page, 'Datetime field after save', shared.snapshotOptions)
   })
 
   it('should accept input on localization', async () => {
@@ -146,7 +119,7 @@ describe('datetime field', () => {
     // Save the changes.
     const saveButton = await page.$('.editor__save')
     await saveButton.click()
-    await page.waitFor(defaults.saveWaitFor)
+    await page.waitFor(shared.saveWaitFor)
     await page.waitForSelector('.editor__save:not(.editor__save--saving)')
 
     // Verify the new value was saved.
@@ -164,6 +137,6 @@ describe('datetime field', () => {
     })
     expect(isClean).toBe(true)
 
-    await percySnapshot(page, 'Datetime field after localization save', defaults.snapshotOptions)
+    await percySnapshot(page, 'Datetime field after localization save', shared.snapshotOptions)
   })
 })
