@@ -1,11 +1,9 @@
-const defaults = require('../defaults')
+const shared = require('../shared')
 const { percySnapshot } = require('@percy/puppeteer')
 const path = require('path')
 const qs = require('querystring')
 
-const podIntercept = defaults.intercept.pod()
-const repoIntercept = defaults.intercept.repo()
-const contentIntercept = defaults.intercept.content()
+const contentIntercept = shared.intercept.content()
 
 const defaultEn = 'Trumpet'
 const defaultEs = 'Trompeta'
@@ -42,20 +40,9 @@ describe('list simple field', () => {
   beforeEach(async () => {
     // Need a new page to prevent requests already being handled.
     page = await browser.newPage()
-    await page.setRequestInterception(true)
-    page.on('request', defaults.interceptRequest([
+    await shared.pageSetup(page, [
       contentIntercept,
-      podIntercept,
-      repoIntercept,
-    ]))
-
-    await page.goto('http://localhost:3000/editor.html')
-    await page.evaluate(_ => {
-      window.editorInst = new Editor(document.querySelector('.container'), {
-        'testing': true,
-      })
-    })
-    await page.waitForSelector('.selective')
+    ])
   })
 
   it('should accept input', async () => {
@@ -79,7 +66,7 @@ describe('list simple field', () => {
     // Save the changes.
     const saveButton = await page.$('.editor__save')
     await saveButton.click()
-    await page.waitFor(defaults.saveWaitFor)
+    await page.waitFor(shared.saveWaitFor)
     await page.waitForSelector('.editor__save:not(.editor__save--saving)')
 
     // Verify the new value was saved.
@@ -101,7 +88,7 @@ describe('list simple field', () => {
     })
     expect(isClean).toBe(true)
 
-    await percySnapshot(page, 'List field simple after save', defaults.snapshotOptions)
+    await percySnapshot(page, 'List field simple after save', shared.snapshotOptions)
   })
 
   it('should accept input on localization', async () => {
@@ -135,7 +122,7 @@ describe('list simple field', () => {
     // Save the changes.
     const saveButton = await page.$('.editor__save')
     await saveButton.click()
-    await page.waitFor(defaults.saveWaitFor)
+    await page.waitFor(shared.saveWaitFor)
     await page.waitForSelector('.editor__save:not(.editor__save--saving)')
 
     // Verify the new value was saved.
@@ -157,7 +144,7 @@ describe('list simple field', () => {
     })
     expect(isClean).toBe(true)
 
-    await percySnapshot(page, 'List field simple after localization save', defaults.snapshotOptions)
+    await percySnapshot(page, 'List field simple after localization save', shared.snapshotOptions)
   })
 
   it('should add item and remove item on localization', async () => {
@@ -195,7 +182,7 @@ describe('list simple field', () => {
     // Save the changes.
     const saveButton = await page.$('.editor__save')
     await saveButton.click()
-    await page.waitFor(defaults.saveWaitFor)
+    await page.waitFor(shared.saveWaitFor)
     await page.waitForSelector('.editor__save:not(.editor__save--saving)')
 
     // Verify the new value was saved.
@@ -219,7 +206,7 @@ describe('list simple field', () => {
     })
     expect(isClean).toBe(true)
 
-    await percySnapshot(page, 'List field simple add input after localization save', defaults.snapshotOptions)
+    await percySnapshot(page, 'List field simple add input after localization save', shared.snapshotOptions)
 
     // Remove the en value.
     let deleteButton = await page.$('.selective__list__item[data-locale=en]:last-child .selective__list__item__delete')
@@ -227,7 +214,7 @@ describe('list simple field', () => {
 
     // Remove the en value.
     await page.waitForSelector('.modal')
-    await percySnapshot(page, 'List field simple confirm delete on localization', defaults.snapshotOptions)
+    await percySnapshot(page, 'List field simple confirm delete on localization', shared.snapshotOptions)
     let confirmButton = await page.$('.modal .editor__button--primary')
     await confirmButton.click()
     await page.waitForSelector('.modal', { hidden: true })
@@ -250,7 +237,7 @@ describe('list simple field', () => {
 
     // Save the changes.
     await saveButton.click()
-    await page.waitFor(defaults.saveWaitFor)
+    await page.waitFor(shared.saveWaitFor)
     await page.waitForSelector('.editor__save:not(.editor__save--saving)')
 
     // Verify the new value was saved.
@@ -272,6 +259,6 @@ describe('list simple field', () => {
     })
     expect(isClean).toBe(true)
 
-    await percySnapshot(page, 'List field simple remove input after localization save', defaults.snapshotOptions)
+    await percySnapshot(page, 'List field simple remove input after localization save', shared.snapshotOptions)
   })
 })

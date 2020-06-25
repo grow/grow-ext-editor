@@ -1,11 +1,9 @@
-const defaults = require('../defaults')
+const shared = require('../shared')
 const { percySnapshot } = require('@percy/puppeteer')
 const path = require('path')
 const qs = require('querystring')
 
-const podIntercept = defaults.intercept.pod()
-const repoIntercept = defaults.intercept.repo()
-const contentIntercept = defaults.intercept.content()
+const contentIntercept = shared.intercept.content()
 
 const defaultEn = ['blue']
 const defaultEs = ['red']
@@ -52,20 +50,9 @@ describe('select multi field', () => {
   beforeEach(async () => {
     // Need a new page to prevent requests already being handled.
     page = await browser.newPage()
-    await page.setRequestInterception(true)
-    page.on('request', defaults.interceptRequest([
+    await shared.pageSetup(page, [
       contentIntercept,
-      podIntercept,
-      repoIntercept,
-    ]))
-
-    await page.goto('http://localhost:3000/editor.html')
-    await page.evaluate(_ => {
-      window.editorInst = new Editor(document.querySelector('.container'), {
-        'testing': true,
-      })
-    })
-    await page.waitForSelector('.selective')
+    ])
   })
 
   it('should be selected and deselected', async () => {
@@ -100,7 +87,7 @@ describe('select multi field', () => {
     // Save the changes.
     const saveButton = await page.$('.editor__save')
     await saveButton.click()
-    await page.waitFor(defaults.saveWaitFor)
+    await page.waitFor(shared.saveWaitFor)
     await page.waitForSelector('.editor__save:not(.editor__save--saving)')
 
     // Verify the new value was saved.
@@ -118,7 +105,7 @@ describe('select multi field', () => {
     })
     expect(isClean).toBe(true)
 
-    await percySnapshot(page, 'Select multi field selected after save', defaults.snapshotOptions)
+    await percySnapshot(page, 'Select multi field selected after save', shared.snapshotOptions)
 
     // Uncheck!
 
@@ -144,7 +131,7 @@ describe('select multi field', () => {
 
     // Save the changes.
     await saveButton.click()
-    await page.waitFor(defaults.saveWaitFor)
+    await page.waitFor(shared.saveWaitFor)
     await page.waitForSelector('.editor__save:not(.editor__save--saving)')
 
     // Verify the new value was saved.
@@ -162,7 +149,7 @@ describe('select multi field', () => {
     })
     expect(isClean).toBe(true)
 
-    await percySnapshot(page, 'Select multi field deselected after save', defaults.snapshotOptions)
+    await percySnapshot(page, 'Select multi field deselected after save', shared.snapshotOptions)
   })
 
   it('should be selected and deselected on localization', async () => {
@@ -216,7 +203,7 @@ describe('select multi field', () => {
     // Save the changes.
     const saveButton = await page.$('.editor__save')
     await saveButton.click()
-    await page.waitFor(defaults.saveWaitFor)
+    await page.waitFor(shared.saveWaitFor)
     await page.waitForSelector('.editor__save:not(.editor__save--saving)')
 
     // Verify the new value was saved.
@@ -234,7 +221,7 @@ describe('select multi field', () => {
     })
     expect(isClean).toBe(true)
 
-    await percySnapshot(page, 'Select multi field selected after localization save', defaults.snapshotOptions)
+    await percySnapshot(page, 'Select multi field selected after localization save', shared.snapshotOptions)
 
     // Uncheck!
 
@@ -276,7 +263,7 @@ describe('select multi field', () => {
 
     // Save the changes.
     await saveButton.click()
-    await page.waitFor(defaults.saveWaitFor)
+    await page.waitFor(shared.saveWaitFor)
     await page.waitForSelector('.editor__save:not(.editor__save--saving)')
 
     // Verify the new value was saved.
@@ -294,6 +281,6 @@ describe('select multi field', () => {
     })
     expect(isClean).toBe(true)
 
-    await percySnapshot(page, 'Select multi field deselected after localization save', defaults.snapshotOptions)
+    await percySnapshot(page, 'Select multi field deselected after localization save', shared.snapshotOptions)
   })
 })

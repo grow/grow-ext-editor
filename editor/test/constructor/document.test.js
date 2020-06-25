@@ -1,12 +1,10 @@
-const defaults = require('../defaults')
+const shared = require('../shared')
 const { percySnapshot } = require('@percy/puppeteer')
 const path = require('path')
 const qs = require('querystring')
 
-const podIntercept = defaults.intercept.pod()
-const repoIntercept = defaults.intercept.repo()
-const contentIntercept = defaults.intercept.content()
-const podPathsIntercept = defaults.intercept.podPaths()
+const contentIntercept = shared.intercept.content()
+const podPathsIntercept = shared.intercept.podPaths()
 
 const defaultEn = '/content/pages/en.yaml'
 const defaultEs = '/content/pages/es.yaml'
@@ -51,21 +49,10 @@ describe('document field', () => {
   beforeEach(async () => {
     // Need a new page to prevent requests already being handled.
     page = await browser.newPage()
-    await page.setRequestInterception(true)
-    page.on('request', defaults.interceptRequest([
+    await shared.pageSetup(page, [
       contentIntercept,
-      podIntercept,
-      repoIntercept,
       podPathsIntercept,
-    ]))
-
-    await page.goto('http://localhost:3000/editor.html')
-    await page.evaluate(_ => {
-      window.editorInst = new Editor(document.querySelector('.container'), {
-        'testing': true,
-      })
-    })
-    await page.waitForSelector('.selective')
+    ])
   })
 
   it('should accept input', async () => {
@@ -89,7 +76,7 @@ describe('document field', () => {
     // Save the changes.
     const saveButton = await page.$('.editor__save')
     await saveButton.click()
-    await page.waitFor(defaults.saveWaitFor)
+    await page.waitFor(shared.saveWaitFor)
     await page.waitForSelector('.editor__save:not(.editor__save--saving)')
 
     // Verify the new value was saved.
@@ -113,7 +100,7 @@ describe('document field', () => {
     })
     expect(isClean).toBe(true)
 
-    await percySnapshot(page, 'Document field after save', defaults.snapshotOptions)
+    await percySnapshot(page, 'Document field after save', shared.snapshotOptions)
   })
 
   it('should work with file list', async () => {
@@ -128,7 +115,7 @@ describe('document field', () => {
     await fileListIcon.click()
     await page.waitForSelector('.selective__file_list__file')
 
-    await percySnapshot(page, 'Document field after file list load', defaults.snapshotOptions)
+    await percySnapshot(page, 'Document field after file list load', shared.snapshotOptions)
 
     // Click on a file in the list.
     let listItem = await page.$(`.selective__file_list__file[data-pod-path="${newValueEn}"]`)
@@ -146,7 +133,7 @@ describe('document field', () => {
     // Save the changes.
     const saveButton = await page.$('.editor__save')
     await saveButton.click()
-    await page.waitFor(defaults.saveWaitFor)
+    await page.waitFor(shared.saveWaitFor)
     await page.waitForSelector('.editor__save:not(.editor__save--saving)')
 
     // Verify the new value was saved.
@@ -170,7 +157,7 @@ describe('document field', () => {
     })
     expect(isClean).toBe(true)
 
-    await percySnapshot(page, 'Document field after file list save', defaults.snapshotOptions)
+    await percySnapshot(page, 'Document field after file list save', shared.snapshotOptions)
   })
 
   it('should accept input on localization', async () => {
@@ -204,7 +191,7 @@ describe('document field', () => {
     // Save the changes.
     const saveButton = await page.$('.editor__save')
     await saveButton.click()
-    await page.waitFor(defaults.saveWaitFor)
+    await page.waitFor(shared.saveWaitFor)
     await page.waitForSelector('.editor__save:not(.editor__save--saving)')
 
     // Verify the new value was saved.
@@ -228,7 +215,7 @@ describe('document field', () => {
     })
     expect(isClean).toBe(true)
 
-    await percySnapshot(page, 'Document field after localization save', defaults.snapshotOptions)
+    await percySnapshot(page, 'Document field after localization save', shared.snapshotOptions)
   })
 
   it('should work with file list on localization', async () => {
@@ -248,7 +235,7 @@ describe('document field', () => {
     await fileListIcon.click()
     await page.waitForSelector('[data-locale=en] .selective__file_list__file')
 
-    await percySnapshot(page, 'Document field after file list on en localization load', defaults.snapshotOptions)
+    await percySnapshot(page, 'Document field after file list on en localization load', shared.snapshotOptions)
 
     // Click on a file in the en list.
     let listItem = await page.$(`[data-locale=en] .selective__file_list__file[data-pod-path="${newValueEn}"]`)
@@ -262,7 +249,7 @@ describe('document field', () => {
     await fileListIcon.click()
     await page.waitForSelector('[data-locale=es] .selective__file_list__file')
 
-    await percySnapshot(page, 'Document field after file list on es localization load', defaults.snapshotOptions)
+    await percySnapshot(page, 'Document field after file list on es localization load', shared.snapshotOptions)
 
     // Click on a file in the es list.
     listItem = await page.$(`[data-locale=es] .selective__file_list__file[data-pod-path="${newValueEs}"]`)
@@ -280,7 +267,7 @@ describe('document field', () => {
     // Save the changes.
     const saveButton = await page.$('.editor__save')
     await saveButton.click()
-    await page.waitFor(defaults.saveWaitFor)
+    await page.waitFor(shared.saveWaitFor)
     await page.waitForSelector('.editor__save:not(.editor__save--saving)')
 
     // Verify the new value was saved.
@@ -304,6 +291,6 @@ describe('document field', () => {
     })
     expect(isClean).toBe(true)
 
-    await percySnapshot(page, 'Document field after file list localization save', defaults.snapshotOptions)
+    await percySnapshot(page, 'Document field after file list localization save', shared.snapshotOptions)
   })
 })

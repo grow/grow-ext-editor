@@ -1,11 +1,9 @@
-const defaults = require('../defaults')
+const shared = require('../shared')
 const { percySnapshot } = require('@percy/puppeteer')
 const path = require('path')
 const qs = require('querystring')
 
-const podIntercept = defaults.intercept.pod()
-const repoIntercept = defaults.intercept.repo()
-const contentIntercept = defaults.intercept.content()
+const contentIntercept = shared.intercept.content()
 
 const defaultEn = '# But why is the toilet paper gone?'
 const defaultEs = '# ¿Pero por qué se fue el papel higiénico?'
@@ -36,20 +34,9 @@ describe('markdown field', () => {
   beforeEach(async () => {
     // Need a new page to prevent requests already being handled.
     page = await browser.newPage()
-    await page.setRequestInterception(true)
-    page.on('request', defaults.interceptRequest([
+    await shared.pageSetup(page, [
       contentIntercept,
-      podIntercept,
-      repoIntercept,
-    ]))
-
-    await page.goto('http://localhost:3000/editor.html')
-    await page.evaluate(_ => {
-      window.editorInst = new Editor(document.querySelector('.container'), {
-        'testing': true,
-      })
-    })
-    await page.waitForSelector('.selective')
+    ])
   })
 
   it('should accept input', async () => {
@@ -76,7 +63,7 @@ describe('markdown field', () => {
     // // Save the changes.
     // const saveButton = await page.$('.editor__save')
     // await saveButton.click()
-    // await page.waitFor(defaults.saveWaitFor)
+    // await page.waitFor(shared.saveWaitFor)
     // await page.waitForSelector('.editor__save:not(.editor__save--saving)')
     //
     // // Verify the new value was saved.
@@ -94,7 +81,7 @@ describe('markdown field', () => {
     })
     expect(isClean).toBe(true)
 
-    await percySnapshot(page, 'Markdown field after save', defaults.snapshotOptions)
+    await percySnapshot(page, 'Markdown field after save', shared.snapshotOptions)
   })
 
   it('should accept input on localization', async () => {
@@ -129,7 +116,7 @@ describe('markdown field', () => {
     // // Save the changes.
     // const saveButton = await page.$('.editor__save')
     // await saveButton.click()
-    // await page.waitFor(defaults.saveWaitFor)
+    // await page.waitFor(shared.saveWaitFor)
     // await page.waitForSelector('.editor__save:not(.editor__save--saving)')
     //
     // // Verify the new value was saved.
@@ -147,6 +134,6 @@ describe('markdown field', () => {
     })
     expect(isClean).toBe(true)
 
-    await percySnapshot(page, 'Markdown field after localization save', defaults.snapshotOptions)
+    await percySnapshot(page, 'Markdown field after localization save', shared.snapshotOptions)
   })
 })

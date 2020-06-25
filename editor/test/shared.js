@@ -83,6 +83,23 @@ const staticServingPathIntercept = () => {
   return interceptObj
 }
 
+const pageSetup = async (page, interceptors) => {
+  // Add global interceptors.
+  // Can be overridden by interceptors since it is first come first served.
+  interceptors.push(podIntercept())
+  interceptors.push(repoIntercept())
+
+  await page.setRequestInterception(true)
+  page.on('request', intercept.interceptRequest(interceptors))
+  await page.goto('http://localhost:3000/editor.html')
+  await page.evaluate(_ => {
+    window.editorInst = new Editor(document.querySelector('.container'), {
+      'testing': true,
+    })
+  })
+  await page.waitForSelector('.selective')
+}
+
 module.exports = {
   intercept: {
     content: contentIntercept,
@@ -92,6 +109,7 @@ module.exports = {
     staticServingPath: staticServingPathIntercept,
   },
   interceptRequest: intercept.interceptRequest,
+  pageSetup: pageSetup,
   saveWaitFor: 100,
   snapshotOptions: {
     widths: [1280],

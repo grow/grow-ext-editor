@@ -1,12 +1,10 @@
-const defaults = require('../defaults')
+const shared = require('../shared')
 const { percySnapshot } = require('@percy/puppeteer')
 const path = require('path')
 const qs = require('querystring')
 
-const podIntercept = defaults.intercept.pod()
-const repoIntercept = defaults.intercept.repo()
-const contentIntercept = defaults.intercept.content()
-const podPathsIntercept = defaults.intercept.podPaths()
+const contentIntercept = shared.intercept.content()
+const podPathsIntercept = shared.intercept.podPaths()
 
 const defaultEn = 'Trumpet'
 const defaultEs = 'Trompeta'
@@ -56,21 +54,10 @@ describe('list subfield multi field', () => {
   beforeEach(async () => {
     // Need a new page to prevent requests already being handled.
     page = await browser.newPage()
-    await page.setRequestInterception(true)
-    page.on('request', defaults.interceptRequest([
+    await shared.pageSetup(page, [
       contentIntercept,
-      podIntercept,
-      repoIntercept,
       podPathsIntercept,
-    ]))
-
-    await page.goto('http://localhost:3000/editor.html')
-    await page.evaluate(_ => {
-      window.editorInst = new Editor(document.querySelector('.container'), {
-        'testing': true,
-      })
-    })
-    await page.waitForSelector('.selective')
+    ])
   })
 
   it('should accept input', async () => {
@@ -81,7 +68,7 @@ describe('list subfield multi field', () => {
     expect(isClean).toBe(true)
 
     // Collapsed state.
-    await percySnapshot(page, 'List field subfield collapsed', defaults.snapshotOptions)
+    await percySnapshot(page, 'List field subfield collapsed', shared.snapshotOptions)
 
     // Expand the first item.
     const firstItem = await page.$('.selective__list__item:first-child')
@@ -102,7 +89,7 @@ describe('list subfield multi field', () => {
     // Save the changes.
     const saveButton = await page.$('.editor__save')
     await saveButton.click()
-    await page.waitFor(defaults.saveWaitFor)
+    await page.waitFor(shared.saveWaitFor)
     await page.waitForSelector('.editor__save:not(.editor__save--saving)')
 
     // Verify the new value was saved.
@@ -130,7 +117,7 @@ describe('list subfield multi field', () => {
     })
     expect(isClean).toBe(true)
 
-    await percySnapshot(page, 'List field subfield after save', defaults.snapshotOptions)
+    await percySnapshot(page, 'List field subfield after save', shared.snapshotOptions)
   })
 
   it('should accept input on localization', async () => {
@@ -146,7 +133,7 @@ describe('list subfield multi field', () => {
     await page.waitForSelector('.selective__list__item[data-locale=en]:first-child')
 
     // Collapsed state.
-    await percySnapshot(page, 'List field subfield collapsed on localization', defaults.snapshotOptions)
+    await percySnapshot(page, 'List field subfield collapsed on localization', shared.snapshotOptions)
 
     // Expand the first item.
     let firstItem = await page.$('.selective__list__item[data-locale=en]:first-child')
@@ -177,7 +164,7 @@ describe('list subfield multi field', () => {
     // Save the changes.
     const saveButton = await page.$('.editor__save')
     await saveButton.click()
-    await page.waitFor(defaults.saveWaitFor)
+    await page.waitFor(shared.saveWaitFor)
     await page.waitForSelector('.editor__save:not(.editor__save--saving)')
 
     // Verify the new value was saved.
@@ -205,6 +192,6 @@ describe('list subfield multi field', () => {
     })
     expect(isClean).toBe(true)
 
-    await percySnapshot(page, 'List field subfield after localization save', defaults.snapshotOptions)
+    await percySnapshot(page, 'List field subfield after localization save', shared.snapshotOptions)
   })
 })
