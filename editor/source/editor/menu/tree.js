@@ -48,7 +48,7 @@ export default class TreeMenu extends MenuBase {
             <i class="material-icons">${menuState.trees.file.isOpen ? 'expand_more' : 'expand_less'}</i>
             Collections
           </div>
-          <div class="menu__tree__tree">
+          <div class="menu__tree__tree" data-tree="file">
             ${menuState.trees.file.isOpen ? this._fileTreeMenu.template(editor, menuState, eventHandlers) : ''}
           </div>
         </div>
@@ -60,7 +60,7 @@ export default class TreeMenu extends MenuBase {
             <i class="material-icons">${menuState.trees.site.isOpen ? 'expand_more' : 'expand_less'}</i>
             Sitemap
           </div>
-          <div class="menu__tree__tree">
+          <div class="menu__tree__tree" data-tree="site">
             ${menuState.trees.site.isOpen ? this._siteTreeMenu.template(editor, menuState, eventHandlers) : ''}
           </div>
         </div>
