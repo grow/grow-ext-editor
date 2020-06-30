@@ -18,6 +18,7 @@ import ModalWindow from '../parts/modal'
 import MenuBase from './base'
 import RepoMenu from './repo'
 import SiteMenu from './site'
+import WorkspaceMenu from './workspace'
 
 
 export default class Menu extends MenuBase {
@@ -25,21 +26,33 @@ export default class Menu extends MenuBase {
     super(config)
     this.editor = editor
     this.menuWindow = new MenuWindow()
-    // this.menuWindow.isOpen = true  // TODO: Remove
+    this.menuWindow.isOpen = true  // TODO: Remove
 
     // Create the new page modal outside of the modal for the menu.
+    // Otherwise, the new modal is constrained to the menu modal.
     this.newFileWindow = new ModalWindow('New page')
     this.newFileWindow.addAction(
       'Create file', this.handleFileNewSubmit.bind(this), true)
     this.newFileWindow.addAction(
       'Cancel', this.handleFileNewCancel.bind(this), false, true)
 
+    // Create the new workspace modal outside of the modal for the menu.
+    // Otherwise, the new modal is constrained to the menu modal.
+    this.newWorkspaceWindow = new ModalWindow('New workspace')
+    this.newWorkspaceWindow.addAction(
+      'Create workspace', this.handleWorkspaceNewSubmit.bind(this), true)
+    this.newWorkspaceWindow.addAction(
+      'Cancel', this.handleWorkspaceNewCancel.bind(this), false, true)
 
     this._repoMenu = new RepoMenu({
       testing: this.isTesting,
     })
     this._siteMenu = new SiteMenu({
       newFileModal: this.newFileWindow,
+      testing: this.isTesting,
+    })
+    this._workspaceMenu = new WorkspaceMenu({
+      newWorkspaceModal: this.newWorkspaceWindow,
       testing: this.isTesting,
     })
     this._state = {
@@ -152,6 +165,29 @@ export default class Menu extends MenuBase {
     this.render()
   }
 
+  handleWorkspaceNewCancel(evt) {
+    evt.stopPropagation()
+    this.newWorkspaceWindow.close()
+  }
+
+  handleWorkspaceNewSubmit(evt) {
+    evt.stopPropagation()
+
+    // TODO: Handle the new workspace creation.
+    // const newFileSelective = this.newFileWindow.fileSelective
+    // const value = newFileSelective.value
+    //
+    // document.dispatchEvent(new CustomEvent('selective.path.template', {
+    //   detail: {
+    //     collectionPath: this.newFileWindow.newFileFolder,
+    //     fileName: value.fileName,
+    //     template: value.template,
+    //   }
+    // }))
+
+    this.newWorkspaceWindow.close()
+  }
+
   renderMenu(editor) {
     // Always show the menu when there is not a pod path.
     const isOpen = this.menuWindow.isOpen || !editor.podPath
@@ -174,6 +210,9 @@ export default class Menu extends MenuBase {
                 </i>
               </div>
             </div>
+            ${this.config.enableMenuWorkspace ? this._workspaceMenu.template(editor, this._state, {
+              handleWorkspaceNewClick: () => { this.newWorkspaceWindow.open() },
+            }) : ''}
             ${this._siteMenu.template(editor, this._state, {
               handleToggleTree: this.handleToggleTree.bind(this),
             })}
@@ -183,7 +222,8 @@ export default class Menu extends MenuBase {
 
     return html`
       ${this.menuWindow.template}
-      ${this.newFileWindow.template}`
+      ${this.newFileWindow.template}
+      ${this.newWorkspaceWindow.template}`
   }
 
   renderMenuBar(editor) {

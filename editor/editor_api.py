@@ -26,6 +26,9 @@ class PodApi(object):
     EDITOR_FILE_NAME = '_editor.yaml'
     TEMPLATE_FILE_NAME = '_template.yaml'
     STRINGS_PATH = '/content/strings'
+    IGNORED_BRANCHES = (
+        'HEAD',
+    )
     IGNORED_PREFIXES = (
         '.',
         '_',
@@ -411,9 +414,14 @@ class PodApi(object):
             web_url = remote_url and remote_url.replace('git@github.com:', 'https://www.github.com/')
             if web_url and web_url.endswith('.git'):
                 web_url = web_url[:-4]
+
+        # Defaults to origin remote.
+        # Remove the remote name from branch name (ex: origin/master => master)
+        branch_names = ['/'.join(ref.name.split('/')[1:]) for ref in repo.remote().refs]
+        branches = [name for name in branch_names if name not in self.IGNORED_BRANCHES]
+
         commits = []
-        # Handle repo with no commits.
-        if repo.head.ref:
+        if repo.head.ref:  # Handle repo with no commits.
             for commit in repo.iter_commits(branch, max_count=10):
                 committed_date = datetime.datetime.utcfromtimestamp(commit.committed_date)
                 commits.append({
@@ -425,12 +433,14 @@ class PodApi(object):
                         'email': commit.author.email,
                     },
                 })
+
         self.data = {
             'repo': {
                 'web_url': web_url,
                 'remote_url': remote_url,
                 'revision': revision,
                 'branch': branch,
+                'branches': branches,
                 'commits': commits,
             },
         }

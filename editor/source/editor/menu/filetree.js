@@ -197,7 +197,7 @@ export default class FileTreeMenu extends MenuBase {
       // Editor handles multiple call resolution.
       editor.loadPodPaths()
       editor.loadTemplates()
-      return html`<div class="editor__loading" title="Loading..."></div>`
+      return html`<div class="editor__loading editor__loading--small" title="Loading..."></div>`
     }
 
     // Pod path has changed, make sure that the pod path folder is

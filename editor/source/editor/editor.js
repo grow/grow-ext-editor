@@ -56,6 +56,7 @@ export default class Editor {
 
     this.menu = new Menu({
       testing: this.isTesting,
+      enableMenuWorkspace: this.config.enableMenuWorkspace,
     }, this)
 
     this._podPath = null

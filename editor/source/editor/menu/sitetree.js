@@ -89,7 +89,7 @@ export default class SiteTreeMenu extends MenuBase {
     if (!menuState.routes) {
       // Editor handles multiple call resolution.
       editor.loadRoutes()
-      return html`<div class="editor__loading" title="Loading..."></div>`
+      return html`<div class="editor__loading editor__loading--small" title="Loading..."></div>`
     }
 
     // Pod path has changed, make sure that the pod path folder is

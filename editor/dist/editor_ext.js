@@ -105419,7 +105419,8 @@ class Editor {
     this.api = new EditorApiCls();
     this.listeners = new _utility_listeners__WEBPACK_IMPORTED_MODULE_7__["default"]();
     this.menu = new _menu_menu__WEBPACK_IMPORTED_MODULE_10__["default"]({
-      testing: this.isTesting
+      testing: this.isTesting,
+      enableMenuWorkspace: this.config.enableMenuWorkspace
     }, this);
     this._podPath = null;
     this.podPath = this.containerEl.dataset.defaultPath || this.config.get('defaultPath', '');
@@ -108638,7 +108639,7 @@ class FileTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
       // Editor handles multiple call resolution.
       editor.loadPodPaths();
       editor.loadTemplates();
-      return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="editor__loading" title="Loading..."></div>`;
+      return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="editor__loading editor__loading--small" title="Loading..."></div>`;
     } // Pod path has changed, make sure that the pod path folder is
     // expanded by default. Can still be toggled by clicking folder.
 
@@ -108856,9 +108857,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./base */ "./source/editor/menu/base.js");
 /* harmony import */ var _repo__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./repo */ "./source/editor/menu/repo.js");
 /* harmony import */ var _site__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./site */ "./source/editor/menu/site.js");
+/* harmony import */ var _workspace__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./workspace */ "./source/editor/menu/workspace.js");
 /**
  * Content editor.
  */
+
 
 
 
@@ -108871,17 +108874,28 @@ class Menu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
   constructor(config, editor) {
     super(config);
     this.editor = editor;
-    this.menuWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_3__["MenuWindow"](); // this.menuWindow.isOpen = true  // TODO: Remove
+    this.menuWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_3__["MenuWindow"]();
+    this.menuWindow.isOpen = true; // TODO: Remove
     // Create the new page modal outside of the modal for the menu.
+    // Otherwise, the new modal is constrained to the menu modal.
 
     this.newFileWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_3__["default"]('New page');
     this.newFileWindow.addAction('Create file', this.handleFileNewSubmit.bind(this), true);
-    this.newFileWindow.addAction('Cancel', this.handleFileNewCancel.bind(this), false, true);
+    this.newFileWindow.addAction('Cancel', this.handleFileNewCancel.bind(this), false, true); // Create the new workspace modal outside of the modal for the menu.
+    // Otherwise, the new modal is constrained to the menu modal.
+
+    this.newWorkspaceWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_3__["default"]('New workspace');
+    this.newWorkspaceWindow.addAction('Create workspace', this.handleWorkspaceNewSubmit.bind(this), true);
+    this.newWorkspaceWindow.addAction('Cancel', this.handleWorkspaceNewCancel.bind(this), false, true);
     this._repoMenu = new _repo__WEBPACK_IMPORTED_MODULE_5__["default"]({
       testing: this.isTesting
     });
     this._siteMenu = new _site__WEBPACK_IMPORTED_MODULE_6__["default"]({
       newFileModal: this.newFileWindow,
+      testing: this.isTesting
+    });
+    this._workspaceMenu = new _workspace__WEBPACK_IMPORTED_MODULE_7__["default"]({
+      newWorkspaceModal: this.newWorkspaceWindow,
       testing: this.isTesting
     });
     this._state = {
@@ -108988,6 +109002,27 @@ class Menu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
     this.render();
   }
 
+  handleWorkspaceNewCancel(evt) {
+    evt.stopPropagation();
+    this.newWorkspaceWindow.close();
+  }
+
+  handleWorkspaceNewSubmit(evt) {
+    evt.stopPropagation(); // TODO: Handle the new workspace creation.
+    // const newFileSelective = this.newFileWindow.fileSelective
+    // const value = newFileSelective.value
+    //
+    // document.dispatchEvent(new CustomEvent('selective.path.template', {
+    //   detail: {
+    //     collectionPath: this.newFileWindow.newFileFolder,
+    //     fileName: value.fileName,
+    //     template: value.template,
+    //   }
+    // }))
+
+    this.newWorkspaceWindow.close();
+  }
+
   renderMenu(editor) {
     // Always show the menu when there is not a pod path.
     const isOpen = this.menuWindow.isOpen || !editor.podPath;
@@ -109010,6 +109045,11 @@ class Menu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
                 </i>
               </div>
             </div>
+            ${this.config.enableMenuWorkspace ? this._workspaceMenu.template(editor, this._state, {
+          handleWorkspaceNewClick: () => {
+            this.newWorkspaceWindow.open();
+          }
+        }) : ''}
             ${this._siteMenu.template(editor, this._state, {
           handleToggleTree: this.handleToggleTree.bind(this)
         })}
@@ -109019,7 +109059,8 @@ class Menu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
 
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
       ${this.menuWindow.template}
-      ${this.newFileWindow.template}`;
+      ${this.newFileWindow.template}
+      ${this.newWorkspaceWindow.template}`;
   }
 
   renderMenuBar(editor) {
@@ -109293,7 +109334,7 @@ class SiteTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
     if (!menuState.routes) {
       // Editor handles multiple call resolution.
       editor.loadRoutes();
-      return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="editor__loading" title="Loading..."></div>`;
+      return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="editor__loading editor__loading--small" title="Loading..."></div>`;
     } // Pod path has changed, make sure that the pod path folder is
     // expanded by default. Can still be toggled by clicking folder.
 
@@ -109423,6 +109464,100 @@ class TreeMenu extends _base__WEBPACK_IMPORTED_MODULE_2__["default"] {
           </div>
         </div>
       </div>`;
+  }
+
+}
+
+/***/ }),
+
+/***/ "./source/editor/menu/workspace.js":
+/*!*****************************************!*\
+  !*** ./source/editor/menu/workspace.js ***!
+  \*****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return WorkspaceMenu; });
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
+/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./base */ "./source/editor/menu/base.js");
+/**
+ * Content editor.
+ */
+
+
+
+const SPECIAL_BRANCHES = ['master', 'staging', 'sandbox'];
+const WORKSPACE_BRANCH_PREFIX = 'workspace/';
+class WorkspaceMenu extends _base__WEBPACK_IMPORTED_MODULE_2__["default"] {
+  get template() {
+    return (editor, menuState, eventHandlers) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <div class="menu__section">
+        <div class="menu__section__title">
+          Workspaces
+        </div>
+
+        ${this.renderWorkspace(editor, menuState, eventHandlers)}
+      </div>`;
+  }
+
+  renderWorkspace(editor, menuState, eventHandlers) {
+    editor.loadRepo();
+
+    if (!menuState.repo) {
+      return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="editor__loading editor__loading--small" title="Loading..."></div>`;
+    }
+
+    const specialWorkspaces = [];
+    const branchWorkspaces = []; // Filter down to the workspace branches.
+
+    for (const branch of menuState.repo.branches.sort()) {
+      if (SPECIAL_BRANCHES.includes(branch)) {
+        specialWorkspaces.push(branch);
+        continue;
+      }
+
+      if (branch.startsWith(WORKSPACE_BRANCH_PREFIX)) {
+        branchWorkspaces.push(branch.slice(WORKSPACE_BRANCH_PREFIX.length));
+        continue;
+      }
+    }
+
+    branchWorkspaces.sort();
+    const workspaces = specialWorkspaces.concat(branchWorkspaces);
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="menu__workspace">
+        <div class="menu__workspace__add">
+          <button class="editor__button editor__actions--add" @click=${eventHandlers.handleWorkspaceNewClick}>New workspace</button>
+        </div>
+        <div class="menu__workspace__branches">
+          ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(workspaces, branch => branch, (branch, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+            <a
+                href=${this.urlForBranch(branch)}
+                class="menu__workspace__branch">
+              <i
+                  class="material-icons icon"
+                  title="${branch}">
+                dashboard
+              </i>
+              <div class="menu__workspace__branch__label">
+                ${branch}
+              </div>
+            </a>`)}
+        </div>
+      </div>`;
+  }
+
+  urlForBranch(branch) {
+    if (window.location.hostname == 'localhost') {
+      return '#';
+    }
+
+    const hostnameParts = window.location.hostname.split('.');
+    const baseDomain = hostnameParts.slice(1).join('.');
+    const project = hostnameParts[0].split('-')[0];
+    return `//${project}-${branch}.${baseDomain}${window.location.pathname}`;
   }
 
 }
