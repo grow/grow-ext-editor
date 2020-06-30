@@ -214,7 +214,7 @@ export default class FileTreeMenu extends MenuBase {
       const newFileSelective = this._getOrCreateSelective(this.modalWindow.newFileFolder, templates)
 
       // Store the selective editor for the new file for processing in the menu.
-      this.modalWindow.fileSelective = newFileSelective
+      this.modalWindow.selective = newFileSelective
 
       this.modalWindow.canClickToCloseFunc = () => {
         return newFileSelective.isClean

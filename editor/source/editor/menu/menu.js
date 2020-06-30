@@ -110,8 +110,7 @@ export default class Menu extends MenuBase {
   handleFileNewSubmit(evt) {
     evt.stopPropagation()
 
-    const newFileSelective = this.newFileWindow.fileSelective
-    const value = newFileSelective.value
+    const value = this.newFileWindow.selective.value
 
     document.dispatchEvent(new CustomEvent('selective.path.template', {
       detail: {
@@ -174,8 +173,7 @@ export default class Menu extends MenuBase {
     evt.stopPropagation()
 
     // TODO: Handle the new workspace creation.
-    // const newFileSelective = this.newFileWindow.fileSelective
-    // const value = newFileSelective.value
+    // const value = this.newFileWindow.selective.value
     //
     // document.dispatchEvent(new CustomEvent('selective.path.template', {
     //   detail: {

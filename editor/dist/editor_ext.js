@@ -108658,7 +108658,7 @@ class FileTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
       const newFileSelective = this._getOrCreateSelective(this.modalWindow.newFileFolder, templates); // Store the selective editor for the new file for processing in the menu.
 
 
-      this.modalWindow.fileSelective = newFileSelective;
+      this.modalWindow.selective = newFileSelective;
 
       this.modalWindow.canClickToCloseFunc = () => {
         return newFileSelective.isClean;
@@ -108948,8 +108948,7 @@ class Menu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
 
   handleFileNewSubmit(evt) {
     evt.stopPropagation();
-    const newFileSelective = this.newFileWindow.fileSelective;
-    const value = newFileSelective.value;
+    const value = this.newFileWindow.selective.value;
     document.dispatchEvent(new CustomEvent('selective.path.template', {
       detail: {
         collectionPath: this.newFileWindow.newFileFolder,
@@ -109009,8 +109008,7 @@ class Menu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
 
   handleWorkspaceNewSubmit(evt) {
     evt.stopPropagation(); // TODO: Handle the new workspace creation.
-    // const newFileSelective = this.newFileWindow.fileSelective
-    // const value = newFileSelective.value
+    // const value = this.newFileWindow.selective.value
     //
     // document.dispatchEvent(new CustomEvent('selective.path.template', {
     //   detail: {
@@ -109481,17 +109479,25 @@ class TreeMenu extends _base__WEBPACK_IMPORTED_MODULE_2__["default"] {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return WorkspaceMenu; });
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
-/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
-/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./base */ "./source/editor/menu/base.js");
+/* harmony import */ var _field__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../field */ "./source/editor/field.js");
+/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
+/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./base */ "./source/editor/menu/base.js");
 /**
  * Content editor.
  */
 
 
 
+
+
 const SPECIAL_BRANCHES = ['master', 'staging', 'sandbox'];
 const WORKSPACE_BRANCH_PREFIX = 'workspace/';
-class WorkspaceMenu extends _base__WEBPACK_IMPORTED_MODULE_2__["default"] {
+class WorkspaceMenu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
+  constructor(config) {
+    super(config);
+    this.modalWindow = this.config.get('newWorkspaceModal');
+  }
+
   get template() {
     return (editor, menuState, eventHandlers) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
       <div class="menu__section">
@@ -109503,17 +109509,54 @@ class WorkspaceMenu extends _base__WEBPACK_IMPORTED_MODULE_2__["default"] {
       </div>`;
   }
 
-  renderWorkspace(editor, menuState, eventHandlers) {
-    editor.loadRepo();
+  _createSelective(workspaces) {
+    // Selective editor for the form to add new workspace.
+    const newSelective = new selective_edit__WEBPACK_IMPORTED_MODULE_0__["default"](null);
+    newSelective.data = {}; // Add the editor extension default field types.
 
-    if (!menuState.repo) {
-      return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="editor__loading editor__loading--small" title="Loading..."></div>`;
+    for (const key of Object.keys(_field__WEBPACK_IMPORTED_MODULE_1__["defaultFields"])) {
+      newSelective.addFieldType(key, _field__WEBPACK_IMPORTED_MODULE_1__["defaultFields"][key]);
     }
 
+    const options = [];
+
+    for (const workspace of workspaces) {
+      options.push({
+        'label': workspace,
+        'value': workspace
+      });
+    }
+
+    newSelective.addField({
+      'type': 'select',
+      'key': 'parent',
+      'label': 'Parent workspace',
+      'help': 'Workspace to create the new workspace from.',
+      'options': options
+    });
+    newSelective.addField({
+      'type': 'text',
+      'key': 'workspace',
+      'label': 'New workspace name',
+      'help': 'Can only contain alpha-numeric characters and - (dash).'
+    });
+    return newSelective;
+  }
+
+  _getOrCreateSelective(workspaces) {
+    if (!this._selective) {
+      this._selective = this._createSelective(workspaces);
+    }
+
+    return this._selective;
+  }
+
+  filterBranches(branches) {
+    // Give order priority to the special branches.
     const specialWorkspaces = [];
     const branchWorkspaces = []; // Filter down to the workspace branches.
 
-    for (const branch of menuState.repo.branches.sort()) {
+    for (const branch of branches) {
       if (SPECIAL_BRANCHES.includes(branch)) {
         specialWorkspaces.push(branch);
         continue;
@@ -109525,8 +109568,33 @@ class WorkspaceMenu extends _base__WEBPACK_IMPORTED_MODULE_2__["default"] {
       }
     }
 
-    branchWorkspaces.sort();
-    const workspaces = specialWorkspaces.concat(branchWorkspaces);
+    return specialWorkspaces.concat(branchWorkspaces.sort());
+  }
+
+  renderWorkspace(editor, menuState, eventHandlers) {
+    editor.loadRepo();
+
+    if (!menuState.repo) {
+      return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="editor__loading editor__loading--small" title="Loading..."></div>`;
+    }
+
+    const workspaces = this.filterBranches(menuState.repo.branches.sort());
+
+    if (this.modalWindow.isOpen) {
+      const newWorkspaceSelective = this._getOrCreateSelective(workspaces); // Store the selective editor for the new file for processing in the menu.
+
+
+      this.modalWindow.selective = newWorkspaceSelective;
+
+      this.modalWindow.canClickToCloseFunc = () => {
+        return newWorkspaceSelective.isClean;
+      };
+
+      this.modalWindow.contentRenderFunc = () => {
+        return newWorkspaceSelective.template(newWorkspaceSelective, newWorkspaceSelective.data);
+      };
+    }
+
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="menu__workspace">
         <div class="menu__workspace__add">
           <button class="editor__button editor__actions--add" @click=${eventHandlers.handleWorkspaceNewClick}>New workspace</button>
