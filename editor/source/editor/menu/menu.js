@@ -172,16 +172,14 @@ export default class Menu extends MenuBase {
   handleWorkspaceNewSubmit(evt) {
     evt.stopPropagation()
 
-    // TODO: Handle the new workspace creation.
-    // const value = this.newFileWindow.selective.value
-    //
-    // document.dispatchEvent(new CustomEvent('selective.path.template', {
-    //   detail: {
-    //     collectionPath: this.newFileWindow.newFileFolder,
-    //     fileName: value.fileName,
-    //     template: value.template,
-    //   }
-    // }))
+    const value = this.newWorkspaceWindow.selective.value
+
+    document.dispatchEvent(new CustomEvent('selective.workspace.new', {
+      detail: {
+        base: value.base,
+        workspace: value.workspace,
+      }
+    }))
 
     this.newWorkspaceWindow.close()
   }

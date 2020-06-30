@@ -105425,6 +105425,8 @@ class Editor {
     this._podPath = null;
     this.podPath = this.containerEl.dataset.defaultPath || this.config.get('defaultPath', '');
     this.repo = null;
+    this.remote = this.containerEl.dataset.remote || 'origin';
+    console.log(this.remote);
     this.document = null;
     this.autosaveID = null;
     this.urlParams = new URLSearchParams(window.location.search); // TODO: Make devices configurable.
@@ -105780,6 +105782,17 @@ class Editor {
 
       this.pushState(this.document.podPath, this.urlParams.toString());
       this.render();
+    }); // Allow new workspaces.
+
+    document.addEventListener('selective.workspace.new', evt => {
+      const base = evt.detail['base'];
+      const workspace = evt.detail['workspace'];
+      const remote = (this.config.git || {}).remote || 'origin';
+      this.api.createWorkspace(base, workspace, remote).then(result => {
+        console.log(result);
+      }).catch(error => {
+        console.error(error);
+      });
     }); // Check for navigated iframe when the routes load.
 
     this.listeners.add('load.routes', this.verifyPreviewIframe.bind(this)); // Watch for the history popstate.
@@ -106613,6 +106626,21 @@ class EditorApi extends _utility_api__WEBPACK_IMPORTED_MODULE_0__["default"] {
       'pod_path': podPath,
       'new_pod_path': newPodPath
     }).then(res => {
+      result.resolve(res.body);
+    }).catch(err => {
+      result.reject(err);
+    });
+    return result.promise;
+  }
+
+  createWorkspace(base, workspace, remote) {
+    const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
+    const request = {
+      'base': base,
+      'workspace': workspace,
+      'remote': remote || 'origin'
+    };
+    this.request.post(this.apiPath('workspace/new')).type('form').send(request).then(res => {
       result.resolve(res.body);
     }).catch(err => {
       result.reject(err);
@@ -109007,17 +109035,14 @@ class Menu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
   }
 
   handleWorkspaceNewSubmit(evt) {
-    evt.stopPropagation(); // TODO: Handle the new workspace creation.
-    // const value = this.newFileWindow.selective.value
-    //
-    // document.dispatchEvent(new CustomEvent('selective.path.template', {
-    //   detail: {
-    //     collectionPath: this.newFileWindow.newFileFolder,
-    //     fileName: value.fileName,
-    //     template: value.template,
-    //   }
-    // }))
-
+    evt.stopPropagation();
+    const value = this.newWorkspaceWindow.selective.value;
+    document.dispatchEvent(new CustomEvent('selective.workspace.new', {
+      detail: {
+        base: value.base,
+        workspace: value.workspace
+      }
+    }));
     this.newWorkspaceWindow.close();
   }
 
@@ -109529,7 +109554,7 @@ class WorkspaceMenu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
 
     newSelective.addField({
       'type': 'select',
-      'key': 'parent',
+      'key': 'base',
       'label': 'Parent workspace',
       'help': 'Workspace to create the new workspace from.',
       'options': options

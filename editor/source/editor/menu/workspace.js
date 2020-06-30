@@ -55,7 +55,7 @@ export default class WorkspaceMenu extends MenuBase {
 
     newSelective.addField({
       'type': 'select',
-      'key': 'parent',
+      'key': 'base',
       'label': 'Parent workspace',
       'help': 'Workspace to create the new workspace from.',
       'options': options

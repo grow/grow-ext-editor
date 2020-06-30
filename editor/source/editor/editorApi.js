@@ -25,6 +25,28 @@ export default class EditorApi extends Api {
     return result.promise
   }
 
+  createWorkspace(base, workspace, remote) {
+    const result = new Defer()
+
+    const request = {
+      'base': base,
+      'workspace': workspace,
+      'remote': remote || 'origin',
+    }
+
+    this.request.post(this.apiPath('workspace/new'))
+      .type('form')
+      .send(request)
+      .then((res) => {
+        result.resolve(res.body)
+      })
+      .catch((err) => {
+        result.reject(err)
+      })
+
+    return result.promise
+  }
+
   deleteFile(podPath) {
     const result = new Defer()
 

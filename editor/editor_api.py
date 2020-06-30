@@ -6,6 +6,7 @@ import hashlib
 import json
 import os
 import re
+import subprocess
 import yaml
 from werkzeug import wrappers
 from werkzeug.exceptions import BadRequest, NotFound
@@ -219,6 +220,13 @@ class PodApi(object):
             'pod_path': static_doc.pod_path,
             'serving_url': static_doc.url.path,
         }
+
+    @staticmethod
+    def force_string(value):
+        try:
+            return value.decode('utf-8')
+        except (UnicodeDecodeError, AttributeError):
+            return value
 
     def content_from_template(self):
         """Handle the request for copying files."""
@@ -538,6 +546,9 @@ class PodApi(object):
         elif path == 'templates':
             if method == 'GET':
                 self.get_templates()
+        elif path == 'workspace/new':
+            if method == 'POST':
+                self.post_workspace_new()
         else:
             # TODO Give 404 response.
             raise NotFound('{} not found.'.format(path))
@@ -559,10 +570,7 @@ class PodApi(object):
             if self._has_post('content'):
                 content = self._get_post('content')
                 content = content.encode('utf-8')
-                try:
-                    content = content.decode('utf-8')
-                except (UnicodeDecodeError, AttributeError):
-                    pass
+                content = self.force_string(content)
                 doc.write(fields=fields, body=content)
             else:
                 doc.write(fields=fields)
@@ -588,6 +596,32 @@ class PodApi(object):
         pod_path = os.path.join(destination, filename)
         self.pod.write_file(pod_path, file_contents)
         self.data = self._load_static_doc(pod_path)
+
+    def post_workspace_new(self):
+        """Handle the request to create a new workspace."""
+        base = self._get_post('base')
+        workspace = self._get_post('workspace')
+        remote = self._get_post('remote')
+
+        command = 'git push {remote} {remote}/{base}:refs/heads/workspace/{workspace}'
+        command = command.format(base=base, workspace=workspace, remote=remote)
+
+        cmd = command.split(' ')
+        cwd = self.pod.root
+
+        cmd_process = subprocess.Popen(
+            cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=cwd)
+        cmd_err = cmd_process.stderr.read()
+        cmd_err = self.force_string(cmd_err)
+        cmd_out = cmd_process.stdout.read()
+        cmd_out = self.force_string(cmd_out)
+
+        self.data = {
+            'result': {
+                'error': cmd_err,
+                'output': cmd_out,
+            },
+        }
 
     def screenshot_partial(self):
         """Handle the request to screenshot a partial."""

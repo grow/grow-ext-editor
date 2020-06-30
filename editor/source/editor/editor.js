@@ -62,6 +62,8 @@ export default class Editor {
     this._podPath = null
     this.podPath = this.containerEl.dataset.defaultPath || this.config.get('defaultPath', '')
     this.repo = null
+    this.remote = this.containerEl.dataset.remote || 'origin'
+    console.log(this.remote);
     this.document = null
     this.autosaveID = null
 
@@ -437,6 +439,18 @@ export default class Editor {
       }
       this.pushState(this.document.podPath, this.urlParams.toString())
       this.render()
+    })
+
+    // Allow new workspaces.
+    document.addEventListener('selective.workspace.new', (evt) => {
+      const base = evt.detail['base']
+      const workspace = evt.detail['workspace']
+      const remote = (this.config.git || {}).remote || 'origin'
+      this.api.createWorkspace(base, workspace, remote).then((result) => {
+        console.log(result)
+      }).catch((error) => {
+        console.error(error)
+      })
     })
 
     // Check for navigated iframe when the routes load.
