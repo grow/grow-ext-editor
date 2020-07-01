@@ -618,6 +618,7 @@ class PodApi(object):
 
         self.data = {
             'result': {
+                'command': command,
                 'error': cmd_err,
                 'output': cmd_out,
             },

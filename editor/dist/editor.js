@@ -109024,7 +109024,8 @@ class Menu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
     document.dispatchEvent(new CustomEvent('selective.workspace.new', {
       detail: {
         base: value.base,
-        workspace: value.workspace
+        workspace: value.workspace,
+        remote: this.newWorkspaceWindow.remote
       }
     }));
     this.newWorkspaceWindow.close();
@@ -109594,6 +109595,7 @@ class WorkspaceMenu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
 
 
       this.modalWindow.selective = newWorkspaceSelective;
+      this.modalWindow.remote = editor.remote;
 
       this.modalWindow.canClickToCloseFunc = () => {
         return newWorkspaceSelective.isClean;

@@ -178,6 +178,7 @@ export default class Menu extends MenuBase {
       detail: {
         base: value.base,
         workspace: value.workspace,
+        remote: this.newWorkspaceWindow.remote,
       }
     }))
 

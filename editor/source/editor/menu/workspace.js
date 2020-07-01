@@ -113,6 +113,7 @@ export default class WorkspaceMenu extends MenuBase {
 
       // Store the selective editor for the new file for processing in the menu.
       this.modalWindow.selective = newWorkspaceSelective
+      this.modalWindow.remote = editor.remote
 
       this.modalWindow.canClickToCloseFunc = () => {
         return newWorkspaceSelective.isClean
