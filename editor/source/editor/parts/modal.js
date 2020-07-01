@@ -90,9 +90,6 @@ export default class ModalWindow extends BasePart {
   }
 
   handleOffsetClick(evt) {
-    evt.preventDefault()
-    evt.stopPropagation()
-
     if (!this.canClickToCloseFunc()) {
       return
     }
@@ -102,6 +99,9 @@ export default class ModalWindow extends BasePart {
     if (contentParent) {
       return
     }
+
+    evt.preventDefault()
+    evt.stopPropagation()
 
     this.close()
   }

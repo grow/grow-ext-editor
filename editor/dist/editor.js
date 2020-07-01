@@ -109747,9 +109747,6 @@ class ModalWindow extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
   }
 
   handleOffsetClick(evt) {
-    evt.preventDefault();
-    evt.stopPropagation();
-
     if (!this.canClickToCloseFunc()) {
       return;
     } // Test if the click was from within the content section.
@@ -109761,6 +109758,8 @@ class ModalWindow extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
       return;
     }
 
+    evt.preventDefault();
+    evt.stopPropagation();
     this.close();
   }
 
