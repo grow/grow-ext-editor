@@ -108887,8 +108887,7 @@ class Menu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
   constructor(config, editor) {
     super(config);
     this.editor = editor;
-    this.menuWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_3__["MenuWindow"]();
-    this.menuWindow.isOpen = true; // TODO: Remove
+    this.menuWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_3__["MenuWindow"](); // this.menuWindow.isOpen = true  // TODO: Remove
     // Create the new page modal outside of the modal for the menu.
     // Otherwise, the new modal is constrained to the menu modal.
 

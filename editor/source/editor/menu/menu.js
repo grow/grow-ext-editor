@@ -26,7 +26,7 @@ export default class Menu extends MenuBase {
     super(config)
     this.editor = editor
     this.menuWindow = new MenuWindow()
-    this.menuWindow.isOpen = true  // TODO: Remove
+    // this.menuWindow.isOpen = true  // TODO: Remove
 
     // Create the new page modal outside of the modal for the menu.
     // Otherwise, the new modal is constrained to the menu modal.
