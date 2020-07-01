@@ -109145,8 +109145,6 @@ class RepoMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
   }
 
   webUrlForCommit(repo, commitHash) {
-    console.log(repo);
-
     if (repo.web_url.includes('github.com')) {
       return `${repo.web_url}/commit/${commitHash}`;
     } else if (repo.web_url.includes('source.cloud.google.com')) {
