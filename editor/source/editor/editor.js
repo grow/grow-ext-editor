@@ -63,7 +63,6 @@ export default class Editor {
     this.podPath = this.containerEl.dataset.defaultPath || this.config.get('defaultPath', '')
     this.repo = null
     this.remote = this.containerEl.dataset.remote || 'origin'
-    console.log(this.remote);
     this.document = null
     this.autosaveID = null
 
@@ -445,7 +444,7 @@ export default class Editor {
     document.addEventListener('selective.workspace.new', (evt) => {
       const base = evt.detail['base']
       const workspace = evt.detail['workspace']
-      const remote = (this.config.git || {}).remote || 'origin'
+      const remote = evt.detail['remote'] || this.remote
       this.api.createWorkspace(base, workspace, remote).then((result) => {
         console.log(result)
       }).catch((error) => {

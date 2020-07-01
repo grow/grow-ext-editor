@@ -105426,7 +105426,6 @@ class Editor {
     this.podPath = this.containerEl.dataset.defaultPath || this.config.get('defaultPath', '');
     this.repo = null;
     this.remote = this.containerEl.dataset.remote || 'origin';
-    console.log(this.remote);
     this.document = null;
     this.autosaveID = null;
     this.urlParams = new URLSearchParams(window.location.search); // TODO: Make devices configurable.
@@ -105787,7 +105786,7 @@ class Editor {
     document.addEventListener('selective.workspace.new', evt => {
       const base = evt.detail['base'];
       const workspace = evt.detail['workspace'];
-      const remote = (this.config.git || {}).remote || 'origin';
+      const remote = evt.detail['remote'] || this.remote;
       this.api.createWorkspace(base, workspace, remote).then(result => {
         console.log(result);
       }).catch(error => {
@@ -109039,8 +109038,7 @@ class Menu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
     document.dispatchEvent(new CustomEvent('selective.workspace.new', {
       detail: {
         base: value.base,
-        workspace: value.workspace,
-        remote: this.newWorkspaceWindow.remote
+        workspace: value.workspace
       }
     }));
     this.newWorkspaceWindow.close();
@@ -109610,7 +109608,6 @@ class WorkspaceMenu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
 
 
       this.modalWindow.selective = newWorkspaceSelective;
-      this.modalWindow.remote = editor.remote;
 
       this.modalWindow.canClickToCloseFunc = () => {
         return newWorkspaceSelective.isClean;
