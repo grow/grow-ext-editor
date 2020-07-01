@@ -13,8 +13,8 @@ import { findParentByClassname } from '../../utility/dom'
 import MenuBase from './base'
 
 
-const SPECIAL_BRANCHES = ['master', 'staging', 'sandbox']
-const WORKSPACE_BRANCH_PREFIX = 'workspace/'
+export const SPECIAL_BRANCHES = ['master', 'staging', 'sandbox']
+export const WORKSPACE_BRANCH_PREFIX = 'workspace/'
 
 
 export default class WorkspaceMenu extends MenuBase {

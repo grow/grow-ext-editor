@@ -109085,7 +109085,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
-/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./base */ "./source/editor/menu/base.js");
+/* harmony import */ var _workspace__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./workspace */ "./source/editor/menu/workspace.js");
+/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./base */ "./source/editor/menu/base.js");
 /**
  * Content editor.
  */
@@ -109093,7 +109094,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class RepoMenu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
+
+class RepoMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
   get template() {
     return (editor, menuState, eventHandlers) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="menu__section">
       <div class="menu__repo">
@@ -109107,10 +109109,20 @@ class RepoMenu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
     </div>`;
   }
 
+  _cleanBranch(branch_id) {
+    if (branch_id.startsWith(_workspace__WEBPACK_IMPORTED_MODULE_3__["WORKSPACE_BRANCH_PREFIX"])) {
+      return branch_id.slice(_workspace__WEBPACK_IMPORTED_MODULE_3__["WORKSPACE_BRANCH_PREFIX"].length);
+    }
+
+    return branch_id;
+  }
+
   webUrlForBranch(repo, branch) {
     if (branch != 'master') {
       if (repo.web_url.includes('github.com')) {
         return `${repo.web_url}/tree/${branch}`;
+      } else if (repo.web_url.includes('source.cloud.google.com')) {
+        return `${repo.web_url}/+/${branch}:`;
       }
     }
 
@@ -109118,8 +109130,12 @@ class RepoMenu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
   }
 
   webUrlForCommit(repo, commitHash) {
+    console.log(repo);
+
     if (repo.web_url.includes('github.com')) {
       return `${repo.web_url}/commit/${commitHash}`;
+    } else if (repo.web_url.includes('source.cloud.google.com')) {
+      return `${repo.web_url}/+/${commitHash}`;
     }
 
     return repo.web_url;
@@ -109144,7 +109160,7 @@ class RepoMenu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
         <a
             href=${this.webUrlForBranch(menuState.repo, menuState.repo.branch)}
             target="_blank">
-          ${menuState.repo.branch}
+          ${this._cleanBranch(menuState.repo.branch)}
         </a>
         @ <a
             href=${this.webUrlForCommit(menuState.repo, menuState.repo.commits[0].sha)}
@@ -109454,11 +109470,13 @@ class TreeMenu extends _base__WEBPACK_IMPORTED_MODULE_2__["default"] {
 /*!*****************************************!*\
   !*** ./source/editor/menu/workspace.js ***!
   \*****************************************/
-/*! exports provided: default */
+/*! exports provided: SPECIAL_BRANCHES, WORKSPACE_BRANCH_PREFIX, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SPECIAL_BRANCHES", function() { return SPECIAL_BRANCHES; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "WORKSPACE_BRANCH_PREFIX", function() { return WORKSPACE_BRANCH_PREFIX; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return WorkspaceMenu; });
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
 /* harmony import */ var _field__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../field */ "./source/editor/field.js");

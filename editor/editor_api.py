@@ -408,6 +408,7 @@ class PodApi(object):
         }
 
     def get_repo(self):
+        remote_name = self._get_param('remote') or 'origin'
         repo = utils.get_git_repo(self.pod.root)
         if not repo:
             return {}
@@ -415,17 +416,32 @@ class PodApi(object):
         revision = repo.git.rev_list('--count', 'HEAD')
         remote_url = None
         web_url = None
-        if repo.remotes and repo.remotes[0]:
-            urls = list(repo.remotes[0].urls)
+        remote = None
+        for repo_remote in repo.remotes:
+            if repo_remote.name == remote_name:
+                remote = repo_remote
+                break
+
+        if remote:
+            urls = list(remote.urls)
             remote_url = urls and urls[0]
-            # TODO(jeremydw): Genericize this.
-            web_url = remote_url and remote_url.replace('git@github.com:', 'https://www.github.com/')
+            web_url = remote_url
+
+            # Github
+            web_url = web_url.replace('git@github.com:', 'https://www.github.com/')
             if web_url and web_url.endswith('.git'):
                 web_url = web_url[:-4]
 
-        # Defaults to origin remote.
+            # Google Cloud Source
+            web_url = web_url.replace(
+                'https://source.developers.google.com/p/', 'https://source.cloud.google.com/')
+            web_url = web_url.replace('/r/', '/')
+
+        if not remote:
+            remote = repo.remote()
+
         # Remove the remote name from branch name (ex: origin/master => master)
-        branch_names = ['/'.join(ref.name.split('/')[1:]) for ref in repo.remote().refs]
+        branch_names = ['/'.join(ref.name.split('/')[1:]) for ref in remote.refs]
         branches = [name for name in branch_names if name not in self.IGNORED_BRANCHES]
 
         commits = []
