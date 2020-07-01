@@ -440,18 +440,6 @@ export default class Editor {
       this.render()
     })
 
-    // Allow new workspaces.
-    document.addEventListener('selective.workspace.new', (evt) => {
-      const base = evt.detail['base']
-      const workspace = evt.detail['workspace']
-      const remote = evt.detail['remote'] || this.remote
-      this.api.createWorkspace(base, workspace, remote).then((result) => {
-        console.log(result)
-      }).catch((error) => {
-        console.error(error)
-      })
-    })
-
     // Check for navigated iframe when the routes load.
     this.listeners.add('load.routes', this.verifyPreviewIframe.bind(this))
 

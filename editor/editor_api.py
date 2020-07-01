@@ -546,9 +546,6 @@ class PodApi(object):
         elif path == 'templates':
             if method == 'GET':
                 self.get_templates()
-        elif path == 'workspace/new':
-            if method == 'POST':
-                self.post_workspace_new()
         else:
             # TODO Give 404 response.
             raise NotFound('{} not found.'.format(path))
@@ -596,47 +593,6 @@ class PodApi(object):
         pod_path = os.path.join(destination, filename)
         self.pod.write_file(pod_path, file_contents)
         self.data = self._load_static_doc(pod_path)
-
-    def post_workspace_new(self):
-        """Handle the request to create a new workspace."""
-        base = self._get_post('base')
-        workspace = self._get_post('workspace')
-        remote = self._get_post('remote')
-        cwd = self.pod.root
-
-        # Fetch the remote branches before pushing since it is a
-        fetch_command = 'git fetch {remote}'.format(remote=remote).split(' ')
-        fetch_cmd_process = subprocess.Popen(
-            fetch_command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=cwd)
-        fetch_cmd_err = fetch_cmd_process.stderr.read()
-        fetch_cmd_err = self.force_string(fetch_cmd_err)
-        fetch_cmd_out = fetch_cmd_process.stdout.read()
-        fetch_cmd_out = self.force_string(fetch_cmd_out)
-
-        command = 'git push {remote} {remote}/{base}:refs/heads/workspace/{workspace}'
-        command = command.format(base=base, workspace=workspace, remote=remote)
-
-        cmd = command.split(' ')
-
-        cmd_process = subprocess.Popen(
-            cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=cwd)
-        cmd_err = cmd_process.stderr.read()
-        cmd_err = self.force_string(cmd_err)
-        cmd_out = cmd_process.stdout.read()
-        cmd_out = self.force_string(cmd_out)
-
-        self.data = {
-            'fetch': {
-                'command': fetch_command,
-                'error': fetch_cmd_err,
-                'output': fetch_cmd_out,
-            },
-            'result': {
-                'command': command,
-                'error': cmd_err,
-                'output': cmd_out,
-            },
-        }
 
     def screenshot_partial(self):
         """Handle the request to screenshot a partial."""

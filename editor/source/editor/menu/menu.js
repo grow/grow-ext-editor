@@ -174,7 +174,7 @@ export default class Menu extends MenuBase {
 
     const value = this.newWorkspaceWindow.selective.value
 
-    document.dispatchEvent(new CustomEvent('selective.workspace.new', {
+    document.dispatchEvent(new CustomEvent('editor.workspace.new', {
       detail: {
         base: value.base,
         workspace: value.workspace,

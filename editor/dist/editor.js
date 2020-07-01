@@ -105766,17 +105766,6 @@ class Editor {
 
       this.pushState(this.document.podPath, this.urlParams.toString());
       this.render();
-    }); // Allow new workspaces.
-
-    document.addEventListener('selective.workspace.new', evt => {
-      const base = evt.detail['base'];
-      const workspace = evt.detail['workspace'];
-      const remote = evt.detail['remote'] || this.remote;
-      this.api.createWorkspace(base, workspace, remote).then(result => {
-        console.log(result);
-      }).catch(error => {
-        console.error(error);
-      });
     }); // Check for navigated iframe when the routes load.
 
     this.listeners.add('load.routes', this.verifyPreviewIframe.bind(this)); // Watch for the history popstate.
@@ -106610,21 +106599,6 @@ class EditorApi extends _utility_api__WEBPACK_IMPORTED_MODULE_0__["default"] {
       'pod_path': podPath,
       'new_pod_path': newPodPath
     }).then(res => {
-      result.resolve(res.body);
-    }).catch(err => {
-      result.reject(err);
-    });
-    return result.promise;
-  }
-
-  createWorkspace(base, workspace, remote) {
-    const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
-    const request = {
-      'base': base,
-      'workspace': workspace,
-      'remote': remote || 'origin'
-    };
-    this.request.post(this.apiPath('workspace/new')).type('form').send(request).then(res => {
       result.resolve(res.body);
     }).catch(err => {
       result.reject(err);
@@ -109020,7 +108994,7 @@ class Menu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
   handleWorkspaceNewSubmit(evt) {
     evt.stopPropagation();
     const value = this.newWorkspaceWindow.selective.value;
-    document.dispatchEvent(new CustomEvent('selective.workspace.new', {
+    document.dispatchEvent(new CustomEvent('editor.workspace.new', {
       detail: {
         base: value.base,
         workspace: value.workspace
