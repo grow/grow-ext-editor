@@ -105513,6 +105513,10 @@ class Editor {
     return this.document.isClean && this.selective.isClean;
   }
 
+  get isMissingDoc() {
+    return !this.document;
+  }
+
   get isTesting() {
     return this.config.get('testing', false);
   }
@@ -105576,7 +105580,7 @@ class Editor {
       styles.push('editor--source');
     }
 
-    if (this.settingFullScreenEditor.on || !this.document.servingPath) {
+    if (this.settingFullScreenEditor.on || !this.servingPath) {
       styles.push('editor--fullscreen-editor');
     }
 
@@ -109020,7 +109024,13 @@ class Menu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
 
   renderMenu(editor) {
     // Always show the menu when there is not a pod path.
-    const isOpen = this.menuWindow.isOpen || !editor.podPath;
+    const hasPodPath = Boolean(editor.podPath && editor.podPath != '');
+
+    if (!hasPodPath) {
+      this.menuWindow.isOpen = true;
+    }
+
+    const isOpen = this.menuWindow.isOpen;
 
     if (!this._state.pod) {
       editor.loadPod();

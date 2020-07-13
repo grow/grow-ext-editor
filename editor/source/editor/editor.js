@@ -165,6 +165,10 @@ export default class Editor {
     return this.document.isClean && this.selective.isClean
   }
 
+  get isMissingDoc() {
+    return !this.document
+  }
+
   get isTesting() {
     return this.config.get('testing', false)
   }
@@ -227,7 +231,7 @@ export default class Editor {
       styles.push('editor--source')
     }
 
-    if (this.settingFullScreenEditor.on || !this.document.servingPath) {
+    if (this.settingFullScreenEditor.on || !this.servingPath) {
       styles.push('editor--fullscreen-editor')
     }
 

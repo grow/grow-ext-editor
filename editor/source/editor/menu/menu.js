@@ -186,7 +186,13 @@ export default class Menu extends MenuBase {
 
   renderMenu(editor) {
     // Always show the menu when there is not a pod path.
-    const isOpen = this.menuWindow.isOpen || !editor.podPath
+    const hasPodPath = Boolean(editor.podPath && editor.podPath != '')
+
+    if (!hasPodPath) {
+      this.menuWindow.isOpen = true
+    }
+
+    const isOpen = this.menuWindow.isOpen
 
     if (!this._state.pod) {
       editor.loadPod()
