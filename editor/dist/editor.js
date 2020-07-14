@@ -105357,11 +105357,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _field__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./field */ "./source/editor/field.js");
 /* harmony import */ var _zoomIframe__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./zoomIframe */ "./source/editor/zoomIframe.js");
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../utility/dom */ "./source/utility/dom.js");
-/* harmony import */ var _utility_storage__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../utility/storage */ "./source/utility/storage.js");
-/* harmony import */ var _utility_settings__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../utility/settings */ "./source/utility/settings.js");
+/* harmony import */ var _utility_repo__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../utility/repo */ "./source/utility/repo.js");
+/* harmony import */ var _utility_storage__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../utility/storage */ "./source/utility/storage.js");
+/* harmony import */ var _utility_settings__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../utility/settings */ "./source/utility/settings.js");
 /**
  * Content editor.
  */
+
 
 
 
@@ -105399,7 +105401,7 @@ class Editor {
       </div>
     </div>`;
 
-    this.storage = new _utility_storage__WEBPACK_IMPORTED_MODULE_15__["default"](this.isTesting);
+    this.storage = new _utility_storage__WEBPACK_IMPORTED_MODULE_16__["default"](this.isTesting);
     const EditorApiCls = this.config.get('EditorApiCls', _editorApi__WEBPACK_IMPORTED_MODULE_9__["default"]);
     this.api = new EditorApiCls();
     this.listeners = new _utility_listeners__WEBPACK_IMPORTED_MODULE_7__["default"]();
@@ -105433,16 +105435,16 @@ class Editor {
     this._defaultDevice = 'desktop';
     this._device = this.storage.getItem('selective.device') || this._defaultDevice; // Persistent settings in local storage.
 
-    this.settingDeviceRotated = new _utility_settings__WEBPACK_IMPORTED_MODULE_16__["SettingToggle"](false, this.storage, 'selective.device.rotated');
-    this.settingDeviceView = new _utility_settings__WEBPACK_IMPORTED_MODULE_16__["SettingToggle"](false, this.storage, 'selective.device.view');
-    this.settingFullScreenEditor = new _utility_settings__WEBPACK_IMPORTED_MODULE_16__["SettingToggle"](false, this.storage, 'selective.fullScreenEditor');
-    this.settingFullScreenPreview = new _utility_settings__WEBPACK_IMPORTED_MODULE_16__["SettingToggle"](false, this.storage, 'selective.fullScreenPreview');
-    this.settingHighlightDirty = new _utility_settings__WEBPACK_IMPORTED_MODULE_16__["SettingToggle"](false, this.storage, 'selective.highlight.dirty');
-    this.settingHighlightGuess = new _utility_settings__WEBPACK_IMPORTED_MODULE_16__["SettingToggle"](false, this.storage, 'selective.highlight.guess');
-    this.settingHighlightLinked = new _utility_settings__WEBPACK_IMPORTED_MODULE_16__["SettingToggle"](false, this.storage, 'selective.highlight.linked');
-    this.settingLocalize = new _utility_settings__WEBPACK_IMPORTED_MODULE_16__["SettingToggle"](false, this.storage, 'selective.localize');
-    this.settingLocalizeUrls = new _utility_settings__WEBPACK_IMPORTED_MODULE_16__["SettingToggle"](false, this.storage, 'selective.localize.urls');
-    this.settingEditorPane = new _utility_settings__WEBPACK_IMPORTED_MODULE_16__["SettingSet"](['fields', 'source', 'history'], 'fields', this.storage, 'selective.editor.pane');
+    this.settingDeviceRotated = new _utility_settings__WEBPACK_IMPORTED_MODULE_17__["SettingToggle"](false, this.storage, 'selective.device.rotated');
+    this.settingDeviceView = new _utility_settings__WEBPACK_IMPORTED_MODULE_17__["SettingToggle"](false, this.storage, 'selective.device.view');
+    this.settingFullScreenEditor = new _utility_settings__WEBPACK_IMPORTED_MODULE_17__["SettingToggle"](false, this.storage, 'selective.fullScreenEditor');
+    this.settingFullScreenPreview = new _utility_settings__WEBPACK_IMPORTED_MODULE_17__["SettingToggle"](false, this.storage, 'selective.fullScreenPreview');
+    this.settingHighlightDirty = new _utility_settings__WEBPACK_IMPORTED_MODULE_17__["SettingToggle"](false, this.storage, 'selective.highlight.dirty');
+    this.settingHighlightGuess = new _utility_settings__WEBPACK_IMPORTED_MODULE_17__["SettingToggle"](false, this.storage, 'selective.highlight.guess');
+    this.settingHighlightLinked = new _utility_settings__WEBPACK_IMPORTED_MODULE_17__["SettingToggle"](false, this.storage, 'selective.highlight.linked');
+    this.settingLocalize = new _utility_settings__WEBPACK_IMPORTED_MODULE_17__["SettingToggle"](false, this.storage, 'selective.localize');
+    this.settingLocalizeUrls = new _utility_settings__WEBPACK_IMPORTED_MODULE_17__["SettingToggle"](false, this.storage, 'selective.localize.urls');
+    this.settingEditorPane = new _utility_settings__WEBPACK_IMPORTED_MODULE_17__["SettingSet"](['fields', 'source', 'history'], 'fields', this.storage, 'selective.editor.pane');
     this.settingLocale = null;
     this._isFullMarkdownEditor = false;
     this._hasLoadedFields = false;
@@ -105615,10 +105617,47 @@ class Editor {
     }
 
     if (this.settingEditorPane.is('history')) {
+      if (!this.repo) {
+        return selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`<div class="editor__loading editor__loading--small" title="Loading..."></div>`;
+      }
+
       return selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`
         <div class="editor__card">
           <div class="editor__card__title">
-            History
+            Current Workspace
+          </div>
+          <div class="editor__history__workspace">
+            <i
+                class="material-icons icon"
+                title="">
+              dashboard
+            </i>
+            <div class="editor__workspace__branch__label">
+              ${this.repo.branch}
+            </div>
+          </div>
+        </div>
+        <div class="editor__card">
+          <div class="editor__card__title">
+            Change History
+          </div>
+          <div class="editor__history__commits">
+            ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_5__["repeat"])(this.repo.commits, commit => commit.sha, (commit, index) => selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`
+              <div
+                  class="editor__history__commits__commit">
+                <i
+                    class="material-icons icon"
+                    title="">
+                  notes
+                </i>
+                <div class="editor__history__commits__commit__info">
+                  <a href="">${commit.sha.slice(0, 5)}</a>
+                </div>
+                <div class="editor__history__commits__commit__message">
+                  ${commit.message}
+                </div>
+              </div>
+            `)}
           </div>
         </div>`;
     }
@@ -105812,7 +105851,23 @@ class Editor {
 
   documentFromResponse(response) {
     this.document = new _document__WEBPACK_IMPORTED_MODULE_8__["default"](response['pod_path'], response['front_matter'], response['raw_front_matter'], response['serving_paths'], response['default_locale'], response['locales'], response['content'], response['hash']);
-    this.settingLocale = new _utility_settings__WEBPACK_IMPORTED_MODULE_16__["SettingSet"](this.document.locales, this.document.defaultLocale, this.storage, 'selective.editor.locale');
+    this.settingLocale = new _utility_settings__WEBPACK_IMPORTED_MODULE_17__["SettingSet"](this.document.locales, this.document.defaultLocale, this.storage, 'selective.editor.locale');
+  }
+
+  handleDeviceRotateClick(evt) {
+    this.settingDeviceRotated.toggle();
+    this.render();
+  }
+
+  handleDeviceSwitchClick(evt) {
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_14__["findParentByClassname"])(evt.target, 'editor__preview__size');
+    this.device = target.dataset.device;
+    this.render();
+  }
+
+  handleDeviceToggleClick(evt) {
+    this.settingDeviceView.toggle();
+    this.render();
   }
 
   handleFieldsClick(evt) {
@@ -105926,19 +105981,11 @@ class Editor {
     this.render();
   }
 
-  handleDeviceRotateClick(evt) {
-    this.settingDeviceRotated.toggle();
-    this.render();
-  }
-
-  handleDeviceSwitchClick(evt) {
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_14__["findParentByClassname"])(evt.target, 'editor__preview__size');
-    this.device = target.dataset.device;
-    this.render();
-  }
-
-  handleDeviceToggleClick(evt) {
-    this.settingDeviceView.toggle();
+  handleLoadHistoryResponse(response) {
+    this._isFullMarkdownEditor = false;
+    this.settingEditorPane.value = 'history';
+    this.documentFromResponse(response);
+    this.pushState(this.document.podPath);
     this.render();
   }
 
@@ -105969,7 +106016,8 @@ class Editor {
   }
 
   handleLoadRepo(response) {
-    this.repo = response['repo'];
+    const repo = response['repo'];
+    this.repo = new _utility_repo__WEBPACK_IMPORTED_MODULE_15__["default"](repo.branch, repo.branches, repo.commits, repo.remote_url, repo.revision, repo.web_url);
     this.listeners.trigger('load.repo', {
       repo: this.repo
     });
@@ -106127,7 +106175,9 @@ class Editor {
   load(podPath) {
     if (this.settingEditorPane.is('source')) {
       this.loadSource(podPath);
-    } else if (this.settingEditorPane.is('history')) {// TODO: Load history.
+    } else if (this.settingEditorPane.is('history')) {
+      this.loadRepo();
+      this.loadHistory(podPath);
     } else {
       this.loadFields(podPath);
     }
@@ -106135,6 +106185,10 @@ class Editor {
 
   loadFields(podPath) {
     this.api.getDocument(podPath).then(this.handleLoadFieldsResponse.bind(this));
+  }
+
+  loadHistory(podPath) {
+    this.api.getDocument(podPath).then(this.handleLoadHistoryResponse.bind(this));
   }
 
   loadPod(force) {
@@ -106310,9 +106364,9 @@ class Editor {
       <div class="editor__cards">
         <div class="editor__card editor__menu">
             <div class="editor__actions">
-              <button class="editor__style__fields editor__button editor__button--secondary ${this.settingEditorPane.is('fields') ? '' : 'editor__button--selected'}" @click=${editor.handleFieldsClick.bind(editor)} ?disabled=${!editor.isClean}>Fields</button>
+              <button class="editor__style__fields editor__button editor__button--secondary ${this.settingEditorPane.is('fields') ? 'editor__button--selected' : ''}" @click=${editor.handleFieldsClick.bind(editor)} ?disabled=${!editor.isClean}>Fields</button>
               <button class="editor__style__raw editor__button editor__button--secondary ${this.settingEditorPane.is('source') ? 'editor__button--selected' : ''}" @click=${editor.handleSourceClick.bind(editor)} ?disabled=${!editor.isClean}>Source</button>
-              <!-- <button class="editor__style__raw editor__button editor__button--secondary ${this.settingEditorPane.is('history') ? 'editor__button--selected' : ''}" @click=${editor.handleHistoryClick.bind(editor)} ?disabled=${!editor.isClean}>History</button> -->
+              <button class="editor__style__raw editor__button editor__button--secondary ${this.settingEditorPane.is('history') ? 'editor__button--selected' : ''}" @click=${editor.handleHistoryClick.bind(editor)} ?disabled=${!editor.isClean}>History</button>
             </div>
             <button
                 ?disabled=${editor._isSaving || editor.isClean}
@@ -109128,36 +109182,6 @@ class RepoMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
     </div>`;
   }
 
-  _cleanBranch(branch_id) {
-    if (branch_id.startsWith(_workspace__WEBPACK_IMPORTED_MODULE_3__["WORKSPACE_BRANCH_PREFIX"])) {
-      return branch_id.slice(_workspace__WEBPACK_IMPORTED_MODULE_3__["WORKSPACE_BRANCH_PREFIX"].length);
-    }
-
-    return branch_id;
-  }
-
-  webUrlForBranch(repo, branch) {
-    if (branch != 'master') {
-      if (repo.web_url.includes('github.com')) {
-        return `${repo.web_url}/tree/${branch}`;
-      } else if (repo.web_url.includes('source.cloud.google.com')) {
-        return `${repo.web_url}/+/${branch}:`;
-      }
-    }
-
-    return repo.web_url;
-  }
-
-  webUrlForCommit(repo, commitHash) {
-    if (repo.web_url.includes('github.com')) {
-      return `${repo.web_url}/commit/${commitHash}`;
-    } else if (repo.web_url.includes('source.cloud.google.com')) {
-      return `${repo.web_url}/+/${commitHash}`;
-    }
-
-    return repo.web_url;
-  }
-
   renderBranch(editor, menuState, eventHandlers) {
     editor.loadRepo();
     let lastCommitAuthor = null;
@@ -109175,12 +109199,12 @@ class RepoMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
       <div class="menu__repo__workspace menu__repo__value">
         <a
-            href=${this.webUrlForBranch(menuState.repo, menuState.repo.branch)}
+            href=${menuState.repo.webUrlForBranch(menuState.repo, menuState.repo.branch)}
             target="_blank">
-          ${this._cleanBranch(menuState.repo.branch)}
+          ${menuState.repo.cleanBranch(menuState.repo.branch)}
         </a>
         @ <a
-            href=${this.webUrlForCommit(menuState.repo, menuState.repo.commits[0].sha)}
+            href=${menuState.repo.webUrlForCommit(menuState.repo, menuState.repo.commits[0].sha)}
             target="_blank">
           ${menuState.repo.commits[0].sha.substring(0, 6)}
         </a>
@@ -110889,6 +110913,62 @@ class Listeners {
     for (const listener of this.listenersForEvent(eventName)) {
       listener(...data);
     }
+  }
+
+}
+
+/***/ }),
+
+/***/ "./source/utility/repo.js":
+/*!********************************!*\
+  !*** ./source/utility/repo.js ***!
+  \********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Repo; });
+/* harmony import */ var _editor_menu_workspace__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../editor/menu/workspace */ "./source/editor/menu/workspace.js");
+
+class Repo {
+  constructor(branch, branches, commits, remote_url, revision, web_url) {
+    this.branch = branch;
+    this.branches = branches;
+    this.commits = commits;
+    this.remote_url = remote_url;
+    this.revision = revision;
+    this.web_url = web_url;
+  }
+
+  cleanBranch(branch_id) {
+    if (branch_id.startsWith(_editor_menu_workspace__WEBPACK_IMPORTED_MODULE_0__["WORKSPACE_BRANCH_PREFIX"])) {
+      return branch_id.slice(_editor_menu_workspace__WEBPACK_IMPORTED_MODULE_0__["WORKSPACE_BRANCH_PREFIX"].length);
+    }
+
+    return branch_id;
+  }
+
+  webUrlForBranch(branch) {
+    if (branch != 'master') {
+      if (this.web_url.includes('github.com')) {
+        return `${this.web_url}/tree/${branch}`;
+      } else if (this.web_url.includes('source.cloud.google.com')) {
+        return `${this.web_url}/+/${branch}:`;
+      }
+    }
+
+    return this.web_url;
+  }
+
+  webUrlForCommit(commitHash) {
+    if (this.web_url.includes('github.com')) {
+      return `${this.web_url}/commit/${commitHash}`;
+    } else if (this.web_url.includes('source.cloud.google.com')) {
+      return `${this.web_url}/+/${commitHash}`;
+    }
+
+    return this.web_url;
   }
 
 }

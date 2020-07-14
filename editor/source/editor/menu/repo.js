@@ -27,34 +27,6 @@ export default class RepoMenu extends MenuBase {
     </div>`
   }
 
-  _cleanBranch(branch_id) {
-    if (branch_id.startsWith(WORKSPACE_BRANCH_PREFIX)) {
-      return branch_id.slice(WORKSPACE_BRANCH_PREFIX.length)
-    }
-    return branch_id
-  }
-
-  webUrlForBranch(repo, branch) {
-    if (branch != 'master') {
-      if (repo.web_url.includes('github.com')) {
-        return `${repo.web_url}/tree/${branch}`
-      } else if (repo.web_url.includes('source.cloud.google.com')) {
-        return `${repo.web_url}/+/${branch}:`
-      }
-    }
-
-    return repo.web_url
-  }
-
-  webUrlForCommit(repo, commitHash) {
-    if (repo.web_url.includes('github.com')) {
-      return `${repo.web_url}/commit/${commitHash}`
-    } else if (repo.web_url.includes('source.cloud.google.com')) {
-      return `${repo.web_url}/+/${commitHash}`
-    }
-    return repo.web_url
-  }
-
   renderBranch(editor, menuState, eventHandlers) {
     editor.loadRepo()
 
@@ -72,12 +44,12 @@ export default class RepoMenu extends MenuBase {
     return html`
       <div class="menu__repo__workspace menu__repo__value">
         <a
-            href=${this.webUrlForBranch(menuState.repo, menuState.repo.branch)}
+            href=${menuState.repo.webUrlForBranch(menuState.repo, menuState.repo.branch)}
             target="_blank">
-          ${this._cleanBranch(menuState.repo.branch)}
+          ${menuState.repo.cleanBranch(menuState.repo.branch)}
         </a>
         @ <a
-            href=${this.webUrlForCommit(menuState.repo, menuState.repo.commits[0].sha)}
+            href=${menuState.repo.webUrlForCommit(menuState.repo, menuState.repo.commits[0].sha)}
             target="_blank">
           ${menuState.repo.commits[0].sha.substring(0, 6)}
         </a>

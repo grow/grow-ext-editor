@@ -415,6 +415,40 @@
     &:hover
       visibility: visible
 
+.editor__history__workspace
+  align-items: center
+  display: flex
+  flex-flow: row
+  padding: $ge-pad
+
+.editor__workspace__branch__label
+  margin-left: $ge-pad
+
+.editor__history__commits__commit
+  align-items: center
+  display: flex
+  flex-flow: row
+  padding: $ge-pad
+
+  &:first-child
+    background-color: $ge-color-primary
+    color: $ge-color-on-primary
+
+    a
+      color: $ge-color-on-primary
+
+.editor__history__commits__commit__info,
+.editor__history__commits__commit__message
+  margin-left: $ge-pad
+
+.editor__history__commits__commit__info
+  width: 3.2em
+
+.editor__history__commits__commit__message
+  overflow: hidden
+  text-overflow: ellipsis
+  white-space: nowrap
+
 // Import theme for codemirror.
 @import 'codemirror/lib/codemirror.css'
 @import 'codemirror/theme/elegant.css'

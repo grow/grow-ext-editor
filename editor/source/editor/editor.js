@@ -22,6 +22,7 @@ import EditorAutoFields from './autoFields'
 import { defaultFields } from './field'
 import { zoomIframe } from './zoomIframe'
 import { findParentByClassname } from '../utility/dom'
+import Repo from '../utility/repo'
 import Storage from '../utility/storage'
 import {
   SettingSet,
@@ -284,10 +285,47 @@ export default class Editor {
     }
 
     if (this.settingEditorPane.is('history')) {
+      if (!this.repo) {
+        return html`<div class="editor__loading editor__loading--small" title="Loading..."></div>`
+      }
+
       return html`
         <div class="editor__card">
           <div class="editor__card__title">
-            History
+            Current Workspace
+          </div>
+          <div class="editor__history__workspace">
+            <i
+                class="material-icons icon"
+                title="">
+              dashboard
+            </i>
+            <div class="editor__workspace__branch__label">
+              ${this.repo.branch}
+            </div>
+          </div>
+        </div>
+        <div class="editor__card">
+          <div class="editor__card__title">
+            Change History
+          </div>
+          <div class="editor__history__commits">
+            ${repeat(this.repo.commits, (commit) => commit.sha, (commit, index) => html`
+              <div
+                  class="editor__history__commits__commit">
+                <i
+                    class="material-icons icon"
+                    title="">
+                  notes
+                </i>
+                <div class="editor__history__commits__commit__info">
+                  <a href="">${commit.sha.slice(0, 5)}</a>
+                </div>
+                <div class="editor__history__commits__commit__message">
+                  ${commit.message}
+                </div>
+              </div>
+            `)}
           </div>
         </div>`
     }
@@ -501,6 +539,22 @@ export default class Editor {
       'selective.editor.locale')
   }
 
+  handleDeviceRotateClick(evt) {
+    this.settingDeviceRotated.toggle()
+    this.render()
+  }
+
+  handleDeviceSwitchClick(evt) {
+    const target = findParentByClassname(evt.target, 'editor__preview__size')
+    this.device = target.dataset.device
+    this.render()
+  }
+
+  handleDeviceToggleClick(evt) {
+    this.settingDeviceView.toggle()
+    this.render()
+  }
+
   handleFieldsClick(evt) {
     this.settingEditorPane.value = 'fields'
 
@@ -615,19 +669,11 @@ export default class Editor {
     this.render()
   }
 
-  handleDeviceRotateClick(evt) {
-    this.settingDeviceRotated.toggle()
-    this.render()
-  }
-
-  handleDeviceSwitchClick(evt) {
-    const target = findParentByClassname(evt.target, 'editor__preview__size')
-    this.device = target.dataset.device
-    this.render()
-  }
-
-  handleDeviceToggleClick(evt) {
-    this.settingDeviceView.toggle()
+  handleLoadHistoryResponse(response) {
+    this._isFullMarkdownEditor = false
+    this.settingEditorPane.value = 'history'
+    this.documentFromResponse(response)
+    this.pushState(this.document.podPath)
     this.render()
   }
 
@@ -658,7 +704,10 @@ export default class Editor {
   }
 
   handleLoadRepo(response) {
-    this.repo = response['repo']
+    const repo = response['repo']
+    this.repo = new Repo(
+      repo.branch, repo.branches, repo.commits, repo.remote_url, repo.revision,
+      repo.web_url)
     this.listeners.trigger('load.repo', {
       repo: this.repo,
     })
@@ -822,7 +871,8 @@ export default class Editor {
     if (this.settingEditorPane.is('source')) {
       this.loadSource(podPath)
     } else if (this.settingEditorPane.is('history')) {
-      // TODO: Load history.
+      this.loadRepo()
+      this.loadHistory(podPath)
     } else {
       this.loadFields(podPath)
     }
@@ -830,6 +880,10 @@ export default class Editor {
 
   loadFields(podPath) {
     this.api.getDocument(podPath).then(this.handleLoadFieldsResponse.bind(this))
+  }
+
+  loadHistory(podPath) {
+    this.api.getDocument(podPath).then(this.handleLoadHistoryResponse.bind(this))
   }
 
   loadPod(force) {
@@ -1000,9 +1054,9 @@ export default class Editor {
       <div class="editor__cards">
         <div class="editor__card editor__menu">
             <div class="editor__actions">
-              <button class="editor__style__fields editor__button editor__button--secondary ${this.settingEditorPane.is('fields') ? '' : 'editor__button--selected'}" @click=${editor.handleFieldsClick.bind(editor)} ?disabled=${!editor.isClean}>Fields</button>
+              <button class="editor__style__fields editor__button editor__button--secondary ${this.settingEditorPane.is('fields') ? 'editor__button--selected' : ''}" @click=${editor.handleFieldsClick.bind(editor)} ?disabled=${!editor.isClean}>Fields</button>
               <button class="editor__style__raw editor__button editor__button--secondary ${this.settingEditorPane.is('source') ? 'editor__button--selected' : ''}" @click=${editor.handleSourceClick.bind(editor)} ?disabled=${!editor.isClean}>Source</button>
-              <!-- <button class="editor__style__raw editor__button editor__button--secondary ${this.settingEditorPane.is('history') ? 'editor__button--selected' : ''}" @click=${editor.handleHistoryClick.bind(editor)} ?disabled=${!editor.isClean}>History</button> -->
+              <button class="editor__style__raw editor__button editor__button--secondary ${this.settingEditorPane.is('history') ? 'editor__button--selected' : ''}" @click=${editor.handleHistoryClick.bind(editor)} ?disabled=${!editor.isClean}>History</button>
             </div>
             <button
                 ?disabled=${editor._isSaving || editor.isClean}
