@@ -105345,24 +105345,27 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var codemirror_mode_markdown_markdown_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(codemirror_mode_markdown_markdown_js__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var codemirror_mode_yaml_yaml_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! codemirror/mode/yaml/yaml.js */ "./node_modules/codemirror/mode/yaml/yaml.js");
 /* harmony import */ var codemirror_mode_yaml_yaml_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(codemirror_mode_yaml_yaml_js__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var js_yaml_lib_js_yaml_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! js-yaml/lib/js-yaml.js */ "./node_modules/js-yaml/lib/js-yaml.js");
-/* harmony import */ var js_yaml_lib_js_yaml_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(js_yaml_lib_js_yaml_js__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
-/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utility/config */ "./source/utility/config.js");
-/* harmony import */ var _utility_listeners__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utility/listeners */ "./source/utility/listeners.js");
-/* harmony import */ var _document__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./document */ "./source/editor/document.js");
-/* harmony import */ var _editorApi__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./editorApi */ "./source/editor/editorApi.js");
-/* harmony import */ var _menu_menu__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./menu/menu */ "./source/editor/menu/menu.js");
-/* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./autoFields */ "./source/editor/autoFields.js");
-/* harmony import */ var _field__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./field */ "./source/editor/field.js");
-/* harmony import */ var _zoomIframe__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./zoomIframe */ "./source/editor/zoomIframe.js");
-/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../utility/dom */ "./source/utility/dom.js");
-/* harmony import */ var _utility_repo__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../utility/repo */ "./source/utility/repo.js");
-/* harmony import */ var _utility_storage__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../utility/storage */ "./source/utility/storage.js");
-/* harmony import */ var _utility_settings__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../utility/settings */ "./source/utility/settings.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var js_yaml_lib_js_yaml_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! js-yaml/lib/js-yaml.js */ "./node_modules/js-yaml/lib/js-yaml.js");
+/* harmony import */ var js_yaml_lib_js_yaml_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(js_yaml_lib_js_yaml_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utility/config */ "./source/utility/config.js");
+/* harmony import */ var _utility_listeners__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../utility/listeners */ "./source/utility/listeners.js");
+/* harmony import */ var _document__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./document */ "./source/editor/document.js");
+/* harmony import */ var _editorApi__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./editorApi */ "./source/editor/editorApi.js");
+/* harmony import */ var _menu_menu__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./menu/menu */ "./source/editor/menu/menu.js");
+/* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./autoFields */ "./source/editor/autoFields.js");
+/* harmony import */ var _field__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./field */ "./source/editor/field.js");
+/* harmony import */ var _zoomIframe__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./zoomIframe */ "./source/editor/zoomIframe.js");
+/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../utility/dom */ "./source/utility/dom.js");
+/* harmony import */ var _utility_repo__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../utility/repo */ "./source/utility/repo.js");
+/* harmony import */ var _utility_storage__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../utility/storage */ "./source/utility/storage.js");
+/* harmony import */ var _utility_settings__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../utility/settings */ "./source/utility/settings.js");
 /**
  * Content editor.
  */
+
 
 
 
@@ -105391,9 +105394,9 @@ const CODEMIRROR_OPTIONS = {
 class Editor {
   constructor(containerEl, config) {
     this.containerEl = containerEl;
-    this.config = new _utility_config__WEBPACK_IMPORTED_MODULE_6__["default"](config || {});
+    this.config = new _utility_config__WEBPACK_IMPORTED_MODULE_7__["default"](config || {});
 
-    this.template = (editor, selective) => selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`<div class="editor ${editor.stylesEditor}">
+    this.template = (editor, selective) => selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`<div class="editor ${editor.stylesEditor}">
       ${this.menu.template(editor)}
       <div class="editor__frame">
         ${this.podPath ? editor.renderEditor(editor, selective) : ''}
@@ -105401,11 +105404,11 @@ class Editor {
       </div>
     </div>`;
 
-    this.storage = new _utility_storage__WEBPACK_IMPORTED_MODULE_16__["default"](this.isTesting);
-    const EditorApiCls = this.config.get('EditorApiCls', _editorApi__WEBPACK_IMPORTED_MODULE_9__["default"]);
+    this.storage = new _utility_storage__WEBPACK_IMPORTED_MODULE_17__["default"](this.isTesting);
+    const EditorApiCls = this.config.get('EditorApiCls', _editorApi__WEBPACK_IMPORTED_MODULE_10__["default"]);
     this.api = new EditorApiCls();
-    this.listeners = new _utility_listeners__WEBPACK_IMPORTED_MODULE_7__["default"]();
-    this.menu = new _menu_menu__WEBPACK_IMPORTED_MODULE_10__["default"]({
+    this.listeners = new _utility_listeners__WEBPACK_IMPORTED_MODULE_8__["default"]();
+    this.menu = new _menu_menu__WEBPACK_IMPORTED_MODULE_11__["default"]({
       testing: this.isTesting,
       enableMenuWorkspace: this.config.enableMenuWorkspace
     }, this);
@@ -105435,16 +105438,16 @@ class Editor {
     this._defaultDevice = 'desktop';
     this._device = this.storage.getItem('selective.device') || this._defaultDevice; // Persistent settings in local storage.
 
-    this.settingDeviceRotated = new _utility_settings__WEBPACK_IMPORTED_MODULE_17__["SettingToggle"](false, this.storage, 'selective.device.rotated');
-    this.settingDeviceView = new _utility_settings__WEBPACK_IMPORTED_MODULE_17__["SettingToggle"](false, this.storage, 'selective.device.view');
-    this.settingFullScreenEditor = new _utility_settings__WEBPACK_IMPORTED_MODULE_17__["SettingToggle"](false, this.storage, 'selective.fullScreenEditor');
-    this.settingFullScreenPreview = new _utility_settings__WEBPACK_IMPORTED_MODULE_17__["SettingToggle"](false, this.storage, 'selective.fullScreenPreview');
-    this.settingHighlightDirty = new _utility_settings__WEBPACK_IMPORTED_MODULE_17__["SettingToggle"](false, this.storage, 'selective.highlight.dirty');
-    this.settingHighlightGuess = new _utility_settings__WEBPACK_IMPORTED_MODULE_17__["SettingToggle"](false, this.storage, 'selective.highlight.guess');
-    this.settingHighlightLinked = new _utility_settings__WEBPACK_IMPORTED_MODULE_17__["SettingToggle"](false, this.storage, 'selective.highlight.linked');
-    this.settingLocalize = new _utility_settings__WEBPACK_IMPORTED_MODULE_17__["SettingToggle"](false, this.storage, 'selective.localize');
-    this.settingLocalizeUrls = new _utility_settings__WEBPACK_IMPORTED_MODULE_17__["SettingToggle"](false, this.storage, 'selective.localize.urls');
-    this.settingEditorPane = new _utility_settings__WEBPACK_IMPORTED_MODULE_17__["SettingSet"](['fields', 'source', 'history'], 'fields', this.storage, 'selective.editor.pane');
+    this.settingDeviceRotated = new _utility_settings__WEBPACK_IMPORTED_MODULE_18__["SettingToggle"](false, this.storage, 'selective.device.rotated');
+    this.settingDeviceView = new _utility_settings__WEBPACK_IMPORTED_MODULE_18__["SettingToggle"](false, this.storage, 'selective.device.view');
+    this.settingFullScreenEditor = new _utility_settings__WEBPACK_IMPORTED_MODULE_18__["SettingToggle"](false, this.storage, 'selective.fullScreenEditor');
+    this.settingFullScreenPreview = new _utility_settings__WEBPACK_IMPORTED_MODULE_18__["SettingToggle"](false, this.storage, 'selective.fullScreenPreview');
+    this.settingHighlightDirty = new _utility_settings__WEBPACK_IMPORTED_MODULE_18__["SettingToggle"](false, this.storage, 'selective.highlight.dirty');
+    this.settingHighlightGuess = new _utility_settings__WEBPACK_IMPORTED_MODULE_18__["SettingToggle"](false, this.storage, 'selective.highlight.guess');
+    this.settingHighlightLinked = new _utility_settings__WEBPACK_IMPORTED_MODULE_18__["SettingToggle"](false, this.storage, 'selective.highlight.linked');
+    this.settingLocalize = new _utility_settings__WEBPACK_IMPORTED_MODULE_18__["SettingToggle"](false, this.storage, 'selective.localize');
+    this.settingLocalizeUrls = new _utility_settings__WEBPACK_IMPORTED_MODULE_18__["SettingToggle"](false, this.storage, 'selective.localize.urls');
+    this.settingEditorPane = new _utility_settings__WEBPACK_IMPORTED_MODULE_18__["SettingSet"](['fields', 'source', 'history'], 'fields', this.storage, 'selective.editor.pane');
     this.settingLocale = null;
     this._isFullMarkdownEditor = false;
     this._hasLoadedFields = false;
@@ -105459,16 +105462,16 @@ class Editor {
     this._templates = null; // Track the serving path of the iframe when it is different.
 
     this._unverifiedServingPath = null;
-    this.selective = new selective_edit__WEBPACK_IMPORTED_MODULE_5__["default"](null, {
-      AutoFieldsCls: _autoFields__WEBPACK_IMPORTED_MODULE_11__["default"]
+    this.selective = new selective_edit__WEBPACK_IMPORTED_MODULE_6__["default"](null, {
+      AutoFieldsCls: _autoFields__WEBPACK_IMPORTED_MODULE_12__["default"]
     }); // Add the editor reference to the selective object for field access.
 
     this.selective.editor = this; // Load the selective editor preference for localize.
 
     this.selective.localize = this.settingLocalize.on; // Add the editor extension default field types.
 
-    for (const key of Object.keys(_field__WEBPACK_IMPORTED_MODULE_12__["defaultFields"])) {
-      this.selective.addFieldType(key, _field__WEBPACK_IMPORTED_MODULE_12__["defaultFields"][key]);
+    for (const key of Object.keys(_field__WEBPACK_IMPORTED_MODULE_13__["defaultFields"])) {
+      this.selective.addFieldType(key, _field__WEBPACK_IMPORTED_MODULE_13__["defaultFields"][key]);
     }
 
     this.bindEvents();
@@ -105596,12 +105599,12 @@ class Editor {
 
   get templatePane() {
     if (this.settingEditorPane.is('source')) {
-      const contentHtml = this.document.content != '' ? selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`
+      const contentHtml = this.document.content != '' ? selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`
           <div class="editor__source__section">
             <div class="editor__source__title">Content</div>
             <textarea class="editor__source__content" @input=${this.handleRawContent.bind(this)}>${this.document.content}</textarea>
           </div>` : '';
-      return selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`
+      return selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`
         <div class="editor__card">
           <div class="editor__card__title">
             Source
@@ -105618,10 +105621,10 @@ class Editor {
 
     if (this.settingEditorPane.is('history')) {
       if (!this.repo) {
-        return selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`<div class="editor__loading editor__loading--small" title="Loading..."></div>`;
+        return selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`<div class="editor__loading editor__loading--small" title="Loading..."></div>`;
       }
 
-      return selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`
+      return selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`
         <div class="editor__card">
           <div class="editor__card__title">
             Current Workspace
@@ -105642,7 +105645,7 @@ class Editor {
             Change History
           </div>
           <div class="editor__history__commits">
-            ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_5__["repeat"])(this.repo.commits, commit => commit.sha, (commit, index) => selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`
+            ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["repeat"])(this.repo.commits, commit => commit.sha, (commit, index) => selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`
               <div
                   class="editor__history__commits__commit">
                 <i
@@ -105650,11 +105653,17 @@ class Editor {
                     title="">
                   notes
                 </i>
-                <div class="editor__history__commits__commit__info">
-                  <a href="">${commit.sha.slice(0, 5)}</a>
-                </div>
-                <div class="editor__history__commits__commit__message">
-                  ${commit.message}
+                <div class="editor__history__commits__commit__meta">
+                  <div class="editor__history__commits__commit__info">
+                    <a href="${this.repo.webUrlForCommit(commit.sha)}" class="editor__history__commits__commit__hash">${commit.sha.slice(0, 5)}</a>
+                    &nbsp;by&nbsp;<a href="mailto:${commit.author.email}">${commit.author.name}</a>
+                    <span class="editor__history__commits__commit__time" title="${moment__WEBPACK_IMPORTED_MODULE_4___default()(commit.commit_date + 'Z', moment__WEBPACK_IMPORTED_MODULE_4___default.a.ISO_8601).format('D MMM YYYY, h:mm:ss a')}">
+                      &nbsp;(${moment__WEBPACK_IMPORTED_MODULE_4___default()(commit.commit_date + 'Z', moment__WEBPACK_IMPORTED_MODULE_4___default.a.ISO_8601).fromNow()})
+                    </span>
+                  </div>
+                  <div class="editor__history__commits__commit__message">
+                    ${commit.message}
+                  </div>
                 </div>
               </div>
             `)}
@@ -105662,7 +105671,7 @@ class Editor {
         </div>`;
     }
 
-    return selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`
+    return selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`
       ${this.renderWorkspace(this, this.selective)}
       <div class="editor__card editor__field_list">
         <div class="editor__card__title">
@@ -105722,7 +105731,7 @@ class Editor {
   adjustIframeSize() {
     const iframeContainerEl = this.containerEl.querySelector('.editor__preview__frame');
     const iframeEl = this.containerEl.querySelector('.editor__preview iframe');
-    Object(_zoomIframe__WEBPACK_IMPORTED_MODULE_13__["zoomIframe"])(iframeContainerEl, iframeEl, this.settingDeviceView.on, this.settingDeviceRotated.on, this.devices[this.device], 'editor__preview__frame--contained');
+    Object(_zoomIframe__WEBPACK_IMPORTED_MODULE_14__["zoomIframe"])(iframeContainerEl, iframeEl, this.settingDeviceView.on, this.settingDeviceRotated.on, this.devices[this.device], 'editor__preview__frame--contained');
   }
 
   bindEvents() {
@@ -105850,8 +105859,8 @@ class Editor {
   }
 
   documentFromResponse(response) {
-    this.document = new _document__WEBPACK_IMPORTED_MODULE_8__["default"](response['pod_path'], response['front_matter'], response['raw_front_matter'], response['serving_paths'], response['default_locale'], response['locales'], response['content'], response['hash']);
-    this.settingLocale = new _utility_settings__WEBPACK_IMPORTED_MODULE_17__["SettingSet"](this.document.locales, this.document.defaultLocale, this.storage, 'selective.editor.locale');
+    this.document = new _document__WEBPACK_IMPORTED_MODULE_9__["default"](response['pod_path'], response['front_matter'], response['raw_front_matter'], response['serving_paths'], response['default_locale'], response['locales'], response['content'], response['hash']);
+    this.settingLocale = new _utility_settings__WEBPACK_IMPORTED_MODULE_18__["SettingSet"](this.document.locales, this.document.defaultLocale, this.storage, 'selective.editor.locale');
   }
 
   handleDeviceRotateClick(evt) {
@@ -105860,7 +105869,7 @@ class Editor {
   }
 
   handleDeviceSwitchClick(evt) {
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_14__["findParentByClassname"])(evt.target, 'editor__preview__size');
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_15__["findParentByClassname"])(evt.target, 'editor__preview__size');
     this.device = target.dataset.device;
     this.render();
   }
@@ -105948,7 +105957,7 @@ class Editor {
       this.selective.addField(fieldConfig, {
         api: this.api,
         linkedFieldsFunc: () => this.linkedFields,
-        AutoFieldsCls: _autoFields__WEBPACK_IMPORTED_MODULE_11__["default"]
+        AutoFieldsCls: _autoFields__WEBPACK_IMPORTED_MODULE_12__["default"]
       });
     } // Add the ability to edit the document body.
 
@@ -105972,7 +105981,7 @@ class Editor {
       }, {
         api: this.api,
         linkedFieldsFunc: () => this.linkedFields,
-        AutoFieldsCls: _autoFields__WEBPACK_IMPORTED_MODULE_11__["default"]
+        AutoFieldsCls: _autoFields__WEBPACK_IMPORTED_MODULE_12__["default"]
       });
     }
 
@@ -106017,7 +106026,7 @@ class Editor {
 
   handleLoadRepo(response) {
     const repo = response['repo'];
-    this.repo = new _utility_repo__WEBPACK_IMPORTED_MODULE_15__["default"](repo.branch, repo.branches, repo.commits, repo.remote_url, repo.revision, repo.web_url);
+    this.repo = new _utility_repo__WEBPACK_IMPORTED_MODULE_16__["default"](repo.branch, repo.branches, repo.commits, repo.remote_url, repo.revision, repo.web_url);
     this.listeners.trigger('load.repo', {
       repo: this.repo
     });
@@ -106280,7 +106289,7 @@ class Editor {
 
     this._isRendering = true;
     const isClean = this.isClean;
-    Object(selective_edit__WEBPACK_IMPORTED_MODULE_5__["render"])(this.template(this, this.selective), this.containerEl); // Check for clean changes not caught.
+    Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["render"])(this.template(this, this.selective), this.containerEl); // Check for clean changes not caught.
 
     if (this.isClean != isClean) {
       this._isRendering = false;
@@ -106344,7 +106353,7 @@ class Editor {
       return '';
     }
 
-    return selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`<div class="editor__edit">
+    return selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`<div class="editor__edit">
       <div class="editor__edit__header">
         <div class="editor__edit__header__section">
           <div class="editor__edit__header__label">
@@ -106358,7 +106367,7 @@ class Editor {
           <div class="editor__edit__header__pod_path">
             ${editor.podPath}
           </div>
-          ${this.servingPath ? selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`<i class="material-icons" @click=${editor.handleFullScreenEditorClick.bind(editor)} title="Fullscreen">${editor.settingFullScreenEditor.on || !this.servingPath ? 'fullscreen_exit' : 'fullscreen'}</i>` : ''}
+          ${this.servingPath ? selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`<i class="material-icons" @click=${editor.handleFullScreenEditorClick.bind(editor)} title="Fullscreen">${editor.settingFullScreenEditor.on || !this.servingPath ? 'fullscreen_exit' : 'fullscreen'}</i>` : ''}
         </div>
       </div>
       <div class="editor__cards">
@@ -106388,8 +106397,8 @@ class Editor {
     let previewSizes = '';
 
     if (editor.settingDeviceView.on) {
-      previewSizes = selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`<div class="editor__preview__sizes">
-        ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_5__["repeat"])(Object.entries(this.devices), device => device[0], (device, index) => selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`
+      previewSizes = selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`<div class="editor__preview__sizes">
+        ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["repeat"])(Object.entries(this.devices), device => device[0], (device, index) => selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`
           <div
               class="editor__preview__size ${editor.device == device[0] ? 'editor__preview__size--selected' : ''}"
               data-device="${device[0]}"
@@ -106412,7 +106421,7 @@ class Editor {
         locales.splice(defaultLocaleIndex, 1);
       }
 
-      localize = selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`
+      localize = selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`
         <i class="material-icons" @click=${editor.handleLocalize.bind(editor)} title="Localize content">translate</i>
         <select class="editor__locales" @change=${editor.handleLocalizeSelect.bind(editor)}>
           <option
@@ -106420,7 +106429,7 @@ class Editor {
               ?selected=${this.settingLocale.value == this.document.defaultLocale}>
             ${this.document.defaultLocale}
           </option>
-          ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_5__["repeat"])(locales, locale => locale, (locale, index) => selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`
+          ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["repeat"])(locales, locale => locale, (locale, index) => selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`
             <option
                 data-locale="${locale}"
                 ?selected=${this.settingLocale.value == locale}>
@@ -106429,7 +106438,7 @@ class Editor {
         </select>`;
     }
 
-    return selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`<div class="editor__preview">
+    return selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`<div class="editor__preview">
       <div class="editor__preview__header">
         <div class="editor__preview__header__icons">
           <i class="material-icons" @click=${editor.handleFullScreenPreviewClick.bind(editor)} title="Fullscreen">${editor.settingFullScreenPreview.on ? 'fullscreen_exit' : 'fullscreen'}</i>
@@ -106463,7 +106472,7 @@ class Editor {
 
     if (locales.length > 1) {
       if (this.settingLocalizeUrls.on) {
-        moreLocales = selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`
+        moreLocales = selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`
           <a
               class="editor__workspace__url__more"
               @click=${editor.handleLocalizeUrlsClick.bind(this)}
@@ -106471,7 +106480,7 @@ class Editor {
             (show less)
           </a>`;
       } else {
-        moreLocales = selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`
+        moreLocales = selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`
           <a
               class="editor__workspace__url__more"
               @click=${editor.handleLocalizeUrlsClick.bind(this)}
@@ -106482,18 +106491,18 @@ class Editor {
     }
 
     if (this.settingLocalizeUrls.on) {
-      urlList = selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`
-        ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_5__["repeat"])(Object.entries(editor.document.servingPaths), path => path[0], (path, index) => selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`
+      urlList = selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`
+        ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["repeat"])(Object.entries(editor.document.servingPaths), path => path[0], (path, index) => selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`
           <div
               class="editor__workspace__url"
               data-locale="${path[0]}">
             <a href="${path[1]}">${path[1]}</a>
-            ${this.document.defaultLocale == path[0] ? moreLocales : selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`<span class="editor__workspace__locale">${path[0]}</span>`}
+            ${this.document.defaultLocale == path[0] ? moreLocales : selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`<span class="editor__workspace__locale">${path[0]}</span>`}
           </div>`)}`;
     } else {
       const defaultLocale = editor.document.defaultLocale;
       const localeUrl = editor.document.servingPaths[defaultLocale];
-      urlList = selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`
+      urlList = selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`
         <div
             class="editor__workspace__url"
             data-locale="${defaultLocale}">
@@ -106502,7 +106511,7 @@ class Editor {
         </div>`;
     }
 
-    return selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`
+    return selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`
       <div class="editor__card">
         <div class="editor__card__title">
           Workspace

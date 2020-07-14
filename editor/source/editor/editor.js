@@ -6,6 +6,7 @@ import CodeMirror from 'codemirror/lib/codemirror.js'
 import 'codemirror/mode/htmlmixed/htmlmixed.js'
 import 'codemirror/mode/markdown/markdown.js'
 import 'codemirror/mode/yaml/yaml.js'
+import moment from 'moment'
 import { dump } from 'js-yaml/lib/js-yaml.js'
 import {
   html,
@@ -318,11 +319,17 @@ export default class Editor {
                     title="">
                   notes
                 </i>
-                <div class="editor__history__commits__commit__info">
-                  <a href="">${commit.sha.slice(0, 5)}</a>
-                </div>
-                <div class="editor__history__commits__commit__message">
-                  ${commit.message}
+                <div class="editor__history__commits__commit__meta">
+                  <div class="editor__history__commits__commit__info">
+                    <a href="${this.repo.webUrlForCommit(commit.sha)}" class="editor__history__commits__commit__hash">${commit.sha.slice(0, 5)}</a>
+                    &nbsp;by&nbsp;<a href="mailto:${commit.author.email}">${commit.author.name}</a>
+                    <span class="editor__history__commits__commit__time" title="${moment(commit.commit_date + 'Z', moment.ISO_8601).format('D MMM YYYY, h:mm:ss a')}">
+                      &nbsp;(${moment(commit.commit_date + 'Z', moment.ISO_8601).fromNow()})
+                    </span>
+                  </div>
+                  <div class="editor__history__commits__commit__message">
+                    ${commit.message}
+                  </div>
                 </div>
               </div>
             `)}
