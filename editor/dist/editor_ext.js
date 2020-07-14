@@ -105410,7 +105410,7 @@ class Editor {
       ${this.menu.template(editor)}
       <div class="editor__frame">
         ${this.podPath ? editor.renderEditor(editor, selective) : ''}
-        ${this.podPath && this.document.servingPath ? editor.renderPreview(editor, selective) : ''}
+        ${this.podPath && this.document && this.document.servingPath ? editor.renderPreview(editor, selective) : ''}
       </div>
     </div>`;
 
@@ -105789,7 +105789,7 @@ class Editor {
 
     this.listeners.add('load.routes', this.verifyPreviewIframe.bind(this)); // Watch for the history popstate.
 
-    window.addEventListener('popstate', this.popState.bind(this)); // Message when there are pending changes.
+    window.addEventListener('popstate', this.handlePopState.bind(this)); // Message when there are pending changes.
 
     window.addEventListener('beforeunload', evt => {
       if (!this.isClean) {
@@ -106063,6 +106063,17 @@ class Editor {
     this.delayPodPath(evt.target.value);
   }
 
+  handlePopState(evt) {
+    if (evt.state && evt.state.podPath) {
+      this.podPath = evt.state.podPath;
+      this.urlParams = new URLSearchParams(window.location.search);
+      this.load(this.podPath);
+    } else {
+      // Handle when there was no document loaded. (ex: main editor url)
+      this.unload();
+    }
+  }
+
   handlePreviewIframeNavigation(evt) {
     const newLocation = evt.target.contentWindow.location;
 
@@ -106205,14 +106216,6 @@ class Editor {
     this.api.getTemplates().then(this.handleLoadTemplates.bind(this));
   }
 
-  popState(evt) {
-    if (evt.state.podPath) {
-      this.podPath = evt.state.podPath;
-      this.urlParams = new URLSearchParams(window.location.search);
-      this.load(this.podPath);
-    }
-  }
-
   pushState(podPath, paramString) {
     // Update the url if the document loaded is a different pod path.
     const basePath = this.config.get('base', '/_grow/editor');
@@ -106298,7 +106301,7 @@ class Editor {
   }
 
   renderEditor(editor, selective) {
-    if (editor.settingFullScreenPreview.on) {
+    if (!editor.document || editor.settingFullScreenPreview.on) {
       return '';
     }
 
@@ -106559,6 +106562,12 @@ class Editor {
     if (this.autosaveID) {
       window.clearInterval(this.autosaveID);
     }
+  }
+
+  unload() {
+    this.podPath = '';
+    this.document = null;
+    this.render();
   }
 
   updateDocumentFromResponse(response) {
