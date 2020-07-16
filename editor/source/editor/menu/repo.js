@@ -44,6 +44,7 @@ export default class RepoMenu extends MenuBase {
     return html`
       <div class="menu__repo__workspace menu__repo__value">
         <a
+            class="menu__repo__workspace__branch"
             href=${menuState.repo.webUrlForBranch(menuState.repo, menuState.repo.branch)}
             target="_blank">
           ${menuState.repo.cleanBranch(menuState.repo.branch)}

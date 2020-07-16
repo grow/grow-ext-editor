@@ -109208,6 +109208,7 @@ class RepoMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
       <div class="menu__repo__workspace menu__repo__value">
         <a
+            class="menu__repo__workspace__branch"
             href=${menuState.repo.webUrlForBranch(menuState.repo, menuState.repo.branch)}
             target="_blank">
           ${menuState.repo.cleanBranch(menuState.repo.branch)}
