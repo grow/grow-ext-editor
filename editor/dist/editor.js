@@ -106831,10 +106831,11 @@ class EditorApi extends _utility_api__WEBPACK_IMPORTED_MODULE_0__["default"] {
   } // TODO: Move to the google image extension.
 
 
-  saveGoogleImage(imageFile, uploadUrl) {
+  saveGoogleImage(imageFile, uploadUrl, bucket) {
     const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
     const formData = new FormData();
     formData.append('file', imageFile);
+    formData.append('bucket', bucket || '');
     this.request.post(uploadUrl).send(formData).then(res => {
       result.resolve(res.body);
     }).catch(err => {
@@ -107576,7 +107577,8 @@ class GoogleImageField extends ImageField {
     const localeKey = this.keyForLocale(locale); // Wait for the url promise to return.
 
     this._extension_config_promise.then(result => {
-      let uploadUrl = result['googleImageUploadUrl'];
+      const uploadUrl = result['googleImageUploadUrl'];
+      const bucket = result['googleImageBucket'];
 
       if (!uploadUrl) {
         console.error('Unable to retrieve the upload url.');
@@ -107585,7 +107587,7 @@ class GoogleImageField extends ImageField {
         return;
       }
 
-      this.api.saveGoogleImage(file, uploadUrl).then(result => {
+      this.api.saveGoogleImage(file, uploadUrl, bucket).then(result => {
         this._showFileInput[localeKey] = false;
         this._isLoading[localeKey] = false;
         this.setValueForLocale(locale, result['url']);
@@ -108114,9 +108116,10 @@ class HtmlField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
 
     this._extension_config_promise.then(extension_config => {
       if (extension_config['googleImageUploadUrl']) {
-        let uploadUrl = extension_config['googleImageUploadUrl'];
+        const uploadUrl = extension_config['googleImageUploadUrl'];
+        const bucket = extension_config['googleImageBucket'];
         this.imageUploader = new _quill_image_upload__WEBPACK_IMPORTED_MODULE_5__["default"](async imageBlob => {
-          const result = await this.api.saveGoogleImage(imageBlob, uploadUrl);
+          const result = await this.api.saveGoogleImage(imageBlob, uploadUrl, bucket);
           return result['url'];
         });
       } else {

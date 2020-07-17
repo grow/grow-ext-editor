@@ -226,10 +226,11 @@ export default class EditorApi extends Api {
   }
 
   // TODO: Move to the google image extension.
-  saveGoogleImage(imageFile, uploadUrl) {
+  saveGoogleImage(imageFile, uploadUrl, bucket) {
     const result = new Defer()
     const formData  = new FormData()
     formData.append('file', imageFile)
+    formData.append('bucket', bucket || '')
 
     this.request.post(uploadUrl)
       .send(formData)

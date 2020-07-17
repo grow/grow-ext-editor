@@ -410,7 +410,8 @@ export class GoogleImageField extends ImageField {
 
     // Wait for the url promise to return.
     this._extension_config_promise.then((result) => {
-      let uploadUrl = result['googleImageUploadUrl']
+      const uploadUrl = result['googleImageUploadUrl']
+      const bucket = result['googleImageBucket']
 
       if (!uploadUrl) {
         console.error('Unable to retrieve the upload url.');
@@ -419,7 +420,7 @@ export class GoogleImageField extends ImageField {
         return
       }
 
-      this.api.saveGoogleImage(file, uploadUrl).then((result) => {
+      this.api.saveGoogleImage(file, uploadUrl, bucket).then((result) => {
         this._showFileInput[localeKey] = false
         this._isLoading[localeKey] = false
         this.setValueForLocale(locale, result['url'])
