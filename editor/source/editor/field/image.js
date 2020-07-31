@@ -20,7 +20,6 @@ import {
 } from '../ui/file'
 
 
-
 const VALID_MIME_TYPES = [
   'image/jpeg', 'image/png', 'image/svg+xml', 'image/webp', 'image/gif']
 const MIME_TO_TYPE = {

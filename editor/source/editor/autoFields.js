@@ -6,7 +6,7 @@ import { AutoFields } from 'selective-edit'
 
 
 const IMAGE_REGEX = /\.(jp[e]?g|png|svg|webp|gif)$/i
-const GOOGLE_IMAGE_REGEX = /\.googleusercontent.com\//i
+const GOOGLE_IMAGE_REGEX = /(\.googleusercontent.com|storage.googleapis.com)\//i
 
 
 export default class EditorAutoFields extends AutoFields {

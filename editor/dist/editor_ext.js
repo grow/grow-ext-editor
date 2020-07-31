@@ -105209,7 +105209,7 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 const IMAGE_REGEX = /\.(jp[e]?g|png|svg|webp|gif)$/i;
-const GOOGLE_IMAGE_REGEX = /\.googleusercontent.com\//i;
+const GOOGLE_IMAGE_REGEX = /(\.googleusercontent.com|storage.googleapis.com)\//i;
 class EditorAutoFields extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["AutoFields"] {
   _deepGuessObject(data, keyBase) {
     // Handle the `!g.*` constructors.
