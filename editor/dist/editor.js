@@ -1024,6 +1024,8 @@ __webpack_require__.r(__webpack_exports__);
 
 const COMMON_PREVIEW_KEYS = [// First match wins.
 'title', 'label', 'subtitle', 'type', 'text', 'key', 'id', 'url', 'value', 'doc', 'partial'];
+const VIDEO_EXT = [// Video extensions.
+'mp4', 'webm'];
 class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
   constructor(config, globalConfig) {
     super(config, globalConfig);
@@ -1096,6 +1098,24 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
     if (listItems.length > 1 || !this.useSimpleField) {
       this.render();
     }
+  }
+
+  _createPreviewTemplate(url) {
+    if (url.startsWith('http') || url.startsWith('//')) {
+      for (const videoExt of VIDEO_EXT) {
+        if (url.endsWith(`.${videoExt}`)) {
+          return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`<video playsinline disableremoteplayback muted autoplay loop>
+            <source src="${url}" />
+          </video>`;
+        }
+      }
+
+      return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`<img src="${url}" class="selective__image__fingernail">`;
+    } else if (url.startsWith('/')) {
+      return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`<img src="${url}" class="selective__image__fingernail">`;
+    }
+
+    return url;
   }
 
   _getListItemsForLocale(locale) {
@@ -1225,10 +1245,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
     }
 
     if (previewType == 'image' && previewValue) {
-      if (previewValue.startsWith('http') || previewValue.startsWith('//')) {
-        return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`<img src="${previewValue}" class="selective__image__fingernail">`;
-      } else if (previewValue.startsWith('/')) {// TODO: Handle local images.
-      }
+      return this._createPreviewTemplate(previewValue);
     }
 
     if (previewValue || defaultPreview) {
@@ -107209,6 +107226,9 @@ const MIME_TO_TYPE = {
   'image/gif': 'gif'
 };
 const IMAGE_HOVER_CLASS = 'selective__image--hover';
+const FILE_EXT_REGEX = /\.[0-9a-z]{1,5}$/i;
+const VIDEO_EXT = [// Video extensions.
+'mp4', 'webm'];
 
 const fractReduce = (numerator, denominator) => {
   // Reduce a fraction by finding the Greatest Common Divisor and dividing by it.
@@ -107331,6 +107351,14 @@ class ImageField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
     this.render();
   }
 
+  handleVideoLoad(evt) {
+    this._metas[evt.target.dataset.servingPath] = {
+      height: evt.target.videoHeight,
+      width: evt.target.videoWidth
+    };
+    this.render();
+  }
+
   renderFileInput(selective, data, locale) {
     const localeKey = this.keyForLocale(locale);
 
@@ -107424,15 +107452,30 @@ class ImageField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
       <div id="${this.uid}${locale}-preview" class="selective__image__preview">
         <div class="selective__image__preview__image">
-          <img
-            data-serving-path=${servingPath}
-            @load=${this.handleImageLoad.bind(this)}
-            src="${servingPath}" />
+          ${this.renderPreviewMedia(selective, data, locale, servingPath)}
         </div>
         <div class="selective__image__preview__meta">
           ${this.renderImageMeta(selective, data, locale)}
         </div>
       </div>`;
+  }
+
+  renderPreviewMedia(selective, data, locale, servingPath) {
+    for (const videoExt of VIDEO_EXT) {
+      if (servingPath.endsWith(`.${videoExt}`)) {
+        return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<video
+            data-serving-path=${servingPath}
+            @loadeddata=${this.handleVideoLoad.bind(this)}
+            playsinline disableremoteplayback muted autoplay loop>
+          <source src="${servingPath}" />
+        </video>`;
+      }
+    }
+
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<img
+      data-serving-path=${servingPath}
+      @load=${this.handleImageLoad.bind(this)}
+      src="${servingPath}" />`;
   }
 
   uploadFile(file, locale) {
@@ -107566,7 +107609,12 @@ class GoogleImageField extends ImageField {
   }
 
   getServingPath(value, locale) {
-    if (value.includes('googleusercontent') && !value.endsWith('.svg') && !value.includes('=')) {
+    if (FILE_EXT_REGEX.test(value)) {
+      return value;
+    } // Add original size to the image so that we can get the full image specs.
+
+
+    if (value.includes('googleusercontent') && !value.includes('=')) {
       return `${value}=s0`;
     }
 
