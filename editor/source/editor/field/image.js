@@ -399,7 +399,7 @@ export class GoogleImageField extends ImageField {
   }
 
   getServingPath(value, locale) {
-    if (value.includes('googleusercontent') && !value.endsWith('.svg')) {
+    if (value.includes('googleusercontent') && !value.endsWith('.svg') && !value.includes('=')) {
       return `${value}=s0`
     }
     return value
