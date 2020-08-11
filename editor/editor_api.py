@@ -6,6 +6,7 @@ import hashlib
 import json
 import os
 import re
+import subprocess
 import yaml
 from werkzeug import wrappers
 from werkzeug.exceptions import BadRequest, NotFound
@@ -26,6 +27,9 @@ class PodApi(object):
     EDITOR_FILE_NAME = '_editor.yaml'
     TEMPLATE_FILE_NAME = '_template.yaml'
     STRINGS_PATH = '/content/strings'
+    IGNORED_BRANCHES = (
+        'HEAD',
+    )
     IGNORED_PREFIXES = (
         '.',
         '_',
@@ -217,6 +221,13 @@ class PodApi(object):
             'serving_url': static_doc.url.path,
         }
 
+    @staticmethod
+    def force_string(value):
+        try:
+            return value.decode('utf-8')
+        except (UnicodeDecodeError, AttributeError):
+            return value
+
     def content_from_template(self):
         """Handle the request for copying files."""
         collection_path = self._get_param('collection_path')
@@ -397,6 +408,7 @@ class PodApi(object):
         }
 
     def get_repo(self):
+        remote_name = self._get_param('remote') or 'origin'
         repo = utils.get_git_repo(self.pod.root)
         if not repo:
             return {}
@@ -404,16 +416,36 @@ class PodApi(object):
         revision = repo.git.rev_list('--count', 'HEAD')
         remote_url = None
         web_url = None
-        if repo.remotes and repo.remotes[0]:
-            urls = list(repo.remotes[0].urls)
+        remote = None
+        for repo_remote in repo.remotes:
+            if repo_remote.name == remote_name:
+                remote = repo_remote
+                break
+
+        if remote:
+            urls = list(remote.urls)
             remote_url = urls and urls[0]
-            # TODO(jeremydw): Genericize this.
-            web_url = remote_url and remote_url.replace('git@github.com:', 'https://www.github.com/')
+            web_url = remote_url
+
+            # Github
+            web_url = web_url.replace('git@github.com:', 'https://www.github.com/')
             if web_url and web_url.endswith('.git'):
                 web_url = web_url[:-4]
+
+            # Google Cloud Source
+            web_url = web_url.replace(
+                'https://source.developers.google.com/p/', 'https://source.cloud.google.com/')
+            web_url = web_url.replace('/r/', '/')
+
+        if not remote:
+            remote = repo.remote()
+
+        # Remove the remote name from branch name (ex: origin/master => master)
+        branch_names = ['/'.join(ref.name.split('/')[1:]) for ref in remote.refs]
+        branches = [name for name in branch_names if name not in self.IGNORED_BRANCHES]
+
         commits = []
-        # Handle repo with no commits.
-        if repo.head.ref:
+        if repo.head.ref:  # Handle repo with no commits.
             for commit in repo.iter_commits(branch, max_count=10):
                 committed_date = datetime.datetime.utcfromtimestamp(commit.committed_date)
                 commits.append({
@@ -425,12 +457,14 @@ class PodApi(object):
                         'email': commit.author.email,
                     },
                 })
+
         self.data = {
             'repo': {
                 'web_url': web_url,
                 'remote_url': remote_url,
                 'revision': revision,
                 'branch': branch,
+                'branches': branches,
                 'commits': commits,
             },
         }
@@ -549,10 +583,7 @@ class PodApi(object):
             if self._has_post('content'):
                 content = self._get_post('content')
                 content = content.encode('utf-8')
-                try:
-                    content = content.decode('utf-8')
-                except (UnicodeDecodeError, AttributeError):
-                    pass
+                content = self.force_string(content)
                 doc.write(fields=fields, body=content)
             else:
                 doc.write(fields=fields)

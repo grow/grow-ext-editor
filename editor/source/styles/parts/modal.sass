@@ -31,15 +31,24 @@
   min-width: 50vw
   overflow: auto
 
-.modal__container
-  padding: $ge-pad*2
+  h2
+    border-bottom: $ge-border-size-thick solid $ge-color-border
+    font-size: $ge-font-size
+    font-weight: 700
+    margin-top: 0
+    margin-bottom: $ge-pad
+    padding: $ge-pad*2
+    text-transform: uppercase
+
+.modal__content
+  margin: $ge-pad*2
 
 .modal__actions
   align-items: center
   display: flex
-  flex-flow: row
-  justify-content: center
-  margin: $ge-pad
+  flex-flow: row-reverse
+  justify-content: space-between
+  margin: $ge-pad*2 $ge-pad
 
   button
     margin-right: $ge-pad

@@ -9,6 +9,7 @@ import {
 } from 'selective-edit'
 import moment from 'moment'
 import { findParentByClassname } from '../../utility/dom'
+import { WORKSPACE_BRANCH_PREFIX } from './workspace'
 import MenuBase from './base'
 
 
@@ -24,24 +25,6 @@ export default class RepoMenu extends MenuBase {
         </div>
       </div>
     </div>`
-  }
-
-  webUrlForBranch(repo, branch) {
-    if (branch != 'master') {
-      if (repo.web_url.includes('github.com')) {
-        return `${repo.web_url}/tree/${branch}`
-      }
-    }
-
-    return repo.web_url
-  }
-
-  webUrlForCommit(repo, commitHash) {
-    if (repo.web_url.includes('github.com')) {
-      return `${repo.web_url}/commit/${commitHash}`
-    }
-
-    return repo.web_url
   }
 
   renderBranch(editor, menuState, eventHandlers) {
@@ -61,12 +44,13 @@ export default class RepoMenu extends MenuBase {
     return html`
       <div class="menu__repo__workspace menu__repo__value">
         <a
-            href=${this.webUrlForBranch(menuState.repo, menuState.repo.branch)}
+            class="menu__repo__workspace__branch"
+            href=${menuState.repo.webUrlForBranch(menuState.repo, menuState.repo.branch)}
             target="_blank">
-          ${menuState.repo.branch}
+          ${menuState.repo.cleanBranch(menuState.repo.branch)}
         </a>
         @ <a
-            href=${this.webUrlForCommit(menuState.repo, menuState.repo.commits[0].sha)}
+            href=${menuState.repo.webUrlForCommit(menuState.repo, menuState.repo.commits[0].sha)}
             target="_blank">
           ${menuState.repo.commits[0].sha.substring(0, 6)}
         </a>

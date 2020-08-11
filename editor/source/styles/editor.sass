@@ -229,7 +229,8 @@
     padding-left: $ge-pad * 3
 
     &:focus,
-    &:hover
+    &:hover,
+    &:hover:focus
       border: none
 
 .editor__source
@@ -413,6 +414,50 @@
     &:focus,
     &:hover
       visibility: visible
+
+.editor__history__workspace
+  align-items: center
+  display: flex
+  flex-flow: row
+  padding: $ge-pad
+
+.editor__workspace__branch__label
+  margin-left: $ge-pad
+
+.editor__history__commits__commit
+  align-items: center
+  display: flex
+  flex-flow: row
+  padding: $ge-pad
+
+  &:first-child
+    background-color: $ge-color-primary
+    color: $ge-color-on-primary
+
+    a
+      color: $ge-color-on-primary
+
+.editor__history__commits__commit__info
+  align-items: center
+  display: flex
+  flex-flow: row
+
+.editor__history__commits__commit__meta
+  margin-left: $ge-pad
+
+.editor__history__commits__commit__hash
+  font-family: $ge-font-family-mono
+
+.editor__history__commits__commit__time
+  font-size: $ge-font-size-small
+
+.editor__history__commits__commit__message
+  font-size: $ge-font-size-small
+  margin-top: $ge-pad/2
+  padding-left: $ge-pad
+  overflow: hidden
+  text-overflow: ellipsis
+  white-space: nowrap
 
 // Import theme for codemirror.
 @import 'codemirror/lib/codemirror.css'

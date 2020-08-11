@@ -1024,6 +1024,8 @@ __webpack_require__.r(__webpack_exports__);
 
 const COMMON_PREVIEW_KEYS = [// First match wins.
 'title', 'label', 'subtitle', 'type', 'text', 'key', 'id', 'url', 'value', 'doc', 'partial'];
+const VIDEO_EXT = [// Video extensions.
+'mp4', 'webm'];
 class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
   constructor(config, globalConfig) {
     super(config, globalConfig);
@@ -1096,6 +1098,24 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
     if (listItems.length > 1 || !this.useSimpleField) {
       this.render();
     }
+  }
+
+  _createPreviewTemplate(url) {
+    if (url.startsWith('http') || url.startsWith('//')) {
+      for (const videoExt of VIDEO_EXT) {
+        if (url.endsWith(`.${videoExt}`)) {
+          return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`<video playsinline disableremoteplayback muted autoplay loop>
+            <source src="${url}" />
+          </video>`;
+        }
+      }
+
+      return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`<img src="${url}" class="selective__image__fingernail">`;
+    } else if (url.startsWith('/')) {
+      return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`<img src="${url}" class="selective__image__fingernail">`;
+    }
+
+    return url;
   }
 
   _getListItemsForLocale(locale) {
@@ -1225,10 +1245,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
     }
 
     if (previewType == 'image' && previewValue) {
-      if (previewValue.startsWith('http') || previewValue.startsWith('//')) {
-        return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`<img src="${previewValue}" class="selective__image__fingernail">`;
-      } else if (previewValue.startsWith('/')) {// TODO: Handle local images.
-      }
+      return this._createPreviewTemplate(previewValue);
     }
 
     if (previewValue || defaultPreview) {
@@ -105192,7 +105209,7 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 const IMAGE_REGEX = /\.(jp[e]?g|png|svg|webp|gif)$/i;
-const GOOGLE_IMAGE_REGEX = /\.googleusercontent.com\//i;
+const GOOGLE_IMAGE_REGEX = /(\.googleusercontent.com|storage.googleapis.com)\//i;
 class EditorAutoFields extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["AutoFields"] {
   _deepGuessObject(data, keyBase) {
     // Handle the `!g.*` constructors.
@@ -105360,23 +105377,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var codemirror_mode_markdown_markdown_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(codemirror_mode_markdown_markdown_js__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var codemirror_mode_yaml_yaml_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! codemirror/mode/yaml/yaml.js */ "./node_modules/codemirror/mode/yaml/yaml.js");
 /* harmony import */ var codemirror_mode_yaml_yaml_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(codemirror_mode_yaml_yaml_js__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var js_yaml_lib_js_yaml_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! js-yaml/lib/js-yaml.js */ "./node_modules/js-yaml/lib/js-yaml.js");
-/* harmony import */ var js_yaml_lib_js_yaml_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(js_yaml_lib_js_yaml_js__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
-/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utility/config */ "./source/utility/config.js");
-/* harmony import */ var _utility_listeners__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utility/listeners */ "./source/utility/listeners.js");
-/* harmony import */ var _document__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./document */ "./source/editor/document.js");
-/* harmony import */ var _editorApi__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./editorApi */ "./source/editor/editorApi.js");
-/* harmony import */ var _menu_menu__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./menu/menu */ "./source/editor/menu/menu.js");
-/* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./autoFields */ "./source/editor/autoFields.js");
-/* harmony import */ var _field__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./field */ "./source/editor/field.js");
-/* harmony import */ var _zoomIframe__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./zoomIframe */ "./source/editor/zoomIframe.js");
-/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../utility/dom */ "./source/utility/dom.js");
-/* harmony import */ var _utility_storage__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../utility/storage */ "./source/utility/storage.js");
-/* harmony import */ var _utility_settings__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../utility/settings */ "./source/utility/settings.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var js_yaml_lib_js_yaml_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! js-yaml/lib/js-yaml.js */ "./node_modules/js-yaml/lib/js-yaml.js");
+/* harmony import */ var js_yaml_lib_js_yaml_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(js_yaml_lib_js_yaml_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utility/config */ "./source/utility/config.js");
+/* harmony import */ var _utility_listeners__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../utility/listeners */ "./source/utility/listeners.js");
+/* harmony import */ var _document__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./document */ "./source/editor/document.js");
+/* harmony import */ var _editorApi__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./editorApi */ "./source/editor/editorApi.js");
+/* harmony import */ var _menu_menu__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./menu/menu */ "./source/editor/menu/menu.js");
+/* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./autoFields */ "./source/editor/autoFields.js");
+/* harmony import */ var _field__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./field */ "./source/editor/field.js");
+/* harmony import */ var _zoomIframe__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./zoomIframe */ "./source/editor/zoomIframe.js");
+/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../utility/dom */ "./source/utility/dom.js");
+/* harmony import */ var _utility_repo__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../utility/repo */ "./source/utility/repo.js");
+/* harmony import */ var _utility_storage__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../utility/storage */ "./source/utility/storage.js");
+/* harmony import */ var _utility_settings__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../utility/settings */ "./source/utility/settings.js");
 /**
  * Content editor.
  */
+
+
 
 
 
@@ -105404,26 +105426,28 @@ const CODEMIRROR_OPTIONS = {
 class Editor {
   constructor(containerEl, config) {
     this.containerEl = containerEl;
-    this.config = new _utility_config__WEBPACK_IMPORTED_MODULE_6__["default"](config || {});
+    this.config = new _utility_config__WEBPACK_IMPORTED_MODULE_7__["default"](config || {});
 
-    this.template = (editor, selective) => selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`<div class="editor ${editor.stylesEditor}">
+    this.template = (editor, selective) => selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`<div class="editor ${editor.stylesEditor}">
       ${this.menu.template(editor)}
       <div class="editor__frame">
         ${this.podPath ? editor.renderEditor(editor, selective) : ''}
-        ${this.podPath && this.document.servingPath ? editor.renderPreview(editor, selective) : ''}
+        ${this.podPath && this.document && this.document.servingPath ? editor.renderPreview(editor, selective) : ''}
       </div>
     </div>`;
 
-    this.storage = new _utility_storage__WEBPACK_IMPORTED_MODULE_15__["default"](this.isTesting);
-    const EditorApiCls = this.config.get('EditorApiCls', _editorApi__WEBPACK_IMPORTED_MODULE_9__["default"]);
+    this.storage = new _utility_storage__WEBPACK_IMPORTED_MODULE_17__["default"](this.isTesting);
+    const EditorApiCls = this.config.get('EditorApiCls', _editorApi__WEBPACK_IMPORTED_MODULE_10__["default"]);
     this.api = new EditorApiCls();
-    this.listeners = new _utility_listeners__WEBPACK_IMPORTED_MODULE_7__["default"]();
-    this.menu = new _menu_menu__WEBPACK_IMPORTED_MODULE_10__["default"]({
-      testing: this.isTesting
+    this.listeners = new _utility_listeners__WEBPACK_IMPORTED_MODULE_8__["default"]();
+    this.menu = new _menu_menu__WEBPACK_IMPORTED_MODULE_11__["default"]({
+      testing: this.isTesting,
+      enableMenuWorkspace: this.config.enableMenuWorkspace
     }, this);
     this._podPath = null;
     this.podPath = this.containerEl.dataset.defaultPath || this.config.get('defaultPath', '');
     this.repo = null;
+    this.remote = this.containerEl.dataset.remote || 'origin';
     this.document = null;
     this.autosaveID = null;
     this.urlParams = new URLSearchParams(window.location.search); // TODO: Make devices configurable.
@@ -105446,16 +105470,16 @@ class Editor {
     this._defaultDevice = 'desktop';
     this._device = this.storage.getItem('selective.device') || this._defaultDevice; // Persistent settings in local storage.
 
-    this.settingDeviceRotated = new _utility_settings__WEBPACK_IMPORTED_MODULE_16__["SettingToggle"](false, this.storage, 'selective.device.rotated');
-    this.settingDeviceView = new _utility_settings__WEBPACK_IMPORTED_MODULE_16__["SettingToggle"](false, this.storage, 'selective.device.view');
-    this.settingFullScreenEditor = new _utility_settings__WEBPACK_IMPORTED_MODULE_16__["SettingToggle"](false, this.storage, 'selective.fullScreenEditor');
-    this.settingFullScreenPreview = new _utility_settings__WEBPACK_IMPORTED_MODULE_16__["SettingToggle"](false, this.storage, 'selective.fullScreenPreview');
-    this.settingHighlightDirty = new _utility_settings__WEBPACK_IMPORTED_MODULE_16__["SettingToggle"](false, this.storage, 'selective.highlight.dirty');
-    this.settingHighlightGuess = new _utility_settings__WEBPACK_IMPORTED_MODULE_16__["SettingToggle"](false, this.storage, 'selective.highlight.guess');
-    this.settingHighlightLinked = new _utility_settings__WEBPACK_IMPORTED_MODULE_16__["SettingToggle"](false, this.storage, 'selective.highlight.linked');
-    this.settingLocalize = new _utility_settings__WEBPACK_IMPORTED_MODULE_16__["SettingToggle"](false, this.storage, 'selective.localize');
-    this.settingLocalizeUrls = new _utility_settings__WEBPACK_IMPORTED_MODULE_16__["SettingToggle"](false, this.storage, 'selective.localize.urls');
-    this.settingEditorPane = new _utility_settings__WEBPACK_IMPORTED_MODULE_16__["SettingSet"](['fields', 'source', 'history'], 'fields', this.storage, 'selective.editor.pane');
+    this.settingDeviceRotated = new _utility_settings__WEBPACK_IMPORTED_MODULE_18__["SettingToggle"](false, this.storage, 'selective.device.rotated');
+    this.settingDeviceView = new _utility_settings__WEBPACK_IMPORTED_MODULE_18__["SettingToggle"](false, this.storage, 'selective.device.view');
+    this.settingFullScreenEditor = new _utility_settings__WEBPACK_IMPORTED_MODULE_18__["SettingToggle"](false, this.storage, 'selective.fullScreenEditor');
+    this.settingFullScreenPreview = new _utility_settings__WEBPACK_IMPORTED_MODULE_18__["SettingToggle"](false, this.storage, 'selective.fullScreenPreview');
+    this.settingHighlightDirty = new _utility_settings__WEBPACK_IMPORTED_MODULE_18__["SettingToggle"](false, this.storage, 'selective.highlight.dirty');
+    this.settingHighlightGuess = new _utility_settings__WEBPACK_IMPORTED_MODULE_18__["SettingToggle"](false, this.storage, 'selective.highlight.guess');
+    this.settingHighlightLinked = new _utility_settings__WEBPACK_IMPORTED_MODULE_18__["SettingToggle"](false, this.storage, 'selective.highlight.linked');
+    this.settingLocalize = new _utility_settings__WEBPACK_IMPORTED_MODULE_18__["SettingToggle"](false, this.storage, 'selective.localize');
+    this.settingLocalizeUrls = new _utility_settings__WEBPACK_IMPORTED_MODULE_18__["SettingToggle"](false, this.storage, 'selective.localize.urls');
+    this.settingEditorPane = new _utility_settings__WEBPACK_IMPORTED_MODULE_18__["SettingSet"](['fields', 'source', 'history'], 'fields', this.storage, 'selective.editor.pane');
     this.settingLocale = null;
     this._isFullMarkdownEditor = false;
     this._hasLoadedFields = false;
@@ -105470,16 +105494,16 @@ class Editor {
     this._templates = null; // Track the serving path of the iframe when it is different.
 
     this._unverifiedServingPath = null;
-    this.selective = new selective_edit__WEBPACK_IMPORTED_MODULE_5__["default"](null, {
-      AutoFieldsCls: _autoFields__WEBPACK_IMPORTED_MODULE_11__["default"]
+    this.selective = new selective_edit__WEBPACK_IMPORTED_MODULE_6__["default"](null, {
+      AutoFieldsCls: _autoFields__WEBPACK_IMPORTED_MODULE_12__["default"]
     }); // Add the editor reference to the selective object for field access.
 
     this.selective.editor = this; // Load the selective editor preference for localize.
 
     this.selective.localize = this.settingLocalize.on; // Add the editor extension default field types.
 
-    for (const key of Object.keys(_field__WEBPACK_IMPORTED_MODULE_12__["defaultFields"])) {
-      this.selective.addFieldType(key, _field__WEBPACK_IMPORTED_MODULE_12__["defaultFields"][key]);
+    for (const key of Object.keys(_field__WEBPACK_IMPORTED_MODULE_13__["defaultFields"])) {
+      this.selective.addFieldType(key, _field__WEBPACK_IMPORTED_MODULE_13__["defaultFields"][key]);
     }
 
     this.bindEvents();
@@ -105509,6 +105533,10 @@ class Editor {
     }
 
     return this.document.isClean && this.selective.isClean;
+  }
+
+  get isMissingDoc() {
+    return !this.document;
   }
 
   get isTesting() {
@@ -105574,7 +105602,7 @@ class Editor {
       styles.push('editor--source');
     }
 
-    if (this.settingFullScreenEditor.on || !this.document.servingPath) {
+    if (this.settingFullScreenEditor.on || !this.servingPath) {
       styles.push('editor--fullscreen-editor');
     }
 
@@ -105603,12 +105631,12 @@ class Editor {
 
   get templatePane() {
     if (this.settingEditorPane.is('source')) {
-      const contentHtml = this.document.content != '' ? selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`
+      const contentHtml = this.document.content != '' ? selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`
           <div class="editor__source__section">
             <div class="editor__source__title">Content</div>
             <textarea class="editor__source__content" @input=${this.handleRawContent.bind(this)}>${this.document.content}</textarea>
           </div>` : '';
-      return selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`
+      return selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`
         <div class="editor__card">
           <div class="editor__card__title">
             Source
@@ -105624,15 +105652,58 @@ class Editor {
     }
 
     if (this.settingEditorPane.is('history')) {
-      return selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`
+      if (!this.repo) {
+        return selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`<div class="editor__loading editor__loading--small" title="Loading..."></div>`;
+      }
+
+      return selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`
         <div class="editor__card">
           <div class="editor__card__title">
-            History
+            Current Workspace
+          </div>
+          <div class="editor__history__workspace">
+            <i
+                class="material-icons icon"
+                title="">
+              dashboard
+            </i>
+            <div class="editor__workspace__branch__label">
+              ${this.repo.branch}
+            </div>
+          </div>
+        </div>
+        <div class="editor__card">
+          <div class="editor__card__title">
+            Change History
+          </div>
+          <div class="editor__history__commits">
+            ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["repeat"])(this.repo.commits, commit => commit.sha, (commit, index) => selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`
+              <div
+                  class="editor__history__commits__commit">
+                <i
+                    class="material-icons icon"
+                    title="">
+                  notes
+                </i>
+                <div class="editor__history__commits__commit__meta">
+                  <div class="editor__history__commits__commit__info">
+                    <a href="${this.repo.webUrlForCommit(commit.sha)}" class="editor__history__commits__commit__hash">${commit.sha.slice(0, 5)}</a>
+                    &nbsp;by&nbsp;<a href="mailto:${commit.author.email}">${commit.author.name}</a>
+                    <span class="editor__history__commits__commit__time" title="${moment__WEBPACK_IMPORTED_MODULE_4___default()(commit.commit_date + 'Z', moment__WEBPACK_IMPORTED_MODULE_4___default.a.ISO_8601).format('D MMM YYYY, h:mm:ss a')}">
+                      &nbsp;(${moment__WEBPACK_IMPORTED_MODULE_4___default()(commit.commit_date + 'Z', moment__WEBPACK_IMPORTED_MODULE_4___default.a.ISO_8601).fromNow()})
+                    </span>
+                  </div>
+                  <div class="editor__history__commits__commit__message">
+                    ${commit.message}
+                  </div>
+                </div>
+              </div>
+            `)}
           </div>
         </div>`;
     }
 
-    return selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`
+    return selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`
       ${this.renderWorkspace(this, this.selective)}
       <div class="editor__card editor__field_list">
         <div class="editor__card__title">
@@ -105692,7 +105763,7 @@ class Editor {
   adjustIframeSize() {
     const iframeContainerEl = this.containerEl.querySelector('.editor__preview__frame');
     const iframeEl = this.containerEl.querySelector('.editor__preview iframe');
-    Object(_zoomIframe__WEBPACK_IMPORTED_MODULE_13__["zoomIframe"])(iframeContainerEl, iframeEl, this.settingDeviceView.on, this.settingDeviceRotated.on, this.devices[this.device], 'editor__preview__frame--contained');
+    Object(_zoomIframe__WEBPACK_IMPORTED_MODULE_14__["zoomIframe"])(iframeContainerEl, iframeEl, this.settingDeviceView.on, this.settingDeviceRotated.on, this.devices[this.device], 'editor__preview__frame--contained');
   }
 
   bindEvents() {
@@ -105783,7 +105854,7 @@ class Editor {
 
     this.listeners.add('load.routes', this.verifyPreviewIframe.bind(this)); // Watch for the history popstate.
 
-    window.addEventListener('popstate', this.popState.bind(this)); // Message when there are pending changes.
+    window.addEventListener('popstate', this.handlePopState.bind(this)); // Message when there are pending changes.
 
     window.addEventListener('beforeunload', evt => {
       if (!this.isClean) {
@@ -105820,8 +105891,24 @@ class Editor {
   }
 
   documentFromResponse(response) {
-    this.document = new _document__WEBPACK_IMPORTED_MODULE_8__["default"](response['pod_path'], response['front_matter'], response['raw_front_matter'], response['serving_paths'], response['default_locale'], response['locales'], response['content'], response['hash']);
-    this.settingLocale = new _utility_settings__WEBPACK_IMPORTED_MODULE_16__["SettingSet"](this.document.locales, this.document.defaultLocale, this.storage, 'selective.editor.locale');
+    this.document = new _document__WEBPACK_IMPORTED_MODULE_9__["default"](response['pod_path'], response['front_matter'], response['raw_front_matter'], response['serving_paths'], response['default_locale'], response['locales'], response['content'], response['hash']);
+    this.settingLocale = new _utility_settings__WEBPACK_IMPORTED_MODULE_18__["SettingSet"](this.document.locales, this.document.defaultLocale, this.storage, 'selective.editor.locale');
+  }
+
+  handleDeviceRotateClick(evt) {
+    this.settingDeviceRotated.toggle();
+    this.render();
+  }
+
+  handleDeviceSwitchClick(evt) {
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_15__["findParentByClassname"])(evt.target, 'editor__preview__size');
+    this.device = target.dataset.device;
+    this.render();
+  }
+
+  handleDeviceToggleClick(evt) {
+    this.settingDeviceView.toggle();
+    this.render();
   }
 
   handleFieldsClick(evt) {
@@ -105902,7 +105989,7 @@ class Editor {
       this.selective.addField(fieldConfig, {
         api: this.api,
         linkedFieldsFunc: () => this.linkedFields,
-        AutoFieldsCls: _autoFields__WEBPACK_IMPORTED_MODULE_11__["default"]
+        AutoFieldsCls: _autoFields__WEBPACK_IMPORTED_MODULE_12__["default"]
       });
     } // Add the ability to edit the document body.
 
@@ -105926,7 +106013,7 @@ class Editor {
       }, {
         api: this.api,
         linkedFieldsFunc: () => this.linkedFields,
-        AutoFieldsCls: _autoFields__WEBPACK_IMPORTED_MODULE_11__["default"]
+        AutoFieldsCls: _autoFields__WEBPACK_IMPORTED_MODULE_12__["default"]
       });
     }
 
@@ -105935,19 +106022,11 @@ class Editor {
     this.render();
   }
 
-  handleDeviceRotateClick(evt) {
-    this.settingDeviceRotated.toggle();
-    this.render();
-  }
-
-  handleDeviceSwitchClick(evt) {
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_14__["findParentByClassname"])(evt.target, 'editor__preview__size');
-    this.device = target.dataset.device;
-    this.render();
-  }
-
-  handleDeviceToggleClick(evt) {
-    this.settingDeviceView.toggle();
+  handleLoadHistoryResponse(response) {
+    this._isFullMarkdownEditor = false;
+    this.settingEditorPane.value = 'history';
+    this.documentFromResponse(response);
+    this.pushState(this.document.podPath);
     this.render();
   }
 
@@ -105978,7 +106057,8 @@ class Editor {
   }
 
   handleLoadRepo(response) {
-    this.repo = response['repo'];
+    const repo = response['repo'];
+    this.repo = new _utility_repo__WEBPACK_IMPORTED_MODULE_16__["default"](repo.branch, repo.branches, repo.commits, repo.remote_url, repo.revision, repo.web_url);
     this.listeners.trigger('load.repo', {
       repo: this.repo
     });
@@ -106057,6 +106137,17 @@ class Editor {
     this.delayPodPath(evt.target.value);
   }
 
+  handlePopState(evt) {
+    if (evt.state && evt.state.podPath) {
+      this.podPath = evt.state.podPath;
+      this.urlParams = new URLSearchParams(window.location.search);
+      this.load(this.podPath);
+    } else {
+      // Handle when there was no document loaded. (ex: main editor url)
+      this.unload();
+    }
+  }
+
   handlePreviewIframeNavigation(evt) {
     const newLocation = evt.target.contentWindow.location;
 
@@ -106125,7 +106216,9 @@ class Editor {
   load(podPath) {
     if (this.settingEditorPane.is('source')) {
       this.loadSource(podPath);
-    } else if (this.settingEditorPane.is('history')) {// TODO: Load history.
+    } else if (this.settingEditorPane.is('history')) {
+      this.loadRepo();
+      this.loadHistory(podPath);
     } else {
       this.loadFields(podPath);
     }
@@ -106133,6 +106226,10 @@ class Editor {
 
   loadFields(podPath) {
     this.api.getDocument(podPath).then(this.handleLoadFieldsResponse.bind(this));
+  }
+
+  loadHistory(podPath) {
+    this.api.getDocument(podPath).then(this.handleLoadHistoryResponse.bind(this));
   }
 
   loadPod(force) {
@@ -106199,14 +106296,6 @@ class Editor {
     this.api.getTemplates().then(this.handleLoadTemplates.bind(this));
   }
 
-  popState(evt) {
-    if (evt.state.podPath) {
-      this.podPath = evt.state.podPath;
-      this.urlParams = new URLSearchParams(window.location.search);
-      this.load(this.podPath);
-    }
-  }
-
   pushState(podPath, paramString) {
     // Update the url if the document loaded is a different pod path.
     const basePath = this.config.get('base', '/_grow/editor');
@@ -106232,7 +106321,7 @@ class Editor {
 
     this._isRendering = true;
     const isClean = this.isClean;
-    Object(selective_edit__WEBPACK_IMPORTED_MODULE_5__["render"])(this.template(this, this.selective), this.containerEl); // Check for clean changes not caught.
+    Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["render"])(this.template(this, this.selective), this.containerEl); // Check for clean changes not caught.
 
     if (this.isClean != isClean) {
       this._isRendering = false;
@@ -106292,11 +106381,11 @@ class Editor {
   }
 
   renderEditor(editor, selective) {
-    if (editor.settingFullScreenPreview.on) {
+    if (!editor.document || editor.settingFullScreenPreview.on) {
       return '';
     }
 
-    return selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`<div class="editor__edit">
+    return selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`<div class="editor__edit">
       <div class="editor__edit__header">
         <div class="editor__edit__header__section">
           <div class="editor__edit__header__label">
@@ -106310,15 +106399,15 @@ class Editor {
           <div class="editor__edit__header__pod_path">
             ${editor.podPath}
           </div>
-          ${this.servingPath ? selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`<i class="material-icons" @click=${editor.handleFullScreenEditorClick.bind(editor)} title="Fullscreen">${editor.settingFullScreenEditor.on || !this.servingPath ? 'fullscreen_exit' : 'fullscreen'}</i>` : ''}
+          ${this.servingPath ? selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`<i class="material-icons" @click=${editor.handleFullScreenEditorClick.bind(editor)} title="Fullscreen">${editor.settingFullScreenEditor.on || !this.servingPath ? 'fullscreen_exit' : 'fullscreen'}</i>` : ''}
         </div>
       </div>
       <div class="editor__cards">
         <div class="editor__card editor__menu">
             <div class="editor__actions">
-              <button class="editor__style__fields editor__button editor__button--secondary ${this.settingEditorPane.is('fields') ? '' : 'editor__button--selected'}" @click=${editor.handleFieldsClick.bind(editor)} ?disabled=${!editor.isClean}>Fields</button>
+              <button class="editor__style__fields editor__button editor__button--secondary ${this.settingEditorPane.is('fields') ? 'editor__button--selected' : ''}" @click=${editor.handleFieldsClick.bind(editor)} ?disabled=${!editor.isClean}>Fields</button>
               <button class="editor__style__raw editor__button editor__button--secondary ${this.settingEditorPane.is('source') ? 'editor__button--selected' : ''}" @click=${editor.handleSourceClick.bind(editor)} ?disabled=${!editor.isClean}>Source</button>
-              <!-- <button class="editor__style__raw editor__button editor__button--secondary ${this.settingEditorPane.is('history') ? 'editor__button--selected' : ''}" @click=${editor.handleHistoryClick.bind(editor)} ?disabled=${!editor.isClean}>History</button> -->
+              <button class="editor__style__raw editor__button editor__button--secondary ${this.settingEditorPane.is('history') ? 'editor__button--selected' : ''}" @click=${editor.handleHistoryClick.bind(editor)} ?disabled=${!editor.isClean}>History</button>
             </div>
             <button
                 ?disabled=${editor._isSaving || editor.isClean}
@@ -106340,8 +106429,8 @@ class Editor {
     let previewSizes = '';
 
     if (editor.settingDeviceView.on) {
-      previewSizes = selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`<div class="editor__preview__sizes">
-        ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_5__["repeat"])(Object.entries(this.devices), device => device[0], (device, index) => selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`
+      previewSizes = selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`<div class="editor__preview__sizes">
+        ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["repeat"])(Object.entries(this.devices), device => device[0], (device, index) => selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`
           <div
               class="editor__preview__size ${editor.device == device[0] ? 'editor__preview__size--selected' : ''}"
               data-device="${device[0]}"
@@ -106364,7 +106453,7 @@ class Editor {
         locales.splice(defaultLocaleIndex, 1);
       }
 
-      localize = selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`
+      localize = selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`
         <i class="material-icons" @click=${editor.handleLocalize.bind(editor)} title="Localize content">translate</i>
         <select class="editor__locales" @change=${editor.handleLocalizeSelect.bind(editor)}>
           <option
@@ -106372,7 +106461,7 @@ class Editor {
               ?selected=${this.settingLocale.value == this.document.defaultLocale}>
             ${this.document.defaultLocale}
           </option>
-          ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_5__["repeat"])(locales, locale => locale, (locale, index) => selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`
+          ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["repeat"])(locales, locale => locale, (locale, index) => selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`
             <option
                 data-locale="${locale}"
                 ?selected=${this.settingLocale.value == locale}>
@@ -106381,7 +106470,7 @@ class Editor {
         </select>`;
     }
 
-    return selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`<div class="editor__preview">
+    return selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`<div class="editor__preview">
       <div class="editor__preview__header">
         <div class="editor__preview__header__icons">
           <i class="material-icons" @click=${editor.handleFullScreenPreviewClick.bind(editor)} title="Fullscreen">${editor.settingFullScreenPreview.on ? 'fullscreen_exit' : 'fullscreen'}</i>
@@ -106415,7 +106504,7 @@ class Editor {
 
     if (locales.length > 1) {
       if (this.settingLocalizeUrls.on) {
-        moreLocales = selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`
+        moreLocales = selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`
           <a
               class="editor__workspace__url__more"
               @click=${editor.handleLocalizeUrlsClick.bind(this)}
@@ -106423,7 +106512,7 @@ class Editor {
             (show less)
           </a>`;
       } else {
-        moreLocales = selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`
+        moreLocales = selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`
           <a
               class="editor__workspace__url__more"
               @click=${editor.handleLocalizeUrlsClick.bind(this)}
@@ -106434,18 +106523,18 @@ class Editor {
     }
 
     if (this.settingLocalizeUrls.on) {
-      urlList = selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`
-        ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_5__["repeat"])(Object.entries(editor.document.servingPaths), path => path[0], (path, index) => selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`
+      urlList = selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`
+        ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["repeat"])(Object.entries(editor.document.servingPaths), path => path[0], (path, index) => selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`
           <div
               class="editor__workspace__url"
               data-locale="${path[0]}">
             <a href="${path[1]}">${path[1]}</a>
-            ${this.document.defaultLocale == path[0] ? moreLocales : selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`<span class="editor__workspace__locale">${path[0]}</span>`}
+            ${this.document.defaultLocale == path[0] ? moreLocales : selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`<span class="editor__workspace__locale">${path[0]}</span>`}
           </div>`)}`;
     } else {
       const defaultLocale = editor.document.defaultLocale;
       const localeUrl = editor.document.servingPaths[defaultLocale];
-      urlList = selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`
+      urlList = selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`
         <div
             class="editor__workspace__url"
             data-locale="${defaultLocale}">
@@ -106454,7 +106543,7 @@ class Editor {
         </div>`;
     }
 
-    return selective_edit__WEBPACK_IMPORTED_MODULE_5__["html"]`
+    return selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`
       <div class="editor__card">
         <div class="editor__card__title">
           Workspace
@@ -106553,6 +106642,12 @@ class Editor {
     if (this.autosaveID) {
       window.clearInterval(this.autosaveID);
     }
+  }
+
+  unload() {
+    this.podPath = '';
+    this.document = null;
+    this.render();
   }
 
   updateDocumentFromResponse(response) {
@@ -106768,10 +106863,11 @@ class EditorApi extends _utility_api__WEBPACK_IMPORTED_MODULE_0__["default"] {
   } // TODO: Move to the google image extension.
 
 
-  saveGoogleImage(imageFile, uploadUrl) {
+  saveGoogleImage(imageFile, uploadUrl, bucket) {
     const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
     const formData = new FormData();
     formData.append('file', imageFile);
+    formData.append('bucket', bucket || '');
     this.request.post(uploadUrl).send(formData).then(res => {
       result.resolve(res.body);
     }).catch(err => {
@@ -107145,6 +107241,9 @@ const MIME_TO_TYPE = {
   'image/gif': 'gif'
 };
 const IMAGE_HOVER_CLASS = 'selective__image--hover';
+const FILE_EXT_REGEX = /\.[0-9a-z]{1,5}$/i;
+const VIDEO_EXT = [// Video extensions.
+'mp4', 'webm'];
 
 const fractReduce = (numerator, denominator) => {
   // Reduce a fraction by finding the Greatest Common Divisor and dividing by it.
@@ -107267,6 +107366,14 @@ class ImageField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
     this.render();
   }
 
+  handleVideoLoad(evt) {
+    this._metas[evt.target.dataset.servingPath] = {
+      height: evt.target.videoHeight,
+      width: evt.target.videoWidth
+    };
+    this.render();
+  }
+
   renderFileInput(selective, data, locale) {
     const localeKey = this.keyForLocale(locale);
 
@@ -107360,15 +107467,30 @@ class ImageField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
       <div id="${this.uid}${locale}-preview" class="selective__image__preview">
         <div class="selective__image__preview__image">
-          <img
-            data-serving-path=${servingPath}
-            @load=${this.handleImageLoad.bind(this)}
-            src="${servingPath}" />
+          ${this.renderPreviewMedia(selective, data, locale, servingPath)}
         </div>
         <div class="selective__image__preview__meta">
           ${this.renderImageMeta(selective, data, locale)}
         </div>
       </div>`;
+  }
+
+  renderPreviewMedia(selective, data, locale, servingPath) {
+    for (const videoExt of VIDEO_EXT) {
+      if (servingPath.endsWith(`.${videoExt}`)) {
+        return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<video
+            data-serving-path=${servingPath}
+            @loadeddata=${this.handleVideoLoad.bind(this)}
+            playsinline disableremoteplayback muted autoplay loop>
+          <source src="${servingPath}" />
+        </video>`;
+      }
+    }
+
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<img
+      data-serving-path=${servingPath}
+      @load=${this.handleImageLoad.bind(this)}
+      src="${servingPath}" />`;
   }
 
   uploadFile(file, locale) {
@@ -107502,7 +107624,12 @@ class GoogleImageField extends ImageField {
   }
 
   getServingPath(value, locale) {
-    if (value.includes('googleusercontent') && !value.endsWith('.svg')) {
+    if (FILE_EXT_REGEX.test(value)) {
+      return value;
+    } // Add original size to the image so that we can get the full image specs.
+
+
+    if (value.includes('googleusercontent') && !value.includes('=')) {
       return `${value}=s0`;
     }
 
@@ -107513,7 +107640,8 @@ class GoogleImageField extends ImageField {
     const localeKey = this.keyForLocale(locale); // Wait for the url promise to return.
 
     this._extension_config_promise.then(result => {
-      let uploadUrl = result['googleImageUploadUrl'];
+      const uploadUrl = result['googleImageUploadUrl'];
+      const bucket = result['googleImageBucket'];
 
       if (!uploadUrl) {
         console.error('Unable to retrieve the upload url.');
@@ -107522,7 +107650,7 @@ class GoogleImageField extends ImageField {
         return;
       }
 
-      this.api.saveGoogleImage(file, uploadUrl).then(result => {
+      this.api.saveGoogleImage(file, uploadUrl, bucket).then(result => {
         this._showFileInput[localeKey] = false;
         this._isLoading[localeKey] = false;
         this.setValueForLocale(locale, result['url']);
@@ -108051,9 +108179,10 @@ class HtmlField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
 
     this._extension_config_promise.then(extension_config => {
       if (extension_config['googleImageUploadUrl']) {
-        let uploadUrl = extension_config['googleImageUploadUrl'];
+        const uploadUrl = extension_config['googleImageUploadUrl'];
+        const bucket = extension_config['googleImageBucket'];
         this.imageUploader = new _quill_image_upload__WEBPACK_IMPORTED_MODULE_5__["default"](async imageBlob => {
-          const result = await this.api.saveGoogleImage(imageBlob, uploadUrl);
+          const result = await this.api.saveGoogleImage(imageBlob, uploadUrl, bucket);
           return result['url'];
         });
       } else {
@@ -108638,7 +108767,7 @@ class FileTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
       // Editor handles multiple call resolution.
       editor.loadPodPaths();
       editor.loadTemplates();
-      return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="editor__loading" title="Loading..."></div>`;
+      return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="editor__loading editor__loading--small" title="Loading..."></div>`;
     } // Pod path has changed, make sure that the pod path folder is
     // expanded by default. Can still be toggled by clicking folder.
 
@@ -108657,7 +108786,7 @@ class FileTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
       const newFileSelective = this._getOrCreateSelective(this.modalWindow.newFileFolder, templates); // Store the selective editor for the new file for processing in the menu.
 
 
-      this.modalWindow.fileSelective = newFileSelective;
+      this.modalWindow.selective = newFileSelective;
 
       this.modalWindow.canClickToCloseFunc = () => {
         return newFileSelective.isClean;
@@ -108856,9 +108985,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./base */ "./source/editor/menu/base.js");
 /* harmony import */ var _repo__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./repo */ "./source/editor/menu/repo.js");
 /* harmony import */ var _site__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./site */ "./source/editor/menu/site.js");
+/* harmony import */ var _workspace__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./workspace */ "./source/editor/menu/workspace.js");
 /**
  * Content editor.
  */
+
 
 
 
@@ -108873,15 +109004,25 @@ class Menu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
     this.editor = editor;
     this.menuWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_3__["MenuWindow"](); // this.menuWindow.isOpen = true  // TODO: Remove
     // Create the new page modal outside of the modal for the menu.
+    // Otherwise, the new modal is constrained to the menu modal.
 
     this.newFileWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_3__["default"]('New page');
     this.newFileWindow.addAction('Create file', this.handleFileNewSubmit.bind(this), true);
-    this.newFileWindow.addAction('Cancel', this.handleFileNewCancel.bind(this), false, true);
+    this.newFileWindow.addAction('Cancel', this.handleFileNewCancel.bind(this), false, true); // Create the new workspace modal outside of the modal for the menu.
+    // Otherwise, the new modal is constrained to the menu modal.
+
+    this.newWorkspaceWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_3__["default"]('New workspace');
+    this.newWorkspaceWindow.addAction('Create workspace', this.handleWorkspaceNewSubmit.bind(this), true);
+    this.newWorkspaceWindow.addAction('Cancel', this.handleWorkspaceNewCancel.bind(this), false, true);
     this._repoMenu = new _repo__WEBPACK_IMPORTED_MODULE_5__["default"]({
       testing: this.isTesting
     });
     this._siteMenu = new _site__WEBPACK_IMPORTED_MODULE_6__["default"]({
       newFileModal: this.newFileWindow,
+      testing: this.isTesting
+    });
+    this._workspaceMenu = new _workspace__WEBPACK_IMPORTED_MODULE_7__["default"]({
+      newWorkspaceModal: this.newWorkspaceWindow,
       testing: this.isTesting
     });
     this._state = {
@@ -108934,8 +109075,7 @@ class Menu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
 
   handleFileNewSubmit(evt) {
     evt.stopPropagation();
-    const newFileSelective = this.newFileWindow.fileSelective;
-    const value = newFileSelective.value;
+    const value = this.newFileWindow.selective.value;
     document.dispatchEvent(new CustomEvent('selective.path.template', {
       detail: {
         collectionPath: this.newFileWindow.newFileFolder,
@@ -108988,9 +109128,32 @@ class Menu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
     this.render();
   }
 
+  handleWorkspaceNewCancel(evt) {
+    evt.stopPropagation();
+    this.newWorkspaceWindow.close();
+  }
+
+  handleWorkspaceNewSubmit(evt) {
+    evt.stopPropagation();
+    const value = this.newWorkspaceWindow.selective.value;
+    document.dispatchEvent(new CustomEvent('editor.workspace.new', {
+      detail: {
+        base: value.base,
+        workspace: value.workspace
+      }
+    }));
+    this.newWorkspaceWindow.close();
+  }
+
   renderMenu(editor) {
     // Always show the menu when there is not a pod path.
-    const isOpen = this.menuWindow.isOpen || !editor.podPath;
+    const hasPodPath = Boolean(editor.podPath && editor.podPath != '');
+
+    if (!hasPodPath) {
+      this.menuWindow.isOpen = true;
+    }
+
+    const isOpen = this.menuWindow.isOpen;
 
     if (!this._state.pod) {
       editor.loadPod();
@@ -109010,6 +109173,11 @@ class Menu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
                 </i>
               </div>
             </div>
+            ${this.config.enableMenuWorkspace ? this._workspaceMenu.template(editor, this._state, {
+          handleWorkspaceNewClick: () => {
+            this.newWorkspaceWindow.open();
+          }
+        }) : ''}
             ${this._siteMenu.template(editor, this._state, {
           handleToggleTree: this.handleToggleTree.bind(this)
         })}
@@ -109019,7 +109187,8 @@ class Menu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
 
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
       ${this.menuWindow.template}
-      ${this.newFileWindow.template}`;
+      ${this.newFileWindow.template}
+      ${this.newWorkspaceWindow.template}`;
   }
 
   renderMenuBar(editor) {
@@ -109064,7 +109233,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
-/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./base */ "./source/editor/menu/base.js");
+/* harmony import */ var _workspace__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./workspace */ "./source/editor/menu/workspace.js");
+/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./base */ "./source/editor/menu/base.js");
 /**
  * Content editor.
  */
@@ -109072,7 +109242,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class RepoMenu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
+
+class RepoMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
   get template() {
     return (editor, menuState, eventHandlers) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="menu__section">
       <div class="menu__repo">
@@ -109084,24 +109255,6 @@ class RepoMenu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
         </div>
       </div>
     </div>`;
-  }
-
-  webUrlForBranch(repo, branch) {
-    if (branch != 'master') {
-      if (repo.web_url.includes('github.com')) {
-        return `${repo.web_url}/tree/${branch}`;
-      }
-    }
-
-    return repo.web_url;
-  }
-
-  webUrlForCommit(repo, commitHash) {
-    if (repo.web_url.includes('github.com')) {
-      return `${repo.web_url}/commit/${commitHash}`;
-    }
-
-    return repo.web_url;
   }
 
   renderBranch(editor, menuState, eventHandlers) {
@@ -109121,12 +109274,13 @@ class RepoMenu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
       <div class="menu__repo__workspace menu__repo__value">
         <a
-            href=${this.webUrlForBranch(menuState.repo, menuState.repo.branch)}
+            class="menu__repo__workspace__branch"
+            href=${menuState.repo.webUrlForBranch(menuState.repo, menuState.repo.branch)}
             target="_blank">
-          ${menuState.repo.branch}
+          ${menuState.repo.cleanBranch(menuState.repo.branch)}
         </a>
         @ <a
-            href=${this.webUrlForCommit(menuState.repo, menuState.repo.commits[0].sha)}
+            href=${menuState.repo.webUrlForCommit(menuState.repo, menuState.repo.commits[0].sha)}
             target="_blank">
           ${menuState.repo.commits[0].sha.substring(0, 6)}
         </a>
@@ -109293,7 +109447,7 @@ class SiteTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
     if (!menuState.routes) {
       // Editor handles multiple call resolution.
       editor.loadRoutes();
-      return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="editor__loading" title="Loading..."></div>`;
+      return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="editor__loading editor__loading--small" title="Loading..."></div>`;
     } // Pod path has changed, make sure that the pod path folder is
     // expanded by default. Can still be toggled by clicking folder.
 
@@ -109423,6 +109577,172 @@ class TreeMenu extends _base__WEBPACK_IMPORTED_MODULE_2__["default"] {
           </div>
         </div>
       </div>`;
+  }
+
+}
+
+/***/ }),
+
+/***/ "./source/editor/menu/workspace.js":
+/*!*****************************************!*\
+  !*** ./source/editor/menu/workspace.js ***!
+  \*****************************************/
+/*! exports provided: SPECIAL_BRANCHES, WORKSPACE_BRANCH_PREFIX, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SPECIAL_BRANCHES", function() { return SPECIAL_BRANCHES; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "WORKSPACE_BRANCH_PREFIX", function() { return WORKSPACE_BRANCH_PREFIX; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return WorkspaceMenu; });
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var _field__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../field */ "./source/editor/field.js");
+/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
+/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./base */ "./source/editor/menu/base.js");
+/**
+ * Content editor.
+ */
+
+
+
+
+
+const SPECIAL_BRANCHES = ['master', 'staging', 'sandbox'];
+const WORKSPACE_BRANCH_PREFIX = 'workspace/';
+class WorkspaceMenu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
+  constructor(config) {
+    super(config);
+    this.modalWindow = this.config.get('newWorkspaceModal');
+  }
+
+  get template() {
+    return (editor, menuState, eventHandlers) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <div class="menu__section">
+        <div class="menu__section__title">
+          Workspaces
+        </div>
+
+        ${this.renderWorkspace(editor, menuState, eventHandlers)}
+      </div>`;
+  }
+
+  _createSelective(workspaces) {
+    // Selective editor for the form to add new workspace.
+    const newSelective = new selective_edit__WEBPACK_IMPORTED_MODULE_0__["default"](null);
+    newSelective.data = {}; // Add the editor extension default field types.
+
+    for (const key of Object.keys(_field__WEBPACK_IMPORTED_MODULE_1__["defaultFields"])) {
+      newSelective.addFieldType(key, _field__WEBPACK_IMPORTED_MODULE_1__["defaultFields"][key]);
+    }
+
+    const options = [];
+
+    for (const workspace of workspaces) {
+      options.push({
+        'label': workspace,
+        'value': workspace
+      });
+    }
+
+    newSelective.addField({
+      'type': 'select',
+      'key': 'base',
+      'label': 'Parent workspace',
+      'help': 'Workspace to create the new workspace from.',
+      'options': options
+    });
+    newSelective.addField({
+      'type': 'text',
+      'key': 'workspace',
+      'label': 'New workspace name',
+      'help': 'Can only contain alpha-numeric characters and - (dash).'
+    });
+    return newSelective;
+  }
+
+  _getOrCreateSelective(workspaces) {
+    if (!this._selective) {
+      this._selective = this._createSelective(workspaces);
+    }
+
+    return this._selective;
+  }
+
+  filterBranches(branches) {
+    // Give order priority to the special branches.
+    const specialWorkspaces = [];
+    const branchWorkspaces = []; // Filter down to the workspace branches.
+
+    for (const branch of branches) {
+      if (SPECIAL_BRANCHES.includes(branch)) {
+        specialWorkspaces.push(branch);
+        continue;
+      }
+
+      if (branch.startsWith(WORKSPACE_BRANCH_PREFIX)) {
+        branchWorkspaces.push(branch.slice(WORKSPACE_BRANCH_PREFIX.length));
+        continue;
+      }
+    }
+
+    return specialWorkspaces.concat(branchWorkspaces.sort());
+  }
+
+  renderWorkspace(editor, menuState, eventHandlers) {
+    editor.loadRepo();
+
+    if (!menuState.repo) {
+      return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="editor__loading editor__loading--small" title="Loading..."></div>`;
+    }
+
+    const workspaces = this.filterBranches(menuState.repo.branches.sort());
+
+    if (this.modalWindow.isOpen) {
+      const newWorkspaceSelective = this._getOrCreateSelective(workspaces); // Store the selective editor for the new file for processing in the menu.
+
+
+      this.modalWindow.selective = newWorkspaceSelective;
+
+      this.modalWindow.canClickToCloseFunc = () => {
+        return newWorkspaceSelective.isClean;
+      };
+
+      this.modalWindow.contentRenderFunc = () => {
+        return newWorkspaceSelective.template(newWorkspaceSelective, newWorkspaceSelective.data);
+      };
+    }
+
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="menu__workspace">
+        <div class="menu__workspace__add">
+          <button class="editor__button editor__actions--add" @click=${eventHandlers.handleWorkspaceNewClick}>New workspace</button>
+        </div>
+        <div class="menu__workspace__branches">
+          ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(workspaces, branch => branch, (branch, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+            <a
+                href=${this.urlForBranch(branch)}
+                class="menu__workspace__branch">
+              <i
+                  class="material-icons icon"
+                  title="${branch}">
+                dashboard
+              </i>
+              <div class="menu__workspace__branch__label">
+                ${branch}
+              </div>
+            </a>`)}
+        </div>
+      </div>`;
+  }
+
+  urlForBranch(branch) {
+    if (window.location.hostname == 'localhost') {
+      return '#';
+    }
+
+    const hostnameParts = window.location.hostname.split('.');
+    const baseDomain = hostnameParts.slice(1).join('.');
+    const project = hostnameParts[0].split('-')[0];
+    return `//${project}-${branch}.${baseDomain}${window.location.pathname}`;
   }
 
 }
@@ -109562,9 +109882,6 @@ class ModalWindow extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
   }
 
   handleOffsetClick(evt) {
-    evt.preventDefault();
-    evt.stopPropagation();
-
     if (!this.canClickToCloseFunc()) {
       return;
     } // Test if the click was from within the content section.
@@ -109576,6 +109893,8 @@ class ModalWindow extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
       return;
     }
 
+    evt.preventDefault();
+    evt.stopPropagation();
     this.close();
   }
 
@@ -110670,6 +110989,62 @@ class Listeners {
     for (const listener of this.listenersForEvent(eventName)) {
       listener(...data);
     }
+  }
+
+}
+
+/***/ }),
+
+/***/ "./source/utility/repo.js":
+/*!********************************!*\
+  !*** ./source/utility/repo.js ***!
+  \********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Repo; });
+/* harmony import */ var _editor_menu_workspace__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../editor/menu/workspace */ "./source/editor/menu/workspace.js");
+
+class Repo {
+  constructor(branch, branches, commits, remote_url, revision, web_url) {
+    this.branch = branch;
+    this.branches = branches;
+    this.commits = commits;
+    this.remote_url = remote_url;
+    this.revision = revision;
+    this.web_url = web_url;
+  }
+
+  cleanBranch(branch_id) {
+    if (branch_id.startsWith(_editor_menu_workspace__WEBPACK_IMPORTED_MODULE_0__["WORKSPACE_BRANCH_PREFIX"])) {
+      return branch_id.slice(_editor_menu_workspace__WEBPACK_IMPORTED_MODULE_0__["WORKSPACE_BRANCH_PREFIX"].length);
+    }
+
+    return branch_id;
+  }
+
+  webUrlForBranch(branch) {
+    if (branch != 'master') {
+      if (this.web_url.includes('github.com')) {
+        return `${this.web_url}/tree/${branch}`;
+      } else if (this.web_url.includes('source.cloud.google.com')) {
+        return `${this.web_url}/+/${branch}:`;
+      }
+    }
+
+    return this.web_url;
+  }
+
+  webUrlForCommit(commitHash) {
+    if (this.web_url.includes('github.com')) {
+      return `${this.web_url}/commit/${commitHash}`;
+    } else if (this.web_url.includes('source.cloud.google.com')) {
+      return `${this.web_url}/+/${commitHash}`;
+    }
+
+    return this.web_url;
   }
 
 }

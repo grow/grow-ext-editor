@@ -6,6 +6,7 @@ import CodeMirror from 'codemirror/lib/codemirror.js'
 import 'codemirror/mode/htmlmixed/htmlmixed.js'
 import 'codemirror/mode/markdown/markdown.js'
 import 'codemirror/mode/yaml/yaml.js'
+import moment from 'moment'
 import { dump } from 'js-yaml/lib/js-yaml.js'
 import {
   html,
@@ -22,6 +23,7 @@ import EditorAutoFields from './autoFields'
 import { defaultFields } from './field'
 import { zoomIframe } from './zoomIframe'
 import { findParentByClassname } from '../utility/dom'
+import Repo from '../utility/repo'
 import Storage from '../utility/storage'
 import {
   SettingSet,
@@ -45,7 +47,7 @@ export default class Editor {
       ${this.menu.template(editor)}
       <div class="editor__frame">
         ${this.podPath ? editor.renderEditor(editor, selective) : ''}
-        ${this.podPath && this.document.servingPath ? editor.renderPreview(editor, selective) : ''}
+        ${this.podPath && this.document && this.document.servingPath ? editor.renderPreview(editor, selective) : ''}
       </div>
     </div>`
     this.storage = new Storage(this.isTesting)
@@ -56,11 +58,13 @@ export default class Editor {
 
     this.menu = new Menu({
       testing: this.isTesting,
+      enableMenuWorkspace: this.config.enableMenuWorkspace,
     }, this)
 
     this._podPath = null
     this.podPath = this.containerEl.dataset.defaultPath || this.config.get('defaultPath', '')
     this.repo = null
+    this.remote = this.containerEl.dataset.remote || 'origin'
     this.document = null
     this.autosaveID = null
 
@@ -163,6 +167,10 @@ export default class Editor {
     return this.document.isClean && this.selective.isClean
   }
 
+  get isMissingDoc() {
+    return !this.document
+  }
+
   get isTesting() {
     return this.config.get('testing', false)
   }
@@ -225,7 +233,7 @@ export default class Editor {
       styles.push('editor--source')
     }
 
-    if (this.settingFullScreenEditor.on || !this.document.servingPath) {
+    if (this.settingFullScreenEditor.on || !this.servingPath) {
       styles.push('editor--fullscreen-editor')
     }
 
@@ -278,10 +286,53 @@ export default class Editor {
     }
 
     if (this.settingEditorPane.is('history')) {
+      if (!this.repo) {
+        return html`<div class="editor__loading editor__loading--small" title="Loading..."></div>`
+      }
+
       return html`
         <div class="editor__card">
           <div class="editor__card__title">
-            History
+            Current Workspace
+          </div>
+          <div class="editor__history__workspace">
+            <i
+                class="material-icons icon"
+                title="">
+              dashboard
+            </i>
+            <div class="editor__workspace__branch__label">
+              ${this.repo.branch}
+            </div>
+          </div>
+        </div>
+        <div class="editor__card">
+          <div class="editor__card__title">
+            Change History
+          </div>
+          <div class="editor__history__commits">
+            ${repeat(this.repo.commits, (commit) => commit.sha, (commit, index) => html`
+              <div
+                  class="editor__history__commits__commit">
+                <i
+                    class="material-icons icon"
+                    title="">
+                  notes
+                </i>
+                <div class="editor__history__commits__commit__meta">
+                  <div class="editor__history__commits__commit__info">
+                    <a href="${this.repo.webUrlForCommit(commit.sha)}" class="editor__history__commits__commit__hash">${commit.sha.slice(0, 5)}</a>
+                    &nbsp;by&nbsp;<a href="mailto:${commit.author.email}">${commit.author.name}</a>
+                    <span class="editor__history__commits__commit__time" title="${moment(commit.commit_date + 'Z', moment.ISO_8601).format('D MMM YYYY, h:mm:ss a')}">
+                      &nbsp;(${moment(commit.commit_date + 'Z', moment.ISO_8601).fromNow()})
+                    </span>
+                  </div>
+                  <div class="editor__history__commits__commit__message">
+                    ${commit.message}
+                  </div>
+                </div>
+              </div>
+            `)}
           </div>
         </div>`
     }
@@ -442,7 +493,7 @@ export default class Editor {
     this.listeners.add('load.routes', this.verifyPreviewIframe.bind(this))
 
     // Watch for the history popstate.
-    window.addEventListener('popstate', this.popState.bind(this))
+    window.addEventListener('popstate', this.handlePopState.bind(this))
 
     // Message when there are pending changes.
     window.addEventListener('beforeunload', (evt) => {
@@ -493,6 +544,22 @@ export default class Editor {
       this.document.defaultLocale,
       this.storage,
       'selective.editor.locale')
+  }
+
+  handleDeviceRotateClick(evt) {
+    this.settingDeviceRotated.toggle()
+    this.render()
+  }
+
+  handleDeviceSwitchClick(evt) {
+    const target = findParentByClassname(evt.target, 'editor__preview__size')
+    this.device = target.dataset.device
+    this.render()
+  }
+
+  handleDeviceToggleClick(evt) {
+    this.settingDeviceView.toggle()
+    this.render()
   }
 
   handleFieldsClick(evt) {
@@ -609,19 +676,11 @@ export default class Editor {
     this.render()
   }
 
-  handleDeviceRotateClick(evt) {
-    this.settingDeviceRotated.toggle()
-    this.render()
-  }
-
-  handleDeviceSwitchClick(evt) {
-    const target = findParentByClassname(evt.target, 'editor__preview__size')
-    this.device = target.dataset.device
-    this.render()
-  }
-
-  handleDeviceToggleClick(evt) {
-    this.settingDeviceView.toggle()
+  handleLoadHistoryResponse(response) {
+    this._isFullMarkdownEditor = false
+    this.settingEditorPane.value = 'history'
+    this.documentFromResponse(response)
+    this.pushState(this.document.podPath)
     this.render()
   }
 
@@ -652,7 +711,10 @@ export default class Editor {
   }
 
   handleLoadRepo(response) {
-    this.repo = response['repo']
+    const repo = response['repo']
+    this.repo = new Repo(
+      repo.branch, repo.branches, repo.commits, repo.remote_url, repo.revision,
+      repo.web_url)
     this.listeners.trigger('load.repo', {
       repo: this.repo,
     })
@@ -732,6 +794,17 @@ export default class Editor {
     this.delayPodPath(evt.target.value)
   }
 
+  handlePopState(evt) {
+    if (evt.state && evt.state.podPath) {
+      this.podPath = evt.state.podPath
+      this.urlParams = new URLSearchParams(window.location.search)
+      this.load(this.podPath)
+    } else {
+      // Handle when there was no document loaded. (ex: main editor url)
+      this.unload()
+    }
+  }
+
   handlePreviewIframeNavigation(evt) {
     const newLocation = evt.target.contentWindow.location
     if (window.location.host != newLocation.host) {
@@ -805,7 +878,8 @@ export default class Editor {
     if (this.settingEditorPane.is('source')) {
       this.loadSource(podPath)
     } else if (this.settingEditorPane.is('history')) {
-      // TODO: Load history.
+      this.loadRepo()
+      this.loadHistory(podPath)
     } else {
       this.loadFields(podPath)
     }
@@ -813,6 +887,10 @@ export default class Editor {
 
   loadFields(podPath) {
     this.api.getDocument(podPath).then(this.handleLoadFieldsResponse.bind(this))
+  }
+
+  loadHistory(podPath) {
+    this.api.getDocument(podPath).then(this.handleLoadHistoryResponse.bind(this))
   }
 
   loadPod(force) {
@@ -871,14 +949,6 @@ export default class Editor {
     }
     this._isLoading['templates'] = true
     this.api.getTemplates().then(this.handleLoadTemplates.bind(this))
-  }
-
-  popState(evt) {
-    if (evt.state.podPath) {
-      this.podPath = evt.state.podPath
-      this.urlParams = new URLSearchParams(window.location.search)
-      this.load(this.podPath)
-    }
   }
 
   pushState(podPath, paramString) {
@@ -967,7 +1037,7 @@ export default class Editor {
   }
 
   renderEditor(editor, selective) {
-    if (editor.settingFullScreenPreview.on) {
+    if (!editor.document || editor.settingFullScreenPreview.on) {
       return ''
     }
 
@@ -991,9 +1061,9 @@ export default class Editor {
       <div class="editor__cards">
         <div class="editor__card editor__menu">
             <div class="editor__actions">
-              <button class="editor__style__fields editor__button editor__button--secondary ${this.settingEditorPane.is('fields') ? '' : 'editor__button--selected'}" @click=${editor.handleFieldsClick.bind(editor)} ?disabled=${!editor.isClean}>Fields</button>
+              <button class="editor__style__fields editor__button editor__button--secondary ${this.settingEditorPane.is('fields') ? 'editor__button--selected' : ''}" @click=${editor.handleFieldsClick.bind(editor)} ?disabled=${!editor.isClean}>Fields</button>
               <button class="editor__style__raw editor__button editor__button--secondary ${this.settingEditorPane.is('source') ? 'editor__button--selected' : ''}" @click=${editor.handleSourceClick.bind(editor)} ?disabled=${!editor.isClean}>Source</button>
-              <!-- <button class="editor__style__raw editor__button editor__button--secondary ${this.settingEditorPane.is('history') ? 'editor__button--selected' : ''}" @click=${editor.handleHistoryClick.bind(editor)} ?disabled=${!editor.isClean}>History</button> -->
+              <button class="editor__style__raw editor__button editor__button--secondary ${this.settingEditorPane.is('history') ? 'editor__button--selected' : ''}" @click=${editor.handleHistoryClick.bind(editor)} ?disabled=${!editor.isClean}>History</button>
             </div>
             <button
                 ?disabled=${editor._isSaving || editor.isClean}
@@ -1231,6 +1301,12 @@ export default class Editor {
     if (this.autosaveID) {
       window.clearInterval(this.autosaveID)
     }
+  }
+
+  unload() {
+    this.podPath = ''
+    this.document = null
+    this.render()
   }
 
   updateDocumentFromResponse(response) {

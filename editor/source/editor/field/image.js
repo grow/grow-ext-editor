@@ -20,7 +20,6 @@ import {
 } from '../ui/file'
 
 
-
 const VALID_MIME_TYPES = [
   'image/jpeg', 'image/png', 'image/svg+xml', 'image/webp', 'image/gif']
 const MIME_TO_TYPE = {
@@ -31,6 +30,11 @@ const MIME_TO_TYPE = {
   'image/gif': 'gif',
 }
 const IMAGE_HOVER_CLASS = 'selective__image--hover'
+const FILE_EXT_REGEX = /\.[0-9a-z]{1,5}$/i
+const VIDEO_EXT = [
+  // Video extensions.
+  'mp4', 'webm',
+]
 
 
 const fractReduce = (numerator,denominator) => {
@@ -153,6 +157,14 @@ export class ImageField extends Field {
     this.render()
   }
 
+  handleVideoLoad(evt) {
+    this._metas[evt.target.dataset.servingPath] = {
+      height: evt.target.videoHeight,
+      width: evt.target.videoWidth,
+    }
+    this.render()
+  }
+
   renderFileInput(selective, data, locale) {
     const localeKey = this.keyForLocale(locale)
 
@@ -250,15 +262,30 @@ export class ImageField extends Field {
     return html`
       <div id="${this.uid}${locale}-preview" class="selective__image__preview">
         <div class="selective__image__preview__image">
-          <img
-            data-serving-path=${servingPath}
-            @load=${this.handleImageLoad.bind(this)}
-            src="${servingPath}" />
+          ${this.renderPreviewMedia(selective, data, locale, servingPath)}
         </div>
         <div class="selective__image__preview__meta">
           ${this.renderImageMeta(selective, data, locale)}
         </div>
       </div>`
+  }
+
+  renderPreviewMedia(selective, data, locale, servingPath) {
+    for (const videoExt of VIDEO_EXT) {
+      if (servingPath.endsWith(`.${videoExt}`)) {
+        return html`<video
+            data-serving-path=${servingPath}
+            @loadeddata=${this.handleVideoLoad.bind(this)}
+            playsinline disableremoteplayback muted autoplay loop>
+          <source src="${servingPath}" />
+        </video>`
+      }
+    }
+
+    return html`<img
+      data-serving-path=${servingPath}
+      @load=${this.handleImageLoad.bind(this)}
+      src="${servingPath}" />`
   }
 
   uploadFile(file, locale) {
@@ -399,9 +426,15 @@ export class GoogleImageField extends ImageField {
   }
 
   getServingPath(value, locale) {
-    if (value.includes('googleusercontent') && !value.endsWith('.svg')) {
+    if (FILE_EXT_REGEX.test(value)) {
+      return value
+    }
+
+    // Add original size to the image so that we can get the full image specs.
+    if (value.includes('googleusercontent') && !value.includes('=')) {
       return `${value}=s0`
     }
+
     return value
   }
 
@@ -410,7 +443,8 @@ export class GoogleImageField extends ImageField {
 
     // Wait for the url promise to return.
     this._extension_config_promise.then((result) => {
-      let uploadUrl = result['googleImageUploadUrl']
+      const uploadUrl = result['googleImageUploadUrl']
+      const bucket = result['googleImageBucket']
 
       if (!uploadUrl) {
         console.error('Unable to retrieve the upload url.');
@@ -419,7 +453,7 @@ export class GoogleImageField extends ImageField {
         return
       }
 
-      this.api.saveGoogleImage(file, uploadUrl).then((result) => {
+      this.api.saveGoogleImage(file, uploadUrl, bucket).then((result) => {
         this._showFileInput[localeKey] = false
         this._isLoading[localeKey] = false
         this.setValueForLocale(locale, result['url'])
