@@ -105300,7 +105300,7 @@ __webpack_require__.r(__webpack_exports__);
  * Automatically guess the field configuration from data.
  */
 
-const IMAGE_REGEX = /\.(jp[e]?g|png|svg|webp|gif)$/i;
+const IMAGE_REGEX = /\.(jp[e]?g|png|svg|webp|gif|avif)$/i;
 const GOOGLE_IMAGE_REGEX = /(\.googleusercontent.com|storage.googleapis.com)\//i;
 class EditorAutoFields extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["AutoFields"] {
   _deepGuessObject(data, keyBase) {
@@ -107222,7 +107222,7 @@ class StaticField extends ConstructorFileField {
     this.fieldType = 'static';
     this.tag = '!g.static';
     this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["createWhiteBlackFilter"])( // Whitelist.
-    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(this.config.get('whitelist'), [/^.*\.(png|svg|jpg|jpeg|gif)$/, /^\/source\/static\//, /^\/static\//]), // Blacklist.
+    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(this.config.get('whitelist'), [/^.*\.(png|svg|jpg|jpeg|gif|avif)$/, /^\/source\/static\//, /^\/static\//]), // Blacklist.
     Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(this.config.get('blacklist')));
   }
 
@@ -107324,13 +107324,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const VALID_MIME_TYPES = ['image/jpeg', 'image/png', 'image/svg+xml', 'image/webp', 'image/gif'];
+const VALID_MIME_TYPES = ['image/jpeg', 'image/png', 'image/svg+xml', 'image/webp', 'image/gif', 'image/avif'];
 const MIME_TO_TYPE = {
   'image/jpeg': 'jpg',
   'image/png': 'png',
   'image/svg+xml': 'svg',
   'image/webp': 'webp',
-  'image/gif': 'gif'
+  'image/gif': 'gif',
+  'image/avif': 'avif'
 };
 const IMAGE_HOVER_CLASS = 'selective__image--hover';
 const FILE_EXT_REGEX = /\.[0-9a-z]{1,5}$/i;

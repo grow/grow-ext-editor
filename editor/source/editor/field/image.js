@@ -21,13 +21,15 @@ import {
 
 
 const VALID_MIME_TYPES = [
-  'image/jpeg', 'image/png', 'image/svg+xml', 'image/webp', 'image/gif']
+  'image/jpeg', 'image/png', 'image/svg+xml', 'image/webp', 'image/gif',
+  'image/avif']
 const MIME_TO_TYPE = {
   'image/jpeg': 'jpg',
   'image/png': 'png',
   'image/svg+xml': 'svg',
   'image/webp': 'webp',
   'image/gif': 'gif',
+  'image/avif': 'avif',
 }
 const IMAGE_HOVER_CLASS = 'selective__image--hover'
 const FILE_EXT_REGEX = /\.[0-9a-z]{1,5}$/i

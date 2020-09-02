@@ -153,7 +153,7 @@ export class StaticField extends ConstructorFileField {
     this.filterFunc = createWhiteBlackFilter(
       // Whitelist.
       regexList(this.config.get('whitelist'), [
-        /^.*\.(png|svg|jpg|jpeg|gif)$/,
+        /^.*\.(png|svg|jpg|jpeg|gif|avif)$/,
         /^\/source\/static\//,
         /^\/static\//,
       ]),
