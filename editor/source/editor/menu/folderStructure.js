@@ -92,13 +92,17 @@ export default class FolderStructure {
     }
   }
 
-  render(path, expandedFolders, eventHandlers, threshold, lookupFunc) {
+  render(path, expandedFolders, eventHandlers, threshold, lookupFunc, features) {
     threshold = threshold || 0
     const folder = this.folderInfo.folder
     const level = folder == '/' ? 0 : folder.split('/').length - 1
     const classes = ['menu__tree__folder']
     const isExpanded = level <= threshold || expandedFolders.includes(folder)
     const filePrefix = `${folder == '/' ? '' : folder}/`
+    features = features || {}
+    features['allowDeleteFile'] = features['allowDeleteFile'] == undefined ? true : features['allowDeleteFile']
+    features['allowDuplicateFile'] = features['allowDuplicateFile'] == undefined ? true : features['allowDuplicateFile']
+    features['allowNewFile'] = features['allowNewFile'] == undefined ? true : features['allowNewFile']
 
     if (!isExpanded) {
       classes.push('menu__tree__folder--collapsed')
@@ -117,10 +121,10 @@ export default class FolderStructure {
       <div class=${level > threshold ? 'menu__tree__folder__level' : ''}>
         <div class=${level > threshold ? 'menu__tree__folder__folder' : ''}>
           ${repeat(this.folderInfo.folders, (folder) => folder.uid, (folder, index) => html`
-            ${folder.render(path, expandedFolders, eventHandlers, threshold, lookupFunc)}`)}
+            ${folder.render(path, expandedFolders, eventHandlers, threshold, lookupFunc, features)}`)}
         </div>
         <div class=${level > threshold ? 'menu__tree__folder__files' : ''}>
-          ${level > threshold ? html`
+          ${level > threshold && features['allowNewFile'] ? html`
             <div data-folder=${folder} class="menu__tree__folder__actions">
               <button class="editor__button editor__actions--add" @click=${eventHandlers.handleFileNewClick}>New file</button>
             </div>` : ''}
@@ -139,7 +143,7 @@ export default class FolderStructure {
                 <div class="menu__tree__folder__file__label">
                   ${file.fileBase || '/'}
                 </div>
-                ${isProtectedFromCopy(podPath)
+                ${isProtectedFromCopy(podPath) || !features['allowDuplicateFile']
                   ? ''
                   : html`<i
                       class="material-icons icon icon--hover-only"
@@ -147,7 +151,7 @@ export default class FolderStructure {
                       @click=${eventHandlers.handleFileCopyClick}>
                     file_copy
                   </i>`}
-                ${isProtectedFromDelete(podPath)
+                ${isProtectedFromDelete(podPath) || !features['allowDeleteFile']
                   ? ''
                   : html`<i
                       class="material-icons icon icon--hover-only"

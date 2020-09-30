@@ -108688,8 +108688,8 @@ class FileTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
     this.podPath = null;
     this.expandedFolders = [];
     this._selectives = {};
-    this.confirmDelete = null;
-    this.modalWindow = this.config.get('newFileModal');
+    this.deleteFileWindow = this.config.get('deleteFileModal');
+    this.newFileWindow = this.config.get('newFileModal');
   }
 
   get template() {
@@ -108802,6 +108802,7 @@ class FileTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
     evt.stopPropagation();
     const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'menu__tree__folder__file');
     const podPath = target.dataset.podPath;
+    console.log('copy: ', podPath);
     document.dispatchEvent(new CustomEvent('selective.path.copy', {
       detail: {
         path: podPath
@@ -108813,31 +108814,21 @@ class FileTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
     evt.stopPropagation();
     const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'menu__tree__folder__file');
     const podPath = target.dataset.podPath;
-    this.confirmDelete = new _parts_modal__WEBPACK_IMPORTED_MODULE_6__["ConfirmWindow"]('Delete page', 'Delete page');
+    this.deleteFileWindow.podPath = podPath;
 
-    this.confirmDelete.contentRenderFunc = () => {
+    this.deleteFileWindow.contentRenderFunc = () => {
       return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`Are you sure you want to delete the page at <strong>${podPath}</strong>?`;
     };
 
-    this.confirmDelete.promise.then(() => {
-      document.dispatchEvent(new CustomEvent('selective.path.delete', {
-        detail: {
-          path: podPath
-        }
-      }));
-      this.confirmDelete.close();
-    }).catch(() => {
-      this.confirmDelete.close();
-    });
-    this.confirmDelete.open();
+    this.deleteFileWindow.open();
   }
 
   handleFileNewClick(evt) {
     evt.stopPropagation();
     const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'menu__tree__folder__actions');
     const folder = target.dataset.folder;
-    this.modalWindow.newFileFolder = folder;
-    this.modalWindow.open();
+    this.newFileWindow.newFileFolder = folder;
+    this.newFileWindow.open();
   }
 
   handleFolderToggle(evt) {
@@ -108873,19 +108864,19 @@ class FileTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
 
     const folderStructure = new _folderStructure__WEBPACK_IMPORTED_MODULE_5__["default"](menuState.podPaths, menuState.templates, '/');
 
-    if (this.modalWindow.newFileFolder) {
-      const templates = menuState.templates[this.modalWindow.newFileFolder];
+    if (this.newFileWindow.newFileFolder) {
+      const templates = menuState.templates[this.newFileWindow.newFileFolder];
 
-      const newFileSelective = this._getOrCreateSelective(this.modalWindow.newFileFolder, templates); // Store the selective editor for the new file for processing in the menu.
+      const newFileSelective = this._getOrCreateSelective(this.newFileWindow.newFileFolder, templates); // Store the selective editor for the new file for processing in the menu.
 
 
-      this.modalWindow.selective = newFileSelective;
+      this.newFileWindow.selective = newFileSelective;
 
-      this.modalWindow.canClickToCloseFunc = () => {
+      this.newFileWindow.canClickToCloseFunc = () => {
         return newFileSelective.isClean;
       };
 
-      this.modalWindow.contentRenderFunc = () => {
+      this.newFileWindow.contentRenderFunc = () => {
         return newFileSelective.template(newFileSelective, newFileSelective.data);
       };
     }
@@ -108896,8 +108887,7 @@ class FileTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
       handleFileCopyClick: this.handleFileCopyClick.bind(this),
       handleFileDeleteClick: this.handleFileDeleteClick.bind(this),
       handleFileNewClick: this.handleFileNewClick.bind(this)
-    }, 1)}
-      ${this.confirmDelete ? this.confirmDelete.template : ''}`;
+    }, 1)}`;
   }
 
 }
@@ -108997,13 +108987,17 @@ class FolderStructure {
     }
   }
 
-  render(path, expandedFolders, eventHandlers, threshold, lookupFunc) {
+  render(path, expandedFolders, eventHandlers, threshold, lookupFunc, features) {
     threshold = threshold || 0;
     const folder = this.folderInfo.folder;
     const level = folder == '/' ? 0 : folder.split('/').length - 1;
     const classes = ['menu__tree__folder'];
     const isExpanded = level <= threshold || expandedFolders.includes(folder);
     const filePrefix = `${folder == '/' ? '' : folder}/`;
+    features = features || {};
+    features['allowDeleteFile'] = features['allowDeleteFile'] == undefined ? true : features['allowDeleteFile'];
+    features['allowDuplicateFile'] = features['allowDuplicateFile'] == undefined ? true : features['allowDuplicateFile'];
+    features['allowNewFile'] = features['allowNewFile'] == undefined ? true : features['allowNewFile'];
 
     if (!isExpanded) {
       classes.push('menu__tree__folder--collapsed');
@@ -109020,10 +109014,10 @@ class FolderStructure {
       <div class=${level > threshold ? 'menu__tree__folder__level' : ''}>
         <div class=${level > threshold ? 'menu__tree__folder__folder' : ''}>
           ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(this.folderInfo.folders, folder => folder.uid, (folder, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-            ${folder.render(path, expandedFolders, eventHandlers, threshold, lookupFunc)}`)}
+            ${folder.render(path, expandedFolders, eventHandlers, threshold, lookupFunc, features)}`)}
         </div>
         <div class=${level > threshold ? 'menu__tree__folder__files' : ''}>
-          ${level > threshold ? selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+          ${level > threshold && features['allowNewFile'] ? selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
             <div data-folder=${folder} class="menu__tree__folder__actions">
               <button class="editor__button editor__actions--add" @click=${eventHandlers.handleFileNewClick}>New file</button>
             </div>` : ''}
@@ -109038,13 +109032,13 @@ class FolderStructure {
                 <div class="menu__tree__folder__file__label">
                   ${file.fileBase || '/'}
                 </div>
-                ${isProtectedFromCopy(podPath) ? '' : selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<i
+                ${isProtectedFromCopy(podPath) || !features['allowDuplicateFile'] ? '' : selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<i
                       class="material-icons icon icon--hover-only"
                       title="Copy file"
                       @click=${eventHandlers.handleFileCopyClick}>
                     file_copy
                   </i>`}
-                ${isProtectedFromDelete(podPath) ? '' : selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<i
+                ${isProtectedFromDelete(podPath) || !features['allowDeleteFile'] ? '' : selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<i
                       class="material-icons icon icon--hover-only"
                       title="Delete file"
                       @click=${eventHandlers.handleFileDeleteClick}>
@@ -109096,7 +109090,12 @@ class Menu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
     super(config);
     this.editor = editor;
     this.menuWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_3__["MenuWindow"](); // this.menuWindow.isOpen = true  // TODO: Remove
-    // Create the new page modal outside of the modal for the menu.
+    // Create the delete page modal outside of the modal for the menu.
+    // Otherwise, the delete modal is constrained to the menu modal.
+
+    this.deleteFileWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_3__["default"]('Delete page');
+    this.deleteFileWindow.addAction('Delete file', this.handleFileDeleteSubmit.bind(this), true);
+    this.deleteFileWindow.addAction('Cancel', this.handleFileDeleteCancel.bind(this), false, true); // Create the new page modal outside of the modal for the menu.
     // Otherwise, the new modal is constrained to the menu modal.
 
     this.newFileWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_3__["default"]('New page');
@@ -109111,6 +109110,7 @@ class Menu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
       testing: this.isTesting
     });
     this._siteMenu = new _site__WEBPACK_IMPORTED_MODULE_6__["default"]({
+      deleteFileModal: this.deleteFileWindow,
       newFileModal: this.newFileWindow,
       testing: this.isTesting
     });
@@ -109158,6 +109158,23 @@ class Menu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
     document.addEventListener('selective.path.update', evt => {
       this.menuWindow.close();
     });
+  }
+
+  handleFileDeleteCancel(evt) {
+    evt.stopPropagation();
+    this.deleteFileWindow.close();
+  }
+
+  handleFileDeleteSubmit(evt) {
+    evt.stopPropagation();
+    const podPath = this.deleteFileWindow.podPath;
+    console.log('pod path: ', podPath);
+    document.dispatchEvent(new CustomEvent('selective.path.delete', {
+      detail: {
+        path: podPath
+      }
+    }));
+    this.deleteFileWindow.close();
   }
 
   handleFileNewCancel(evt) {
@@ -109280,6 +109297,7 @@ class Menu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
 
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
       ${this.menuWindow.template}
+      ${this.deleteFileWindow.template}
       ${this.newFileWindow.template}
       ${this.newWorkspaceWindow.template}`;
   }
@@ -109413,6 +109431,7 @@ class SiteMenu extends _base__WEBPACK_IMPORTED_MODULE_2__["default"] {
   constructor(config) {
     super(config);
     this._treeMenu = new _tree__WEBPACK_IMPORTED_MODULE_3__["default"]({
+      deleteFileModal: this.config.get('deleteFileModal'),
       newFileModal: this.config.get('newFileModal'),
       testing: this.isTesting
     });
@@ -109475,6 +109494,7 @@ class SiteTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
     this.filterFunc = this.config.get('filterFunc') || Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createWhiteBlackFilter"])([/\/content\//, /\/podspec.yaml/], // Whitelist.
     [] // Blacklist.
     );
+    this.deleteFileWindow = this.config.get('deleteFileModal');
   }
 
   get template() {
@@ -109521,8 +109541,33 @@ class SiteTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
     }));
   }
 
+  handleFileCopyClick(evt) {
+    evt.stopPropagation();
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'menu__tree__folder__file');
+    const podPath = target.dataset.podPath;
+    console.log('copy: ', podPath);
+    document.dispatchEvent(new CustomEvent('selective.path.copy', {
+      detail: {
+        path: podPath
+      }
+    }));
+  }
+
+  handleFileDeleteClick(evt) {
+    evt.stopPropagation();
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'menu__tree__folder__file');
+    const podPath = target.dataset.podPath;
+    this.deleteFileWindow.podPath = podPath;
+
+    this.deleteFileWindow.contentRenderFunc = () => {
+      return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`Are you sure you want to delete the page at <strong>${podPath}</strong>?`;
+    };
+
+    this.deleteFileWindow.open();
+  }
+
   handleFolderToggle(evt) {
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'menu__tree__folder__label');
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'menu__tree__folder__directory');
     const folder = target.dataset.folder;
 
     if (this.expandedFolders.includes(folder)) {
@@ -109587,9 +109632,16 @@ class SiteTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
 
     return folderStructure.render(this.path, this.expandedFolders, {
       handleFolderToggle: this.handleFolderToggle.bind(this),
-      handleFileClick: this.handleFileClick.bind(this)
+      handleFileClick: this.handleFileClick.bind(this),
+      handleFileCopyClick: this.handleFileCopyClick.bind(this),
+      handleFileDeleteClick: this.handleFileDeleteClick.bind(this)
     }, 0, // Threshold
-    lookupFunc);
+    lookupFunc, {
+      // features
+      'allowDeleteFile': false,
+      'allowDuplicateFile': false,
+      'allowNewFile': false
+    });
   }
 
 }
@@ -109623,10 +109675,12 @@ class TreeMenu extends _base__WEBPACK_IMPORTED_MODULE_2__["default"] {
   constructor(config) {
     super(config);
     this._fileTreeMenu = new _filetree__WEBPACK_IMPORTED_MODULE_3__["default"]({
+      deleteFileModal: this.config.get('deleteFileModal'),
       newFileModal: this.config.get('newFileModal'),
       testing: this.isTesting
     });
     this._siteTreeMenu = new _sitetree__WEBPACK_IMPORTED_MODULE_4__["default"]({
+      deleteFileModal: this.config.get('deleteFileModal'),
       newFileModal: this.config.get('newFileModal'),
       testing: this.isTesting
     });

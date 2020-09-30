@@ -18,10 +18,12 @@ export default class TreeMenu extends MenuBase {
     super(config)
 
     this._fileTreeMenu = new FileTreeMenu({
+      deleteFileModal: this.config.get('deleteFileModal'),
       newFileModal: this.config.get('newFileModal'),
       testing: this.isTesting,
     })
     this._siteTreeMenu = new SiteTreeMenu({
+      deleteFileModal: this.config.get('deleteFileModal'),
       newFileModal: this.config.get('newFileModal'),
       testing: this.isTesting,
     })

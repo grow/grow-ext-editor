@@ -28,6 +28,8 @@ export default class SiteTreeMenu extends MenuBase {
       [/\/content\//, /\/podspec.yaml/],  // Whitelist.
       [],  // Blacklist.
     )
+
+    this.deleteFileWindow = this.config.get('deleteFileModal')
   }
 
   get template() {
@@ -72,8 +74,32 @@ export default class SiteTreeMenu extends MenuBase {
     }))
   }
 
+  handleFileCopyClick(evt) {
+    evt.stopPropagation()
+    const target = findParentByClassname(evt.target, 'menu__tree__folder__file')
+    const podPath = target.dataset.podPath
+    console.log('copy: ', podPath);
+    document.dispatchEvent(new CustomEvent('selective.path.copy', {
+      detail: {
+        path: podPath,
+      }
+    }))
+  }
+
+  handleFileDeleteClick(evt) {
+    evt.stopPropagation()
+    const target = findParentByClassname(evt.target, 'menu__tree__folder__file')
+    const podPath = target.dataset.podPath
+
+    this.deleteFileWindow.podPath = podPath
+    this.deleteFileWindow.contentRenderFunc = () => {
+      return html`Are you sure you want to delete the page at <strong>${podPath}</strong>?`
+    }
+    this.deleteFileWindow.open()
+  }
+
   handleFolderToggle(evt) {
-    const target = findParentByClassname(evt.target, 'menu__tree__folder__label')
+    const target = findParentByClassname(evt.target, 'menu__tree__folder__directory')
     const folder = target.dataset.folder
     if (this.expandedFolders.includes(folder)) {
       this.expandedFolders = this.expandedFolders.filter(item => item !== folder)
@@ -139,8 +165,15 @@ export default class SiteTreeMenu extends MenuBase {
       {
         handleFolderToggle: this.handleFolderToggle.bind(this),
         handleFileClick: this.handleFileClick.bind(this),
+        handleFileCopyClick: this.handleFileCopyClick.bind(this),
+        handleFileDeleteClick: this.handleFileDeleteClick.bind(this),
       },
       0, // Threshold
-      lookupFunc)
+      lookupFunc,
+      { // features
+        'allowDeleteFile': false,
+        'allowDuplicateFile': false,
+        'allowNewFile': false,
+      })
   }
 }

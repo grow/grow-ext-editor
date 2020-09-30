@@ -28,6 +28,14 @@ export default class Menu extends MenuBase {
     this.menuWindow = new MenuWindow()
     // this.menuWindow.isOpen = true  // TODO: Remove
 
+    // Create the delete page modal outside of the modal for the menu.
+    // Otherwise, the delete modal is constrained to the menu modal.
+    this.deleteFileWindow = new ModalWindow('Delete page')
+    this.deleteFileWindow.addAction(
+      'Delete file', this.handleFileDeleteSubmit.bind(this), true)
+    this.deleteFileWindow.addAction(
+      'Cancel', this.handleFileDeleteCancel.bind(this), false, true)
+
     // Create the new page modal outside of the modal for the menu.
     // Otherwise, the new modal is constrained to the menu modal.
     this.newFileWindow = new ModalWindow('New page')
@@ -48,6 +56,7 @@ export default class Menu extends MenuBase {
       testing: this.isTesting,
     })
     this._siteMenu = new SiteMenu({
+      deleteFileModal: this.deleteFileWindow,
       newFileModal: this.newFileWindow,
       testing: this.isTesting,
     })
@@ -99,6 +108,23 @@ export default class Menu extends MenuBase {
     document.addEventListener('selective.path.update', (evt) => {
       this.menuWindow.close()
     })
+  }
+
+  handleFileDeleteCancel(evt) {
+    evt.stopPropagation()
+    this.deleteFileWindow.close()
+  }
+
+  handleFileDeleteSubmit(evt) {
+    evt.stopPropagation()
+    const podPath = this.deleteFileWindow.podPath
+    console.log('pod path: ', podPath);
+    document.dispatchEvent(new CustomEvent('selective.path.delete', {
+      detail: {
+        path: podPath,
+      }
+    }))
+    this.deleteFileWindow.close()
   }
 
   handleFileNewCancel(evt) {
@@ -224,6 +250,7 @@ export default class Menu extends MenuBase {
 
     return html`
       ${this.menuWindow.template}
+      ${this.deleteFileWindow.template}
       ${this.newFileWindow.template}
       ${this.newWorkspaceWindow.template}`
   }
