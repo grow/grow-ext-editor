@@ -5444,7 +5444,7 @@ const svg = (strings, ...values) => new _lib_template_result_js__WEBPACK_IMPORTE
 
 /*!
  * @toast-ui/editor
- * @version 2.3.1 | Wed Jul 29 2020
+ * @version 2.4.0 | Thu Sep 10 2020
  * @author NHN FE Development Lab <dl_javascript@nhn.com>
  * @license MIT
  */
@@ -5544,13 +5544,13 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var tui_code_snippet_collection_toArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+/* harmony import */ var tui_code_snippet_collection_toArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
 /* harmony import */ var tui_code_snippet_collection_toArray__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(tui_code_snippet_collection_toArray__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var tui_code_snippet_type_isUndefined__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(8);
 /* harmony import */ var tui_code_snippet_type_isUndefined__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(tui_code_snippet_type_isUndefined__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var tui_code_snippet_type_isString__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(9);
 /* harmony import */ var tui_code_snippet_type_isString__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(tui_code_snippet_type_isString__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var tui_code_snippet_domUtil_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(3);
+/* harmony import */ var tui_code_snippet_domUtil_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(4);
 /* harmony import */ var tui_code_snippet_domUtil_css__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(tui_code_snippet_domUtil_css__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var tui_code_snippet_domUtil_addClass__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(6);
 /* harmony import */ var tui_code_snippet_domUtil_addClass__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(tui_code_snippet_domUtil_addClass__WEBPACK_IMPORTED_MODULE_4__);
@@ -7355,97 +7355,6 @@ commandManager_CommandManager.command = function (type, props) {
 
 /***/ }),
 /* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/**
- * @fileoverview Transform the Array-like object to Array.
- * @author NHN FE Development Lab <dl_javascript@nhn.com>
- */
-
-
-
-var forEachArray = __webpack_require__(21);
-
-/**
- * Transform the Array-like object to Array.
- * In low IE (below 8), Array.prototype.slice.call is not perfect. So, try-catch statement is used.
- * @param {*} arrayLike Array-like object
- * @returns {Array} Array
- * @memberof module:collection
- * @example
- * var toArray = require('tui-code-snippet/collection/toArray'); // node, commonjs
- *
- * var arrayLike = {
- *     0: 'one',
- *     1: 'two',
- *     2: 'three',
- *     3: 'four',
- *     length: 4
- * };
- * var result = toArray(arrayLike);
- *
- * alert(result instanceof Array); // true
- * alert(result); // one,two,three,four
- */
-function toArray(arrayLike) {
-  var arr;
-  try {
-    arr = Array.prototype.slice.call(arrayLike);
-  } catch (e) {
-    arr = [];
-    forEachArray(arrayLike, function(value) {
-      arr.push(value);
-    });
-  }
-
-  return arr;
-}
-
-module.exports = toArray;
-
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/**
- * @fileoverview Setting element style
- * @author NHN FE Development Lab <dl_javascript@nhn.com>
- */
-
-
-
-var isString = __webpack_require__(9);
-var forEach = __webpack_require__(26);
-
-/**
- * Setting element style
- * @param {(HTMLElement|SVGElement)} element - element to setting style
- * @param {(string|object)} key - style prop name or {prop: value} pair object
- * @param {string} [value] - style value
- * @memberof module:domUtil
- */
-function css(element, key, value) {
-  var style = element.style;
-
-  if (isString(key)) {
-    style[key] = value;
-
-    return;
-  }
-
-  forEach(key, function(v, k) {
-    style[k] = v;
-  });
-}
-
-module.exports = css;
-
-
-/***/ }),
-/* 4 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7461,12 +7370,13 @@ module.exports = css;
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return isHtmlNode; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return isStyledTextNode; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return isListItemNode; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return isTableCellNode; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return isInlineNode; });
 /* unused harmony export getLastLeafNode */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return findClosestNode; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return traverseParentNodes; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return traverseParentNodes; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return addChPos; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return setChPos; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return setChPos; });
 /* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(12);
 
 function hasImageOrCodeBlockNode(mdNode) {
@@ -7527,6 +7437,10 @@ function isStyledTextNode(mdNode) {
 }
 function isListItemNode(mdNode) {
   return mdNode.type === 'item';
+}
+function isTableCellNode(mdNode) {
+  var type = mdNode.type;
+  return type === 'tableCell' || type === 'tableDelimCell';
 }
 function isInlineNode(mdNode) {
   switch (mdNode.type) {
@@ -7594,6 +7508,97 @@ function setChPos(originPos, newCh) {
     ch: newCh
   };
 }
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * @fileoverview Transform the Array-like object to Array.
+ * @author NHN FE Development Lab <dl_javascript@nhn.com>
+ */
+
+
+
+var forEachArray = __webpack_require__(21);
+
+/**
+ * Transform the Array-like object to Array.
+ * In low IE (below 8), Array.prototype.slice.call is not perfect. So, try-catch statement is used.
+ * @param {*} arrayLike Array-like object
+ * @returns {Array} Array
+ * @memberof module:collection
+ * @example
+ * var toArray = require('tui-code-snippet/collection/toArray'); // node, commonjs
+ *
+ * var arrayLike = {
+ *     0: 'one',
+ *     1: 'two',
+ *     2: 'three',
+ *     3: 'four',
+ *     length: 4
+ * };
+ * var result = toArray(arrayLike);
+ *
+ * alert(result instanceof Array); // true
+ * alert(result); // one,two,three,four
+ */
+function toArray(arrayLike) {
+  var arr;
+  try {
+    arr = Array.prototype.slice.call(arrayLike);
+  } catch (e) {
+    arr = [];
+    forEachArray(arrayLike, function(value) {
+      arr.push(value);
+    });
+  }
+
+  return arr;
+}
+
+module.exports = toArray;
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * @fileoverview Setting element style
+ * @author NHN FE Development Lab <dl_javascript@nhn.com>
+ */
+
+
+
+var isString = __webpack_require__(9);
+var forEach = __webpack_require__(26);
+
+/**
+ * Setting element style
+ * @param {(HTMLElement|SVGElement)} element - element to setting style
+ * @param {(string|object)} key - style prop name or {prop: value} pair object
+ * @param {string} [value] - style value
+ * @memberof module:domUtil
+ */
+function css(element, key, value) {
+  var style = element.style;
+
+  if (isString(key)) {
+    style[key] = value;
+
+    return;
+  }
+
+  forEach(key, function(v, k) {
+    style[k] = v;
+  });
+}
+
+module.exports = css;
+
 
 /***/ }),
 /* 5 */
@@ -8020,7 +8025,7 @@ function sanitizeLinkAttribute(attribute) {
 
 
 var inArray = __webpack_require__(14);
-var toArray = __webpack_require__(2);
+var toArray = __webpack_require__(3);
 
 var elProto = Element.prototype;
 var matchSelector = elProto.matches ||
@@ -8192,7 +8197,7 @@ module.exports = isArray;
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return findAdjacentElementToScrollTop; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return getFallbackScrollTop; });
 /* harmony import */ var _utils_common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(12);
-/* harmony import */ var _utils_markdown__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4);
+/* harmony import */ var _utils_markdown__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
 
 
 var nestableTypes = ['list', 'blockQuote'];
@@ -8620,7 +8625,7 @@ module.exports = forEachArray;
 /* 22 */
 /***/ (function(module, exports) {
 
-!function(e,t){for(var r in t)e[r]=t[r]}(exports,function(e){var t={};function r(n){if(t[n])return t[n].exports;var i=t[n]={i:n,l:!1,exports:{}};return e[n].call(i.exports,i,i.exports,r),i.l=!0,i.exports}return r.m=e,r.c=t,r.d=function(e,t,n){r.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:n})},r.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},r.t=function(e,t){if(1&t&&(e=r(e)),8&t)return e;if(4&t&&"object"==typeof e&&e&&e.__esModule)return e;var n=Object.create(null);if(r.r(n),Object.defineProperty(n,"default",{enumerable:!0,value:e}),2&t&&"string"!=typeof e)for(var i in e)r.d(n,i,function(t){return e[t]}.bind(null,i));return n},r.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return r.d(t,"a",t),t},r.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},r.p="/dist",r(r.s=10)}([function(e,t,r){"use strict";r.r(t),r.d(t,"__extends",(function(){return i})),r.d(t,"__assign",(function(){return a})),r.d(t,"__rest",(function(){return o})),r.d(t,"__decorate",(function(){return s})),r.d(t,"__param",(function(){return l})),r.d(t,"__metadata",(function(){return u})),r.d(t,"__awaiter",(function(){return c})),r.d(t,"__generator",(function(){return p})),r.d(t,"__createBinding",(function(){return f})),r.d(t,"__exportStar",(function(){return d})),r.d(t,"__values",(function(){return h})),r.d(t,"__read",(function(){return g})),r.d(t,"__spread",(function(){return m})),r.d(t,"__spreadArrays",(function(){return v})),r.d(t,"__await",(function(){return b})),r.d(t,"__asyncGenerator",(function(){return y})),r.d(t,"__asyncDelegator",(function(){return C})),r.d(t,"__asyncValues",(function(){return k})),r.d(t,"__makeTemplateObject",(function(){return x})),r.d(t,"__importStar",(function(){return N})),r.d(t,"__importDefault",(function(){return w})),r.d(t,"__classPrivateFieldGet",(function(){return D})),r.d(t,"__classPrivateFieldSet",(function(){return L}));
+!function(e,t){for(var r in t)e[r]=t[r]}(exports,function(e){var t={};function r(n){if(t[n])return t[n].exports;var i=t[n]={i:n,l:!1,exports:{}};return e[n].call(i.exports,i,i.exports,r),i.l=!0,i.exports}return r.m=e,r.c=t,r.d=function(e,t,n){r.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:n})},r.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},r.t=function(e,t){if(1&t&&(e=r(e)),8&t)return e;if(4&t&&"object"==typeof e&&e&&e.__esModule)return e;var n=Object.create(null);if(r.r(n),Object.defineProperty(n,"default",{enumerable:!0,value:e}),2&t&&"string"!=typeof e)for(var i in e)r.d(n,i,function(t){return e[t]}.bind(null,i));return n},r.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return r.d(t,"a",t),t},r.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},r.p="/dist",r(r.s=11)}([function(e,t,r){"use strict";r.r(t),r.d(t,"__extends",(function(){return i})),r.d(t,"__assign",(function(){return o})),r.d(t,"__rest",(function(){return a})),r.d(t,"__decorate",(function(){return s})),r.d(t,"__param",(function(){return l})),r.d(t,"__metadata",(function(){return u})),r.d(t,"__awaiter",(function(){return c})),r.d(t,"__generator",(function(){return p})),r.d(t,"__createBinding",(function(){return f})),r.d(t,"__exportStar",(function(){return d})),r.d(t,"__values",(function(){return h})),r.d(t,"__read",(function(){return g})),r.d(t,"__spread",(function(){return m})),r.d(t,"__spreadArrays",(function(){return v})),r.d(t,"__await",(function(){return b})),r.d(t,"__asyncGenerator",(function(){return y})),r.d(t,"__asyncDelegator",(function(){return C})),r.d(t,"__asyncValues",(function(){return x})),r.d(t,"__makeTemplateObject",(function(){return k})),r.d(t,"__importStar",(function(){return N})),r.d(t,"__importDefault",(function(){return w})),r.d(t,"__classPrivateFieldGet",(function(){return D})),r.d(t,"__classPrivateFieldSet",(function(){return L}));
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation.
 
@@ -8635,9 +8640,9 @@ LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
 OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 PERFORMANCE OF THIS SOFTWARE.
 ***************************************************************************** */
-var n=function(e,t){return(n=Object.setPrototypeOf||{__proto__:[]}instanceof Array&&function(e,t){e.__proto__=t}||function(e,t){for(var r in t)t.hasOwnProperty(r)&&(e[r]=t[r])})(e,t)};function i(e,t){function r(){this.constructor=e}n(e,t),e.prototype=null===t?Object.create(t):(r.prototype=t.prototype,new r)}var a=function(){return(a=Object.assign||function(e){for(var t,r=1,n=arguments.length;r<n;r++)for(var i in t=arguments[r])Object.prototype.hasOwnProperty.call(t,i)&&(e[i]=t[i]);return e}).apply(this,arguments)};function o(e,t){var r={};for(var n in e)Object.prototype.hasOwnProperty.call(e,n)&&t.indexOf(n)<0&&(r[n]=e[n]);if(null!=e&&"function"==typeof Object.getOwnPropertySymbols){var i=0;for(n=Object.getOwnPropertySymbols(e);i<n.length;i++)t.indexOf(n[i])<0&&Object.prototype.propertyIsEnumerable.call(e,n[i])&&(r[n[i]]=e[n[i]])}return r}function s(e,t,r,n){var i,a=arguments.length,o=a<3?t:null===n?n=Object.getOwnPropertyDescriptor(t,r):n;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)o=Reflect.decorate(e,t,r,n);else for(var s=e.length-1;s>=0;s--)(i=e[s])&&(o=(a<3?i(o):a>3?i(t,r,o):i(t,r))||o);return a>3&&o&&Object.defineProperty(t,r,o),o}function l(e,t){return function(r,n){t(r,n,e)}}function u(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)}function c(e,t,r,n){return new(r||(r=Promise))((function(i,a){function o(e){try{l(n.next(e))}catch(e){a(e)}}function s(e){try{l(n.throw(e))}catch(e){a(e)}}function l(e){var t;e.done?i(e.value):(t=e.value,t instanceof r?t:new r((function(e){e(t)}))).then(o,s)}l((n=n.apply(e,t||[])).next())}))}function p(e,t){var r,n,i,a,o={label:0,sent:function(){if(1&i[0])throw i[1];return i[1]},trys:[],ops:[]};return a={next:s(0),throw:s(1),return:s(2)},"function"==typeof Symbol&&(a[Symbol.iterator]=function(){return this}),a;function s(a){return function(s){return function(a){if(r)throw new TypeError("Generator is already executing.");for(;o;)try{if(r=1,n&&(i=2&a[0]?n.return:a[0]?n.throw||((i=n.return)&&i.call(n),0):n.next)&&!(i=i.call(n,a[1])).done)return i;switch(n=0,i&&(a=[2&a[0],i.value]),a[0]){case 0:case 1:i=a;break;case 4:return o.label++,{value:a[1],done:!1};case 5:o.label++,n=a[1],a=[0];continue;case 7:a=o.ops.pop(),o.trys.pop();continue;default:if(!(i=o.trys,(i=i.length>0&&i[i.length-1])||6!==a[0]&&2!==a[0])){o=0;continue}if(3===a[0]&&(!i||a[1]>i[0]&&a[1]<i[3])){o.label=a[1];break}if(6===a[0]&&o.label<i[1]){o.label=i[1],i=a;break}if(i&&o.label<i[2]){o.label=i[2],o.ops.push(a);break}i[2]&&o.ops.pop(),o.trys.pop();continue}a=t.call(e,o)}catch(e){a=[6,e],n=0}finally{r=i=0}if(5&a[0])throw a[1];return{value:a[0]?a[1]:void 0,done:!0}}([a,s])}}}function f(e,t,r,n){void 0===n&&(n=r),e[n]=t[r]}function d(e,t){for(var r in e)"default"===r||t.hasOwnProperty(r)||(t[r]=e[r])}function h(e){var t="function"==typeof Symbol&&Symbol.iterator,r=t&&e[t],n=0;if(r)return r.call(e);if(e&&"number"==typeof e.length)return{next:function(){return e&&n>=e.length&&(e=void 0),{value:e&&e[n++],done:!e}}};throw new TypeError(t?"Object is not iterable.":"Symbol.iterator is not defined.")}function g(e,t){var r="function"==typeof Symbol&&e[Symbol.iterator];if(!r)return e;var n,i,a=r.call(e),o=[];try{for(;(void 0===t||t-- >0)&&!(n=a.next()).done;)o.push(n.value)}catch(e){i={error:e}}finally{try{n&&!n.done&&(r=a.return)&&r.call(a)}finally{if(i)throw i.error}}return o}function m(){for(var e=[],t=0;t<arguments.length;t++)e=e.concat(g(arguments[t]));return e}function v(){for(var e=0,t=0,r=arguments.length;t<r;t++)e+=arguments[t].length;var n=Array(e),i=0;for(t=0;t<r;t++)for(var a=arguments[t],o=0,s=a.length;o<s;o++,i++)n[i]=a[o];return n}function b(e){return this instanceof b?(this.v=e,this):new b(e)}function y(e,t,r){if(!Symbol.asyncIterator)throw new TypeError("Symbol.asyncIterator is not defined.");var n,i=r.apply(e,t||[]),a=[];return n={},o("next"),o("throw"),o("return"),n[Symbol.asyncIterator]=function(){return this},n;function o(e){i[e]&&(n[e]=function(t){return new Promise((function(r,n){a.push([e,t,r,n])>1||s(e,t)}))})}function s(e,t){try{(r=i[e](t)).value instanceof b?Promise.resolve(r.value.v).then(l,u):c(a[0][2],r)}catch(e){c(a[0][3],e)}var r}function l(e){s("next",e)}function u(e){s("throw",e)}function c(e,t){e(t),a.shift(),a.length&&s(a[0][0],a[0][1])}}function C(e){var t,r;return t={},n("next"),n("throw",(function(e){throw e})),n("return"),t[Symbol.iterator]=function(){return this},t;function n(n,i){t[n]=e[n]?function(t){return(r=!r)?{value:b(e[n](t)),done:"return"===n}:i?i(t):t}:i}}function k(e){if(!Symbol.asyncIterator)throw new TypeError("Symbol.asyncIterator is not defined.");var t,r=e[Symbol.asyncIterator];return r?r.call(e):(e=h(e),t={},n("next"),n("throw"),n("return"),t[Symbol.asyncIterator]=function(){return this},t);function n(r){t[r]=e[r]&&function(t){return new Promise((function(n,i){(function(e,t,r,n){Promise.resolve(n).then((function(t){e({value:t,done:r})}),t)})(n,i,(t=e[r](t)).done,t.value)}))}}}function x(e,t){return Object.defineProperty?Object.defineProperty(e,"raw",{value:t}):e.raw=t,e}function N(e){if(e&&e.__esModule)return e;var t={};if(null!=e)for(var r in e)Object.hasOwnProperty.call(e,r)&&(t[r]=e[r]);return t.default=e,t}function w(e){return e&&e.__esModule?e:{default:e}}function D(e,t){if(!t.has(e))throw new TypeError("attempted to get private field on non-instance");return t.get(e)}function L(e,t,r){if(!t.has(e))throw new TypeError("attempted to set private field on non-instance");return t.set(e,r),r}},function(e,t,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.text=t.isRefDef=t.isTable=t.isList=t.isHeading=t.isHtmlBlock=t.isCodeBlock=t.createNode=t.RefDefNode=t.TableCellNode=t.TableNode=t.CodeNode=t.HtmlBlockNode=t.CodeBlockNode=t.LinkNode=t.HeadingNode=t.ListNode=t.BlockNode=t.Node=t.removeAllNode=t.removeNodeById=t.getNodeById=t.isContainer=void 0;var n=r(0),i=n.__importDefault(r(17));function a(e){switch(e.type){case"document":case"blockQuote":case"list":case"item":case"paragraph":case"heading":case"emph":case"strong":case"strike":case"link":case"image":case"table":case"tableHead":case"tableBody":case"tableRow":case"tableCell":case"tableDelimRow":return!0;default:return!1}}t.isContainer=a;var o=1,s={};t.getNodeById=function(e){return s[e]},t.removeNodeById=function(e){delete s[e]},t.removeAllNode=function(){s={}};var l=function(){function e(e,t){this.parent=null,this.prev=null,this.next=null,this.firstChild=null,this.lastChild=null,this.literal=null,this.id="document"===e?-1:o++,this.type=e,this.sourcepos=t,s[this.id]=this}return e.prototype.isContainer=function(){return a(this)},e.prototype.unlink=function(){this.prev?this.prev.next=this.next:this.parent&&(this.parent.firstChild=this.next),this.next?this.next.prev=this.prev:this.parent&&(this.parent.lastChild=this.prev),this.parent=null,this.next=null,this.prev=null},e.prototype.replaceWith=function(e){this.insertBefore(e),this.unlink()},e.prototype.insertAfter=function(e){e.unlink(),e.next=this.next,e.next&&(e.next.prev=e),e.prev=this,this.next=e,this.parent&&(e.parent=this.parent,e.next||(e.parent.lastChild=e))},e.prototype.insertBefore=function(e){e.unlink(),e.prev=this.prev,e.prev&&(e.prev.next=e),e.next=this,this.prev=e,e.parent=this.parent,e.prev||(e.parent.firstChild=e)},e.prototype.appendChild=function(e){e.unlink(),e.parent=this,this.lastChild?(this.lastChild.next=e,e.prev=this.lastChild,this.lastChild=e):(this.firstChild=e,this.lastChild=e)},e.prototype.prependChild=function(e){e.unlink(),e.parent=this,this.firstChild?(this.firstChild.prev=e,e.next=this.firstChild,this.firstChild=e):(this.firstChild=e,this.lastChild=e)},e.prototype.walker=function(){return new i.default(this)},e}();t.Node=l;var u=function(e){function t(t,r){var n=e.call(this,t,r)||this;return n.open=!0,n.lineOffsets=null,n.stringContent=null,n.lastLineBlank=!1,n.lastLineChecked=!1,n.type=t,n}return n.__extends(t,e),t}(l);t.BlockNode=u;var c=function(e){function t(){var t=null!==e&&e.apply(this,arguments)||this;return t.listData=null,t}return n.__extends(t,e),t}(u);t.ListNode=c;var p=function(e){function t(){var t=null!==e&&e.apply(this,arguments)||this;return t.level=0,t.headingType="atx",t}return n.__extends(t,e),t}(u);t.HeadingNode=p;var f=function(e){function t(){var t=null!==e&&e.apply(this,arguments)||this;return t.destination=null,t.title=null,t.extendedAutolink=!1,t}return n.__extends(t,e),t}(l);t.LinkNode=f;var d=function(e){function t(){var t=null!==e&&e.apply(this,arguments)||this;return t.isFenced=!1,t.fenceChar=null,t.fenceLength=0,t.fenceOffset=-1,t.info=null,t.infoPadding=0,t}return n.__extends(t,e),t}(u);t.CodeBlockNode=d;var h=function(e){function t(){var t=null!==e&&e.apply(this,arguments)||this;return t.htmlBlockType=-1,t}return n.__extends(t,e),t}(u);t.HtmlBlockNode=h;var g=function(e){function t(){var t=null!==e&&e.apply(this,arguments)||this;return t.tickCount=0,t}return n.__extends(t,e),t}(l);t.CodeNode=g;var m=function(e){function t(){var t=null!==e&&e.apply(this,arguments)||this;return t.columns=[],t}return n.__extends(t,e),t}(u);t.TableNode=m;var v=function(e){function t(){var t=null!==e&&e.apply(this,arguments)||this;return t.startIdx=0,t.endIdx=0,t.paddingLeft=0,t.paddingRight=0,t.ignored=!1,t}return n.__extends(t,e),t}(u);t.TableCellNode=v;var b=function(e){function t(){var t=null!==e&&e.apply(this,arguments)||this;return t.title="",t.dest="",t.label="",t}return n.__extends(t,e),t}(u);function y(e,t){switch(e){case"heading":return new p(e,t);case"list":case"item":return new c(e,t);case"link":case"image":return new f(e,t);case"codeBlock":return new d(e,t);case"htmlBlock":return new h(e,t);case"table":return new m(e,t);case"tableCell":return new v(e,t);case"document":case"paragraph":case"blockQuote":case"thematicBreak":case"tableRow":case"tableBody":case"tableHead":return new u(e,t);case"code":return new g(e,t);case"refDef":return new b(e,t);default:return new l(e,t)}}t.RefDefNode=b,t.createNode=y,t.isCodeBlock=function(e){return"codeBlock"===e.type},t.isHtmlBlock=function(e){return"htmlBlock"===e.type},t.isHeading=function(e){return"heading"===e.type},t.isList=function(e){return"list"===e.type},t.isTable=function(e){return"table"===e.type},t.isRefDef=function(e){return"refDef"===e.type},t.text=function(e,t){var r=y("text",t);return r.literal=e,r}},function(e,t,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.isEmpty=t.last=t.repeat=t.escapeXml=t.normalizeURI=t.unescapeString=t.ESCAPABLE=t.ENTITY=void 0;var n=r(0).__importDefault(r(11)),i=r(7);t.ENTITY="&(?:#x[a-f0-9]{1,6}|#[0-9]{1,7}|[a-z][a-z0-9]{1,31});";var a=/[\\&]/;t.ESCAPABLE="[!\"#$%&'()*+,./:;<=>?@[\\\\\\]^_`{|}~-]";var o=new RegExp("\\\\"+t.ESCAPABLE+"|"+t.ENTITY,"gi"),s=new RegExp('[&<>"]',"g"),l=function(e){return 92===e.charCodeAt(0)?e.charAt(1):i.decodeHTML(e)};function u(e){switch(e){case"&":return"&amp;";case"<":return"&lt;";case">":return"&gt;";case'"':return"&quot;";default:return e}}t.unescapeString=function(e){return a.test(e)?e.replace(o,l):e},t.normalizeURI=function(e){try{return n.default(e)}catch(t){return e}},t.escapeXml=function(e){return s.test(e)?e.replace(s,u):e},t.repeat=function(e,t){for(var r=[],n=0;n<t;n++)r.push(e);return r.join("")},t.last=function(e){return e.length?e[e.length-1]:null},t.isEmpty=function(e){return!e||!/[^ \t]+/.test(e)}},function(e,t,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.clearObj=t.isEmptyObj=t.omit=t.iterateObject=t.normalizeReference=t.last=void 0;var n=r(0);t.last=function(e){return e[e.length-1]},t.normalizeReference=function(e){return e.slice(1,e.length-1).trim().replace(/[ \t\r\n]+/," ").toLowerCase().toUpperCase()},t.iterateObject=function(e,t){Object.keys(e).forEach((function(r){t(r,e[r])}))},t.omit=function(e){for(var t=[],r=1;r<arguments.length;r++)t[r-1]=arguments[r];var i=n.__assign({},e);return t.forEach((function(e){delete i[e]})),i},t.isEmptyObj=function(e){return!Object.keys(e).length},t.clearObj=function(e){Object.keys(e).forEach((function(t){delete e[t]}))}},function(e,t,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.isSpaceOrTab=t.isBlank=t.peek=t.endsWithBlankLine=t.reClosingCodeFence=t.reNonSpace=t.C_OPEN_BRACKET=t.C_SPACE=t.C_LESSTHAN=t.C_GREATERTHAN=t.C_NEWLINE=t.C_TAB=t.CODE_INDENT=void 0,t.CODE_INDENT=4,t.C_TAB=9,t.C_NEWLINE=10,t.C_GREATERTHAN=62,t.C_LESSTHAN=60,t.C_SPACE=32,t.C_OPEN_BRACKET=91,t.reNonSpace=/[^ \t\f\v\r\n]/,t.reClosingCodeFence=/^(?:`{3,}|~{3,})(?= *$)/,t.endsWithBlankLine=function(e){for(var t=e;t;){if(t.lastLineBlank)return!0;var r=t.type;if(t.lastLineChecked||"list"!==r&&"item"!==r){t.lastLineChecked=!0;break}t.lastLineChecked=!0,t=t.lastChild}return!1},t.peek=function(e,t){return t<e.length?e.charCodeAt(t):-1},t.isBlank=function(e){return!t.reNonSpace.test(e)},t.isSpaceOrTab=function(e){return e===t.C_SPACE||e===t.C_TAB}},function(e,t,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.ToastMark=t.createRefDefState=void 0;var n=r(0),i=r(6),a=r(1),o=r(25),s=r(9),l=r(3),u=r(4),c=/\r\n|\n|\r/;function p(e){return{id:e.id,title:e.title,sourcepos:e.sourcepos,unlinked:!1,destination:e.dest}}t.createRefDefState=p;var f=function(){function e(e,t){this.refMap={},this.refLinkCandidateMap={},this.refDefCandidateMap={},this.referenceDefinition=!!(null==t?void 0:t.referenceDefinition),this.parser=new i.Parser(t),this.parser.setRefMaps(this.refMap,this.refLinkCandidateMap,this.refDefCandidateMap),this.eventHandlerMap={change:[]},e=e||"",this.lineTexts=e.split(c),this.root=this.parser.parse(e)}return e.prototype.updateLineTexts=function(e,t,r){var i,a=e[0],o=e[1],s=t[0],l=t[1],u=r.split(c),p=u.length,f=this.lineTexts[a-1],d=this.lineTexts[s-1];u[0]=f.slice(0,o-1)+u[0],u[p-1]=u[p-1]+d.slice(l-1);var h=s-a+1;return(i=this.lineTexts).splice.apply(i,n.__spreadArrays([a-1,h],u)),p-h},e.prototype.updateRootNodeState=function(){if(1===this.lineTexts.length&&""===this.lineTexts[0])return this.root.lastLineBlank=!0,void(this.root.sourcepos=[[1,1],[1,0]]);this.root.lastChild&&(this.root.lastLineBlank=this.root.lastChild.lastLineBlank);for(var e=this.lineTexts,t=e.length-1;""===e[t];)t-=1;e.length-2>t&&(t+=1),this.root.sourcepos[1]=[t+1,e[t].length]},e.prototype.replaceRangeNodes=function(e,t,r){e?(o.insertNodesBefore(e,r),o.removeNextUntil(e,t),[e.id,t.id].forEach((function(e){return a.removeNodeById(e)})),e.unlink()):t?(o.insertNodesBefore(t,r),a.removeNodeById(t.id),t.unlink()):o.prependChildNodes(this.root,r)},e.prototype.getNodeRange=function(e,t){var r=o.findChildNodeAtLine(this.root,e[0]),n=o.findChildNodeAtLine(this.root,t[0]);return n&&n.next&&t[0]+1===n.next.sourcepos[0][0]&&(n=n.next),[r,n]},e.prototype.trigger=function(e,t){this.eventHandlerMap[e].forEach((function(e){e(t)}))},e.prototype.extendEndLine=function(e){for(;""===this.lineTexts[e];)e+=1;return e},e.prototype.parseRange=function(e,t,r,n){var i;e&&e.prev&&(a.isList(e.prev)&&function(e){var t=e.match(/^[ \t]+/);if(t&&(t[0].length>=2||/\t/.test(t[0])))return!0;var r=t?e.slice(t.length):e;return s.reBulletListMarker.test(r)||s.reOrderedListMarker.test(r)}(this.lineTexts[r-1])||a.isTable(e.prev)&&(i=this.lineTexts[r-1],!u.isBlank(i)&&-1!==i.indexOf("|")))&&(r=(e=e.prev).sourcepos[0][0]);for(var l=this.lineTexts.slice(r-1,n),c=this.parser.partialParseStart(r,l),p=t?t.next:this.root.firstChild;c.lastChild&&a.isList(c.lastChild)&&p&&("list"===p.type||p.sourcepos[0][1]>=2);){var f=this.extendEndLine(p.sourcepos[1][0]);this.parser.partialParseExtends(this.lineTexts.slice(n,f)),e||(e=t),t=p,n=f,p=p.next}return this.parser.partialParseFinish(),{newNodes:o.getChildNodes(c),extStartNode:e,extEndNode:t}},e.prototype.getRemovedNodeRange=function(e,t){return!e||e&&a.isRefDef(e)||t&&a.isRefDef(t)?null:{id:[e.id,t.id],line:[e.sourcepos[0][0]-1,t.sourcepos[1][0]-1]}},e.prototype.markDeletedRefMap=function(e,t){var r=this;if(!l.isEmptyObj(this.refMap)){var n=function(e){if(a.isRefDef(e)){var t=r.refMap[e.label];t&&e.id===t.id&&(t.unlinked=!0)}};e&&o.invokeNextUntil(n,e.parent,t),t&&o.invokeNextUntil(n,t)}},e.prototype.replaceWithNewRefDefState=function(e){var t=this;if(!l.isEmptyObj(this.refMap)){var r=function(e){if(a.isRefDef(e)){var r=e.label,n=t.refMap[r];n&&!n.unlinked||(t.refMap[r]=p(e))}};e.forEach((function(e){o.invokeNextUntil(r,e)}))}},e.prototype.replaceWithRefDefCandidate=function(){var e=this;l.isEmptyObj(this.refDefCandidateMap)||l.iterateObject(this.refDefCandidateMap,(function(t,r){var n=r.label,i=r.sourcepos,a=e.refMap[n];(!a||a.unlinked||a.sourcepos[0][0]>i[0][0])&&(e.refMap[n]=p(r))}))},e.prototype.getRangeWithRefDef=function(e,t,r,n,i){if(this.referenceDefinition&&!l.isEmptyObj(this.refMap)){var s=o.findChildNodeAtLine(this.root,e-1),u=o.findChildNodeAtLine(this.root,t+1);s&&a.isRefDef(s)&&s!==r&&s!==n&&(e=(r=s).sourcepos[0][0]),u&&a.isRefDef(u)&&u!==r&&u!==n&&(n=u,t=this.extendEndLine(n.sourcepos[1][0]+i))}return[r,n,e,t]},e.prototype.parse=function(e,t,r){void 0===r&&(r=0);var n=this.getNodeRange(e,t),i=n[0],a=n[1],o=i?Math.min(i.sourcepos[0][0],e[0]):e[0],s=this.extendEndLine((a?Math.max(a.sourcepos[1][0],t[0]):t[0])+r),l=this.parseRange.apply(this,this.getRangeWithRefDef(o,s,i,a,r)),u=l.newNodes,c=l.extStartNode,p=l.extEndNode,f=this.getRemovedNodeRange(c,p),d=p?p.next:this.root.firstChild;return this.referenceDefinition?(this.markDeletedRefMap(c,p),this.replaceRangeNodes(c,p,u),this.replaceWithNewRefDefState(u)):this.replaceRangeNodes(c,p,u),{nodes:u,removedNodeRange:f,nextNode:d}},e.prototype.parseRefLink=function(){var e=this,t=[];return l.isEmptyObj(this.refMap)||l.iterateObject(this.refMap,(function(r,n){n.unlinked&&delete e.refMap[r],l.iterateObject(e.refLinkCandidateMap,(function(n,i){var a=i.node;i.refLabel===r&&t.push(e.parse(a.sourcepos[0],a.sourcepos[1]))}))})),t},e.prototype.removeUnlinkedCandidate=function(){l.isEmptyObj(this.refDefCandidateMap)||[this.refLinkCandidateMap,this.refDefCandidateMap].forEach((function(e){l.iterateObject(e,(function(t){o.isUnlinked(t)&&delete e[t]}))}))},e.prototype.editMarkdown=function(e,t,r){var n=this.updateLineTexts(e,t,r),i=this.parse(e,t,n),a=l.omit(i,"nextNode");o.updateNextLineNumbers(i.nextNode,n),this.updateRootNodeState();var s=[a];return this.referenceDefinition&&(this.removeUnlinkedCandidate(),this.replaceWithRefDefCandidate(),s=s.concat(this.parseRefLink())),this.trigger("change",s),s},e.prototype.getLineTexts=function(){return this.lineTexts},e.prototype.getRootNode=function(){return this.root},e.prototype.findNodeAtPosition=function(e){var t=o.findNodeAtPosition(this.root,e);return t&&t!==this.root?t:null},e.prototype.findFirstNodeAtLine=function(e){return o.findFirstNodeAtLine(this.root,e)},e.prototype.on=function(e,t){this.eventHandlerMap[e].push(t)},e.prototype.off=function(e,t){var r=this.eventHandlerMap[e],n=r.indexOf(t);r.splice(n,1)},e.prototype.findNodeById=function(e){return o.findNodeById(e)},e.prototype.removeAllNode=function(){a.removeAllNode()},e}();t.ToastMark=f},function(e,t,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.Parser=void 0;var n=r(0),i=r(2),a=r(1),o=r(18),s=r(21),l=r(4),u=r(9),c=r(3),p=[/./,/<\/(?:script|pre|style)>/i,/-->/,/\?>/,/>/,/\]\]>/],f=/^[#`~*+_=<>0-9-]/,d=/\r\n|\n|\r/;function h(){return a.createNode("document",[[1,1],[0,0]])}var g={smart:!1,tagFilter:!1,extendedAutolinks:!1,disallowedHtmlBlockTags:[],referenceDefinition:!1,disallowDeepHeading:!1,customParser:null},m=function(){function e(e){this.options=n.__assign(n.__assign({},g),e),this.doc=h(),this.tip=this.doc,this.oldtip=this.doc,this.lineNumber=0,this.offset=0,this.column=0,this.nextNonspace=0,this.nextNonspaceColumn=0,this.indent=0,this.currentLine="",this.indented=!1,this.blank=!1,this.partiallyConsumedTab=!1,this.allClosed=!0,this.lastMatchedContainer=this.doc,this.refMap={},this.refLinkCandidateMap={},this.refDefCandidateMap={},this.lastLineLength=0,this.inlineParser=new o.InlineParser(this.options)}return e.prototype.advanceOffset=function(e,t){void 0===t&&(t=!1);for(var r,n,i,a=this.currentLine;e>0&&(i=a[this.offset]);)"\t"===i?(r=4-this.column%4,t?(this.partiallyConsumedTab=r>e,n=r>e?e:r,this.column+=n,this.offset+=this.partiallyConsumedTab?0:1,e-=n):(this.partiallyConsumedTab=!1,this.column+=r,this.offset+=1,e-=1)):(this.partiallyConsumedTab=!1,this.offset+=1,this.column+=1,e-=1)},e.prototype.advanceNextNonspace=function(){this.offset=this.nextNonspace,this.column=this.nextNonspaceColumn,this.partiallyConsumedTab=!1},e.prototype.findNextNonspace=function(){for(var e,t=this.currentLine,r=this.offset,n=this.column;""!==(e=t.charAt(r));)if(" "===e)r++,n++;else{if("\t"!==e)break;r++,n+=4-n%4}this.blank="\n"===e||"\r"===e||""===e,this.nextNonspace=r,this.nextNonspaceColumn=n,this.indent=this.nextNonspaceColumn-this.column,this.indented=this.indent>=l.CODE_INDENT},e.prototype.addLine=function(){if(this.partiallyConsumedTab){this.offset+=1;var e=4-this.column%4;this.tip.stringContent+=i.repeat(" ",e)}this.tip.lineOffsets?this.tip.lineOffsets.push(this.offset):this.tip.lineOffsets=[this.offset],this.tip.stringContent+=this.currentLine.slice(this.offset)+"\n"},e.prototype.addChild=function(e,t){for(;!s.blockHandlers[this.tip.type].canContain(e);)this.finalize(this.tip,this.lineNumber-1);var r=t+1,n=a.createNode(e,[[this.lineNumber,r],[0,0]]);return n.stringContent="",this.tip.appendChild(n),this.tip=n,n},e.prototype.closeUnmatchedBlocks=function(){if(!this.allClosed){for(;this.oldtip!==this.lastMatchedContainer;){var e=this.oldtip.parent;this.finalize(this.oldtip,this.lineNumber-1),this.oldtip=e}this.allClosed=!0}},e.prototype.finalize=function(e,t){var r=e.parent;e.open=!1,e.sourcepos[1]=[t,this.lastLineLength],s.blockHandlers[e.type].finalize(this,e),this.tip=r},e.prototype.processInlines=function(e){var t,r=this.options.customParser,n=e.walker();for(this.inlineParser.refMap=this.refMap,this.inlineParser.refLinkCandidateMap=this.refLinkCandidateMap,this.inlineParser.refDefCandidateMap=this.refDefCandidateMap,this.inlineParser.options=this.options;t=n.next();){var i=t.node,a=t.entering,o=i.type;r&&r[o]&&r[o](i,{entering:a}),a||"paragraph"!==o&&"heading"!==o&&("tableCell"!==o||i.ignored)||this.inlineParser.parse(i)}},e.prototype.incorporateLine=function(e){var t=this.doc;this.oldtip=this.tip,this.offset=0,this.column=0,this.blank=!1,this.partiallyConsumedTab=!1,this.lineNumber+=1,-1!==e.indexOf("\0")&&(e=e.replace(/\0/g,"�")),this.currentLine=e;for(var r,n=!0;(r=t.lastChild)&&r.open;){switch(t=r,this.findNextNonspace(),s.blockHandlers[t.type].continue(this,t)){case 0:break;case 1:n=!1;break;case 2:return void(this.lastLineLength=e.length);default:throw new Error("continue returned illegal value, must be 0, 1, or 2")}if(!n){t=t.parent;break}}this.allClosed=t===this.oldtip,this.lastMatchedContainer=t;for(var i="paragraph"!==t.type&&s.blockHandlers[t.type].acceptsLines,o=u.blockStarts.length;!i;){if(this.findNextNonspace(),"table"!==t.type&&"tableBody"!==t.type&&"paragraph"!==t.type&&!this.indented&&!f.test(e.slice(this.nextNonspace))){this.advanceNextNonspace();break}for(var l=0;l<o;){var c=u.blockStarts[l](this,t);if(1===c){t=this.tip;break}if(2===c){t=this.tip,i=!0;break}l++}if(l===o){this.advanceNextNonspace();break}}if(this.allClosed||this.blank||"paragraph"!==this.tip.type){this.closeUnmatchedBlocks(),this.blank&&t.lastChild&&(t.lastChild.lastLineBlank=!0);for(var d=t.type,h=this.blank&&!("blockQuote"===d||a.isCodeBlock(t)&&t.isFenced||"item"===d&&!t.firstChild&&t.sourcepos[0][0]===this.lineNumber),g=t;g;)g.lastLineBlank=h,g=g.parent;s.blockHandlers[d].acceptsLines?(this.addLine(),a.isHtmlBlock(t)&&t.htmlBlockType>=1&&t.htmlBlockType<=5&&p[t.htmlBlockType].test(this.currentLine.slice(this.offset))&&(this.lastLineLength=e.length,this.finalize(t,this.lineNumber))):this.offset<e.length&&!this.blank&&(t=this.addChild("paragraph",this.offset),this.advanceNextNonspace(),this.addLine())}else this.addLine();this.lastLineLength=e.length},e.prototype.parse=function(e){this.doc=h(),this.tip=this.doc,this.lineNumber=0,this.lastLineLength=0,this.offset=0,this.column=0,this.lastMatchedContainer=this.doc,this.currentLine="";var t=e.split(d),r=t.length;this.options.referenceDefinition&&this.clearRefMaps(),e.charCodeAt(e.length-1)===o.C_NEWLINE&&(r-=1);for(var n=0;n<r;n++)this.incorporateLine(t[n]);for(;this.tip;)this.finalize(this.tip,r);return this.processInlines(this.doc),this.doc},e.prototype.partialParseStart=function(e,t){this.doc=h(),this.tip=this.doc,this.lineNumber=e-1,this.lastLineLength=0,this.offset=0,this.column=0,this.lastMatchedContainer=this.doc,this.currentLine="";for(var r=t.length,n=0;n<r;n++)this.incorporateLine(t[n]);return this.doc},e.prototype.partialParseExtends=function(e){for(var t=0;t<e.length;t++)this.incorporateLine(e[t])},e.prototype.partialParseFinish=function(){for(;this.tip;)this.finalize(this.tip,this.lineNumber);this.processInlines(this.doc)},e.prototype.setRefMaps=function(e,t,r){this.refMap=e,this.refLinkCandidateMap=t,this.refDefCandidateMap=r},e.prototype.clearRefMaps=function(){[this.refMap,this.refLinkCandidateMap,this.refDefCandidateMap].forEach((function(e){c.clearObj(e)}))},e}();t.Parser=m},function(e,t,r){"use strict";var n=this&&this.__importDefault||function(e){return e&&e.__esModule?e:{default:e}};Object.defineProperty(t,"__esModule",{value:!0}),t.decodeHTML=t.decodeHTMLStrict=t.decodeXML=void 0;var i=n(r(12)),a=n(r(13)),o=n(r(14)),s=n(r(15));function l(e){var t=Object.keys(e).join("|"),r=c(e),n=new RegExp("&(?:"+(t+="|#[xX][\\da-fA-F]+|#\\d+")+");","g");return function(e){return String(e).replace(n,r)}}t.decodeXML=l(o.default),t.decodeHTMLStrict=l(i.default);var u=function(e,t){return e<t?1:-1};function c(e){return function(t){if("#"===t.charAt(1)){var r=t.charAt(2);return"X"===r||"x"===r?s.default(parseInt(t.substr(3),16)):s.default(parseInt(t.substr(2),10))}return e[t.slice(1,-1)]}}t.decodeHTML=function(){for(var e=Object.keys(a.default).sort(u),t=Object.keys(i.default).sort(u),r=0,n=0;r<t.length;r++)e[n]===t[r]?(t[r]+=";?",n++):t[r]+=";";var o=new RegExp("&(?:"+t.join("|")+"|#[xX][\\da-fA-F]+;?|#\\d+;?)","g"),s=c(i.default);function l(e){return";"!==e.substr(-1)&&(e+=";"),s(e)}return function(e){return String(e).replace(o,l)}}()},function(e,t,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.reHtmlTag=t.CLOSETAG=t.OPENTAG=void 0;t.OPENTAG="<[A-Za-z][A-Za-z0-9-]*(?:\\s+[a-zA-Z_:][a-zA-Z0-9:._-]*(?:\\s*=\\s*(?:[^\"'=<>`\\x00-\\x20]+|'[^']*'|\"[^\"]*\"))?)*\\s*/?>",t.CLOSETAG="</[A-Za-z][A-Za-z0-9-]*\\s*[>]";var n="(?:"+t.OPENTAG+"|"+t.CLOSETAG+"|\x3c!----\x3e|\x3c!--(?:-?[^>-])(?:-?[^-])*--\x3e|[<][?].*?[?][>]|<![A-Z]+\\s+[^>]*>|<!\\[CDATA\\[[\\s\\S]*?\\]\\]>)";t.reHtmlTag=new RegExp("^"+n,"i")},function(e,t,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.blockStarts=t.reOrderedListMarker=t.reBulletListMarker=void 0;var n=r(1),i=r(8),a=r(4),o=r(24),s=/^`{3,}(?!.*`)|^~{3,}/,l=[/./,/^<(?:script|pre|style)(?:\s|>|$)/i,/^<!--/,/^<[?]/,/^<![A-Z]/,/^<!\[CDATA\[/,/^<[/]?(?:address|article|aside|base|basefont|blockquote|body|caption|center|col|colgroup|dd|details|dialog|dir|div|dl|dt|fieldset|figcaption|figure|footer|form|frame|frameset|h[123456]|head|header|hr|html|iframe|legend|li|link|main|menu|menuitem|nav|noframes|ol|optgroup|option|p|param|section|source|summary|table|tbody|td|tfoot|th|thead|title|tr|track|ul)(?:\s|[/]?[>]|$)/i,new RegExp("^(?:"+i.OPENTAG+"|"+i.CLOSETAG+")\\s*$","i")],u=/^(?:=+|-+)[ \t]*$/,c=/^#{1,6}(?:[ \t]+|$)/,p=/^(?:(?:\*[ \t]*){3,}|(?:_[ \t]*){3,}|(?:-[ \t]*){3,})[ \t]*$/;function f(e,t){return e.options.disallowDeepHeading&&("blockQuote"===t.type||"item"===t.type)}t.reBulletListMarker=/^[*+-]/,t.reOrderedListMarker=/^(\d{1,9})([.)])/;t.blockStarts=[function(e){return e.indented||a.peek(e.currentLine,e.nextNonspace)!==a.C_GREATERTHAN?0:(e.advanceNextNonspace(),e.advanceOffset(1,!1),a.isSpaceOrTab(a.peek(e.currentLine,e.offset))&&e.advanceOffset(1,!0),e.closeUnmatchedBlocks(),e.addChild("blockQuote",e.nextNonspace),1)},function(e,t){var r;if(!e.indented&&!f(e,t)&&(r=e.currentLine.slice(e.nextNonspace).match(c))){e.advanceNextNonspace(),e.advanceOffset(r[0].length,!1),e.closeUnmatchedBlocks();var n=e.addChild("heading",e.nextNonspace);return n.level=r[0].trim().length,n.headingType="atx",n.stringContent=e.currentLine.slice(e.offset).replace(/^[ \t]*#+[ \t]*$/,"").replace(/[ \t]+#+[ \t]*$/,""),e.advanceOffset(e.currentLine.length-e.offset),2}return 0},function(e){var t;if(!e.indented&&(t=e.currentLine.slice(e.nextNonspace).match(s))){var r=t[0].length;e.closeUnmatchedBlocks();var n=e.addChild("codeBlock",e.nextNonspace);return n.isFenced=!0,n.fenceLength=r,n.fenceChar=t[0][0],n.fenceOffset=e.indent,e.advanceNextNonspace(),e.advanceOffset(r,!1),2}return 0},function(e,t){if(!e.indented&&a.peek(e.currentLine,e.nextNonspace)===a.C_LESSTHAN){var r=e.currentLine.slice(e.nextNonspace),n=e.options.disallowedHtmlBlockTags,i=void 0;for(i=1;i<=7;i++){var o=r.match(l[i]);if(o){if(7===i){if("paragraph"===t.type)return 0;if(n.length>0)if(new RegExp("</?(?:"+n.join("|")+")","i").test(o[0]))return 0}return e.closeUnmatchedBlocks(),e.addChild("htmlBlock",e.offset).htmlBlockType=i,2}}}return 0},function(e,t){var r;if(null!==t.stringContent&&!e.indented&&"paragraph"===t.type&&!f(e,t.parent)&&(r=e.currentLine.slice(e.nextNonspace).match(u))){e.closeUnmatchedBlocks();for(var i=void 0;a.peek(t.stringContent,0)===a.C_OPEN_BRACKET&&(i=e.inlineParser.parseReference(t,e.refMap));)t.stringContent=t.stringContent.slice(i);if(t.stringContent.length>0){var o=n.createNode("heading",t.sourcepos);return o.level="="===r[0][0]?1:2,o.headingType="setext",o.stringContent=t.stringContent,t.insertAfter(o),t.unlink(),e.tip=o,e.advanceOffset(e.currentLine.length-e.offset,!1),2}return 0}return 0},function(e){return!e.indented&&p.test(e.currentLine.slice(e.nextNonspace))?(e.closeUnmatchedBlocks(),e.addChild("thematicBreak",e.nextNonspace),e.advanceOffset(e.currentLine.length-e.offset,!1),2):0},function(e,r){var n,i,o,s=r;return e.indented&&"list"!==r.type||!(n=function(e,r){var n,i,o=e.currentLine.slice(e.nextNonspace),s={type:"bullet",tight:!0,bulletChar:"",start:0,delimiter:"",padding:0,markerOffset:e.indent,task:!1,checked:!1};if(e.indent>=4)return null;if(n=o.match(t.reBulletListMarker))s.type="bullet",s.bulletChar=n[0][0];else{if(!(n=o.match(t.reOrderedListMarker))||"paragraph"===r.type&&"1"!==n[1])return null;s.type="ordered",s.start=parseInt(n[1],10),s.delimiter=n[2]}if(-1!==(i=a.peek(e.currentLine,e.nextNonspace+n[0].length))&&i!==a.C_TAB&&i!==a.C_SPACE)return null;if("paragraph"===r.type&&!e.currentLine.slice(e.nextNonspace+n[0].length).match(a.reNonSpace))return null;e.advanceNextNonspace(),e.advanceOffset(n[0].length,!0);var l=e.column,u=e.offset;do{e.advanceOffset(1,!0),i=a.peek(e.currentLine,e.offset)}while(e.column-l<5&&a.isSpaceOrTab(i));var c=-1===a.peek(e.currentLine,e.offset),p=e.column-l;return p>=5||p<1||c?(s.padding=n[0].length+1,e.column=l,e.offset=u,a.isSpaceOrTab(a.peek(e.currentLine,e.offset))&&e.advanceOffset(1,!0)):s.padding=n[0].length+p,s}(e,s))?0:(e.closeUnmatchedBlocks(),"list"===e.tip.type&&(i=s.listData,o=n,i.type===o.type&&i.delimiter===o.delimiter&&i.bulletChar===o.bulletChar)||((s=e.addChild("list",e.nextNonspace)).listData=n),(s=e.addChild("item",e.nextNonspace)).listData=n,1)},function(e){return e.indented&&"paragraph"!==e.tip.type&&!e.blank?(e.advanceOffset(a.CODE_INDENT,!0),e.closeUnmatchedBlocks(),e.addChild("codeBlock",e.offset),2):0},o.tableHead,o.tableBody]},function(e,t,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var n=r(5);Object.defineProperty(t,"ToastMark",{enumerable:!0,get:function(){return n.ToastMark}});var i=r(26);Object.defineProperty(t,"createRenderHTML",{enumerable:!0,get:function(){return i.createRenderHTML}});var a=r(6);Object.defineProperty(t,"Parser",{enumerable:!0,get:function(){return a.Parser}})},function(e,t,r){"use strict";var n={};function i(e,t,r){var a,o,s,l,u,c="";for("string"!=typeof t&&(r=t,t=i.defaultChars),void 0===r&&(r=!0),u=function(e){var t,r,i=n[e];if(i)return i;for(i=n[e]=[],t=0;t<128;t++)r=String.fromCharCode(t),/^[0-9a-z]$/i.test(r)?i.push(r):i.push("%"+("0"+t.toString(16).toUpperCase()).slice(-2));for(t=0;t<e.length;t++)i[e.charCodeAt(t)]=e[t];return i}(t),a=0,o=e.length;a<o;a++)if(s=e.charCodeAt(a),r&&37===s&&a+2<o&&/^[0-9a-f]{2}$/i.test(e.slice(a+1,a+3)))c+=e.slice(a,a+3),a+=2;else if(s<128)c+=u[s];else if(s>=55296&&s<=57343){if(s>=55296&&s<=56319&&a+1<o&&(l=e.charCodeAt(a+1))>=56320&&l<=57343){c+=encodeURIComponent(e[a]+e[a+1]),a++;continue}c+="%EF%BF%BD"}else c+=encodeURIComponent(e[a]);return c}i.defaultChars=";/?:@&=+$,-_.!~*'()#",i.componentChars="-_.!~*'()",e.exports=i},function(e){e.exports=JSON.parse('{"Aacute":"Á","aacute":"á","Abreve":"Ă","abreve":"ă","ac":"∾","acd":"∿","acE":"∾̳","Acirc":"Â","acirc":"â","acute":"´","Acy":"А","acy":"а","AElig":"Æ","aelig":"æ","af":"⁡","Afr":"𝔄","afr":"𝔞","Agrave":"À","agrave":"à","alefsym":"ℵ","aleph":"ℵ","Alpha":"Α","alpha":"α","Amacr":"Ā","amacr":"ā","amalg":"⨿","amp":"&","AMP":"&","andand":"⩕","And":"⩓","and":"∧","andd":"⩜","andslope":"⩘","andv":"⩚","ang":"∠","ange":"⦤","angle":"∠","angmsdaa":"⦨","angmsdab":"⦩","angmsdac":"⦪","angmsdad":"⦫","angmsdae":"⦬","angmsdaf":"⦭","angmsdag":"⦮","angmsdah":"⦯","angmsd":"∡","angrt":"∟","angrtvb":"⊾","angrtvbd":"⦝","angsph":"∢","angst":"Å","angzarr":"⍼","Aogon":"Ą","aogon":"ą","Aopf":"𝔸","aopf":"𝕒","apacir":"⩯","ap":"≈","apE":"⩰","ape":"≊","apid":"≋","apos":"\'","ApplyFunction":"⁡","approx":"≈","approxeq":"≊","Aring":"Å","aring":"å","Ascr":"𝒜","ascr":"𝒶","Assign":"≔","ast":"*","asymp":"≈","asympeq":"≍","Atilde":"Ã","atilde":"ã","Auml":"Ä","auml":"ä","awconint":"∳","awint":"⨑","backcong":"≌","backepsilon":"϶","backprime":"‵","backsim":"∽","backsimeq":"⋍","Backslash":"∖","Barv":"⫧","barvee":"⊽","barwed":"⌅","Barwed":"⌆","barwedge":"⌅","bbrk":"⎵","bbrktbrk":"⎶","bcong":"≌","Bcy":"Б","bcy":"б","bdquo":"„","becaus":"∵","because":"∵","Because":"∵","bemptyv":"⦰","bepsi":"϶","bernou":"ℬ","Bernoullis":"ℬ","Beta":"Β","beta":"β","beth":"ℶ","between":"≬","Bfr":"𝔅","bfr":"𝔟","bigcap":"⋂","bigcirc":"◯","bigcup":"⋃","bigodot":"⨀","bigoplus":"⨁","bigotimes":"⨂","bigsqcup":"⨆","bigstar":"★","bigtriangledown":"▽","bigtriangleup":"△","biguplus":"⨄","bigvee":"⋁","bigwedge":"⋀","bkarow":"⤍","blacklozenge":"⧫","blacksquare":"▪","blacktriangle":"▴","blacktriangledown":"▾","blacktriangleleft":"◂","blacktriangleright":"▸","blank":"␣","blk12":"▒","blk14":"░","blk34":"▓","block":"█","bne":"=⃥","bnequiv":"≡⃥","bNot":"⫭","bnot":"⌐","Bopf":"𝔹","bopf":"𝕓","bot":"⊥","bottom":"⊥","bowtie":"⋈","boxbox":"⧉","boxdl":"┐","boxdL":"╕","boxDl":"╖","boxDL":"╗","boxdr":"┌","boxdR":"╒","boxDr":"╓","boxDR":"╔","boxh":"─","boxH":"═","boxhd":"┬","boxHd":"╤","boxhD":"╥","boxHD":"╦","boxhu":"┴","boxHu":"╧","boxhU":"╨","boxHU":"╩","boxminus":"⊟","boxplus":"⊞","boxtimes":"⊠","boxul":"┘","boxuL":"╛","boxUl":"╜","boxUL":"╝","boxur":"└","boxuR":"╘","boxUr":"╙","boxUR":"╚","boxv":"│","boxV":"║","boxvh":"┼","boxvH":"╪","boxVh":"╫","boxVH":"╬","boxvl":"┤","boxvL":"╡","boxVl":"╢","boxVL":"╣","boxvr":"├","boxvR":"╞","boxVr":"╟","boxVR":"╠","bprime":"‵","breve":"˘","Breve":"˘","brvbar":"¦","bscr":"𝒷","Bscr":"ℬ","bsemi":"⁏","bsim":"∽","bsime":"⋍","bsolb":"⧅","bsol":"\\\\","bsolhsub":"⟈","bull":"•","bullet":"•","bump":"≎","bumpE":"⪮","bumpe":"≏","Bumpeq":"≎","bumpeq":"≏","Cacute":"Ć","cacute":"ć","capand":"⩄","capbrcup":"⩉","capcap":"⩋","cap":"∩","Cap":"⋒","capcup":"⩇","capdot":"⩀","CapitalDifferentialD":"ⅅ","caps":"∩︀","caret":"⁁","caron":"ˇ","Cayleys":"ℭ","ccaps":"⩍","Ccaron":"Č","ccaron":"č","Ccedil":"Ç","ccedil":"ç","Ccirc":"Ĉ","ccirc":"ĉ","Cconint":"∰","ccups":"⩌","ccupssm":"⩐","Cdot":"Ċ","cdot":"ċ","cedil":"¸","Cedilla":"¸","cemptyv":"⦲","cent":"¢","centerdot":"·","CenterDot":"·","cfr":"𝔠","Cfr":"ℭ","CHcy":"Ч","chcy":"ч","check":"✓","checkmark":"✓","Chi":"Χ","chi":"χ","circ":"ˆ","circeq":"≗","circlearrowleft":"↺","circlearrowright":"↻","circledast":"⊛","circledcirc":"⊚","circleddash":"⊝","CircleDot":"⊙","circledR":"®","circledS":"Ⓢ","CircleMinus":"⊖","CirclePlus":"⊕","CircleTimes":"⊗","cir":"○","cirE":"⧃","cire":"≗","cirfnint":"⨐","cirmid":"⫯","cirscir":"⧂","ClockwiseContourIntegral":"∲","CloseCurlyDoubleQuote":"”","CloseCurlyQuote":"’","clubs":"♣","clubsuit":"♣","colon":":","Colon":"∷","Colone":"⩴","colone":"≔","coloneq":"≔","comma":",","commat":"@","comp":"∁","compfn":"∘","complement":"∁","complexes":"ℂ","cong":"≅","congdot":"⩭","Congruent":"≡","conint":"∮","Conint":"∯","ContourIntegral":"∮","copf":"𝕔","Copf":"ℂ","coprod":"∐","Coproduct":"∐","copy":"©","COPY":"©","copysr":"℗","CounterClockwiseContourIntegral":"∳","crarr":"↵","cross":"✗","Cross":"⨯","Cscr":"𝒞","cscr":"𝒸","csub":"⫏","csube":"⫑","csup":"⫐","csupe":"⫒","ctdot":"⋯","cudarrl":"⤸","cudarrr":"⤵","cuepr":"⋞","cuesc":"⋟","cularr":"↶","cularrp":"⤽","cupbrcap":"⩈","cupcap":"⩆","CupCap":"≍","cup":"∪","Cup":"⋓","cupcup":"⩊","cupdot":"⊍","cupor":"⩅","cups":"∪︀","curarr":"↷","curarrm":"⤼","curlyeqprec":"⋞","curlyeqsucc":"⋟","curlyvee":"⋎","curlywedge":"⋏","curren":"¤","curvearrowleft":"↶","curvearrowright":"↷","cuvee":"⋎","cuwed":"⋏","cwconint":"∲","cwint":"∱","cylcty":"⌭","dagger":"†","Dagger":"‡","daleth":"ℸ","darr":"↓","Darr":"↡","dArr":"⇓","dash":"‐","Dashv":"⫤","dashv":"⊣","dbkarow":"⤏","dblac":"˝","Dcaron":"Ď","dcaron":"ď","Dcy":"Д","dcy":"д","ddagger":"‡","ddarr":"⇊","DD":"ⅅ","dd":"ⅆ","DDotrahd":"⤑","ddotseq":"⩷","deg":"°","Del":"∇","Delta":"Δ","delta":"δ","demptyv":"⦱","dfisht":"⥿","Dfr":"𝔇","dfr":"𝔡","dHar":"⥥","dharl":"⇃","dharr":"⇂","DiacriticalAcute":"´","DiacriticalDot":"˙","DiacriticalDoubleAcute":"˝","DiacriticalGrave":"`","DiacriticalTilde":"˜","diam":"⋄","diamond":"⋄","Diamond":"⋄","diamondsuit":"♦","diams":"♦","die":"¨","DifferentialD":"ⅆ","digamma":"ϝ","disin":"⋲","div":"÷","divide":"÷","divideontimes":"⋇","divonx":"⋇","DJcy":"Ђ","djcy":"ђ","dlcorn":"⌞","dlcrop":"⌍","dollar":"$","Dopf":"𝔻","dopf":"𝕕","Dot":"¨","dot":"˙","DotDot":"⃜","doteq":"≐","doteqdot":"≑","DotEqual":"≐","dotminus":"∸","dotplus":"∔","dotsquare":"⊡","doublebarwedge":"⌆","DoubleContourIntegral":"∯","DoubleDot":"¨","DoubleDownArrow":"⇓","DoubleLeftArrow":"⇐","DoubleLeftRightArrow":"⇔","DoubleLeftTee":"⫤","DoubleLongLeftArrow":"⟸","DoubleLongLeftRightArrow":"⟺","DoubleLongRightArrow":"⟹","DoubleRightArrow":"⇒","DoubleRightTee":"⊨","DoubleUpArrow":"⇑","DoubleUpDownArrow":"⇕","DoubleVerticalBar":"∥","DownArrowBar":"⤓","downarrow":"↓","DownArrow":"↓","Downarrow":"⇓","DownArrowUpArrow":"⇵","DownBreve":"̑","downdownarrows":"⇊","downharpoonleft":"⇃","downharpoonright":"⇂","DownLeftRightVector":"⥐","DownLeftTeeVector":"⥞","DownLeftVectorBar":"⥖","DownLeftVector":"↽","DownRightTeeVector":"⥟","DownRightVectorBar":"⥗","DownRightVector":"⇁","DownTeeArrow":"↧","DownTee":"⊤","drbkarow":"⤐","drcorn":"⌟","drcrop":"⌌","Dscr":"𝒟","dscr":"𝒹","DScy":"Ѕ","dscy":"ѕ","dsol":"⧶","Dstrok":"Đ","dstrok":"đ","dtdot":"⋱","dtri":"▿","dtrif":"▾","duarr":"⇵","duhar":"⥯","dwangle":"⦦","DZcy":"Џ","dzcy":"џ","dzigrarr":"⟿","Eacute":"É","eacute":"é","easter":"⩮","Ecaron":"Ě","ecaron":"ě","Ecirc":"Ê","ecirc":"ê","ecir":"≖","ecolon":"≕","Ecy":"Э","ecy":"э","eDDot":"⩷","Edot":"Ė","edot":"ė","eDot":"≑","ee":"ⅇ","efDot":"≒","Efr":"𝔈","efr":"𝔢","eg":"⪚","Egrave":"È","egrave":"è","egs":"⪖","egsdot":"⪘","el":"⪙","Element":"∈","elinters":"⏧","ell":"ℓ","els":"⪕","elsdot":"⪗","Emacr":"Ē","emacr":"ē","empty":"∅","emptyset":"∅","EmptySmallSquare":"◻","emptyv":"∅","EmptyVerySmallSquare":"▫","emsp13":" ","emsp14":" ","emsp":" ","ENG":"Ŋ","eng":"ŋ","ensp":" ","Eogon":"Ę","eogon":"ę","Eopf":"𝔼","eopf":"𝕖","epar":"⋕","eparsl":"⧣","eplus":"⩱","epsi":"ε","Epsilon":"Ε","epsilon":"ε","epsiv":"ϵ","eqcirc":"≖","eqcolon":"≕","eqsim":"≂","eqslantgtr":"⪖","eqslantless":"⪕","Equal":"⩵","equals":"=","EqualTilde":"≂","equest":"≟","Equilibrium":"⇌","equiv":"≡","equivDD":"⩸","eqvparsl":"⧥","erarr":"⥱","erDot":"≓","escr":"ℯ","Escr":"ℰ","esdot":"≐","Esim":"⩳","esim":"≂","Eta":"Η","eta":"η","ETH":"Ð","eth":"ð","Euml":"Ë","euml":"ë","euro":"€","excl":"!","exist":"∃","Exists":"∃","expectation":"ℰ","exponentiale":"ⅇ","ExponentialE":"ⅇ","fallingdotseq":"≒","Fcy":"Ф","fcy":"ф","female":"♀","ffilig":"ﬃ","fflig":"ﬀ","ffllig":"ﬄ","Ffr":"𝔉","ffr":"𝔣","filig":"ﬁ","FilledSmallSquare":"◼","FilledVerySmallSquare":"▪","fjlig":"fj","flat":"♭","fllig":"ﬂ","fltns":"▱","fnof":"ƒ","Fopf":"𝔽","fopf":"𝕗","forall":"∀","ForAll":"∀","fork":"⋔","forkv":"⫙","Fouriertrf":"ℱ","fpartint":"⨍","frac12":"½","frac13":"⅓","frac14":"¼","frac15":"⅕","frac16":"⅙","frac18":"⅛","frac23":"⅔","frac25":"⅖","frac34":"¾","frac35":"⅗","frac38":"⅜","frac45":"⅘","frac56":"⅚","frac58":"⅝","frac78":"⅞","frasl":"⁄","frown":"⌢","fscr":"𝒻","Fscr":"ℱ","gacute":"ǵ","Gamma":"Γ","gamma":"γ","Gammad":"Ϝ","gammad":"ϝ","gap":"⪆","Gbreve":"Ğ","gbreve":"ğ","Gcedil":"Ģ","Gcirc":"Ĝ","gcirc":"ĝ","Gcy":"Г","gcy":"г","Gdot":"Ġ","gdot":"ġ","ge":"≥","gE":"≧","gEl":"⪌","gel":"⋛","geq":"≥","geqq":"≧","geqslant":"⩾","gescc":"⪩","ges":"⩾","gesdot":"⪀","gesdoto":"⪂","gesdotol":"⪄","gesl":"⋛︀","gesles":"⪔","Gfr":"𝔊","gfr":"𝔤","gg":"≫","Gg":"⋙","ggg":"⋙","gimel":"ℷ","GJcy":"Ѓ","gjcy":"ѓ","gla":"⪥","gl":"≷","glE":"⪒","glj":"⪤","gnap":"⪊","gnapprox":"⪊","gne":"⪈","gnE":"≩","gneq":"⪈","gneqq":"≩","gnsim":"⋧","Gopf":"𝔾","gopf":"𝕘","grave":"`","GreaterEqual":"≥","GreaterEqualLess":"⋛","GreaterFullEqual":"≧","GreaterGreater":"⪢","GreaterLess":"≷","GreaterSlantEqual":"⩾","GreaterTilde":"≳","Gscr":"𝒢","gscr":"ℊ","gsim":"≳","gsime":"⪎","gsiml":"⪐","gtcc":"⪧","gtcir":"⩺","gt":">","GT":">","Gt":"≫","gtdot":"⋗","gtlPar":"⦕","gtquest":"⩼","gtrapprox":"⪆","gtrarr":"⥸","gtrdot":"⋗","gtreqless":"⋛","gtreqqless":"⪌","gtrless":"≷","gtrsim":"≳","gvertneqq":"≩︀","gvnE":"≩︀","Hacek":"ˇ","hairsp":" ","half":"½","hamilt":"ℋ","HARDcy":"Ъ","hardcy":"ъ","harrcir":"⥈","harr":"↔","hArr":"⇔","harrw":"↭","Hat":"^","hbar":"ℏ","Hcirc":"Ĥ","hcirc":"ĥ","hearts":"♥","heartsuit":"♥","hellip":"…","hercon":"⊹","hfr":"𝔥","Hfr":"ℌ","HilbertSpace":"ℋ","hksearow":"⤥","hkswarow":"⤦","hoarr":"⇿","homtht":"∻","hookleftarrow":"↩","hookrightarrow":"↪","hopf":"𝕙","Hopf":"ℍ","horbar":"―","HorizontalLine":"─","hscr":"𝒽","Hscr":"ℋ","hslash":"ℏ","Hstrok":"Ħ","hstrok":"ħ","HumpDownHump":"≎","HumpEqual":"≏","hybull":"⁃","hyphen":"‐","Iacute":"Í","iacute":"í","ic":"⁣","Icirc":"Î","icirc":"î","Icy":"И","icy":"и","Idot":"İ","IEcy":"Е","iecy":"е","iexcl":"¡","iff":"⇔","ifr":"𝔦","Ifr":"ℑ","Igrave":"Ì","igrave":"ì","ii":"ⅈ","iiiint":"⨌","iiint":"∭","iinfin":"⧜","iiota":"℩","IJlig":"Ĳ","ijlig":"ĳ","Imacr":"Ī","imacr":"ī","image":"ℑ","ImaginaryI":"ⅈ","imagline":"ℐ","imagpart":"ℑ","imath":"ı","Im":"ℑ","imof":"⊷","imped":"Ƶ","Implies":"⇒","incare":"℅","in":"∈","infin":"∞","infintie":"⧝","inodot":"ı","intcal":"⊺","int":"∫","Int":"∬","integers":"ℤ","Integral":"∫","intercal":"⊺","Intersection":"⋂","intlarhk":"⨗","intprod":"⨼","InvisibleComma":"⁣","InvisibleTimes":"⁢","IOcy":"Ё","iocy":"ё","Iogon":"Į","iogon":"į","Iopf":"𝕀","iopf":"𝕚","Iota":"Ι","iota":"ι","iprod":"⨼","iquest":"¿","iscr":"𝒾","Iscr":"ℐ","isin":"∈","isindot":"⋵","isinE":"⋹","isins":"⋴","isinsv":"⋳","isinv":"∈","it":"⁢","Itilde":"Ĩ","itilde":"ĩ","Iukcy":"І","iukcy":"і","Iuml":"Ï","iuml":"ï","Jcirc":"Ĵ","jcirc":"ĵ","Jcy":"Й","jcy":"й","Jfr":"𝔍","jfr":"𝔧","jmath":"ȷ","Jopf":"𝕁","jopf":"𝕛","Jscr":"𝒥","jscr":"𝒿","Jsercy":"Ј","jsercy":"ј","Jukcy":"Є","jukcy":"є","Kappa":"Κ","kappa":"κ","kappav":"ϰ","Kcedil":"Ķ","kcedil":"ķ","Kcy":"К","kcy":"к","Kfr":"𝔎","kfr":"𝔨","kgreen":"ĸ","KHcy":"Х","khcy":"х","KJcy":"Ќ","kjcy":"ќ","Kopf":"𝕂","kopf":"𝕜","Kscr":"𝒦","kscr":"𝓀","lAarr":"⇚","Lacute":"Ĺ","lacute":"ĺ","laemptyv":"⦴","lagran":"ℒ","Lambda":"Λ","lambda":"λ","lang":"⟨","Lang":"⟪","langd":"⦑","langle":"⟨","lap":"⪅","Laplacetrf":"ℒ","laquo":"«","larrb":"⇤","larrbfs":"⤟","larr":"←","Larr":"↞","lArr":"⇐","larrfs":"⤝","larrhk":"↩","larrlp":"↫","larrpl":"⤹","larrsim":"⥳","larrtl":"↢","latail":"⤙","lAtail":"⤛","lat":"⪫","late":"⪭","lates":"⪭︀","lbarr":"⤌","lBarr":"⤎","lbbrk":"❲","lbrace":"{","lbrack":"[","lbrke":"⦋","lbrksld":"⦏","lbrkslu":"⦍","Lcaron":"Ľ","lcaron":"ľ","Lcedil":"Ļ","lcedil":"ļ","lceil":"⌈","lcub":"{","Lcy":"Л","lcy":"л","ldca":"⤶","ldquo":"“","ldquor":"„","ldrdhar":"⥧","ldrushar":"⥋","ldsh":"↲","le":"≤","lE":"≦","LeftAngleBracket":"⟨","LeftArrowBar":"⇤","leftarrow":"←","LeftArrow":"←","Leftarrow":"⇐","LeftArrowRightArrow":"⇆","leftarrowtail":"↢","LeftCeiling":"⌈","LeftDoubleBracket":"⟦","LeftDownTeeVector":"⥡","LeftDownVectorBar":"⥙","LeftDownVector":"⇃","LeftFloor":"⌊","leftharpoondown":"↽","leftharpoonup":"↼","leftleftarrows":"⇇","leftrightarrow":"↔","LeftRightArrow":"↔","Leftrightarrow":"⇔","leftrightarrows":"⇆","leftrightharpoons":"⇋","leftrightsquigarrow":"↭","LeftRightVector":"⥎","LeftTeeArrow":"↤","LeftTee":"⊣","LeftTeeVector":"⥚","leftthreetimes":"⋋","LeftTriangleBar":"⧏","LeftTriangle":"⊲","LeftTriangleEqual":"⊴","LeftUpDownVector":"⥑","LeftUpTeeVector":"⥠","LeftUpVectorBar":"⥘","LeftUpVector":"↿","LeftVectorBar":"⥒","LeftVector":"↼","lEg":"⪋","leg":"⋚","leq":"≤","leqq":"≦","leqslant":"⩽","lescc":"⪨","les":"⩽","lesdot":"⩿","lesdoto":"⪁","lesdotor":"⪃","lesg":"⋚︀","lesges":"⪓","lessapprox":"⪅","lessdot":"⋖","lesseqgtr":"⋚","lesseqqgtr":"⪋","LessEqualGreater":"⋚","LessFullEqual":"≦","LessGreater":"≶","lessgtr":"≶","LessLess":"⪡","lesssim":"≲","LessSlantEqual":"⩽","LessTilde":"≲","lfisht":"⥼","lfloor":"⌊","Lfr":"𝔏","lfr":"𝔩","lg":"≶","lgE":"⪑","lHar":"⥢","lhard":"↽","lharu":"↼","lharul":"⥪","lhblk":"▄","LJcy":"Љ","ljcy":"љ","llarr":"⇇","ll":"≪","Ll":"⋘","llcorner":"⌞","Lleftarrow":"⇚","llhard":"⥫","lltri":"◺","Lmidot":"Ŀ","lmidot":"ŀ","lmoustache":"⎰","lmoust":"⎰","lnap":"⪉","lnapprox":"⪉","lne":"⪇","lnE":"≨","lneq":"⪇","lneqq":"≨","lnsim":"⋦","loang":"⟬","loarr":"⇽","lobrk":"⟦","longleftarrow":"⟵","LongLeftArrow":"⟵","Longleftarrow":"⟸","longleftrightarrow":"⟷","LongLeftRightArrow":"⟷","Longleftrightarrow":"⟺","longmapsto":"⟼","longrightarrow":"⟶","LongRightArrow":"⟶","Longrightarrow":"⟹","looparrowleft":"↫","looparrowright":"↬","lopar":"⦅","Lopf":"𝕃","lopf":"𝕝","loplus":"⨭","lotimes":"⨴","lowast":"∗","lowbar":"_","LowerLeftArrow":"↙","LowerRightArrow":"↘","loz":"◊","lozenge":"◊","lozf":"⧫","lpar":"(","lparlt":"⦓","lrarr":"⇆","lrcorner":"⌟","lrhar":"⇋","lrhard":"⥭","lrm":"‎","lrtri":"⊿","lsaquo":"‹","lscr":"𝓁","Lscr":"ℒ","lsh":"↰","Lsh":"↰","lsim":"≲","lsime":"⪍","lsimg":"⪏","lsqb":"[","lsquo":"‘","lsquor":"‚","Lstrok":"Ł","lstrok":"ł","ltcc":"⪦","ltcir":"⩹","lt":"<","LT":"<","Lt":"≪","ltdot":"⋖","lthree":"⋋","ltimes":"⋉","ltlarr":"⥶","ltquest":"⩻","ltri":"◃","ltrie":"⊴","ltrif":"◂","ltrPar":"⦖","lurdshar":"⥊","luruhar":"⥦","lvertneqq":"≨︀","lvnE":"≨︀","macr":"¯","male":"♂","malt":"✠","maltese":"✠","Map":"⤅","map":"↦","mapsto":"↦","mapstodown":"↧","mapstoleft":"↤","mapstoup":"↥","marker":"▮","mcomma":"⨩","Mcy":"М","mcy":"м","mdash":"—","mDDot":"∺","measuredangle":"∡","MediumSpace":" ","Mellintrf":"ℳ","Mfr":"𝔐","mfr":"𝔪","mho":"℧","micro":"µ","midast":"*","midcir":"⫰","mid":"∣","middot":"·","minusb":"⊟","minus":"−","minusd":"∸","minusdu":"⨪","MinusPlus":"∓","mlcp":"⫛","mldr":"…","mnplus":"∓","models":"⊧","Mopf":"𝕄","mopf":"𝕞","mp":"∓","mscr":"𝓂","Mscr":"ℳ","mstpos":"∾","Mu":"Μ","mu":"μ","multimap":"⊸","mumap":"⊸","nabla":"∇","Nacute":"Ń","nacute":"ń","nang":"∠⃒","nap":"≉","napE":"⩰̸","napid":"≋̸","napos":"ŉ","napprox":"≉","natural":"♮","naturals":"ℕ","natur":"♮","nbsp":" ","nbump":"≎̸","nbumpe":"≏̸","ncap":"⩃","Ncaron":"Ň","ncaron":"ň","Ncedil":"Ņ","ncedil":"ņ","ncong":"≇","ncongdot":"⩭̸","ncup":"⩂","Ncy":"Н","ncy":"н","ndash":"–","nearhk":"⤤","nearr":"↗","neArr":"⇗","nearrow":"↗","ne":"≠","nedot":"≐̸","NegativeMediumSpace":"​","NegativeThickSpace":"​","NegativeThinSpace":"​","NegativeVeryThinSpace":"​","nequiv":"≢","nesear":"⤨","nesim":"≂̸","NestedGreaterGreater":"≫","NestedLessLess":"≪","NewLine":"\\n","nexist":"∄","nexists":"∄","Nfr":"𝔑","nfr":"𝔫","ngE":"≧̸","nge":"≱","ngeq":"≱","ngeqq":"≧̸","ngeqslant":"⩾̸","nges":"⩾̸","nGg":"⋙̸","ngsim":"≵","nGt":"≫⃒","ngt":"≯","ngtr":"≯","nGtv":"≫̸","nharr":"↮","nhArr":"⇎","nhpar":"⫲","ni":"∋","nis":"⋼","nisd":"⋺","niv":"∋","NJcy":"Њ","njcy":"њ","nlarr":"↚","nlArr":"⇍","nldr":"‥","nlE":"≦̸","nle":"≰","nleftarrow":"↚","nLeftarrow":"⇍","nleftrightarrow":"↮","nLeftrightarrow":"⇎","nleq":"≰","nleqq":"≦̸","nleqslant":"⩽̸","nles":"⩽̸","nless":"≮","nLl":"⋘̸","nlsim":"≴","nLt":"≪⃒","nlt":"≮","nltri":"⋪","nltrie":"⋬","nLtv":"≪̸","nmid":"∤","NoBreak":"⁠","NonBreakingSpace":" ","nopf":"𝕟","Nopf":"ℕ","Not":"⫬","not":"¬","NotCongruent":"≢","NotCupCap":"≭","NotDoubleVerticalBar":"∦","NotElement":"∉","NotEqual":"≠","NotEqualTilde":"≂̸","NotExists":"∄","NotGreater":"≯","NotGreaterEqual":"≱","NotGreaterFullEqual":"≧̸","NotGreaterGreater":"≫̸","NotGreaterLess":"≹","NotGreaterSlantEqual":"⩾̸","NotGreaterTilde":"≵","NotHumpDownHump":"≎̸","NotHumpEqual":"≏̸","notin":"∉","notindot":"⋵̸","notinE":"⋹̸","notinva":"∉","notinvb":"⋷","notinvc":"⋶","NotLeftTriangleBar":"⧏̸","NotLeftTriangle":"⋪","NotLeftTriangleEqual":"⋬","NotLess":"≮","NotLessEqual":"≰","NotLessGreater":"≸","NotLessLess":"≪̸","NotLessSlantEqual":"⩽̸","NotLessTilde":"≴","NotNestedGreaterGreater":"⪢̸","NotNestedLessLess":"⪡̸","notni":"∌","notniva":"∌","notnivb":"⋾","notnivc":"⋽","NotPrecedes":"⊀","NotPrecedesEqual":"⪯̸","NotPrecedesSlantEqual":"⋠","NotReverseElement":"∌","NotRightTriangleBar":"⧐̸","NotRightTriangle":"⋫","NotRightTriangleEqual":"⋭","NotSquareSubset":"⊏̸","NotSquareSubsetEqual":"⋢","NotSquareSuperset":"⊐̸","NotSquareSupersetEqual":"⋣","NotSubset":"⊂⃒","NotSubsetEqual":"⊈","NotSucceeds":"⊁","NotSucceedsEqual":"⪰̸","NotSucceedsSlantEqual":"⋡","NotSucceedsTilde":"≿̸","NotSuperset":"⊃⃒","NotSupersetEqual":"⊉","NotTilde":"≁","NotTildeEqual":"≄","NotTildeFullEqual":"≇","NotTildeTilde":"≉","NotVerticalBar":"∤","nparallel":"∦","npar":"∦","nparsl":"⫽⃥","npart":"∂̸","npolint":"⨔","npr":"⊀","nprcue":"⋠","nprec":"⊀","npreceq":"⪯̸","npre":"⪯̸","nrarrc":"⤳̸","nrarr":"↛","nrArr":"⇏","nrarrw":"↝̸","nrightarrow":"↛","nRightarrow":"⇏","nrtri":"⋫","nrtrie":"⋭","nsc":"⊁","nsccue":"⋡","nsce":"⪰̸","Nscr":"𝒩","nscr":"𝓃","nshortmid":"∤","nshortparallel":"∦","nsim":"≁","nsime":"≄","nsimeq":"≄","nsmid":"∤","nspar":"∦","nsqsube":"⋢","nsqsupe":"⋣","nsub":"⊄","nsubE":"⫅̸","nsube":"⊈","nsubset":"⊂⃒","nsubseteq":"⊈","nsubseteqq":"⫅̸","nsucc":"⊁","nsucceq":"⪰̸","nsup":"⊅","nsupE":"⫆̸","nsupe":"⊉","nsupset":"⊃⃒","nsupseteq":"⊉","nsupseteqq":"⫆̸","ntgl":"≹","Ntilde":"Ñ","ntilde":"ñ","ntlg":"≸","ntriangleleft":"⋪","ntrianglelefteq":"⋬","ntriangleright":"⋫","ntrianglerighteq":"⋭","Nu":"Ν","nu":"ν","num":"#","numero":"№","numsp":" ","nvap":"≍⃒","nvdash":"⊬","nvDash":"⊭","nVdash":"⊮","nVDash":"⊯","nvge":"≥⃒","nvgt":">⃒","nvHarr":"⤄","nvinfin":"⧞","nvlArr":"⤂","nvle":"≤⃒","nvlt":"<⃒","nvltrie":"⊴⃒","nvrArr":"⤃","nvrtrie":"⊵⃒","nvsim":"∼⃒","nwarhk":"⤣","nwarr":"↖","nwArr":"⇖","nwarrow":"↖","nwnear":"⤧","Oacute":"Ó","oacute":"ó","oast":"⊛","Ocirc":"Ô","ocirc":"ô","ocir":"⊚","Ocy":"О","ocy":"о","odash":"⊝","Odblac":"Ő","odblac":"ő","odiv":"⨸","odot":"⊙","odsold":"⦼","OElig":"Œ","oelig":"œ","ofcir":"⦿","Ofr":"𝔒","ofr":"𝔬","ogon":"˛","Ograve":"Ò","ograve":"ò","ogt":"⧁","ohbar":"⦵","ohm":"Ω","oint":"∮","olarr":"↺","olcir":"⦾","olcross":"⦻","oline":"‾","olt":"⧀","Omacr":"Ō","omacr":"ō","Omega":"Ω","omega":"ω","Omicron":"Ο","omicron":"ο","omid":"⦶","ominus":"⊖","Oopf":"𝕆","oopf":"𝕠","opar":"⦷","OpenCurlyDoubleQuote":"“","OpenCurlyQuote":"‘","operp":"⦹","oplus":"⊕","orarr":"↻","Or":"⩔","or":"∨","ord":"⩝","order":"ℴ","orderof":"ℴ","ordf":"ª","ordm":"º","origof":"⊶","oror":"⩖","orslope":"⩗","orv":"⩛","oS":"Ⓢ","Oscr":"𝒪","oscr":"ℴ","Oslash":"Ø","oslash":"ø","osol":"⊘","Otilde":"Õ","otilde":"õ","otimesas":"⨶","Otimes":"⨷","otimes":"⊗","Ouml":"Ö","ouml":"ö","ovbar":"⌽","OverBar":"‾","OverBrace":"⏞","OverBracket":"⎴","OverParenthesis":"⏜","para":"¶","parallel":"∥","par":"∥","parsim":"⫳","parsl":"⫽","part":"∂","PartialD":"∂","Pcy":"П","pcy":"п","percnt":"%","period":".","permil":"‰","perp":"⊥","pertenk":"‱","Pfr":"𝔓","pfr":"𝔭","Phi":"Φ","phi":"φ","phiv":"ϕ","phmmat":"ℳ","phone":"☎","Pi":"Π","pi":"π","pitchfork":"⋔","piv":"ϖ","planck":"ℏ","planckh":"ℎ","plankv":"ℏ","plusacir":"⨣","plusb":"⊞","pluscir":"⨢","plus":"+","plusdo":"∔","plusdu":"⨥","pluse":"⩲","PlusMinus":"±","plusmn":"±","plussim":"⨦","plustwo":"⨧","pm":"±","Poincareplane":"ℌ","pointint":"⨕","popf":"𝕡","Popf":"ℙ","pound":"£","prap":"⪷","Pr":"⪻","pr":"≺","prcue":"≼","precapprox":"⪷","prec":"≺","preccurlyeq":"≼","Precedes":"≺","PrecedesEqual":"⪯","PrecedesSlantEqual":"≼","PrecedesTilde":"≾","preceq":"⪯","precnapprox":"⪹","precneqq":"⪵","precnsim":"⋨","pre":"⪯","prE":"⪳","precsim":"≾","prime":"′","Prime":"″","primes":"ℙ","prnap":"⪹","prnE":"⪵","prnsim":"⋨","prod":"∏","Product":"∏","profalar":"⌮","profline":"⌒","profsurf":"⌓","prop":"∝","Proportional":"∝","Proportion":"∷","propto":"∝","prsim":"≾","prurel":"⊰","Pscr":"𝒫","pscr":"𝓅","Psi":"Ψ","psi":"ψ","puncsp":" ","Qfr":"𝔔","qfr":"𝔮","qint":"⨌","qopf":"𝕢","Qopf":"ℚ","qprime":"⁗","Qscr":"𝒬","qscr":"𝓆","quaternions":"ℍ","quatint":"⨖","quest":"?","questeq":"≟","quot":"\\"","QUOT":"\\"","rAarr":"⇛","race":"∽̱","Racute":"Ŕ","racute":"ŕ","radic":"√","raemptyv":"⦳","rang":"⟩","Rang":"⟫","rangd":"⦒","range":"⦥","rangle":"⟩","raquo":"»","rarrap":"⥵","rarrb":"⇥","rarrbfs":"⤠","rarrc":"⤳","rarr":"→","Rarr":"↠","rArr":"⇒","rarrfs":"⤞","rarrhk":"↪","rarrlp":"↬","rarrpl":"⥅","rarrsim":"⥴","Rarrtl":"⤖","rarrtl":"↣","rarrw":"↝","ratail":"⤚","rAtail":"⤜","ratio":"∶","rationals":"ℚ","rbarr":"⤍","rBarr":"⤏","RBarr":"⤐","rbbrk":"❳","rbrace":"}","rbrack":"]","rbrke":"⦌","rbrksld":"⦎","rbrkslu":"⦐","Rcaron":"Ř","rcaron":"ř","Rcedil":"Ŗ","rcedil":"ŗ","rceil":"⌉","rcub":"}","Rcy":"Р","rcy":"р","rdca":"⤷","rdldhar":"⥩","rdquo":"”","rdquor":"”","rdsh":"↳","real":"ℜ","realine":"ℛ","realpart":"ℜ","reals":"ℝ","Re":"ℜ","rect":"▭","reg":"®","REG":"®","ReverseElement":"∋","ReverseEquilibrium":"⇋","ReverseUpEquilibrium":"⥯","rfisht":"⥽","rfloor":"⌋","rfr":"𝔯","Rfr":"ℜ","rHar":"⥤","rhard":"⇁","rharu":"⇀","rharul":"⥬","Rho":"Ρ","rho":"ρ","rhov":"ϱ","RightAngleBracket":"⟩","RightArrowBar":"⇥","rightarrow":"→","RightArrow":"→","Rightarrow":"⇒","RightArrowLeftArrow":"⇄","rightarrowtail":"↣","RightCeiling":"⌉","RightDoubleBracket":"⟧","RightDownTeeVector":"⥝","RightDownVectorBar":"⥕","RightDownVector":"⇂","RightFloor":"⌋","rightharpoondown":"⇁","rightharpoonup":"⇀","rightleftarrows":"⇄","rightleftharpoons":"⇌","rightrightarrows":"⇉","rightsquigarrow":"↝","RightTeeArrow":"↦","RightTee":"⊢","RightTeeVector":"⥛","rightthreetimes":"⋌","RightTriangleBar":"⧐","RightTriangle":"⊳","RightTriangleEqual":"⊵","RightUpDownVector":"⥏","RightUpTeeVector":"⥜","RightUpVectorBar":"⥔","RightUpVector":"↾","RightVectorBar":"⥓","RightVector":"⇀","ring":"˚","risingdotseq":"≓","rlarr":"⇄","rlhar":"⇌","rlm":"‏","rmoustache":"⎱","rmoust":"⎱","rnmid":"⫮","roang":"⟭","roarr":"⇾","robrk":"⟧","ropar":"⦆","ropf":"𝕣","Ropf":"ℝ","roplus":"⨮","rotimes":"⨵","RoundImplies":"⥰","rpar":")","rpargt":"⦔","rppolint":"⨒","rrarr":"⇉","Rrightarrow":"⇛","rsaquo":"›","rscr":"𝓇","Rscr":"ℛ","rsh":"↱","Rsh":"↱","rsqb":"]","rsquo":"’","rsquor":"’","rthree":"⋌","rtimes":"⋊","rtri":"▹","rtrie":"⊵","rtrif":"▸","rtriltri":"⧎","RuleDelayed":"⧴","ruluhar":"⥨","rx":"℞","Sacute":"Ś","sacute":"ś","sbquo":"‚","scap":"⪸","Scaron":"Š","scaron":"š","Sc":"⪼","sc":"≻","sccue":"≽","sce":"⪰","scE":"⪴","Scedil":"Ş","scedil":"ş","Scirc":"Ŝ","scirc":"ŝ","scnap":"⪺","scnE":"⪶","scnsim":"⋩","scpolint":"⨓","scsim":"≿","Scy":"С","scy":"с","sdotb":"⊡","sdot":"⋅","sdote":"⩦","searhk":"⤥","searr":"↘","seArr":"⇘","searrow":"↘","sect":"§","semi":";","seswar":"⤩","setminus":"∖","setmn":"∖","sext":"✶","Sfr":"𝔖","sfr":"𝔰","sfrown":"⌢","sharp":"♯","SHCHcy":"Щ","shchcy":"щ","SHcy":"Ш","shcy":"ш","ShortDownArrow":"↓","ShortLeftArrow":"←","shortmid":"∣","shortparallel":"∥","ShortRightArrow":"→","ShortUpArrow":"↑","shy":"­","Sigma":"Σ","sigma":"σ","sigmaf":"ς","sigmav":"ς","sim":"∼","simdot":"⩪","sime":"≃","simeq":"≃","simg":"⪞","simgE":"⪠","siml":"⪝","simlE":"⪟","simne":"≆","simplus":"⨤","simrarr":"⥲","slarr":"←","SmallCircle":"∘","smallsetminus":"∖","smashp":"⨳","smeparsl":"⧤","smid":"∣","smile":"⌣","smt":"⪪","smte":"⪬","smtes":"⪬︀","SOFTcy":"Ь","softcy":"ь","solbar":"⌿","solb":"⧄","sol":"/","Sopf":"𝕊","sopf":"𝕤","spades":"♠","spadesuit":"♠","spar":"∥","sqcap":"⊓","sqcaps":"⊓︀","sqcup":"⊔","sqcups":"⊔︀","Sqrt":"√","sqsub":"⊏","sqsube":"⊑","sqsubset":"⊏","sqsubseteq":"⊑","sqsup":"⊐","sqsupe":"⊒","sqsupset":"⊐","sqsupseteq":"⊒","square":"□","Square":"□","SquareIntersection":"⊓","SquareSubset":"⊏","SquareSubsetEqual":"⊑","SquareSuperset":"⊐","SquareSupersetEqual":"⊒","SquareUnion":"⊔","squarf":"▪","squ":"□","squf":"▪","srarr":"→","Sscr":"𝒮","sscr":"𝓈","ssetmn":"∖","ssmile":"⌣","sstarf":"⋆","Star":"⋆","star":"☆","starf":"★","straightepsilon":"ϵ","straightphi":"ϕ","strns":"¯","sub":"⊂","Sub":"⋐","subdot":"⪽","subE":"⫅","sube":"⊆","subedot":"⫃","submult":"⫁","subnE":"⫋","subne":"⊊","subplus":"⪿","subrarr":"⥹","subset":"⊂","Subset":"⋐","subseteq":"⊆","subseteqq":"⫅","SubsetEqual":"⊆","subsetneq":"⊊","subsetneqq":"⫋","subsim":"⫇","subsub":"⫕","subsup":"⫓","succapprox":"⪸","succ":"≻","succcurlyeq":"≽","Succeeds":"≻","SucceedsEqual":"⪰","SucceedsSlantEqual":"≽","SucceedsTilde":"≿","succeq":"⪰","succnapprox":"⪺","succneqq":"⪶","succnsim":"⋩","succsim":"≿","SuchThat":"∋","sum":"∑","Sum":"∑","sung":"♪","sup1":"¹","sup2":"²","sup3":"³","sup":"⊃","Sup":"⋑","supdot":"⪾","supdsub":"⫘","supE":"⫆","supe":"⊇","supedot":"⫄","Superset":"⊃","SupersetEqual":"⊇","suphsol":"⟉","suphsub":"⫗","suplarr":"⥻","supmult":"⫂","supnE":"⫌","supne":"⊋","supplus":"⫀","supset":"⊃","Supset":"⋑","supseteq":"⊇","supseteqq":"⫆","supsetneq":"⊋","supsetneqq":"⫌","supsim":"⫈","supsub":"⫔","supsup":"⫖","swarhk":"⤦","swarr":"↙","swArr":"⇙","swarrow":"↙","swnwar":"⤪","szlig":"ß","Tab":"\\t","target":"⌖","Tau":"Τ","tau":"τ","tbrk":"⎴","Tcaron":"Ť","tcaron":"ť","Tcedil":"Ţ","tcedil":"ţ","Tcy":"Т","tcy":"т","tdot":"⃛","telrec":"⌕","Tfr":"𝔗","tfr":"𝔱","there4":"∴","therefore":"∴","Therefore":"∴","Theta":"Θ","theta":"θ","thetasym":"ϑ","thetav":"ϑ","thickapprox":"≈","thicksim":"∼","ThickSpace":"  ","ThinSpace":" ","thinsp":" ","thkap":"≈","thksim":"∼","THORN":"Þ","thorn":"þ","tilde":"˜","Tilde":"∼","TildeEqual":"≃","TildeFullEqual":"≅","TildeTilde":"≈","timesbar":"⨱","timesb":"⊠","times":"×","timesd":"⨰","tint":"∭","toea":"⤨","topbot":"⌶","topcir":"⫱","top":"⊤","Topf":"𝕋","topf":"𝕥","topfork":"⫚","tosa":"⤩","tprime":"‴","trade":"™","TRADE":"™","triangle":"▵","triangledown":"▿","triangleleft":"◃","trianglelefteq":"⊴","triangleq":"≜","triangleright":"▹","trianglerighteq":"⊵","tridot":"◬","trie":"≜","triminus":"⨺","TripleDot":"⃛","triplus":"⨹","trisb":"⧍","tritime":"⨻","trpezium":"⏢","Tscr":"𝒯","tscr":"𝓉","TScy":"Ц","tscy":"ц","TSHcy":"Ћ","tshcy":"ћ","Tstrok":"Ŧ","tstrok":"ŧ","twixt":"≬","twoheadleftarrow":"↞","twoheadrightarrow":"↠","Uacute":"Ú","uacute":"ú","uarr":"↑","Uarr":"↟","uArr":"⇑","Uarrocir":"⥉","Ubrcy":"Ў","ubrcy":"ў","Ubreve":"Ŭ","ubreve":"ŭ","Ucirc":"Û","ucirc":"û","Ucy":"У","ucy":"у","udarr":"⇅","Udblac":"Ű","udblac":"ű","udhar":"⥮","ufisht":"⥾","Ufr":"𝔘","ufr":"𝔲","Ugrave":"Ù","ugrave":"ù","uHar":"⥣","uharl":"↿","uharr":"↾","uhblk":"▀","ulcorn":"⌜","ulcorner":"⌜","ulcrop":"⌏","ultri":"◸","Umacr":"Ū","umacr":"ū","uml":"¨","UnderBar":"_","UnderBrace":"⏟","UnderBracket":"⎵","UnderParenthesis":"⏝","Union":"⋃","UnionPlus":"⊎","Uogon":"Ų","uogon":"ų","Uopf":"𝕌","uopf":"𝕦","UpArrowBar":"⤒","uparrow":"↑","UpArrow":"↑","Uparrow":"⇑","UpArrowDownArrow":"⇅","updownarrow":"↕","UpDownArrow":"↕","Updownarrow":"⇕","UpEquilibrium":"⥮","upharpoonleft":"↿","upharpoonright":"↾","uplus":"⊎","UpperLeftArrow":"↖","UpperRightArrow":"↗","upsi":"υ","Upsi":"ϒ","upsih":"ϒ","Upsilon":"Υ","upsilon":"υ","UpTeeArrow":"↥","UpTee":"⊥","upuparrows":"⇈","urcorn":"⌝","urcorner":"⌝","urcrop":"⌎","Uring":"Ů","uring":"ů","urtri":"◹","Uscr":"𝒰","uscr":"𝓊","utdot":"⋰","Utilde":"Ũ","utilde":"ũ","utri":"▵","utrif":"▴","uuarr":"⇈","Uuml":"Ü","uuml":"ü","uwangle":"⦧","vangrt":"⦜","varepsilon":"ϵ","varkappa":"ϰ","varnothing":"∅","varphi":"ϕ","varpi":"ϖ","varpropto":"∝","varr":"↕","vArr":"⇕","varrho":"ϱ","varsigma":"ς","varsubsetneq":"⊊︀","varsubsetneqq":"⫋︀","varsupsetneq":"⊋︀","varsupsetneqq":"⫌︀","vartheta":"ϑ","vartriangleleft":"⊲","vartriangleright":"⊳","vBar":"⫨","Vbar":"⫫","vBarv":"⫩","Vcy":"В","vcy":"в","vdash":"⊢","vDash":"⊨","Vdash":"⊩","VDash":"⊫","Vdashl":"⫦","veebar":"⊻","vee":"∨","Vee":"⋁","veeeq":"≚","vellip":"⋮","verbar":"|","Verbar":"‖","vert":"|","Vert":"‖","VerticalBar":"∣","VerticalLine":"|","VerticalSeparator":"❘","VerticalTilde":"≀","VeryThinSpace":" ","Vfr":"𝔙","vfr":"𝔳","vltri":"⊲","vnsub":"⊂⃒","vnsup":"⊃⃒","Vopf":"𝕍","vopf":"𝕧","vprop":"∝","vrtri":"⊳","Vscr":"𝒱","vscr":"𝓋","vsubnE":"⫋︀","vsubne":"⊊︀","vsupnE":"⫌︀","vsupne":"⊋︀","Vvdash":"⊪","vzigzag":"⦚","Wcirc":"Ŵ","wcirc":"ŵ","wedbar":"⩟","wedge":"∧","Wedge":"⋀","wedgeq":"≙","weierp":"℘","Wfr":"𝔚","wfr":"𝔴","Wopf":"𝕎","wopf":"𝕨","wp":"℘","wr":"≀","wreath":"≀","Wscr":"𝒲","wscr":"𝓌","xcap":"⋂","xcirc":"◯","xcup":"⋃","xdtri":"▽","Xfr":"𝔛","xfr":"𝔵","xharr":"⟷","xhArr":"⟺","Xi":"Ξ","xi":"ξ","xlarr":"⟵","xlArr":"⟸","xmap":"⟼","xnis":"⋻","xodot":"⨀","Xopf":"𝕏","xopf":"𝕩","xoplus":"⨁","xotime":"⨂","xrarr":"⟶","xrArr":"⟹","Xscr":"𝒳","xscr":"𝓍","xsqcup":"⨆","xuplus":"⨄","xutri":"△","xvee":"⋁","xwedge":"⋀","Yacute":"Ý","yacute":"ý","YAcy":"Я","yacy":"я","Ycirc":"Ŷ","ycirc":"ŷ","Ycy":"Ы","ycy":"ы","yen":"¥","Yfr":"𝔜","yfr":"𝔶","YIcy":"Ї","yicy":"ї","Yopf":"𝕐","yopf":"𝕪","Yscr":"𝒴","yscr":"𝓎","YUcy":"Ю","yucy":"ю","yuml":"ÿ","Yuml":"Ÿ","Zacute":"Ź","zacute":"ź","Zcaron":"Ž","zcaron":"ž","Zcy":"З","zcy":"з","Zdot":"Ż","zdot":"ż","zeetrf":"ℨ","ZeroWidthSpace":"​","Zeta":"Ζ","zeta":"ζ","zfr":"𝔷","Zfr":"ℨ","ZHcy":"Ж","zhcy":"ж","zigrarr":"⇝","zopf":"𝕫","Zopf":"ℤ","Zscr":"𝒵","zscr":"𝓏","zwj":"‍","zwnj":"‌"}')},function(e){e.exports=JSON.parse('{"Aacute":"Á","aacute":"á","Acirc":"Â","acirc":"â","acute":"´","AElig":"Æ","aelig":"æ","Agrave":"À","agrave":"à","amp":"&","AMP":"&","Aring":"Å","aring":"å","Atilde":"Ã","atilde":"ã","Auml":"Ä","auml":"ä","brvbar":"¦","Ccedil":"Ç","ccedil":"ç","cedil":"¸","cent":"¢","copy":"©","COPY":"©","curren":"¤","deg":"°","divide":"÷","Eacute":"É","eacute":"é","Ecirc":"Ê","ecirc":"ê","Egrave":"È","egrave":"è","ETH":"Ð","eth":"ð","Euml":"Ë","euml":"ë","frac12":"½","frac14":"¼","frac34":"¾","gt":">","GT":">","Iacute":"Í","iacute":"í","Icirc":"Î","icirc":"î","iexcl":"¡","Igrave":"Ì","igrave":"ì","iquest":"¿","Iuml":"Ï","iuml":"ï","laquo":"«","lt":"<","LT":"<","macr":"¯","micro":"µ","middot":"·","nbsp":" ","not":"¬","Ntilde":"Ñ","ntilde":"ñ","Oacute":"Ó","oacute":"ó","Ocirc":"Ô","ocirc":"ô","Ograve":"Ò","ograve":"ò","ordf":"ª","ordm":"º","Oslash":"Ø","oslash":"ø","Otilde":"Õ","otilde":"õ","Ouml":"Ö","ouml":"ö","para":"¶","plusmn":"±","pound":"£","quot":"\\"","QUOT":"\\"","raquo":"»","reg":"®","REG":"®","sect":"§","shy":"­","sup1":"¹","sup2":"²","sup3":"³","szlig":"ß","THORN":"Þ","thorn":"þ","times":"×","Uacute":"Ú","uacute":"ú","Ucirc":"Û","ucirc":"û","Ugrave":"Ù","ugrave":"ù","uml":"¨","Uuml":"Ü","uuml":"ü","Yacute":"Ý","yacute":"ý","yen":"¥","yuml":"ÿ"}')},function(e){e.exports=JSON.parse('{"amp":"&","apos":"\'","gt":">","lt":"<","quot":"\\""}')},function(e,t,r){"use strict";var n=this&&this.__importDefault||function(e){return e&&e.__esModule?e:{default:e}};Object.defineProperty(t,"__esModule",{value:!0});var i=n(r(16));t.default=function(e){if(e>=55296&&e<=57343||e>1114111)return"�";e in i.default&&(e=i.default[e]);var t="";return e>65535&&(e-=65536,t+=String.fromCharCode(e>>>10&1023|55296),e=56320|1023&e),t+=String.fromCharCode(e)}},function(e){e.exports=JSON.parse('{"0":65533,"128":8364,"130":8218,"131":402,"132":8222,"133":8230,"134":8224,"135":8225,"136":710,"137":8240,"138":352,"139":8249,"140":338,"142":381,"145":8216,"146":8217,"147":8220,"148":8221,"149":8226,"150":8211,"151":8212,"152":732,"153":8482,"154":353,"155":8250,"156":339,"158":382,"159":376}')},function(e,t,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var n=r(1),i=function(){function e(e){this.current=e,this.root=e,this.entering=!0}return e.prototype.next=function(){var e=this.current,t=this.entering;if(null===e)return null;var r=n.isContainer(e);return t&&r?e.firstChild?(this.current=e.firstChild,this.entering=!0):this.entering=!1:e===this.root?this.current=null:null===e.next?(this.current=e.parent,this.entering=!1):(this.current=e.next,this.entering=!0),{entering:t,node:e}},e.prototype.resumeAt=function(e,t){this.current=e,this.entering=!0===t},e}();t.default=i},function(e,t,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.InlineParser=t.C_NEWLINE=void 0;var n=r(0),i=r(1),a=r(2),o=r(8),s=n.__importDefault(r(19)),l=r(7),u=r(20),c=r(3),p=r(5);t.C_NEWLINE=10;var f="\\\\"+a.ESCAPABLE,d=new RegExp(/[!"#$%&'()*+,\-./:;<=>?@\[\]\\^_`{|}~\xA1\xA7\xAB\xB6\xB7\xBB\xBF\u037E\u0387\u055A-\u055F\u0589\u058A\u05BE\u05C0\u05C3\u05C6\u05F3\u05F4\u0609\u060A\u060C\u060D\u061B\u061E\u061F\u066A-\u066D\u06D4\u0700-\u070D\u07F7-\u07F9\u0830-\u083E\u085E\u0964\u0965\u0970\u0AF0\u0DF4\u0E4F\u0E5A\u0E5B\u0F04-\u0F12\u0F14\u0F3A-\u0F3D\u0F85\u0FD0-\u0FD4\u0FD9\u0FDA\u104A-\u104F\u10FB\u1360-\u1368\u1400\u166D\u166E\u169B\u169C\u16EB-\u16ED\u1735\u1736\u17D4-\u17D6\u17D8-\u17DA\u1800-\u180A\u1944\u1945\u1A1E\u1A1F\u1AA0-\u1AA6\u1AA8-\u1AAD\u1B5A-\u1B60\u1BFC-\u1BFF\u1C3B-\u1C3F\u1C7E\u1C7F\u1CC0-\u1CC7\u1CD3\u2010-\u2027\u2030-\u2043\u2045-\u2051\u2053-\u205E\u207D\u207E\u208D\u208E\u2308-\u230B\u2329\u232A\u2768-\u2775\u27C5\u27C6\u27E6-\u27EF\u2983-\u2998\u29D8-\u29DB\u29FC\u29FD\u2CF9-\u2CFC\u2CFE\u2CFF\u2D70\u2E00-\u2E2E\u2E30-\u2E42\u3001-\u3003\u3008-\u3011\u3014-\u301F\u3030\u303D\u30A0\u30FB\uA4FE\uA4FF\uA60D-\uA60F\uA673\uA67E\uA6F2-\uA6F7\uA874-\uA877\uA8CE\uA8CF\uA8F8-\uA8FA\uA8FC\uA92E\uA92F\uA95F\uA9C1-\uA9CD\uA9DE\uA9DF\uAA5C-\uAA5F\uAADE\uAADF\uAAF0\uAAF1\uABEB\uFD3E\uFD3F\uFE10-\uFE19\uFE30-\uFE52\uFE54-\uFE61\uFE63\uFE68\uFE6A\uFE6B\uFF01-\uFF03\uFF05-\uFF0A\uFF0C-\uFF0F\uFF1A\uFF1B\uFF1F\uFF20\uFF3B-\uFF3D\uFF3F\uFF5B\uFF5D\uFF5F-\uFF65]|\uD800[\uDD00-\uDD02\uDF9F\uDFD0]|\uD801\uDD6F|\uD802[\uDC57\uDD1F\uDD3F\uDE50-\uDE58\uDE7F\uDEF0-\uDEF6\uDF39-\uDF3F\uDF99-\uDF9C]|\uD804[\uDC47-\uDC4D\uDCBB\uDCBC\uDCBE-\uDCC1\uDD40-\uDD43\uDD74\uDD75\uDDC5-\uDDC9\uDDCD\uDDDB\uDDDD-\uDDDF\uDE38-\uDE3D\uDEA9]|\uD805[\uDCC6\uDDC1-\uDDD7\uDE41-\uDE43\uDF3C-\uDF3E]|\uD809[\uDC70-\uDC74]|\uD81A[\uDE6E\uDE6F\uDEF5\uDF37-\uDF3B\uDF44]|\uD82F\uDC9F|\uD836[\uDE87-\uDE8B]/),h=new RegExp('^(?:"('+f+'|[^"\\x00])*"|\'('+f+"|[^'\\x00])*'|\\(("+f+"|[^()\\x00])*\\))"),g=/^(?:<(?:[^<>\n\\\x00]|\\.)*>)/,m=new RegExp("^"+a.ESCAPABLE),v=new RegExp("^"+a.ENTITY,"i"),b=/`+/,y=/^`+/,C=/\.\.\./g,k=/--+/g,x=/^<([a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*)>/,N=/^<[A-Za-z][A-Za-z0-9.+-]{1,31}:[^<>\x00-\x20]*>/i,w=/^ *(?:\n *)?/,D=/^[ \t\n\x0b\x0c\x0d]/,L=/^\s/,E=/ *$/,A=/^ */,T=/^ *(?:\n|$)/,q=/^\[(?:[^\\\[\]]|\\.){0,1000}\]/,_=/^[^\n`\[\]\\!<&*_'"~]+/m,B=function(){function e(e){this.subject="",this.delimiters=null,this.brackets=null,this.pos=0,this.lineStartNum=0,this.lineIdx=0,this.lineOffsets=[0],this.linePosOffset=0,this.refMap={},this.refLinkCandidateMap={},this.refDefCandidateMap={},this.options=e}return e.prototype.sourcepos=function(e,t){var r=this.linePosOffset+this.lineOffsets[this.lineIdx],n=this.lineStartNum+this.lineIdx,i=[n,e+r];return"number"==typeof t?[i,[n,t+r]]:i},e.prototype.nextLine=function(){this.lineIdx+=1,this.linePosOffset=-this.pos},e.prototype.match=function(e){var t=e.exec(this.subject.slice(this.pos));return null===t?null:(this.pos+=t.index+t[0].length,t[0])},e.prototype.peek=function(){return this.pos<this.subject.length?this.subject.charCodeAt(this.pos):-1},e.prototype.spnl=function(){return this.match(w),!0},e.prototype.parseBackticks=function(e){var t=this.pos+1,r=this.match(y);if(null===r)return!1;for(var n,a=this.pos;null!==(n=this.match(b));)if(n===r){var o=this.subject.slice(a,this.pos-r.length),s=this.sourcepos(t,this.pos),l=o.split("\n");if(l.length>1){var u=c.last(l);this.lineIdx+=l.length-1,this.linePosOffset=-(this.pos-u.length-r.length),s[1]=this.sourcepos(this.pos),o=l.join(" ")}var p=i.createNode("code",s);return o.length>0&&null!==o.match(/[^ ]/)&&" "==o[0]&&" "==o[o.length-1]?p.literal=o.slice(1,o.length-1):p.literal=o,p.tickCount=r.length,e.appendChild(p),!0}return this.pos=a,e.appendChild(i.text(r,this.sourcepos(t,this.pos-1))),!0},e.prototype.parseBackslash=function(e){var r,n=this.subject;this.pos+=1;var a=this.pos;return this.peek()===t.C_NEWLINE?(this.pos+=1,r=i.createNode("linebreak",this.sourcepos(this.pos-1,this.pos)),e.appendChild(r),this.nextLine()):m.test(n.charAt(this.pos))?(e.appendChild(i.text(n.charAt(this.pos),this.sourcepos(a,this.pos))),this.pos+=1):e.appendChild(i.text("\\",this.sourcepos(a,a))),!0},e.prototype.parseAutolink=function(e){var t,r,n,o=this.pos+1;return(t=this.match(x))?(r=t.slice(1,t.length-1),(n=i.createNode("link",this.sourcepos(o,this.pos))).destination=a.normalizeURI("mailto:"+r),n.title="",n.appendChild(i.text(r,this.sourcepos(o+1,this.pos-1))),e.appendChild(n),!0):!!(t=this.match(N))&&(r=t.slice(1,t.length-1),(n=i.createNode("link",this.sourcepos(o,this.pos))).destination=a.normalizeURI(r),n.title="",n.appendChild(i.text(r,this.sourcepos(o+1,this.pos-1))),e.appendChild(n),!0)},e.prototype.parseHtmlTag=function(e){var t=this.pos+1,r=this.match(o.reHtmlTag);if(null===r)return!1;var n=i.createNode("htmlInline",this.sourcepos(t,this.pos));return n.literal=r,e.appendChild(n),!0},e.prototype.scanDelims=function(e){var t=0,r=this.pos;if(39===e||34===e)t++,this.pos++;else for(;this.peek()===e;)t++,this.pos++;if(0===t||t<2&&126===e)return this.pos=r,null;var n,i=0===r?"\n":this.subject.charAt(r-1),a=this.peek();n=-1===a?"\n":s.default(a);var o,l,u=L.test(n),c=d.test(n),p=L.test(i),f=d.test(i),h=!u&&(!c||p||f),g=!p&&(!f||u||c);return 95===e?(o=h&&(!g||f),l=g&&(!h||c)):39===e||34===e?(o=h&&!g,l=g):(o=h,l=g),this.pos=r,{numdelims:t,canOpen:o,canClose:l}},e.prototype.handleDelim=function(e,t){var r=this.scanDelims(e);if(!r)return!1;var n,a=r.numdelims,o=this.pos+1;this.pos+=a,n=39===e?"’":34===e?"“":this.subject.slice(o-1,this.pos);var s=i.text(n,this.sourcepos(o,this.pos));return t.appendChild(s),(r.canOpen||r.canClose)&&(this.options.smart||39!==e&&34!==e)&&(this.delimiters={cc:e,numdelims:a,origdelims:a,node:s,previous:this.delimiters,next:null,canOpen:r.canOpen,canClose:r.canClose},this.delimiters.previous&&(this.delimiters.previous.next=this.delimiters)),!0},e.prototype.removeDelimiter=function(e){null!==e.previous&&(e.previous.next=e.next),null===e.next?this.delimiters=e.previous:e.next.previous=e.previous},e.prototype.removeDelimitersBetween=function(e,t){e.next!==t&&(e.next=t,t.previous=e)},e.prototype.processEmphasis=function(e){var t,r,n,a,o,s,l,u=!1,c=((t={})[95]=[e,e,e],t[42]=[e,e,e],t[39]=[e],t[34]=[e],t[126]=[e],t);for(n=this.delimiters;null!==n&&n.previous!==e;)n=n.previous;for(;null!==n;){var p=n.cc,f=95===p||42===p;if(n.canClose){for(r=n.previous,l=!1;null!==r&&r!==e&&r!==c[p][f?n.origdelims%3:0];){if(u=f&&(n.canOpen||r.canClose)&&n.origdelims%3!=0&&(r.origdelims+n.origdelims)%3==0,r.cc===n.cc&&r.canOpen&&!u){l=!0;break}r=r.previous}if(a=n,f||126===p)if(l){if(r){var d=n.numdelims>=2&&r.numdelims>=2?2:1,h=f?0:1;o=r.node,s=n.node;var g=i.createNode(f?1===d?"emph":"strong":"strike"),m=o.sourcepos[1],v=s.sourcepos[0];g.sourcepos=[[m[0],m[1]-d+1],[v[0],v[1]+d-1]],o.sourcepos[1][1]-=d,s.sourcepos[0][1]+=d,o.literal=o.literal.slice(d),s.literal=s.literal.slice(d),r.numdelims-=d,n.numdelims-=d;for(var b=o.next,y=void 0;b&&b!==s;)y=b.next,b.unlink(),g.appendChild(b),b=y;if(o.insertAfter(g),this.removeDelimitersBetween(r,n),r.numdelims<=h&&(0===r.numdelims&&o.unlink(),this.removeDelimiter(r)),n.numdelims<=h){0===n.numdelims&&s.unlink();var C=n.next;this.removeDelimiter(n),n=C}}}else n=n.next;else 39===p?(n.node.literal="’",l&&(r.node.literal="‘"),n=n.next):34===p&&(n.node.literal="”",l&&(r.node.literal="“"),n=n.next);l||(c[p][f?a.origdelims%3:0]=a.previous,a.canOpen||this.removeDelimiter(a))}else n=n.next}for(;null!==this.delimiters&&this.delimiters!==e;)this.removeDelimiter(this.delimiters)},e.prototype.parseLinkTitle=function(){var e=this.match(h);return null===e?null:a.unescapeString(e.substr(1,e.length-2))},e.prototype.parseLinkDestination=function(){var e=this.match(g);if(null===e){if(60===this.peek())return null;for(var t=this.pos,r=0,n=void 0;-1!==(n=this.peek());)if(92===n&&m.test(this.subject.charAt(this.pos+1)))this.pos+=1,-1!==this.peek()&&(this.pos+=1);else if(40===n)this.pos+=1,r+=1;else if(41===n){if(r<1)break;this.pos+=1,r-=1}else{if(null!==D.exec(s.default(n)))break;this.pos+=1}return this.pos===t&&41!==n||0!==r?null:(e=this.subject.substr(t,this.pos-t),a.normalizeURI(a.unescapeString(e)))}return a.normalizeURI(a.unescapeString(e.substr(1,e.length-2)))},e.prototype.parseLinkLabel=function(){var e=this.match(q);return null===e||e.length>1001?0:e.length},e.prototype.parseOpenBracket=function(e){var t=this.pos;this.pos+=1;var r=i.text("[",this.sourcepos(this.pos,this.pos));return e.appendChild(r),this.addBracket(r,t,!1),!0},e.prototype.parseBang=function(e){var t=this.pos;if(this.pos+=1,91===this.peek()){this.pos+=1;var r=i.text("![",this.sourcepos(this.pos-1,this.pos));e.appendChild(r),this.addBracket(r,t+1,!0)}else{r=i.text("!",this.sourcepos(this.pos,this.pos));e.appendChild(r)}return!0},e.prototype.parseCloseBracket=function(e){var t=null,r=null,n=!1;this.pos+=1;var a=this.pos,o=this.brackets;if(null===o)return e.appendChild(i.text("]",this.sourcepos(a,a))),!0;if(!o.active)return e.appendChild(i.text("]",this.sourcepos(a,a))),this.removeBracket(),!0;var s=o.image,l=this.pos;40===this.peek()&&(this.pos++,this.spnl()&&null!==(t=this.parseLinkDestination())&&this.spnl()&&(D.test(this.subject.charAt(this.pos-1))&&(r=this.parseLinkTitle()),1)&&this.spnl()&&41===this.peek()?(this.pos+=1,n=!0):this.pos=l);var u="";if(!n){var p=this.pos,f=this.parseLinkLabel();if(f>2?u=this.subject.slice(p,p+f):o.bracketAfter||(u=this.subject.slice(o.index,a)),0===f&&(this.pos=l),u){u=c.normalizeReference(u);var d=this.refMap[u];d&&(t=d.destination,r=d.title,n=!0)}}if(n){var h=i.createNode(s?"image":"link");h.destination=t,h.title=r||"",h.sourcepos=[o.startpos,this.sourcepos(this.pos)];for(var g=o.node.next,m=void 0;g;)m=g.next,g.unlink(),h.appendChild(g),g=m;if(e.appendChild(h),this.processEmphasis(o.previousDelimiter),this.removeBracket(),o.node.unlink(),!s)for(o=this.brackets;null!==o;)o.image||(o.active=!1),o=o.previous;return this.options.referenceDefinition&&(this.refLinkCandidateMap[e.id]={node:e,refLabel:u}),!0}return this.removeBracket(),this.pos=a,e.appendChild(i.text("]",this.sourcepos(a,a))),this.options.referenceDefinition&&(this.refLinkCandidateMap[e.id]={node:e,refLabel:u}),!0},e.prototype.addBracket=function(e,t,r){null!==this.brackets&&(this.brackets.bracketAfter=!0),this.brackets={node:e,startpos:this.sourcepos(t+(r?0:1)),previous:this.brackets,previousDelimiter:this.delimiters,index:t,image:r,active:!0}},e.prototype.removeBracket=function(){this.brackets&&(this.brackets=this.brackets.previous)},e.prototype.parseEntity=function(e){var t,r=this.pos+1;return!!(t=this.match(v))&&(e.appendChild(i.text(l.decodeHTML(t),this.sourcepos(r,this.pos))),!0)},e.prototype.parseString=function(e){var t,r=this.pos+1;if(t=this.match(_)){if(this.options.smart){var n=t.replace(C,"…").replace(k,(function(e){var t=0,r=0;return e.length%3==0?r=e.length/3:e.length%2==0?t=e.length/2:e.length%3==2?(t=1,r=(e.length-2)/3):(t=2,r=(e.length-4)/3),a.repeat("—",r)+a.repeat("–",t)}));e.appendChild(i.text(n,this.sourcepos(r,this.pos)))}else{var o=i.text(t,this.sourcepos(r,this.pos));e.appendChild(o)}return!0}return!1},e.prototype.parseNewline=function(e){this.pos+=1;var t=e.lastChild;if(t&&"text"===t.type&&" "===t.literal[t.literal.length-1]){var r=" "===t.literal[t.literal.length-2],n=t.literal.length;t.literal=t.literal.replace(E,"");var a=n-t.literal.length;t.sourcepos[1][1]-=a,e.appendChild(i.createNode(r?"linebreak":"softbreak",this.sourcepos(this.pos-a,this.pos)))}else e.appendChild(i.createNode("softbreak",this.sourcepos(this.pos,this.pos)));return this.nextLine(),this.match(A),!0},e.prototype.parseReference=function(e,t){if(!this.options.referenceDefinition)return 0;this.subject=e.stringContent,this.pos=0;var r=null,n=this.pos,a=this.parseLinkLabel();if(0===a)return 0;var o=this.subject.substr(0,a);if(58!==this.peek())return this.pos=n,0;this.pos++,this.spnl();var s=this.parseLinkDestination();if(null===s)return this.pos=n,0;var l=this.pos;this.spnl(),this.pos!==l&&(r=this.parseLinkTitle()),null===r&&(r="",this.pos=l);var u=!0;if(null===this.match(T)&&(""===r?u=!1:(r="",this.pos=l,u=null!==this.match(T))),!u)return this.pos=n,0;var f=c.normalizeReference(o);if(""===f)return this.pos=n,0;var d=this.getReferenceDefSourcepos(e);e.sourcepos[0][0]=d[1][0]+1;var h=i.createNode("refDef",d);return h.title=r,h.dest=s,h.label=f,e.insertBefore(h),t[f]?this.refDefCandidateMap[h.id]=h:t[f]=p.createRefDefState(h),this.pos-n},e.prototype.mergeTextNodes=function(e){for(var t,r=[];t=e.next();){var n=t.entering,i=t.node;if(n&&"text"===i.type)r.push(i);else if(1===r.length)r=[];else if(r.length>1){var a=r[0],o=r[r.length-1];a.sourcepos&&o.sourcepos&&(a.sourcepos[1]=o.sourcepos[1]),a.next=o.next,a.next&&(a.next.prev=a);for(var s=1;s<r.length;s+=1)a.literal+=r[s].literal,r[s].unlink();r=[]}}},e.prototype.getReferenceDefSourcepos=function(e){for(var t=e.stringContent.split(/\n|\r\n/),r=!1,n=0,i={line:0,ch:0},a=0;a<t.length;a+=1){var o=t[a];if(D.test(o))break;if(/\:/.test(o)&&0===n){if(r)break;var s=o.indexOf(":")===o.length-1?a+1:a;i={line:s,ch:t[s].length},r=!0}var l=o.match(/'|"/g);if(l&&(n+=l.length),2===n){i={line:a,ch:o.length};break}}return[[e.sourcepos[0][0],e.sourcepos[0][1]],[e.sourcepos[0][0]+i.line,i.ch]]},e.prototype.parseInline=function(e){var r,n=!1,a=this.peek();if(-1===a)return!1;switch(a){case t.C_NEWLINE:n=this.parseNewline(e);break;case 92:n=this.parseBackslash(e);break;case 96:n=this.parseBackticks(e);break;case 42:case 95:case 126:n=this.handleDelim(a,e);break;case 39:case 34:n=!!(null===(r=this.options)||void 0===r?void 0:r.smart)&&this.handleDelim(a,e);break;case 91:n=this.parseOpenBracket(e);break;case 33:n=this.parseBang(e);break;case 93:n=this.parseCloseBracket(e);break;case 60:n=this.parseAutolink(e)||this.parseHtmlTag(e);break;case 38:n=this.parseEntity(e);break;default:n=this.parseString(e)}return n||(this.pos+=1,e.appendChild(i.text(s.default(a),this.sourcepos(this.pos,this.pos+1)))),!0},e.prototype.parse=function(e){for(this.subject=e.stringContent.trim(),this.pos=0,this.delimiters=null,this.brackets=null,this.lineOffsets=e.lineOffsets||[0],this.lineIdx=0,this.linePosOffset=0,this.lineStartNum=e.sourcepos[0][0],i.isHeading(e)&&(this.lineOffsets[0]+=e.level+1);this.parseInline(e););e.stringContent=null,this.processEmphasis(null),this.mergeTextNodes(e.walker());var t=this.options,r=t.extendedAutolinks,n=t.customParser;if(r&&u.convertExtAutoLinks(e.walker(),r),n&&e.firstChild)for(var a,o=e.firstChild.walker();a=o.next();){var s=a.node,l=a.entering;n[s.type]&&n[s.type](s,{entering:l})}},e}();t.InlineParser=B},function(e,t,r){"use strict";
+var n=function(e,t){return(n=Object.setPrototypeOf||{__proto__:[]}instanceof Array&&function(e,t){e.__proto__=t}||function(e,t){for(var r in t)t.hasOwnProperty(r)&&(e[r]=t[r])})(e,t)};function i(e,t){function r(){this.constructor=e}n(e,t),e.prototype=null===t?Object.create(t):(r.prototype=t.prototype,new r)}var o=function(){return(o=Object.assign||function(e){for(var t,r=1,n=arguments.length;r<n;r++)for(var i in t=arguments[r])Object.prototype.hasOwnProperty.call(t,i)&&(e[i]=t[i]);return e}).apply(this,arguments)};function a(e,t){var r={};for(var n in e)Object.prototype.hasOwnProperty.call(e,n)&&t.indexOf(n)<0&&(r[n]=e[n]);if(null!=e&&"function"==typeof Object.getOwnPropertySymbols){var i=0;for(n=Object.getOwnPropertySymbols(e);i<n.length;i++)t.indexOf(n[i])<0&&Object.prototype.propertyIsEnumerable.call(e,n[i])&&(r[n[i]]=e[n[i]])}return r}function s(e,t,r,n){var i,o=arguments.length,a=o<3?t:null===n?n=Object.getOwnPropertyDescriptor(t,r):n;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)a=Reflect.decorate(e,t,r,n);else for(var s=e.length-1;s>=0;s--)(i=e[s])&&(a=(o<3?i(a):o>3?i(t,r,a):i(t,r))||a);return o>3&&a&&Object.defineProperty(t,r,a),a}function l(e,t){return function(r,n){t(r,n,e)}}function u(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)}function c(e,t,r,n){return new(r||(r=Promise))((function(i,o){function a(e){try{l(n.next(e))}catch(e){o(e)}}function s(e){try{l(n.throw(e))}catch(e){o(e)}}function l(e){var t;e.done?i(e.value):(t=e.value,t instanceof r?t:new r((function(e){e(t)}))).then(a,s)}l((n=n.apply(e,t||[])).next())}))}function p(e,t){var r,n,i,o,a={label:0,sent:function(){if(1&i[0])throw i[1];return i[1]},trys:[],ops:[]};return o={next:s(0),throw:s(1),return:s(2)},"function"==typeof Symbol&&(o[Symbol.iterator]=function(){return this}),o;function s(o){return function(s){return function(o){if(r)throw new TypeError("Generator is already executing.");for(;a;)try{if(r=1,n&&(i=2&o[0]?n.return:o[0]?n.throw||((i=n.return)&&i.call(n),0):n.next)&&!(i=i.call(n,o[1])).done)return i;switch(n=0,i&&(o=[2&o[0],i.value]),o[0]){case 0:case 1:i=o;break;case 4:return a.label++,{value:o[1],done:!1};case 5:a.label++,n=o[1],o=[0];continue;case 7:o=a.ops.pop(),a.trys.pop();continue;default:if(!(i=a.trys,(i=i.length>0&&i[i.length-1])||6!==o[0]&&2!==o[0])){a=0;continue}if(3===o[0]&&(!i||o[1]>i[0]&&o[1]<i[3])){a.label=o[1];break}if(6===o[0]&&a.label<i[1]){a.label=i[1],i=o;break}if(i&&a.label<i[2]){a.label=i[2],a.ops.push(o);break}i[2]&&a.ops.pop(),a.trys.pop();continue}o=t.call(e,a)}catch(e){o=[6,e],n=0}finally{r=i=0}if(5&o[0])throw o[1];return{value:o[0]?o[1]:void 0,done:!0}}([o,s])}}}function f(e,t,r,n){void 0===n&&(n=r),e[n]=t[r]}function d(e,t){for(var r in e)"default"===r||t.hasOwnProperty(r)||(t[r]=e[r])}function h(e){var t="function"==typeof Symbol&&Symbol.iterator,r=t&&e[t],n=0;if(r)return r.call(e);if(e&&"number"==typeof e.length)return{next:function(){return e&&n>=e.length&&(e=void 0),{value:e&&e[n++],done:!e}}};throw new TypeError(t?"Object is not iterable.":"Symbol.iterator is not defined.")}function g(e,t){var r="function"==typeof Symbol&&e[Symbol.iterator];if(!r)return e;var n,i,o=r.call(e),a=[];try{for(;(void 0===t||t-- >0)&&!(n=o.next()).done;)a.push(n.value)}catch(e){i={error:e}}finally{try{n&&!n.done&&(r=o.return)&&r.call(o)}finally{if(i)throw i.error}}return a}function m(){for(var e=[],t=0;t<arguments.length;t++)e=e.concat(g(arguments[t]));return e}function v(){for(var e=0,t=0,r=arguments.length;t<r;t++)e+=arguments[t].length;var n=Array(e),i=0;for(t=0;t<r;t++)for(var o=arguments[t],a=0,s=o.length;a<s;a++,i++)n[i]=o[a];return n}function b(e){return this instanceof b?(this.v=e,this):new b(e)}function y(e,t,r){if(!Symbol.asyncIterator)throw new TypeError("Symbol.asyncIterator is not defined.");var n,i=r.apply(e,t||[]),o=[];return n={},a("next"),a("throw"),a("return"),n[Symbol.asyncIterator]=function(){return this},n;function a(e){i[e]&&(n[e]=function(t){return new Promise((function(r,n){o.push([e,t,r,n])>1||s(e,t)}))})}function s(e,t){try{(r=i[e](t)).value instanceof b?Promise.resolve(r.value.v).then(l,u):c(o[0][2],r)}catch(e){c(o[0][3],e)}var r}function l(e){s("next",e)}function u(e){s("throw",e)}function c(e,t){e(t),o.shift(),o.length&&s(o[0][0],o[0][1])}}function C(e){var t,r;return t={},n("next"),n("throw",(function(e){throw e})),n("return"),t[Symbol.iterator]=function(){return this},t;function n(n,i){t[n]=e[n]?function(t){return(r=!r)?{value:b(e[n](t)),done:"return"===n}:i?i(t):t}:i}}function x(e){if(!Symbol.asyncIterator)throw new TypeError("Symbol.asyncIterator is not defined.");var t,r=e[Symbol.asyncIterator];return r?r.call(e):(e=h(e),t={},n("next"),n("throw"),n("return"),t[Symbol.asyncIterator]=function(){return this},t);function n(r){t[r]=e[r]&&function(t){return new Promise((function(n,i){(function(e,t,r,n){Promise.resolve(n).then((function(t){e({value:t,done:r})}),t)})(n,i,(t=e[r](t)).done,t.value)}))}}}function k(e,t){return Object.defineProperty?Object.defineProperty(e,"raw",{value:t}):e.raw=t,e}function N(e){if(e&&e.__esModule)return e;var t={};if(null!=e)for(var r in e)Object.hasOwnProperty.call(e,r)&&(t[r]=e[r]);return t.default=e,t}function w(e){return e&&e.__esModule?e:{default:e}}function D(e,t){if(!t.has(e))throw new TypeError("attempted to get private field on non-instance");return t.get(e)}function L(e,t,r){if(!t.has(e))throw new TypeError("attempted to set private field on non-instance");return t.set(e,r),r}},function(e,t,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.text=t.isRefDef=t.isTable=t.isList=t.isHeading=t.isHtmlBlock=t.isCodeBlock=t.createNode=t.RefDefNode=t.TableCellNode=t.TableNode=t.CodeNode=t.HtmlBlockNode=t.CodeBlockNode=t.LinkNode=t.HeadingNode=t.ListNode=t.BlockNode=t.Node=t.removeAllNode=t.removeNodeById=t.getNodeById=t.isContainer=void 0;var n=r(0),i=n.__importDefault(r(18));function o(e){switch(e.type){case"document":case"blockQuote":case"list":case"item":case"paragraph":case"heading":case"emph":case"strong":case"strike":case"link":case"image":case"table":case"tableHead":case"tableBody":case"tableRow":case"tableCell":case"tableDelimRow":return!0;default:return!1}}t.isContainer=o;var a=1,s={};t.getNodeById=function(e){return s[e]},t.removeNodeById=function(e){delete s[e]},t.removeAllNode=function(){s={}};var l=function(){function e(e,t){this.parent=null,this.prev=null,this.next=null,this.firstChild=null,this.lastChild=null,this.literal=null,this.id="document"===e?-1:a++,this.type=e,this.sourcepos=t,s[this.id]=this}return e.prototype.isContainer=function(){return o(this)},e.prototype.unlink=function(){this.prev?this.prev.next=this.next:this.parent&&(this.parent.firstChild=this.next),this.next?this.next.prev=this.prev:this.parent&&(this.parent.lastChild=this.prev),this.parent=null,this.next=null,this.prev=null},e.prototype.replaceWith=function(e){this.insertBefore(e),this.unlink()},e.prototype.insertAfter=function(e){e.unlink(),e.next=this.next,e.next&&(e.next.prev=e),e.prev=this,this.next=e,this.parent&&(e.parent=this.parent,e.next||(e.parent.lastChild=e))},e.prototype.insertBefore=function(e){e.unlink(),e.prev=this.prev,e.prev&&(e.prev.next=e),e.next=this,this.prev=e,e.parent=this.parent,e.prev||(e.parent.firstChild=e)},e.prototype.appendChild=function(e){e.unlink(),e.parent=this,this.lastChild?(this.lastChild.next=e,e.prev=this.lastChild,this.lastChild=e):(this.firstChild=e,this.lastChild=e)},e.prototype.prependChild=function(e){e.unlink(),e.parent=this,this.firstChild?(this.firstChild.prev=e,e.next=this.firstChild,this.firstChild=e):(this.firstChild=e,this.lastChild=e)},e.prototype.walker=function(){return new i.default(this)},e}();t.Node=l;var u=function(e){function t(t,r){var n=e.call(this,t,r)||this;return n.open=!0,n.lineOffsets=null,n.stringContent=null,n.lastLineBlank=!1,n.lastLineChecked=!1,n.customType=null,n.type=t,n}return n.__extends(t,e),t}(l);t.BlockNode=u;var c=function(e){function t(){var t=null!==e&&e.apply(this,arguments)||this;return t.listData=null,t}return n.__extends(t,e),t}(u);t.ListNode=c;var p=function(e){function t(){var t=null!==e&&e.apply(this,arguments)||this;return t.level=0,t.headingType="atx",t}return n.__extends(t,e),t}(u);t.HeadingNode=p;var f=function(e){function t(){var t=null!==e&&e.apply(this,arguments)||this;return t.destination=null,t.title=null,t.extendedAutolink=!1,t}return n.__extends(t,e),t}(l);t.LinkNode=f;var d=function(e){function t(){var t=null!==e&&e.apply(this,arguments)||this;return t.isFenced=!1,t.fenceChar=null,t.fenceLength=0,t.fenceOffset=-1,t.info=null,t.infoPadding=0,t}return n.__extends(t,e),t}(u);t.CodeBlockNode=d;var h=function(e){function t(){var t=null!==e&&e.apply(this,arguments)||this;return t.htmlBlockType=-1,t}return n.__extends(t,e),t}(u);t.HtmlBlockNode=h;var g=function(e){function t(){var t=null!==e&&e.apply(this,arguments)||this;return t.tickCount=0,t}return n.__extends(t,e),t}(l);t.CodeNode=g;var m=function(e){function t(){var t=null!==e&&e.apply(this,arguments)||this;return t.columns=[],t}return n.__extends(t,e),t}(u);t.TableNode=m;var v=function(e){function t(){var t=null!==e&&e.apply(this,arguments)||this;return t.startIdx=0,t.endIdx=0,t.paddingLeft=0,t.paddingRight=0,t.ignored=!1,t}return n.__extends(t,e),t}(u);t.TableCellNode=v;var b=function(e){function t(){var t=null!==e&&e.apply(this,arguments)||this;return t.title="",t.dest="",t.label="",t}return n.__extends(t,e),t}(u);function y(e,t){switch(e){case"heading":return new p(e,t);case"list":case"item":return new c(e,t);case"link":case"image":return new f(e,t);case"codeBlock":return new d(e,t);case"htmlBlock":return new h(e,t);case"table":return new m(e,t);case"tableCell":return new v(e,t);case"document":case"paragraph":case"blockQuote":case"thematicBreak":case"tableRow":case"tableBody":case"tableHead":return new u(e,t);case"code":return new g(e,t);case"refDef":return new b(e,t);default:return new l(e,t)}}t.RefDefNode=b,t.createNode=y,t.isCodeBlock=function(e){return"codeBlock"===e.type},t.isHtmlBlock=function(e){return"htmlBlock"===e.type},t.isHeading=function(e){return"heading"===e.type},t.isList=function(e){return"list"===e.type},t.isTable=function(e){return"table"===e.type},t.isRefDef=function(e){return"refDef"===e.type},t.text=function(e,t){var r=y("text",t);return r.literal=e,r}},function(e,t,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.isEmpty=t.last=t.repeat=t.escapeXml=t.normalizeURI=t.unescapeString=t.ESCAPABLE=t.ENTITY=void 0;var n=r(0).__importDefault(r(12)),i=r(8);t.ENTITY="&(?:#x[a-f0-9]{1,6}|#[0-9]{1,7}|[a-z][a-z0-9]{1,31});";var o=/[\\&]/;t.ESCAPABLE="[!\"#$%&'()*+,./:;<=>?@[\\\\\\]^_`{|}~-]";var a=new RegExp("\\\\"+t.ESCAPABLE+"|"+t.ENTITY,"gi"),s=new RegExp('[&<>"]',"g"),l=function(e){return 92===e.charCodeAt(0)?e.charAt(1):i.decodeHTML(e)};function u(e){switch(e){case"&":return"&amp;";case"<":return"&lt;";case">":return"&gt;";case'"':return"&quot;";default:return e}}t.unescapeString=function(e){return o.test(e)?e.replace(a,l):e},t.normalizeURI=function(e){try{return n.default(e)}catch(t){return e}},t.escapeXml=function(e){return s.test(e)?e.replace(s,u):e},t.repeat=function(e,t){for(var r=[],n=0;n<t;n++)r.push(e);return r.join("")},t.last=function(e){return e.length?e[e.length-1]:null},t.isEmpty=function(e){return!e||!/[^ \t]+/.test(e)}},function(e,t,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.clearObj=t.isEmptyObj=t.omit=t.iterateObject=t.normalizeReference=t.last=void 0;var n=r(0);t.last=function(e){return e[e.length-1]},t.normalizeReference=function(e){return e.slice(1,e.length-1).trim().replace(/[ \t\r\n]+/," ").toLowerCase().toUpperCase()},t.iterateObject=function(e,t){Object.keys(e).forEach((function(r){t(r,e[r])}))},t.omit=function(e){for(var t=[],r=1;r<arguments.length;r++)t[r-1]=arguments[r];var i=n.__assign({},e);return t.forEach((function(e){delete i[e]})),i},t.isEmptyObj=function(e){return!Object.keys(e).length},t.clearObj=function(e){Object.keys(e).forEach((function(t){delete e[t]}))}},function(e,t,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.isSpaceOrTab=t.isBlank=t.peek=t.endsWithBlankLine=t.reClosingCodeFence=t.reNonSpace=t.C_OPEN_BRACKET=t.C_SPACE=t.C_LESSTHAN=t.C_GREATERTHAN=t.C_NEWLINE=t.C_TAB=t.CODE_INDENT=void 0,t.CODE_INDENT=4,t.C_TAB=9,t.C_NEWLINE=10,t.C_GREATERTHAN=62,t.C_LESSTHAN=60,t.C_SPACE=32,t.C_OPEN_BRACKET=91,t.reNonSpace=/[^ \t\f\v\r\n]/,t.reClosingCodeFence=/^(?:`{3,}|~{3,})(?= *$)/,t.endsWithBlankLine=function(e){for(var t=e;t;){if(t.lastLineBlank)return!0;var r=t.type;if(t.lastLineChecked||"list"!==r&&"item"!==r){t.lastLineChecked=!0;break}t.lastLineChecked=!0,t=t.lastChild}return!1},t.peek=function(e,t){return t<e.length?e.charCodeAt(t):-1},t.isBlank=function(e){return!t.reNonSpace.test(e)},t.isSpaceOrTab=function(e){return e===t.C_SPACE||e===t.C_TAB}},function(e,t,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.ToastMark=t.createRefDefState=t.reLineEnding=void 0;var n=r(0),i=r(7),o=r(1),a=r(27),s=r(10),l=r(3),u=r(4),c=r(6);function p(e){return{id:e.id,title:e.title,sourcepos:e.sourcepos,unlinked:!1,destination:e.dest}}t.reLineEnding=/\r\n|\n|\r/,t.createRefDefState=p;var f=function(){function e(e,r){this.refMap={},this.refLinkCandidateMap={},this.refDefCandidateMap={},this.referenceDefinition=!!(null==r?void 0:r.referenceDefinition),this.frontMatter=!!(null==r?void 0:r.frontMatter),this.parser=new i.Parser(r),this.parser.setRefMaps(this.refMap,this.refLinkCandidateMap,this.refDefCandidateMap),this.eventHandlerMap={change:[]},e=e||"",this.lineTexts=e.split(t.reLineEnding),this.root=this.parser.parse(e)}return e.prototype.updateLineTexts=function(e,r,i){var o,a=e[0],s=e[1],l=r[0],u=r[1],c=i.split(t.reLineEnding),p=c.length,f=this.lineTexts[a-1],d=this.lineTexts[l-1];c[0]=f.slice(0,s-1)+c[0],c[p-1]=c[p-1]+d.slice(u-1);var h=l-a+1;return(o=this.lineTexts).splice.apply(o,n.__spreadArrays([a-1,h],c)),p-h},e.prototype.updateRootNodeState=function(){if(1===this.lineTexts.length&&""===this.lineTexts[0])return this.root.lastLineBlank=!0,void(this.root.sourcepos=[[1,1],[1,0]]);this.root.lastChild&&(this.root.lastLineBlank=this.root.lastChild.lastLineBlank);for(var e=this.lineTexts,t=e.length-1;""===e[t];)t-=1;e.length-2>t&&(t+=1),this.root.sourcepos[1]=[t+1,e[t].length]},e.prototype.replaceRangeNodes=function(e,t,r){e?(a.insertNodesBefore(e,r),a.removeNextUntil(e,t),[e.id,t.id].forEach((function(e){return o.removeNodeById(e)})),e.unlink()):t?(a.insertNodesBefore(t,r),o.removeNodeById(t.id),t.unlink()):a.prependChildNodes(this.root,r)},e.prototype.getNodeRange=function(e,t){var r=a.findChildNodeAtLine(this.root,e[0]),n=a.findChildNodeAtLine(this.root,t[0]);return n&&n.next&&t[0]+1===n.next.sourcepos[0][0]&&(n=n.next),a.getRangeForCustomType(r,n)},e.prototype.trigger=function(e,t){this.eventHandlerMap[e].forEach((function(e){e(t)}))},e.prototype.extendEndLine=function(e){for(;""===this.lineTexts[e];)e+=1;return e},e.prototype.parseRange=function(e,t,r,n){var i;e&&e.prev&&(o.isList(e.prev)&&function(e){var t=e.match(/^[ \t]+/);if(t&&(t[0].length>=2||/\t/.test(t[0])))return!0;var r=t?e.slice(t.length):e;return s.reBulletListMarker.test(r)||s.reOrderedListMarker.test(r)}(this.lineTexts[r-1])||o.isTable(e.prev)&&(i=this.lineTexts[r-1],!u.isBlank(i)&&-1!==i.indexOf("|")))&&(r=(e=e.prev).sourcepos[0][0]);for(var l=this.lineTexts.slice(r-1,n),c=this.parser.partialParseStart(r,l),p=t?t.next:this.root.firstChild,f=c.lastChild,d=f&&o.isCodeBlock(f),h=f&&o.isList(f);d&&p||h&&p&&("list"===p.type||p.sourcepos[0][1]>=2);){var g=this.extendEndLine(p.sourcepos[1][0]);this.parser.partialParseExtends(this.lineTexts.slice(n,g)),e||(e=t),t=p,n=g,p=p.next}return this.parser.partialParseFinish(),{newNodes:a.getChildNodes(c),extStartNode:e,extEndNode:t}},e.prototype.getRemovedNodeRange=function(e,t){return!e||e&&o.isRefDef(e)||t&&o.isRefDef(t)?null:{id:[e.id,t.id],line:[e.sourcepos[0][0]-1,t.sourcepos[1][0]-1]}},e.prototype.markDeletedRefMap=function(e,t){var r=this;if(!l.isEmptyObj(this.refMap)){var n=function(e){if(o.isRefDef(e)){var t=r.refMap[e.label];t&&e.id===t.id&&(t.unlinked=!0)}};e&&a.invokeNextUntil(n,e.parent,t),t&&a.invokeNextUntil(n,t)}},e.prototype.replaceWithNewRefDefState=function(e){var t=this;if(!l.isEmptyObj(this.refMap)){var r=function(e){if(o.isRefDef(e)){var r=e.label,n=t.refMap[r];n&&!n.unlinked||(t.refMap[r]=p(e))}};e.forEach((function(e){a.invokeNextUntil(r,e)}))}},e.prototype.replaceWithRefDefCandidate=function(){var e=this;l.isEmptyObj(this.refDefCandidateMap)||l.iterateObject(this.refDefCandidateMap,(function(t,r){var n=r.label,i=r.sourcepos,o=e.refMap[n];(!o||o.unlinked||o.sourcepos[0][0]>i[0][0])&&(e.refMap[n]=p(r))}))},e.prototype.getRangeWithRefDef=function(e,t,r,n,i){if(this.referenceDefinition&&!l.isEmptyObj(this.refMap)){var s=a.findChildNodeAtLine(this.root,e-1),u=a.findChildNodeAtLine(this.root,t+1);s&&o.isRefDef(s)&&s!==r&&s!==n&&(e=(r=s).sourcepos[0][0]),u&&o.isRefDef(u)&&u!==r&&u!==n&&(n=u,t=this.extendEndLine(n.sourcepos[1][0]+i))}return[r,n,e,t]},e.prototype.parseWithFrontMatter=function(e,t,r){void 0===r&&(r=0);var i=n.__spreadArrays(this.lineTexts),o=c.getFrontMatterPos(this.lineTexts),a=o[0],s=o[1];a>-1&&s>-1&&(this.lineTexts[a]=c.frontMatterOpen,this.lineTexts[s]=c.frontMatterClose,a>=t[0]-1&&(t[0]=s+1),a<=e[0]-1&&s>=t[0]-1&&(e[0]=a+1,t[0]=s+1));var l=this.parse(e,t,r);return this.lineTexts=i,l},e.prototype.parse=function(e,t,r){void 0===r&&(r=0);var n=this.getNodeRange(e,t),i=n[0],o=n[1],a=i?Math.min(i.sourcepos[0][0],e[0]):e[0],s=this.extendEndLine((o?Math.max(o.sourcepos[1][0],t[0]):t[0])+r),l=this.parseRange.apply(this,this.getRangeWithRefDef(a,s,i,o,r)),u=l.newNodes,c=l.extStartNode,p=l.extEndNode,f=this.getRemovedNodeRange(c,p),d=p?p.next:this.root.firstChild;return this.referenceDefinition?(this.markDeletedRefMap(c,p),this.replaceRangeNodes(c,p,u),this.replaceWithNewRefDefState(u)):this.replaceRangeNodes(c,p,u),{nodes:u,removedNodeRange:f,nextNode:d}},e.prototype.parseRefLink=function(){var e=this,t=[];return l.isEmptyObj(this.refMap)||l.iterateObject(this.refMap,(function(r,n){n.unlinked&&delete e.refMap[r],l.iterateObject(e.refLinkCandidateMap,(function(n,i){var o=i.node;i.refLabel===r&&t.push(e.parse(o.sourcepos[0],o.sourcepos[1]))}))})),t},e.prototype.removeUnlinkedCandidate=function(){l.isEmptyObj(this.refDefCandidateMap)||[this.refLinkCandidateMap,this.refDefCandidateMap].forEach((function(e){l.iterateObject(e,(function(t){a.isUnlinked(t)&&delete e[t]}))}))},e.prototype.editMarkdown=function(e,t,r){var n=this.updateLineTexts(e,t,r),i=this.frontMatter?this.parseWithFrontMatter(e,t,n):this.parse(e,t,n),o=l.omit(i,"nextNode");a.updateNextLineNumbers(i.nextNode,n),this.updateRootNodeState();var s=[o];return this.referenceDefinition&&(this.removeUnlinkedCandidate(),this.replaceWithRefDefCandidate(),s=s.concat(this.parseRefLink())),this.trigger("change",s),s},e.prototype.getLineTexts=function(){return this.lineTexts},e.prototype.getRootNode=function(){return this.root},e.prototype.findNodeAtPosition=function(e){var t=a.findNodeAtPosition(this.root,e);return t&&t!==this.root?t:null},e.prototype.findFirstNodeAtLine=function(e){return a.findFirstNodeAtLine(this.root,e)},e.prototype.on=function(e,t){this.eventHandlerMap[e].push(t)},e.prototype.off=function(e,t){var r=this.eventHandlerMap[e],n=r.indexOf(t);r.splice(n,1)},e.prototype.findNodeById=function(e){return a.findNodeById(e)},e.prototype.removeAllNode=function(){o.removeAllNode()},e}();t.ToastMark=f},function(e,t,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.getFrontMatterPos=t.replaceFrontMatter=t.frontMatterClose=t.frontMatterOpen=void 0,t.frontMatterOpen="{:f",t.frontMatterClose="f:}";var n=/^---$/,i=/^---$([\s\S]*)^---$/m;t.replaceFrontMatter=function(e){var r=e.trim();return/^---/.test(r)&&function(e){return i.test(e)}(r)?e.replace(i,t.frontMatterOpen+"$1"+t.frontMatterClose):e},t.getFrontMatterPos=function(e){for(var t=-1,r=-1,i=0;i<e.length;i+=1){var o=e[i].trim();if(t<0&&o&&!n.test(o)||r>0)break;n.test(o)&&(t<0?t=i:r=i)}return[t,r]}},function(e,t,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.Parser=void 0;var n=r(0),i=r(2),o=r(1),a=r(19),s=r(22),l=r(4),u=r(10),c=r(3),p=r(6),f=r(26),d=[/./,/<\/(?:script|pre|style)>/i,/-->/,/\?>/,/>/,/\]\]>/],h=/^[#`~*+_=<>0-9-]/,g=/\r\n|\n|\r/;function m(){return o.createNode("document",[[1,1],[0,0]])}var v={smart:!1,tagFilter:!1,extendedAutolinks:!1,disallowedHtmlBlockTags:[],referenceDefinition:!1,disallowDeepHeading:!1,customParser:null,frontMatter:!1},b=function(){function e(e){this.options=n.__assign(n.__assign({},v),e),this.doc=m(),this.tip=this.doc,this.oldtip=this.doc,this.lineNumber=0,this.offset=0,this.column=0,this.nextNonspace=0,this.nextNonspaceColumn=0,this.indent=0,this.currentLine="",this.indented=!1,this.blank=!1,this.partiallyConsumedTab=!1,this.allClosed=!0,this.lastMatchedContainer=this.doc,this.refMap={},this.refLinkCandidateMap={},this.refDefCandidateMap={},this.lastLineLength=0,this.options.frontMatter&&(this.options.customParser=n.__assign(n.__assign({},f.frontMatterParser),this.options.customParser)),this.inlineParser=new a.InlineParser(this.options)}return e.prototype.advanceOffset=function(e,t){void 0===t&&(t=!1);for(var r,n,i,o=this.currentLine;e>0&&(i=o[this.offset]);)"\t"===i?(r=4-this.column%4,t?(this.partiallyConsumedTab=r>e,n=r>e?e:r,this.column+=n,this.offset+=this.partiallyConsumedTab?0:1,e-=n):(this.partiallyConsumedTab=!1,this.column+=r,this.offset+=1,e-=1)):(this.partiallyConsumedTab=!1,this.offset+=1,this.column+=1,e-=1)},e.prototype.advanceNextNonspace=function(){this.offset=this.nextNonspace,this.column=this.nextNonspaceColumn,this.partiallyConsumedTab=!1},e.prototype.findNextNonspace=function(){for(var e,t=this.currentLine,r=this.offset,n=this.column;""!==(e=t.charAt(r));)if(" "===e)r++,n++;else{if("\t"!==e)break;r++,n+=4-n%4}this.blank="\n"===e||"\r"===e||""===e,this.nextNonspace=r,this.nextNonspaceColumn=n,this.indent=this.nextNonspaceColumn-this.column,this.indented=this.indent>=l.CODE_INDENT},e.prototype.addLine=function(){if(this.partiallyConsumedTab){this.offset+=1;var e=4-this.column%4;this.tip.stringContent+=i.repeat(" ",e)}this.tip.lineOffsets?this.tip.lineOffsets.push(this.offset):this.tip.lineOffsets=[this.offset],this.tip.stringContent+=this.currentLine.slice(this.offset)+"\n"},e.prototype.addChild=function(e,t){for(;!s.blockHandlers[this.tip.type].canContain(e);)this.finalize(this.tip,this.lineNumber-1);var r=t+1,n=o.createNode(e,[[this.lineNumber,r],[0,0]]);return n.stringContent="",this.tip.appendChild(n),this.tip=n,n},e.prototype.closeUnmatchedBlocks=function(){if(!this.allClosed){for(;this.oldtip!==this.lastMatchedContainer;){var e=this.oldtip.parent;this.finalize(this.oldtip,this.lineNumber-1),this.oldtip=e}this.allClosed=!0}},e.prototype.finalize=function(e,t){var r=e.parent;e.open=!1,e.sourcepos[1]=[t,this.lastLineLength],s.blockHandlers[e.type].finalize(this,e),this.tip=r},e.prototype.processInlines=function(e){var t,r=this.options.customParser,n=e.walker();for(this.inlineParser.refMap=this.refMap,this.inlineParser.refLinkCandidateMap=this.refLinkCandidateMap,this.inlineParser.refDefCandidateMap=this.refDefCandidateMap,this.inlineParser.options=this.options;t=n.next();){var i=t.node,o=t.entering,a=i.type;r&&r[a]&&r[a](i,{entering:o,options:this.options}),o||"paragraph"!==a&&"heading"!==a&&("tableCell"!==a||i.ignored)||this.inlineParser.parse(i)}},e.prototype.incorporateLine=function(e){var t=this.doc;this.oldtip=this.tip,this.offset=0,this.column=0,this.blank=!1,this.partiallyConsumedTab=!1,this.lineNumber+=1,-1!==e.indexOf("\0")&&(e=e.replace(/\0/g,"�")),this.currentLine=e;for(var r,n=!0;(r=t.lastChild)&&r.open;){switch(t=r,this.findNextNonspace(),s.blockHandlers[t.type].continue(this,t)){case 0:break;case 1:n=!1;break;case 2:return void(this.lastLineLength=e.length);default:throw new Error("continue returned illegal value, must be 0, 1, or 2")}if(!n){t=t.parent;break}}this.allClosed=t===this.oldtip,this.lastMatchedContainer=t;for(var i="paragraph"!==t.type&&s.blockHandlers[t.type].acceptsLines,a=u.blockStarts.length;!i;){if(this.findNextNonspace(),"table"!==t.type&&"tableBody"!==t.type&&"paragraph"!==t.type&&!this.indented&&!h.test(e.slice(this.nextNonspace))){this.advanceNextNonspace();break}for(var l=0;l<a;){var c=u.blockStarts[l](this,t);if(1===c){t=this.tip;break}if(2===c){t=this.tip,i=!0;break}l++}if(l===a){this.advanceNextNonspace();break}}if(this.allClosed||this.blank||"paragraph"!==this.tip.type){this.closeUnmatchedBlocks(),this.blank&&t.lastChild&&(t.lastChild.lastLineBlank=!0);for(var p=t.type,f=this.blank&&!("blockQuote"===p||o.isCodeBlock(t)&&t.isFenced||"item"===p&&!t.firstChild&&t.sourcepos[0][0]===this.lineNumber),g=t;g;)g.lastLineBlank=f,g=g.parent;s.blockHandlers[p].acceptsLines?(this.addLine(),o.isHtmlBlock(t)&&t.htmlBlockType>=1&&t.htmlBlockType<=5&&d[t.htmlBlockType].test(this.currentLine.slice(this.offset))&&(this.lastLineLength=e.length,this.finalize(t,this.lineNumber))):this.offset<e.length&&!this.blank&&(t=this.addChild("paragraph",this.offset),this.advanceNextNonspace(),this.addLine())}else this.addLine();this.lastLineLength=e.length},e.prototype.parse=function(e){this.options.frontMatter&&(e=p.replaceFrontMatter(e)),this.doc=m(),this.tip=this.doc,this.lineNumber=0,this.lastLineLength=0,this.offset=0,this.column=0,this.lastMatchedContainer=this.doc,this.currentLine="";var t=e.split(g),r=t.length;this.options.referenceDefinition&&this.clearRefMaps(),e.charCodeAt(e.length-1)===a.C_NEWLINE&&(r-=1);for(var n=0;n<r;n++)this.incorporateLine(t[n]);for(;this.tip;)this.finalize(this.tip,r);return this.processInlines(this.doc),this.doc},e.prototype.partialParseStart=function(e,t){this.doc=m(),this.tip=this.doc,this.lineNumber=e-1,this.lastLineLength=0,this.offset=0,this.column=0,this.lastMatchedContainer=this.doc,this.currentLine="";for(var r=t.length,n=0;n<r;n++)this.incorporateLine(t[n]);return this.doc},e.prototype.partialParseExtends=function(e){for(var t=0;t<e.length;t++)this.incorporateLine(e[t])},e.prototype.partialParseFinish=function(){for(;this.tip;)this.finalize(this.tip,this.lineNumber);this.processInlines(this.doc)},e.prototype.setRefMaps=function(e,t,r){this.refMap=e,this.refLinkCandidateMap=t,this.refDefCandidateMap=r},e.prototype.clearRefMaps=function(){[this.refMap,this.refLinkCandidateMap,this.refDefCandidateMap].forEach((function(e){c.clearObj(e)}))},e}();t.Parser=b},function(e,t,r){"use strict";var n=this&&this.__importDefault||function(e){return e&&e.__esModule?e:{default:e}};Object.defineProperty(t,"__esModule",{value:!0}),t.decodeHTML=t.decodeHTMLStrict=t.decodeXML=void 0;var i=n(r(13)),o=n(r(14)),a=n(r(15)),s=n(r(16));function l(e){var t=Object.keys(e).join("|"),r=c(e),n=new RegExp("&(?:"+(t+="|#[xX][\\da-fA-F]+|#\\d+")+");","g");return function(e){return String(e).replace(n,r)}}t.decodeXML=l(a.default),t.decodeHTMLStrict=l(i.default);var u=function(e,t){return e<t?1:-1};function c(e){return function(t){if("#"===t.charAt(1)){var r=t.charAt(2);return"X"===r||"x"===r?s.default(parseInt(t.substr(3),16)):s.default(parseInt(t.substr(2),10))}return e[t.slice(1,-1)]}}t.decodeHTML=function(){for(var e=Object.keys(o.default).sort(u),t=Object.keys(i.default).sort(u),r=0,n=0;r<t.length;r++)e[n]===t[r]?(t[r]+=";?",n++):t[r]+=";";var a=new RegExp("&(?:"+t.join("|")+"|#[xX][\\da-fA-F]+;?|#\\d+;?)","g"),s=c(i.default);function l(e){return";"!==e.substr(-1)&&(e+=";"),s(e)}return function(e){return String(e).replace(a,l)}}()},function(e,t,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.reHtmlTag=t.CLOSETAG=t.OPENTAG=void 0;t.OPENTAG="<[A-Za-z][A-Za-z0-9-]*(?:\\s+[a-zA-Z_:][a-zA-Z0-9:._-]*(?:\\s*=\\s*(?:[^\"'=<>`\\x00-\\x20]+|'[^']*'|\"[^\"]*\"))?)*\\s*/?>",t.CLOSETAG="</[A-Za-z][A-Za-z0-9-]*\\s*[>]";var n="(?:"+t.OPENTAG+"|"+t.CLOSETAG+"|\x3c!----\x3e|\x3c!--(?:-?[^>-])(?:-?[^-])*--\x3e|[<][?].*?[?][>]|<![A-Z]+\\s+[^>]*>|<!\\[CDATA\\[[\\s\\S]*?\\]\\]>)";t.reHtmlTag=new RegExp("^"+n,"i")},function(e,t,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.blockStarts=t.reOrderedListMarker=t.reBulletListMarker=void 0;var n=r(1),i=r(9),o=r(4),a=r(25),s=/^`{3,}(?!.*`)|^~{3,}/,l=[/./,/^<(?:script|pre|style)(?:\s|>|$)/i,/^<!--/,/^<[?]/,/^<![A-Z]/,/^<!\[CDATA\[/,/^<[/]?(?:address|article|aside|base|basefont|blockquote|body|caption|center|col|colgroup|dd|details|dialog|dir|div|dl|dt|fieldset|figcaption|figure|footer|form|frame|frameset|h[123456]|head|header|hr|html|iframe|legend|li|link|main|menu|menuitem|nav|noframes|ol|optgroup|option|p|param|section|source|summary|table|tbody|td|tfoot|th|thead|title|tr|track|ul)(?:\s|[/]?[>]|$)/i,new RegExp("^(?:"+i.OPENTAG+"|"+i.CLOSETAG+")\\s*$","i")],u=/^(?:=+|-+)[ \t]*$/,c=/^#{1,6}(?:[ \t]+|$)/,p=/^(?:(?:\*[ \t]*){3,}|(?:_[ \t]*){3,}|(?:-[ \t]*){3,})[ \t]*$/;function f(e,t){return e.options.disallowDeepHeading&&("blockQuote"===t.type||"item"===t.type)}t.reBulletListMarker=/^[*+-]/,t.reOrderedListMarker=/^(\d{1,9})([.)])/;t.blockStarts=[function(e){return e.indented||o.peek(e.currentLine,e.nextNonspace)!==o.C_GREATERTHAN?0:(e.advanceNextNonspace(),e.advanceOffset(1,!1),o.isSpaceOrTab(o.peek(e.currentLine,e.offset))&&e.advanceOffset(1,!0),e.closeUnmatchedBlocks(),e.addChild("blockQuote",e.nextNonspace),1)},function(e,t){var r;if(!e.indented&&!f(e,t)&&(r=e.currentLine.slice(e.nextNonspace).match(c))){e.advanceNextNonspace(),e.advanceOffset(r[0].length,!1),e.closeUnmatchedBlocks();var n=e.addChild("heading",e.nextNonspace);return n.level=r[0].trim().length,n.headingType="atx",n.stringContent=e.currentLine.slice(e.offset).replace(/^[ \t]*#+[ \t]*$/,"").replace(/[ \t]+#+[ \t]*$/,""),e.advanceOffset(e.currentLine.length-e.offset),2}return 0},function(e){var t;if(!e.indented&&(t=e.currentLine.slice(e.nextNonspace).match(s))){var r=t[0].length;e.closeUnmatchedBlocks();var n=e.addChild("codeBlock",e.nextNonspace);return n.isFenced=!0,n.fenceLength=r,n.fenceChar=t[0][0],n.fenceOffset=e.indent,e.advanceNextNonspace(),e.advanceOffset(r,!1),2}return 0},function(e,t){if(!e.indented&&o.peek(e.currentLine,e.nextNonspace)===o.C_LESSTHAN){var r=e.currentLine.slice(e.nextNonspace),n=e.options.disallowedHtmlBlockTags,i=void 0;for(i=1;i<=7;i++){var a=r.match(l[i]);if(a){if(7===i){if("paragraph"===t.type)return 0;if(n.length>0)if(new RegExp("</?(?:"+n.join("|")+")","i").test(a[0]))return 0}return e.closeUnmatchedBlocks(),e.addChild("htmlBlock",e.offset).htmlBlockType=i,2}}}return 0},function(e,t){var r;if(null!==t.stringContent&&!e.indented&&"paragraph"===t.type&&!f(e,t.parent)&&(r=e.currentLine.slice(e.nextNonspace).match(u))){e.closeUnmatchedBlocks();for(var i=void 0;o.peek(t.stringContent,0)===o.C_OPEN_BRACKET&&(i=e.inlineParser.parseReference(t,e.refMap));)t.stringContent=t.stringContent.slice(i);if(t.stringContent.length>0){var a=n.createNode("heading",t.sourcepos);return a.level="="===r[0][0]?1:2,a.headingType="setext",a.stringContent=t.stringContent,t.insertAfter(a),t.unlink(),e.tip=a,e.advanceOffset(e.currentLine.length-e.offset,!1),2}return 0}return 0},function(e){return!e.indented&&p.test(e.currentLine.slice(e.nextNonspace))?(e.closeUnmatchedBlocks(),e.addChild("thematicBreak",e.nextNonspace),e.advanceOffset(e.currentLine.length-e.offset,!1),2):0},function(e,r){var n,i,a,s=r;return e.indented&&"list"!==r.type||!(n=function(e,r){var n,i,a=e.currentLine.slice(e.nextNonspace),s={type:"bullet",tight:!0,bulletChar:"",start:0,delimiter:"",padding:0,markerOffset:e.indent,task:!1,checked:!1};if(e.indent>=4)return null;if(n=a.match(t.reBulletListMarker))s.type="bullet",s.bulletChar=n[0][0];else{if(!(n=a.match(t.reOrderedListMarker))||"paragraph"===r.type&&"1"!==n[1])return null;s.type="ordered",s.start=parseInt(n[1],10),s.delimiter=n[2]}if(-1!==(i=o.peek(e.currentLine,e.nextNonspace+n[0].length))&&i!==o.C_TAB&&i!==o.C_SPACE)return null;if("paragraph"===r.type&&!e.currentLine.slice(e.nextNonspace+n[0].length).match(o.reNonSpace))return null;e.advanceNextNonspace(),e.advanceOffset(n[0].length,!0);var l=e.column,u=e.offset;do{e.advanceOffset(1,!0),i=o.peek(e.currentLine,e.offset)}while(e.column-l<5&&o.isSpaceOrTab(i));var c=-1===o.peek(e.currentLine,e.offset),p=e.column-l;return p>=5||p<1||c?(s.padding=n[0].length+1,e.column=l,e.offset=u,o.isSpaceOrTab(o.peek(e.currentLine,e.offset))&&e.advanceOffset(1,!0)):s.padding=n[0].length+p,s}(e,s))?0:(e.closeUnmatchedBlocks(),"list"===e.tip.type&&(i=s.listData,a=n,i.type===a.type&&i.delimiter===a.delimiter&&i.bulletChar===a.bulletChar)||((s=e.addChild("list",e.nextNonspace)).listData=n),(s=e.addChild("item",e.nextNonspace)).listData=n,1)},function(e){return e.indented&&"paragraph"!==e.tip.type&&!e.blank?(e.advanceOffset(o.CODE_INDENT,!0),e.closeUnmatchedBlocks(),e.addChild("codeBlock",e.offset),2):0},a.tableHead,a.tableBody]},function(e,t,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var n=r(5);Object.defineProperty(t,"ToastMark",{enumerable:!0,get:function(){return n.ToastMark}});var i=r(28);Object.defineProperty(t,"createRenderHTML",{enumerable:!0,get:function(){return i.createRenderHTML}});var o=r(7);Object.defineProperty(t,"Parser",{enumerable:!0,get:function(){return o.Parser}})},function(e,t,r){"use strict";var n={};function i(e,t,r){var o,a,s,l,u,c="";for("string"!=typeof t&&(r=t,t=i.defaultChars),void 0===r&&(r=!0),u=function(e){var t,r,i=n[e];if(i)return i;for(i=n[e]=[],t=0;t<128;t++)r=String.fromCharCode(t),/^[0-9a-z]$/i.test(r)?i.push(r):i.push("%"+("0"+t.toString(16).toUpperCase()).slice(-2));for(t=0;t<e.length;t++)i[e.charCodeAt(t)]=e[t];return i}(t),o=0,a=e.length;o<a;o++)if(s=e.charCodeAt(o),r&&37===s&&o+2<a&&/^[0-9a-f]{2}$/i.test(e.slice(o+1,o+3)))c+=e.slice(o,o+3),o+=2;else if(s<128)c+=u[s];else if(s>=55296&&s<=57343){if(s>=55296&&s<=56319&&o+1<a&&(l=e.charCodeAt(o+1))>=56320&&l<=57343){c+=encodeURIComponent(e[o]+e[o+1]),o++;continue}c+="%EF%BF%BD"}else c+=encodeURIComponent(e[o]);return c}i.defaultChars=";/?:@&=+$,-_.!~*'()#",i.componentChars="-_.!~*'()",e.exports=i},function(e){e.exports=JSON.parse('{"Aacute":"Á","aacute":"á","Abreve":"Ă","abreve":"ă","ac":"∾","acd":"∿","acE":"∾̳","Acirc":"Â","acirc":"â","acute":"´","Acy":"А","acy":"а","AElig":"Æ","aelig":"æ","af":"⁡","Afr":"𝔄","afr":"𝔞","Agrave":"À","agrave":"à","alefsym":"ℵ","aleph":"ℵ","Alpha":"Α","alpha":"α","Amacr":"Ā","amacr":"ā","amalg":"⨿","amp":"&","AMP":"&","andand":"⩕","And":"⩓","and":"∧","andd":"⩜","andslope":"⩘","andv":"⩚","ang":"∠","ange":"⦤","angle":"∠","angmsdaa":"⦨","angmsdab":"⦩","angmsdac":"⦪","angmsdad":"⦫","angmsdae":"⦬","angmsdaf":"⦭","angmsdag":"⦮","angmsdah":"⦯","angmsd":"∡","angrt":"∟","angrtvb":"⊾","angrtvbd":"⦝","angsph":"∢","angst":"Å","angzarr":"⍼","Aogon":"Ą","aogon":"ą","Aopf":"𝔸","aopf":"𝕒","apacir":"⩯","ap":"≈","apE":"⩰","ape":"≊","apid":"≋","apos":"\'","ApplyFunction":"⁡","approx":"≈","approxeq":"≊","Aring":"Å","aring":"å","Ascr":"𝒜","ascr":"𝒶","Assign":"≔","ast":"*","asymp":"≈","asympeq":"≍","Atilde":"Ã","atilde":"ã","Auml":"Ä","auml":"ä","awconint":"∳","awint":"⨑","backcong":"≌","backepsilon":"϶","backprime":"‵","backsim":"∽","backsimeq":"⋍","Backslash":"∖","Barv":"⫧","barvee":"⊽","barwed":"⌅","Barwed":"⌆","barwedge":"⌅","bbrk":"⎵","bbrktbrk":"⎶","bcong":"≌","Bcy":"Б","bcy":"б","bdquo":"„","becaus":"∵","because":"∵","Because":"∵","bemptyv":"⦰","bepsi":"϶","bernou":"ℬ","Bernoullis":"ℬ","Beta":"Β","beta":"β","beth":"ℶ","between":"≬","Bfr":"𝔅","bfr":"𝔟","bigcap":"⋂","bigcirc":"◯","bigcup":"⋃","bigodot":"⨀","bigoplus":"⨁","bigotimes":"⨂","bigsqcup":"⨆","bigstar":"★","bigtriangledown":"▽","bigtriangleup":"△","biguplus":"⨄","bigvee":"⋁","bigwedge":"⋀","bkarow":"⤍","blacklozenge":"⧫","blacksquare":"▪","blacktriangle":"▴","blacktriangledown":"▾","blacktriangleleft":"◂","blacktriangleright":"▸","blank":"␣","blk12":"▒","blk14":"░","blk34":"▓","block":"█","bne":"=⃥","bnequiv":"≡⃥","bNot":"⫭","bnot":"⌐","Bopf":"𝔹","bopf":"𝕓","bot":"⊥","bottom":"⊥","bowtie":"⋈","boxbox":"⧉","boxdl":"┐","boxdL":"╕","boxDl":"╖","boxDL":"╗","boxdr":"┌","boxdR":"╒","boxDr":"╓","boxDR":"╔","boxh":"─","boxH":"═","boxhd":"┬","boxHd":"╤","boxhD":"╥","boxHD":"╦","boxhu":"┴","boxHu":"╧","boxhU":"╨","boxHU":"╩","boxminus":"⊟","boxplus":"⊞","boxtimes":"⊠","boxul":"┘","boxuL":"╛","boxUl":"╜","boxUL":"╝","boxur":"└","boxuR":"╘","boxUr":"╙","boxUR":"╚","boxv":"│","boxV":"║","boxvh":"┼","boxvH":"╪","boxVh":"╫","boxVH":"╬","boxvl":"┤","boxvL":"╡","boxVl":"╢","boxVL":"╣","boxvr":"├","boxvR":"╞","boxVr":"╟","boxVR":"╠","bprime":"‵","breve":"˘","Breve":"˘","brvbar":"¦","bscr":"𝒷","Bscr":"ℬ","bsemi":"⁏","bsim":"∽","bsime":"⋍","bsolb":"⧅","bsol":"\\\\","bsolhsub":"⟈","bull":"•","bullet":"•","bump":"≎","bumpE":"⪮","bumpe":"≏","Bumpeq":"≎","bumpeq":"≏","Cacute":"Ć","cacute":"ć","capand":"⩄","capbrcup":"⩉","capcap":"⩋","cap":"∩","Cap":"⋒","capcup":"⩇","capdot":"⩀","CapitalDifferentialD":"ⅅ","caps":"∩︀","caret":"⁁","caron":"ˇ","Cayleys":"ℭ","ccaps":"⩍","Ccaron":"Č","ccaron":"č","Ccedil":"Ç","ccedil":"ç","Ccirc":"Ĉ","ccirc":"ĉ","Cconint":"∰","ccups":"⩌","ccupssm":"⩐","Cdot":"Ċ","cdot":"ċ","cedil":"¸","Cedilla":"¸","cemptyv":"⦲","cent":"¢","centerdot":"·","CenterDot":"·","cfr":"𝔠","Cfr":"ℭ","CHcy":"Ч","chcy":"ч","check":"✓","checkmark":"✓","Chi":"Χ","chi":"χ","circ":"ˆ","circeq":"≗","circlearrowleft":"↺","circlearrowright":"↻","circledast":"⊛","circledcirc":"⊚","circleddash":"⊝","CircleDot":"⊙","circledR":"®","circledS":"Ⓢ","CircleMinus":"⊖","CirclePlus":"⊕","CircleTimes":"⊗","cir":"○","cirE":"⧃","cire":"≗","cirfnint":"⨐","cirmid":"⫯","cirscir":"⧂","ClockwiseContourIntegral":"∲","CloseCurlyDoubleQuote":"”","CloseCurlyQuote":"’","clubs":"♣","clubsuit":"♣","colon":":","Colon":"∷","Colone":"⩴","colone":"≔","coloneq":"≔","comma":",","commat":"@","comp":"∁","compfn":"∘","complement":"∁","complexes":"ℂ","cong":"≅","congdot":"⩭","Congruent":"≡","conint":"∮","Conint":"∯","ContourIntegral":"∮","copf":"𝕔","Copf":"ℂ","coprod":"∐","Coproduct":"∐","copy":"©","COPY":"©","copysr":"℗","CounterClockwiseContourIntegral":"∳","crarr":"↵","cross":"✗","Cross":"⨯","Cscr":"𝒞","cscr":"𝒸","csub":"⫏","csube":"⫑","csup":"⫐","csupe":"⫒","ctdot":"⋯","cudarrl":"⤸","cudarrr":"⤵","cuepr":"⋞","cuesc":"⋟","cularr":"↶","cularrp":"⤽","cupbrcap":"⩈","cupcap":"⩆","CupCap":"≍","cup":"∪","Cup":"⋓","cupcup":"⩊","cupdot":"⊍","cupor":"⩅","cups":"∪︀","curarr":"↷","curarrm":"⤼","curlyeqprec":"⋞","curlyeqsucc":"⋟","curlyvee":"⋎","curlywedge":"⋏","curren":"¤","curvearrowleft":"↶","curvearrowright":"↷","cuvee":"⋎","cuwed":"⋏","cwconint":"∲","cwint":"∱","cylcty":"⌭","dagger":"†","Dagger":"‡","daleth":"ℸ","darr":"↓","Darr":"↡","dArr":"⇓","dash":"‐","Dashv":"⫤","dashv":"⊣","dbkarow":"⤏","dblac":"˝","Dcaron":"Ď","dcaron":"ď","Dcy":"Д","dcy":"д","ddagger":"‡","ddarr":"⇊","DD":"ⅅ","dd":"ⅆ","DDotrahd":"⤑","ddotseq":"⩷","deg":"°","Del":"∇","Delta":"Δ","delta":"δ","demptyv":"⦱","dfisht":"⥿","Dfr":"𝔇","dfr":"𝔡","dHar":"⥥","dharl":"⇃","dharr":"⇂","DiacriticalAcute":"´","DiacriticalDot":"˙","DiacriticalDoubleAcute":"˝","DiacriticalGrave":"`","DiacriticalTilde":"˜","diam":"⋄","diamond":"⋄","Diamond":"⋄","diamondsuit":"♦","diams":"♦","die":"¨","DifferentialD":"ⅆ","digamma":"ϝ","disin":"⋲","div":"÷","divide":"÷","divideontimes":"⋇","divonx":"⋇","DJcy":"Ђ","djcy":"ђ","dlcorn":"⌞","dlcrop":"⌍","dollar":"$","Dopf":"𝔻","dopf":"𝕕","Dot":"¨","dot":"˙","DotDot":"⃜","doteq":"≐","doteqdot":"≑","DotEqual":"≐","dotminus":"∸","dotplus":"∔","dotsquare":"⊡","doublebarwedge":"⌆","DoubleContourIntegral":"∯","DoubleDot":"¨","DoubleDownArrow":"⇓","DoubleLeftArrow":"⇐","DoubleLeftRightArrow":"⇔","DoubleLeftTee":"⫤","DoubleLongLeftArrow":"⟸","DoubleLongLeftRightArrow":"⟺","DoubleLongRightArrow":"⟹","DoubleRightArrow":"⇒","DoubleRightTee":"⊨","DoubleUpArrow":"⇑","DoubleUpDownArrow":"⇕","DoubleVerticalBar":"∥","DownArrowBar":"⤓","downarrow":"↓","DownArrow":"↓","Downarrow":"⇓","DownArrowUpArrow":"⇵","DownBreve":"̑","downdownarrows":"⇊","downharpoonleft":"⇃","downharpoonright":"⇂","DownLeftRightVector":"⥐","DownLeftTeeVector":"⥞","DownLeftVectorBar":"⥖","DownLeftVector":"↽","DownRightTeeVector":"⥟","DownRightVectorBar":"⥗","DownRightVector":"⇁","DownTeeArrow":"↧","DownTee":"⊤","drbkarow":"⤐","drcorn":"⌟","drcrop":"⌌","Dscr":"𝒟","dscr":"𝒹","DScy":"Ѕ","dscy":"ѕ","dsol":"⧶","Dstrok":"Đ","dstrok":"đ","dtdot":"⋱","dtri":"▿","dtrif":"▾","duarr":"⇵","duhar":"⥯","dwangle":"⦦","DZcy":"Џ","dzcy":"џ","dzigrarr":"⟿","Eacute":"É","eacute":"é","easter":"⩮","Ecaron":"Ě","ecaron":"ě","Ecirc":"Ê","ecirc":"ê","ecir":"≖","ecolon":"≕","Ecy":"Э","ecy":"э","eDDot":"⩷","Edot":"Ė","edot":"ė","eDot":"≑","ee":"ⅇ","efDot":"≒","Efr":"𝔈","efr":"𝔢","eg":"⪚","Egrave":"È","egrave":"è","egs":"⪖","egsdot":"⪘","el":"⪙","Element":"∈","elinters":"⏧","ell":"ℓ","els":"⪕","elsdot":"⪗","Emacr":"Ē","emacr":"ē","empty":"∅","emptyset":"∅","EmptySmallSquare":"◻","emptyv":"∅","EmptyVerySmallSquare":"▫","emsp13":" ","emsp14":" ","emsp":" ","ENG":"Ŋ","eng":"ŋ","ensp":" ","Eogon":"Ę","eogon":"ę","Eopf":"𝔼","eopf":"𝕖","epar":"⋕","eparsl":"⧣","eplus":"⩱","epsi":"ε","Epsilon":"Ε","epsilon":"ε","epsiv":"ϵ","eqcirc":"≖","eqcolon":"≕","eqsim":"≂","eqslantgtr":"⪖","eqslantless":"⪕","Equal":"⩵","equals":"=","EqualTilde":"≂","equest":"≟","Equilibrium":"⇌","equiv":"≡","equivDD":"⩸","eqvparsl":"⧥","erarr":"⥱","erDot":"≓","escr":"ℯ","Escr":"ℰ","esdot":"≐","Esim":"⩳","esim":"≂","Eta":"Η","eta":"η","ETH":"Ð","eth":"ð","Euml":"Ë","euml":"ë","euro":"€","excl":"!","exist":"∃","Exists":"∃","expectation":"ℰ","exponentiale":"ⅇ","ExponentialE":"ⅇ","fallingdotseq":"≒","Fcy":"Ф","fcy":"ф","female":"♀","ffilig":"ﬃ","fflig":"ﬀ","ffllig":"ﬄ","Ffr":"𝔉","ffr":"𝔣","filig":"ﬁ","FilledSmallSquare":"◼","FilledVerySmallSquare":"▪","fjlig":"fj","flat":"♭","fllig":"ﬂ","fltns":"▱","fnof":"ƒ","Fopf":"𝔽","fopf":"𝕗","forall":"∀","ForAll":"∀","fork":"⋔","forkv":"⫙","Fouriertrf":"ℱ","fpartint":"⨍","frac12":"½","frac13":"⅓","frac14":"¼","frac15":"⅕","frac16":"⅙","frac18":"⅛","frac23":"⅔","frac25":"⅖","frac34":"¾","frac35":"⅗","frac38":"⅜","frac45":"⅘","frac56":"⅚","frac58":"⅝","frac78":"⅞","frasl":"⁄","frown":"⌢","fscr":"𝒻","Fscr":"ℱ","gacute":"ǵ","Gamma":"Γ","gamma":"γ","Gammad":"Ϝ","gammad":"ϝ","gap":"⪆","Gbreve":"Ğ","gbreve":"ğ","Gcedil":"Ģ","Gcirc":"Ĝ","gcirc":"ĝ","Gcy":"Г","gcy":"г","Gdot":"Ġ","gdot":"ġ","ge":"≥","gE":"≧","gEl":"⪌","gel":"⋛","geq":"≥","geqq":"≧","geqslant":"⩾","gescc":"⪩","ges":"⩾","gesdot":"⪀","gesdoto":"⪂","gesdotol":"⪄","gesl":"⋛︀","gesles":"⪔","Gfr":"𝔊","gfr":"𝔤","gg":"≫","Gg":"⋙","ggg":"⋙","gimel":"ℷ","GJcy":"Ѓ","gjcy":"ѓ","gla":"⪥","gl":"≷","glE":"⪒","glj":"⪤","gnap":"⪊","gnapprox":"⪊","gne":"⪈","gnE":"≩","gneq":"⪈","gneqq":"≩","gnsim":"⋧","Gopf":"𝔾","gopf":"𝕘","grave":"`","GreaterEqual":"≥","GreaterEqualLess":"⋛","GreaterFullEqual":"≧","GreaterGreater":"⪢","GreaterLess":"≷","GreaterSlantEqual":"⩾","GreaterTilde":"≳","Gscr":"𝒢","gscr":"ℊ","gsim":"≳","gsime":"⪎","gsiml":"⪐","gtcc":"⪧","gtcir":"⩺","gt":">","GT":">","Gt":"≫","gtdot":"⋗","gtlPar":"⦕","gtquest":"⩼","gtrapprox":"⪆","gtrarr":"⥸","gtrdot":"⋗","gtreqless":"⋛","gtreqqless":"⪌","gtrless":"≷","gtrsim":"≳","gvertneqq":"≩︀","gvnE":"≩︀","Hacek":"ˇ","hairsp":" ","half":"½","hamilt":"ℋ","HARDcy":"Ъ","hardcy":"ъ","harrcir":"⥈","harr":"↔","hArr":"⇔","harrw":"↭","Hat":"^","hbar":"ℏ","Hcirc":"Ĥ","hcirc":"ĥ","hearts":"♥","heartsuit":"♥","hellip":"…","hercon":"⊹","hfr":"𝔥","Hfr":"ℌ","HilbertSpace":"ℋ","hksearow":"⤥","hkswarow":"⤦","hoarr":"⇿","homtht":"∻","hookleftarrow":"↩","hookrightarrow":"↪","hopf":"𝕙","Hopf":"ℍ","horbar":"―","HorizontalLine":"─","hscr":"𝒽","Hscr":"ℋ","hslash":"ℏ","Hstrok":"Ħ","hstrok":"ħ","HumpDownHump":"≎","HumpEqual":"≏","hybull":"⁃","hyphen":"‐","Iacute":"Í","iacute":"í","ic":"⁣","Icirc":"Î","icirc":"î","Icy":"И","icy":"и","Idot":"İ","IEcy":"Е","iecy":"е","iexcl":"¡","iff":"⇔","ifr":"𝔦","Ifr":"ℑ","Igrave":"Ì","igrave":"ì","ii":"ⅈ","iiiint":"⨌","iiint":"∭","iinfin":"⧜","iiota":"℩","IJlig":"Ĳ","ijlig":"ĳ","Imacr":"Ī","imacr":"ī","image":"ℑ","ImaginaryI":"ⅈ","imagline":"ℐ","imagpart":"ℑ","imath":"ı","Im":"ℑ","imof":"⊷","imped":"Ƶ","Implies":"⇒","incare":"℅","in":"∈","infin":"∞","infintie":"⧝","inodot":"ı","intcal":"⊺","int":"∫","Int":"∬","integers":"ℤ","Integral":"∫","intercal":"⊺","Intersection":"⋂","intlarhk":"⨗","intprod":"⨼","InvisibleComma":"⁣","InvisibleTimes":"⁢","IOcy":"Ё","iocy":"ё","Iogon":"Į","iogon":"į","Iopf":"𝕀","iopf":"𝕚","Iota":"Ι","iota":"ι","iprod":"⨼","iquest":"¿","iscr":"𝒾","Iscr":"ℐ","isin":"∈","isindot":"⋵","isinE":"⋹","isins":"⋴","isinsv":"⋳","isinv":"∈","it":"⁢","Itilde":"Ĩ","itilde":"ĩ","Iukcy":"І","iukcy":"і","Iuml":"Ï","iuml":"ï","Jcirc":"Ĵ","jcirc":"ĵ","Jcy":"Й","jcy":"й","Jfr":"𝔍","jfr":"𝔧","jmath":"ȷ","Jopf":"𝕁","jopf":"𝕛","Jscr":"𝒥","jscr":"𝒿","Jsercy":"Ј","jsercy":"ј","Jukcy":"Є","jukcy":"є","Kappa":"Κ","kappa":"κ","kappav":"ϰ","Kcedil":"Ķ","kcedil":"ķ","Kcy":"К","kcy":"к","Kfr":"𝔎","kfr":"𝔨","kgreen":"ĸ","KHcy":"Х","khcy":"х","KJcy":"Ќ","kjcy":"ќ","Kopf":"𝕂","kopf":"𝕜","Kscr":"𝒦","kscr":"𝓀","lAarr":"⇚","Lacute":"Ĺ","lacute":"ĺ","laemptyv":"⦴","lagran":"ℒ","Lambda":"Λ","lambda":"λ","lang":"⟨","Lang":"⟪","langd":"⦑","langle":"⟨","lap":"⪅","Laplacetrf":"ℒ","laquo":"«","larrb":"⇤","larrbfs":"⤟","larr":"←","Larr":"↞","lArr":"⇐","larrfs":"⤝","larrhk":"↩","larrlp":"↫","larrpl":"⤹","larrsim":"⥳","larrtl":"↢","latail":"⤙","lAtail":"⤛","lat":"⪫","late":"⪭","lates":"⪭︀","lbarr":"⤌","lBarr":"⤎","lbbrk":"❲","lbrace":"{","lbrack":"[","lbrke":"⦋","lbrksld":"⦏","lbrkslu":"⦍","Lcaron":"Ľ","lcaron":"ľ","Lcedil":"Ļ","lcedil":"ļ","lceil":"⌈","lcub":"{","Lcy":"Л","lcy":"л","ldca":"⤶","ldquo":"“","ldquor":"„","ldrdhar":"⥧","ldrushar":"⥋","ldsh":"↲","le":"≤","lE":"≦","LeftAngleBracket":"⟨","LeftArrowBar":"⇤","leftarrow":"←","LeftArrow":"←","Leftarrow":"⇐","LeftArrowRightArrow":"⇆","leftarrowtail":"↢","LeftCeiling":"⌈","LeftDoubleBracket":"⟦","LeftDownTeeVector":"⥡","LeftDownVectorBar":"⥙","LeftDownVector":"⇃","LeftFloor":"⌊","leftharpoondown":"↽","leftharpoonup":"↼","leftleftarrows":"⇇","leftrightarrow":"↔","LeftRightArrow":"↔","Leftrightarrow":"⇔","leftrightarrows":"⇆","leftrightharpoons":"⇋","leftrightsquigarrow":"↭","LeftRightVector":"⥎","LeftTeeArrow":"↤","LeftTee":"⊣","LeftTeeVector":"⥚","leftthreetimes":"⋋","LeftTriangleBar":"⧏","LeftTriangle":"⊲","LeftTriangleEqual":"⊴","LeftUpDownVector":"⥑","LeftUpTeeVector":"⥠","LeftUpVectorBar":"⥘","LeftUpVector":"↿","LeftVectorBar":"⥒","LeftVector":"↼","lEg":"⪋","leg":"⋚","leq":"≤","leqq":"≦","leqslant":"⩽","lescc":"⪨","les":"⩽","lesdot":"⩿","lesdoto":"⪁","lesdotor":"⪃","lesg":"⋚︀","lesges":"⪓","lessapprox":"⪅","lessdot":"⋖","lesseqgtr":"⋚","lesseqqgtr":"⪋","LessEqualGreater":"⋚","LessFullEqual":"≦","LessGreater":"≶","lessgtr":"≶","LessLess":"⪡","lesssim":"≲","LessSlantEqual":"⩽","LessTilde":"≲","lfisht":"⥼","lfloor":"⌊","Lfr":"𝔏","lfr":"𝔩","lg":"≶","lgE":"⪑","lHar":"⥢","lhard":"↽","lharu":"↼","lharul":"⥪","lhblk":"▄","LJcy":"Љ","ljcy":"љ","llarr":"⇇","ll":"≪","Ll":"⋘","llcorner":"⌞","Lleftarrow":"⇚","llhard":"⥫","lltri":"◺","Lmidot":"Ŀ","lmidot":"ŀ","lmoustache":"⎰","lmoust":"⎰","lnap":"⪉","lnapprox":"⪉","lne":"⪇","lnE":"≨","lneq":"⪇","lneqq":"≨","lnsim":"⋦","loang":"⟬","loarr":"⇽","lobrk":"⟦","longleftarrow":"⟵","LongLeftArrow":"⟵","Longleftarrow":"⟸","longleftrightarrow":"⟷","LongLeftRightArrow":"⟷","Longleftrightarrow":"⟺","longmapsto":"⟼","longrightarrow":"⟶","LongRightArrow":"⟶","Longrightarrow":"⟹","looparrowleft":"↫","looparrowright":"↬","lopar":"⦅","Lopf":"𝕃","lopf":"𝕝","loplus":"⨭","lotimes":"⨴","lowast":"∗","lowbar":"_","LowerLeftArrow":"↙","LowerRightArrow":"↘","loz":"◊","lozenge":"◊","lozf":"⧫","lpar":"(","lparlt":"⦓","lrarr":"⇆","lrcorner":"⌟","lrhar":"⇋","lrhard":"⥭","lrm":"‎","lrtri":"⊿","lsaquo":"‹","lscr":"𝓁","Lscr":"ℒ","lsh":"↰","Lsh":"↰","lsim":"≲","lsime":"⪍","lsimg":"⪏","lsqb":"[","lsquo":"‘","lsquor":"‚","Lstrok":"Ł","lstrok":"ł","ltcc":"⪦","ltcir":"⩹","lt":"<","LT":"<","Lt":"≪","ltdot":"⋖","lthree":"⋋","ltimes":"⋉","ltlarr":"⥶","ltquest":"⩻","ltri":"◃","ltrie":"⊴","ltrif":"◂","ltrPar":"⦖","lurdshar":"⥊","luruhar":"⥦","lvertneqq":"≨︀","lvnE":"≨︀","macr":"¯","male":"♂","malt":"✠","maltese":"✠","Map":"⤅","map":"↦","mapsto":"↦","mapstodown":"↧","mapstoleft":"↤","mapstoup":"↥","marker":"▮","mcomma":"⨩","Mcy":"М","mcy":"м","mdash":"—","mDDot":"∺","measuredangle":"∡","MediumSpace":" ","Mellintrf":"ℳ","Mfr":"𝔐","mfr":"𝔪","mho":"℧","micro":"µ","midast":"*","midcir":"⫰","mid":"∣","middot":"·","minusb":"⊟","minus":"−","minusd":"∸","minusdu":"⨪","MinusPlus":"∓","mlcp":"⫛","mldr":"…","mnplus":"∓","models":"⊧","Mopf":"𝕄","mopf":"𝕞","mp":"∓","mscr":"𝓂","Mscr":"ℳ","mstpos":"∾","Mu":"Μ","mu":"μ","multimap":"⊸","mumap":"⊸","nabla":"∇","Nacute":"Ń","nacute":"ń","nang":"∠⃒","nap":"≉","napE":"⩰̸","napid":"≋̸","napos":"ŉ","napprox":"≉","natural":"♮","naturals":"ℕ","natur":"♮","nbsp":" ","nbump":"≎̸","nbumpe":"≏̸","ncap":"⩃","Ncaron":"Ň","ncaron":"ň","Ncedil":"Ņ","ncedil":"ņ","ncong":"≇","ncongdot":"⩭̸","ncup":"⩂","Ncy":"Н","ncy":"н","ndash":"–","nearhk":"⤤","nearr":"↗","neArr":"⇗","nearrow":"↗","ne":"≠","nedot":"≐̸","NegativeMediumSpace":"​","NegativeThickSpace":"​","NegativeThinSpace":"​","NegativeVeryThinSpace":"​","nequiv":"≢","nesear":"⤨","nesim":"≂̸","NestedGreaterGreater":"≫","NestedLessLess":"≪","NewLine":"\\n","nexist":"∄","nexists":"∄","Nfr":"𝔑","nfr":"𝔫","ngE":"≧̸","nge":"≱","ngeq":"≱","ngeqq":"≧̸","ngeqslant":"⩾̸","nges":"⩾̸","nGg":"⋙̸","ngsim":"≵","nGt":"≫⃒","ngt":"≯","ngtr":"≯","nGtv":"≫̸","nharr":"↮","nhArr":"⇎","nhpar":"⫲","ni":"∋","nis":"⋼","nisd":"⋺","niv":"∋","NJcy":"Њ","njcy":"њ","nlarr":"↚","nlArr":"⇍","nldr":"‥","nlE":"≦̸","nle":"≰","nleftarrow":"↚","nLeftarrow":"⇍","nleftrightarrow":"↮","nLeftrightarrow":"⇎","nleq":"≰","nleqq":"≦̸","nleqslant":"⩽̸","nles":"⩽̸","nless":"≮","nLl":"⋘̸","nlsim":"≴","nLt":"≪⃒","nlt":"≮","nltri":"⋪","nltrie":"⋬","nLtv":"≪̸","nmid":"∤","NoBreak":"⁠","NonBreakingSpace":" ","nopf":"𝕟","Nopf":"ℕ","Not":"⫬","not":"¬","NotCongruent":"≢","NotCupCap":"≭","NotDoubleVerticalBar":"∦","NotElement":"∉","NotEqual":"≠","NotEqualTilde":"≂̸","NotExists":"∄","NotGreater":"≯","NotGreaterEqual":"≱","NotGreaterFullEqual":"≧̸","NotGreaterGreater":"≫̸","NotGreaterLess":"≹","NotGreaterSlantEqual":"⩾̸","NotGreaterTilde":"≵","NotHumpDownHump":"≎̸","NotHumpEqual":"≏̸","notin":"∉","notindot":"⋵̸","notinE":"⋹̸","notinva":"∉","notinvb":"⋷","notinvc":"⋶","NotLeftTriangleBar":"⧏̸","NotLeftTriangle":"⋪","NotLeftTriangleEqual":"⋬","NotLess":"≮","NotLessEqual":"≰","NotLessGreater":"≸","NotLessLess":"≪̸","NotLessSlantEqual":"⩽̸","NotLessTilde":"≴","NotNestedGreaterGreater":"⪢̸","NotNestedLessLess":"⪡̸","notni":"∌","notniva":"∌","notnivb":"⋾","notnivc":"⋽","NotPrecedes":"⊀","NotPrecedesEqual":"⪯̸","NotPrecedesSlantEqual":"⋠","NotReverseElement":"∌","NotRightTriangleBar":"⧐̸","NotRightTriangle":"⋫","NotRightTriangleEqual":"⋭","NotSquareSubset":"⊏̸","NotSquareSubsetEqual":"⋢","NotSquareSuperset":"⊐̸","NotSquareSupersetEqual":"⋣","NotSubset":"⊂⃒","NotSubsetEqual":"⊈","NotSucceeds":"⊁","NotSucceedsEqual":"⪰̸","NotSucceedsSlantEqual":"⋡","NotSucceedsTilde":"≿̸","NotSuperset":"⊃⃒","NotSupersetEqual":"⊉","NotTilde":"≁","NotTildeEqual":"≄","NotTildeFullEqual":"≇","NotTildeTilde":"≉","NotVerticalBar":"∤","nparallel":"∦","npar":"∦","nparsl":"⫽⃥","npart":"∂̸","npolint":"⨔","npr":"⊀","nprcue":"⋠","nprec":"⊀","npreceq":"⪯̸","npre":"⪯̸","nrarrc":"⤳̸","nrarr":"↛","nrArr":"⇏","nrarrw":"↝̸","nrightarrow":"↛","nRightarrow":"⇏","nrtri":"⋫","nrtrie":"⋭","nsc":"⊁","nsccue":"⋡","nsce":"⪰̸","Nscr":"𝒩","nscr":"𝓃","nshortmid":"∤","nshortparallel":"∦","nsim":"≁","nsime":"≄","nsimeq":"≄","nsmid":"∤","nspar":"∦","nsqsube":"⋢","nsqsupe":"⋣","nsub":"⊄","nsubE":"⫅̸","nsube":"⊈","nsubset":"⊂⃒","nsubseteq":"⊈","nsubseteqq":"⫅̸","nsucc":"⊁","nsucceq":"⪰̸","nsup":"⊅","nsupE":"⫆̸","nsupe":"⊉","nsupset":"⊃⃒","nsupseteq":"⊉","nsupseteqq":"⫆̸","ntgl":"≹","Ntilde":"Ñ","ntilde":"ñ","ntlg":"≸","ntriangleleft":"⋪","ntrianglelefteq":"⋬","ntriangleright":"⋫","ntrianglerighteq":"⋭","Nu":"Ν","nu":"ν","num":"#","numero":"№","numsp":" ","nvap":"≍⃒","nvdash":"⊬","nvDash":"⊭","nVdash":"⊮","nVDash":"⊯","nvge":"≥⃒","nvgt":">⃒","nvHarr":"⤄","nvinfin":"⧞","nvlArr":"⤂","nvle":"≤⃒","nvlt":"<⃒","nvltrie":"⊴⃒","nvrArr":"⤃","nvrtrie":"⊵⃒","nvsim":"∼⃒","nwarhk":"⤣","nwarr":"↖","nwArr":"⇖","nwarrow":"↖","nwnear":"⤧","Oacute":"Ó","oacute":"ó","oast":"⊛","Ocirc":"Ô","ocirc":"ô","ocir":"⊚","Ocy":"О","ocy":"о","odash":"⊝","Odblac":"Ő","odblac":"ő","odiv":"⨸","odot":"⊙","odsold":"⦼","OElig":"Œ","oelig":"œ","ofcir":"⦿","Ofr":"𝔒","ofr":"𝔬","ogon":"˛","Ograve":"Ò","ograve":"ò","ogt":"⧁","ohbar":"⦵","ohm":"Ω","oint":"∮","olarr":"↺","olcir":"⦾","olcross":"⦻","oline":"‾","olt":"⧀","Omacr":"Ō","omacr":"ō","Omega":"Ω","omega":"ω","Omicron":"Ο","omicron":"ο","omid":"⦶","ominus":"⊖","Oopf":"𝕆","oopf":"𝕠","opar":"⦷","OpenCurlyDoubleQuote":"“","OpenCurlyQuote":"‘","operp":"⦹","oplus":"⊕","orarr":"↻","Or":"⩔","or":"∨","ord":"⩝","order":"ℴ","orderof":"ℴ","ordf":"ª","ordm":"º","origof":"⊶","oror":"⩖","orslope":"⩗","orv":"⩛","oS":"Ⓢ","Oscr":"𝒪","oscr":"ℴ","Oslash":"Ø","oslash":"ø","osol":"⊘","Otilde":"Õ","otilde":"õ","otimesas":"⨶","Otimes":"⨷","otimes":"⊗","Ouml":"Ö","ouml":"ö","ovbar":"⌽","OverBar":"‾","OverBrace":"⏞","OverBracket":"⎴","OverParenthesis":"⏜","para":"¶","parallel":"∥","par":"∥","parsim":"⫳","parsl":"⫽","part":"∂","PartialD":"∂","Pcy":"П","pcy":"п","percnt":"%","period":".","permil":"‰","perp":"⊥","pertenk":"‱","Pfr":"𝔓","pfr":"𝔭","Phi":"Φ","phi":"φ","phiv":"ϕ","phmmat":"ℳ","phone":"☎","Pi":"Π","pi":"π","pitchfork":"⋔","piv":"ϖ","planck":"ℏ","planckh":"ℎ","plankv":"ℏ","plusacir":"⨣","plusb":"⊞","pluscir":"⨢","plus":"+","plusdo":"∔","plusdu":"⨥","pluse":"⩲","PlusMinus":"±","plusmn":"±","plussim":"⨦","plustwo":"⨧","pm":"±","Poincareplane":"ℌ","pointint":"⨕","popf":"𝕡","Popf":"ℙ","pound":"£","prap":"⪷","Pr":"⪻","pr":"≺","prcue":"≼","precapprox":"⪷","prec":"≺","preccurlyeq":"≼","Precedes":"≺","PrecedesEqual":"⪯","PrecedesSlantEqual":"≼","PrecedesTilde":"≾","preceq":"⪯","precnapprox":"⪹","precneqq":"⪵","precnsim":"⋨","pre":"⪯","prE":"⪳","precsim":"≾","prime":"′","Prime":"″","primes":"ℙ","prnap":"⪹","prnE":"⪵","prnsim":"⋨","prod":"∏","Product":"∏","profalar":"⌮","profline":"⌒","profsurf":"⌓","prop":"∝","Proportional":"∝","Proportion":"∷","propto":"∝","prsim":"≾","prurel":"⊰","Pscr":"𝒫","pscr":"𝓅","Psi":"Ψ","psi":"ψ","puncsp":" ","Qfr":"𝔔","qfr":"𝔮","qint":"⨌","qopf":"𝕢","Qopf":"ℚ","qprime":"⁗","Qscr":"𝒬","qscr":"𝓆","quaternions":"ℍ","quatint":"⨖","quest":"?","questeq":"≟","quot":"\\"","QUOT":"\\"","rAarr":"⇛","race":"∽̱","Racute":"Ŕ","racute":"ŕ","radic":"√","raemptyv":"⦳","rang":"⟩","Rang":"⟫","rangd":"⦒","range":"⦥","rangle":"⟩","raquo":"»","rarrap":"⥵","rarrb":"⇥","rarrbfs":"⤠","rarrc":"⤳","rarr":"→","Rarr":"↠","rArr":"⇒","rarrfs":"⤞","rarrhk":"↪","rarrlp":"↬","rarrpl":"⥅","rarrsim":"⥴","Rarrtl":"⤖","rarrtl":"↣","rarrw":"↝","ratail":"⤚","rAtail":"⤜","ratio":"∶","rationals":"ℚ","rbarr":"⤍","rBarr":"⤏","RBarr":"⤐","rbbrk":"❳","rbrace":"}","rbrack":"]","rbrke":"⦌","rbrksld":"⦎","rbrkslu":"⦐","Rcaron":"Ř","rcaron":"ř","Rcedil":"Ŗ","rcedil":"ŗ","rceil":"⌉","rcub":"}","Rcy":"Р","rcy":"р","rdca":"⤷","rdldhar":"⥩","rdquo":"”","rdquor":"”","rdsh":"↳","real":"ℜ","realine":"ℛ","realpart":"ℜ","reals":"ℝ","Re":"ℜ","rect":"▭","reg":"®","REG":"®","ReverseElement":"∋","ReverseEquilibrium":"⇋","ReverseUpEquilibrium":"⥯","rfisht":"⥽","rfloor":"⌋","rfr":"𝔯","Rfr":"ℜ","rHar":"⥤","rhard":"⇁","rharu":"⇀","rharul":"⥬","Rho":"Ρ","rho":"ρ","rhov":"ϱ","RightAngleBracket":"⟩","RightArrowBar":"⇥","rightarrow":"→","RightArrow":"→","Rightarrow":"⇒","RightArrowLeftArrow":"⇄","rightarrowtail":"↣","RightCeiling":"⌉","RightDoubleBracket":"⟧","RightDownTeeVector":"⥝","RightDownVectorBar":"⥕","RightDownVector":"⇂","RightFloor":"⌋","rightharpoondown":"⇁","rightharpoonup":"⇀","rightleftarrows":"⇄","rightleftharpoons":"⇌","rightrightarrows":"⇉","rightsquigarrow":"↝","RightTeeArrow":"↦","RightTee":"⊢","RightTeeVector":"⥛","rightthreetimes":"⋌","RightTriangleBar":"⧐","RightTriangle":"⊳","RightTriangleEqual":"⊵","RightUpDownVector":"⥏","RightUpTeeVector":"⥜","RightUpVectorBar":"⥔","RightUpVector":"↾","RightVectorBar":"⥓","RightVector":"⇀","ring":"˚","risingdotseq":"≓","rlarr":"⇄","rlhar":"⇌","rlm":"‏","rmoustache":"⎱","rmoust":"⎱","rnmid":"⫮","roang":"⟭","roarr":"⇾","robrk":"⟧","ropar":"⦆","ropf":"𝕣","Ropf":"ℝ","roplus":"⨮","rotimes":"⨵","RoundImplies":"⥰","rpar":")","rpargt":"⦔","rppolint":"⨒","rrarr":"⇉","Rrightarrow":"⇛","rsaquo":"›","rscr":"𝓇","Rscr":"ℛ","rsh":"↱","Rsh":"↱","rsqb":"]","rsquo":"’","rsquor":"’","rthree":"⋌","rtimes":"⋊","rtri":"▹","rtrie":"⊵","rtrif":"▸","rtriltri":"⧎","RuleDelayed":"⧴","ruluhar":"⥨","rx":"℞","Sacute":"Ś","sacute":"ś","sbquo":"‚","scap":"⪸","Scaron":"Š","scaron":"š","Sc":"⪼","sc":"≻","sccue":"≽","sce":"⪰","scE":"⪴","Scedil":"Ş","scedil":"ş","Scirc":"Ŝ","scirc":"ŝ","scnap":"⪺","scnE":"⪶","scnsim":"⋩","scpolint":"⨓","scsim":"≿","Scy":"С","scy":"с","sdotb":"⊡","sdot":"⋅","sdote":"⩦","searhk":"⤥","searr":"↘","seArr":"⇘","searrow":"↘","sect":"§","semi":";","seswar":"⤩","setminus":"∖","setmn":"∖","sext":"✶","Sfr":"𝔖","sfr":"𝔰","sfrown":"⌢","sharp":"♯","SHCHcy":"Щ","shchcy":"щ","SHcy":"Ш","shcy":"ш","ShortDownArrow":"↓","ShortLeftArrow":"←","shortmid":"∣","shortparallel":"∥","ShortRightArrow":"→","ShortUpArrow":"↑","shy":"­","Sigma":"Σ","sigma":"σ","sigmaf":"ς","sigmav":"ς","sim":"∼","simdot":"⩪","sime":"≃","simeq":"≃","simg":"⪞","simgE":"⪠","siml":"⪝","simlE":"⪟","simne":"≆","simplus":"⨤","simrarr":"⥲","slarr":"←","SmallCircle":"∘","smallsetminus":"∖","smashp":"⨳","smeparsl":"⧤","smid":"∣","smile":"⌣","smt":"⪪","smte":"⪬","smtes":"⪬︀","SOFTcy":"Ь","softcy":"ь","solbar":"⌿","solb":"⧄","sol":"/","Sopf":"𝕊","sopf":"𝕤","spades":"♠","spadesuit":"♠","spar":"∥","sqcap":"⊓","sqcaps":"⊓︀","sqcup":"⊔","sqcups":"⊔︀","Sqrt":"√","sqsub":"⊏","sqsube":"⊑","sqsubset":"⊏","sqsubseteq":"⊑","sqsup":"⊐","sqsupe":"⊒","sqsupset":"⊐","sqsupseteq":"⊒","square":"□","Square":"□","SquareIntersection":"⊓","SquareSubset":"⊏","SquareSubsetEqual":"⊑","SquareSuperset":"⊐","SquareSupersetEqual":"⊒","SquareUnion":"⊔","squarf":"▪","squ":"□","squf":"▪","srarr":"→","Sscr":"𝒮","sscr":"𝓈","ssetmn":"∖","ssmile":"⌣","sstarf":"⋆","Star":"⋆","star":"☆","starf":"★","straightepsilon":"ϵ","straightphi":"ϕ","strns":"¯","sub":"⊂","Sub":"⋐","subdot":"⪽","subE":"⫅","sube":"⊆","subedot":"⫃","submult":"⫁","subnE":"⫋","subne":"⊊","subplus":"⪿","subrarr":"⥹","subset":"⊂","Subset":"⋐","subseteq":"⊆","subseteqq":"⫅","SubsetEqual":"⊆","subsetneq":"⊊","subsetneqq":"⫋","subsim":"⫇","subsub":"⫕","subsup":"⫓","succapprox":"⪸","succ":"≻","succcurlyeq":"≽","Succeeds":"≻","SucceedsEqual":"⪰","SucceedsSlantEqual":"≽","SucceedsTilde":"≿","succeq":"⪰","succnapprox":"⪺","succneqq":"⪶","succnsim":"⋩","succsim":"≿","SuchThat":"∋","sum":"∑","Sum":"∑","sung":"♪","sup1":"¹","sup2":"²","sup3":"³","sup":"⊃","Sup":"⋑","supdot":"⪾","supdsub":"⫘","supE":"⫆","supe":"⊇","supedot":"⫄","Superset":"⊃","SupersetEqual":"⊇","suphsol":"⟉","suphsub":"⫗","suplarr":"⥻","supmult":"⫂","supnE":"⫌","supne":"⊋","supplus":"⫀","supset":"⊃","Supset":"⋑","supseteq":"⊇","supseteqq":"⫆","supsetneq":"⊋","supsetneqq":"⫌","supsim":"⫈","supsub":"⫔","supsup":"⫖","swarhk":"⤦","swarr":"↙","swArr":"⇙","swarrow":"↙","swnwar":"⤪","szlig":"ß","Tab":"\\t","target":"⌖","Tau":"Τ","tau":"τ","tbrk":"⎴","Tcaron":"Ť","tcaron":"ť","Tcedil":"Ţ","tcedil":"ţ","Tcy":"Т","tcy":"т","tdot":"⃛","telrec":"⌕","Tfr":"𝔗","tfr":"𝔱","there4":"∴","therefore":"∴","Therefore":"∴","Theta":"Θ","theta":"θ","thetasym":"ϑ","thetav":"ϑ","thickapprox":"≈","thicksim":"∼","ThickSpace":"  ","ThinSpace":" ","thinsp":" ","thkap":"≈","thksim":"∼","THORN":"Þ","thorn":"þ","tilde":"˜","Tilde":"∼","TildeEqual":"≃","TildeFullEqual":"≅","TildeTilde":"≈","timesbar":"⨱","timesb":"⊠","times":"×","timesd":"⨰","tint":"∭","toea":"⤨","topbot":"⌶","topcir":"⫱","top":"⊤","Topf":"𝕋","topf":"𝕥","topfork":"⫚","tosa":"⤩","tprime":"‴","trade":"™","TRADE":"™","triangle":"▵","triangledown":"▿","triangleleft":"◃","trianglelefteq":"⊴","triangleq":"≜","triangleright":"▹","trianglerighteq":"⊵","tridot":"◬","trie":"≜","triminus":"⨺","TripleDot":"⃛","triplus":"⨹","trisb":"⧍","tritime":"⨻","trpezium":"⏢","Tscr":"𝒯","tscr":"𝓉","TScy":"Ц","tscy":"ц","TSHcy":"Ћ","tshcy":"ћ","Tstrok":"Ŧ","tstrok":"ŧ","twixt":"≬","twoheadleftarrow":"↞","twoheadrightarrow":"↠","Uacute":"Ú","uacute":"ú","uarr":"↑","Uarr":"↟","uArr":"⇑","Uarrocir":"⥉","Ubrcy":"Ў","ubrcy":"ў","Ubreve":"Ŭ","ubreve":"ŭ","Ucirc":"Û","ucirc":"û","Ucy":"У","ucy":"у","udarr":"⇅","Udblac":"Ű","udblac":"ű","udhar":"⥮","ufisht":"⥾","Ufr":"𝔘","ufr":"𝔲","Ugrave":"Ù","ugrave":"ù","uHar":"⥣","uharl":"↿","uharr":"↾","uhblk":"▀","ulcorn":"⌜","ulcorner":"⌜","ulcrop":"⌏","ultri":"◸","Umacr":"Ū","umacr":"ū","uml":"¨","UnderBar":"_","UnderBrace":"⏟","UnderBracket":"⎵","UnderParenthesis":"⏝","Union":"⋃","UnionPlus":"⊎","Uogon":"Ų","uogon":"ų","Uopf":"𝕌","uopf":"𝕦","UpArrowBar":"⤒","uparrow":"↑","UpArrow":"↑","Uparrow":"⇑","UpArrowDownArrow":"⇅","updownarrow":"↕","UpDownArrow":"↕","Updownarrow":"⇕","UpEquilibrium":"⥮","upharpoonleft":"↿","upharpoonright":"↾","uplus":"⊎","UpperLeftArrow":"↖","UpperRightArrow":"↗","upsi":"υ","Upsi":"ϒ","upsih":"ϒ","Upsilon":"Υ","upsilon":"υ","UpTeeArrow":"↥","UpTee":"⊥","upuparrows":"⇈","urcorn":"⌝","urcorner":"⌝","urcrop":"⌎","Uring":"Ů","uring":"ů","urtri":"◹","Uscr":"𝒰","uscr":"𝓊","utdot":"⋰","Utilde":"Ũ","utilde":"ũ","utri":"▵","utrif":"▴","uuarr":"⇈","Uuml":"Ü","uuml":"ü","uwangle":"⦧","vangrt":"⦜","varepsilon":"ϵ","varkappa":"ϰ","varnothing":"∅","varphi":"ϕ","varpi":"ϖ","varpropto":"∝","varr":"↕","vArr":"⇕","varrho":"ϱ","varsigma":"ς","varsubsetneq":"⊊︀","varsubsetneqq":"⫋︀","varsupsetneq":"⊋︀","varsupsetneqq":"⫌︀","vartheta":"ϑ","vartriangleleft":"⊲","vartriangleright":"⊳","vBar":"⫨","Vbar":"⫫","vBarv":"⫩","Vcy":"В","vcy":"в","vdash":"⊢","vDash":"⊨","Vdash":"⊩","VDash":"⊫","Vdashl":"⫦","veebar":"⊻","vee":"∨","Vee":"⋁","veeeq":"≚","vellip":"⋮","verbar":"|","Verbar":"‖","vert":"|","Vert":"‖","VerticalBar":"∣","VerticalLine":"|","VerticalSeparator":"❘","VerticalTilde":"≀","VeryThinSpace":" ","Vfr":"𝔙","vfr":"𝔳","vltri":"⊲","vnsub":"⊂⃒","vnsup":"⊃⃒","Vopf":"𝕍","vopf":"𝕧","vprop":"∝","vrtri":"⊳","Vscr":"𝒱","vscr":"𝓋","vsubnE":"⫋︀","vsubne":"⊊︀","vsupnE":"⫌︀","vsupne":"⊋︀","Vvdash":"⊪","vzigzag":"⦚","Wcirc":"Ŵ","wcirc":"ŵ","wedbar":"⩟","wedge":"∧","Wedge":"⋀","wedgeq":"≙","weierp":"℘","Wfr":"𝔚","wfr":"𝔴","Wopf":"𝕎","wopf":"𝕨","wp":"℘","wr":"≀","wreath":"≀","Wscr":"𝒲","wscr":"𝓌","xcap":"⋂","xcirc":"◯","xcup":"⋃","xdtri":"▽","Xfr":"𝔛","xfr":"𝔵","xharr":"⟷","xhArr":"⟺","Xi":"Ξ","xi":"ξ","xlarr":"⟵","xlArr":"⟸","xmap":"⟼","xnis":"⋻","xodot":"⨀","Xopf":"𝕏","xopf":"𝕩","xoplus":"⨁","xotime":"⨂","xrarr":"⟶","xrArr":"⟹","Xscr":"𝒳","xscr":"𝓍","xsqcup":"⨆","xuplus":"⨄","xutri":"△","xvee":"⋁","xwedge":"⋀","Yacute":"Ý","yacute":"ý","YAcy":"Я","yacy":"я","Ycirc":"Ŷ","ycirc":"ŷ","Ycy":"Ы","ycy":"ы","yen":"¥","Yfr":"𝔜","yfr":"𝔶","YIcy":"Ї","yicy":"ї","Yopf":"𝕐","yopf":"𝕪","Yscr":"𝒴","yscr":"𝓎","YUcy":"Ю","yucy":"ю","yuml":"ÿ","Yuml":"Ÿ","Zacute":"Ź","zacute":"ź","Zcaron":"Ž","zcaron":"ž","Zcy":"З","zcy":"з","Zdot":"Ż","zdot":"ż","zeetrf":"ℨ","ZeroWidthSpace":"​","Zeta":"Ζ","zeta":"ζ","zfr":"𝔷","Zfr":"ℨ","ZHcy":"Ж","zhcy":"ж","zigrarr":"⇝","zopf":"𝕫","Zopf":"ℤ","Zscr":"𝒵","zscr":"𝓏","zwj":"‍","zwnj":"‌"}')},function(e){e.exports=JSON.parse('{"Aacute":"Á","aacute":"á","Acirc":"Â","acirc":"â","acute":"´","AElig":"Æ","aelig":"æ","Agrave":"À","agrave":"à","amp":"&","AMP":"&","Aring":"Å","aring":"å","Atilde":"Ã","atilde":"ã","Auml":"Ä","auml":"ä","brvbar":"¦","Ccedil":"Ç","ccedil":"ç","cedil":"¸","cent":"¢","copy":"©","COPY":"©","curren":"¤","deg":"°","divide":"÷","Eacute":"É","eacute":"é","Ecirc":"Ê","ecirc":"ê","Egrave":"È","egrave":"è","ETH":"Ð","eth":"ð","Euml":"Ë","euml":"ë","frac12":"½","frac14":"¼","frac34":"¾","gt":">","GT":">","Iacute":"Í","iacute":"í","Icirc":"Î","icirc":"î","iexcl":"¡","Igrave":"Ì","igrave":"ì","iquest":"¿","Iuml":"Ï","iuml":"ï","laquo":"«","lt":"<","LT":"<","macr":"¯","micro":"µ","middot":"·","nbsp":" ","not":"¬","Ntilde":"Ñ","ntilde":"ñ","Oacute":"Ó","oacute":"ó","Ocirc":"Ô","ocirc":"ô","Ograve":"Ò","ograve":"ò","ordf":"ª","ordm":"º","Oslash":"Ø","oslash":"ø","Otilde":"Õ","otilde":"õ","Ouml":"Ö","ouml":"ö","para":"¶","plusmn":"±","pound":"£","quot":"\\"","QUOT":"\\"","raquo":"»","reg":"®","REG":"®","sect":"§","shy":"­","sup1":"¹","sup2":"²","sup3":"³","szlig":"ß","THORN":"Þ","thorn":"þ","times":"×","Uacute":"Ú","uacute":"ú","Ucirc":"Û","ucirc":"û","Ugrave":"Ù","ugrave":"ù","uml":"¨","Uuml":"Ü","uuml":"ü","Yacute":"Ý","yacute":"ý","yen":"¥","yuml":"ÿ"}')},function(e){e.exports=JSON.parse('{"amp":"&","apos":"\'","gt":">","lt":"<","quot":"\\""}')},function(e,t,r){"use strict";var n=this&&this.__importDefault||function(e){return e&&e.__esModule?e:{default:e}};Object.defineProperty(t,"__esModule",{value:!0});var i=n(r(17));t.default=function(e){if(e>=55296&&e<=57343||e>1114111)return"�";e in i.default&&(e=i.default[e]);var t="";return e>65535&&(e-=65536,t+=String.fromCharCode(e>>>10&1023|55296),e=56320|1023&e),t+=String.fromCharCode(e)}},function(e){e.exports=JSON.parse('{"0":65533,"128":8364,"130":8218,"131":402,"132":8222,"133":8230,"134":8224,"135":8225,"136":710,"137":8240,"138":352,"139":8249,"140":338,"142":381,"145":8216,"146":8217,"147":8220,"148":8221,"149":8226,"150":8211,"151":8212,"152":732,"153":8482,"154":353,"155":8250,"156":339,"158":382,"159":376}')},function(e,t,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var n=r(1),i=function(){function e(e){this.current=e,this.root=e,this.entering=!0}return e.prototype.next=function(){var e=this.current,t=this.entering;if(null===e)return null;var r=n.isContainer(e);return t&&r?e.firstChild?(this.current=e.firstChild,this.entering=!0):this.entering=!1:e===this.root?this.current=null:null===e.next?(this.current=e.parent,this.entering=!1):(this.current=e.next,this.entering=!0),{entering:t,node:e}},e.prototype.resumeAt=function(e,t){this.current=e,this.entering=!0===t},e}();t.default=i},function(e,t,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.InlineParser=t.C_NEWLINE=void 0;var n=r(0),i=r(1),o=r(2),a=r(9),s=n.__importDefault(r(20)),l=r(8),u=r(21),c=r(3),p=r(5);t.C_NEWLINE=10;var f="\\\\"+o.ESCAPABLE,d=new RegExp(/[!"#$%&'()*+,\-./:;<=>?@\[\]\\^_`{|}~\xA1\xA7\xAB\xB6\xB7\xBB\xBF\u037E\u0387\u055A-\u055F\u0589\u058A\u05BE\u05C0\u05C3\u05C6\u05F3\u05F4\u0609\u060A\u060C\u060D\u061B\u061E\u061F\u066A-\u066D\u06D4\u0700-\u070D\u07F7-\u07F9\u0830-\u083E\u085E\u0964\u0965\u0970\u0AF0\u0DF4\u0E4F\u0E5A\u0E5B\u0F04-\u0F12\u0F14\u0F3A-\u0F3D\u0F85\u0FD0-\u0FD4\u0FD9\u0FDA\u104A-\u104F\u10FB\u1360-\u1368\u1400\u166D\u166E\u169B\u169C\u16EB-\u16ED\u1735\u1736\u17D4-\u17D6\u17D8-\u17DA\u1800-\u180A\u1944\u1945\u1A1E\u1A1F\u1AA0-\u1AA6\u1AA8-\u1AAD\u1B5A-\u1B60\u1BFC-\u1BFF\u1C3B-\u1C3F\u1C7E\u1C7F\u1CC0-\u1CC7\u1CD3\u2010-\u2027\u2030-\u2043\u2045-\u2051\u2053-\u205E\u207D\u207E\u208D\u208E\u2308-\u230B\u2329\u232A\u2768-\u2775\u27C5\u27C6\u27E6-\u27EF\u2983-\u2998\u29D8-\u29DB\u29FC\u29FD\u2CF9-\u2CFC\u2CFE\u2CFF\u2D70\u2E00-\u2E2E\u2E30-\u2E42\u3001-\u3003\u3008-\u3011\u3014-\u301F\u3030\u303D\u30A0\u30FB\uA4FE\uA4FF\uA60D-\uA60F\uA673\uA67E\uA6F2-\uA6F7\uA874-\uA877\uA8CE\uA8CF\uA8F8-\uA8FA\uA8FC\uA92E\uA92F\uA95F\uA9C1-\uA9CD\uA9DE\uA9DF\uAA5C-\uAA5F\uAADE\uAADF\uAAF0\uAAF1\uABEB\uFD3E\uFD3F\uFE10-\uFE19\uFE30-\uFE52\uFE54-\uFE61\uFE63\uFE68\uFE6A\uFE6B\uFF01-\uFF03\uFF05-\uFF0A\uFF0C-\uFF0F\uFF1A\uFF1B\uFF1F\uFF20\uFF3B-\uFF3D\uFF3F\uFF5B\uFF5D\uFF5F-\uFF65]|\uD800[\uDD00-\uDD02\uDF9F\uDFD0]|\uD801\uDD6F|\uD802[\uDC57\uDD1F\uDD3F\uDE50-\uDE58\uDE7F\uDEF0-\uDEF6\uDF39-\uDF3F\uDF99-\uDF9C]|\uD804[\uDC47-\uDC4D\uDCBB\uDCBC\uDCBE-\uDCC1\uDD40-\uDD43\uDD74\uDD75\uDDC5-\uDDC9\uDDCD\uDDDB\uDDDD-\uDDDF\uDE38-\uDE3D\uDEA9]|\uD805[\uDCC6\uDDC1-\uDDD7\uDE41-\uDE43\uDF3C-\uDF3E]|\uD809[\uDC70-\uDC74]|\uD81A[\uDE6E\uDE6F\uDEF5\uDF37-\uDF3B\uDF44]|\uD82F\uDC9F|\uD836[\uDE87-\uDE8B]/),h=new RegExp('^(?:"('+f+'|[^"\\x00])*"|\'('+f+"|[^'\\x00])*'|\\(("+f+"|[^()\\x00])*\\))"),g=/^(?:<(?:[^<>\n\\\x00]|\\.)*>)/,m=new RegExp("^"+o.ESCAPABLE),v=new RegExp("^"+o.ENTITY,"i"),b=/`+/,y=/^`+/,C=/\.\.\./g,x=/--+/g,k=/^<([a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*)>/,N=/^<[A-Za-z][A-Za-z0-9.+-]{1,31}:[^<>\x00-\x20]*>/i,w=/^ *(?:\n *)?/,D=/^[ \t\n\x0b\x0c\x0d]/,L=/^\s/,E=/ *$/,A=/^ */,T=/^ *(?:\n|$)/,_=/^\[(?:[^\\\[\]]|\\.){0,1000}\]/,q=/^[^\n`\[\]\\!<&*_'"~]+/m,O=function(){function e(e){this.subject="",this.delimiters=null,this.brackets=null,this.pos=0,this.lineStartNum=0,this.lineIdx=0,this.lineOffsets=[0],this.linePosOffset=0,this.refMap={},this.refLinkCandidateMap={},this.refDefCandidateMap={},this.options=e}return e.prototype.sourcepos=function(e,t){var r=this.linePosOffset+this.lineOffsets[this.lineIdx],n=this.lineStartNum+this.lineIdx,i=[n,e+r];return"number"==typeof t?[i,[n,t+r]]:i},e.prototype.nextLine=function(){this.lineIdx+=1,this.linePosOffset=-this.pos},e.prototype.match=function(e){var t=e.exec(this.subject.slice(this.pos));return null===t?null:(this.pos+=t.index+t[0].length,t[0])},e.prototype.peek=function(){return this.pos<this.subject.length?this.subject.charCodeAt(this.pos):-1},e.prototype.spnl=function(){return this.match(w),!0},e.prototype.parseBackticks=function(e){var t=this.pos+1,r=this.match(y);if(null===r)return!1;for(var n,o=this.pos;null!==(n=this.match(b));)if(n===r){var a=this.subject.slice(o,this.pos-r.length),s=this.sourcepos(t,this.pos),l=a.split("\n");if(l.length>1){var u=c.last(l);this.lineIdx+=l.length-1,this.linePosOffset=-(this.pos-u.length-r.length),s[1]=this.sourcepos(this.pos),a=l.join(" ")}var p=i.createNode("code",s);return a.length>0&&null!==a.match(/[^ ]/)&&" "==a[0]&&" "==a[a.length-1]?p.literal=a.slice(1,a.length-1):p.literal=a,p.tickCount=r.length,e.appendChild(p),!0}return this.pos=o,e.appendChild(i.text(r,this.sourcepos(t,this.pos-1))),!0},e.prototype.parseBackslash=function(e){var r,n=this.subject;this.pos+=1;var o=this.pos;return this.peek()===t.C_NEWLINE?(this.pos+=1,r=i.createNode("linebreak",this.sourcepos(this.pos-1,this.pos)),e.appendChild(r),this.nextLine()):m.test(n.charAt(this.pos))?(e.appendChild(i.text(n.charAt(this.pos),this.sourcepos(o,this.pos))),this.pos+=1):e.appendChild(i.text("\\",this.sourcepos(o,o))),!0},e.prototype.parseAutolink=function(e){var t,r,n,a=this.pos+1;return(t=this.match(k))?(r=t.slice(1,t.length-1),(n=i.createNode("link",this.sourcepos(a,this.pos))).destination=o.normalizeURI("mailto:"+r),n.title="",n.appendChild(i.text(r,this.sourcepos(a+1,this.pos-1))),e.appendChild(n),!0):!!(t=this.match(N))&&(r=t.slice(1,t.length-1),(n=i.createNode("link",this.sourcepos(a,this.pos))).destination=o.normalizeURI(r),n.title="",n.appendChild(i.text(r,this.sourcepos(a+1,this.pos-1))),e.appendChild(n),!0)},e.prototype.parseHtmlTag=function(e){var t=this.pos+1,r=this.match(a.reHtmlTag);if(null===r)return!1;var n=i.createNode("htmlInline",this.sourcepos(t,this.pos));return n.literal=r,e.appendChild(n),!0},e.prototype.scanDelims=function(e){var t=0,r=this.pos;if(39===e||34===e)t++,this.pos++;else for(;this.peek()===e;)t++,this.pos++;if(0===t||t<2&&126===e)return this.pos=r,null;var n,i=0===r?"\n":this.subject.charAt(r-1),o=this.peek();n=-1===o?"\n":s.default(o);var a,l,u=L.test(n),c=d.test(n),p=L.test(i),f=d.test(i),h=!u&&(!c||p||f),g=!p&&(!f||u||c);return 95===e?(a=h&&(!g||f),l=g&&(!h||c)):39===e||34===e?(a=h&&!g,l=g):(a=h,l=g),this.pos=r,{numdelims:t,canOpen:a,canClose:l}},e.prototype.handleDelim=function(e,t){var r=this.scanDelims(e);if(!r)return!1;var n,o=r.numdelims,a=this.pos+1;this.pos+=o,n=39===e?"’":34===e?"“":this.subject.slice(a-1,this.pos);var s=i.text(n,this.sourcepos(a,this.pos));return t.appendChild(s),(r.canOpen||r.canClose)&&(this.options.smart||39!==e&&34!==e)&&(this.delimiters={cc:e,numdelims:o,origdelims:o,node:s,previous:this.delimiters,next:null,canOpen:r.canOpen,canClose:r.canClose},this.delimiters.previous&&(this.delimiters.previous.next=this.delimiters)),!0},e.prototype.removeDelimiter=function(e){null!==e.previous&&(e.previous.next=e.next),null===e.next?this.delimiters=e.previous:e.next.previous=e.previous},e.prototype.removeDelimitersBetween=function(e,t){e.next!==t&&(e.next=t,t.previous=e)},e.prototype.processEmphasis=function(e){var t,r,n,o,a,s,l,u=!1,c=((t={})[95]=[e,e,e],t[42]=[e,e,e],t[39]=[e],t[34]=[e],t[126]=[e],t);for(n=this.delimiters;null!==n&&n.previous!==e;)n=n.previous;for(;null!==n;){var p=n.cc,f=95===p||42===p;if(n.canClose){for(r=n.previous,l=!1;null!==r&&r!==e&&r!==c[p][f?n.origdelims%3:0];){if(u=f&&(n.canOpen||r.canClose)&&n.origdelims%3!=0&&(r.origdelims+n.origdelims)%3==0,r.cc===n.cc&&r.canOpen&&!u){l=!0;break}r=r.previous}if(o=n,f||126===p)if(l){if(r){var d=n.numdelims>=2&&r.numdelims>=2?2:1,h=f?0:1;a=r.node,s=n.node;var g=i.createNode(f?1===d?"emph":"strong":"strike"),m=a.sourcepos[1],v=s.sourcepos[0];g.sourcepos=[[m[0],m[1]-d+1],[v[0],v[1]+d-1]],a.sourcepos[1][1]-=d,s.sourcepos[0][1]+=d,a.literal=a.literal.slice(d),s.literal=s.literal.slice(d),r.numdelims-=d,n.numdelims-=d;for(var b=a.next,y=void 0;b&&b!==s;)y=b.next,b.unlink(),g.appendChild(b),b=y;if(a.insertAfter(g),this.removeDelimitersBetween(r,n),r.numdelims<=h&&(0===r.numdelims&&a.unlink(),this.removeDelimiter(r)),n.numdelims<=h){0===n.numdelims&&s.unlink();var C=n.next;this.removeDelimiter(n),n=C}}}else n=n.next;else 39===p?(n.node.literal="’",l&&(r.node.literal="‘"),n=n.next):34===p&&(n.node.literal="”",l&&(r.node.literal="“"),n=n.next);l||(c[p][f?o.origdelims%3:0]=o.previous,o.canOpen||this.removeDelimiter(o))}else n=n.next}for(;null!==this.delimiters&&this.delimiters!==e;)this.removeDelimiter(this.delimiters)},e.prototype.parseLinkTitle=function(){var e=this.match(h);return null===e?null:o.unescapeString(e.substr(1,e.length-2))},e.prototype.parseLinkDestination=function(){var e=this.match(g);if(null===e){if(60===this.peek())return null;for(var t=this.pos,r=0,n=void 0;-1!==(n=this.peek());)if(92===n&&m.test(this.subject.charAt(this.pos+1)))this.pos+=1,-1!==this.peek()&&(this.pos+=1);else if(40===n)this.pos+=1,r+=1;else if(41===n){if(r<1)break;this.pos+=1,r-=1}else{if(null!==D.exec(s.default(n)))break;this.pos+=1}return this.pos===t&&41!==n||0!==r?null:(e=this.subject.substr(t,this.pos-t),o.normalizeURI(o.unescapeString(e)))}return o.normalizeURI(o.unescapeString(e.substr(1,e.length-2)))},e.prototype.parseLinkLabel=function(){var e=this.match(_);return null===e||e.length>1001?0:e.length},e.prototype.parseOpenBracket=function(e){var t=this.pos;this.pos+=1;var r=i.text("[",this.sourcepos(this.pos,this.pos));return e.appendChild(r),this.addBracket(r,t,!1),!0},e.prototype.parseBang=function(e){var t=this.pos;if(this.pos+=1,91===this.peek()){this.pos+=1;var r=i.text("![",this.sourcepos(this.pos-1,this.pos));e.appendChild(r),this.addBracket(r,t+1,!0)}else{r=i.text("!",this.sourcepos(this.pos,this.pos));e.appendChild(r)}return!0},e.prototype.parseCloseBracket=function(e){var t=null,r=null,n=!1;this.pos+=1;var o=this.pos,a=this.brackets;if(null===a)return e.appendChild(i.text("]",this.sourcepos(o,o))),!0;if(!a.active)return e.appendChild(i.text("]",this.sourcepos(o,o))),this.removeBracket(),!0;var s=a.image,l=this.pos;40===this.peek()&&(this.pos++,this.spnl()&&null!==(t=this.parseLinkDestination())&&this.spnl()&&(D.test(this.subject.charAt(this.pos-1))&&(r=this.parseLinkTitle()),1)&&this.spnl()&&41===this.peek()?(this.pos+=1,n=!0):this.pos=l);var u="";if(!n){var p=this.pos,f=this.parseLinkLabel();if(f>2?u=this.subject.slice(p,p+f):a.bracketAfter||(u=this.subject.slice(a.index,o)),0===f&&(this.pos=l),u){u=c.normalizeReference(u);var d=this.refMap[u];d&&(t=d.destination,r=d.title,n=!0)}}if(n){var h=i.createNode(s?"image":"link");h.destination=t,h.title=r||"",h.sourcepos=[a.startpos,this.sourcepos(this.pos)];for(var g=a.node.next,m=void 0;g;)m=g.next,g.unlink(),h.appendChild(g),g=m;if(e.appendChild(h),this.processEmphasis(a.previousDelimiter),this.removeBracket(),a.node.unlink(),!s)for(a=this.brackets;null!==a;)a.image||(a.active=!1),a=a.previous;return this.options.referenceDefinition&&(this.refLinkCandidateMap[e.id]={node:e,refLabel:u}),!0}return this.removeBracket(),this.pos=o,e.appendChild(i.text("]",this.sourcepos(o,o))),this.options.referenceDefinition&&(this.refLinkCandidateMap[e.id]={node:e,refLabel:u}),!0},e.prototype.addBracket=function(e,t,r){null!==this.brackets&&(this.brackets.bracketAfter=!0),this.brackets={node:e,startpos:this.sourcepos(t+(r?0:1)),previous:this.brackets,previousDelimiter:this.delimiters,index:t,image:r,active:!0}},e.prototype.removeBracket=function(){this.brackets&&(this.brackets=this.brackets.previous)},e.prototype.parseEntity=function(e){var t,r=this.pos+1;return!!(t=this.match(v))&&(e.appendChild(i.text(l.decodeHTML(t),this.sourcepos(r,this.pos))),!0)},e.prototype.parseString=function(e){var t,r=this.pos+1;if(t=this.match(q)){if(this.options.smart){var n=t.replace(C,"…").replace(x,(function(e){var t=0,r=0;return e.length%3==0?r=e.length/3:e.length%2==0?t=e.length/2:e.length%3==2?(t=1,r=(e.length-2)/3):(t=2,r=(e.length-4)/3),o.repeat("—",r)+o.repeat("–",t)}));e.appendChild(i.text(n,this.sourcepos(r,this.pos)))}else{var a=i.text(t,this.sourcepos(r,this.pos));e.appendChild(a)}return!0}return!1},e.prototype.parseNewline=function(e){this.pos+=1;var t=e.lastChild;if(t&&"text"===t.type&&" "===t.literal[t.literal.length-1]){var r=" "===t.literal[t.literal.length-2],n=t.literal.length;t.literal=t.literal.replace(E,"");var o=n-t.literal.length;t.sourcepos[1][1]-=o,e.appendChild(i.createNode(r?"linebreak":"softbreak",this.sourcepos(this.pos-o,this.pos)))}else e.appendChild(i.createNode("softbreak",this.sourcepos(this.pos,this.pos)));return this.nextLine(),this.match(A),!0},e.prototype.parseReference=function(e,t){if(!this.options.referenceDefinition)return 0;this.subject=e.stringContent,this.pos=0;var r=null,n=this.pos,o=this.parseLinkLabel();if(0===o)return 0;var a=this.subject.substr(0,o);if(58!==this.peek())return this.pos=n,0;this.pos++,this.spnl();var s=this.parseLinkDestination();if(null===s)return this.pos=n,0;var l=this.pos;this.spnl(),this.pos!==l&&(r=this.parseLinkTitle()),null===r&&(r="",this.pos=l);var u=!0;if(null===this.match(T)&&(""===r?u=!1:(r="",this.pos=l,u=null!==this.match(T))),!u)return this.pos=n,0;var f=c.normalizeReference(a);if(""===f)return this.pos=n,0;var d=this.getReferenceDefSourcepos(e);e.sourcepos[0][0]=d[1][0]+1;var h=i.createNode("refDef",d);return h.title=r,h.dest=s,h.label=f,e.insertBefore(h),t[f]?this.refDefCandidateMap[h.id]=h:t[f]=p.createRefDefState(h),this.pos-n},e.prototype.mergeTextNodes=function(e){for(var t,r=[];t=e.next();){var n=t.entering,i=t.node;if(n&&"text"===i.type)r.push(i);else if(1===r.length)r=[];else if(r.length>1){var o=r[0],a=r[r.length-1];o.sourcepos&&a.sourcepos&&(o.sourcepos[1]=a.sourcepos[1]),o.next=a.next,o.next&&(o.next.prev=o);for(var s=1;s<r.length;s+=1)o.literal+=r[s].literal,r[s].unlink();r=[]}}},e.prototype.getReferenceDefSourcepos=function(e){for(var t=e.stringContent.split(/\n|\r\n/),r=!1,n=0,i={line:0,ch:0},o=0;o<t.length;o+=1){var a=t[o];if(D.test(a))break;if(/\:/.test(a)&&0===n){if(r)break;var s=a.indexOf(":")===a.length-1?o+1:o;i={line:s,ch:t[s].length},r=!0}var l=a.match(/'|"/g);if(l&&(n+=l.length),2===n){i={line:o,ch:a.length};break}}return[[e.sourcepos[0][0],e.sourcepos[0][1]],[e.sourcepos[0][0]+i.line,i.ch]]},e.prototype.parseInline=function(e){var r,n=!1,o=this.peek();if(-1===o)return!1;switch(o){case t.C_NEWLINE:n=this.parseNewline(e);break;case 92:n=this.parseBackslash(e);break;case 96:n=this.parseBackticks(e);break;case 42:case 95:case 126:n=this.handleDelim(o,e);break;case 39:case 34:n=!!(null===(r=this.options)||void 0===r?void 0:r.smart)&&this.handleDelim(o,e);break;case 91:n=this.parseOpenBracket(e);break;case 33:n=this.parseBang(e);break;case 93:n=this.parseCloseBracket(e);break;case 60:n=this.parseAutolink(e)||this.parseHtmlTag(e);break;case 38:n=this.parseEntity(e);break;default:n=this.parseString(e)}return n||(this.pos+=1,e.appendChild(i.text(s.default(o),this.sourcepos(this.pos,this.pos+1)))),!0},e.prototype.parse=function(e){for(this.subject=e.stringContent.trim(),this.pos=0,this.delimiters=null,this.brackets=null,this.lineOffsets=e.lineOffsets||[0],this.lineIdx=0,this.linePosOffset=0,this.lineStartNum=e.sourcepos[0][0],i.isHeading(e)&&(this.lineOffsets[0]+=e.level+1);this.parseInline(e););e.stringContent=null,this.processEmphasis(null),this.mergeTextNodes(e.walker());var t=this.options,r=t.extendedAutolinks,n=t.customParser;if(r&&u.convertExtAutoLinks(e.walker(),r),n&&e.firstChild)for(var o,a=e.firstChild.walker();o=a.next();){var s=o.node,l=o.entering;n[s.type]&&n[s.type](s,{entering:l,options:this.options})}},e}();t.InlineParser=O},function(e,t,r){"use strict";
 /*! http://mths.be/fromcodepoint v0.2.1 by @mathias */
-var n;if(Object.defineProperty(t,"__esModule",{value:!0}),String.fromCodePoint)n=function(e){try{return String.fromCodePoint(e)}catch(e){if(e instanceof RangeError)return String.fromCharCode(65533);throw e}};else{var i=String.fromCharCode,a=Math.floor;n=function(){for(var e=[],t=0;t<arguments.length;t++)e[t]=arguments[t];var r,n,o=16384,s=[],l=-1,u=e.length;if(!u)return"";for(var c="";++l<u;){var p=Number(e[l]);if(!isFinite(p)||p<0||p>1114111||a(p)!==p)return String.fromCharCode(65533);p<=65535?s.push(p):(r=55296+((p-=65536)>>10),n=p%1024+56320,s.push(r,n)),(l+1===u||s.length>o)&&(c+=i.apply(void 0,s),s.length=0)}return c}}t.default=n},function(e,t,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.convertExtAutoLinks=t.parseUrlLink=t.parseEmailLink=void 0;var n=r(0),i=r(1);function a(e){var t=/\)+$/.exec(e);if(t){for(var r=0,n=0,i=e;n<i.length;n++){var a=i[n];"("===a?r<0?r=1:r+=1:")"===a&&(r-=1)}if(r<0){var o=Math.min(-r,t[0].length);return e.substring(0,e.length-o)}}return e}function o(e){return e.replace(/&[A-Za-z0-9]+;$/,"")}function s(e){for(var t,r=new RegExp("[\\w.+-]+@(?:[\\w-]+\\.)+[\\w-]+","g"),n=[];t=r.exec(e);){var i=t[0];/[_-]+$/.test(i)||n.push({text:i,range:[t.index,t.index+i.length-1],url:"mailto:"+i})}return n}function l(e){for(var t,r=new RegExp("(www|https?://).(?:[w-]+.)*[A-Za-z0-9-]+.[A-Za-z0-9-]+[^<\\s]*[^<?!.,:*_?~\\s]","g"),n=[];t=r.exec(e);){var i=o(a(t[0])),s="www"===t[1]?"http://":"";n.push({text:i,range:[t.index,t.index+i.length-1],url:""+s+i})}return n}function u(e){return n.__spreadArrays(l(e),s(e)).sort((function(e,t){return e.range[0]-t.range[0]}))}t.parseEmailLink=s,t.parseUrlLink=l,t.convertExtAutoLinks=function(e,t){var r;"boolean"==typeof t&&(t=u);for(var n=function(){var e=r.entering,n=r.node;if(e&&"text"===n.type&&"link"!==n.parent.type){var a=n.literal,o=t(a);if(!o||!o.length)return"continue";for(var s=0,l=n.sourcepos[0],u=l[0],c=l[1],p=function(e,t){return[[u,c+e],[u,c+t]]},f=[],d=0,h=o;d<h.length;d++){var g=h[d],m=g.range,v=g.url,b=g.text;m[0]>s&&f.push(i.text(a.substring(s,m[0]),p(s,m[0]-1)));var y=i.createNode("link",p.apply(void 0,m));y.appendChild(i.text(b,p.apply(void 0,m))),y.destination=v,y.extendedAutolink=!0,f.push(y),s=m[1]+1}s<a.length&&f.push(i.text(a.substring(s),p(s,a.length-1)));for(var C=0,k=f;C<k.length;C++){var x=k[C];n.insertBefore(x)}n.unlink()}};r=e.next();)n()}},function(e,t,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.blockHandlers=void 0;var n=r(22),i=r(23),a=r(4),o=r(2),s={continue:function(){return 0},finalize:function(e,t){for(var r=t.firstChild;r;){if(a.endsWithBlankLine(r)&&r.next){t.listData.tight=!1;break}for(var n=r.firstChild;n;){if(a.endsWithBlankLine(n)&&(r.next||n.next)){t.listData.tight=!1;break}n=n.next}r=r.next}},canContain:function(e){return"item"===e},acceptsLines:!1},l={continue:function(e){var t=e.currentLine;return e.indented||a.peek(t,e.nextNonspace)!==a.C_GREATERTHAN?1:(e.advanceNextNonspace(),e.advanceOffset(1,!1),a.isSpaceOrTab(a.peek(t,e.offset))&&e.advanceOffset(1,!0),0)},finalize:function(){},canContain:function(e){return"item"!==e},acceptsLines:!1},u={continue:function(e,t){if(e.blank){if(null===t.firstChild)return 1;e.advanceNextNonspace()}else{if(!(e.indent>=t.listData.markerOffset+t.listData.padding))return 1;e.advanceOffset(t.listData.markerOffset+t.listData.padding,!0)}return 0},finalize:n.taskListItemFinalize,canContain:function(e){return"item"!==e},acceptsLines:!1},c={continue:function(e,t){var r=e.currentLine,n=e.indent;if(t.isFenced){var i=n<=3&&r.charAt(e.nextNonspace)===t.fenceChar&&r.slice(e.nextNonspace).match(a.reClosingCodeFence);if(i&&i[0].length>=t.fenceLength)return e.lastLineLength=e.offset+n+i[0].length,e.finalize(t,e.lineNumber),2;for(var o=t.fenceOffset;o>0&&a.isSpaceOrTab(a.peek(r,e.offset));)e.advanceOffset(1,!0),o--}else if(n>=a.CODE_INDENT)e.advanceOffset(a.CODE_INDENT,!0);else{if(!e.blank)return 1;e.advanceNextNonspace()}return 0},finalize:function(e,t){var r;if(null!==t.stringContent){if(t.isFenced){var n=t.stringContent,i=n.indexOf("\n"),a=n.slice(0,i),s=n.slice(i+1),l=a.match(/^(\s*)(.*)/);t.infoPadding=l[1].length,t.info=o.unescapeString(l[2].trim()),t.literal=s}else t.literal=null===(r=t.stringContent)||void 0===r?void 0:r.replace(/(\n *)+$/,"\n");t.stringContent=null}},canContain:function(){return!1},acceptsLines:!0},p={continue:function(e){return e.blank?1:0},finalize:function(e,t){if(null!==t.stringContent){for(var r,n=!1;a.peek(t.stringContent,0)===a.C_OPEN_BRACKET&&(r=e.inlineParser.parseReference(t,e.refMap));)t.stringContent=t.stringContent.slice(r),n=!0;n&&a.isBlank(t.stringContent)&&t.unlink()}},canContain:function(){return!1},acceptsLines:!0};t.blockHandlers={document:{continue:function(){return 0},finalize:function(){},canContain:function(e){return"item"!==e},acceptsLines:!1},list:s,blockQuote:l,item:u,heading:{continue:function(){return 1},finalize:function(){},canContain:function(){return!1},acceptsLines:!1},thematicBreak:{continue:function(){return 1},finalize:function(){},canContain:function(){return!1},acceptsLines:!1},codeBlock:c,htmlBlock:{continue:function(e,t){return!e.blank||6!==t.htmlBlockType&&7!==t.htmlBlockType?0:1},finalize:function(e,t){var r;t.literal=(null===(r=t.stringContent)||void 0===r?void 0:r.replace(/(\n *)+$/,""))||null,t.stringContent=null},canContain:function(){return!1},acceptsLines:!0},paragraph:p,table:i.table,tableBody:i.tableBody,tableHead:i.tableHead,tableRow:i.tableRow,tableCell:i.tableCell,tableDelimRow:i.tableDelimRow,tableDelimCell:i.tableDelimCell,refDef:{continue:function(){return 1},finalize:function(){},canContain:function(){return!1},acceptsLines:!0}}},function(e,t,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.taskListItemFinalize=void 0;var n=/^\[([ \txX])\][ \t]+/;t.taskListItemFinalize=function(e,t){if(t.firstChild&&"paragraph"===t.firstChild.type){var r=t.firstChild,i=r.stringContent.match(n);if(i){var a=i[0].length;r.stringContent=r.stringContent.substring(a-1),r.sourcepos[0][1]+=a,r.lineOffsets[0]+=a,t.listData.task=!0,t.listData.checked=/[xX]/.test(i[1])}}}},function(e,t,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.tableCell=t.tableRow=t.tableDelimCell=t.tableDelimRow=t.tableHead=t.tableBody=t.table=void 0,t.table={continue:function(){return 0},finalize:function(){},canContain:function(e){return"tableHead"===e||"tableBody"===e},acceptsLines:!1},t.tableBody={continue:function(){return 0},finalize:function(){},canContain:function(e){return"tableRow"===e},acceptsLines:!1},t.tableHead={continue:function(){return 1},finalize:function(){},canContain:function(e){return"tableRow"===e||"tableDelimRow"===e},acceptsLines:!1},t.tableDelimRow={continue:function(){return 1},finalize:function(){},canContain:function(e){return"tableDelimCell"===e},acceptsLines:!1},t.tableDelimCell={continue:function(){return 1},finalize:function(){},canContain:function(){return!1},acceptsLines:!1},t.tableRow={continue:function(){return 1},finalize:function(){},canContain:function(e){return"tableCell"===e},acceptsLines:!1},t.tableCell={continue:function(){return 1},finalize:function(){},canContain:function(){return!1},acceptsLines:!1}},function(e,t,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.tableBody=t.tableHead=void 0;var n=r(2),i=r(1),a=r(3);function o(e){for(var t=0,r=0,i=[],a=0;a<e.length;a+=1)if("|"===e[a]&&"\\"!==e[a-1]){var o=e.substring(t,a);0===t&&n.isEmpty(o)?r=a+1:i.push(o),t=a+1}if(t<e.length){o=e.substring(t,e.length);n.isEmpty(o)||i.push(o)}return[r,i]}function s(e,t,r,n){for(var a=[],o=0,s=t;o<s.length;o++){var l=s[o],u=l.match(/^[ \t]+/),c=u?u[0].length:0,p=void 0,f=void 0;if(c===l.length)c=0,p=0,f="";else{var d=l.match(/[ \t]+$/);p=d?d[0].length:0,f=l.slice(c,l.length-p)}var h=n+c,g=i.createNode(e,[[r,n],[r,n+l.length-1]]);g.stringContent=f.replace(/\\\|/g,"|"),g.startIdx=a.length,g.endIdx=a.length,g.lineOffsets=[h-1],g.paddingLeft=c,g.paddingRight=p,a.push(g),n+=l.length+1}return a}function l(e){var t="left",r=e.stringContent,n=r[0];return":"===r[r.length-1]&&(t=":"===n?"center":"right"),{align:t}}t.tableHead=function(e,t){var r=t.stringContent;if("paragraph"===t.type&&!e.indented&&!e.blank){var n=r.length-1,u=r.lastIndexOf("\n",n-1)+1,c=r.slice(u,n),p=e.currentLine.slice(e.nextNonspace),f=o(c),d=f[0],h=f[1],g=o(p),m=g[0],v=g[1],b=/^[ \t]*:?-+:?[ \t]*$/;if(!h.length||!v.length||v.some((function(e){return!b.test(e)}))||1===v.length&&0!==p.indexOf("|"))return 0;var y=t.lineOffsets,C=e.lineNumber-1,k=a.last(y)+1,x=i.createNode("table",[[C,k],[e.lineNumber,e.offset]]);if(x.columns=v.map((function(){return{align:"left"}})),t.insertAfter(x),1===y.length)t.unlink();else{t.stringContent=r.slice(0,u);var N=u-(r.lastIndexOf("\n",u-2)+1)-1;e.lastLineLength=y[y.length-2]+N,e.finalize(t,C-1)}e.advanceOffset(e.currentLine.length-e.offset,!1);var w=i.createNode("tableHead",[[C,k],[e.lineNumber,e.offset]]);x.appendChild(w);var D=i.createNode("tableRow",[[C,k],[C,k+c.length-1]]),L=i.createNode("tableDelimRow",[[e.lineNumber,e.nextNonspace+1],[e.lineNumber,e.offset]]);w.appendChild(D),w.appendChild(L),s("tableCell",h,C,k+d).forEach((function(e){D.appendChild(e)}));var E=s("tableDelimCell",v,e.lineNumber,e.nextNonspace+1+m);return E.forEach((function(e){L.appendChild(e)})),x.columns=E.map(l),e.tip=x,2}return 0},t.tableBody=function(e,t){if("table"!==t.type&&"tableBody"!==t.type||!e.blank&&-1===e.currentLine.indexOf("|"))return 0;if(e.advanceOffset(e.currentLine.length-e.offset,!1),e.blank){var r=t;return"tableBody"===t.type&&(r=t.parent,e.finalize(t,e.lineNumber)),e.finalize(r,e.lineNumber),0}var n=t;"table"===t.type&&((n=e.addChild("tableBody",e.nextNonspace)).stringContent=null);var a=i.createNode("tableRow",[[e.lineNumber,e.nextNonspace+1],[e.lineNumber,e.currentLine.length]]);n.appendChild(a);var l=n.parent,u=o(e.currentLine.slice(e.nextNonspace)),c=u[0];return s("tableCell",u[1],e.lineNumber,e.nextNonspace+1+c).forEach((function(e,t){t>=l.columns.length&&(e.ignored=!0),a.appendChild(e)})),2}},function(e,t,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.isUnlinked=t.invokeNextUntil=t.findNodeById=t.toString=t.findNodeAtPosition=t.findFirstNodeAtLine=t.findChildNodeAtLine=t.updateNextLineNumbers=t.prependChildNodes=t.insertNodesBefore=t.getChildNodes=t.removeNextUntil=t.getAllParents=void 0;var n=r(1);function i(e,t){return e[0]<t[0]?1:e[0]>t[0]?-1:e[1]<t[1]?1:e[1]>t[1]?-1:0}function a(e,t){var r=e[0];return 1===i(e[1],t)?1:-1===i(r,t)?-1:0}function o(e,t){var r=e[0];return e[1][0]<t?1:r[0]>t?-1:0}function s(e){return n.getNodeById(e)||null}t.getAllParents=function(e){for(var t=[];e.parent;)t.push(e.parent),e=e.parent;return t.reverse()},t.removeNextUntil=function(e,t){if(e.parent===t.parent&&e!==t){for(var r=e.next;r&&r!==t;){for(var i=r.next,a=0,o=["parent","prev","next"];a<o.length;a++){var s=o[a];r[s]&&(n.removeNodeById(r[s].id),r[s]=null)}r=i}e.next=t.next,t.next?t.next.prev=e:e.parent.lastChild=e}},t.getChildNodes=function(e){for(var t=[],r=e.firstChild;r;)t.push(r),r=r.next;return t},t.insertNodesBefore=function(e,t){for(var r=0,n=t;r<n.length;r++){var i=n[r];e.insertBefore(i)}},t.prependChildNodes=function(e,t){for(var r=t.length-1;r>=0;r-=1)e.prependChild(t[r])},t.updateNextLineNumbers=function(e,t){if(e&&e.parent&&0!==t){var r,n=e.parent.walker();for(n.resumeAt(e,!0);r=n.next();){var i=r.node;r.entering&&(i.sourcepos[0][0]+=t,i.sourcepos[1][0]+=t)}}},t.findChildNodeAtLine=function(e,t){for(var r=e.firstChild;r;){var n=o(r.sourcepos,t);if(0===n)return r;if(-1===n)return r.prev||r;r=r.next}return e.lastChild},t.findFirstNodeAtLine=function(e,t){for(var r=e.firstChild,n=null;r;){var i=o(r.sourcepos,t);if(0===i){if(r.sourcepos[0][0]===t||!r.firstChild)return r;n=r,r=r.firstChild}else{if(-1===i)break;n=r,r=r.next}}return n?function(e){for(;e.parent&&"document"!==e.parent.type&&e.parent.sourcepos[0][0]===e.sourcepos[0][0];)e=e.parent;return e}(function(e){for(;e.lastChild;)e=e.lastChild;return e}(n)):null},t.findNodeAtPosition=function(e,t){for(var r=e,n=null;r;){var i=a(r.sourcepos,t);if(0===i){if(!r.firstChild)return r;n=r,r=r.firstChild}else{if(-1===i)return n;if(!r.next)return n;r=r.next}}return r},t.toString=function(e){return e?"type: "+e.type+", sourcepos: "+e.sourcepos+", firstChild: "+(e.firstChild&&e.firstChild.type)+", lastChild: "+(e.lastChild&&e.lastChild.type)+", prev: "+(e.prev&&e.prev.type)+", next: "+(e.next&&e.next.type):"null"},t.findNodeById=s,t.invokeNextUntil=function(e,t,r){if(void 0===r&&(r=null),t)for(var n=t.walker();t&&t!==r;){e(t);var i=n.next();if(!i)break;t=i.node}},t.isUnlinked=function(e){var t=s(e);if(!t)return!0;for(;t&&"document"!==t.type;){if(!t.parent&&!t.prev&&!t.next)return!0;t=t.parent}return!1}},function(e,t,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.createRenderHTML=void 0;var n=r(0),i=r(1),a=r(2),o=r(3),s=r(27),l=r(29),u={softbreak:"\n",gfm:!1,tagFilter:!1,nodeId:!1};function c(e){e.length&&"\n"!==o.last(o.last(e))&&e.push("\n")}function p(e,t){e.outerNewLine&&c(t)}function f(e,t){e.innerNewLine&&c(t)}function d(e){for(var t=[],r=e.walker(),n=null;n=r.next();){var i=n.node;"text"===i.type&&t.push(i.literal)}return t.join("")}t.createRenderHTML=function(e){var t=n.__assign(n.__assign({},u),e),r=n.__assign({},s.baseConvertors);if(t.gfm&&(r=n.__assign(n.__assign({},r),l.gfmConvertors)),t.convertors){var o=t.convertors;Object.keys(o).forEach((function(e){var t=r[e],n=o[e];r[e]=t?function(e,r){return r.origin=function(){return t(e,r)},n(e,r)}:n})),delete t.convertors}return function(e){return function(e,t,r){var n=[],o=e.walker(),s=null,l=function(){var e=s.node,l=s.entering,u=t[e.type];if(!u)return"continue";var c=!1,h={entering:l,leaf:!i.isContainer(e),options:r,getChildrenText:d,skipChildren:function(){c=!0}},g=u(e,h);g&&((Array.isArray(g)?g:[g]).forEach((function(t,i){"openTag"===t.type&&r.nodeId&&0===i&&(t.attributes||(t.attributes={}),t.attributes["data-nodeid"]=String(e.id)),function(e,t){switch(e.type){case"openTag":case"closeTag":!function(e,t){"openTag"===e.type?(p(e,t),t.push(function(e){var t=[],r=e.tagName,n=e.classNames,i=e.attributes;t.push("<"+r),n&&n.length>0&&t.push(' class="'+n.join(" ")+'"');i&&Object.keys(i).forEach((function(e){var r=i[e];t.push(" "+e+'="'+r+'"')}));e.selfClose&&t.push(" /");return t.push(">"),t.join("")}(e)),e.selfClose?p(e,t):f(e,t)):(f(e,t),t.push("</"+e.tagName+">"),p(e,t))}(e,t);break;case"text":!function(e,t){t.push(a.escapeXml(e.content))}(e,t);break;case"html":!function(e,t){p(e,t),t.push(e.content),p(e,t)}(e,t)}}(t,n)})),c&&(o.resumeAt(e,!1),o.next()))};for(;s=o.next();)l();return c(n),n.join("")}(e,r,t)}}},function(e,t,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.baseConvertors=void 0;var n=r(0),i=r(2),a=r(28);t.baseConvertors={heading:function(e,t){return{type:t.entering?"openTag":"closeTag",tagName:"h"+e.level,outerNewLine:!0}},text:function(e){return{type:"text",content:e.literal}},softbreak:function(e,t){return{type:"html",content:t.options.softbreak}},linebreak:function(){return{type:"html",content:"<br />\n"}},emph:function(e,t){return{type:t.entering?"openTag":"closeTag",tagName:"em"}},strong:function(e,t){return{type:t.entering?"openTag":"closeTag",tagName:"strong"}},paragraph:function(e,t){var r,n=t.entering,i=null===(r=e.parent)||void 0===r?void 0:r.parent;return i&&"list"===i.type&&i.listData.tight?null:{type:n?"openTag":"closeTag",tagName:"p",outerNewLine:!0}},thematicBreak:function(){return{type:"openTag",tagName:"hr",outerNewLine:!0,selfClose:!0}},blockQuote:function(e,t){return{type:t.entering?"openTag":"closeTag",tagName:"blockquote",outerNewLine:!0,innerNewLine:!0}},list:function(e,t){var r=t.entering,n=e.listData,i=n.type,a=n.start,o="bullet"===i?"ul":"ol",s={};return"ol"===o&&null!==a&&1!==a&&(s.start=a.toString()),{type:r?"openTag":"closeTag",tagName:o,attributes:s,outerNewLine:!0}},item:function(e,t){return{type:t.entering?"openTag":"closeTag",tagName:"li",outerNewLine:!0}},htmlInline:function(e,t){return{type:"html",content:t.options.tagFilter?a.filterDisallowedTags(e.literal):e.literal}},htmlBlock:function(e,t){var r=t.options,n=r.tagFilter?a.filterDisallowedTags(e.literal):e.literal;return r.nodeId?[{type:"openTag",tagName:"div",outerNewLine:!0},{type:"html",content:n},{type:"closeTag",tagName:"div",outerNewLine:!0}]:{type:"html",content:n,outerNewLine:!0}},code:function(e){return[{type:"openTag",tagName:"code"},{type:"text",content:e.literal},{type:"closeTag",tagName:"code"}]},codeBlock:function(e){var t=e.info,r=t?t.split(/\s+/):[],n=[];return r.length>0&&r[0].length>0&&n.push("language-"+i.escapeXml(r[0])),[{type:"openTag",tagName:"pre",outerNewLine:!0},{type:"openTag",tagName:"code",classNames:n},{type:"text",content:e.literal},{type:"closeTag",tagName:"code"},{type:"closeTag",tagName:"pre",outerNewLine:!0}]},link:function(e,t){if(t.entering){var r=e,a=r.title,o=r.destination;return{type:"openTag",tagName:"a",attributes:n.__assign({href:i.escapeXml(o)},a&&{title:i.escapeXml(a)})}}return{type:"closeTag",tagName:"a"}},image:function(e,t){var r=t.getChildrenText,a=t.skipChildren,o=e,s=o.title,l=o.destination;return a(),{type:"openTag",tagName:"img",selfClose:!0,attributes:n.__assign({src:i.escapeXml(l),alt:r(e)},s&&{title:i.escapeXml(s)})}}}},function(e,t,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.filterDisallowedTags=void 0;var n=new RegExp("<(/?(?:"+["title","textarea","style","xmp","iframe","noembed","noframes","script","plaintext"].join("|")+")[^>]*>)","ig");t.filterDisallowedTags=function(e){return n.test(e)?e.replace(n,(function(e,t){return"&lt;"+t})):e}},function(e,t,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.gfmConvertors=void 0;var n=r(0);t.gfmConvertors={strike:function(e,t){return{type:t.entering?"openTag":"closeTag",tagName:"del"}},item:function(e,t){var r=t.entering,i=e.listData,a=i.checked,o=i.task;if(r){var s={type:"openTag",tagName:"li",outerNewLine:!0};return o?[s,{type:"openTag",tagName:"input",selfClose:!0,attributes:n.__assign(n.__assign({},a&&{checked:""}),{disabled:"",type:"checkbox"})},{type:"text",content:" "}]:s}return{type:"closeTag",tagName:"li",outerNewLine:!0}},table:function(e,t){return{type:t.entering?"openTag":"closeTag",tagName:"table",outerNewLine:!0}},tableHead:function(e,t){return{type:t.entering?"openTag":"closeTag",tagName:"thead",outerNewLine:!0}},tableBody:function(e,t){return{type:t.entering?"openTag":"closeTag",tagName:"tbody",outerNewLine:!0}},tableRow:function(e,t){if(t.entering)return{type:"openTag",tagName:"tr",outerNewLine:!0};var r=[];if(e.lastChild)for(var n=e.parent.parent.columns.length,i=e.lastChild.endIdx+1;i<n;i+=1)r.push({type:"openTag",tagName:"td",outerNewLine:!0},{type:"closeTag",tagName:"td",outerNewLine:!0});return r.push({type:"closeTag",tagName:"tr",outerNewLine:!0}),r},tableCell:function(e,t){var r=t.entering;if(e.ignored)return{type:"text",content:""};var i=e.parent.parent,a="tableHead"===i.type?"th":"td",o=i.parent.columns[e.startIdx],s=o&&"left"!==o.align?o.align:null,l=s?{align:s}:null;return r?n.__assign({type:"openTag",tagName:a,outerNewLine:!0},l&&{attributes:l}):{type:"closeTag",tagName:a,outerNewLine:!0}}}}]));
+var n;if(Object.defineProperty(t,"__esModule",{value:!0}),String.fromCodePoint)n=function(e){try{return String.fromCodePoint(e)}catch(e){if(e instanceof RangeError)return String.fromCharCode(65533);throw e}};else{var i=String.fromCharCode,o=Math.floor;n=function(){for(var e=[],t=0;t<arguments.length;t++)e[t]=arguments[t];var r,n,a=16384,s=[],l=-1,u=e.length;if(!u)return"";for(var c="";++l<u;){var p=Number(e[l]);if(!isFinite(p)||p<0||p>1114111||o(p)!==p)return String.fromCharCode(65533);p<=65535?s.push(p):(r=55296+((p-=65536)>>10),n=p%1024+56320,s.push(r,n)),(l+1===u||s.length>a)&&(c+=i.apply(void 0,s),s.length=0)}return c}}t.default=n},function(e,t,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.convertExtAutoLinks=t.parseUrlLink=t.parseEmailLink=void 0;var n=r(0),i=r(1);function o(e){var t=/\)+$/.exec(e);if(t){for(var r=0,n=0,i=e;n<i.length;n++){var o=i[n];"("===o?r<0?r=1:r+=1:")"===o&&(r-=1)}if(r<0){var a=Math.min(-r,t[0].length);return e.substring(0,e.length-a)}}return e}function a(e){return e.replace(/&[A-Za-z0-9]+;$/,"")}function s(e){for(var t,r=new RegExp("[\\w.+-]+@(?:[\\w-]+\\.)+[\\w-]+","g"),n=[];t=r.exec(e);){var i=t[0];/[_-]+$/.test(i)||n.push({text:i,range:[t.index,t.index+i.length-1],url:"mailto:"+i})}return n}function l(e){for(var t,r=new RegExp("(www|https?://).(?:[w-]+.)*[A-Za-z0-9-]+.[A-Za-z0-9-]+[^<\\s]*[^<?!.,:*_?~\\s]","g"),n=[];t=r.exec(e);){var i=a(o(t[0])),s="www"===t[1]?"http://":"";n.push({text:i,range:[t.index,t.index+i.length-1],url:""+s+i})}return n}function u(e){return n.__spreadArrays(l(e),s(e)).sort((function(e,t){return e.range[0]-t.range[0]}))}t.parseEmailLink=s,t.parseUrlLink=l,t.convertExtAutoLinks=function(e,t){var r;"boolean"==typeof t&&(t=u);for(var n=function(){var e=r.entering,n=r.node;if(e&&"text"===n.type&&"link"!==n.parent.type){var o=n.literal,a=t(o);if(!a||!a.length)return"continue";for(var s=0,l=n.sourcepos[0],u=l[0],c=l[1],p=function(e,t){return[[u,c+e],[u,c+t]]},f=[],d=0,h=a;d<h.length;d++){var g=h[d],m=g.range,v=g.url,b=g.text;m[0]>s&&f.push(i.text(o.substring(s,m[0]),p(s,m[0]-1)));var y=i.createNode("link",p.apply(void 0,m));y.appendChild(i.text(b,p.apply(void 0,m))),y.destination=v,y.extendedAutolink=!0,f.push(y),s=m[1]+1}s<o.length&&f.push(i.text(o.substring(s),p(s,o.length-1)));for(var C=0,x=f;C<x.length;C++){var k=x[C];n.insertBefore(k)}n.unlink()}};r=e.next();)n()}},function(e,t,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.blockHandlers=void 0;var n=r(23),i=r(24),o=r(4),a=r(2),s={continue:function(){return 0},finalize:function(e,t){for(var r=t.firstChild;r;){if(o.endsWithBlankLine(r)&&r.next){t.listData.tight=!1;break}for(var n=r.firstChild;n;){if(o.endsWithBlankLine(n)&&(r.next||n.next)){t.listData.tight=!1;break}n=n.next}r=r.next}},canContain:function(e){return"item"===e},acceptsLines:!1},l={continue:function(e){var t=e.currentLine;return e.indented||o.peek(t,e.nextNonspace)!==o.C_GREATERTHAN?1:(e.advanceNextNonspace(),e.advanceOffset(1,!1),o.isSpaceOrTab(o.peek(t,e.offset))&&e.advanceOffset(1,!0),0)},finalize:function(){},canContain:function(e){return"item"!==e},acceptsLines:!1},u={continue:function(e,t){if(e.blank){if(null===t.firstChild)return 1;e.advanceNextNonspace()}else{if(!(e.indent>=t.listData.markerOffset+t.listData.padding))return 1;e.advanceOffset(t.listData.markerOffset+t.listData.padding,!0)}return 0},finalize:n.taskListItemFinalize,canContain:function(e){return"item"!==e},acceptsLines:!1},c={continue:function(e,t){var r=e.currentLine,n=e.indent;if(t.isFenced){var i=n<=3&&r.charAt(e.nextNonspace)===t.fenceChar&&r.slice(e.nextNonspace).match(o.reClosingCodeFence);if(i&&i[0].length>=t.fenceLength)return e.lastLineLength=e.offset+n+i[0].length,e.finalize(t,e.lineNumber),2;for(var a=t.fenceOffset;a>0&&o.isSpaceOrTab(o.peek(r,e.offset));)e.advanceOffset(1,!0),a--}else if(n>=o.CODE_INDENT)e.advanceOffset(o.CODE_INDENT,!0);else{if(!e.blank)return 1;e.advanceNextNonspace()}return 0},finalize:function(e,t){var r;if(null!==t.stringContent){if(t.isFenced){var n=t.stringContent,i=n.indexOf("\n"),o=n.slice(0,i),s=n.slice(i+1),l=o.match(/^(\s*)(.*)/);t.infoPadding=l[1].length,t.info=a.unescapeString(l[2].trim()),t.literal=s}else t.literal=null===(r=t.stringContent)||void 0===r?void 0:r.replace(/(\n *)+$/,"\n");t.stringContent=null}},canContain:function(){return!1},acceptsLines:!0},p={continue:function(e){return e.blank?1:0},finalize:function(e,t){if(null!==t.stringContent){for(var r,n=!1;o.peek(t.stringContent,0)===o.C_OPEN_BRACKET&&(r=e.inlineParser.parseReference(t,e.refMap));)t.stringContent=t.stringContent.slice(r),n=!0;n&&o.isBlank(t.stringContent)&&t.unlink()}},canContain:function(){return!1},acceptsLines:!0};t.blockHandlers={document:{continue:function(){return 0},finalize:function(){},canContain:function(e){return"item"!==e},acceptsLines:!1},list:s,blockQuote:l,item:u,heading:{continue:function(){return 1},finalize:function(){},canContain:function(){return!1},acceptsLines:!1},thematicBreak:{continue:function(){return 1},finalize:function(){},canContain:function(){return!1},acceptsLines:!1},codeBlock:c,htmlBlock:{continue:function(e,t){return!e.blank||6!==t.htmlBlockType&&7!==t.htmlBlockType?0:1},finalize:function(e,t){var r;t.literal=(null===(r=t.stringContent)||void 0===r?void 0:r.replace(/(\n *)+$/,""))||null,t.stringContent=null},canContain:function(){return!1},acceptsLines:!0},paragraph:p,table:i.table,tableBody:i.tableBody,tableHead:i.tableHead,tableRow:i.tableRow,tableCell:i.tableCell,tableDelimRow:i.tableDelimRow,tableDelimCell:i.tableDelimCell,refDef:{continue:function(){return 1},finalize:function(){},canContain:function(){return!1},acceptsLines:!0}}},function(e,t,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.taskListItemFinalize=void 0;var n=/^\[([ \txX])\][ \t]+/;t.taskListItemFinalize=function(e,t){if(t.firstChild&&"paragraph"===t.firstChild.type){var r=t.firstChild,i=r.stringContent.match(n);if(i){var o=i[0].length;r.stringContent=r.stringContent.substring(o-1),r.sourcepos[0][1]+=o,r.lineOffsets[0]+=o,t.listData.task=!0,t.listData.checked=/[xX]/.test(i[1])}}}},function(e,t,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.tableCell=t.tableRow=t.tableDelimCell=t.tableDelimRow=t.tableHead=t.tableBody=t.table=void 0,t.table={continue:function(){return 0},finalize:function(){},canContain:function(e){return"tableHead"===e||"tableBody"===e},acceptsLines:!1},t.tableBody={continue:function(){return 0},finalize:function(){},canContain:function(e){return"tableRow"===e},acceptsLines:!1},t.tableHead={continue:function(){return 1},finalize:function(){},canContain:function(e){return"tableRow"===e||"tableDelimRow"===e},acceptsLines:!1},t.tableDelimRow={continue:function(){return 1},finalize:function(){},canContain:function(e){return"tableDelimCell"===e},acceptsLines:!1},t.tableDelimCell={continue:function(){return 1},finalize:function(){},canContain:function(){return!1},acceptsLines:!1},t.tableRow={continue:function(){return 1},finalize:function(){},canContain:function(e){return"tableCell"===e},acceptsLines:!1},t.tableCell={continue:function(){return 1},finalize:function(){},canContain:function(){return!1},acceptsLines:!1}},function(e,t,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.tableBody=t.tableHead=void 0;var n=r(2),i=r(1),o=r(3);function a(e){for(var t=0,r=0,i=[],o=0;o<e.length;o+=1)if("|"===e[o]&&"\\"!==e[o-1]){var a=e.substring(t,o);0===t&&n.isEmpty(a)?r=o+1:i.push(a),t=o+1}if(t<e.length){a=e.substring(t,e.length);n.isEmpty(a)||i.push(a)}return[r,i]}function s(e,t,r,n){for(var o=[],a=0,s=t;a<s.length;a++){var l=s[a],u=l.match(/^[ \t]+/),c=u?u[0].length:0,p=void 0,f=void 0;if(c===l.length)c=0,p=0,f="";else{var d=l.match(/[ \t]+$/);p=d?d[0].length:0,f=l.slice(c,l.length-p)}var h=n+c,g=i.createNode(e,[[r,n],[r,n+l.length-1]]);g.stringContent=f.replace(/\\\|/g,"|"),g.startIdx=o.length,g.endIdx=o.length,g.lineOffsets=[h-1],g.paddingLeft=c,g.paddingRight=p,o.push(g),n+=l.length+1}return o}function l(e){var t="left",r=e.stringContent,n=r[0];return":"===r[r.length-1]&&(t=":"===n?"center":"right"),{align:t}}t.tableHead=function(e,t){var r=t.stringContent;if("paragraph"===t.type&&!e.indented&&!e.blank){var n=r.length-1,u=r.lastIndexOf("\n",n-1)+1,c=r.slice(u,n),p=e.currentLine.slice(e.nextNonspace),f=a(c),d=f[0],h=f[1],g=a(p),m=g[0],v=g[1],b=/^[ \t]*:?-+:?[ \t]*$/;if(!h.length||!v.length||v.some((function(e){return!b.test(e)}))||1===v.length&&0!==p.indexOf("|"))return 0;var y=t.lineOffsets,C=e.lineNumber-1,x=o.last(y)+1,k=i.createNode("table",[[C,x],[e.lineNumber,e.offset]]);if(k.columns=v.map((function(){return{align:"left"}})),t.insertAfter(k),1===y.length)t.unlink();else{t.stringContent=r.slice(0,u);var N=u-(r.lastIndexOf("\n",u-2)+1)-1;e.lastLineLength=y[y.length-2]+N,e.finalize(t,C-1)}e.advanceOffset(e.currentLine.length-e.offset,!1);var w=i.createNode("tableHead",[[C,x],[e.lineNumber,e.offset]]);k.appendChild(w);var D=i.createNode("tableRow",[[C,x],[C,x+c.length-1]]),L=i.createNode("tableDelimRow",[[e.lineNumber,e.nextNonspace+1],[e.lineNumber,e.offset]]);w.appendChild(D),w.appendChild(L),s("tableCell",h,C,x+d).forEach((function(e){D.appendChild(e)}));var E=s("tableDelimCell",v,e.lineNumber,e.nextNonspace+1+m);return E.forEach((function(e){L.appendChild(e)})),k.columns=E.map(l),e.tip=k,2}return 0},t.tableBody=function(e,t){if("table"!==t.type&&"tableBody"!==t.type||!e.blank&&-1===e.currentLine.indexOf("|"))return 0;if(e.advanceOffset(e.currentLine.length-e.offset,!1),e.blank){var r=t;return"tableBody"===t.type&&(r=t.parent,e.finalize(t,e.lineNumber)),e.finalize(r,e.lineNumber),0}var n=t;"table"===t.type&&((n=e.addChild("tableBody",e.nextNonspace)).stringContent=null);var o=i.createNode("tableRow",[[e.lineNumber,e.nextNonspace+1],[e.lineNumber,e.currentLine.length]]);n.appendChild(o);var l=n.parent,u=a(e.currentLine.slice(e.nextNonspace)),c=u[0];return s("tableCell",u[1],e.lineNumber,e.nextNonspace+1+c).forEach((function(e,t){t>=l.columns.length&&(e.ignored=!0),o.appendChild(e)})),2}},function(e,t,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.frontMatterParser=void 0;var n=r(1),i=r(5),o=r(6),a=new RegExp(o.frontMatterOpen),s=new RegExp(o.frontMatterClose),l=new RegExp(o.frontMatterClose+"$"),u=!1;t.frontMatterParser={paragraph:function(e,t){var r,c=t.entering,p=t.options,f=e.type,d=e.stringContent;if(p.frontMatter&&c&&"paragraph"===f){var h=(d||"").trim(),g=[a.test(h),s.test(h)],m=g[0],v=g[1];if((m||v)&&(u=!0),u&&(e.customType="frontMatter"),v&&(u=!1,!l.test(h))){var b=o.frontMatterClose.length,y=h.indexOf(o.frontMatterClose),C=h.substring(0,y+b),x=C.split(i.reLineEnding).length;e.sourcepos[1][0]=e.sourcepos[0][0]+x-1,e.sourcepos[1][1]=3,e.stringContent=C;var k=null===(r=e.lineOffsets)||void 0===r?void 0:r.splice(x),N=e.sourcepos[1][0],w=h.substring(y+b+1),D=w.split(i.reLineEnding),L=D.length,E=n.createNode("paragraph",[[N+1,1],[N+L,D[L-1].length]]);E.stringContent=w,E.open=!1,E.lineOffsets=k,e.insertAfter(E)}(m||v)&&(e.stringContent=e.stringContent.replace(new RegExp(o.frontMatterOpen+"|"+o.frontMatterClose,"g"),"---"))}}}},function(e,t,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.getRangeForCustomType=t.isUnlinked=t.invokeNextUntil=t.findNodeById=t.toString=t.findNodeAtPosition=t.findFirstNodeAtLine=t.findChildNodeAtLine=t.updateNextLineNumbers=t.prependChildNodes=t.insertNodesBefore=t.getChildNodes=t.removeNextUntil=t.getAllParents=void 0;var n=r(1);function i(e,t){return e[0]<t[0]?1:e[0]>t[0]?-1:e[1]<t[1]?1:e[1]>t[1]?-1:0}function o(e,t){var r=e[0];return 1===i(e[1],t)?1:-1===i(r,t)?-1:0}function a(e,t){var r=e[0];return e[1][0]<t?1:r[0]>t?-1:0}function s(e){return n.getNodeById(e)||null}t.getAllParents=function(e){for(var t=[];e.parent;)t.push(e.parent),e=e.parent;return t.reverse()},t.removeNextUntil=function(e,t){if(e.parent===t.parent&&e!==t){for(var r=e.next;r&&r!==t;){for(var i=r.next,o=0,a=["parent","prev","next"];o<a.length;o++){var s=a[o];r[s]&&(n.removeNodeById(r[s].id),r[s]=null)}r=i}e.next=t.next,t.next?t.next.prev=e:e.parent.lastChild=e}},t.getChildNodes=function(e){for(var t=[],r=e.firstChild;r;)t.push(r),r=r.next;return t},t.insertNodesBefore=function(e,t){for(var r=0,n=t;r<n.length;r++){var i=n[r];e.insertBefore(i)}},t.prependChildNodes=function(e,t){for(var r=t.length-1;r>=0;r-=1)e.prependChild(t[r])},t.updateNextLineNumbers=function(e,t){if(e&&e.parent&&0!==t){var r,n=e.parent.walker();for(n.resumeAt(e,!0);r=n.next();){var i=r.node;r.entering&&(i.sourcepos[0][0]+=t,i.sourcepos[1][0]+=t)}}},t.findChildNodeAtLine=function(e,t){for(var r=e.firstChild;r;){var n=a(r.sourcepos,t);if(0===n)return r;if(-1===n)return r.prev||r;r=r.next}return e.lastChild},t.findFirstNodeAtLine=function(e,t){for(var r=e.firstChild,n=null;r;){var i=a(r.sourcepos,t);if(0===i){if(r.sourcepos[0][0]===t||!r.firstChild)return r;n=r,r=r.firstChild}else{if(-1===i)break;n=r,r=r.next}}return n?function(e){for(;e.parent&&"document"!==e.parent.type&&e.parent.sourcepos[0][0]===e.sourcepos[0][0];)e=e.parent;return e}(function(e){for(;e.lastChild;)e=e.lastChild;return e}(n)):null},t.findNodeAtPosition=function(e,t){for(var r=e,n=null;r;){var i=o(r.sourcepos,t);if(0===i){if(!r.firstChild)return r;n=r,r=r.firstChild}else{if(-1===i)return n;if(!r.next)return n;r=r.next}}return r},t.toString=function(e){return e?"type: "+e.type+", sourcepos: "+e.sourcepos+", firstChild: "+(e.firstChild&&e.firstChild.type)+", lastChild: "+(e.lastChild&&e.lastChild.type)+", prev: "+(e.prev&&e.prev.type)+", next: "+(e.next&&e.next.type):"null"},t.findNodeById=s,t.invokeNextUntil=function(e,t,r){if(void 0===r&&(r=null),t)for(var n=t.walker();t&&t!==r;){e(t);var i=n.next();if(!i)break;t=i.node}},t.isUnlinked=function(e){var t=s(e);if(!t)return!0;for(;t&&"document"!==t.type;){if(!t.parent&&!t.prev&&!t.next)return!0;t=t.parent}return!1},t.getRangeForCustomType=function(e,t){var r=[e,t];return[{node:e,type:"prev"},{node:t,type:"next"}].forEach((function(e,t){for(var n=e.node,i=e.type;n&&n.customType&&n[i];){var o=n[i],s=o.sourcepos,l=o.customType,u="prev"===i?1===a(s,n.sourcepos[0][0]):-1===a(s,n.sourcepos[1][0]);if(!l||!u)break;n=o,r[t]=n}})),r}},function(e,t,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.createRenderHTML=void 0;var n=r(0),i=r(1),o=r(2),a=r(3),s=r(29),l=r(31),u={softbreak:"\n",gfm:!1,tagFilter:!1,nodeId:!1,customProp:{}};function c(e){e.length&&"\n"!==a.last(a.last(e))&&e.push("\n")}function p(e,t){e.outerNewLine&&c(t)}function f(e,t){e.innerNewLine&&c(t)}function d(e){for(var t=[],r=e.walker(),n=null;n=r.next();){var i=n.node;"text"===i.type&&t.push(i.literal)}return t.join("")}t.createRenderHTML=function(e){var t=n.__assign(n.__assign({},u),e),r=n.__assign({},s.baseConvertors);if(t.gfm&&(r=n.__assign(n.__assign({},r),l.gfmConvertors)),t.convertors){var a=t.convertors;Object.keys(a).forEach((function(e){var t=r[e],n=a[e];r[e]=t?function(e,r){return r.origin=function(){return t(e,r)},n(e,r)}:n})),delete t.convertors}return function(e){return function(e,t,r){var n=[],a=e.walker(),s=null,l=function(){var e=s.node,l=s.entering,u=t[e.type];if(!u)return"continue";var c=!1,h={entering:l,leaf:!i.isContainer(e),options:r,getChildrenText:d,skipChildren:function(){c=!0}},g=u(e,h);g&&((Array.isArray(g)?g:[g]).forEach((function(t,i){"openTag"===t.type&&r.nodeId&&0===i&&(t.attributes||(t.attributes={}),t.attributes["data-nodeid"]=String(e.id)),function(e,t){switch(e.type){case"openTag":case"closeTag":!function(e,t){"openTag"===e.type?(p(e,t),t.push(function(e){var t=[],r=e.tagName,n=e.classNames,i=e.attributes;t.push("<"+r),n&&n.length>0&&t.push(' class="'+n.join(" ")+'"');i&&Object.keys(i).forEach((function(e){var r=i[e];t.push(" "+e+'="'+r+'"')}));e.selfClose&&t.push(" /");t.push(">"),e.finalize&&t.push("</"+r+">");return t.join("")}(e)),e.selfClose?p(e,t):f(e,t)):(f(e,t),t.push("</"+e.tagName+">"),p(e,t))}(e,t);break;case"text":!function(e,t){t.push(o.escapeXml(e.content))}(e,t);break;case"html":!function(e,t){p(e,t),t.push(e.content),p(e,t)}(e,t)}}(t,n)})),c&&(a.resumeAt(e,!1),a.next()))};for(;s=a.next();)l();return c(n),n.join("")}(e,r,t)}}},function(e,t,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.baseConvertors=void 0;var n=r(0),i=r(2),o=r(30);t.baseConvertors={heading:function(e,t){return{type:t.entering?"openTag":"closeTag",tagName:"h"+e.level,outerNewLine:!0}},text:function(e){return{type:"text",content:e.literal}},softbreak:function(e,t){return{type:"html",content:t.options.softbreak}},linebreak:function(){return{type:"html",content:"<br />\n"}},emph:function(e,t){return{type:t.entering?"openTag":"closeTag",tagName:"em"}},strong:function(e,t){return{type:t.entering?"openTag":"closeTag",tagName:"strong"}},paragraph:function(e,t){var r,n=t.entering,i=t.skipChildren,o=null===(r=e.parent)||void 0===r?void 0:r.parent,a=!1;return o&&"list"===o.type&&o.listData.tight?null:(e.customType&&(a=!0,i()),{type:n?"openTag":"closeTag",tagName:"p",outerNewLine:!0,finalize:a})},thematicBreak:function(){return{type:"openTag",tagName:"hr",outerNewLine:!0,selfClose:!0}},blockQuote:function(e,t){return{type:t.entering?"openTag":"closeTag",tagName:"blockquote",outerNewLine:!0,innerNewLine:!0}},list:function(e,t){var r=t.entering,n=e.listData,i=n.type,o=n.start,a="bullet"===i?"ul":"ol",s={};return"ol"===a&&null!==o&&1!==o&&(s.start=o.toString()),{type:r?"openTag":"closeTag",tagName:a,attributes:s,outerNewLine:!0}},item:function(e,t){return{type:t.entering?"openTag":"closeTag",tagName:"li",outerNewLine:!0}},htmlInline:function(e,t){return{type:"html",content:t.options.tagFilter?o.filterDisallowedTags(e.literal):e.literal}},htmlBlock:function(e,t){var r=t.options,n=r.tagFilter?o.filterDisallowedTags(e.literal):e.literal;return r.nodeId?[{type:"openTag",tagName:"div",outerNewLine:!0},{type:"html",content:n},{type:"closeTag",tagName:"div",outerNewLine:!0}]:{type:"html",content:n,outerNewLine:!0}},code:function(e){return[{type:"openTag",tagName:"code"},{type:"text",content:e.literal},{type:"closeTag",tagName:"code"}]},codeBlock:function(e){var t=e.info,r=t?t.split(/\s+/):[],n=[];return r.length>0&&r[0].length>0&&n.push("language-"+i.escapeXml(r[0])),[{type:"openTag",tagName:"pre",outerNewLine:!0},{type:"openTag",tagName:"code",classNames:n},{type:"text",content:e.literal},{type:"closeTag",tagName:"code"},{type:"closeTag",tagName:"pre",outerNewLine:!0}]},link:function(e,t){if(t.entering){var r=e,o=r.title,a=r.destination;return{type:"openTag",tagName:"a",attributes:n.__assign({href:i.escapeXml(a)},o&&{title:i.escapeXml(o)})}}return{type:"closeTag",tagName:"a"}},image:function(e,t){var r=t.getChildrenText,o=t.skipChildren,a=e,s=a.title,l=a.destination;return o(),{type:"openTag",tagName:"img",selfClose:!0,attributes:n.__assign({src:i.escapeXml(l),alt:r(e)},s&&{title:i.escapeXml(s)})}}}},function(e,t,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.filterDisallowedTags=void 0;var n=new RegExp("<(/?(?:"+["title","textarea","style","xmp","iframe","noembed","noframes","script","plaintext"].join("|")+")[^>]*>)","ig");t.filterDisallowedTags=function(e){return n.test(e)?e.replace(n,(function(e,t){return"&lt;"+t})):e}},function(e,t,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.gfmConvertors=void 0;var n=r(0);t.gfmConvertors={strike:function(e,t){return{type:t.entering?"openTag":"closeTag",tagName:"del"}},item:function(e,t){var r=t.entering,i=e.listData,o=i.checked,a=i.task;if(r){var s={type:"openTag",tagName:"li",outerNewLine:!0};return a?[s,{type:"openTag",tagName:"input",selfClose:!0,attributes:n.__assign(n.__assign({},o&&{checked:""}),{disabled:"",type:"checkbox"})},{type:"text",content:" "}]:s}return{type:"closeTag",tagName:"li",outerNewLine:!0}},table:function(e,t){return{type:t.entering?"openTag":"closeTag",tagName:"table",outerNewLine:!0}},tableHead:function(e,t){return{type:t.entering?"openTag":"closeTag",tagName:"thead",outerNewLine:!0}},tableBody:function(e,t){return{type:t.entering?"openTag":"closeTag",tagName:"tbody",outerNewLine:!0}},tableRow:function(e,t){if(t.entering)return{type:"openTag",tagName:"tr",outerNewLine:!0};var r=[];if(e.lastChild)for(var n=e.parent.parent.columns.length,i=e.lastChild.endIdx+1;i<n;i+=1)r.push({type:"openTag",tagName:"td",outerNewLine:!0},{type:"closeTag",tagName:"td",outerNewLine:!0});return r.push({type:"closeTag",tagName:"tr",outerNewLine:!0}),r},tableCell:function(e,t){var r=t.entering;if(e.ignored)return{type:"text",content:""};var i=e.parent.parent,o="tableHead"===i.type?"th":"td",a=i.parent.columns[e.startIdx],s=a&&"left"!==a.align?a.align:null,l=s?{align:s}:null;return r?n.__assign({type:"openTag",tagName:o,outerNewLine:!0},l&&{attributes:l}):{type:"closeTag",tagName:o,outerNewLine:!0}}}}]));
 
 /***/ }),
 /* 23 */
@@ -8727,7 +8732,7 @@ var Map = /*#__PURE__*/function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getOffsetHeight; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return getOffsetTop; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return removeOffsetInfoByNode; });
-/* harmony import */ var tui_code_snippet_collection_toArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+/* harmony import */ var tui_code_snippet_collection_toArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
 /* harmony import */ var tui_code_snippet_collection_toArray__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(tui_code_snippet_collection_toArray__WEBPACK_IMPORTED_MODULE_0__);
 
 var offsetInfoMap = {};
@@ -8759,7 +8764,7 @@ function removeOffsetInfoByNode(node) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var tui_code_snippet_collection_toArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+/* harmony import */ var tui_code_snippet_collection_toArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
 /* harmony import */ var tui_code_snippet_collection_toArray__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(tui_code_snippet_collection_toArray__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var tui_code_snippet_type_isString__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(9);
 /* harmony import */ var tui_code_snippet_type_isString__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(tui_code_snippet_type_isString__WEBPACK_IMPORTED_MODULE_1__);
@@ -9000,14 +9005,17 @@ module.exports = isExisty;
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 var baseConvertors = {
-  paragraph: function paragraph(_, _ref) {
+  paragraph: function paragraph(node, _ref) {
     var entering = _ref.entering,
         origin = _ref.origin,
         options = _ref.options;
-
-    // prevent paragraph from being removed when it's child of tight list item
+    var nodeId = options.nodeId,
+        _options$customProp = options.customProp,
+        customProp = _options$customProp === void 0 ? {} : _options$customProp;
+    var showFrontMatter = customProp.showFrontMatter && node.customType; // prevent paragraph from being removed when it's child of tight list item
     // to show highlight style in live-preview mode
-    if (options.nodeId) {
+
+    if (nodeId && !node.customType || showFrontMatter) {
       return {
         type: entering ? 'openTag' : 'closeTag',
         outerNewLine: true,
@@ -9306,7 +9314,7 @@ function getPluginInfo(plugins) {
 
 /*!
  * to-mark
- * @version 1.0.1 | Wed Jul 29 2020
+ * @version 1.0.1 | Wed Sep 09 2020
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(true)
@@ -10659,7 +10667,7 @@ module.exports = isNumber;
 /* harmony import */ var _htmlRenderConvertors__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(29);
 /* harmony import */ var _scroll_helper__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(18);
 /* harmony import */ var _scroll_cache_offsetInfo__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(24);
-/* harmony import */ var _utils_markdown__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(4);
+/* harmony import */ var _utils_markdown__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(2);
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _inheritsLoose(subClass, superClass) { subClass.prototype = Object.create(superClass.prototype); subClass.prototype.constructor = subClass; subClass.__proto__ = superClass; }
@@ -10799,6 +10807,8 @@ var MarkdownPreview = /*#__PURE__*/function (_Preview) {
       return;
     }
 
+    var inFrontMatter = cursorNode && cursorNode.customType === 'frontMatter';
+
     var oldEL = this._getElementByNodeId(this.cursorNodeId);
 
     var newEL = this._getElementByNodeId(cursorNodeId);
@@ -10807,7 +10817,7 @@ var MarkdownPreview = /*#__PURE__*/function (_Preview) {
       tui_code_snippet_domUtil_removeClass__WEBPACK_IMPORTED_MODULE_3___default()(oldEL, CLASS_HIGHLIGHT);
     }
 
-    if (newEL) {
+    if (newEL && !inFrontMatter) {
       tui_code_snippet_domUtil_addClass__WEBPACK_IMPORTED_MODULE_2___default()(newEL, CLASS_HIGHLIGHT);
     }
 
@@ -11162,6 +11172,7 @@ var attrValue = "(?:" + unquoted + "|" + singleQuoted + "|" + doubleQuoted + ")"
 var attribute = "(?:\\s+" + attrName + "(?:\\s*=\\s*" + attrValue + ")?)*\\s*";
 var openingTag = "(\\\\<|<)([A-Za-z][A-Za-z0-9\\-]*" + attribute + ")(\\/?>)";
 var HTML_TAG_RX = new RegExp(openingTag, 'g');
+var FRONT_MATTER_RX = /^\s?\\-\\-\\-([\s\S]+?)\\-\\-\\-/;
 /**
  * Class Convertor
  * @param {EventManager} em - EventManager instance
@@ -11179,17 +11190,22 @@ var Convertor = /*#__PURE__*/function () {
         customHTMLRenderer = _options.customHTMLRenderer,
         extendedAutolinks = _options.extendedAutolinks,
         referenceDefinition = _options.referenceDefinition,
-        customParser = _options.customParser;
+        customParser = _options.customParser,
+        frontMatter = _options.frontMatter,
+        customProp = _options.customProp;
+    this.options = options;
     this.mdReader = new _toast_ui_toastmark__WEBPACK_IMPORTED_MODULE_1__["Parser"]({
       extendedAutolinks: extendedAutolinks,
       disallowedHtmlBlockTags: ['br'],
       referenceDefinition: referenceDefinition,
       disallowDeepHeading: true,
-      customParser: customParser
+      customParser: customParser,
+      frontMatter: frontMatter
     });
     this.renderHTML = Object(_toast_ui_toastmark__WEBPACK_IMPORTED_MODULE_1__["createRenderHTML"])({
       gfm: true,
-      convertors: Object(_htmlRenderConvertors__WEBPACK_IMPORTED_MODULE_2__[/* getHTMLRenderConvertors */ "a"])(linkAttribute, customHTMLRenderer)
+      convertors: Object(_htmlRenderConvertors__WEBPACK_IMPORTED_MODULE_2__[/* getHTMLRenderConvertors */ "a"])(linkAttribute, customHTMLRenderer),
+      customProp: customProp
     });
     this.eventManager = em;
   }
@@ -11288,11 +11304,16 @@ var Convertor = /*#__PURE__*/function () {
   ;
 
   _proto.toMarkdown = function toMarkdown(html, toMarkOptions) {
-    var resultArray = [];
+    var result = [];
     html = this.eventManager.emitReduce('convertorBeforeHtmlToMarkdownConverted', html);
     html = this._appendAttributeForLinkIfNeed(html);
     html = this._appendAttributeForBrIfNeed(html);
     var markdown = _toast_ui_to_mark__WEBPACK_IMPORTED_MODULE_0___default()(html, toMarkOptions);
+
+    if (this.options.frontMatter) {
+      markdown = markdown.replace(FRONT_MATTER_RX, '---$1---');
+    }
+
     markdown = this.eventManager.emitReduce('convertorAfterHtmlToMarkdownConverted', markdown);
     markdown = this._removeNewlinesBeforeAfterAndBlockElement(markdown);
     markdown.split('\n').forEach(function (line, index) {
@@ -11308,9 +11329,9 @@ var Convertor = /*#__PURE__*/function () {
         line = line.replace(/<br>/gi, '<br>\n');
       }
 
-      resultArray[index] = line;
+      result[index] = line;
     });
-    return resultArray.join('\n');
+    return result.join('\n');
   };
 
   _proto._removeNewlinesBeforeAfterAndBlockElement = function _removeNewlinesBeforeAfterAndBlockElement(markdown) {
@@ -11360,7 +11381,7 @@ var Convertor = /*#__PURE__*/function () {
 "use strict";
 
 // EXTERNAL MODULE: ./node_modules/tui-code-snippet/domUtil/css.js
-var css = __webpack_require__(3);
+var css = __webpack_require__(4);
 var css_default = /*#__PURE__*/__webpack_require__.n(css);
 
 // EXTERNAL MODULE: ./node_modules/tui-code-snippet/type/isString.js
@@ -11828,7 +11849,7 @@ module.exports = isFalsy;
 
 var isNumber = __webpack_require__(34);
 var isArray = __webpack_require__(17);
-var toArray = __webpack_require__(2);
+var toArray = __webpack_require__(3);
 var forEach = __webpack_require__(26);
 
 /**
@@ -12018,6 +12039,7 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 
 
 var TASK_ATTR_NAME = 'data-te-task';
+var DISABLED_TASK_ATTR_NAME = 'data-te-task-disabled';
 var TASK_CHECKED_CLASS_NAME = 'checked';
 /**
  * Class ToastUIEditorViewer
@@ -12040,6 +12062,7 @@ var TASK_CHECKED_CLASS_NAME = 'checked';
  *     @param {Object} [options.customHTMLRenderer] - Object containing custom renderer functions correspond to markdown node
  *     @param {boolean} [options.referenceDefinition=false] - whether use the specification of link reference definition
  *     @param {function} [options.customHTMLSanitizer=null] - custom HTML sanitizer
+ *     @param {boolean} [options.frontMatter=false] - whether use the front matter
  */
 
 var ToastUIEditorViewer = /*#__PURE__*/function () {
@@ -12053,7 +12076,8 @@ var ToastUIEditorViewer = /*#__PURE__*/function () {
       customConvertor: null,
       customHTMLRenderer: null,
       referenceDefinition: false,
-      customHTMLSanitizer: null
+      customHTMLSanitizer: null,
+      frontMatter: false
     }, options);
     this.codeBlockLanguages = [];
     this.eventManager = new _eventManager__WEBPACK_IMPORTED_MODULE_5__[/* default */ "a"]();
@@ -12069,13 +12093,15 @@ var ToastUIEditorViewer = /*#__PURE__*/function () {
         customHTMLRenderer = _this$options.customHTMLRenderer,
         customHTMLSanitizer = _this$options.customHTMLSanitizer,
         extendedAutolinks = _this$options.extendedAutolinks,
-        referenceDefinition = _this$options.referenceDefinition;
+        referenceDefinition = _this$options.referenceDefinition,
+        frontMatter = _this$options.frontMatter;
     var rendererOptions = {
       linkAttribute: linkAttribute,
       customHTMLRenderer: _extends({}, renderer, customHTMLRenderer),
       extendedAutolinks: extendedAutolinks,
       referenceDefinition: referenceDefinition,
-      customParser: parser
+      customParser: parser,
+      frontMatter: frontMatter
     };
 
     if (this.options.customConvertor) {
@@ -12137,7 +12163,7 @@ var ToastUIEditorViewer = /*#__PURE__*/function () {
   _proto._toggleTask = function _toggleTask(ev) {
     var style = getComputedStyle(ev.target, ':before');
 
-    if (ev.target.hasAttribute(TASK_ATTR_NAME) && _utils_dom__WEBPACK_IMPORTED_MODULE_8__[/* default */ "a"].isInsideTaskBox(style, ev.offsetX, ev.offsetY)) {
+    if (!ev.target.hasAttribute(DISABLED_TASK_ATTR_NAME) && ev.target.hasAttribute(TASK_ATTR_NAME) && _utils_dom__WEBPACK_IMPORTED_MODULE_8__[/* default */ "a"].isInsideTaskBox(style, ev.offsetX, ev.offsetY)) {
       _utils_dom__WEBPACK_IMPORTED_MODULE_8__[/* default */ "a"].toggleClass(ev.target, TASK_CHECKED_CLASS_NAME);
       this.eventManager.emit('change', {
         source: 'viewer',
@@ -12487,8 +12513,8 @@ module.exports = isObject;
 /* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
-!function(e,t){"use strict";function n(e,t,n){this.root=this.currentNode=e,this.nodeType=t,this.filter=n||fe}function o(e,t){for(var n=e.length;n--;)if(!t(e[n]))return!1;return!0}function i(e){return e.nodeType===M&&!!pe[e.nodeName]}function r(e){switch(e.nodeType){case H:return me;case M:case z:if(de&&Ne.has(e))return Ne.get(e);break;default:return ge}var t;return t=o(e.childNodes,a)?ue.test(e.nodeName)?me:ve:Ce,de&&Ne.set(e,t),t}function a(e){return r(e)===me}function s(e){return r(e)===ve}function d(e){return r(e)===Ce}function l(e,t){var o=new n(t,q,s);return o.currentNode=e,o}function c(e,t){return e=l(e,t).previousNode(),e!==t?e:null}function h(e,t){return e=l(e,t).nextNode(),e!==t?e:null}function f(e){return!e.textContent&&!e.querySelector("IMG")}function u(e,t){return!i(e)&&e.nodeType===t.nodeType&&e.nodeName===t.nodeName&&"A"!==e.nodeName&&e.className===t.className&&(!e.style&&!t.style||e.style.cssText===t.style.cssText)}function p(e,t,n){if(e.nodeName!==t)return!1;for(var o in n)if(e.getAttribute(o)!==n[o])return!1;return!0}function g(e,t,n,o){for(;e&&e!==t;){if(p(e,n,o))return e;e=e.parentNode}return null}function m(e,t,n){for(;e&&e!==t;){if(n.test(e.nodeName))return e;e=e.parentNode}return null}function v(e,t){for(;t;){if(t===e)return!0;t=t.parentNode}return!1}function C(e,t,n){var o,i,r,a,s,d="";return e&&e!==t&&(d=C(e.parentNode,t,n),e.nodeType===M&&(d+=(d?">":"")+e.nodeName,(o=e.id)&&(d+="#"+o),(i=e.className.trim())&&(r=i.split(/\s\s*/),r.sort(),d+=".",d+=r.join(".")),(a=e.dir)&&(d+="[dir="+a+"]"),r&&(s=n.classNames,ce.call(r,s.highlight)>-1&&(d+="[backgroundColor="+e.style.backgroundColor.replace(/ /g,"")+"]"),ce.call(r,s.colour)>-1&&(d+="[color="+e.style.color.replace(/ /g,"")+"]"),ce.call(r,s.fontFamily)>-1&&(d+="[fontFamily="+e.style.fontFamily.replace(/ /g,"")+"]"),ce.call(r,s.fontSize)>-1&&(d+="[fontSize="+e.style.fontSize+"]")))),d}function N(e){var t=e.nodeType;return t===M||t===z?e.childNodes.length:e.length||0}function _(e){var t=e.parentNode;return t&&t.removeChild(e),e}function S(e,t){var n=e.parentNode;n&&n.replaceChild(t,e)}function y(e){for(var t=e.ownerDocument.createDocumentFragment(),n=e.childNodes,o=n?n.length:0;o--;)t.appendChild(e.firstChild);return t}function T(e,n,o,i){var r,a,s,d=e.createElement(n);if(o instanceof Array&&(i=o,o=null),o)for(r in o)o[r]!==t&&d.setAttribute(r,o[r]);if(i)for(a=0,s=i.length;a<s;a+=1)d.appendChild(i[a]);return d}function E(e,t){var n,o,r=t.__squire__,s=e.ownerDocument,d=e;if(e===t&&((o=e.firstChild)&&"BR"!==o.nodeName||(n=r.createDefaultBlock(),o?e.replaceChild(n,o):e.appendChild(n),e=n,n=null)),e.nodeType===H)return d;if(a(e)){for(o=e.firstChild;re&&o&&o.nodeType===H&&!o.data;)e.removeChild(o),o=e.firstChild;o||(re?(n=s.createTextNode(K),r._didAddZWS()):n=s.createTextNode(""))}else if(ie){for(;e.nodeType!==H&&!i(e);){if(!(o=e.firstChild)){n=s.createTextNode("");break}e=o}e.nodeType===H?/^ +$/.test(e.data)&&(e.data=""):i(e)&&e.parentNode.insertBefore(s.createTextNode(""),e)}else if("HR"!==e.nodeName&&!e.querySelector("BR"))for(n=T(s,"BR");(o=e.lastElementChild)&&!a(o);)e=o;if(n)try{e.appendChild(n)}catch(t){r.didError({name:"Squire: fixCursor – "+t,message:"Parent: "+e.nodeName+"/"+e.innerHTML+" appendChild: "+n.nodeName})}return d}function b(e,t){var n,o,i,r,s=e.childNodes,l=e.ownerDocument,c=null,h=t.__squire__._config;for(n=0,o=s.length;n<o;n+=1)i=s[n],r="BR"===i.nodeName,!r&&a(i)?(c||(c=T(l,h.blockTag,h.blockAttributes)),c.appendChild(i),n-=1,o-=1):(r||c)&&(c||(c=T(l,h.blockTag,h.blockAttributes)),E(c,t),r?e.replaceChild(c,i):(e.insertBefore(c,i),n+=1,o+=1),c=null),d(i)&&b(i,t);return c&&e.appendChild(E(c,t)),e}function k(e,t,n,o){var i,r,a,s=e.nodeType;if(s===H&&e!==n)return k(e.parentNode,e.splitText(t),n,o);if(s===M){if("number"==typeof t&&(t=t<e.childNodes.length?e.childNodes[t]:null),e===n)return t;for(i=e.parentNode,r=e.cloneNode(!1);t;)a=t.nextSibling,r.appendChild(t),t=a;return"OL"===e.nodeName&&g(e,o,"BLOCKQUOTE")&&(r.start=(+e.start||1)+e.childNodes.length-1),E(e,o),E(r,o),(a=e.nextSibling)?i.insertBefore(r,a):i.appendChild(r),k(i,r,n,o)}return t}function x(e,t){for(var n,o,i,r=e.childNodes,s=r.length,d=[];s--;)if(n=r[s],o=s&&r[s-1],s&&a(n)&&u(n,o)&&!pe[n.nodeName])t.startContainer===n&&(t.startContainer=o,t.startOffset+=N(o)),t.endContainer===n&&(t.endContainer=o,t.endOffset+=N(o)),t.startContainer===e&&(t.startOffset>s?t.startOffset-=1:t.startOffset===s&&(t.startContainer=o,t.startOffset=N(o))),t.endContainer===e&&(t.endOffset>s?t.endOffset-=1:t.endOffset===s&&(t.endContainer=o,t.endOffset=N(o))),_(n),n.nodeType===H?o.appendData(n.data):d.push(y(n));else if(n.nodeType===M){for(i=d.length;i--;)n.appendChild(d.pop());x(n,t)}}function A(e,t){if(e.nodeType===H&&(e=e.parentNode),e.nodeType===M){var n={startContainer:t.startContainer,startOffset:t.startOffset,endContainer:t.endContainer,endOffset:t.endOffset};x(e,n),t.setStart(n.startContainer,n.startOffset),t.setEnd(n.endContainer,n.endOffset)}}function L(e){var t=e.nodeName;return"TD"===t||"TH"===t||"TR"===t||"TBODY"===t||"THEAD"===t}function B(e,t,n,o){var i,r,a,s=t;if(!L(e)||!L(t)){for(;(i=s.parentNode)&&i!==o&&i.nodeType===M&&1===i.childNodes.length;)s=i;_(s),a=e.childNodes.length,r=e.lastChild,r&&"BR"===r.nodeName&&(e.removeChild(r),a-=1),e.appendChild(y(t)),n.setStart(e,a),n.collapse(!0),A(e,n),J&&(r=e.lastChild)&&"BR"===r.nodeName&&e.removeChild(r)}}function O(e,t){var n,o,i=e.previousSibling,r=e.firstChild,a=e.ownerDocument,s="LI"===e.nodeName;if((!s||r&&/^[OU]L$/.test(r.nodeName))&&!L(e))if(i&&u(i,e)&&i.isContentEditable&&e.isContentEditable){if(!d(i)){if(!s)return;o=T(a,"DIV"),o.appendChild(y(i)),i.appendChild(o)}_(e),n=!d(e),i.appendChild(y(e)),n&&b(i,t),r&&O(r,t)}else s&&(i=T(a,"DIV"),e.insertBefore(i,r),E(i,t))}function R(e){this.isShiftDown=e.shiftKey}function D(e,t,n){var o,i;if(e||(e={}),t)for(o in t)!n&&o in e||(i=t[o],e[o]=i&&i.constructor===Object?D(e[o],i,n):i);return e}function P(e,t){e.nodeType===W&&(e=e.body);var n,o=e.ownerDocument,i=o.defaultView;this._win=i,this._doc=o,this._root=e,this._events={},this._isFocused=!1,this._lastSelection=null,ae&&this.addEventListener("beforedeactivate",this.getSelection),this._hasZWS=!1,this._lastAnchorNode=null,this._lastFocusNode=null,this._path="",this._willUpdatePath=!1,"onselectionchange"in o?this.addEventListener("selectionchange",this._updatePathOnEvent):(this.addEventListener("keyup",this._updatePathOnEvent),this.addEventListener("mouseup",this._updatePathOnEvent)),this._undoIndex=-1,this._undoStack=[],this._undoStackLength=0,this._isInUndoState=!1,this._ignoreChange=!1,this._ignoreAllChanges=!1,se?(n=new MutationObserver(this._docWasChanged.bind(this)),n.observe(e,{childList:!0,attributes:!0,characterData:!0,subtree:!0}),this._mutation=n):this.addEventListener("keyup",this._keyUpDetectChange),this._restoreSelection=!1,this.addEventListener("blur",U),this.addEventListener("mousedown",I),this.addEventListener("touchstart",I),this.addEventListener("focus",w),this._awaitingPaste=!1,this.addEventListener(X?"beforecut":"cut",nt),this.addEventListener("copy",ot),this.addEventListener("keydown",R),this.addEventListener("keyup",R),this.addEventListener(X?"beforepaste":"paste",it),this.addEventListener("drop",rt),this.addEventListener(J?"keypress":"keydown",Ie),this._keyHandlers=Object.create(He),this.setConfig(t),X&&(i.Text.prototype.splitText=function(e){var t=this.ownerDocument.createTextNode(this.data.slice(e)),n=this.nextSibling,o=this.parentNode,i=this.length-e;return n?o.insertBefore(t,n):o.appendChild(t),i&&this.deleteData(e,i),t}),e.setAttribute("contenteditable","true");try{o.execCommand("enableObjectResizing",!1,"false"),o.execCommand("enableInlineTableEditing",!1,"false")}catch(e){}e.__squire__=this,this.setHTML("")}function U(){this._restoreSelection=!0}function I(){this._restoreSelection=!1}function w(){this._restoreSelection&&this.setSelection(this._lastSelection)}function F(e,t,n){var o,i;for(o=t.firstChild;o;o=i){if(i=o.nextSibling,a(o)){if(o.nodeType===H||"BR"===o.nodeName||"IMG"===o.nodeName){n.appendChild(o);continue}}else if(s(o)){n.appendChild(e.createDefaultBlock([F(e,o,e._doc.createDocumentFragment())]));continue}F(e,o,n)}return n}var M=1,H=3,W=9,z=11,q=1,K="​",G=e.defaultView,Z=navigator.userAgent,j=/Android/.test(Z),Q=/iP(?:ad|hone|od)/.test(Z),$=/Mac OS X/.test(Z),V=/Windows NT/.test(Z),Y=/Gecko\//.test(Z),X=/Trident\/[456]\./.test(Z),J=!!G.opera,ee=/Edge\//.test(Z),te=!ee&&/WebKit\//.test(Z),ne=/Trident\/[4567]\./.test(Z),oe=$?"meta-":"ctrl-",ie=X||J,re=X||te,ae=X,se="undefined"!=typeof MutationObserver,de="undefined"!=typeof WeakMap,le=/[^ \t\r\n]/,ce=Array.prototype.indexOf;Object.create||(Object.create=function(e){var t=function(){};return t.prototype=e,new t});var he={1:1,2:2,3:4,8:128,9:256,11:1024},fe=function(){return!0};n.prototype.nextNode=function(){for(var e,t=this.currentNode,n=this.root,o=this.nodeType,i=this.filter;;){for(e=t.firstChild;!e&&t&&t!==n;)(e=t.nextSibling)||(t=t.parentNode);if(!e)return null;if(he[e.nodeType]&o&&i(e))return this.currentNode=e,e;t=e}},n.prototype.previousNode=function(){for(var e,t=this.currentNode,n=this.root,o=this.nodeType,i=this.filter;;){if(t===n)return null;if(e=t.previousSibling)for(;t=e.lastChild;)e=t;else e=t.parentNode;if(!e)return null;if(he[e.nodeType]&o&&i(e))return this.currentNode=e,e;t=e}},n.prototype.previousPONode=function(){for(var e,t=this.currentNode,n=this.root,o=this.nodeType,i=this.filter;;){for(e=t.lastChild;!e&&t&&t!==n;)(e=t.previousSibling)||(t=t.parentNode);if(!e)return null;if(he[e.nodeType]&o&&i(e))return this.currentNode=e,e;t=e}};var ue=/^(?:#text|A(?:BBR|CRONYM)?|B(?:R|D[IO])?|C(?:ITE|ODE)|D(?:ATA|EL|FN)|EM|FONT|I(?:FRAME|MG|NPUT|NS)?|KBD|Q|R(?:P|T|UBY)|S(?:AMP|MALL|PAN|TR(?:IKE|ONG)|U[BP])?|TIME|U|VAR|WBR)$/,pe={BR:1,HR:1,IFRAME:1,IMG:1,INPUT:1},ge=0,me=1,ve=2,Ce=3,Ne=de?new WeakMap:null,_e=function(e,t){for(var n=e.childNodes;t&&e.nodeType===M;)e=n[t-1],n=e.childNodes,t=n.length;return e},Se=function(e,t){if(e.nodeType===M){var n=e.childNodes;if(t<n.length)e=n[t];else{for(;e&&!e.nextSibling;)e=e.parentNode;e&&(e=e.nextSibling)}}return e},ye=function(e,t){var n,o,i,r,a=e.startContainer,s=e.startOffset,d=e.endContainer,l=e.endOffset;a.nodeType===H?(n=a.parentNode,o=n.childNodes,s===a.length?(s=ce.call(o,a)+1,e.collapsed&&(d=n,l=s)):(s&&(r=a.splitText(s),d===a?(l-=s,d=r):d===n&&(l+=1),a=r),s=ce.call(o,a)),a=n):o=a.childNodes,i=o.length,s===i?a.appendChild(t):a.insertBefore(t,o[s]),a===d&&(l+=o.length-i),e.setStart(a,s),e.setEnd(d,l)},Te=function(e,t,n){var o=e.startContainer,i=e.startOffset,r=e.endContainer,a=e.endOffset;t||(t=e.commonAncestorContainer),t.nodeType===H&&(t=t.parentNode);for(var s,d,l,c,h,f=k(r,a,t,n),u=k(o,i,t,n),p=t.ownerDocument.createDocumentFragment();u!==f;)s=u.nextSibling,p.appendChild(u),u=s;return o=t,i=f?ce.call(t.childNodes,f):t.childNodes.length,l=t.childNodes[i],d=l&&l.previousSibling,d&&d.nodeType===H&&l.nodeType===H&&(o=d,i=d.length,c=d.data,h=l.data," "===c.charAt(c.length-1)&&" "===h.charAt(0)&&(h=" "+h.slice(1)),d.appendData(h),_(l)),e.setStart(o,i),e.collapse(!0),E(t,n),p},Ee=function(e,t){var n,o,i=Le(e,t),r=Be(e,t),a=i!==r;return xe(e),Ae(e,i,r,t),n=Te(e,null,t),xe(e),a&&(r=Be(e,t),i&&r&&i!==r&&B(i,r,e,t)),i&&E(i,t),o=t.firstChild,o&&"BR"!==o.nodeName?e.collapse(!0):(E(t,t),e.selectNodeContents(t.firstChild)),n},be=function(e,t,n){var o,i,r,s,l,f,u,p,v,C;for(b(t,n),o=t;o=h(o,n);)E(o,n);if(e.collapsed||Ee(e,n),xe(e),e.collapse(!1),s=g(e.endContainer,n,"BLOCKQUOTE")||n,i=Le(e,n),u=h(t,t),i&&u&&!m(u,t,/PRE|TABLE|H[1-6]|OL|UL|BLOCKQUOTE/)){if(Ae(e,i,i,n),e.collapse(!0),l=e.endContainer,f=e.endOffset,et(i,n,!1),a(l)&&(p=k(l,f,c(l,n),n),l=p.parentNode,f=ce.call(l.childNodes,p)),f!==N(l))for(r=n.ownerDocument.createDocumentFragment();o=l.childNodes[f];)r.appendChild(o);B(l,u,e,n),f=ce.call(l.parentNode.childNodes,l)+1,l=l.parentNode,e.setEnd(l,f)}N(t)&&(Ae(e,s,s,n),p=k(e.endContainer,e.endOffset,s,n),v=p?p.previousSibling:s.lastChild,s.insertBefore(t,p),p?e.setEndBefore(p):e.setEnd(s,N(s)),i=Be(e,n),xe(e),l=e.endContainer,f=e.endOffset,p&&d(p)&&O(p,n),p=v&&v.nextSibling,p&&d(p)&&O(p,n),e.setEnd(l,f)),r&&(C=e.cloneRange(),B(i,r,C,n),e.setEnd(C.endContainer,C.endOffset)),xe(e)},ke=function(e,t,n){var o=t.ownerDocument.createRange();if(o.selectNode(t),n){var i=e.compareBoundaryPoints(3,o)>-1,r=e.compareBoundaryPoints(1,o)<1;return!i&&!r}var a=e.compareBoundaryPoints(0,o)<1,s=e.compareBoundaryPoints(2,o)>-1;return a&&s},xe=function(e){for(var t,n=e.startContainer,o=e.startOffset,r=e.endContainer,a=e.endOffset,s=!0;n.nodeType!==H&&(t=n.childNodes[o])&&!i(t);)n=t,o=0;if(a)for(;r.nodeType!==H;){if(!(t=r.childNodes[a-1])||i(t)){if(s&&t&&"BR"===t.nodeName){a-=1,s=!1;continue}break}r=t,a=N(r)}else for(;r.nodeType!==H&&(t=r.firstChild)&&!i(t);)r=t;e.collapsed?(e.setStart(r,a),e.setEnd(n,o)):(e.setStart(n,o),e.setEnd(r,a))},Ae=function(e,t,n,o){var i,r=e.startContainer,a=e.startOffset,s=e.endContainer,d=e.endOffset,l=!0;for(t||(t=e.commonAncestorContainer),n||(n=t);!a&&r!==t&&r!==o;)i=r.parentNode,a=ce.call(i.childNodes,r),r=i;for(;;){if(l&&s.nodeType!==H&&s.childNodes[d]&&"BR"===s.childNodes[d].nodeName&&(d+=1,l=!1),s===n||s===o||d!==N(s))break;i=s.parentNode,d=ce.call(i.childNodes,s)+1,s=i}e.setStart(r,a),e.setEnd(s,d)},Le=function(e,t){var n,o=e.startContainer;return a(o)?n=c(o,t):o!==t&&s(o)?n=o:(n=_e(o,e.startOffset),n=h(n,t)),n&&ke(e,n,!0)?n:null},Be=function(e,t){var n,o,i=e.endContainer;if(a(i))n=c(i,t);else if(i!==t&&s(i))n=i;else{if(!(n=Se(i,e.endOffset))||!v(t,n))for(n=t;o=n.lastChild;)n=o;n=c(n,t)}return n&&ke(e,n,!0)?n:null},Oe=new n(null,4|q,function(e){return e.nodeType===H?le.test(e.data):"IMG"===e.nodeName}),Re=function(e,t){var n,o=e.startContainer,i=e.startOffset;if(Oe.root=null,o.nodeType===H){if(i)return!1;n=o}else if(n=Se(o,i),n&&!v(t,n)&&(n=null),!n&&(n=_e(o,i),n.nodeType===H&&n.length))return!1;return Oe.currentNode=n,Oe.root=Le(e,t),!Oe.previousNode()},De=function(e,t){var n,o=e.endContainer,i=e.endOffset;if(Oe.root=null,o.nodeType===H){if((n=o.data.length)&&i<n)return!1;Oe.currentNode=o}else Oe.currentNode=_e(o,i);return Oe.root=Be(e,t),!Oe.nextNode()},Pe=function(e,t){var n,o=Le(e,t),i=Be(e,t);o&&i&&(n=o.parentNode,e.setStart(n,ce.call(n.childNodes,o)),n=i.parentNode,e.setEnd(n,ce.call(n.childNodes,i)+1))},Ue={8:"backspace",9:"tab",13:"enter",32:"space",33:"pageup",34:"pagedown",37:"left",39:"right",46:"delete",219:"[",221:"]"},Ie=function(e){var t=e.keyCode,n=Ue[t],o="",i=this.getSelection();e.defaultPrevented||(n||(n=String.fromCharCode(t).toLowerCase(),/^[A-Za-z0-9]$/.test(n)||(n="")),J&&46===e.which&&(n="."),111<t&&t<124&&(n="f"+(t-111)),"backspace"!==n&&"delete"!==n&&(e.altKey&&(o+="alt-"),e.ctrlKey&&(o+="ctrl-"),e.metaKey&&(o+="meta-")),e.shiftKey&&(o+="shift-"),n=o+n,this._keyHandlers[n]?this._keyHandlers[n](this,e,i):i.collapsed||e.isComposing||e.ctrlKey||e.metaKey||1!==(ne?n:e.key||n).length||(this.saveUndoState(i),Ee(i,this._root),this._ensureBottomLine(),this.setSelection(i),this._updatePath(i,!0)))},we=function(e){return function(t,n){n.preventDefault(),t[e]()}},Fe=function(e,t){return t=t||null,function(n,o){o.preventDefault();var i=n.getSelection();n.hasFormat(e,null,i)?n.changeFormat(null,{tag:e},i):n.changeFormat({tag:e},t,i)}},Me=function(e,t){try{t||(t=e.getSelection());var n,o=t.startContainer;for(o.nodeType===H&&(o=o.parentNode),n=o;a(n)&&(!n.textContent||n.textContent===K);)o=n,n=o.parentNode;o!==n&&(t.setStart(n,ce.call(n.childNodes,o)),t.collapse(!0),n.removeChild(o),s(n)||(n=c(n,e._root)),E(n,e._root),xe(t)),o===e._root&&(o=o.firstChild)&&"BR"===o.nodeName&&_(o),e._ensureBottomLine(),e.setSelection(t),e._updatePath(t,!0)}catch(t){e.didError(t)}},He={enter:function(e,t,n){var o,i,r,a,s,d=e._root;if(t.preventDefault(),e._recordUndoState(n),g(n.startContainer,d,"PRE",{"data-te-codeblock":""})||yt(n.startContainer,d,e),e._removeZWS(),e._getRangeAndRemoveBookmark(n),n.collapsed||Ee(n,d),(o=Le(n,d))&&(i=g(o,d,"PRE")))return xe(n),r=n.startContainer,a=n.startOffset,r.nodeType!==H&&(r=e._doc.createTextNode(""),i.insertBefore(r,i.firstChild)),t.shiftKey||"\n"!==r.data.charAt(a-1)&&!Re(n,d)||"\n"!==r.data.charAt(a)&&!De(n,d)?(r.insertData(a,"\n"),E(i,d),r.length===a+1?n.setStartAfter(r):n.setStart(r,a+1)):(r.deleteData(a&&a-1,a?2:1),s=k(r,a&&a-1,d,d),r=s.previousSibling,r.textContent||_(r),r=e.createDefaultBlock(),s.parentNode.insertBefore(r,s),s.textContent||_(s),n.setStart(r,0)),n.collapse(!0),e.setSelection(n),e._updatePath(n,!0),void e._docWasChanged();if(!o||t.shiftKey||/^T[HD]$/.test(o.nodeName))return i=g(n.endContainer,d,"A"),i&&(i=i.parentNode,Ae(n,i,i,d),n.collapse(!1)),ye(n,e.createElement("BR")),n.collapse(!1),e.setSelection(n),void e._updatePath(n,!0);if((i=g(o,d,"LI"))&&(o=i),f(o)){if(g(o,d,"UL")||g(o,d,"OL"))return e.decreaseListLevel(n);if(g(o,d,"BLOCKQUOTE"))return e.modifyBlocks(mt,n)}for(s=ut(e,o,n.startContainer,n.startOffset),ct(o),Ye(o),E(o,d);s.nodeType===M;){var l,c=s.firstChild;if("A"===s.nodeName&&(!s.textContent||s.textContent===K)){c=e._doc.createTextNode(""),S(s,c),s=c;break}for(;c&&c.nodeType===H&&!c.data&&(l=c.nextSibling)&&"BR"!==l.nodeName;)_(c),c=l;if(!c||"BR"===c.nodeName||c.nodeType===H&&!J)break;s=c}n=e.createRange(s,0),e.setSelection(n),e._updatePath(n,!0)},"shift-enter":function(e,t,n){return e._keyHandlers.enter(e,t,n)},backspace:function(e,t,n){var o=e._root;if(e._removeZWS(),e.saveUndoState(n),n.collapsed)if(Re(n,o)){t.preventDefault();var i,r=Le(n,o);if(!r)return;if(b(r.parentNode,o),i=c(r,o)){if(!i.isContentEditable){for(;!i.parentNode.isContentEditable;)i=i.parentNode;return void _(i)}for(B(i,r,n,o),r=i.parentNode;r!==o&&!r.nextSibling;)r=r.parentNode;r!==o&&(r=r.nextSibling)&&O(r,o),e.setSelection(n)}else if(r){if(g(r,o,"UL")||g(r,o,"OL"))return e.decreaseListLevel(n);if(g(r,o,"BLOCKQUOTE"))return e.modifyBlocks(gt,n);e.setSelection(n),e._updatePath(n,!0)}}else e.setSelection(n),setTimeout(function(){Me(e)},0);else t.preventDefault(),Ee(n,o),Me(e,n)},delete:function(e,t,n){var o,i,r,a,s,d,l=e._root;if(e._removeZWS(),e.saveUndoState(n),n.collapsed)if(De(n,l)){if(t.preventDefault(),!(o=Le(n,l)))return;if(b(o.parentNode,l),i=h(o,l)){if(!i.isContentEditable){for(;!i.parentNode.isContentEditable;)i=i.parentNode;return void _(i)}for(B(o,i,n,l),i=o.parentNode;i!==l&&!i.nextSibling;)i=i.parentNode;i!==l&&(i=i.nextSibling)&&O(i,l),e.setSelection(n),e._updatePath(n,!0)}}else{if(r=n.cloneRange(),Ae(n,l,l,l),a=n.endContainer,s=n.endOffset,a.nodeType===M&&(d=a.childNodes[s])&&"IMG"===d.nodeName)return t.preventDefault(),_(d),xe(n),void Me(e,n);e.setSelection(r),setTimeout(function(){Me(e)},0)}else t.preventDefault(),Ee(n,l),Me(e,n)},tab:function(e,t,n){var o,i,r=e._root;if(e._removeZWS(),n.collapsed&&Re(n,r))for(o=Le(n,r);i=o.parentNode;){if("UL"===i.nodeName||"OL"===i.nodeName){t.preventDefault(),e.increaseListLevel(n);break}o=i}},"shift-tab":function(e,t,n){var o,i=e._root;e._removeZWS(),n.collapsed&&Re(n,i)&&(o=n.startContainer,(g(o,i,"UL")||g(o,i,"OL"))&&(t.preventDefault(),e.decreaseListLevel(n)))},space:function(e,t,n){var o,i=e._root;if(e._recordUndoState(n),yt(n.startContainer,i,e),e._getRangeAndRemoveBookmark(n),o=n.endContainer,n.collapsed&&n.endOffset===N(o))do{if("A"===o.nodeName){n.setStartAfter(o);break}}while(!o.nextSibling&&(o=o.parentNode)&&o!==i);n.collapsed||(Ee(n,i),e._ensureBottomLine(),e.setSelection(n),e._updatePath(n,!0)),e.setSelection(n)},left:function(e){e._removeZWS()},right:function(e){e._removeZWS()}};$&&Y&&(He["meta-left"]=function(e,t){t.preventDefault();var n=lt(e);n&&n.modify&&n.modify("move","backward","lineboundary")},He["meta-right"]=function(e,t){t.preventDefault();var n=lt(e);n&&n.modify&&n.modify("move","forward","lineboundary")}),$||(He.pageup=function(e){e.moveCursorToStart()},He.pagedown=function(e){e.moveCursorToEnd()}),He[oe+"b"]=Fe("B"),He[oe+"i"]=Fe("I"),He[oe+"u"]=Fe("U"),He[oe+"shift-7"]=Fe("S"),He[oe+"shift-5"]=Fe("SUB",{tag:"SUP"}),He[oe+"shift-6"]=Fe("SUP",{tag:"SUB"}),He[oe+"shift-8"]=we("makeUnorderedList"),He[oe+"shift-9"]=we("makeOrderedList"),He[oe+"["]=we("decreaseQuoteLevel"),He[oe+"]"]=we("increaseQuoteLevel"),He[oe+"d"]=we("toggleCode"),He[oe+"y"]=we("redo"),He[oe+"z"]=we("undo"),He[oe+"shift-z"]=we("redo");var We={1:10,2:13,3:16,4:18,5:24,6:32,7:48},ze={backgroundColor:{regexp:le,replace:function(e,t,n){return T(e,"SPAN",{class:t.highlight,style:"background-color:"+n})}},color:{regexp:le,replace:function(e,t,n){return T(e,"SPAN",{class:t.colour,style:"color:"+n})}},fontWeight:{regexp:/^bold|^700/i,replace:function(e){return T(e,"B")}},fontStyle:{regexp:/^italic/i,replace:function(e){return T(e,"I")}},fontFamily:{regexp:le,replace:function(e,t,n){return T(e,"SPAN",{class:t.fontFamily,style:"font-family:"+n})}},fontSize:{regexp:le,replace:function(e,t,n){return T(e,"SPAN",{class:t.fontSize,style:"font-size:"+n})}},textDecoration:{regexp:/^underline/i,replace:function(e){return T(e,"U")}}},qe=function(e){return function(t,n){var o=T(t.ownerDocument,e);return n.replaceChild(o,t),o.appendChild(y(t)),o}},Ke=function(e,t,n){var o,i,r,a,s,d,l=e.style,c=e.ownerDocument;for(o in ze)i=ze[o],(r=l[o])&&i.regexp.test(r)&&(d=i.replace(c,n.classNames,r),s||(s=d),a&&a.appendChild(d),a=d,e.style[o]="");return s&&(a.appendChild(y(e)),"SPAN"===e.nodeName?t.replaceChild(s,e):e.appendChild(s)),a||e},Ge={P:Ke,SPAN:Ke,STRONG:qe("B"),EM:qe("I"),INS:qe("U"),STRIKE:qe("S"),FONT:function(e,t,n){var o,i,r,a,s,d=e.face,l=e.size,c=e.color,h=e.ownerDocument,f=n.classNames;return d&&(o=T(h,"SPAN",{class:f.fontFamily,style:"font-family:"+d}),s=o,a=o),l&&(i=T(h,"SPAN",{class:f.fontSize,style:"font-size:"+We[l]+"px"}),s||(s=i),a&&a.appendChild(i),a=i),c&&/^#?([\dA-F]{3}){1,2}$/i.test(c)&&("#"!==c.charAt(0)&&(c="#"+c),r=T(h,"SPAN",{class:f.colour,style:"color:"+c}),s||(s=r),a&&a.appendChild(r),a=r),s||(s=a=T(h,"SPAN")),t.replaceChild(s,e),a.appendChild(y(e)),a},TT:function(e,t,n){var o=T(e.ownerDocument,"SPAN",{class:n.classNames.fontFamily,style:'font-family:menlo,consolas,"courier new",monospace'});return t.replaceChild(o,e),o.appendChild(y(e)),o}},Ze=/^(?:A(?:DDRESS|RTICLE|SIDE|UDIO)|BLOCKQUOTE|CAPTION|D(?:[DLT]|IV)|F(?:IGURE|IGCAPTION|OOTER)|H[1-6]|HEADER|HR|L(?:ABEL|EGEND|I)|O(?:L|UTPUT)|P(?:RE)?|SECTION|T(?:ABLE|BODY|D|FOOT|H|HEAD|R)|COL(?:GROUP)?|UL)$/,je=/^(?:HEAD|META|STYLE)/,Qe=new n(null,4|q),$e=function(e,t){var n,o=t.allowedBlocks,i=!1,r=o.length;if(r){for(n=0;n<r;n+=1)o[n]=o[n].toUpperCase();i=new RegExp(o.join("|")).test(e)}return Ze.test(e)||i},Ve=function e(t,n,o){var i,r,s,d,l,c,h,f,u,p,g,m,v=t.childNodes;for(i=t;a(i);)i=i.parentNode;for(Qe.root=i,r=0,s=v.length;r<s;r+=1)if(d=v[r],l=d.nodeName,c=d.nodeType,h=Ge[l],c===M){if(f=d.childNodes.length,h)d=h(d,t,n);else{if(je.test(l)){t.removeChild(d),r-=1,s-=1;continue}if(!$e(l,n)&&!a(d)){r-=1,s+=f-1,t.replaceChild(y(d),d);continue}}f&&e(d,n,o||"PRE"===l)}else{if(c===H){if(g=d.data,u=!le.test(g.charAt(0)),p=!le.test(g.charAt(g.length-1)),o||!u&&!p)continue;if(u){for(Qe.currentNode=d;(m=Qe.previousPONode())&&!("IMG"===(l=m.nodeName)||"#text"===l&&le.test(m.data));)if(!a(m)){m=null;break}g=g.replace(/^[ \t\r\n]+/g,m?" ":"")}if(p){for(Qe.currentNode=d;(m=Qe.nextNode())&&!("IMG"===l||"#text"===l&&le.test(m.data));)if(!a(m)){m=null;break}g=g.replace(/[ \t\r\n]+$/g,m?" ":"")}if(g){d.data=g;continue}}t.removeChild(d),r-=1,s-=1}return t},Ye=function e(t){for(var n,o=t.childNodes,r=o.length;r--;)if(n=o[r],n.nodeType!==M||i(n))n.nodeType!==H||n.data||t.removeChild(n);else{e(n);var s="FIGURE"===n.tagName;!a(n)&&!s||n.firstChild||t.removeChild(n)}},Xe=function(e){return e.nodeType===M?"BR"===e.nodeName||"IMG"===e.nodeName:le.test(e.data)},Je=function(e,t){for(var o,i=e.parentNode;a(i);)i=i.parentNode;return o=new n(i,4|q,Xe),o.currentNode=e,!!o.nextNode()||t&&!o.previousNode()},et=function(e,t,n){var o,i,r,s=e.querySelectorAll("BR"),d=[],l=s.length;for(o=0;o<l;o+=1)d[o]=Je(s[o],n);for(;l--;)i=s[l],(r=i.parentNode)&&(d[l]?a(r)||b(r,t):_(i))},tt=function(e,t,n,o){var i,r,a=t.ownerDocument.body,s=o.willCutCopy;et(t,n,!0),t.setAttribute("style","position:fixed;overflow:hidden;bottom:100%;right:100%;"),a.appendChild(t),i=t.innerHTML,r=t.innerText||t.textContent,s&&(i=s(i)),V&&(r=r.replace(/\r?\n/g,"\r\n")),e.setData("text/html",i),e.setData("text/plain",r),a.removeChild(t)},nt=function(e){var t,n,o,i,r,a,s,d=e.clipboardData,l=this.getSelection(),c=this._root,h=this;if(l.collapsed)return void e.preventDefault();if(this.saveUndoState(l),ee||Q||!d)setTimeout(function(){try{h._ensureBottomLine()}catch(e){h.didError(e)}},0);else{for(t=Le(l,c),n=Be(l,c),o=t===n&&t||c,i=Ee(l,c),r=l.commonAncestorContainer,r.nodeType===H&&(r=r.parentNode);r&&r!==o;)a=r.cloneNode(!1),a.appendChild(i),i=a,r=r.parentNode;s=this.createElement("div"),s.appendChild(i),tt(d,s,c,this._config),e.preventDefault()}this.setSelection(l)},ot=function(e){var t,n,o,i,r,a,s,d=e.clipboardData,l=this.getSelection(),c=this._root;if(!ee&&!Q&&d){for(t=Le(l,c),n=Be(l,c),o=t===n&&t||c,l=l.cloneRange(),xe(l),Ae(l,o,o,c),i=l.cloneContents(),r=l.commonAncestorContainer,r.nodeType===H&&(r=r.parentNode);r&&r!==o;)a=r.cloneNode(!1),a.appendChild(i),i=a,r=r.parentNode;s=this.createElement("div"),s.appendChild(i),tt(d,s,c,this._config),e.preventDefault()}},it=function(e){var t,n,o,i,r,a=e.clipboardData,s=a&&a.items,d=this.isShiftDown,l=!1,c=!1,h=null,f=this;if(ee&&s){for(t=s.length;t--;)!d&&/^image\/.*/.test(s[t].type)&&(c=!0);c||(s=null)}if(s){for(e.preventDefault(),t=s.length;t--;){if(n=s[t],o=n.type,!d&&"text/html"===o)return void n.getAsString(function(e){f.insertHTML(e,!0)});"text/plain"===o&&(h=n),!d&&/^image\/.*/.test(o)&&(c=!0)}return void(c?(this.fireEvent("dragover",{dataTransfer:a,preventDefault:function(){l=!0}}),l&&this.fireEvent("drop",{dataTransfer:a})):h&&h.getAsString(function(e){f.insertPlainText(e,!0)}))}if(i=a&&a.types,!ee&&i&&(ce.call(i,"text/html")>-1||!Y&&ce.call(i,"text/plain")>-1&&ce.call(i,"text/rtf")<0))return e.preventDefault(),void(!d&&(r=a.getData("text/html"))?this.insertHTML(r,!0):((r=a.getData("text/plain"))||(r=a.getData("text/uri-list")))&&this.insertPlainText(r,!0));this._awaitingPaste=!0;var u=this._doc.body,p=this.getSelection(),g=p.startContainer,m=p.startOffset,v=p.endContainer,C=p.endOffset,N=this.createElement("DIV",{contenteditable:"true",style:"position:fixed; overflow:hidden; top:0; right:100%; width:1px; height:1px;"});u.appendChild(N),p.selectNodeContents(N),this.setSelection(p),setTimeout(function(){try{f._awaitingPaste=!1;for(var e,t,n="",o=N;N=o;)o=N.nextSibling,_(N),e=N.firstChild,e&&e===N.lastChild&&"DIV"===e.nodeName&&(N=e),n+=N.innerHTML;t=f.createRange(g,m,v,C),f.setSelection(t),n&&f.insertHTML(n,!0)}catch(e){f.didError(e)}},0)},rt=function(e){for(var t=e.dataTransfer.types,n=t.length,o=!1,i=!1;n--;)switch(t[n]){case"text/plain":o=!0;break;case"text/html":i=!0;break;default:return}(i||o)&&this.saveUndoState()},at=P.prototype,st=function(e,t,n){var o=n._doc,i=e?DOMPurify.sanitize(e,{ALLOW_UNKNOWN_PROTOCOLS:!0,WHOLE_DOCUMENT:!1,RETURN_DOM:!0,RETURN_DOM_FRAGMENT:!0}):null;return i?o.importNode(i,!0):o.createDocumentFragment()};at.setConfig=function(e){return e=D({blockTag:"DIV",blockAttributes:null,tagAttributes:{blockquote:null,ul:null,ol:null,li:null,a:null},classNames:{colour:"colour",fontFamily:"font",fontSize:"size",highlight:"highlight"},leafNodeNames:pe,undo:{documentSizeThreshold:-1,undoLimit:-1},isInsertedHTMLSanitized:!0,isSetHTMLSanitized:!0,sanitizeToDOMFragment:"undefined"!=typeof DOMPurify&&DOMPurify.isSupported?st:null,willCutCopy:null,allowedBlocks:[]},e,!0),e.blockTag=e.blockTag.toUpperCase(),this._config=e,this},at.createElement=function(e,t,n){return T(this._doc,e,t,n)},at.createDefaultBlock=function(e){var t=this._config;return E(this.createElement(t.blockTag,t.blockAttributes,e),this._root)},at.didError=function(e){console.log(e)},at.getDocument=function(){return this._doc},at.getRoot=function(){return this._root},at.modifyDocument=function(e){var t=this._mutation;t&&(t.takeRecords().length&&this._docWasChanged(),t.disconnect()),this._ignoreAllChanges=!0,e(),this._ignoreAllChanges=!1,t&&(t.observe(this._root,{childList:!0,attributes:!0,characterData:!0,subtree:!0}),this._ignoreChange=!1)};var dt={pathChange:1,select:1,input:1,undoStateChange:1};at.fireEvent=function(e,t){var n,o,i,r=this._events[e];if(/^(?:focus|blur)/.test(e))if(n=this._root===this._doc.activeElement,"focus"===e){if(!n||this._isFocused)return this;this._isFocused=!0}else{if(n||!this._isFocused)return this;this._isFocused=!1}if(r)for(t||(t={}),t.type!==e&&(t.type=e),r=r.slice(),o=r.length;o--;){i=r[o];try{i.handleEvent?i.handleEvent(t):i.call(this,t)}catch(t){t.details="Squire: fireEvent error. Event type: "+e,this.didError(t)}}return this},at.destroy=function(){var e,t=this._events;for(e in t)this.removeEventListener(e);this._mutation&&this._mutation.disconnect(),delete this._root.__squire__,this._undoIndex=-1,this._undoStack=[],this._undoStackLength=0},at.handleEvent=function(e){this.fireEvent(e.type,e)},at.addEventListener=function(e,t){var n=this._events[e],o=this._root;return t?(n||(n=this._events[e]=[],dt[e]||("selectionchange"===e&&(o=this._doc),o.addEventListener(e,this,!0))),n.push(t),this):(this.didError({name:"Squire: addEventListener with null or undefined fn",message:"Event type: "+e}),this)},at.removeEventListener=function(e,t){var n,o=this._events[e],i=this._root;if(o){if(t)for(n=o.length;n--;)o[n]===t&&o.splice(n,1);else o.length=0;o.length||(delete this._events[e],dt[e]||("selectionchange"===e&&(i=this._doc),i.removeEventListener(e,this,!0)))}return this},at.createRange=function(e,t,n,o){if(e instanceof this._win.Range)return e.cloneRange();var i=this._doc.createRange();return i.setStart(e,t),n?i.setEnd(n,o):i.setEnd(e,t),i},at.getCursorPosition=function(e){if(!e&&!(e=this.getSelection())||!e.getBoundingClientRect)return null;var t,n,o=e.getBoundingClientRect();return o&&!o.top&&(this._ignoreChange=!0,t=this._doc.createElement("SPAN"),t.textContent=K,ye(e,t),o=t.getBoundingClientRect(),n=t.parentNode,n.removeChild(t),A(n,e),this._ignoreChange=!1),o},at._moveCursorTo=function(e){var t=this._root,n=this.createRange(t,e?0:t.childNodes.length);return xe(n),this.setSelection(n),this},at.moveCursorToStart=function(){return this._moveCursorTo(!0)},at.moveCursorToEnd=function(){return this._moveCursorTo(!1)};var lt=function(e){return e._win.getSelection()||null};at.setSelection=function(e){if(e)if(this._lastSelection=e,this._isFocused)if(j&&!this._restoreSelection)U.call(this),this.blur(),this.focus();else{Q&&this._win.focus();var t=lt(this);t&&(t.removeAllRanges(),t.addRange(e))}else U.call(this);return this},at.getSelection=function(){var e,t,n,o,r=lt(this),a=this._root;return this._isFocused&&r&&r.rangeCount&&(e=r.getRangeAt(0).cloneRange(),t=e.startContainer,n=e.endContainer,t&&i(t)&&e.setStartBefore(t),n&&i(n)&&e.setEndBefore(n)),e&&v(a,e.commonAncestorContainer)?this._lastSelection=e:(e=this._lastSelection,o=e.commonAncestorContainer,v(o.ownerDocument,o)||(e=null)),e||(e=this.createRange(a.firstChild,0)),e},at.getSelectedText=function(){var e=this.getSelection();if(!e||e.collapsed)return"";var t,o=new n(e.commonAncestorContainer,4|q,function(t){return ke(e,t,!0)}),i=e.startContainer,r=e.endContainer,s=o.currentNode=i,d="",l=!1;for(o.filter(s)||(s=o.nextNode());s;)s.nodeType===H?(t=s.data)&&/\S/.test(t)&&(s===r&&(t=t.slice(0,e.endOffset)),s===i&&(t=t.slice(e.startOffset)),d+=t,l=!0):("BR"===s.nodeName||l&&!a(s))&&(d+="\n",l=!1),s=o.nextNode();return d},at.getPath=function(){return this._path};var ct=function(e,t){for(var o,i,r,s=new n(e,4);i=s.nextNode();)for(;(r=i.data.indexOf(K))>-1&&(!t||i.parentNode!==t);){if(1===i.length){do{o=i.parentNode,o.removeChild(i),i=o,s.currentNode=o}while(a(i)&&!N(i));break}i.deleteData(r,1)}};at._didAddZWS=function(){this._hasZWS=!0},at._removeZWS=function(){this._hasZWS&&(ct(this._root),this._hasZWS=!1)},at._updatePath=function(e,t){if(e){var n,o=e.startContainer,i=e.endContainer
-;(t||o!==this._lastAnchorNode||i!==this._lastFocusNode)&&(this._lastAnchorNode=o,this._lastFocusNode=i,n=o&&i?o===i?C(i,this._root,this._config):"(selection)":"",this._path!==n&&(this._path=n,this.fireEvent("pathChange",{path:n}))),this.fireEvent(e.collapsed?"cursor":"select",{range:e})}},at._updatePathOnEvent=function(e){var t=this;t._isFocused&&!t._willUpdatePath&&(t._willUpdatePath=!0,setTimeout(function(){t._willUpdatePath=!1,t._updatePath(t.getSelection())},0))},at.focus=function(){if(ne){try{this._root.setActive()}catch(e){}this.fireEvent("focus")}else this._root.focus();return this},at.blur=function(){return this._root.blur(),ne&&this.fireEvent("blur"),this};var ht="squire-selection-end";at._saveRangeToBookmark=function(e){var t,n=this.createElement("INPUT",{id:"squire-selection-start",type:"hidden"}),o=this.createElement("INPUT",{id:ht,type:"hidden"});ye(e,n),e.collapse(!1),ye(e,o),2&n.compareDocumentPosition(o)&&(n.id=ht,o.id="squire-selection-start",t=n,n=o,o=t),e.setStartAfter(n),e.setEndBefore(o)},at._getRangeAndRemoveBookmark=function(e){var t=this._root,n=t.querySelector("#squire-selection-start"),o=t.querySelector("#"+ht);if(n&&o){var i=n.parentNode,r=o.parentNode,a=ce.call(i.childNodes,n),s=ce.call(r.childNodes,o);i===r&&(s-=1),_(n),_(o),e||(e=this._doc.createRange()),e.setStart(i,a),e.setEnd(r,s),A(i,e),i!==r&&A(r,e),e.collapsed&&(i=e.startContainer,i.nodeType===H&&(r=i.childNodes[e.startOffset],r&&r.nodeType===H||(r=i.childNodes[e.startOffset-1]),r&&r.nodeType===H&&(e.setStart(r,0),e.collapse(!0))))}return e||null},at._keyUpDetectChange=function(e){var t=e.keyCode;e.ctrlKey||e.metaKey||e.altKey||!(t<16||t>20)||!(t<33||t>45)||this._docWasChanged()},at._docWasChanged=function(){if(de&&(Ne=new WeakMap),!this._ignoreAllChanges){if(se&&this._ignoreChange)return void(this._ignoreChange=!1);this._isInUndoState&&(this._isInUndoState=!1,this.fireEvent("undoStateChange",{canUndo:!0,canRedo:!1})),this.fireEvent("input")}},at._recordUndoState=function(e,t){if(!this._isInUndoState||t){var n,o=this._undoIndex,i=this._undoStack,r=this._config.undo,a=r.documentSizeThreshold,s=r.undoLimit;t||(o+=1),o<this._undoStackLength&&(i.length=this._undoStackLength=o),e&&this._saveRangeToBookmark(e),n=this._getHTML(),a>-1&&2*n.length>a&&s>-1&&o>s&&(i.splice(0,o-s),o=s,this._undoStackLength=s),i[o]=n,this._undoIndex=o,this._undoStackLength+=1,this._isInUndoState=!0}},at.saveUndoState=function(e){return e===t&&(e=this.getSelection()),this._recordUndoState(e,this._isInUndoState),this._getRangeAndRemoveBookmark(e),this},at.undo=function(){if(0!==this._undoIndex||!this._isInUndoState){this._recordUndoState(this.getSelection(),!1),this._undoIndex-=1,this._setHTML(this._undoStack[this._undoIndex]);var e=this._getRangeAndRemoveBookmark();e&&this.setSelection(e),this._isInUndoState=!0,this.fireEvent("undoStateChange",{canUndo:0!==this._undoIndex,canRedo:!0}),this.fireEvent("input")}return this},at.redo=function(){var e=this._undoIndex,t=this._undoStackLength;if(e+1<t&&this._isInUndoState){this._undoIndex+=1,this._setHTML(this._undoStack[this._undoIndex]);var n=this._getRangeAndRemoveBookmark();n&&this.setSelection(n),this.fireEvent("undoStateChange",{canUndo:!0,canRedo:e+2<t}),this.fireEvent("input")}return this},at.hasFormat=function(e,t,o){if(e=e.toUpperCase(),t||(t={}),!o&&!(o=this.getSelection()))return!1;!o.collapsed&&o.startContainer.nodeType===H&&o.startOffset===o.startContainer.length&&o.startContainer.nextSibling&&o.setStartBefore(o.startContainer.nextSibling),!o.collapsed&&o.endContainer.nodeType===H&&0===o.endOffset&&o.endContainer.previousSibling&&o.setEndAfter(o.endContainer.previousSibling);var i,r,a=this._root,s=o.commonAncestorContainer;if(g(s,a,e,t))return!0;if(s.nodeType===H)return!1;i=new n(s,4,function(e){return ke(o,e,!0)});for(var d=!1;r=i.nextNode();){if(!g(r,a,e,t))return!1;d=!0}return d},at.getFontInfo=function(e){var n,o,i,r={color:t,backgroundColor:t,family:t,size:t},a=0;if(!e&&!(e=this.getSelection()))return r;if(n=e.commonAncestorContainer,e.collapsed||n.nodeType===H)for(n.nodeType===H&&(n=n.parentNode);a<4&&n;)(o=n.style)&&(!r.color&&(i=o.color)&&(r.color=i,a+=1),!r.backgroundColor&&(i=o.backgroundColor)&&(r.backgroundColor=i,a+=1),!r.family&&(i=o.fontFamily)&&(r.family=i,a+=1),!r.size&&(i=o.fontSize)&&(r.size=i,a+=1)),n=n.parentNode;return r},at._addFormat=function(e,t,o){var i,r,s,d,l,c,h,f,u=this._root;if(o.collapsed){for(i=E(this.createElement(e,t),u),ye(o,i),o.setStart(i.firstChild,i.firstChild.length),o.collapse(!0),f=i;a(f);)f=f.parentNode;ct(f,i)}else{if(r=new n(o.commonAncestorContainer,4|q,function(e){return(e.nodeType===H||"BR"===e.nodeName||"IMG"===e.nodeName)&&ke(o,e,!0)}),s=o.startContainer,l=o.startOffset,d=o.endContainer,c=o.endOffset,r.currentNode=s,r.filter(s)||(s=r.nextNode(),l=0),!s)return o;do{h=r.currentNode,!g(h,u,e,t)&&(h===d&&h.length>c&&h.splitText(c),h===s&&l&&(h=h.splitText(l),d===s&&(d=h,c-=l),s=h,l=0),i=this.createElement(e,t),S(h,i),i.appendChild(h))}while(r.nextNode());d.nodeType!==H&&(h.nodeType===H?(d=h,c=h.length):(d=h.parentNode,c=1)),o=this.createRange(s,l,d,c)}return o},at._removeFormat=function(e,t,n,o){this._saveRangeToBookmark(n);var i,r=this._doc;n.collapsed&&(re?(i=r.createTextNode(K),this._didAddZWS()):i=r.createTextNode(""),ye(n,i));for(var s=n.commonAncestorContainer;a(s);)s=s.parentNode;var d=n.startContainer,l=n.startOffset,c=n.endContainer,h=n.endOffset,f=[],u=function(e,t){if(!ke(n,e,!1)){var o,i,r=e.nodeType===H;if(!ke(n,e,!0))return void("INPUT"===e.nodeName||r&&!e.data||f.push([t,e]));if(r)e===c&&h!==e.length&&f.push([t,e.splitText(h)]),e===d&&l&&(e.splitText(l),f.push([t,e]));else for(o=e.firstChild;o;o=i)i=o.nextSibling,u(o,t)}},g=Array.prototype.filter.call(s.getElementsByTagName(e),function(o){return ke(n,o,!0)&&p(o,e,t)});return o||g.forEach(function(e){u(e,e)}),f.forEach(function(e){var t=e[0].cloneNode(!1),n=e[1];S(n,t),t.appendChild(n)}),g.forEach(function(e){S(e,y(e))}),this._getRangeAndRemoveBookmark(n),i&&n.collapse(!1),A(s,n),n},at.changeFormat=function(e,t,n,o){return n||(n=this.getSelection())?(this.saveUndoState(n),t&&(n=this._removeFormat(t.tag.toUpperCase(),t.attributes||{},n,o)),e&&(n=this._addFormat(e.tag.toUpperCase(),e.attributes||{},n)),this.setSelection(n),this._updatePath(n,!0),se||this._docWasChanged(),this):this};var ft={DT:"DD",DD:"DT",LI:"LI",PRE:"PRE"},ut=function(e,t,n,o){var i=ft[t.nodeName],r=null,a=k(n,o,t.parentNode,e._root),s=e._config;return i||(i=s.blockTag,r=s.blockAttributes),p(a,i,r)||(t=T(a.ownerDocument,i,r),a.dir&&(t.dir=a.dir),S(a,t),t.appendChild(y(a)),a=t),a};at.forEachBlock=function(e,t,n){if(!n&&!(n=this.getSelection()))return this;t&&this.saveUndoState(n);var o=this._root,i=Le(n,o),r=Be(n,o);if(i&&r)do{if(e(i)||i===r)break}while(i=h(i,o));return t&&(this.setSelection(n),this._updatePath(n,!0),se||this._docWasChanged()),this},at.modifyBlocks=function(e,t){if(!t&&!(t=this.getSelection()))return this;this._recordUndoState(t,this._isInUndoState);var n,o=this._root;return Pe(t,o),Ae(t,o,o,o),n=Te(t,o,o),ye(t,e.call(this,n)),t.endOffset<t.endContainer.childNodes.length&&O(t.endContainer.childNodes[t.endOffset],o),O(t.startContainer.childNodes[t.startOffset],o),this._getRangeAndRemoveBookmark(t),this.setSelection(t),this._updatePath(t,!0),se||this._docWasChanged(),this};var pt=function(e){return this.createElement("BLOCKQUOTE",this._config.tagAttributes.blockquote,[e])},gt=function(e){var t=this._root,n=e.querySelectorAll("blockquote");return Array.prototype.filter.call(n,function(e){return!g(e.parentNode,t,"BLOCKQUOTE")}).forEach(function(e){S(e,y(e))}),e},mt=function(){return this.createDefaultBlock([this.createElement("INPUT",{id:"squire-selection-start",type:"hidden"}),this.createElement("INPUT",{id:ht,type:"hidden"})])},vt=function(e,t,n){for(var o,i,r,a,s=l(t,e._root),d=e._config.tagAttributes,c=d[n.toLowerCase()],h=d.li;o=s.nextNode();)"LI"===o.parentNode.nodeName&&(o=o.parentNode,s.currentNode=o.lastChild),"LI"!==o.nodeName?(a=e.createElement("LI",h),o.dir&&(a.dir=o.dir),(r=o.previousSibling)&&r.nodeName===n?(r.appendChild(a),_(o)):S(o,e.createElement(n,c,[a])),a.appendChild(y(o)),s.currentNode=a):(o=o.parentNode,(i=o.nodeName)!==n&&/^[OU]L$/.test(i)&&S(o,e.createElement(n,c,[y(o)])))},Ct=function(e){return vt(this,e,"UL"),e},Nt=function(e){return vt(this,e,"OL"),e},_t=function(e){var t,n,o,i,r,a=e.querySelectorAll("UL, OL"),d=e.querySelectorAll("LI"),l=this._root;for(t=0,n=a.length;t<n;t+=1)o=a[t],i=y(o),b(i,l),S(o,i);for(t=0,n=d.length;t<n;t+=1)r=d[t],s(r)?S(r,this.createDefaultBlock([y(r)])):(b(r,l),S(r,y(r)));return e},St=function(e,t){for(var n=e.commonAncestorContainer,o=e.startContainer,i=e.endContainer;n&&n!==t&&!/^[OU]L$/.test(n.nodeName);)n=n.parentNode;if(!n||n===t)return null;for(o===n&&(o=o.childNodes[e.startOffset]),i===n&&(i=i.childNodes[e.endOffset]);o&&o.parentNode!==n;)o=o.parentNode;for(;i&&i.parentNode!==n;)i=i.parentNode;return[n,o,i]};at.increaseListLevel=function(e){if(!e&&!(e=this.getSelection()))return this.focus();var t=this._root,n=St(e,t);if(!n)return this.focus();var o=n[0],i=n[1],r=n[2];if(!i||i===o.firstChild)return this.focus();this._recordUndoState(e,this._isInUndoState);var a,s,d=o.nodeName,l=i.previousSibling;l.nodeName!==d&&(a=this._config.tagAttributes[d.toLowerCase()],l=this.createElement(d,a),o.insertBefore(l,i));do{s=i===r?null:i.nextSibling,l.appendChild(i)}while(i=s);return s=l.nextSibling,s&&O(s,t),this._getRangeAndRemoveBookmark(e),this.setSelection(e),this._updatePath(e,!0),se||this._docWasChanged(),this.focus()},at.decreaseListLevel=function(e){if(!e&&!(e=this.getSelection()))return this.focus();var t=this._root,n=St(e,t);if(!n)return this.focus();var o=n[0],i=n[1],r=n[2];i||(i=o.firstChild),r||(r=o.lastChild),this._recordUndoState(e,this._isInUndoState);var a,s=o.parentNode,d=r.nextSibling?k(o,r.nextSibling,s,t):o.nextSibling;if(s!==t&&"LI"===s.nodeName){for(s=s.parentNode;d;)a=d.nextSibling,r.appendChild(d),d=a;d=o.parentNode.nextSibling}var l=!/^[OU]L$/.test(s.nodeName);do{a=i===r?null:i.nextSibling,o.removeChild(i),l&&"LI"===i.nodeName&&(i=this.createDefaultBlock([y(i)])),s.insertBefore(i,d)}while(i=a);return o.firstChild||_(o),d&&O(d,t),this._getRangeAndRemoveBookmark(e),this.setSelection(e),this._updatePath(e,!0),se||this._docWasChanged(),this.focus()},at._ensureBottomLine=function(){var e=this._root,t=e.lastElementChild;t&&t.nodeName===this._config.blockTag&&s(t)||e.appendChild(this.createDefaultBlock())},at.setKeyHandler=function(e,t){return this._keyHandlers[e]=t,this},at._getHTML=function(){return this._root.innerHTML},at._setHTML=function(e){var t=this._root,n=t;n.innerHTML=e;do{E(n,t)}while(n=h(n,t));this._ignoreChange=!0},at.getHTML=function(e){var t,n,o,i,r,a,s=[];if(e&&(a=this.getSelection())&&this._saveRangeToBookmark(a),ie)for(t=this._root,n=t;n=h(n,t);)n.textContent||n.querySelector("BR")||(o=this.createElement("BR"),n.appendChild(o),s.push(o));if(i=this._getHTML().replace(/\u200B/g,""),ie)for(r=s.length;r--;)_(s[r]);return a&&this._getRangeAndRemoveBookmark(a),i},at.setHTML=function(e){var t,n,o,i=this._config,r=i.isSetHTMLSanitized?i.sanitizeToDOMFragment:null,a=this._root;"function"==typeof r?n=r(e,!1,this):(t=this.createElement("DIV"),t.innerHTML=e,n=this._doc.createDocumentFragment(),n.appendChild(y(t))),Ve(n,i),et(n,a,!1),b(n,a);for(var s=n;s=h(s,a);)E(s,a);for(this._ignoreChange=!0;o=a.lastChild;)a.removeChild(o);a.appendChild(n),E(a,a),this._undoIndex=-1,this._undoStack.length=0,this._undoStackLength=0,this._isInUndoState=!1;var d=this._getRangeAndRemoveBookmark()||this.createRange(a.firstChild,0);return this.saveUndoState(d),this._lastSelection=d,U.call(this),this._updatePath(d,!0),this},at.insertElement=function(e,t){if(t||(t=this.getSelection()),t.collapse(!0),a(e))ye(t,e),t.setStartAfter(e);else{for(var n,o,i=this._root,r=Le(t,i)||i;r!==i&&!r.nextSibling;)r=r.parentNode;r!==i&&(n=r.parentNode,o=k(n,r.nextSibling,i,i)),o?i.insertBefore(e,o):(i.appendChild(e),o=this.createDefaultBlock(),i.appendChild(o)),t.setStart(o,0),t.setEnd(o,0),xe(t)}return this.focus(),this.setSelection(t),this._updatePath(t),se||this._docWasChanged(),this},at.insertImage=function(e,t){var n=this.createElement("IMG",D({src:e},t,!0));return this.insertElement(n),n},at.linkRegExp=/\b((?:(?:ht|f)tps?:\/\/|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,}\/)(?:[^\s()<>]+|\([^\s()<>]+\))+(?:\((?:[^\s()<>]+|(?:\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))|([\w\-.%+]+@(?:[\w\-]+\.)+[A-Z]{2,}\b)(?:\?[^&?\s]+=[^&?\s]+(?:&[^&?\s]+=[^&?\s]+)*)?/i;var yt=function(e,t,o){var i,r,a,s,d,l,c,h=e.ownerDocument,f=new n(e,4,function(e){return!g(e,t,"A")}),u=o.linkRegExp,p=o._config.tagAttributes.a;if(u)for(;i=f.nextNode();)for(r=i.data,a=i.parentNode;s=u.exec(r);)d=s.index,l=d+s[0].length,d&&(c=h.createTextNode(r.slice(0,d)),a.insertBefore(c,i)),c=o.createElement("A",D({href:s[1]?/^(?:ht|f)tps?:/i.test(s[1])?s[1]:"http://"+s[1]:"mailto:"+s[0]},p,!1)),c.textContent=r.slice(d,l),a.insertBefore(c,i),i.data=r=r.slice(l)};at.insertHTML=function(e,t){var n,o,i,r,a,s,d,l=this._config,c=l.isInsertedHTMLSanitized?l.sanitizeToDOMFragment:null,f=this.getSelection(),u=this._doc;"function"==typeof c?r=c(e,t,this):(t&&(n=e.indexOf("\x3c!--StartFragment--\x3e"),o=e.lastIndexOf("\x3c!--EndFragment--\x3e"),n>-1&&o>-1&&(e=e.slice(n+20,o))),/<\/td>((?!<\/tr>)[\s\S])*$/i.test(e)&&(e="<TR>"+e+"</TR>"),/<\/tr>((?!<\/table>)[\s\S])*$/i.test(e)&&(e="<TABLE>"+e+"</TABLE>"),i=this.createElement("DIV"),i.innerHTML=e,r=u.createDocumentFragment(),r.appendChild(y(i))),this.saveUndoState(f);try{for(a=this._root,s=r,d={fragment:r,preventDefault:function(){this.defaultPrevented=!0},defaultPrevented:!1},yt(r,r,this),Ve(r,l),et(r,a,!1),Ye(r),r.normalize();s=h(s,r);)E(s,a);t&&this.fireEvent("willPaste",d),d.defaultPrevented||(be(f,d.fragment,a),se||this._docWasChanged(),f.collapse(!1),this._ensureBottomLine()),this.setSelection(f),this._updatePath(f,!0),t&&this.focus()}catch(e){this.didError(e)}return this};var Tt=function(e){return e.split("&").join("&amp;").split("<").join("&lt;").split(">").join("&gt;").split('"').join("&quot;")};at.insertPlainText=function(e,t){var n=this.getSelection();if(n.collapsed&&g(n.startContainer,this._root,"PRE")){var o,i,r=n.startContainer,a=n.startOffset;return r&&r.nodeType===H||(o=this._doc.createTextNode(""),r.insertBefore(o,r.childNodes[a]),r=o,a=0),i={text:e,preventDefault:function(){this.defaultPrevented=!0},defaultPrevented:!1},t&&this.fireEvent("willPaste",i),i.defaultPrevented||(e=i.text,r.insertData(a,e),n.setStart(r,a+e.length),n.collapse(!0)),this.setSelection(n),this}var s,d,l,c,h=e.split("\n"),f=this._config,u=f.blockTag,p=f.blockAttributes,m="</"+u+">",v="<"+u;for(s in p)v+=" "+s+'="'+Tt(p[s])+'"';for(v+=">",d=0,l=h.length;d<l;d+=1)c=h[d],c=Tt(c).replace(/ (?= )/g,"&nbsp;"),h[d]=v+(c||"<BR>")+m;return this.insertHTML(h.join(""),t)};var Et=function(e,t,n){return function(){return this[e](t,n),this.focus()}};at.addStyles=function(e){if(e){var t=this._doc.documentElement.firstChild,n=this.createElement("STYLE",{type:"text/css"});n.appendChild(this._doc.createTextNode(e)),t.appendChild(n)}return this},at.bold=Et("changeFormat",{tag:"B"}),at.italic=Et("changeFormat",{tag:"I"}),at.underline=Et("changeFormat",{tag:"U"}),at.strikethrough=Et("changeFormat",{tag:"S"}),at.subscript=Et("changeFormat",{tag:"SUB"},{tag:"SUP"}),at.superscript=Et("changeFormat",{tag:"SUP"},{tag:"SUB"}),at.removeBold=Et("changeFormat",null,{tag:"B"}),at.removeItalic=Et("changeFormat",null,{tag:"I"}),at.removeUnderline=Et("changeFormat",null,{tag:"U"}),at.removeStrikethrough=Et("changeFormat",null,{tag:"S"}),at.removeSubscript=Et("changeFormat",null,{tag:"SUB"}),at.removeSuperscript=Et("changeFormat",null,{tag:"SUP"}),at.makeLink=function(e,t){var n=this.getSelection();if(n.collapsed){var o=e.indexOf(":")+1;if(o)for(;"/"===e[o];)o+=1;ye(n,this._doc.createTextNode(e.slice(o)))}return t=D(D({href:e},t,!0),this._config.tagAttributes.a,!1),this.changeFormat({tag:"A",attributes:t},{tag:"A"},n),this.focus()},at.removeLink=function(){return this.changeFormat(null,{tag:"A"},this.getSelection(),!0),this.focus()},at.setFontFace=function(e){var t=this._config.classNames.fontFamily;return this.changeFormat(e?{tag:"SPAN",attributes:{class:t,style:"font-family: "+e+", sans-serif;"}}:null,{tag:"SPAN",attributes:{class:t}}),this.focus()},at.setFontSize=function(e){var t=this._config.classNames.fontSize;return this.changeFormat(e?{tag:"SPAN",attributes:{class:t,style:"font-size: "+("number"==typeof e?e+"px":e)}}:null,{tag:"SPAN",attributes:{class:t}}),this.focus()},at.setTextColour=function(e){var t=this._config.classNames.colour;return this.changeFormat(e?{tag:"SPAN",attributes:{class:t,style:"color:"+e}}:null,{tag:"SPAN",attributes:{class:t}}),this.focus()},at.setHighlightColour=function(e){var t=this._config.classNames.highlight;return this.changeFormat(e?{tag:"SPAN",attributes:{class:t,style:"background-color:"+e}}:e,{tag:"SPAN",attributes:{class:t}}),this.focus()},at.setTextAlignment=function(e){return this.forEachBlock(function(t){var n=t.className.split(/\s+/).filter(function(e){return!!e&&!/^align/.test(e)}).join(" ");e?(t.className=n+" align-"+e,t.style.textAlign=e):(t.className=n,t.style.textAlign="")},!0),this.focus()},at.setTextDirection=function(e){return this.forEachBlock(function(t){e?t.dir=e:t.removeAttribute("dir")},!0),this.focus()};var bt=function(e){for(var t,o=this._root,i=this._doc,r=i.createDocumentFragment(),a=l(e,o);t=a.nextNode();){var s,d,c=t.querySelectorAll("BR"),h=[],f=c.length;for(s=0;s<f;s+=1)h[s]=Je(c[s],!1);for(;f--;)d=c[f],h[f]?S(d,i.createTextNode("\n")):_(d);for(c=t.querySelectorAll("CODE"),f=c.length;f--;)_(c[f]);r.childNodes.length&&r.appendChild(i.createTextNode("\n")),r.appendChild(y(t))}for(a=new n(r,4);t=a.nextNode();)t.data=t.data.replace(/ /g," ");return r.normalize(),E(this.createElement("PRE",this._config.tagAttributes.pre,[r]),o)},kt=function(e){for(var t,o,i,r,a,s,d=this._doc,l=this._root,c=e.querySelectorAll("PRE"),h=c.length;h--;){for(t=c[h],o=new n(t,4);i=o.nextNode();){for(r=i.data,r=r.replace(/ (?= )/g," "),a=d.createDocumentFragment();(s=r.indexOf("\n"))>-1;)a.appendChild(d.createTextNode(r.slice(0,s))),a.appendChild(d.createElement("BR")),r=r.slice(s+1);i.parentNode.insertBefore(a,i),i.data=r}b(t,l),S(t,y(t))}return e};at.code=function(){var e=this.getSelection();return e.collapsed||d(e.commonAncestorContainer)?this.modifyBlocks(bt,e):this.changeFormat({tag:"CODE",attributes:this._config.tagAttributes.code},null,e),this.focus()},at.removeCode=function(){var e=this.getSelection();return g(e.commonAncestorContainer,this._root,"PRE")?this.modifyBlocks(kt,e):this.changeFormat(null,{tag:"CODE"},e),this.focus()},at.toggleCode=function(){return this.hasFormat("PRE")||this.hasFormat("CODE")?this.removeCode():this.code(),this},at.removeAllFormatting=function(e){if(!e&&!(e=this.getSelection())||e.collapsed)return this;for(var t=this._root,n=e.commonAncestorContainer;n&&!s(n);)n=n.parentNode;if(n||(Pe(e,t),n=t),n.nodeType===H)return this;this.saveUndoState(e),Ae(e,n,n,t);for(var o,i,r=n.ownerDocument,a=e.startContainer,d=e.startOffset,l=e.endContainer,c=e.endOffset,h=r.createDocumentFragment(),f=r.createDocumentFragment(),u=k(l,c,n,t),p=k(a,d,n,t);p!==u;)o=p.nextSibling,h.appendChild(p),p=o;return F(this,h,f),f.normalize(),p=f.firstChild,o=f.lastChild,i=n.childNodes,p?(n.insertBefore(f,u),d=ce.call(i,p),c=ce.call(i,o)+1):(d=ce.call(i,u),c=d),e.setStart(n,d),e.setEnd(n,c),A(n,e),xe(e),this.setSelection(e),this._updatePath(e,!0),this.focus()},at.increaseQuoteLevel=Et("modifyBlocks",pt),at.decreaseQuoteLevel=Et("modifyBlocks",gt),at.makeUnorderedList=Et("modifyBlocks",Ct),at.makeOrderedList=Et("modifyBlocks",Nt),at.removeList=Et("modifyBlocks",_t),P.isInline=a,P.isBlock=s,P.isContainer=d,P.getBlockWalker=l,P.getPreviousBlock=c,P.getNextBlock=h,P.areAlike=u,P.hasTagAttributes=p,P.getNearest=g,P.isOrContains=v,P.detach=_,P.replaceWith=S,P.empty=y,P.getNodeBefore=_e,P.getNodeAfter=Se,P.insertNodeInRange=ye,P.extractContentsOfRange=Te,P.deleteContentsOfRange=Ee,P.insertTreeFragmentIntoRange=be,P.isNodeContainedInRange=ke,P.moveRangeBoundariesDownTree=xe,P.moveRangeBoundariesUpTree=Ae,P.getStartBlockOfRange=Le,P.getEndBlockOfRange=Be,P.contentWalker=Oe,P.rangeDoesStartAtBlockBoundary=Re,P.rangeDoesEndAtBlockBoundary=De,P.expandRangeToBlockBoundaries=Pe,P.onPaste=it,P.addLinks=yt,P.splitBlock=ut,P.startSelectionId="squire-selection-start",P.endSelectionId=ht, true?module.exports=P:undefined}(document);
+!function(e,t){"use strict";function n(e,t,n){this.root=this.currentNode=e,this.nodeType=t,this.filter=n||ue}function o(e,t){for(var n=e.length;n--;)if(!t(e[n]))return!1;return!0}function i(e){return e.nodeType===M&&!!pe[e.nodeName]}function r(e){switch(e.nodeType){case H:return me;case M:case z:if(de&&Ne.has(e))return Ne.get(e);break;default:return ge}var t;return t=o(e.childNodes,a)?fe.test(e.nodeName)?me:ve:Ce,de&&Ne.set(e,t),t}function a(e){return r(e)===me}function s(e){return r(e)===ve}function d(e){return r(e)===Ce}function l(e,t){var o=new n(t,q,s);return o.currentNode=e,o}function c(e,t){return e=l(e,t).previousNode(),e!==t?e:null}function h(e,t){return e=l(e,t).nextNode(),e!==t?e:null}function u(e){return!e.textContent&&!e.querySelector("IMG")}function f(e,t){return!i(e)&&e.nodeType===t.nodeType&&e.nodeName===t.nodeName&&"A"!==e.nodeName&&e.className===t.className&&(!e.style&&!t.style||e.style.cssText===t.style.cssText)}function p(e,t,n){if(e.nodeName!==t)return!1;for(var o in n)if(e.getAttribute(o)!==n[o])return!1;return!0}function g(e,t,n,o){for(;e&&e!==t;){if(p(e,n,o))return e;e=e.parentNode}return null}function m(e,t,n){for(;e&&e!==t;){if(n.test(e.nodeName))return e;e=e.parentNode}return null}function v(e,t){for(;t;){if(t===e)return!0;t=t.parentNode}return!1}function C(e,t,n){var o,i,r,a,s,d="";return e&&e!==t&&(d=C(e.parentNode,t,n),e.nodeType===M&&(d+=(d?">":"")+e.nodeName,(o=e.id)&&(d+="#"+o),(i=e.className.trim())&&(r=i.split(/\s\s*/),r.sort(),d+=".",d+=r.join(".")),(a=e.dir)&&(d+="[dir="+a+"]"),r&&(s=n.classNames,ce.call(r,s.highlight)>-1&&(d+="[backgroundColor="+e.style.backgroundColor.replace(/ /g,"")+"]"),ce.call(r,s.colour)>-1&&(d+="[color="+e.style.color.replace(/ /g,"")+"]"),ce.call(r,s.fontFamily)>-1&&(d+="[fontFamily="+e.style.fontFamily.replace(/ /g,"")+"]"),ce.call(r,s.fontSize)>-1&&(d+="[fontSize="+e.style.fontSize+"]")))),d}function N(e){var t=e.nodeType;return t===M||t===z?e.childNodes.length:e.length||0}function _(e){var t=e.parentNode;return t&&t.removeChild(e),e}function S(e,t){var n=e.parentNode;n&&n.replaceChild(t,e)}function y(e){for(var t=e.ownerDocument.createDocumentFragment(),n=e.childNodes,o=n?n.length:0;o--;)t.appendChild(e.firstChild);return t}function T(e,n,o,i){var r,a,s,d=e.createElement(n);if(o instanceof Array&&(i=o,o=null),o)for(r in o)o[r]!==t&&d.setAttribute(r,o[r]);if(i)for(a=0,s=i.length;a<s;a+=1)d.appendChild(i[a]);return d}function E(e,t){var n,o,r=t.__squire__,s=e.ownerDocument,d=e;if(e===t&&((o=e.firstChild)&&"BR"!==o.nodeName||(n=r.createDefaultBlock(),o?e.replaceChild(n,o):e.appendChild(n),e=n,n=null)),e.nodeType===H)return d;if(a(e)){for(o=e.firstChild;re&&o&&o.nodeType===H&&!o.data;)e.removeChild(o),o=e.firstChild;o||(re?(n=s.createTextNode(K),r._didAddZWS()):n=s.createTextNode(""))}else if(ie){for(;e.nodeType!==H&&!i(e);){if(!(o=e.firstChild)){n=s.createTextNode("");break}e=o}e.nodeType===H?/^ +$/.test(e.data)&&(e.data=""):i(e)&&e.parentNode.insertBefore(s.createTextNode(""),e)}else if("HR"!==e.nodeName&&!e.querySelector("BR"))for(n=T(s,"BR");(o=e.lastElementChild)&&!a(o);)e=o;if(n)try{e.appendChild(n)}catch(t){r.didError({name:"Squire: fixCursor – "+t,message:"Parent: "+e.nodeName+"/"+e.innerHTML+" appendChild: "+n.nodeName})}return d}function b(e,t){var n,o,i,r,s=e.childNodes,l=e.ownerDocument,c=null,h=t.__squire__._config;for(n=0,o=s.length;n<o;n+=1)i=s[n],r="BR"===i.nodeName,!r&&a(i)?(c||(c=T(l,h.blockTag,h.blockAttributes)),c.appendChild(i),n-=1,o-=1):(r||c)&&(c||(c=T(l,h.blockTag,h.blockAttributes)),E(c,t),r?e.replaceChild(c,i):(e.insertBefore(c,i),n+=1,o+=1),c=null),d(i)&&b(i,t);return c&&e.appendChild(E(c,t)),e}function k(e,t,n,o){var i,r,a,s=e.nodeType;if(s===H&&e!==n)return k(e.parentNode,e.splitText(t),n,o);if(s===M){if("number"==typeof t&&(t=t<e.childNodes.length?e.childNodes[t]:null),e===n)return t;for(i=e.parentNode,r=e.cloneNode(!1);t;)a=t.nextSibling,r.appendChild(t),t=a;return"OL"===e.nodeName&&g(e,o,"BLOCKQUOTE")&&(r.start=(+e.start||1)+e.childNodes.length-1),E(e,o),E(r,o),(a=e.nextSibling)?i.insertBefore(r,a):i.appendChild(r),k(i,r,n,o)}return t}function x(e,t){for(var n,o,i,r=e.childNodes,s=r.length,d=[];s--;)if(n=r[s],o=s&&r[s-1],s&&a(n)&&f(n,o)&&!pe[n.nodeName])t.startContainer===n&&(t.startContainer=o,t.startOffset+=N(o)),t.endContainer===n&&(t.endContainer=o,t.endOffset+=N(o)),t.startContainer===e&&(t.startOffset>s?t.startOffset-=1:t.startOffset===s&&(t.startContainer=o,t.startOffset=N(o))),t.endContainer===e&&(t.endOffset>s?t.endOffset-=1:t.endOffset===s&&(t.endContainer=o,t.endOffset=N(o))),_(n),n.nodeType===H?o.appendData(n.data):d.push(y(n));else if(n.nodeType===M){for(i=d.length;i--;)n.appendChild(d.pop());x(n,t)}}function A(e,t){if(e.nodeType===H&&(e=e.parentNode),e.nodeType===M){var n={startContainer:t.startContainer,startOffset:t.startOffset,endContainer:t.endContainer,endOffset:t.endOffset};x(e,n),t.setStart(n.startContainer,n.startOffset),t.setEnd(n.endContainer,n.endOffset)}}function L(e){var t=e.nodeName;return"TD"===t||"TH"===t||"TR"===t||"TBODY"===t||"THEAD"===t}function B(e,t,n,o){var i,r,a,s=t;if(!L(e)||!L(t)){for(;(i=s.parentNode)&&i!==o&&i.nodeType===M&&1===i.childNodes.length;)s=i;_(s),a=e.childNodes.length,r=e.lastChild,r&&"BR"===r.nodeName&&(e.removeChild(r),a-=1),e.appendChild(y(t)),n.setStart(e,a),n.collapse(!0),A(e,n),J&&(r=e.lastChild)&&"BR"===r.nodeName&&e.removeChild(r)}}function O(e,t){var n,o,i=e.previousSibling,r=e.firstChild,a=e.ownerDocument,s="LI"===e.nodeName;if((!s||r&&/^[OU]L$/.test(r.nodeName))&&!L(e))if(i&&f(i,e)&&i.isContentEditable&&e.isContentEditable){if(!d(i)){if(!s)return;o=T(a,"DIV"),o.appendChild(y(i)),i.appendChild(o)}_(e),n=!d(e),i.appendChild(y(e)),n&&b(i,t),r&&O(r,t)}else s&&(i=T(a,"DIV"),e.insertBefore(i,r),E(i,t))}function R(e){this.isShiftDown=e.shiftKey}function D(e,t,n){var o,i;if(e||(e={}),t)for(o in t)!n&&o in e||(i=t[o],e[o]=i&&i.constructor===Object?D(e[o],i,n):i);return e}function P(e,t){e.nodeType===W&&(e=e.body);var n,o=e.ownerDocument,i=o.defaultView;this._win=i,this._doc=o,this._root=e,this._events={},this._isFocused=!1,this._lastSelection=null,ae&&this.addEventListener("beforedeactivate",this.getSelection),this._hasZWS=!1,this._lastAnchorNode=null,this._lastFocusNode=null,this._path="",this._willUpdatePath=!1,"onselectionchange"in o?this.addEventListener("selectionchange",this._updatePathOnEvent):(this.addEventListener("keyup",this._updatePathOnEvent),this.addEventListener("mouseup",this._updatePathOnEvent)),this._undoIndex=-1,this._undoStack=[],this._undoStackLength=0,this._isInUndoState=!1,this._ignoreChange=!1,this._ignoreAllChanges=!1,se?(n=new MutationObserver(this._docWasChanged.bind(this)),n.observe(e,{childList:!0,attributes:!0,characterData:!0,subtree:!0}),this._mutation=n):this.addEventListener("keyup",this._keyUpDetectChange),this._restoreSelection=!1,this.addEventListener("blur",U),this.addEventListener("mousedown",I),this.addEventListener("touchstart",I),this.addEventListener("focus",w),this._awaitingPaste=!1,this.addEventListener(X?"beforecut":"cut",nt),this.addEventListener("copy",ot),this.addEventListener("keydown",R),this.addEventListener("keyup",R),this.addEventListener(X?"beforepaste":"paste",it),this.addEventListener("drop",rt),this.addEventListener(J?"keypress":"keydown",Ie),this._keyHandlers=Object.create(He),this.setConfig(t),X&&(i.Text.prototype.splitText=function(e){var t=this.ownerDocument.createTextNode(this.data.slice(e)),n=this.nextSibling,o=this.parentNode,i=this.length-e;return n?o.insertBefore(t,n):o.appendChild(t),i&&this.deleteData(e,i),t}),e.setAttribute("contenteditable","true");try{o.execCommand("enableObjectResizing",!1,"false"),o.execCommand("enableInlineTableEditing",!1,"false")}catch(e){}e.__squire__=this,this.setHTML("")}function U(){this._restoreSelection=!0}function I(){this._restoreSelection=!1}function w(){this._restoreSelection&&this.setSelection(this._lastSelection)}function F(e,t,n){var o,i;for(o=t.firstChild;o;o=i){if(i=o.nextSibling,a(o)){if(o.nodeType===H||"BR"===o.nodeName||"IMG"===o.nodeName){n.appendChild(o);continue}}else if(s(o)){n.appendChild(e.createDefaultBlock([F(e,o,e._doc.createDocumentFragment())]));continue}F(e,o,n)}return n}var M=1,H=3,W=9,z=11,q=1,K="​",G=e.defaultView,Z=navigator.userAgent,j=/Android/.test(Z),Q=/iP(?:ad|hone|od)/.test(Z),$=/Mac OS X/.test(Z),V=/Windows NT/.test(Z),Y=/Gecko\//.test(Z),X=/Trident\/[456]\./.test(Z),J=!!G.opera,ee=/Edge\//.test(Z),te=!ee&&/WebKit\//.test(Z),ne=/Trident\/[4567]\./.test(Z),oe=$?"meta-":"ctrl-",ie=X||J,re=X||te,ae=X,se="undefined"!=typeof MutationObserver,de="undefined"!=typeof WeakMap,le=/[^ \t\r\n]/,ce=Array.prototype.indexOf;Object.create||(Object.create=function(e){var t=function(){};return t.prototype=e,new t});var he={1:1,2:2,3:4,8:128,9:256,11:1024},ue=function(){return!0};n.prototype.nextNode=function(){for(var e,t=this.currentNode,n=this.root,o=this.nodeType,i=this.filter;;){for(e=t.firstChild;!e&&t&&t!==n;)(e=t.nextSibling)||(t=t.parentNode);if(!e)return null;if(he[e.nodeType]&o&&i(e))return this.currentNode=e,e;t=e}},n.prototype.previousNode=function(){for(var e,t=this.currentNode,n=this.root,o=this.nodeType,i=this.filter;;){if(t===n)return null;if(e=t.previousSibling)for(;t=e.lastChild;)e=t;else e=t.parentNode;if(!e)return null;if(he[e.nodeType]&o&&i(e))return this.currentNode=e,e;t=e}},n.prototype.previousPONode=function(){for(var e,t=this.currentNode,n=this.root,o=this.nodeType,i=this.filter;;){for(e=t.lastChild;!e&&t&&t!==n;)(e=t.previousSibling)||(t=t.parentNode);if(!e)return null;if(he[e.nodeType]&o&&i(e))return this.currentNode=e,e;t=e}};var fe=/^(?:#text|A(?:BBR|CRONYM)?|B(?:R|D[IO])?|C(?:ITE|ODE)|D(?:ATA|EL|FN)|EM|FONT|I(?:FRAME|MG|NPUT|NS)?|KBD|Q|R(?:P|T|UBY)|S(?:AMP|MALL|PAN|TR(?:IKE|ONG)|U[BP])?|TIME|U|VAR|WBR)$/,pe={BR:1,HR:1,IFRAME:1,IMG:1,INPUT:1},ge=0,me=1,ve=2,Ce=3,Ne=de?new WeakMap:null,_e=function(e,t){for(var n=e.childNodes;t&&e.nodeType===M;)e=n[t-1],n=e.childNodes,t=n.length;return e},Se=function(e,t){if(e.nodeType===M){var n=e.childNodes;if(t<n.length)e=n[t];else{for(;e&&!e.nextSibling;)e=e.parentNode;e&&(e=e.nextSibling)}}return e},ye=function(e,t){var n,o,i,r,a=e.startContainer,s=e.startOffset,d=e.endContainer,l=e.endOffset;a.nodeType===H?(n=a.parentNode,o=n.childNodes,s===a.length?(s=ce.call(o,a)+1,e.collapsed&&(d=n,l=s)):(s&&(r=a.splitText(s),d===a?(l-=s,d=r):d===n&&(l+=1),a=r),s=ce.call(o,a)),a=n):o=a.childNodes,i=o.length,s===i?a.appendChild(t):a.insertBefore(t,o[s]),a===d&&(l+=o.length-i),e.setStart(a,s),e.setEnd(d,l)},Te=function(e,t,n){var o=e.startContainer,i=e.startOffset,r=e.endContainer,a=e.endOffset;t||(t=e.commonAncestorContainer),t.nodeType===H&&(t=t.parentNode);for(var s,d,l,c,h,u=k(r,a,t,n),f=k(o,i,t,n),p=t.ownerDocument.createDocumentFragment();f!==u;)s=f.nextSibling,p.appendChild(f),f=s;return o=t,i=u?ce.call(t.childNodes,u):t.childNodes.length,l=t.childNodes[i],d=l&&l.previousSibling,d&&d.nodeType===H&&l.nodeType===H&&(o=d,i=d.length,c=d.data,h=l.data," "===c.charAt(c.length-1)&&" "===h.charAt(0)&&(h=" "+h.slice(1)),d.appendData(h),_(l)),e.setStart(o,i),e.collapse(!0),E(t,n),p},Ee=function(e,t){var n,o,i=Le(e,t),r=Be(e,t),a=i!==r;return xe(e),Ae(e,i,r,t),n=Te(e,null,t),xe(e),a&&(r=Be(e,t),i&&r&&i!==r&&B(i,r,e,t)),i&&E(i,t),o=t.firstChild,o&&"BR"!==o.nodeName?e.collapse(!0):(E(t,t),e.selectNodeContents(t.firstChild)),n},be=function(e,t,n){var o,i,r,s,l,u,f,p,v,C;for(b(t,n),o=t;o=h(o,n);)E(o,n);if(e.collapsed||Ee(e,n),xe(e),e.collapse(!1),s=g(e.endContainer,n,"BLOCKQUOTE")||n,i=Le(e,n),f=h(t,t),i&&f&&!m(f,t,/PRE|TABLE|H[1-6]|OL|UL|BLOCKQUOTE/)){if(Ae(e,i,i,n),e.collapse(!0),l=e.endContainer,u=e.endOffset,et(i,n,!1),a(l)&&(p=k(l,u,c(l,n),n),l=p.parentNode,u=ce.call(l.childNodes,p)),u!==N(l))for(r=n.ownerDocument.createDocumentFragment();o=l.childNodes[u];)r.appendChild(o);B(l,f,e,n),u=ce.call(l.parentNode.childNodes,l)+1,l=l.parentNode,e.setEnd(l,u)}N(t)&&(Ae(e,s,s,n),p=k(e.endContainer,e.endOffset,s,n),v=p?p.previousSibling:s.lastChild,s.insertBefore(t,p),p?e.setEndBefore(p):e.setEnd(s,N(s)),i=Be(e,n),xe(e),l=e.endContainer,u=e.endOffset,p&&d(p)&&O(p,n),p=v&&v.nextSibling,p&&d(p)&&O(p,n),e.setEnd(l,u)),r&&(C=e.cloneRange(),B(i,r,C,n),e.setEnd(C.endContainer,C.endOffset)),xe(e)},ke=function(e,t,n){var o=t.ownerDocument.createRange();if(o.selectNode(t),n){var i=e.compareBoundaryPoints(3,o)>-1,r=e.compareBoundaryPoints(1,o)<1;return!i&&!r}var a=e.compareBoundaryPoints(0,o)<1,s=e.compareBoundaryPoints(2,o)>-1;return a&&s},xe=function(e){for(var t,n=e.startContainer,o=e.startOffset,r=e.endContainer,a=e.endOffset,s=!0;n.nodeType!==H&&(t=n.childNodes[o])&&!i(t);)n=t,o=0;if(a)for(;r.nodeType!==H;){if(!(t=r.childNodes[a-1])||i(t)){if(s&&t&&"BR"===t.nodeName){a-=1,s=!1;continue}break}r=t,a=N(r)}else for(;r.nodeType!==H&&(t=r.firstChild)&&!i(t);)r=t;e.collapsed?(e.setStart(r,a),e.setEnd(n,o)):(e.setStart(n,o),e.setEnd(r,a))},Ae=function(e,t,n,o){var i,r=e.startContainer,a=e.startOffset,s=e.endContainer,d=e.endOffset,l=!0;for(t||(t=e.commonAncestorContainer),n||(n=t);!a&&r!==t&&r!==o;)i=r.parentNode,a=ce.call(i.childNodes,r),r=i;for(;;){if(l&&s.nodeType!==H&&s.childNodes[d]&&"BR"===s.childNodes[d].nodeName&&(d+=1,l=!1),s===n||s===o||d!==N(s))break;i=s.parentNode,d=ce.call(i.childNodes,s)+1,s=i}e.setStart(r,a),e.setEnd(s,d)},Le=function(e,t){var n,o=e.startContainer;return a(o)?n=c(o,t):o!==t&&s(o)?n=o:(n=_e(o,e.startOffset),n=h(n,t)),n&&ke(e,n,!0)?n:null},Be=function(e,t){var n,o,i=e.endContainer;if(a(i))n=c(i,t);else if(i!==t&&s(i))n=i;else{if(!(n=Se(i,e.endOffset))||!v(t,n))for(n=t;o=n.lastChild;)n=o;n=c(n,t)}return n&&ke(e,n,!0)?n:null},Oe=new n(null,4|q,function(e){return e.nodeType===H?le.test(e.data):"IMG"===e.nodeName}),Re=function(e,t){var n,o=e.startContainer,i=e.startOffset;if(Oe.root=null,o.nodeType===H){if(i)return!1;n=o}else if(n=Se(o,i),n&&!v(t,n)&&(n=null),!n&&(n=_e(o,i),n.nodeType===H&&n.length))return!1;return Oe.currentNode=n,Oe.root=Le(e,t),!Oe.previousNode()},De=function(e,t){var n,o=e.endContainer,i=e.endOffset;if(Oe.root=null,o.nodeType===H){if((n=o.data.length)&&i<n)return!1;Oe.currentNode=o}else Oe.currentNode=_e(o,i);return Oe.root=Be(e,t),!Oe.nextNode()},Pe=function(e,t){var n,o=Le(e,t),i=Be(e,t);o&&i&&(n=o.parentNode,e.setStart(n,ce.call(n.childNodes,o)),n=i.parentNode,e.setEnd(n,ce.call(n.childNodes,i)+1))},Ue={8:"backspace",9:"tab",13:"enter",32:"space",33:"pageup",34:"pagedown",37:"left",39:"right",46:"delete",219:"[",221:"]"},Ie=function(e){var t=e.keyCode,n=Ue[t],o="",i=this.getSelection();e.defaultPrevented||(n||(n=String.fromCharCode(t).toLowerCase(),/^[A-Za-z0-9]$/.test(n)||(n="")),J&&46===e.which&&(n="."),111<t&&t<124&&(n="f"+(t-111)),"backspace"!==n&&"delete"!==n&&(e.altKey&&(o+="alt-"),e.ctrlKey&&(o+="ctrl-"),e.metaKey&&(o+="meta-")),e.shiftKey&&(o+="shift-"),n=o+n,this._keyHandlers[n]?this._keyHandlers[n](this,e,i):i.collapsed||e.isComposing||e.ctrlKey||e.metaKey||1!==(ne?n:e.key||n).length||(this.saveUndoState(i),Ee(i,this._root),this._ensureBottomLine(),this.setSelection(i),this._updatePath(i,!0)))},we=function(e){return function(t,n){n.preventDefault(),t[e]()}},Fe=function(e,t){return t=t||null,function(n,o){o.preventDefault();var i=n.getSelection();n.hasFormat(e,null,i)?n.changeFormat(null,{tag:e},i):n.changeFormat({tag:e},t,i)}},Me=function(e,t){try{t||(t=e.getSelection());var n,o=t.startContainer;for(o.nodeType===H&&(o=o.parentNode),n=o;a(n)&&(!n.textContent||n.textContent===K);)o=n,n=o.parentNode;o!==n&&(t.setStart(n,ce.call(n.childNodes,o)),t.collapse(!0),n.removeChild(o),s(n)||(n=c(n,e._root)),E(n,e._root),xe(t)),o===e._root&&(o=o.firstChild)&&"BR"===o.nodeName&&_(o),e._ensureBottomLine(),e.setSelection(t),e._updatePath(t,!0)}catch(t){e.didError(t)}},He={enter:function(e,t,n){var o,i,r,a,s,d=e._root;if(t.preventDefault(),e._recordUndoState(n),g(n.startContainer,d,"PRE",{"data-te-codeblock":""})||yt(n.startContainer,d,e),e._removeZWS(),e._getRangeAndRemoveBookmark(n),n.collapsed||Ee(n,d),(o=Le(n,d))&&(i=g(o,d,"PRE")))return xe(n),r=n.startContainer,a=n.startOffset,r.nodeType!==H&&(r=e._doc.createTextNode(""),i.insertBefore(r,i.firstChild)),t.shiftKey||"\n"!==r.data.charAt(a-1)&&!Re(n,d)||"\n"!==r.data.charAt(a)&&!De(n,d)?(r.insertData(a,"\n"),E(i,d),r.length===a+1?n.setStartAfter(r):n.setStart(r,a+1)):(r.deleteData(a&&a-1,a?2:1),s=k(r,a&&a-1,d,d),r=s.previousSibling,r.textContent||_(r),r=e.createDefaultBlock(),s.parentNode.insertBefore(r,s),s.textContent||_(s),n.setStart(r,0)),n.collapse(!0),e.setSelection(n),e._updatePath(n,!0),void e._docWasChanged();if(!o||t.shiftKey||/^T[HD]$/.test(o.nodeName))return i=g(n.endContainer,d,"A"),i&&(i=i.parentNode,Ae(n,i,i,d),n.collapse(!1)),ye(n,e.createElement("BR")),n.collapse(!1),e.setSelection(n),void e._updatePath(n,!0);if((i=g(o,d,"LI"))&&(o=i),u(o)){if(g(o,d,"UL")||g(o,d,"OL"))return e.decreaseListLevel(n);if(g(o,d,"BLOCKQUOTE"))return e.modifyBlocks(mt,n)}for(s=ft(e,o,n.startContainer,n.startOffset),ct(o),Ye(o),E(o,d);s.nodeType===M;){var l,c=s.firstChild;if("A"===s.nodeName&&(!s.textContent||s.textContent===K)){c=e._doc.createTextNode(""),S(s,c),s=c;break}for(;c&&c.nodeType===H&&!c.data&&(l=c.nextSibling)&&"BR"!==l.nodeName;)_(c),c=l;if(!c||"BR"===c.nodeName||c.nodeType===H&&!J)break;s=c}n=e.createRange(s,0),e.setSelection(n),e._updatePath(n,!0)},"shift-enter":function(e,t,n){return e._keyHandlers.enter(e,t,n)},backspace:function(e,t,n){var o=e._root;if(e._removeZWS(),e.saveUndoState(n),n.collapsed)if(Re(n,o)){t.preventDefault();var i,r=Le(n,o);if(!r)return;if(b(r.parentNode,o),i=c(r,o)){if(!i.isContentEditable){for(;!i.parentNode.isContentEditable;)i=i.parentNode;return void _(i)}for(B(i,r,n,o),r=i.parentNode;r!==o&&!r.nextSibling;)r=r.parentNode;r!==o&&(r=r.nextSibling)&&O(r,o),e.setSelection(n)}else if(r){if(g(r,o,"UL")||g(r,o,"OL"))return e.decreaseListLevel(n);if(g(r,o,"BLOCKQUOTE"))return e.modifyBlocks(gt,n);e.setSelection(n),e._updatePath(n,!0)}}else e.setSelection(n),setTimeout(function(){Me(e)},0);else t.preventDefault(),Ee(n,o),Me(e,n)},delete:function(e,t,n){var o,i,r,a,s,d,l=e._root;if(e._removeZWS(),e.saveUndoState(n),n.collapsed)if(De(n,l)){if(t.preventDefault(),!(o=Le(n,l)))return;if(b(o.parentNode,l),i=h(o,l)){if(!i.isContentEditable){for(;!i.parentNode.isContentEditable;)i=i.parentNode;return void _(i)}for(B(o,i,n,l),i=o.parentNode;i!==l&&!i.nextSibling;)i=i.parentNode;i!==l&&(i=i.nextSibling)&&O(i,l),e.setSelection(n),e._updatePath(n,!0)}}else{if(r=n.cloneRange(),Ae(n,l,l,l),a=n.endContainer,s=n.endOffset,a.nodeType===M&&(d=a.childNodes[s])&&"IMG"===d.nodeName)return t.preventDefault(),_(d),xe(n),void Me(e,n);e.setSelection(r),setTimeout(function(){Me(e)},0)}else t.preventDefault(),Ee(n,l),Me(e,n)},tab:function(e,t,n){var o,i,r=e._root;if(e._removeZWS(),n.collapsed&&Re(n,r))for(o=Le(n,r);i=o.parentNode;){if("UL"===i.nodeName||"OL"===i.nodeName){t.preventDefault(),e.increaseListLevel(n);break}o=i}},"shift-tab":function(e,t,n){var o,i=e._root;e._removeZWS(),n.collapsed&&Re(n,i)&&(o=n.startContainer,(g(o,i,"UL")||g(o,i,"OL"))&&(t.preventDefault(),e.decreaseListLevel(n)))},space:function(e,t,n){var o,i=e._root;if(e._recordUndoState(n),yt(n.startContainer,i,e),e._getRangeAndRemoveBookmark(n),o=n.endContainer,n.collapsed&&n.endOffset===N(o))do{if("A"===o.nodeName){n.setStartAfter(o);break}}while(!o.nextSibling&&(o=o.parentNode)&&o!==i);n.collapsed||(Ee(n,i),e._ensureBottomLine(),e.setSelection(n),e._updatePath(n,!0)),e.setSelection(n)},left:function(e){e._removeZWS()},right:function(e){e._removeZWS()}};$&&Y&&(He["meta-left"]=function(e,t){t.preventDefault();var n=lt(e);n&&n.modify&&n.modify("move","backward","lineboundary")},He["meta-right"]=function(e,t){t.preventDefault();var n=lt(e);n&&n.modify&&n.modify("move","forward","lineboundary")}),$||(He.pageup=function(e){e.moveCursorToStart()},He.pagedown=function(e){e.moveCursorToEnd()}),He[oe+"b"]=Fe("B"),He[oe+"i"]=Fe("I"),He[oe+"u"]=Fe("U"),He[oe+"shift-7"]=Fe("S"),He[oe+"shift-5"]=Fe("SUB",{tag:"SUP"}),He[oe+"shift-6"]=Fe("SUP",{tag:"SUB"}),He[oe+"shift-8"]=we("makeUnorderedList"),He[oe+"shift-9"]=we("makeOrderedList"),He[oe+"["]=we("decreaseQuoteLevel"),He[oe+"]"]=we("increaseQuoteLevel"),He[oe+"d"]=we("toggleCode"),He[oe+"y"]=we("redo"),He[oe+"z"]=we("undo"),He[oe+"shift-z"]=we("redo");var We={1:10,2:13,3:16,4:18,5:24,6:32,7:48},ze={backgroundColor:{regexp:le,replace:function(e,t,n){return T(e,"SPAN",{class:t.highlight,style:"background-color:"+n})}},color:{regexp:le,replace:function(e,t,n){return T(e,"SPAN",{class:t.colour,style:"color:"+n})}},fontWeight:{regexp:/^bold|^700/i,replace:function(e){return T(e,"B")}},fontStyle:{regexp:/^italic/i,replace:function(e){return T(e,"I")}},fontFamily:{regexp:le,replace:function(e,t,n){return T(e,"SPAN",{class:t.fontFamily,style:"font-family:"+n})}},fontSize:{regexp:le,replace:function(e,t,n){return T(e,"SPAN",{class:t.fontSize,style:"font-size:"+n})}},textDecoration:{regexp:/^underline/i,replace:function(e){return T(e,"U")}}},qe=function(e){return function(t,n){var o=T(t.ownerDocument,e);return n.replaceChild(o,t),o.appendChild(y(t)),o}},Ke=function(e,t,n){var o,i,r,a,s,d,l=e.style,c=e.ownerDocument;for(o in ze)i=ze[o],(r=l[o])&&i.regexp.test(r)&&(d=i.replace(c,n.classNames,r),s||(s=d),a&&a.appendChild(d),a=d,e.style[o]="");return s&&(a.appendChild(y(e)),"SPAN"===e.nodeName?t.replaceChild(s,e):e.appendChild(s)),a||e},Ge={P:Ke,SPAN:Ke,STRONG:qe("B"),EM:qe("I"),INS:qe("U"),STRIKE:qe("S"),FONT:function(e,t,n){var o,i,r,a,s,d=e.face,l=e.size,c=e.color,h=e.ownerDocument,u=n.classNames;return d&&(o=T(h,"SPAN",{class:u.fontFamily,style:"font-family:"+d}),s=o,a=o),l&&(i=T(h,"SPAN",{class:u.fontSize,style:"font-size:"+We[l]+"px"}),s||(s=i),a&&a.appendChild(i),a=i),c&&/^#?([\dA-F]{3}){1,2}$/i.test(c)&&("#"!==c.charAt(0)&&(c="#"+c),r=T(h,"SPAN",{class:u.colour,style:"color:"+c}),s||(s=r),a&&a.appendChild(r),a=r),s||(s=a=T(h,"SPAN")),t.replaceChild(s,e),a.appendChild(y(e)),a},TT:function(e,t,n){var o=T(e.ownerDocument,"SPAN",{class:n.classNames.fontFamily,style:'font-family:menlo,consolas,"courier new",monospace'});return t.replaceChild(o,e),o.appendChild(y(e)),o}},Ze=/^(?:A(?:DDRESS|RTICLE|SIDE|UDIO)|BLOCKQUOTE|CAPTION|D(?:[DLT]|IV)|F(?:IGURE|IGCAPTION|OOTER)|H[1-6]|HEADER|HR|L(?:ABEL|EGEND|I)|O(?:L|UTPUT)|P(?:RE)?|SECTION|T(?:ABLE|BODY|D|FOOT|H|HEAD|R)|COL(?:GROUP)?|UL)$/,je=/^(?:HEAD|META|STYLE)/,Qe=new n(null,4|q),$e=function(e,t){var n,o=t.allowedBlocks,i=!1,r=o.length;if(r){for(n=0;n<r;n+=1)o[n]=o[n].toUpperCase();i=new RegExp(o.join("|")).test(e)}return Ze.test(e)||i},Ve=function e(t,n,o){var i,r,s,d,l,c,h,u,f,p,g,m,v=t.childNodes;for(i=t;a(i);)i=i.parentNode;for(Qe.root=i,r=0,s=v.length;r<s;r+=1)if(d=v[r],l=d.nodeName,c=d.nodeType,h=Ge[l],c===M){if(u=d.childNodes.length,h)d=h(d,t,n);else{if(je.test(l)){t.removeChild(d),r-=1,s-=1;continue}if(!$e(l,n)&&!a(d)){r-=1,s+=u-1,t.replaceChild(y(d),d);continue}}u&&e(d,n,o||"PRE"===l)}else{if(c===H){if(g=d.data,f=!le.test(g.charAt(0)),p=!le.test(g.charAt(g.length-1)),o||!f&&!p)continue;if(f){for(Qe.currentNode=d;(m=Qe.previousPONode())&&!("IMG"===(l=m.nodeName)||"#text"===l&&le.test(m.data));)if(!a(m)){m=null;break}g=g.replace(/^[ \t\r\n]+/g,m?" ":"")}if(p){for(Qe.currentNode=d;(m=Qe.nextNode())&&!("IMG"===l||"#text"===l&&le.test(m.data));)if(!a(m)){m=null;break}g=g.replace(/[ \t\r\n]+$/g,m?" ":"")}if(g){d.data=g;continue}}t.removeChild(d),r-=1,s-=1}return t},Ye=function e(t){for(var n,o=t.childNodes,r=o.length;r--;)if(n=o[r],n.nodeType!==M||i(n))n.nodeType!==H||n.data||t.removeChild(n);else{e(n);var s="FIGURE"===n.tagName;!a(n)&&!s||n.firstChild||t.removeChild(n)}},Xe=function(e){return e.nodeType===M?"BR"===e.nodeName||"IMG"===e.nodeName:le.test(e.data)},Je=function(e,t){for(var o,i=e.parentNode;a(i);)i=i.parentNode;return o=new n(i,4|q,Xe),o.currentNode=e,!!o.nextNode()||t&&!o.previousNode()},et=function(e,t,n){var o,i,r,s=e.querySelectorAll("BR"),d=[],l=s.length;for(o=0;o<l;o+=1)d[o]=Je(s[o],n);for(;l--;)i=s[l],(r=i.parentNode)&&(d[l]?a(r)||b(r,t):_(i))},tt=function(e,t,n,o){var i,r,a=t.ownerDocument.body,s=o.willCutCopy;et(t,n,!0),t.setAttribute("style","position:fixed;overflow:hidden;bottom:100%;right:100%;"),a.appendChild(t),i=t.innerHTML,r=t.innerText||t.textContent,s&&(i=s(i)),V&&(r=r.replace(/\r?\n/g,"\r\n")),e.setData("text/html",i),e.setData("text/plain",r),a.removeChild(t)},nt=function(e){var t,n,o,i,r,a,s,d=e.clipboardData,l=this.getSelection(),c=this._root,h=this;if(l.collapsed)return void e.preventDefault();if(this.saveUndoState(l),ee||Q||!d)setTimeout(function(){try{h._ensureBottomLine()}catch(e){h.didError(e)}},0);else{for(t=Le(l,c),n=Be(l,c),o=t===n&&t||c,i=Ee(l,c),r=l.commonAncestorContainer,r.nodeType===H&&(r=r.parentNode);r&&r!==o;)a=r.cloneNode(!1),a.appendChild(i),i=a,r=r.parentNode;s=this.createElement("div"),s.appendChild(i),tt(d,s,c,this._config),e.preventDefault()}this.setSelection(l)},ot=function(e){var t,n,o,i,r,a,s,d=e.clipboardData,l=this.getSelection(),c=this._root;if(!ee&&!Q&&d){for(t=Le(l,c),n=Be(l,c),o=t===n&&t||c,l=l.cloneRange(),xe(l),Ae(l,o,o,c),i=l.cloneContents(),r=l.commonAncestorContainer,r.nodeType===H&&(r=r.parentNode);r&&r!==o;)a=r.cloneNode(!1),a.appendChild(i),i=a,r=r.parentNode;s=this.createElement("div"),s.appendChild(i),tt(d,s,c,this._config),e.preventDefault()}},it=function(e){var t,n,o,i,r,a=e.clipboardData,s=a&&a.items,d=this.isShiftDown,l=!1,c=!1,h=null,u=this;if(s){for(e.preventDefault(),t=s.length;t--;){if(n=s[t],o=n.type,!d&&"text/html"===o)return void n.getAsString(function(e){u.insertHTML(e,!0)});"text/plain"===o&&(h=n),!d&&/^image\/.*/.test(o)&&(c=!0)}return void(c?(this.fireEvent("dragover",{dataTransfer:a,preventDefault:function(){l=!0}}),l&&this.fireEvent("drop",{dataTransfer:a})):h&&h.getAsString(function(e){u.insertPlainText(e,!0)}))}if(i=a&&a.types,!ee&&i&&(ce.call(i,"text/html")>-1||!Y&&ce.call(i,"text/plain")>-1&&ce.call(i,"text/rtf")<0))return e.preventDefault(),void(!d&&(r=a.getData("text/html"))?this.insertHTML(r,!0):((r=a.getData("text/plain"))||(r=a.getData("text/uri-list")))&&this.insertPlainText(r,!0));this._awaitingPaste=!0;var f=this._doc.body,p=this.getSelection(),g=p.startContainer,m=p.startOffset,v=p.endContainer,C=p.endOffset,N=this.createElement("DIV",{contenteditable:"true",style:"position:fixed; overflow:hidden; top:0; right:100%; width:1px; height:1px;"});f.appendChild(N),p.selectNodeContents(N),this.setSelection(p),setTimeout(function(){try{u._awaitingPaste=!1;for(var e,t,n="",o=N;N=o;)o=N.nextSibling,_(N),e=N.firstChild,e&&e===N.lastChild&&"DIV"===e.nodeName&&(N=e),n+=N.innerHTML;t=u.createRange(g,m,v,C),u.setSelection(t),n&&u.insertHTML(n,!0)}catch(e){u.didError(e)}},0)},rt=function(e){for(var t=e.dataTransfer.types,n=t.length,o=!1,i=!1;n--;)switch(t[n]){case"text/plain":o=!0;break;case"text/html":i=!0;break;default:return}(i||o)&&this.saveUndoState()},at=P.prototype,st=function(e,t,n){var o=n._doc,i=e?DOMPurify.sanitize(e,{ALLOW_UNKNOWN_PROTOCOLS:!0,WHOLE_DOCUMENT:!1,RETURN_DOM:!0,RETURN_DOM_FRAGMENT:!0}):null;return i?o.importNode(i,!0):o.createDocumentFragment()};at.setConfig=function(e){return e=D({blockTag:"DIV",blockAttributes:null,tagAttributes:{blockquote:null,ul:null,ol:null,li:null,a:null},classNames:{colour:"colour",fontFamily:"font",fontSize:"size",highlight:"highlight"},leafNodeNames:pe,undo:{documentSizeThreshold:-1,undoLimit:-1},isInsertedHTMLSanitized:!0,isSetHTMLSanitized:!0,sanitizeToDOMFragment:"undefined"!=typeof DOMPurify&&DOMPurify.isSupported?st:null,willCutCopy:null,allowedBlocks:[]},e,!0),e.blockTag=e.blockTag.toUpperCase(),this._config=e,this},at.createElement=function(e,t,n){return T(this._doc,e,t,n)},at.createDefaultBlock=function(e){var t=this._config;return E(this.createElement(t.blockTag,t.blockAttributes,e),this._root)},at.didError=function(e){console.log(e)},at.getDocument=function(){return this._doc},at.getRoot=function(){return this._root},at.modifyDocument=function(e){var t=this._mutation;t&&(t.takeRecords().length&&this._docWasChanged(),t.disconnect()),this._ignoreAllChanges=!0,e(),this._ignoreAllChanges=!1,t&&(t.observe(this._root,{childList:!0,attributes:!0,characterData:!0,subtree:!0}),this._ignoreChange=!1)};var dt={pathChange:1,select:1,input:1,undoStateChange:1};at.fireEvent=function(e,t){var n,o,i,r=this._events[e];if(/^(?:focus|blur)/.test(e))if(n=this._root===this._doc.activeElement,"focus"===e){if(!n||this._isFocused)return this;this._isFocused=!0}else{if(n||!this._isFocused)return this;this._isFocused=!1}if(r)for(t||(t={}),t.type!==e&&(t.type=e),r=r.slice(),o=r.length;o--;){i=r[o];try{i.handleEvent?i.handleEvent(t):i.call(this,t)}catch(t){t.details="Squire: fireEvent error. Event type: "+e,this.didError(t)}}return this},at.destroy=function(){var e,t=this._events;for(e in t)this.removeEventListener(e);this._mutation&&this._mutation.disconnect(),delete this._root.__squire__,this._undoIndex=-1,this._undoStack=[],this._undoStackLength=0},at.handleEvent=function(e){this.fireEvent(e.type,e)},at.addEventListener=function(e,t){var n=this._events[e],o=this._root;return t?(n||(n=this._events[e]=[],dt[e]||("selectionchange"===e&&(o=this._doc),o.addEventListener(e,this,!0))),n.push(t),this):(this.didError({name:"Squire: addEventListener with null or undefined fn",message:"Event type: "+e}),this)},at.removeEventListener=function(e,t){var n,o=this._events[e],i=this._root;if(o){if(t)for(n=o.length;n--;)o[n]===t&&o.splice(n,1);else o.length=0;o.length||(delete this._events[e],dt[e]||("selectionchange"===e&&(i=this._doc),i.removeEventListener(e,this,!0)))}return this},at.createRange=function(e,t,n,o){if(e instanceof this._win.Range)return e.cloneRange();var i=this._doc.createRange();return i.setStart(e,t),n?i.setEnd(n,o):i.setEnd(e,t),i},at.getCursorPosition=function(e){if(!e&&!(e=this.getSelection())||!e.getBoundingClientRect)return null;var t,n,o=e.getBoundingClientRect();return o&&!o.top&&(this._ignoreChange=!0,t=this._doc.createElement("SPAN"),t.textContent=K,ye(e,t),o=t.getBoundingClientRect(),n=t.parentNode,n.removeChild(t),A(n,e),this._ignoreChange=!1),o},at._moveCursorTo=function(e){var t=this._root,n=this.createRange(t,e?0:t.childNodes.length);return xe(n),this.setSelection(n),this},at.moveCursorToStart=function(){return this._moveCursorTo(!0)},at.moveCursorToEnd=function(){return this._moveCursorTo(!1)};var lt=function(e){return e._win.getSelection()||null};at.setSelection=function(e){if(e)if(this._lastSelection=e,this._isFocused)if(j&&!this._restoreSelection)U.call(this),this.blur(),this.focus();else{Q&&this._win.focus();var t=lt(this);t&&(t.removeAllRanges(),t.addRange(e))}else U.call(this);return this},at.getSelection=function(){var e,t,n,o,r=lt(this),a=this._root;return this._isFocused&&r&&r.rangeCount&&(e=r.getRangeAt(0).cloneRange(),t=e.startContainer,n=e.endContainer,t&&i(t)&&e.setStartBefore(t),n&&i(n)&&e.setEndBefore(n)),e&&v(a,e.commonAncestorContainer)?this._lastSelection=e:(e=this._lastSelection,o=e.commonAncestorContainer,v(o.ownerDocument,o)||(e=null)),e||(e=this.createRange(a.firstChild,0)),e},at.getSelectedText=function(){var e=this.getSelection();if(!e||e.collapsed)return"";var t,o=new n(e.commonAncestorContainer,4|q,function(t){return ke(e,t,!0)}),i=e.startContainer,r=e.endContainer,s=o.currentNode=i,d="",l=!1;for(o.filter(s)||(s=o.nextNode());s;)s.nodeType===H?(t=s.data)&&/\S/.test(t)&&(s===r&&(t=t.slice(0,e.endOffset)),s===i&&(t=t.slice(e.startOffset)),d+=t,l=!0):("BR"===s.nodeName||l&&!a(s))&&(d+="\n",l=!1),s=o.nextNode();return d},at.getPath=function(){return this._path};var ct=function(e,t){for(var o,i,r,s=new n(e,4);i=s.nextNode();)for(;(r=i.data.indexOf(K))>-1&&(!t||i.parentNode!==t);){if(1===i.length){do{o=i.parentNode,o.removeChild(i),i=o,s.currentNode=o}while(a(i)&&!N(i));break}i.deleteData(r,1)}};at._didAddZWS=function(){this._hasZWS=!0},at._removeZWS=function(){this._hasZWS&&(ct(this._root),this._hasZWS=!1)},at._updatePath=function(e,t){if(e){var n,o=e.startContainer,i=e.endContainer;(t||o!==this._lastAnchorNode||i!==this._lastFocusNode)&&(this._lastAnchorNode=o,this._lastFocusNode=i,
+n=o&&i?o===i?C(i,this._root,this._config):"(selection)":"",this._path!==n&&(this._path=n,this.fireEvent("pathChange",{path:n}))),this.fireEvent(e.collapsed?"cursor":"select",{range:e})}},at._updatePathOnEvent=function(e){var t=this;t._isFocused&&!t._willUpdatePath&&(t._willUpdatePath=!0,setTimeout(function(){t._willUpdatePath=!1,t._updatePath(t.getSelection())},0))},at.focus=function(){if(ne){try{this._root.setActive()}catch(e){}this.fireEvent("focus")}else this._root.focus();return this},at.blur=function(){return this._root.blur(),ne&&this.fireEvent("blur"),this};var ht="squire-selection-end";at._saveRangeToBookmark=function(e){var t,n=this.createElement("INPUT",{id:"squire-selection-start",type:"hidden"}),o=this.createElement("INPUT",{id:ht,type:"hidden"});ye(e,n),e.collapse(!1),ye(e,o),2&n.compareDocumentPosition(o)&&(n.id=ht,o.id="squire-selection-start",t=n,n=o,o=t),e.setStartAfter(n),e.setEndBefore(o)},at._getRangeAndRemoveBookmark=function(e){var t=this._root,n=t.querySelector("#squire-selection-start"),o=t.querySelector("#"+ht);if(n&&o){var i=n.parentNode,r=o.parentNode,a=ce.call(i.childNodes,n),s=ce.call(r.childNodes,o);i===r&&(s-=1),_(n),_(o),e||(e=this._doc.createRange()),e.setStart(i,a),e.setEnd(r,s),A(i,e),i!==r&&A(r,e),e.collapsed&&(i=e.startContainer,i.nodeType===H&&(r=i.childNodes[e.startOffset],r&&r.nodeType===H||(r=i.childNodes[e.startOffset-1]),r&&r.nodeType===H&&(e.setStart(r,0),e.collapse(!0))))}return e||null},at._keyUpDetectChange=function(e){var t=e.keyCode;e.ctrlKey||e.metaKey||e.altKey||!(t<16||t>20)||!(t<33||t>45)||this._docWasChanged()},at._docWasChanged=function(){if(de&&(Ne=new WeakMap),!this._ignoreAllChanges){if(se&&this._ignoreChange)return void(this._ignoreChange=!1);this._isInUndoState&&(this._isInUndoState=!1,this.fireEvent("undoStateChange",{canUndo:!0,canRedo:!1})),this.fireEvent("input")}},at._recordUndoState=function(e,t){if(!this._isInUndoState||t){var n,o=this._undoIndex,i=this._undoStack,r=this._config.undo,a=r.documentSizeThreshold,s=r.undoLimit;t||(o+=1),o<this._undoStackLength&&(i.length=this._undoStackLength=o),e&&this._saveRangeToBookmark(e),n=this._getHTML(),a>-1&&2*n.length>a&&s>-1&&o>s&&(i.splice(0,o-s),o=s,this._undoStackLength=s),i[o]=n,this._undoIndex=o,this._undoStackLength+=1,this._isInUndoState=!0}},at.saveUndoState=function(e){return e===t&&(e=this.getSelection()),this._recordUndoState(e,this._isInUndoState),this._getRangeAndRemoveBookmark(e),this},at.undo=function(){if(0!==this._undoIndex||!this._isInUndoState){this._recordUndoState(this.getSelection(),!1),this._undoIndex-=1,this._setHTML(this._undoStack[this._undoIndex]);var e=this._getRangeAndRemoveBookmark();e&&this.setSelection(e),this._isInUndoState=!0,this.fireEvent("undoStateChange",{canUndo:0!==this._undoIndex,canRedo:!0}),this.fireEvent("input")}return this},at.redo=function(){var e=this._undoIndex,t=this._undoStackLength;if(e+1<t&&this._isInUndoState){this._undoIndex+=1,this._setHTML(this._undoStack[this._undoIndex]);var n=this._getRangeAndRemoveBookmark();n&&this.setSelection(n),this.fireEvent("undoStateChange",{canUndo:!0,canRedo:e+2<t}),this.fireEvent("input")}return this},at.hasFormat=function(e,t,o){if(e=e.toUpperCase(),t||(t={}),!o&&!(o=this.getSelection()))return!1;!o.collapsed&&o.startContainer.nodeType===H&&o.startOffset===o.startContainer.length&&o.startContainer.nextSibling&&o.setStartBefore(o.startContainer.nextSibling),!o.collapsed&&o.endContainer.nodeType===H&&0===o.endOffset&&o.endContainer.previousSibling&&o.setEndAfter(o.endContainer.previousSibling);var i,r,a=this._root,s=o.commonAncestorContainer;if(g(s,a,e,t))return!0;if(s.nodeType===H)return!1;i=new n(s,4,function(e){return ke(o,e,!0)});for(var d=!1;r=i.nextNode();){if(!g(r,a,e,t))return!1;d=!0}return d},at.getFontInfo=function(e){var n,o,i,r={color:t,backgroundColor:t,family:t,size:t},a=0;if(!e&&!(e=this.getSelection()))return r;if(n=e.commonAncestorContainer,e.collapsed||n.nodeType===H)for(n.nodeType===H&&(n=n.parentNode);a<4&&n;)(o=n.style)&&(!r.color&&(i=o.color)&&(r.color=i,a+=1),!r.backgroundColor&&(i=o.backgroundColor)&&(r.backgroundColor=i,a+=1),!r.family&&(i=o.fontFamily)&&(r.family=i,a+=1),!r.size&&(i=o.fontSize)&&(r.size=i,a+=1)),n=n.parentNode;return r},at._addFormat=function(e,t,o){var i,r,s,d,l,c,h,u,f=this._root;if(o.collapsed){for(i=E(this.createElement(e,t),f),ye(o,i),o.setStart(i.firstChild,i.firstChild.length),o.collapse(!0),u=i;a(u);)u=u.parentNode;ct(u,i)}else{if(r=new n(o.commonAncestorContainer,4|q,function(e){return(e.nodeType===H||"BR"===e.nodeName||"IMG"===e.nodeName)&&ke(o,e,!0)}),s=o.startContainer,l=o.startOffset,d=o.endContainer,c=o.endOffset,r.currentNode=s,r.filter(s)||(s=r.nextNode(),l=0),!s)return o;do{h=r.currentNode,!g(h,f,e,t)&&(h===d&&h.length>c&&h.splitText(c),h===s&&l&&(h=h.splitText(l),d===s&&(d=h,c-=l),s=h,l=0),i=this.createElement(e,t),S(h,i),i.appendChild(h))}while(r.nextNode());d.nodeType!==H&&(h.nodeType===H?(d=h,c=h.length):(d=h.parentNode,c=1)),o=this.createRange(s,l,d,c)}return o},at._removeFormat=function(e,t,n,o){this._saveRangeToBookmark(n);var i,r=this._doc;n.collapsed&&(re?(i=r.createTextNode(K),this._didAddZWS()):i=r.createTextNode(""),ye(n,i));for(var s=n.commonAncestorContainer;a(s);)s=s.parentNode;var d=n.startContainer,l=n.startOffset,c=n.endContainer,h=n.endOffset,u=[],f=function(e,t){if(!ke(n,e,!1)){var o,i,r=e.nodeType===H;if(!ke(n,e,!0))return void("INPUT"===e.nodeName||r&&!e.data||u.push([t,e]));if(r)e===c&&h!==e.length&&u.push([t,e.splitText(h)]),e===d&&l&&(e.splitText(l),u.push([t,e]));else for(o=e.firstChild;o;o=i)i=o.nextSibling,f(o,t)}},g=Array.prototype.filter.call(s.getElementsByTagName(e),function(o){return ke(n,o,!0)&&p(o,e,t)});return o||g.forEach(function(e){f(e,e)}),u.forEach(function(e){var t=e[0].cloneNode(!1),n=e[1];S(n,t),t.appendChild(n)}),g.forEach(function(e){S(e,y(e))}),this._getRangeAndRemoveBookmark(n),i&&n.collapse(!1),A(s,n),n},at.changeFormat=function(e,t,n,o){return n||(n=this.getSelection())?(this.saveUndoState(n),t&&(n=this._removeFormat(t.tag.toUpperCase(),t.attributes||{},n,o)),e&&(n=this._addFormat(e.tag.toUpperCase(),e.attributes||{},n)),this.setSelection(n),this._updatePath(n,!0),se||this._docWasChanged(),this):this};var ut={DT:"DD",DD:"DT",LI:"LI",PRE:"PRE"},ft=function(e,t,n,o){var i=ut[t.nodeName],r=null,a=k(n,o,t.parentNode,e._root),s=e._config;return i||(i=s.blockTag,r=s.blockAttributes),p(a,i,r)||(t=T(a.ownerDocument,i,r),a.dir&&(t.dir=a.dir),S(a,t),t.appendChild(y(a)),a=t),a};at.forEachBlock=function(e,t,n){if(!n&&!(n=this.getSelection()))return this;t&&this.saveUndoState(n);var o=this._root,i=Le(n,o),r=Be(n,o);if(i&&r)do{if(e(i)||i===r)break}while(i=h(i,o));return t&&(this.setSelection(n),this._updatePath(n,!0),se||this._docWasChanged()),this},at.modifyBlocks=function(e,t){if(!t&&!(t=this.getSelection()))return this;this._recordUndoState(t,this._isInUndoState);var n,o=this._root;return Pe(t,o),Ae(t,o,o,o),n=Te(t,o,o),ye(t,e.call(this,n)),t.endOffset<t.endContainer.childNodes.length&&O(t.endContainer.childNodes[t.endOffset],o),O(t.startContainer.childNodes[t.startOffset],o),this._getRangeAndRemoveBookmark(t),this.setSelection(t),this._updatePath(t,!0),se||this._docWasChanged(),this};var pt=function(e){return this.createElement("BLOCKQUOTE",this._config.tagAttributes.blockquote,[e])},gt=function(e){var t=this._root,n=e.querySelectorAll("blockquote");return Array.prototype.filter.call(n,function(e){return!g(e.parentNode,t,"BLOCKQUOTE")}).forEach(function(e){S(e,y(e))}),e},mt=function(){return this.createDefaultBlock([this.createElement("INPUT",{id:"squire-selection-start",type:"hidden"}),this.createElement("INPUT",{id:ht,type:"hidden"})])},vt=function(e,t,n){for(var o,i,r,a,s=l(t,e._root),d=e._config.tagAttributes,c=d[n.toLowerCase()],h=d.li;o=s.nextNode();)"LI"===o.parentNode.nodeName&&(o=o.parentNode,s.currentNode=o.lastChild),"LI"!==o.nodeName?(a=e.createElement("LI",h),o.dir&&(a.dir=o.dir),(r=o.previousSibling)&&r.nodeName===n?(r.appendChild(a),_(o)):S(o,e.createElement(n,c,[a])),a.appendChild(y(o)),s.currentNode=a):(o=o.parentNode,(i=o.nodeName)!==n&&/^[OU]L$/.test(i)&&S(o,e.createElement(n,c,[y(o)])))},Ct=function(e){return vt(this,e,"UL"),e},Nt=function(e){return vt(this,e,"OL"),e},_t=function(e){var t,n,o,i,r,a=e.querySelectorAll("UL, OL"),d=e.querySelectorAll("LI"),l=this._root;for(t=0,n=a.length;t<n;t+=1)o=a[t],i=y(o),b(i,l),S(o,i);for(t=0,n=d.length;t<n;t+=1)r=d[t],s(r)?S(r,this.createDefaultBlock([y(r)])):(b(r,l),S(r,y(r)));return e},St=function(e,t){for(var n=e.commonAncestorContainer,o=e.startContainer,i=e.endContainer;n&&n!==t&&!/^[OU]L$/.test(n.nodeName);)n=n.parentNode;if(!n||n===t)return null;for(o===n&&(o=o.childNodes[e.startOffset]),i===n&&(i=i.childNodes[e.endOffset]);o&&o.parentNode!==n;)o=o.parentNode;for(;i&&i.parentNode!==n;)i=i.parentNode;return[n,o,i]};at.increaseListLevel=function(e){if(!e&&!(e=this.getSelection()))return this.focus();var t=this._root,n=St(e,t);if(!n)return this.focus();var o=n[0],i=n[1],r=n[2];if(!i||i===o.firstChild)return this.focus();this._recordUndoState(e,this._isInUndoState);var a,s,d=o.nodeName,l=i.previousSibling;l.nodeName!==d&&(a=this._config.tagAttributes[d.toLowerCase()],l=this.createElement(d,a),o.insertBefore(l,i));do{s=i===r?null:i.nextSibling,l.appendChild(i)}while(i=s);return s=l.nextSibling,s&&O(s,t),this._getRangeAndRemoveBookmark(e),this.setSelection(e),this._updatePath(e,!0),se||this._docWasChanged(),this.focus()},at.decreaseListLevel=function(e){if(!e&&!(e=this.getSelection()))return this.focus();var t=this._root,n=St(e,t);if(!n)return this.focus();var o=n[0],i=n[1],r=n[2];i||(i=o.firstChild),r||(r=o.lastChild),this._recordUndoState(e,this._isInUndoState);var a,s=o.parentNode,d=r.nextSibling?k(o,r.nextSibling,s,t):o.nextSibling;if(s!==t&&"LI"===s.nodeName){for(s=s.parentNode;d;)a=d.nextSibling,r.appendChild(d),d=a;d=o.parentNode.nextSibling}var l=!/^[OU]L$/.test(s.nodeName);do{a=i===r?null:i.nextSibling,o.removeChild(i),l&&"LI"===i.nodeName&&(i=this.createDefaultBlock([y(i)])),s.insertBefore(i,d)}while(i=a);return o.firstChild||_(o),d&&O(d,t),this._getRangeAndRemoveBookmark(e),this.setSelection(e),this._updatePath(e,!0),se||this._docWasChanged(),this.focus()},at._ensureBottomLine=function(){var e=this._root,t=e.lastElementChild;t&&t.nodeName===this._config.blockTag&&s(t)||e.appendChild(this.createDefaultBlock())},at.setKeyHandler=function(e,t){return this._keyHandlers[e]=t,this},at._getHTML=function(){return this._root.innerHTML},at._setHTML=function(e){var t=this._root,n=t;n.innerHTML=e;do{E(n,t)}while(n=h(n,t));this._ignoreChange=!0},at.getHTML=function(e){var t,n,o,i,r,a,s=[];if(e&&(a=this.getSelection())&&this._saveRangeToBookmark(a),ie)for(t=this._root,n=t;n=h(n,t);)n.textContent||n.querySelector("BR")||(o=this.createElement("BR"),n.appendChild(o),s.push(o));if(i=this._getHTML().replace(/\u200B/g,""),ie)for(r=s.length;r--;)_(s[r]);return a&&this._getRangeAndRemoveBookmark(a),i},at.setHTML=function(e){var t,n,o,i=this._config,r=i.isSetHTMLSanitized?i.sanitizeToDOMFragment:null,a=this._root;"function"==typeof r?n=r(e,!1,this):(t=this.createElement("DIV"),t.innerHTML=e,n=this._doc.createDocumentFragment(),n.appendChild(y(t))),Ve(n,i),et(n,a,!1),b(n,a);for(var s=n;s=h(s,a);)E(s,a);for(this._ignoreChange=!0;o=a.lastChild;)a.removeChild(o);a.appendChild(n),E(a,a),this._undoIndex=-1,this._undoStack.length=0,this._undoStackLength=0,this._isInUndoState=!1;var d=this._getRangeAndRemoveBookmark()||this.createRange(a.firstChild,0);return this.saveUndoState(d),this._lastSelection=d,U.call(this),this._updatePath(d,!0),this},at.insertElement=function(e,t){if(t||(t=this.getSelection()),t.collapse(!0),a(e))ye(t,e),t.setStartAfter(e);else{for(var n,o,i=this._root,r=Le(t,i)||i;r!==i&&!r.nextSibling;)r=r.parentNode;r!==i&&(n=r.parentNode,o=k(n,r.nextSibling,i,i)),o?i.insertBefore(e,o):(i.appendChild(e),o=this.createDefaultBlock(),i.appendChild(o)),t.setStart(o,0),t.setEnd(o,0),xe(t)}return this.focus(),this.setSelection(t),this._updatePath(t),se||this._docWasChanged(),this},at.insertImage=function(e,t){var n=this.createElement("IMG",D({src:e},t,!0));return this.insertElement(n),n},at.linkRegExp=/\b((?:(?:ht|f)tps?:\/\/|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,}\/)(?:[^\s()<>]+|\([^\s()<>]+\))+(?:\((?:[^\s()<>]+|(?:\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))|([\w\-.%+]+@(?:[\w\-]+\.)+[A-Z]{2,}\b)(?:\?[^&?\s]+=[^&?\s]+(?:&[^&?\s]+=[^&?\s]+)*)?/i;var yt=function(e,t,o){var i,r,a,s,d,l,c,h=e.ownerDocument,u=new n(e,4,function(e){return!g(e,t,"A")}),f=o.linkRegExp,p=o._config.tagAttributes.a;if(f)for(;i=u.nextNode();)for(r=i.data,a=i.parentNode;s=f.exec(r);)d=s.index,l=d+s[0].length,d&&(c=h.createTextNode(r.slice(0,d)),a.insertBefore(c,i)),c=o.createElement("A",D({href:s[1]?/^(?:ht|f)tps?:/i.test(s[1])?s[1]:"http://"+s[1]:"mailto:"+s[0]},p,!1)),c.textContent=r.slice(d,l),a.insertBefore(c,i),i.data=r=r.slice(l)};at.insertHTML=function(e,t){var n,o,i,r,a,s,d,l=this._config,c=l.isInsertedHTMLSanitized?l.sanitizeToDOMFragment:null,u=this.getSelection(),f=this._doc;"function"==typeof c?r=c(e,t,this):(t&&(n=e.indexOf("\x3c!--StartFragment--\x3e"),o=e.lastIndexOf("\x3c!--EndFragment--\x3e"),n>-1&&o>-1&&(e=e.slice(n+20,o))),/<\/td>((?!<\/tr>)[\s\S])*$/i.test(e)&&(e="<TR>"+e+"</TR>"),/<\/tr>((?!<\/table>)[\s\S])*$/i.test(e)&&(e="<TABLE>"+e+"</TABLE>"),i=this.createElement("DIV"),i.innerHTML=e,r=f.createDocumentFragment(),r.appendChild(y(i))),this.saveUndoState(u);try{for(a=this._root,s=r,d={fragment:r,preventDefault:function(){this.defaultPrevented=!0},defaultPrevented:!1},yt(r,r,this),Ve(r,l),et(r,a,!1),Ye(r),r.normalize();s=h(s,r);)E(s,a);t&&this.fireEvent("willPaste",d),d.defaultPrevented||(be(u,d.fragment,a),se||this._docWasChanged(),u.collapse(!1),this._ensureBottomLine()),this.setSelection(u),this._updatePath(u,!0),t&&this.focus()}catch(e){this.didError(e)}return this};var Tt=function(e){return e.split("&").join("&amp;").split("<").join("&lt;").split(">").join("&gt;").split('"').join("&quot;")};at.insertPlainText=function(e,t){var n=this.getSelection();if(n.collapsed&&g(n.startContainer,this._root,"PRE")){var o,i,r=n.startContainer,a=n.startOffset;return r&&r.nodeType===H||(o=this._doc.createTextNode(""),r.insertBefore(o,r.childNodes[a]),r=o,a=0),i={text:e,preventDefault:function(){this.defaultPrevented=!0},defaultPrevented:!1},t&&this.fireEvent("willPaste",i),i.defaultPrevented||(e=i.text,r.insertData(a,e),n.setStart(r,a+e.length),n.collapse(!0)),this.setSelection(n),this}var s,d,l,c,h=e.split("\n"),u=this._config,f=u.blockTag,p=u.blockAttributes,m="</"+f+">",v="<"+f;for(s in p)v+=" "+s+'="'+Tt(p[s])+'"';for(v+=">",d=0,l=h.length;d<l;d+=1)c=h[d],c=Tt(c).replace(/ (?= )/g,"&nbsp;"),h[d]=v+(c||"<BR>")+m;return this.insertHTML(h.join(""),t)};var Et=function(e,t,n){return function(){return this[e](t,n),this.focus()}};at.addStyles=function(e){if(e){var t=this._doc.documentElement.firstChild,n=this.createElement("STYLE",{type:"text/css"});n.appendChild(this._doc.createTextNode(e)),t.appendChild(n)}return this},at.bold=Et("changeFormat",{tag:"B"}),at.italic=Et("changeFormat",{tag:"I"}),at.underline=Et("changeFormat",{tag:"U"}),at.strikethrough=Et("changeFormat",{tag:"S"}),at.subscript=Et("changeFormat",{tag:"SUB"},{tag:"SUP"}),at.superscript=Et("changeFormat",{tag:"SUP"},{tag:"SUB"}),at.removeBold=Et("changeFormat",null,{tag:"B"}),at.removeItalic=Et("changeFormat",null,{tag:"I"}),at.removeUnderline=Et("changeFormat",null,{tag:"U"}),at.removeStrikethrough=Et("changeFormat",null,{tag:"S"}),at.removeSubscript=Et("changeFormat",null,{tag:"SUB"}),at.removeSuperscript=Et("changeFormat",null,{tag:"SUP"}),at.makeLink=function(e,t){var n=this.getSelection();if(n.collapsed){var o=e.indexOf(":")+1;if(o)for(;"/"===e[o];)o+=1;ye(n,this._doc.createTextNode(e.slice(o)))}return t=D(D({href:e},t,!0),this._config.tagAttributes.a,!1),this.changeFormat({tag:"A",attributes:t},{tag:"A"},n),this.focus()},at.removeLink=function(){return this.changeFormat(null,{tag:"A"},this.getSelection(),!0),this.focus()},at.setFontFace=function(e){var t=this._config.classNames.fontFamily;return this.changeFormat(e?{tag:"SPAN",attributes:{class:t,style:"font-family: "+e+", sans-serif;"}}:null,{tag:"SPAN",attributes:{class:t}}),this.focus()},at.setFontSize=function(e){var t=this._config.classNames.fontSize;return this.changeFormat(e?{tag:"SPAN",attributes:{class:t,style:"font-size: "+("number"==typeof e?e+"px":e)}}:null,{tag:"SPAN",attributes:{class:t}}),this.focus()},at.setTextColour=function(e){var t=this._config.classNames.colour;return this.changeFormat(e?{tag:"SPAN",attributes:{class:t,style:"color:"+e}}:null,{tag:"SPAN",attributes:{class:t}}),this.focus()},at.setHighlightColour=function(e){var t=this._config.classNames.highlight;return this.changeFormat(e?{tag:"SPAN",attributes:{class:t,style:"background-color:"+e}}:e,{tag:"SPAN",attributes:{class:t}}),this.focus()},at.setTextAlignment=function(e){return this.forEachBlock(function(t){var n=t.className.split(/\s+/).filter(function(e){return!!e&&!/^align/.test(e)}).join(" ");e?(t.className=n+" align-"+e,t.style.textAlign=e):(t.className=n,t.style.textAlign="")},!0),this.focus()},at.setTextDirection=function(e){return this.forEachBlock(function(t){e?t.dir=e:t.removeAttribute("dir")},!0),this.focus()};var bt=function(e){for(var t,o=this._root,i=this._doc,r=i.createDocumentFragment(),a=l(e,o);t=a.nextNode();){var s,d,c=t.querySelectorAll("BR"),h=[],u=c.length;for(s=0;s<u;s+=1)h[s]=Je(c[s],!1);for(;u--;)d=c[u],h[u]?S(d,i.createTextNode("\n")):_(d);for(c=t.querySelectorAll("CODE"),u=c.length;u--;)_(c[u]);r.childNodes.length&&r.appendChild(i.createTextNode("\n")),r.appendChild(y(t))}for(a=new n(r,4);t=a.nextNode();)t.data=t.data.replace(/ /g," ");return r.normalize(),E(this.createElement("PRE",this._config.tagAttributes.pre,[r]),o)},kt=function(e){for(var t,o,i,r,a,s,d=this._doc,l=this._root,c=e.querySelectorAll("PRE"),h=c.length;h--;){for(t=c[h],o=new n(t,4);i=o.nextNode();){for(r=i.data,r=r.replace(/ (?= )/g," "),a=d.createDocumentFragment();(s=r.indexOf("\n"))>-1;)a.appendChild(d.createTextNode(r.slice(0,s))),a.appendChild(d.createElement("BR")),r=r.slice(s+1);i.parentNode.insertBefore(a,i),i.data=r}b(t,l),S(t,y(t))}return e};at.code=function(){var e=this.getSelection();return e.collapsed||d(e.commonAncestorContainer)?this.modifyBlocks(bt,e):this.changeFormat({tag:"CODE",attributes:this._config.tagAttributes.code},null,e),this.focus()},at.removeCode=function(){var e=this.getSelection();return g(e.commonAncestorContainer,this._root,"PRE")?this.modifyBlocks(kt,e):this.changeFormat(null,{tag:"CODE"},e),this.focus()},at.toggleCode=function(){return this.hasFormat("PRE")||this.hasFormat("CODE")?this.removeCode():this.code(),this},at.removeAllFormatting=function(e){if(!e&&!(e=this.getSelection())||e.collapsed)return this;for(var t=this._root,n=e.commonAncestorContainer;n&&!s(n);)n=n.parentNode;if(n||(Pe(e,t),n=t),n.nodeType===H)return this;this.saveUndoState(e),Ae(e,n,n,t);for(var o,i,r=n.ownerDocument,a=e.startContainer,d=e.startOffset,l=e.endContainer,c=e.endOffset,h=r.createDocumentFragment(),u=r.createDocumentFragment(),f=k(l,c,n,t),p=k(a,d,n,t);p!==f;)o=p.nextSibling,h.appendChild(p),p=o;return F(this,h,u),u.normalize(),p=u.firstChild,o=u.lastChild,i=n.childNodes,p?(n.insertBefore(u,f),d=ce.call(i,p),c=ce.call(i,o)+1):(d=ce.call(i,f),c=d),e.setStart(n,d),e.setEnd(n,c),A(n,e),xe(e),this.setSelection(e),this._updatePath(e,!0),this.focus()},at.increaseQuoteLevel=Et("modifyBlocks",pt),at.decreaseQuoteLevel=Et("modifyBlocks",gt),at.makeUnorderedList=Et("modifyBlocks",Ct),at.makeOrderedList=Et("modifyBlocks",Nt),at.removeList=Et("modifyBlocks",_t),P.isInline=a,P.isBlock=s,P.isContainer=d,P.getBlockWalker=l,P.getPreviousBlock=c,P.getNextBlock=h,P.areAlike=f,P.hasTagAttributes=p,P.getNearest=g,P.isOrContains=v,P.detach=_,P.replaceWith=S,P.empty=y,P.getNodeBefore=_e,P.getNodeAfter=Se,P.insertNodeInRange=ye,P.extractContentsOfRange=Te,P.deleteContentsOfRange=Ee,P.insertTreeFragmentIntoRange=be,P.isNodeContainedInRange=ke,P.moveRangeBoundariesDownTree=xe,P.moveRangeBoundariesUpTree=Ae,P.getStartBlockOfRange=Le,P.getEndBlockOfRange=Be,P.contentWalker=Oe,P.rangeDoesStartAtBlockBoundary=Re,P.rangeDoesEndAtBlockBoundary=De,P.expandRangeToBlockBoundaries=Pe,P.onPaste=it,P.addLinks=yt,P.splitBlock=ft,P.startSelectionId="squire-selection-start",P.endSelectionId=ht, true?module.exports=P:undefined}(document);
 
 /***/ }),
 /* 56 */
@@ -14084,7 +14110,7 @@ var extend = __webpack_require__(7);
 var extend_default = /*#__PURE__*/__webpack_require__.n(extend);
 
 // EXTERNAL MODULE: ./node_modules/tui-code-snippet/domUtil/css.js
-var css = __webpack_require__(3);
+var css = __webpack_require__(4);
 var css_default = /*#__PURE__*/__webpack_require__.n(css);
 
 // EXTERNAL MODULE: ./node_modules/tui-code-snippet/domUtil/addClass.js
@@ -14095,7 +14121,7 @@ var addClass_default = /*#__PURE__*/__webpack_require__.n(addClass);
 var removeClass = __webpack_require__(5);
 var removeClass_default = /*#__PURE__*/__webpack_require__.n(removeClass);
 
-// EXTERNAL MODULE: /Users/nhn/Desktop/project/tui.editor/libs/toastmark/dist/toastmark.js
+// EXTERNAL MODULE: /Users/tigger/Desktop/project/tui.editor/libs/toastmark/dist/toastmark.js
 var toastmark = __webpack_require__(22);
 
 // EXTERNAL MODULE: ./src/js/htmlRenderConvertors.js
@@ -14108,13 +14134,15 @@ function createMarkdownToHTML(options) {
   var extendedAutolinks = options.extendedAutolinks,
       customHTMLRenderer = options.customHTMLRenderer,
       referenceDefinition = options.referenceDefinition,
-      customParser = options.customParser;
+      customParser = options.customParser,
+      frontMatter = options.frontMatter;
   var parser = new toastmark["Parser"]({
     disallowedHtmlBlockTags: ['br'],
     extendedAutolinks: extendedAutolinks,
     referenceDefinition: referenceDefinition,
     disallowDeepHeading: true,
-    customParser: customParser
+    customParser: customParser,
+    frontMatter: frontMatter
   });
   var renderHTML = Object(toastmark["createRenderHTML"])({
     gfm: true,
@@ -14378,7 +14406,11 @@ external_commonjs_codemirror_commonjs2_codemirror_amd_codemirror_root_CodeMirror
 };
 
 external_commonjs_codemirror_commonjs2_codemirror_amd_codemirror_root_CodeMirror_default.a.commands.newlineAndIndentContinueMarkdownList = function (cm) {
-  if (cm.getOption('disableInput') || !!cm.state.isCursorInCodeBlock) return external_commonjs_codemirror_commonjs2_codemirror_amd_codemirror_root_CodeMirror_default.a.Pass;
+  if (cm.getOption('disableInput') || !!cm.state.isCursorInCodeBlock) {
+    cm.execCommand('newlineAndIndent');
+    return;
+  }
+
   var ranges = cm.listSelections(),
       replacements = [];
 
@@ -15945,7 +15977,7 @@ var MdTextObject = /*#__PURE__*/function () {
 
 /* harmony default export */ var mdTextObject = (MdTextObject);
 // EXTERNAL MODULE: ./src/js/utils/markdown.js
-var markdown = __webpack_require__(4);
+var markdown = __webpack_require__(2);
 
 // EXTERNAL MODULE: ./node_modules/tui-code-snippet/type/isFunction.js
 var isFunction = __webpack_require__(27);
@@ -16006,7 +16038,7 @@ function heading(_ref, start, end) {
   if (headingType === 'atx') {
     marks.push(markTextHelper_markInfo(start, Object(markdown["a" /* addChPos */])(start, level), classNameMap.DELIM));
   } else {
-    marks.push(markTextHelper_markInfo(Object(markdown["l" /* setChPos */])(end, 0), end, classNameMap.DELIM + " setext"));
+    marks.push(markTextHelper_markInfo(Object(markdown["m" /* setChPos */])(end, 0), end, classNameMap.DELIM + " setext"));
   }
 
   return {
@@ -16022,7 +16054,7 @@ function emphasisAndStrikethrough(_ref2, start, end) {
 }
 
 function markLink(start, end, linkTextStart, lastChildCh) {
-  return [markTextHelper_markInfo(start, end, cls('link')), markTextHelper_markInfo(linkTextStart, Object(markdown["l" /* setChPos */])(end, lastChildCh), cls('link-desc')), markTextHelper_markInfo(Object(markdown["l" /* setChPos */])(start, linkTextStart.ch + 1), Object(markdown["l" /* setChPos */])(end, lastChildCh - 1), classNameMap.TEXT), markTextHelper_markInfo(Object(markdown["l" /* setChPos */])(end, lastChildCh), end, cls('link-url')), markTextHelper_markInfo(Object(markdown["l" /* setChPos */])(end, lastChildCh + 1), Object(markdown["a" /* addChPos */])(end, -1), classNameMap.TEXT)];
+  return [markTextHelper_markInfo(start, end, cls('link')), markTextHelper_markInfo(linkTextStart, Object(markdown["m" /* setChPos */])(end, lastChildCh), cls('link-desc')), markTextHelper_markInfo(Object(markdown["m" /* setChPos */])(start, linkTextStart.ch + 1), Object(markdown["m" /* setChPos */])(end, lastChildCh - 1), classNameMap.TEXT), markTextHelper_markInfo(Object(markdown["m" /* setChPos */])(end, lastChildCh), end, cls('link-url')), markTextHelper_markInfo(Object(markdown["m" /* setChPos */])(end, lastChildCh + 1), Object(markdown["a" /* addChPos */])(end, -1), classNameMap.TEXT)];
 }
 
 function markTextHelper_image(_ref3, start, end) {
@@ -16063,21 +16095,21 @@ function markTextHelper_codeBlock(node, start, end, endLine) {
       infoPadding = node.infoPadding,
       parent = node.parent;
   var fenceEnd = fenceOffset + fenceLength;
-  var marks = [markTextHelper_markInfo(Object(markdown["l" /* setChPos */])(start, 0), end, classNameMap.CODE_BLOCK)];
+  var marks = [markTextHelper_markInfo(Object(markdown["m" /* setChPos */])(start, 0), end, classNameMap.CODE_BLOCK)];
 
   if (fenceChar) {
     marks.push(markTextHelper_markInfo(start, Object(markdown["a" /* addChPos */])(start, fenceEnd), classNameMap.DELIM));
   }
 
   if (info) {
-    marks.push(markTextHelper_markInfo(Object(markdown["l" /* setChPos */])(start, fenceEnd), Object(markdown["l" /* setChPos */])(start, fenceEnd + infoPadding + info.length), classNameMap.META));
+    marks.push(markTextHelper_markInfo(Object(markdown["m" /* setChPos */])(start, fenceEnd), Object(markdown["m" /* setChPos */])(start, fenceEnd + infoPadding + info.length), classNameMap.META));
   }
 
   var codeBlockEnd = "^(\\s{0,3})(" + fenceChar + "{" + fenceLength + ",})";
   var CLOSED_RX = new RegExp(codeBlockEnd);
 
   if (CLOSED_RX.test(endLine)) {
-    marks.push(markTextHelper_markInfo(Object(markdown["l" /* setChPos */])(end, 0), end, classNameMap.DELIM));
+    marks.push(markTextHelper_markInfo(Object(markdown["m" /* setChPos */])(end, 0), end, classNameMap.DELIM));
   }
 
   var lineBackground = parent.type !== 'item' && parent.type !== 'blockQuote' ? {
@@ -16283,7 +16315,7 @@ function getToolbarState(targetNode, ch, mdLine, mdCh) {
   var state = markdownEditor_extends({}, defaultToolbarState);
 
   var listEnabled = false;
-  Object(markdown["m" /* traverseParentNodes */])(targetNode, function (mdNode) {
+  Object(markdown["n" /* traverseParentNodes */])(targetNode, function (mdNode) {
     var type = getToolbarStateType(mdNode);
 
     if (!isBoolean_default()(state[type])) {
@@ -16330,7 +16362,6 @@ function isToolbarStateChanged(previousState, currentState) {
 }
 
 var ATTR_NAME_MARK = 'data-tui-mark';
-var TASK_MARKER_RX = /^\[(\s*)(x?)(\s*)\](?:\s+)/i;
 var TASK_MARKER_KEY_RX = /x|backspace/i;
 /**
  * Class MarkdownEditor
@@ -16349,11 +16380,17 @@ var markdownEditor_MarkdownEditor = /*#__PURE__*/function (_CodeMirrorExt) {
       dragDrop: true,
       allowDropFileTypes: ['image'],
       extraKeys: {
-        Enter: 'newlineAndIndentContinueMarkdownList',
-        Tab: 'indentOrderedList',
-        'Shift-Tab': 'indentLessOrderedList',
+        Enter: function Enter() {
+          return _this.eventManager.emit('command', 'AddLine');
+        },
+        Tab: function Tab() {
+          return _this.eventManager.emit('command', 'MoveNextCursorOrIndent');
+        },
+        'Shift-Tab': function ShiftTab() {
+          return _this.eventManager.emit('command', 'MovePrevCursorOrOutdent');
+        },
         'Shift-Ctrl-X': function ShiftCtrlX() {
-          return _this._toggleTaskStates();
+          return _this.eventManager.emit('command', 'ToggleTaskMarker');
         }
       },
       viewportMargin: options && options.height === 'auto' ? Infinity : 10
@@ -16450,7 +16487,7 @@ var markdownEditor_MarkdownEditor = /*#__PURE__*/function (_CodeMirrorExt) {
       var key = keyboardEvent.key;
 
       if (TASK_MARKER_KEY_RX.test(key)) {
-        _this2._changeTextToTaskMarker(keyboardEvent);
+        _this2.eventManager.emit('command', 'ChangeTaskMarker');
       }
     });
     this.cm.on('copy', function (cm, ev) {
@@ -16531,48 +16568,8 @@ var markdownEditor_MarkdownEditor = /*#__PURE__*/function (_CodeMirrorExt) {
     }
   };
 
-  _proto._changeTaskState = function _changeTaskState(mdNode, line) {
-    var listData = mdNode.listData,
-        sourcepos = mdNode.sourcepos;
-    var task = listData.task,
-        checked = listData.checked,
-        padding = listData.padding;
-
-    if (task) {
-      var stateChar = checked ? ' ' : 'x';
-      var _sourcepos$ = sourcepos[0],
-          startCh = _sourcepos$[1];
-      var startPos = {
-        line: line,
-        ch: startCh + padding
-      };
-      this.cm.replaceRange(stateChar, startPos, Object(markdown["a" /* addChPos */])(startPos, 1));
-    }
-  };
-
-  _proto._toggleTaskStates = function _toggleTaskStates() {
-    var _this3 = this;
-
-    var ranges = this.cm.listSelections();
-    ranges.forEach(function (range) {
-      var anchor = range.anchor,
-          head = range.head;
-      var startLine = Math.min(anchor.line, head.line);
-      var endLine = Math.max(anchor.line, head.line);
-      var mdNode;
-
-      for (var index = startLine, len = endLine; index <= len; index += 1) {
-        mdNode = _this3.toastMark.findFirstNodeAtLine(index + 1);
-
-        if (mdNode.type === 'list' || mdNode.type === 'item') {
-          _this3._changeTaskState(mdNode, index);
-        }
-      }
-    });
-  };
-
   _proto._refreshCodeMirrorMarks = function _refreshCodeMirrorMarks(e) {
-    var _this4 = this;
+    var _this3 = this;
 
     var from = e.from,
         to = e.to,
@@ -16586,7 +16583,7 @@ var markdownEditor_MarkdownEditor = /*#__PURE__*/function (_CodeMirrorExt) {
     }
 
     changed.forEach(function (editResult) {
-      return _this4._markNodes(editResult);
+      return _this3._markNodes(editResult);
     });
   };
 
@@ -16641,45 +16638,6 @@ var markdownEditor_MarkdownEditor = /*#__PURE__*/function (_CodeMirrorExt) {
     }
   };
 
-  _proto._changeTextToTaskMarker = function _changeTextToTaskMarker() {
-    var _this$cm$getCursor = this.cm.getCursor(),
-        line = _this$cm$getCursor.line,
-        ch = _this$cm$getCursor.ch;
-
-    var mdCh = this.cm.getLine(line).length === ch ? ch : ch + 1;
-    var mdNode = this.toastMark.findNodeAtPosition([line + 1, mdCh]);
-    var paraNode = Object(markdown["b" /* findClosestNode */])(mdNode, function (node) {
-      return node.type === 'paragraph' && node.parent && node.parent.type === 'item';
-    });
-
-    if (paraNode && paraNode.firstChild) {
-      var _paraNode$firstChild = paraNode.firstChild,
-          literal = _paraNode$firstChild.literal,
-          sourcepos = _paraNode$firstChild.sourcepos;
-      var _sourcepos$2 = sourcepos[0],
-          startLine = _sourcepos$2[0],
-          startCh = _sourcepos$2[1];
-      var matched = literal.match(TASK_MARKER_RX);
-
-      if (matched) {
-        var startSpaces = matched[1],
-            stateChar = matched[2],
-            lastSpaces = matched[3];
-        var spaces = startSpaces.length + lastSpaces.length;
-        var startPos = {
-          line: startLine - 1,
-          ch: startCh
-        };
-
-        if (stateChar) {
-          this.cm.replaceRange(stateChar, startPos, Object(markdown["a" /* addChPos */])(startPos, spaces ? spaces + 1 : 0));
-        } else if (!spaces) {
-          this.cm.replaceRange(' ', startPos, startPos);
-        }
-      }
-    }
-  };
-
   _proto._removeBackgroundOfLines = function _removeBackgroundOfLines(removedNodeRange) {
     var _removedNodeRange$lin = removedNodeRange.line,
         startLine = _removedNodeRange$lin[0],
@@ -16713,7 +16671,7 @@ var markdownEditor_MarkdownEditor = /*#__PURE__*/function (_CodeMirrorExt) {
   };
 
   _proto._markNode = function _markNode(node) {
-    var _this5 = this;
+    var _this4 = this;
 
     var from = {
       line: Object(markdown["f" /* getMdStartLine */])(node) - 1,
@@ -16738,7 +16696,7 @@ var markdownEditor_MarkdownEditor = /*#__PURE__*/function (_CodeMirrorExt) {
             className = _ref2.className;
         var attributes = (_attributes = {}, _attributes[ATTR_NAME_MARK] = '', _attributes);
 
-        _this5.cm.markText(start, end, {
+        _this4.cm.markText(start, end, {
           className: className,
           attributes: attributes
         });
@@ -16761,9 +16719,9 @@ var markdownEditor_MarkdownEditor = /*#__PURE__*/function (_CodeMirrorExt) {
   };
 
   _proto._onChangeCursorActivity = function _onChangeCursorActivity() {
-    var _this$cm$getCursor2 = this.cm.getCursor(),
-        line = _this$cm$getCursor2.line,
-        ch = _this$cm$getCursor2.ch;
+    var _this$cm$getCursor = this.cm.getCursor(),
+        line = _this$cm$getCursor.line,
+        ch = _this$cm$getCursor.ch;
 
     var mdLine = line + 1;
     var mdCh = this.cm.getLine(line).length === ch ? ch : ch + 1;
@@ -16821,7 +16779,7 @@ var markdownEditor_MarkdownEditor = /*#__PURE__*/function (_CodeMirrorExt) {
 var mdPreview = __webpack_require__(35);
 
 // EXTERNAL MODULE: ./node_modules/tui-code-snippet/collection/toArray.js
-var toArray = __webpack_require__(2);
+var toArray = __webpack_require__(3);
 var toArray_default = /*#__PURE__*/__webpack_require__.n(toArray);
 
 // EXTERNAL MODULE: ./node_modules/tui-code-snippet/collection/forEachArray.js
@@ -16855,6 +16813,158 @@ var off_default = /*#__PURE__*/__webpack_require__.n(domEvent_off);
 // EXTERNAL MODULE: ./src/js/utils/dom.js
 var dom = __webpack_require__(0);
 
+// CONCATENATED MODULE: ./src/js/utils/wwPasteMsoList.js
+
+var MSO_CLASS_NAME_LIST_RX = /MsoListParagraph/;
+var MSO_CLASS_NAME_NORMAL_RX = /MsoNormal/;
+var MSO_STYLE_PREFIX_RX = /style=.*mso-/;
+var MSO_STYLE_LIST_RX = /mso-list:(.*)/;
+var MSO_TAG_NAME_RX = /O:P/;
+var UNORDERED_LIST_BULLET_RX = /^(n|u|l)/;
+/**
+ * Whether html string is copied from ms office or not
+ * ms office use specific css attributes with 'mso-' prefix
+ * @param {string} html - html string
+ * @returns {boolean}
+ */
+
+function isFromMso(html) {
+  return MSO_STYLE_PREFIX_RX.test(html);
+}
+
+function getListItemContents(para) {
+  var removedNodes = [];
+  var walker = document.createTreeWalker(para, 1, null, false);
+
+  while (walker.nextNode()) {
+    var node = walker.currentNode;
+
+    if (dom["a" /* default */].isElemNode(node) && (isFromMso(node.outerHTML) || MSO_TAG_NAME_RX.test(node.nodeName))) {
+      removedNodes.push(node);
+    }
+  }
+
+  removedNodes.forEach(dom["a" /* default */].remove);
+  return para.innerHTML.trim();
+}
+
+function createListItemDataFromParagraph(para, index) {
+  var styleAttr = para.getAttribute('style');
+
+  var _styleAttr$match = styleAttr.match(MSO_STYLE_LIST_RX),
+      listItemInfo = _styleAttr$match[1];
+
+  var _listItemInfo$trim$sp = listItemInfo.trim().split(' '),
+      levelStr = _listItemInfo$trim$sp[1];
+
+  var level = parseInt(levelStr.replace('level', ''), 10);
+  var unorderedListItem = UNORDERED_LIST_BULLET_RX.test(para.textContent);
+  return {
+    id: index,
+    level: level,
+    prev: null,
+    parent: null,
+    children: [],
+    unorderedListItem: unorderedListItem,
+    contents: getListItemContents(para)
+  };
+}
+
+function addListItemDetailData(data, prevData) {
+  if (prevData.level < data.level) {
+    prevData.children.push(data);
+    data.parent = prevData;
+  } else {
+    while (prevData) {
+      if (prevData.level === data.level) {
+        break;
+      }
+
+      prevData = prevData.parent;
+    }
+
+    if (prevData) {
+      data.prev = prevData;
+      data.parent = prevData.parent;
+
+      if (data.parent) {
+        data.parent.children.push(data);
+      }
+    }
+  }
+}
+
+function createListData(paras) {
+  var listData = [];
+  paras.forEach(function (para, index) {
+    var prevListItemData = listData[index - 1];
+    var listItemData = createListItemDataFromParagraph(para, index);
+
+    if (prevListItemData) {
+      addListItemDetailData(listItemData, prevListItemData);
+    }
+
+    listData.push(listItemData);
+  });
+  return listData;
+}
+
+function makeList(listData) {
+  var listTagName = listData[0].unorderedListItem ? 'ul' : 'ol';
+  var list = document.createElement(listTagName);
+  listData.forEach(function (data) {
+    var children = data.children,
+        contents = data.contents;
+    var listItem = document.createElement('li');
+    listItem.innerHTML = contents;
+    list.appendChild(listItem);
+
+    if (children.length) {
+      list.appendChild(makeList(children));
+    }
+  });
+  return list;
+}
+
+function makeListFromParagraphs(paras) {
+  var listData = createListData(paras);
+  var rootChildren = listData.filter(function (_ref) {
+    var parent = _ref.parent;
+    return !parent;
+  });
+  return makeList(rootChildren);
+}
+/**
+ * Convert pargraphs of ms office to standard list element
+ * @param {HTMLElement} container - container element to convert to list
+ */
+
+
+function convertMsoParagraphsToList(container) {
+  var paras = [];
+  dom["a" /* default */].findAll(container, 'p').forEach(function (para) {
+    var className = para.className,
+        nextSibling = para.nextSibling;
+
+    if (MSO_CLASS_NAME_LIST_RX.test(className)) {
+      paras.push(para);
+
+      if (!nextSibling || nextSibling && MSO_CLASS_NAME_NORMAL_RX.test(nextSibling.className)) {
+        var list = makeListFromParagraphs(paras);
+        var target = nextSibling || container;
+
+        if (nextSibling) {
+          dom["a" /* default */].prepend(target, list);
+        } else {
+          dom["a" /* default */].append(target, list);
+        }
+
+        paras.forEach(dom["a" /* default */].remove);
+        paras = [];
+      }
+    }
+  });
+}
 // EXTERNAL MODULE: ./node_modules/tui-code-snippet/domUtil/matches.js
 var matches = __webpack_require__(13);
 var matches_default = /*#__PURE__*/__webpack_require__.n(matches);
@@ -17004,15 +17114,22 @@ var wwPasteContentHelper_WwPasteContentHelper = /*#__PURE__*/function () {
 
     container.innerHTML = this._wrapOrphanNodeWithDiv(container);
 
-    this._preElementAid(container);
+    this._preprocessPreElement(container);
 
-    this._tableElementAid(container);
+    this._preprocessListElement(container);
+
+    this._preprocessTableElement(container);
 
     toArray_default()(container.children).forEach(function (childNode) {
       if (dom["a" /* default */].getNodeName(childNode) === 'BR') {
         dom["a" /* default */].remove(childNode);
       }
     });
+  };
+
+  _proto._preprocessListElement = function _preprocessListElement(container) {
+    var wwListManager = this.wwe.componentManager.getManager('list');
+    container.innerHTML = wwListManager.convertToArbitraryNestingList(container.innerHTML);
   }
   /**
    * PRE tag formatting
@@ -17021,7 +17138,7 @@ var wwPasteContentHelper_WwPasteContentHelper = /*#__PURE__*/function () {
    */
   ;
 
-  _proto._preElementAid = function _preElementAid(container) {
+  _proto._preprocessPreElement = function _preprocessPreElement(container) {
     var wwCodeblockManager = this.wwe.componentManager.getManager('codeblock');
     wwCodeblockManager.modifyCodeBlockForWysiwyg(container);
   }
@@ -17261,7 +17378,7 @@ var wwPasteContentHelper_WwPasteContentHelper = /*#__PURE__*/function () {
    */
   ;
 
-  _proto._tableElementAid = function _tableElementAid(container) {
+  _proto._preprocessTableElement = function _preprocessTableElement(container) {
     this._removeColgroup(container);
 
     this._completeTableIfNeed(container);
@@ -17340,6 +17457,7 @@ var wwPasteContentHelper_WwPasteContentHelper = /*#__PURE__*/function () {
  * @fileoverview Paste helper when past to table
  * @author NHN FE Development Lab <dl_javascript@nhn.com>
  */
+
 
 
 
@@ -17462,6 +17580,17 @@ var wwTablePasteHelper_WwTablePasteHelper = /*#__PURE__*/function () {
     var container = document.createElement('div');
     container.innerHTML = html;
     return dom["a" /* default */].finalizeHtml(container);
+  };
+
+  _proto._convertToMsoList = function _convertToMsoList(html) {
+    var container = document.createElement('div');
+    container.innerHTML = html;
+    var pTagsContainer = document.createElement('div');
+    dom["a" /* default */].findAll(container, 'p').forEach(function (pTag) {
+      pTagsContainer.appendChild(pTag);
+    });
+    convertMsoParagraphsToList(pTagsContainer);
+    return pTagsContainer.innerHTML;
   }
   /**
    * Paste html of clipboard
@@ -17479,6 +17608,10 @@ var wwTablePasteHelper_WwTablePasteHelper = /*#__PURE__*/function () {
 
     if (startFragmentIndex > -1 && endFragmentIndex > -1) {
       html = html.slice(startFragmentIndex + startFramgmentStr.length, endFragmentIndex);
+    }
+
+    if (isFromMso(html)) {
+      html = this._convertToMsoList(html);
     } // Wrap with <tr> if html contains dangling <td> tags
     // Dangling <td> tag is that tag does not have <tr> as parent node.
 
@@ -17829,6 +17962,7 @@ var wwTablePasteHelper_WwTablePasteHelper = /*#__PURE__*/function () {
 
 
 
+
 var PASTE_TABLE_BOOKMARK = 'tui-paste-table-bookmark';
 var PASTE_TABLE_CELL_BOOKMARK = 'tui-paste-table-cell-bookmark';
 /**
@@ -18069,18 +18203,6 @@ var wwClipboardManager_WwClipboardManager = /*#__PURE__*/function () {
     });
   }
   /**
-   * MS Office use specific CSS attributes with mso- prefix.
-   * But safari does not support mso- prefix.
-   * @param {string} html - html string
-   * @returns {boolean}
-   * @private
-   */
-  ;
-
-  _proto._isFromMs = function _isFromMs(html) {
-    return /<p style="[^>]*mso-/.test(html);
-  }
-  /**
    * P tags append 'BR' to make blank line.
    * Our viewer renders new line as P tag with margin.
    * When pasting text from viewer, insert BR between P tags.
@@ -18106,10 +18228,12 @@ var wwClipboardManager_WwClipboardManager = /*#__PURE__*/function () {
   ;
 
   _proto._preparePaste = function _preparePaste(clipboardContainer) {
-    // When pasting text, the empty line processing differ our viewer and MS Office.
-    // In our viewer case, <p>aaa</p><p>bbb<p> have empty line becuase P tags have margin.
-    // In MS Office case, <p>aaa</p><p>bbb<p> do not have empty line becuase P tags means just one line.
-    if (!this._isFromMs(clipboardContainer.innerText)) {
+    if (isFromMso(clipboardContainer.innerHTML)) {
+      convertMsoParagraphsToList(clipboardContainer);
+    } else {
+      // When pasting text, the empty line processing differ our viewer and MS Office.
+      // In our viewer case, <p>aaa</p><p>bbb</p> have empty line becuase P tags have margin.
+      // In MS Office case, <p>aaa</p><p>bbb</p> do not have empty line becuase P tags means just one line.
       this._preProcessPtag(clipboardContainer);
     }
 
@@ -18303,7 +18427,7 @@ var wwListManager_WwListManager = /*#__PURE__*/function () {
     var _this = this;
 
     this.eventManager.listen('wysiwygSetValueBefore', function (html) {
-      return _this._convertToArbitraryNestingList(html);
+      return _this.convertToArbitraryNestingList(html);
     });
     this.eventManager.listen('wysiwygRangeChangeAfter', function () {
       _this._findAndRemoveEmptyList();
@@ -18439,11 +18563,10 @@ var wwListManager_WwListManager = /*#__PURE__*/function () {
    * `<ul><li>text</li><ul><li>text2</li></ul></ul>`
    * @param {string} html string to convert
    * @returns {string} converted HTML text
-   * @private
    */
   ;
 
-  _proto._convertToArbitraryNestingList = function _convertToArbitraryNestingList(html) {
+  _proto.convertToArbitraryNestingList = function convertToArbitraryNestingList(html) {
     var NESTED_LIST_QUERY = 'li > ul, li > ol';
     var wrapper = dom["a" /* default */].createElementWith("<div>" + html + "</div>");
     var nestedList = wrapper.querySelector(NESTED_LIST_QUERY);
@@ -21998,7 +22121,7 @@ function sanitizeHtmlCode(code) {
 }
 
 /* harmony default export */ var wwCodeBlockManager = (wwCodeBlockManager_WwCodeBlockManager);
-// EXTERNAL MODULE: /Users/nhn/Desktop/project/tui.editor/libs/squire/build/squire.js
+// EXTERNAL MODULE: /Users/tigger/Desktop/project/tui.editor/libs/squire/build/squire.js
 var build_squire = __webpack_require__(55);
 var squire_default = /*#__PURE__*/__webpack_require__.n(build_squire);
 
@@ -23681,7 +23804,7 @@ var wysiwygEditor_WysiwygEditor = /*#__PURE__*/function () {
       }
 
       return result;
-    }); // replace a space of the first and end in sapn tag to &nbsp;.
+    }); // replace a space of the first and end in span tag to &nbsp;.
 
     html = html.replace(FIND_OPENING_SPAN_WITH_SPACE, '<span$1>&nbsp;');
     html = html.replace(FIND_CLOSING_SPAN_WITH_SPACE, '&nbsp;</span>'); // remove unnecessary brs
@@ -29491,7 +29614,7 @@ var defaultUI_DefaultUI = /*#__PURE__*/function () {
 // EXTERNAL MODULE: ./src/js/codeBlockManager.js
 var codeBlockManager = __webpack_require__(30);
 
-// EXTERNAL MODULE: /Users/nhn/Desktop/project/tui.editor/libs/to-mark/dist/to-mark.js
+// EXTERNAL MODULE: /Users/tigger/Desktop/project/tui.editor/libs/to-mark/dist/to-mark.js
 var to_mark = __webpack_require__(32);
 var to_mark_default = /*#__PURE__*/__webpack_require__.n(to_mark);
 
@@ -30735,6 +30858,314 @@ var CodeBlock = commandManager["a" /* default */].command('markdown',
   }
 });
 /* harmony default export */ var markdownCommands_codeBlock = (CodeBlock);
+// CONCATENATED MODULE: ./src/js/markdownCommands/changeTaskMarker.js
+/**
+ * @fileoverview Implements ChangeTaskMarker markdown command
+ * @author NHN FE Development Lab <dl_javascript@nhn.com>
+ */
+
+
+var TASK_MARKER_RX = /^\[(\s*)(x?)(\s*)\](?:\s+)/i;
+/**
+ * Add ChangeTaskMarker command
+ * @extends Command
+ * @module markdownCommands/ToggleTaskMarker
+ * @ignore
+ */
+
+var ChangeTaskMarker = commandManager["a" /* default */].command('markdown',
+/** @lends ChangeTaskMarker */
+{
+  name: 'ChangeTaskMarker',
+  exec: function exec(mde) {
+    var cm = mde.getEditor();
+
+    var _cm$getCursor = cm.getCursor(),
+        line = _cm$getCursor.line,
+        ch = _cm$getCursor.ch;
+
+    var mdCh = cm.getLine(line).length === ch ? ch : ch + 1;
+    var mdNode = mde.getToastMark().findNodeAtPosition([line + 1, mdCh]);
+    var paraNode = Object(markdown["b" /* findClosestNode */])(mdNode, function (node) {
+      return node.type === 'paragraph' && node.parent && node.parent.type === 'item';
+    });
+
+    if (paraNode && paraNode.firstChild) {
+      var _paraNode$firstChild = paraNode.firstChild,
+          literal = _paraNode$firstChild.literal,
+          sourcepos = _paraNode$firstChild.sourcepos;
+      var _sourcepos$ = sourcepos[0],
+          startLine = _sourcepos$[0],
+          startCh = _sourcepos$[1];
+      var matched = literal.match(TASK_MARKER_RX);
+
+      if (matched) {
+        var startSpaces = matched[1],
+            stateChar = matched[2],
+            lastSpaces = matched[3];
+        var spaces = startSpaces.length + lastSpaces.length;
+        var startPos = {
+          line: startLine - 1,
+          ch: startCh
+        };
+
+        if (stateChar) {
+          cm.replaceRange(stateChar, startPos, Object(markdown["a" /* addChPos */])(startPos, spaces ? spaces + 1 : 0));
+        } else if (!spaces) {
+          cm.replaceRange(' ', startPos, startPos);
+        }
+      }
+    }
+  }
+});
+/* harmony default export */ var changeTaskMarker = (ChangeTaskMarker);
+// CONCATENATED MODULE: ./src/js/markdownCommands/toggleTaskMarker.js
+/**
+ * @fileoverview Implements ToggleTaskMarker markdown command
+ * @author NHN FE Development Lab <dl_javascript@nhn.com>
+ */
+
+
+/**
+ * Add ToggleTaskMarker command
+ * @extends Command
+ * @module markdownCommands/ToggleTaskMarker
+ * @ignore
+ */
+
+var ToggleTaskMarker = commandManager["a" /* default */].command('markdown',
+/** @lends ToggleTaskMarker */
+{
+  name: 'ToggleTaskMarker',
+  exec: function exec(mde) {
+    var _this = this;
+
+    var cm = mde.getEditor();
+    var ranges = cm.listSelections();
+    ranges.forEach(function (range) {
+      var anchor = range.anchor,
+          head = range.head;
+      var startLine = Math.min(anchor.line, head.line);
+      var endLine = Math.max(anchor.line, head.line);
+      var mdNode;
+
+      for (var index = startLine, len = endLine; index <= len; index += 1) {
+        mdNode = mde.getToastMark().findFirstNodeAtLine(index + 1);
+
+        if (mdNode.type === 'list' || mdNode.type === 'item') {
+          _this._changeTaskState(mdNode, index, cm);
+        }
+      }
+    });
+  },
+  _changeTaskState: function _changeTaskState(list, line, cm) {
+    var listData = list.listData,
+        sourcepos = list.sourcepos;
+    var task = listData.task,
+        checked = listData.checked,
+        padding = listData.padding;
+
+    if (task) {
+      var stateChar = checked ? ' ' : 'x';
+      var _sourcepos$ = sourcepos[0],
+          startCh = _sourcepos$[1];
+      var startPos = {
+        line: line,
+        ch: startCh + padding
+      };
+      cm.replaceRange(stateChar, startPos, Object(markdown["a" /* addChPos */])(startPos, 1));
+    }
+  }
+});
+/* harmony default export */ var toggleTaskMarker = (ToggleTaskMarker);
+// CONCATENATED MODULE: ./src/js/markdownCommands/moveNextCursorOrIndent.js
+/**
+ * @fileoverview Implements MoveNextCursorOrIndent markdown command
+ * @author NHN FE Development Lab <dl_javascript@nhn.com>
+ */
+
+
+/**
+ * Add MoveNextCursorOrIndent command
+ * @extends Command
+ * @module markdownCommands/MoveNextCursorOrIndent
+ * @ignore
+ */
+
+var MoveNextCursorOrIndent = commandManager["a" /* default */].command('markdown',
+/** @lends MoveNextCursorOrIndent */
+{
+  name: 'MoveNextCursorOrIndent',
+  exec: function exec(mde) {
+    var cm = mde.getEditor();
+
+    var _cm$getCursor = cm.getCursor(),
+        line = _cm$getCursor.line,
+        ch = _cm$getCursor.ch;
+
+    var mdCh = cm.getLine(line).length === ch ? ch : ch + 1;
+    var mdNode = mde.getToastMark().findNodeAtPosition([line + 1, mdCh]);
+    var cellNode = Object(markdown["b" /* findClosestNode */])(mdNode, function (node) {
+      return Object(markdown["l" /* isTableCellNode */])(node);
+    });
+
+    if (cellNode) {
+      this._moveCursorNextCell(cellNode, cm);
+    } else {
+      cm.execCommand('indentOrderedList');
+    }
+  },
+  _moveCursorNextCell: function _moveCursorNextCell(cell, cm) {
+    var next = cell.next,
+        parent = cell.parent;
+    var line = Object(markdown["f" /* getMdStartLine */])(cell);
+    var ch = Object(markdown["c" /* getMdEndCh */])(cell) + 2;
+
+    if (next) {
+      ch = Object(markdown["c" /* getMdEndCh */])(next);
+    } else {
+      var nextRow = !parent.next && parent.parent.type === 'tableHead' ? parent.parent.next.firstChild : parent.next;
+
+      if (nextRow) {
+        line = line + 1;
+        ch = Object(markdown["c" /* getMdEndCh */])(nextRow.firstChild);
+      }
+    }
+
+    cm.setCursor({
+      line: line - 1,
+      ch: ch - 1
+    });
+  }
+});
+/* harmony default export */ var moveNextCursorOrIndent = (MoveNextCursorOrIndent);
+// CONCATENATED MODULE: ./src/js/markdownCommands/movePrevCursorOrOutdent.js
+/**
+ * @fileoverview Implements MoveCursorOrOutdent markdown command
+ * @author NHN FE Development Lab <dl_javascript@nhn.com>
+ */
+
+
+/**
+ * Add MovePrevCursorOrOutdent command
+ * @extends Command
+ * @module markdownCommands/MovePrevCursorOrOutdent
+ * @ignore
+ */
+
+var MovePrevCursorOrOutdent = commandManager["a" /* default */].command('markdown',
+/** @lends MovePrevCursorOrOutdent */
+{
+  name: 'MovePrevCursorOrOutdent',
+  exec: function exec(mde) {
+    var cm = mde.getEditor();
+
+    var _cm$getCursor = cm.getCursor(),
+        line = _cm$getCursor.line,
+        ch = _cm$getCursor.ch;
+
+    var mdCh = cm.getLine(line).length === ch ? ch : ch + 1;
+    var mdNode = mde.getToastMark().findNodeAtPosition([line + 1, mdCh]);
+    var cellNode = Object(markdown["b" /* findClosestNode */])(mdNode, function (node) {
+      return Object(markdown["l" /* isTableCellNode */])(node);
+    });
+
+    if (cellNode) {
+      this._moveCursorPrevCell(cellNode, cm);
+    } else {
+      cm.execCommand('indentLessOrderedList');
+    }
+  },
+  _moveCursorPrevCell: function _moveCursorPrevCell(cell, cm) {
+    var prev = cell.prev,
+        parent = cell.parent;
+    var line = Object(markdown["f" /* getMdStartLine */])(cell);
+    var ch = 1;
+
+    if (prev) {
+      ch = Object(markdown["c" /* getMdEndCh */])(prev);
+    } else {
+      var prevRow = !parent.prev && parent.parent.type === 'tableBody' ? parent.parent.prev.lastChild : parent.prev;
+
+      if (prevRow) {
+        line = line - 1;
+        ch = Object(markdown["c" /* getMdEndCh */])(prevRow.lastChild);
+      }
+    }
+
+    cm.setCursor({
+      line: line - 1,
+      ch: ch - 1
+    });
+  }
+});
+/* harmony default export */ var movePrevCursorOrOutdent = (MovePrevCursorOrOutdent);
+// CONCATENATED MODULE: ./src/js/markdownCommands/addLine.js
+/**
+ * @fileoverview Implements AddLine markdown command
+ * @author NHN FE Development Lab <dl_javascript@nhn.com>
+ */
+
+
+
+function createTableRow(row) {
+  var columnLen = row.parent.parent.columns.length;
+  var result = '|';
+
+  for (var i = 0; i < columnLen; i += 1) {
+    result += '  |';
+  }
+
+  return result;
+}
+/**
+ * Add AddLine command
+ * @extends Command
+ * @module markdownCommands/AddLine
+ * @ignore
+ */
+
+
+var AddLine = commandManager["a" /* default */].command('markdown',
+/** @lends AddLine */
+{
+  name: 'AddLine',
+  exec: function exec(mde) {
+    var cm = mde.getEditor();
+
+    var _cm$getCursor = cm.getCursor(),
+        line = _cm$getCursor.line,
+        ch = _cm$getCursor.ch;
+
+    var mdCh = cm.getLine(line).length === ch ? ch : ch + 1;
+    var mdNode = mde.getToastMark().findNodeAtPosition([line + 1, mdCh]);
+    var cellNode = Object(markdown["b" /* findClosestNode */])(mdNode, function (node) {
+      return Object(markdown["l" /* isTableCellNode */])(node) && (node.parent.type === 'tableDelimRow' || node.parent.parent.type === 'tableBody');
+    });
+
+    if (cellNode) {
+      this._addTableRowByCell(cellNode, cm);
+    } else {
+      cm.execCommand('newlineAndIndentContinueMarkdownList');
+    }
+  },
+  _addTableRowByCell: function _addTableRowByCell(cell, cm) {
+    var line = Object(markdown["f" /* getMdStartLine */])(cell);
+    var parent = cell.parent;
+    var nextRow = parent.next;
+    var currentLineText = cm.getLine(line - 1);
+    var rowStr = createTableRow(parent);
+
+    if (nextRow && nextRow.type === 'tableRow' || currentLineText !== rowStr) {
+      cm.setCursor(line - 1, Object(markdown["c" /* getMdEndCh */])(parent));
+      cm.replaceSelection("\n" + rowStr);
+      cm.setCursor(line, 2);
+    } else {
+      cm.execCommand('deleteLine');
+    }
+  }
+});
+/* harmony default export */ var addLine = (AddLine);
 // CONCATENATED MODULE: ./src/js/wysiwygCommands/bold.js
 /**
  * @fileoverview Implements bold WysiwygCommand
@@ -33104,6 +33535,11 @@ function editor_extends() { editor_extends = Object.assign || function (target) 
 
 
 
+
+
+
+
+
  // wysiwyg Commands
 
 
@@ -33172,6 +33608,7 @@ var __nedInstance = [];
  *     @param {Object} [options.customHTMLRenderer] - Object containing custom renderer functions correspond to markdown node
  *     @param {boolean} [options.referenceDefinition=false] - whether use the specification of link reference definition
  *     @param {function} [options.customHTMLSanitizer=null] - custom HTML sanitizer
+ *     @param {boolean} [options.frontMatter=false] - whether use the front matter
  */
 
 var editor_ToastUIEditor = /*#__PURE__*/function () {
@@ -33197,7 +33634,8 @@ var editor_ToastUIEditor = /*#__PURE__*/function () {
       customConvertor: null,
       customHTMLRenderer: null,
       referenceDefinition: false,
-      customHTMLSanitizer: null
+      customHTMLSanitizer: null,
+      frontMatter: false
     }, options);
     this.codeBlockLanguages = [];
     this.eventManager = new js_eventManager["a" /* default */]();
@@ -33217,13 +33655,18 @@ var editor_ToastUIEditor = /*#__PURE__*/function () {
         customHTMLSanitizer = _this$options.customHTMLSanitizer,
         extendedAutolinks = _this$options.extendedAutolinks,
         referenceDefinition = _this$options.referenceDefinition,
-        useDefaultHTMLSanitizer = _this$options.useDefaultHTMLSanitizer;
+        useDefaultHTMLSanitizer = _this$options.useDefaultHTMLSanitizer,
+        frontMatter = _this$options.frontMatter;
     var rendererOptions = {
       linkAttribute: linkAttribute,
       customHTMLRenderer: editor_extends({}, renderer, customHTMLRenderer),
       extendedAutolinks: extendedAutolinks,
       referenceDefinition: referenceDefinition,
-      customParser: parser
+      customParser: parser,
+      frontMatter: frontMatter,
+      customProp: {
+        showFrontMatter: frontMatter
+      }
     };
 
     if (this.options.customConvertor) {
@@ -33260,7 +33703,8 @@ var editor_ToastUIEditor = /*#__PURE__*/function () {
       extendedAutolinks: extendedAutolinks,
       referenceDefinition: referenceDefinition,
       disallowDeepHeading: true,
-      customParser: parser
+      customParser: parser,
+      frontMatter: frontMatter
     });
     this.mdEditor = markdownEditor.factory(this.layout.getMdEditorContainerEl(), this.eventManager, this.toastMark, this.options);
     this.preview = new mdPreview["a" /* default */](this.layout.getPreviewEl(), this.eventManager, this.convertor, editor_extends({}, rendererOptions, {
@@ -33355,6 +33799,11 @@ var editor_ToastUIEditor = /*#__PURE__*/function () {
     this.addCommand(markdownCommands_code);
     this.addCommand(markdownCommands_codeBlock);
     this.addCommand(strike);
+    this.addCommand(changeTaskMarker);
+    this.addCommand(toggleTaskMarker);
+    this.addCommand(moveNextCursorOrIndent);
+    this.addCommand(movePrevCursorOrOutdent);
+    this.addCommand(addLine);
     this.addCommand(wysiwygCommands_bold);
     this.addCommand(wysiwygCommands_italic);
     this.addCommand(wysiwygCommands_blockquote);
@@ -33848,7 +34297,7 @@ var editor_ToastUIEditor = /*#__PURE__*/function () {
   }
   /**
    * Set code block languages
-   * @param {Array} languages - code lauguage list
+   * @param {Array} languages - code language list
    */
   ;
 
@@ -46105,7 +46554,7 @@ if ( true && module.exports) {
       }
     }
     builder.trailingSpace = displayText.charCodeAt(text.length - 1) == 32;
-    if (style || startStyle || endStyle || mustWrap || css) {
+    if (style || startStyle || endStyle || mustWrap || css || attributes) {
       var fullStyle = style || "";
       if (startStyle) { fullStyle += startStyle; }
       if (endStyle) { fullStyle += endStyle; }
@@ -47540,8 +47989,10 @@ if ( true && module.exports) {
     var on = true;
     display.cursorDiv.style.visibility = "";
     if (cm.options.cursorBlinkRate > 0)
-      { display.blinker = setInterval(function () { return display.cursorDiv.style.visibility = (on = !on) ? "" : "hidden"; },
-        cm.options.cursorBlinkRate); }
+      { display.blinker = setInterval(function () {
+        if (!cm.hasFocus()) { onBlur(cm); }
+        display.cursorDiv.style.visibility = (on = !on) ? "" : "hidden";
+      }, cm.options.cursorBlinkRate); }
     else if (cm.options.cursorBlinkRate < 0)
       { display.cursorDiv.style.visibility = "hidden"; }
   }
@@ -50905,7 +51356,7 @@ if ( true && module.exports) {
     46: "Delete", 59: ";", 61: "=", 91: "Mod", 92: "Mod", 93: "Mod",
     106: "*", 107: "=", 109: "-", 110: ".", 111: "/", 145: "ScrollLock",
     173: "-", 186: ";", 187: "=", 188: ",", 189: "-", 190: ".", 191: "/", 192: "`", 219: "[", 220: "\\",
-    221: "]", 222: "'", 63232: "Up", 63233: "Down", 63234: "Left", 63235: "Right", 63272: "Delete",
+    221: "]", 222: "'", 224: "Mod", 63232: "Up", 63233: "Down", 63234: "Left", 63235: "Right", 63272: "Delete",
     63273: "Home", 63275: "End", 63276: "PageUp", 63277: "PageDown", 63302: "Insert"
   };
 
@@ -51040,7 +51491,7 @@ if ( true && module.exports) {
     var base = name;
     if (event.altKey && base != "Alt") { name = "Alt-" + name; }
     if ((flipCtrlCmd ? event.metaKey : event.ctrlKey) && base != "Ctrl") { name = "Ctrl-" + name; }
-    if ((flipCtrlCmd ? event.ctrlKey : event.metaKey) && base != "Cmd") { name = "Cmd-" + name; }
+    if ((flipCtrlCmd ? event.ctrlKey : event.metaKey) && base != "Mod") { name = "Cmd-" + name; }
     if (!noShift && event.shiftKey && base != "Shift") { name = "Shift-" + name; }
     return name
   }
@@ -51266,7 +51717,7 @@ if ( true && module.exports) {
     goGroupRight: function (cm) { return cm.moveH(1, "group"); },
     goGroupLeft: function (cm) { return cm.moveH(-1, "group"); },
     goWordRight: function (cm) { return cm.moveH(1, "word"); },
-    delCharBefore: function (cm) { return cm.deleteH(-1, "char"); },
+    delCharBefore: function (cm) { return cm.deleteH(-1, "codepoint"); },
     delCharAfter: function (cm) { return cm.deleteH(1, "char"); },
     delWordBefore: function (cm) { return cm.deleteH(-1, "word"); },
     delWordAfter: function (cm) { return cm.deleteH(1, "word"); },
@@ -52141,7 +52592,9 @@ if ( true && module.exports) {
     attachDoc(this, doc);
 
     if ((options.autofocus && !mobile) || this.hasFocus())
-      { setTimeout(bind(onFocus, this), 20); }
+      { setTimeout(function () {
+        if (this$1.hasFocus() && !this$1.state.focused) { onFocus(this$1); }
+      }, 20); }
     else
       { onBlur(this); }
 
@@ -52904,14 +53357,14 @@ if ( true && module.exports) {
   }
 
   // Used for horizontal relative motion. Dir is -1 or 1 (left or
-  // right), unit can be "char", "column" (like char, but doesn't
-  // cross line boundaries), "word" (across next word), or "group" (to
-  // the start of next group of word or non-word-non-whitespace
-  // chars). The visually param controls whether, in right-to-left
-  // text, direction 1 means to move towards the next index in the
-  // string, or towards the character to the right of the current
-  // position. The resulting position will have a hitSide=true
-  // property if it reached the end of the document.
+  // right), unit can be "codepoint", "char", "column" (like char, but
+  // doesn't cross line boundaries), "word" (across next word), or
+  // "group" (to the start of next group of word or
+  // non-word-non-whitespace chars). The visually param controls
+  // whether, in right-to-left text, direction 1 means to move towards
+  // the next index in the string, or towards the character to the right
+  // of the current position. The resulting position will have a
+  // hitSide=true property if it reached the end of the document.
   function findPosH(doc, pos, dir, unit, visually) {
     var oldPos = pos;
     var origDir = dir;
@@ -52925,7 +53378,12 @@ if ( true && module.exports) {
     }
     function moveOnce(boundToLine) {
       var next;
-      if (visually) {
+      if (unit == "codepoint") {
+        var ch = lineObj.text.charCodeAt(pos.ch + (unit > 0 ? 0 : -1));
+        if (isNaN(ch)) { next = null; }
+        else { next = new Pos(pos.line, Math.max(0, Math.min(lineObj.text.length, pos.ch + dir * (ch >= 0xD800 && ch < 0xDC00 ? 2 : 1))),
+                            -dir); }
+      } else if (visually) {
         next = moveVisually(doc.cm, lineObj, pos, dir);
       } else {
         next = moveLogically(lineObj, pos, dir);
@@ -52941,7 +53399,7 @@ if ( true && module.exports) {
       return true
     }
 
-    if (unit == "char") {
+    if (unit == "char" || unit == "codepoint") {
       moveOnce();
     } else if (unit == "column") {
       moveOnce(true);
@@ -53885,6 +54343,7 @@ if ( true && module.exports) {
   TextareaInput.prototype.readOnlyChanged = function (val) {
     if (!val) { this.reset(); }
     this.textarea.disabled = val == "nocursor";
+    this.textarea.readOnly = !!val;
   };
 
   TextareaInput.prototype.setUneditable = function () {};
@@ -54035,7 +54494,7 @@ if ( true && module.exports) {
 
   addLegacyProps(CodeMirror);
 
-  CodeMirror.version = "5.56.0";
+  CodeMirror.version = "5.58.1";
 
   return CodeMirror;
 
@@ -54492,17 +54951,18 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
     "monochrome", "min-monochrome", "max-monochrome", "resolution",
     "min-resolution", "max-resolution", "scan", "grid", "orientation",
     "device-pixel-ratio", "min-device-pixel-ratio", "max-device-pixel-ratio",
-    "pointer", "any-pointer", "hover", "any-hover"
+    "pointer", "any-pointer", "hover", "any-hover", "prefers-color-scheme"
   ], mediaFeatures = keySet(mediaFeatures_);
 
   var mediaValueKeywords_ = [
     "landscape", "portrait", "none", "coarse", "fine", "on-demand", "hover",
-    "interlace", "progressive"
+    "interlace", "progressive",
+    "dark", "light"
   ], mediaValueKeywords = keySet(mediaValueKeywords_);
 
   var propertyKeywords_ = [
     "align-content", "align-items", "align-self", "alignment-adjust",
-    "alignment-baseline", "anchor-point", "animation", "animation-delay",
+    "alignment-baseline", "all", "anchor-point", "animation", "animation-delay",
     "animation-direction", "animation-duration", "animation-fill-mode",
     "animation-iteration-count", "animation-name", "animation-play-state",
     "animation-timing-function", "appearance", "azimuth", "backdrop-filter",
@@ -54553,7 +55013,9 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
     "list-style-image", "list-style-position", "list-style-type", "margin",
     "margin-bottom", "margin-left", "margin-right", "margin-top", "marks",
     "marquee-direction", "marquee-loop", "marquee-play-count", "marquee-speed",
-    "marquee-style", "max-block-size", "max-height", "max-inline-size",
+    "marquee-style", "mask-clip", "mask-composite", "mask-image", "mask-mode",
+    "mask-origin", "mask-position", "mask-repeat", "mask-size","mask-type",
+    "max-block-size", "max-height", "max-inline-size",
     "max-width", "min-block-size", "min-height", "min-inline-size", "min-width",
     "mix-blend-mode", "move-to", "nav-down", "nav-index", "nav-left", "nav-right",
     "nav-up", "object-fit", "object-position", "offset", "offset-anchor",
@@ -54590,7 +55052,7 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
     "text-height", "text-indent", "text-justify", "text-orientation",
     "text-outline", "text-overflow", "text-rendering", "text-shadow",
     "text-size-adjust", "text-space-collapse", "text-transform",
-    "text-underline-position", "text-wrap", "top", "transform", "transform-origin",
+    "text-underline-position", "text-wrap", "top", "touch-action", "transform", "transform-origin",
     "transform-style", "transition", "transition-delay", "transition-duration",
     "transition-property", "transition-timing-function", "translate",
     "unicode-bidi", "user-select", "vertical-align", "visibility", "voice-balance",
@@ -54602,11 +55064,11 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
     "flood-opacity", "lighting-color", "stop-color", "stop-opacity", "pointer-events",
     "color-interpolation", "color-interpolation-filters",
     "color-rendering", "fill", "fill-opacity", "fill-rule", "image-rendering",
-    "marker", "marker-end", "marker-mid", "marker-start", "shape-rendering", "stroke",
+    "marker", "marker-end", "marker-mid", "marker-start", "paint-order", "shape-rendering", "stroke",
     "stroke-dasharray", "stroke-dashoffset", "stroke-linecap", "stroke-linejoin",
     "stroke-miterlimit", "stroke-opacity", "stroke-width", "text-rendering",
     "baseline-shift", "dominant-baseline", "glyph-orientation-horizontal",
-    "glyph-orientation-vertical", "text-anchor", "writing-mode"
+    "glyph-orientation-vertical", "text-anchor", "writing-mode",
   ], propertyKeywords = keySet(propertyKeywords_);
 
   var nonStandardPropertyKeywords_ = [
@@ -54673,7 +55135,7 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
     "after-white-space", "ahead", "alias", "all", "all-scroll", "alphabetic", "alternate",
     "always", "amharic", "amharic-abegede", "antialiased", "appworkspace",
     "arabic-indic", "armenian", "asterisks", "attr", "auto", "auto-flow", "avoid", "avoid-column", "avoid-page",
-    "avoid-region", "background", "backwards", "baseline", "below", "bidi-override", "binary",
+    "avoid-region", "axis-pan", "background", "backwards", "baseline", "below", "bidi-override", "binary",
     "bengali", "blink", "block", "block-axis", "bold", "bolder", "border", "border-box",
     "both", "bottom", "break", "break-all", "break-word", "bullets", "button", "button-bevel",
     "buttonface", "buttonhighlight", "buttonshadow", "buttontext", "calc", "cambodian",
@@ -54697,7 +55159,7 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
     "ethiopic-halehame-sid-et", "ethiopic-halehame-so-et",
     "ethiopic-halehame-ti-er", "ethiopic-halehame-ti-et", "ethiopic-halehame-tig",
     "ethiopic-numeric", "ew-resize", "exclusion", "expanded", "extends", "extra-condensed",
-    "extra-expanded", "fantasy", "fast", "fill", "fixed", "flat", "flex", "flex-end", "flex-start", "footnotes",
+    "extra-expanded", "fantasy", "fast", "fill", "fill-box", "fixed", "flat", "flex", "flex-end", "flex-start", "footnotes",
     "forwards", "from", "geometricPrecision", "georgian", "graytext", "grid", "groove",
     "gujarati", "gurmukhi", "hand", "hangul", "hangul-consonant", "hard-light", "hebrew",
     "help", "hidden", "hide", "higher", "highlight", "highlighttext",
@@ -54712,7 +55174,7 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
     "line-through", "linear", "linear-gradient", "lines", "list-item", "listbox", "listitem",
     "local", "logical", "loud", "lower", "lower-alpha", "lower-armenian",
     "lower-greek", "lower-hexadecimal", "lower-latin", "lower-norwegian",
-    "lower-roman", "lowercase", "ltr", "luminosity", "malayalam", "match", "matrix", "matrix3d",
+    "lower-roman", "lowercase", "ltr", "luminosity", "malayalam", "manipulation", "match", "matrix", "matrix3d",
     "media-controls-background", "media-current-time-display",
     "media-fullscreen-button", "media-mute-button", "media-play-button",
     "media-return-to-realtime-button", "media-rewind-button",
@@ -54721,13 +55183,13 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
     "media-volume-slider-container", "media-volume-sliderthumb", "medium",
     "menu", "menulist", "menulist-button", "menulist-text",
     "menulist-textfield", "menutext", "message-box", "middle", "min-intrinsic",
-    "mix", "mongolian", "monospace", "move", "multiple", "multiply", "myanmar", "n-resize",
+    "mix", "mongolian", "monospace", "move", "multiple", "multiple_mask_images", "multiply", "myanmar", "n-resize",
     "narrower", "ne-resize", "nesw-resize", "no-close-quote", "no-drop",
     "no-open-quote", "no-repeat", "none", "normal", "not-allowed", "nowrap",
     "ns-resize", "numbers", "numeric", "nw-resize", "nwse-resize", "oblique", "octal", "opacity", "open-quote",
     "optimizeLegibility", "optimizeSpeed", "oriya", "oromo", "outset",
     "outside", "outside-shape", "overlay", "overline", "padding", "padding-box",
-    "painted", "page", "paused", "persian", "perspective", "plus-darker", "plus-lighter",
+    "painted", "page", "paused", "persian", "perspective", "pinch-zoom", "plus-darker", "plus-lighter",
     "pointer", "polygon", "portrait", "pre", "pre-line", "pre-wrap", "preserve-3d",
     "progress", "push-button", "radial-gradient", "radio", "read-only",
     "read-write", "read-write-plaintext-only", "rectangle", "region",
@@ -54745,8 +55207,8 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
     "slider-vertical", "sliderthumb-horizontal", "sliderthumb-vertical", "slow",
     "small", "small-caps", "small-caption", "smaller", "soft-light", "solid", "somali",
     "source-atop", "source-in", "source-out", "source-over", "space", "space-around", "space-between", "space-evenly", "spell-out", "square",
-    "square-button", "start", "static", "status-bar", "stretch", "stroke", "sub",
-    "subpixel-antialiased", "super", "sw-resize", "symbolic", "symbols", "system-ui", "table",
+    "square-button", "start", "static", "status-bar", "stretch", "stroke", "stroke-box", "sub",
+    "subpixel-antialiased", "svg_masks", "super", "sw-resize", "symbolic", "symbols", "system-ui", "table",
     "table-caption", "table-cell", "table-column", "table-column-group",
     "table-footer-group", "table-header-group", "table-row", "table-row-group",
     "tamil",
@@ -54756,10 +55218,10 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
     "tigrinya-er-abegede", "tigrinya-et", "tigrinya-et-abegede", "to", "top",
     "trad-chinese-formal", "trad-chinese-informal", "transform",
     "translate", "translate3d", "translateX", "translateY", "translateZ",
-    "transparent", "ultra-condensed", "ultra-expanded", "underline", "unset", "up",
+    "transparent", "ultra-condensed", "ultra-expanded", "underline", "unidirectional-pan", "unset", "up",
     "upper-alpha", "upper-armenian", "upper-greek", "upper-hexadecimal",
     "upper-latin", "upper-norwegian", "upper-roman", "uppercase", "urdu", "url",
-    "var", "vertical", "vertical-text", "visible", "visibleFill", "visiblePainted",
+    "var", "vertical", "vertical-text", "view-box", "visible", "visibleFill", "visiblePainted",
     "visibleStroke", "visual", "w-resize", "wait", "wave", "wider",
     "window", "windowframe", "windowtext", "words", "wrap", "wrap-reverse", "x-large", "x-small", "xor",
     "xx-large", "xx-small"
@@ -55189,7 +55651,7 @@ CodeMirror.defineMode("javascript", function(config, parserConfig) {
       if (ch != ">" || !state.lexical || state.lexical.type != ">") {
         if (stream.eat("=")) {
           if (ch == "!" || ch == "=") stream.eat("=")
-        } else if (/[<>*+\-]/.test(ch)) {
+        } else if (/[<>*+\-|&?]/.test(ch)) {
           stream.eat(ch)
           if (ch == ">") stream.eat(ch)
         }
@@ -56938,7 +57400,7 @@ CodeMirror.defineMIME("text/x-markdown", "markdown");
     {name: "Clojure", mime: "text/x-clojure", mode: "clojure", ext: ["clj", "cljc", "cljx"]},
     {name: "ClojureScript", mime: "text/x-clojurescript", mode: "clojure", ext: ["cljs"]},
     {name: "Closure Stylesheets (GSS)", mime: "text/x-gss", mode: "css", ext: ["gss"]},
-    {name: "CMake", mime: "text/x-cmake", mode: "cmake", ext: ["cmake", "cmake.in"], file: /^CMakeLists.txt$/},
+    {name: "CMake", mime: "text/x-cmake", mode: "cmake", ext: ["cmake", "cmake.in"], file: /^CMakeLists\.txt$/},
     {name: "CoffeeScript", mimes: ["application/vnd.coffeescript", "text/coffeescript", "text/x-coffeescript"], mode: "coffeescript", ext: ["coffee"], alias: ["coffee", "coffee-script"]},
     {name: "Common Lisp", mime: "text/x-common-lisp", mode: "commonlisp", ext: ["cl", "lisp", "el"], alias: ["lisp"]},
     {name: "Cypher", mime: "application/x-cypher-query", mode: "cypher", ext: ["cyp", "cypher"]},
@@ -56969,7 +57431,7 @@ CodeMirror.defineMIME("text/x-markdown", "markdown");
     {name: "F#", mime: "text/x-fsharp", mode: "mllike", ext: ["fs"], alias: ["fsharp"]},
     {name: "Gas", mime: "text/x-gas", mode: "gas", ext: ["s"]},
     {name: "Gherkin", mime: "text/x-feature", mode: "gherkin", ext: ["feature"]},
-    {name: "GitHub Flavored Markdown", mime: "text/x-gfm", mode: "gfm", file: /^(readme|contributing|history).md$/i},
+    {name: "GitHub Flavored Markdown", mime: "text/x-gfm", mode: "gfm", file: /^(readme|contributing|history)\.md$/i},
     {name: "Go", mime: "text/x-go", mode: "go", ext: ["go"]},
     {name: "Groovy", mime: "text/x-groovy", mode: "groovy", ext: ["groovy", "gradle"], file: /^Jenkinsfile$/},
     {name: "HAML", mime: "text/x-haml", mode: "haml", ext: ["haml"]},
@@ -71127,6 +71589,8 @@ var map = {
 	"./bm": "./node_modules/moment/locale/bm.js",
 	"./bm.js": "./node_modules/moment/locale/bm.js",
 	"./bn": "./node_modules/moment/locale/bn.js",
+	"./bn-bd": "./node_modules/moment/locale/bn-bd.js",
+	"./bn-bd.js": "./node_modules/moment/locale/bn-bd.js",
 	"./bn.js": "./node_modules/moment/locale/bn.js",
 	"./bo": "./node_modules/moment/locale/bo.js",
 	"./bo.js": "./node_modules/moment/locale/bo.js",
@@ -71175,6 +71639,8 @@ var map = {
 	"./es": "./node_modules/moment/locale/es.js",
 	"./es-do": "./node_modules/moment/locale/es-do.js",
 	"./es-do.js": "./node_modules/moment/locale/es-do.js",
+	"./es-mx": "./node_modules/moment/locale/es-mx.js",
+	"./es-mx.js": "./node_modules/moment/locale/es-mx.js",
 	"./es-us": "./node_modules/moment/locale/es-us.js",
 	"./es-us.js": "./node_modules/moment/locale/es-us.js",
 	"./es.js": "./node_modules/moment/locale/es.js",
@@ -71752,16 +72218,16 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
     //! moment.js locale configuration
 
     var symbolMap = {
-            '1': '1',
-            '2': '2',
-            '3': '3',
-            '4': '4',
-            '5': '5',
-            '6': '6',
-            '7': '7',
-            '8': '8',
-            '9': '9',
-            '0': '0',
+            1: '1',
+            2: '2',
+            3: '3',
+            4: '4',
+            5: '5',
+            6: '6',
+            7: '7',
+            8: '8',
+            9: '9',
+            0: '0',
         },
         pluralForm = function (n) {
             return n === 0
@@ -71987,8 +72453,8 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
             yy: '%d سنوات',
         },
         week: {
-            dow: 6, // Saturday is the first day of the week.
-            doy: 12, // The week that contains Jan 12th is the first week of the year.
+            dow: 1, // Monday is the first day of the week.
+            doy: 4, // The week that contains Jan 4th is the first week of the year.
         },
     });
 
@@ -72018,16 +72484,16 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
     //! moment.js locale configuration
 
     var symbolMap = {
-            '1': '١',
-            '2': '٢',
-            '3': '٣',
-            '4': '٤',
-            '5': '٥',
-            '6': '٦',
-            '7': '٧',
-            '8': '٨',
-            '9': '٩',
-            '0': '٠',
+            1: '١',
+            2: '٢',
+            3: '٣',
+            4: '٤',
+            5: '٥',
+            6: '٦',
+            7: '٧',
+            8: '٨',
+            9: '٩',
+            0: '٠',
         },
         numberMap = {
             '١': '1',
@@ -72218,16 +72684,16 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
     //! moment.js locale configuration
 
     var symbolMap = {
-            '1': '١',
-            '2': '٢',
-            '3': '٣',
-            '4': '٤',
-            '5': '٥',
-            '6': '٦',
-            '7': '٧',
-            '8': '٨',
-            '9': '٩',
-            '0': '٠',
+            1: '١',
+            2: '٢',
+            3: '٣',
+            4: '٤',
+            5: '٥',
+            6: '٦',
+            7: '٧',
+            8: '٨',
+            9: '٩',
+            0: '٠',
         },
         numberMap = {
             '١': '1',
@@ -72475,7 +72941,7 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
         relativeTime: {
             future: '%s sonra',
             past: '%s əvvəl',
-            s: 'birneçə saniyə',
+            s: 'bir neçə saniyə',
             ss: '%d saniyə',
             m: 'bir dəqiqə',
             mm: '%d dəqiqə',
@@ -72755,6 +73221,8 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
             hh: '%d часа',
             d: 'ден',
             dd: '%d дена',
+            w: 'седмица',
+            ww: '%d седмици',
             M: 'месец',
             MM: '%d месеца',
             y: 'година',
@@ -72864,6 +73332,154 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
 
 /***/ }),
 
+/***/ "./node_modules/moment/locale/bn-bd.js":
+/*!*********************************************!*\
+  !*** ./node_modules/moment/locale/bn-bd.js ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+//! moment.js locale configuration
+//! locale : Bengali (Bangladesh) [bn-bd]
+//! author : Asraf Hossain Patoary : https://github.com/ashwoolford
+
+;(function (global, factory) {
+    true ? factory(__webpack_require__(/*! ../moment */ "./node_modules/moment/moment.js")) :
+   undefined
+}(this, (function (moment) { 'use strict';
+
+    //! moment.js locale configuration
+
+    var symbolMap = {
+            1: '১',
+            2: '২',
+            3: '৩',
+            4: '৪',
+            5: '৫',
+            6: '৬',
+            7: '৭',
+            8: '৮',
+            9: '৯',
+            0: '০',
+        },
+        numberMap = {
+            '১': '1',
+            '২': '2',
+            '৩': '3',
+            '৪': '4',
+            '৫': '5',
+            '৬': '6',
+            '৭': '7',
+            '৮': '8',
+            '৯': '9',
+            '০': '0',
+        };
+
+    var bnBd = moment.defineLocale('bn-bd', {
+        months: 'জানুয়ারি_ফেব্রুয়ারি_মার্চ_এপ্রিল_মে_জুন_জুলাই_আগস্ট_সেপ্টেম্বর_অক্টোবর_নভেম্বর_ডিসেম্বর'.split(
+            '_'
+        ),
+        monthsShort: 'জানু_ফেব্রু_মার্চ_এপ্রিল_মে_জুন_জুলাই_আগস্ট_সেপ্ট_অক্টো_নভে_ডিসে'.split(
+            '_'
+        ),
+        weekdays: 'রবিবার_সোমবার_মঙ্গলবার_বুধবার_বৃহস্পতিবার_শুক্রবার_শনিবার'.split(
+            '_'
+        ),
+        weekdaysShort: 'রবি_সোম_মঙ্গল_বুধ_বৃহস্পতি_শুক্র_শনি'.split('_'),
+        weekdaysMin: 'রবি_সোম_মঙ্গল_বুধ_বৃহ_শুক্র_শনি'.split('_'),
+        longDateFormat: {
+            LT: 'A h:mm সময়',
+            LTS: 'A h:mm:ss সময়',
+            L: 'DD/MM/YYYY',
+            LL: 'D MMMM YYYY',
+            LLL: 'D MMMM YYYY, A h:mm সময়',
+            LLLL: 'dddd, D MMMM YYYY, A h:mm সময়',
+        },
+        calendar: {
+            sameDay: '[আজ] LT',
+            nextDay: '[আগামীকাল] LT',
+            nextWeek: 'dddd, LT',
+            lastDay: '[গতকাল] LT',
+            lastWeek: '[গত] dddd, LT',
+            sameElse: 'L',
+        },
+        relativeTime: {
+            future: '%s পরে',
+            past: '%s আগে',
+            s: 'কয়েক সেকেন্ড',
+            ss: '%d সেকেন্ড',
+            m: 'এক মিনিট',
+            mm: '%d মিনিট',
+            h: 'এক ঘন্টা',
+            hh: '%d ঘন্টা',
+            d: 'এক দিন',
+            dd: '%d দিন',
+            M: 'এক মাস',
+            MM: '%d মাস',
+            y: 'এক বছর',
+            yy: '%d বছর',
+        },
+        preparse: function (string) {
+            return string.replace(/[১২৩৪৫৬৭৮৯০]/g, function (match) {
+                return numberMap[match];
+            });
+        },
+        postformat: function (string) {
+            return string.replace(/\d/g, function (match) {
+                return symbolMap[match];
+            });
+        },
+
+        meridiemParse: /রাত|ভোর|সকাল|দুপুর|বিকাল|সন্ধ্যা|রাত/,
+        meridiemHour: function (hour, meridiem) {
+            if (hour === 12) {
+                hour = 0;
+            }
+            if (meridiem === 'রাত') {
+                return hour < 4 ? hour : hour + 12;
+            } else if (meridiem === 'ভোর') {
+                return hour;
+            } else if (meridiem === 'সকাল') {
+                return hour;
+            } else if (meridiem === 'দুপুর') {
+                return hour >= 3 ? hour : hour + 12;
+            } else if (meridiem === 'বিকাল') {
+                return hour + 12;
+            } else if (meridiem === 'সন্ধ্যা') {
+                return hour + 12;
+            }
+        },
+
+        meridiem: function (hour, minute, isLower) {
+            if (hour < 4) {
+                return 'রাত';
+            } else if (hour < 6) {
+                return 'ভোর';
+            } else if (hour < 12) {
+                return 'সকাল';
+            } else if (hour < 15) {
+                return 'দুপুর';
+            } else if (hour < 18) {
+                return 'বিকাল';
+            } else if (hour < 20) {
+                return 'সন্ধ্যা';
+            } else {
+                return 'রাত';
+            }
+        },
+        week: {
+            dow: 0, // Sunday is the first day of the week.
+            doy: 6, // The week that contains Jan 6th is the first week of the year.
+        },
+    });
+
+    return bnBd;
+
+})));
+
+
+/***/ }),
+
 /***/ "./node_modules/moment/locale/bn.js":
 /*!******************************************!*\
   !*** ./node_modules/moment/locale/bn.js ***!
@@ -72883,16 +73499,16 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
     //! moment.js locale configuration
 
     var symbolMap = {
-            '1': '১',
-            '2': '২',
-            '3': '৩',
-            '4': '৪',
-            '5': '৫',
-            '6': '৬',
-            '7': '৭',
-            '8': '৮',
-            '9': '৯',
-            '0': '০',
+            1: '১',
+            2: '২',
+            3: '৩',
+            4: '৪',
+            5: '৫',
+            6: '৬',
+            7: '৭',
+            8: '৮',
+            9: '৯',
+            0: '০',
         },
         numberMap = {
             '১': '1',
@@ -73021,16 +73637,16 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
     //! moment.js locale configuration
 
     var symbolMap = {
-            '1': '༡',
-            '2': '༢',
-            '3': '༣',
-            '4': '༤',
-            '5': '༥',
-            '6': '༦',
-            '7': '༧',
-            '8': '༨',
-            '9': '༩',
-            '0': '༠',
+            1: '༡',
+            2: '༢',
+            3: '༣',
+            4: '༤',
+            5: '༥',
+            6: '༦',
+            7: '༧',
+            8: '༨',
+            9: '༩',
+            0: '༠',
         },
         numberMap = {
             '༡': '1',
@@ -75491,6 +76107,8 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
             hh: '%d horas',
             d: 'un día',
             dd: '%d días',
+            w: 'una semana',
+            ww: '%d semanas',
             M: 'un mes',
             MM: '%d meses',
             y: 'un año',
@@ -75505,6 +76123,132 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
     });
 
     return esDo;
+
+})));
+
+
+/***/ }),
+
+/***/ "./node_modules/moment/locale/es-mx.js":
+/*!*********************************************!*\
+  !*** ./node_modules/moment/locale/es-mx.js ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+//! moment.js locale configuration
+//! locale : Spanish (Mexico) [es-mx]
+//! author : JC Franco : https://github.com/jcfranco
+
+;(function (global, factory) {
+    true ? factory(__webpack_require__(/*! ../moment */ "./node_modules/moment/moment.js")) :
+   undefined
+}(this, (function (moment) { 'use strict';
+
+    //! moment.js locale configuration
+
+    var monthsShortDot = 'ene._feb._mar._abr._may._jun._jul._ago._sep._oct._nov._dic.'.split(
+            '_'
+        ),
+        monthsShort = 'ene_feb_mar_abr_may_jun_jul_ago_sep_oct_nov_dic'.split('_'),
+        monthsParse = [
+            /^ene/i,
+            /^feb/i,
+            /^mar/i,
+            /^abr/i,
+            /^may/i,
+            /^jun/i,
+            /^jul/i,
+            /^ago/i,
+            /^sep/i,
+            /^oct/i,
+            /^nov/i,
+            /^dic/i,
+        ],
+        monthsRegex = /^(enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre|ene\.?|feb\.?|mar\.?|abr\.?|may\.?|jun\.?|jul\.?|ago\.?|sep\.?|oct\.?|nov\.?|dic\.?)/i;
+
+    var esMx = moment.defineLocale('es-mx', {
+        months: 'enero_febrero_marzo_abril_mayo_junio_julio_agosto_septiembre_octubre_noviembre_diciembre'.split(
+            '_'
+        ),
+        monthsShort: function (m, format) {
+            if (!m) {
+                return monthsShortDot;
+            } else if (/-MMM-/.test(format)) {
+                return monthsShort[m.month()];
+            } else {
+                return monthsShortDot[m.month()];
+            }
+        },
+        monthsRegex: monthsRegex,
+        monthsShortRegex: monthsRegex,
+        monthsStrictRegex: /^(enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre)/i,
+        monthsShortStrictRegex: /^(ene\.?|feb\.?|mar\.?|abr\.?|may\.?|jun\.?|jul\.?|ago\.?|sep\.?|oct\.?|nov\.?|dic\.?)/i,
+        monthsParse: monthsParse,
+        longMonthsParse: monthsParse,
+        shortMonthsParse: monthsParse,
+        weekdays: 'domingo_lunes_martes_miércoles_jueves_viernes_sábado'.split('_'),
+        weekdaysShort: 'dom._lun._mar._mié._jue._vie._sáb.'.split('_'),
+        weekdaysMin: 'do_lu_ma_mi_ju_vi_sá'.split('_'),
+        weekdaysParseExact: true,
+        longDateFormat: {
+            LT: 'H:mm',
+            LTS: 'H:mm:ss',
+            L: 'DD/MM/YYYY',
+            LL: 'D [de] MMMM [de] YYYY',
+            LLL: 'D [de] MMMM [de] YYYY H:mm',
+            LLLL: 'dddd, D [de] MMMM [de] YYYY H:mm',
+        },
+        calendar: {
+            sameDay: function () {
+                return '[hoy a la' + (this.hours() !== 1 ? 's' : '') + '] LT';
+            },
+            nextDay: function () {
+                return '[mañana a la' + (this.hours() !== 1 ? 's' : '') + '] LT';
+            },
+            nextWeek: function () {
+                return 'dddd [a la' + (this.hours() !== 1 ? 's' : '') + '] LT';
+            },
+            lastDay: function () {
+                return '[ayer a la' + (this.hours() !== 1 ? 's' : '') + '] LT';
+            },
+            lastWeek: function () {
+                return (
+                    '[el] dddd [pasado a la' +
+                    (this.hours() !== 1 ? 's' : '') +
+                    '] LT'
+                );
+            },
+            sameElse: 'L',
+        },
+        relativeTime: {
+            future: 'en %s',
+            past: 'hace %s',
+            s: 'unos segundos',
+            ss: '%d segundos',
+            m: 'un minuto',
+            mm: '%d minutos',
+            h: 'una hora',
+            hh: '%d horas',
+            d: 'un día',
+            dd: '%d días',
+            w: 'una semana',
+            ww: '%d semanas',
+            M: 'un mes',
+            MM: '%d meses',
+            y: 'un año',
+            yy: '%d años',
+        },
+        dayOfMonthOrdinalParse: /\d{1,2}º/,
+        ordinal: '%dº',
+        week: {
+            dow: 0, // Sunday is the first day of the week.
+            doy: 4, // The week that contains Jan 4th is the first week of the year.
+        },
+        invalidDate: 'Fecha inválida',
+    });
+
+    return esMx;
 
 })));
 
@@ -75615,6 +76359,8 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
             hh: '%d horas',
             d: 'un día',
             dd: '%d días',
+            w: 'una semana',
+            ww: '%d semanas',
             M: 'un mes',
             MM: '%d meses',
             y: 'un año',
@@ -75738,6 +76484,8 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
             hh: '%d horas',
             d: 'un día',
             dd: '%d días',
+            w: 'una semana',
+            ww: '%d semanas',
             M: 'un mes',
             MM: '%d meses',
             y: 'un año',
@@ -75749,7 +76497,7 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
             dow: 1, // Monday is the first day of the week.
             doy: 4, // The week that contains Jan 4th is the first week of the year.
         },
-        invalidDate: 'Fecha invalida',
+        invalidDate: 'Fecha inválida',
     });
 
     return es;
@@ -75959,16 +76707,16 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
     //! moment.js locale configuration
 
     var symbolMap = {
-            '1': '۱',
-            '2': '۲',
-            '3': '۳',
-            '4': '۴',
-            '5': '۵',
-            '6': '۶',
-            '7': '۷',
-            '8': '۸',
-            '9': '۹',
-            '0': '۰',
+            1: '۱',
+            2: '۲',
+            3: '۳',
+            4: '۴',
+            5: '۵',
+            6: '۶',
+            7: '۷',
+            8: '۸',
+            9: '۹',
+            0: '۰',
         },
         numberMap = {
             '۱': '1',
@@ -76628,6 +77376,8 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
             hh: '%d heures',
             d: 'un jour',
             dd: '%d jours',
+            w: 'une semaine',
+            ww: '%d semaines',
             M: 'un mois',
             MM: '%d mois',
             y: 'un an',
@@ -77194,8 +77944,8 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
             }
         },
         week: {
-            dow: 1, // Monday is the first day of the week.
-            doy: 4, // The week that contains Jan 4th is the first week of the year.
+            dow: 0, // Sunday is the first day of the week
+            doy: 3, // The week that contains Jan 4th is the first week of the year (7 + 0 - 4)
         },
         meridiemParse: /राती|सकाळीं|दनपारां|सांजे/,
         meridiemHour: function (hour, meridiem) {
@@ -77338,8 +78088,8 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
             }
         },
         week: {
-            dow: 1, // Monday is the first day of the week.
-            doy: 4, // The week that contains Jan 4th is the first week of the year.
+            dow: 0, // Sunday is the first day of the week
+            doy: 3, // The week that contains Jan 4th is the first week of the year (7 + 0 - 4)
         },
         meridiemParse: /rati|sokallim|donparam|sanje/,
         meridiemHour: function (hour, meridiem) {
@@ -77397,16 +78147,16 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
     //! moment.js locale configuration
 
     var symbolMap = {
-            '1': '૧',
-            '2': '૨',
-            '3': '૩',
-            '4': '૪',
-            '5': '૫',
-            '6': '૬',
-            '7': '૭',
-            '8': '૮',
-            '9': '૯',
-            '0': '૦',
+            1: '૧',
+            2: '૨',
+            3: '૩',
+            4: '૪',
+            5: '૫',
+            6: '૬',
+            7: '૭',
+            8: '૮',
+            9: '૯',
+            0: '૦',
         },
         numberMap = {
             '૧': '1',
@@ -77652,16 +78402,16 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
     //! moment.js locale configuration
 
     var symbolMap = {
-            '1': '१',
-            '2': '२',
-            '3': '३',
-            '4': '४',
-            '5': '५',
-            '6': '६',
-            '7': '७',
-            '8': '८',
-            '9': '९',
-            '0': '०',
+            1: '१',
+            2: '२',
+            3: '३',
+            4: '४',
+            5: '५',
+            6: '६',
+            7: '७',
+            8: '८',
+            9: '९',
+            0: '०',
         },
         numberMap = {
             '१': '1',
@@ -77674,16 +78424,48 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
             '८': '8',
             '९': '9',
             '०': '0',
-        };
+        },
+        monthsParse = [
+            /^जन/i,
+            /^फ़र|फर/i,
+            /^मार्च/i,
+            /^अप्रै/i,
+            /^मई/i,
+            /^जून/i,
+            /^जुल/i,
+            /^अग/i,
+            /^सितं|सित/i,
+            /^अक्टू/i,
+            /^नव|नवं/i,
+            /^दिसं|दिस/i,
+        ],
+        shortMonthsParse = [
+            /^जन/i,
+            /^फ़र/i,
+            /^मार्च/i,
+            /^अप्रै/i,
+            /^मई/i,
+            /^जून/i,
+            /^जुल/i,
+            /^अग/i,
+            /^सित/i,
+            /^अक्टू/i,
+            /^नव/i,
+            /^दिस/i,
+        ];
 
     var hi = moment.defineLocale('hi', {
-        months: 'जनवरी_फ़रवरी_मार्च_अप्रैल_मई_जून_जुलाई_अगस्त_सितम्बर_अक्टूबर_नवम्बर_दिसम्बर'.split(
-            '_'
-        ),
+        months: {
+            format: 'जनवरी_फ़रवरी_मार्च_अप्रैल_मई_जून_जुलाई_अगस्त_सितम्बर_अक्टूबर_नवम्बर_दिसम्बर'.split(
+                '_'
+            ),
+            standalone: 'जनवरी_फरवरी_मार्च_अप्रैल_मई_जून_जुलाई_अगस्त_सितंबर_अक्टूबर_नवंबर_दिसंबर'.split(
+                '_'
+            ),
+        },
         monthsShort: 'जन._फ़र._मार्च_अप्रै._मई_जून_जुल._अग._सित._अक्टू._नव._दिस.'.split(
             '_'
         ),
-        monthsParseExact: true,
         weekdays: 'रविवार_सोमवार_मंगलवार_बुधवार_गुरूवार_शुक्रवार_शनिवार'.split('_'),
         weekdaysShort: 'रवि_सोम_मंगल_बुध_गुरू_शुक्र_शनि'.split('_'),
         weekdaysMin: 'र_सो_मं_बु_गु_शु_श'.split('_'),
@@ -77695,6 +78477,19 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
             LLL: 'D MMMM YYYY, A h:mm बजे',
             LLLL: 'dddd, D MMMM YYYY, A h:mm बजे',
         },
+
+        monthsParse: monthsParse,
+        longMonthsParse: monthsParse,
+        shortMonthsParse: shortMonthsParse,
+
+        monthsRegex: /^(जनवरी|जन\.?|फ़रवरी|फरवरी|फ़र\.?|मार्च?|अप्रैल|अप्रै\.?|मई?|जून?|जुलाई|जुल\.?|अगस्त|अग\.?|सितम्बर|सितंबर|सित\.?|अक्टूबर|अक्टू\.?|नवम्बर|नवंबर|नव\.?|दिसम्बर|दिसंबर|दिस\.?)/i,
+
+        monthsShortRegex: /^(जनवरी|जन\.?|फ़रवरी|फरवरी|फ़र\.?|मार्च?|अप्रैल|अप्रै\.?|मई?|जून?|जुलाई|जुल\.?|अगस्त|अग\.?|सितम्बर|सितंबर|सित\.?|अक्टूबर|अक्टू\.?|नवम्बर|नवंबर|नव\.?|दिसम्बर|दिसंबर|दिस\.?)/i,
+
+        monthsStrictRegex: /^(जनवरी?|फ़रवरी|फरवरी?|मार्च?|अप्रैल?|मई?|जून?|जुलाई?|अगस्त?|सितम्बर|सितंबर|सित?\.?|अक्टूबर|अक्टू\.?|नवम्बर|नवंबर?|दिसम्बर|दिसंबर?)/i,
+
+        monthsShortStrictRegex: /^(जन\.?|फ़र\.?|मार्च?|अप्रै\.?|मई?|जून?|जुल\.?|अग\.?|सित\.?|अक्टू\.?|नव\.?|दिस\.?)/i,
+
         calendar: {
             sameDay: '[आज] LT',
             nextDay: '[कल] LT',
@@ -77956,6 +78751,7 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
 //! moment.js locale configuration
 //! locale : Hungarian [hu]
 //! author : Adam Brunner : https://github.com/adambrunner
+//! author : Peter Viszt  : https://github.com/passatgt
 
 ;(function (global, factory) {
     true ? factory(__webpack_require__(/*! ../moment */ "./node_modules/moment/moment.js")) :
@@ -78014,9 +78810,10 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
         months: 'január_február_március_április_május_június_július_augusztus_szeptember_október_november_december'.split(
             '_'
         ),
-        monthsShort: 'jan_feb_márc_ápr_máj_jún_júl_aug_szept_okt_nov_dec'.split(
+        monthsShort: 'jan._feb._márc._ápr._máj._jún._júl._aug._szept._okt._nov._dec.'.split(
             '_'
         ),
+        monthsParseExact: true,
         weekdays: 'vasárnap_hétfő_kedd_szerda_csütörtök_péntek_szombat'.split('_'),
         weekdaysShort: 'vas_hét_kedd_sze_csüt_pén_szo'.split('_'),
         weekdaysMin: 'v_h_k_sze_cs_p_szo'.split('_'),
@@ -78637,6 +79434,8 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
             hh: '%d ore',
             d: 'un giorno',
             dd: '%d giorni',
+            w: 'una settimana',
+            ww: '%d settimane',
             M: 'un mese',
             MM: '%d mesi',
             y: 'un anno',
@@ -79154,16 +79953,16 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
     //! moment.js locale configuration
 
     var symbolMap = {
-            '1': '១',
-            '2': '២',
-            '3': '៣',
-            '4': '៤',
-            '5': '៥',
-            '6': '៦',
-            '7': '៧',
-            '8': '៨',
-            '9': '៩',
-            '0': '០',
+            1: '១',
+            2: '២',
+            3: '៣',
+            4: '៤',
+            5: '៥',
+            6: '៦',
+            7: '៧',
+            8: '៨',
+            9: '៩',
+            0: '០',
         },
         numberMap = {
             '១': '1',
@@ -79276,16 +80075,16 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
     //! moment.js locale configuration
 
     var symbolMap = {
-            '1': '೧',
-            '2': '೨',
-            '3': '೩',
-            '4': '೪',
-            '5': '೫',
-            '6': '೬',
-            '7': '೭',
-            '8': '೮',
-            '9': '೯',
-            '0': '೦',
+            1: '೧',
+            2: '೨',
+            3: '೩',
+            4: '೪',
+            5: '೫',
+            6: '೬',
+            7: '೭',
+            8: '೮',
+            9: '೯',
+            0: '೦',
         },
         numberMap = {
             '೧': '1',
@@ -79514,16 +80313,16 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
     //! moment.js locale configuration
 
     var symbolMap = {
-            '1': '١',
-            '2': '٢',
-            '3': '٣',
-            '4': '٤',
-            '5': '٥',
-            '6': '٦',
-            '7': '٧',
-            '8': '٨',
-            '9': '٩',
-            '0': '٠',
+            1: '١',
+            2: '٢',
+            3: '٣',
+            4: '٤',
+            5: '٥',
+            6: '٦',
+            7: '٧',
+            8: '٨',
+            9: '٩',
+            0: '٠',
         },
         numberMap = {
             '١': '1',
@@ -80795,16 +81594,16 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
     //! moment.js locale configuration
 
     var symbolMap = {
-            '1': '१',
-            '2': '२',
-            '3': '३',
-            '4': '४',
-            '5': '५',
-            '6': '६',
-            '7': '७',
-            '8': '८',
-            '9': '९',
-            '0': '०',
+            1: '१',
+            2: '२',
+            3: '३',
+            4: '४',
+            5: '५',
+            6: '६',
+            7: '७',
+            8: '८',
+            9: '९',
+            0: '०',
         },
         numberMap = {
             '१': '1',
@@ -81284,16 +82083,16 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
     //! moment.js locale configuration
 
     var symbolMap = {
-            '1': '၁',
-            '2': '၂',
-            '3': '၃',
-            '4': '၄',
-            '5': '၅',
-            '6': '၆',
-            '7': '၇',
-            '8': '၈',
-            '9': '၉',
-            '0': '၀',
+            1: '၁',
+            2: '၂',
+            3: '၃',
+            4: '၄',
+            5: '၅',
+            6: '၆',
+            7: '၇',
+            8: '၈',
+            9: '၉',
+            0: '၀',
         },
         numberMap = {
             '၁': '1',
@@ -81433,6 +82232,8 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
             hh: '%d timer',
             d: 'en dag',
             dd: '%d dager',
+            w: 'en uke',
+            ww: '%d uker',
             M: 'en måned',
             MM: '%d måneder',
             y: 'ett år',
@@ -81472,16 +82273,16 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
     //! moment.js locale configuration
 
     var symbolMap = {
-            '1': '१',
-            '2': '२',
-            '3': '३',
-            '4': '४',
-            '5': '५',
-            '6': '६',
-            '7': '७',
-            '8': '८',
-            '9': '९',
-            '0': '०',
+            1: '१',
+            2: '२',
+            3: '३',
+            4: '४',
+            5: '५',
+            6: '६',
+            7: '७',
+            8: '८',
+            9: '९',
+            0: '०',
         },
         numberMap = {
             '१': '1',
@@ -81812,6 +82613,8 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
             hh: '%d uur',
             d: 'één dag',
             dd: '%d dagen',
+            w: 'één week',
+            ww: '%d weken',
             M: 'één maand',
             MM: '%d maanden',
             y: 'één jaar',
@@ -81895,6 +82698,8 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
             hh: '%d timar',
             d: 'ein dag',
             dd: '%d dagar',
+            w: 'ei veke',
+            ww: '%d veker',
             M: 'ein månad',
             MM: '%d månader',
             y: 'eit år',
@@ -82037,16 +82842,16 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
     //! moment.js locale configuration
 
     var symbolMap = {
-            '1': '੧',
-            '2': '੨',
-            '3': '੩',
-            '4': '੪',
-            '5': '੫',
-            '6': '੬',
-            '7': '੭',
-            '8': '੮',
-            '9': '੯',
-            '0': '੦',
+            1: '੧',
+            2: '੨',
+            3: '੩',
+            4: '੪',
+            5: '੫',
+            6: '੬',
+            7: '੭',
+            8: '੮',
+            9: '੯',
+            0: '੦',
         },
         numberMap = {
             '੧': '1',
@@ -82182,7 +82987,21 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
         ),
         monthsSubjective = 'stycznia_lutego_marca_kwietnia_maja_czerwca_lipca_sierpnia_września_października_listopada_grudnia'.split(
             '_'
-        );
+        ),
+        monthsParse = [
+            /^sty/i,
+            /^lut/i,
+            /^mar/i,
+            /^kwi/i,
+            /^maj/i,
+            /^cze/i,
+            /^lip/i,
+            /^sie/i,
+            /^wrz/i,
+            /^paź/i,
+            /^lis/i,
+            /^gru/i,
+        ];
     function plural(n) {
         return n % 10 < 5 && n % 10 > 1 && ~~(n / 10) % 10 !== 1;
     }
@@ -82199,6 +83018,8 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
                 return withoutSuffix ? 'godzina' : 'godzinę';
             case 'hh':
                 return result + (plural(number) ? 'godziny' : 'godzin');
+            case 'ww':
+                return result + (plural(number) ? 'tygodnie' : 'tygodni');
             case 'MM':
                 return result + (plural(number) ? 'miesiące' : 'miesięcy');
             case 'yy':
@@ -82210,17 +83031,6 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
         months: function (momentToFormat, format) {
             if (!momentToFormat) {
                 return monthsNominative;
-            } else if (format === '') {
-                // Hack: if format empty we know this is used to generate
-                // RegExp by moment. Give then back both valid forms of months
-                // in RegExp ready format.
-                return (
-                    '(' +
-                    monthsSubjective[momentToFormat.month()] +
-                    '|' +
-                    monthsNominative[momentToFormat.month()] +
-                    ')'
-                );
             } else if (/D MMMM/.test(format)) {
                 return monthsSubjective[momentToFormat.month()];
             } else {
@@ -82228,6 +83038,9 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
             }
         },
         monthsShort: 'sty_lut_mar_kwi_maj_cze_lip_sie_wrz_paź_lis_gru'.split('_'),
+        monthsParse: monthsParse,
+        longMonthsParse: monthsParse,
+        shortMonthsParse: monthsParse,
         weekdays: 'niedziela_poniedziałek_wtorek_środa_czwartek_piątek_sobota'.split(
             '_'
         ),
@@ -82288,6 +83101,8 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
             hh: translate,
             d: '1 dzień',
             dd: '%d dni',
+            w: 'tydzień',
+            ww: translate,
             M: 'miesiąc',
             MM: translate,
             y: 'rok',
@@ -82375,6 +83190,7 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
         },
         dayOfMonthOrdinalParse: /\d{1,2}º/,
         ordinal: '%dº',
+        invalidDate: 'Data inválida',
     });
 
     return ptBr;
@@ -82444,6 +83260,8 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
             hh: '%d horas',
             d: 'um dia',
             dd: '%d dias',
+            w: 'uma semana',
+            ww: '%d semanas',
             M: 'um mês',
             MM: '%d meses',
             y: 'um ano',
@@ -82490,6 +83308,7 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
                 mm: 'minute',
                 hh: 'ore',
                 dd: 'zile',
+                ww: 'săptămâni',
                 MM: 'luni',
                 yy: 'ani',
             },
@@ -82538,6 +83357,8 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
             hh: relativeTimeWithPlural,
             d: 'o zi',
             dd: relativeTimeWithPlural,
+            w: 'o săptămână',
+            ww: relativeTimeWithPlural,
             M: 'o lună',
             MM: relativeTimeWithPlural,
             y: 'un an',
@@ -82590,6 +83411,7 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
             mm: withoutSuffix ? 'минута_минуты_минут' : 'минуту_минуты_минут',
             hh: 'час_часа_часов',
             dd: 'день_дня_дней',
+            ww: 'неделя_недели_недель',
             MM: 'месяц_месяца_месяцев',
             yy: 'год_года_лет',
         };
@@ -82730,6 +83552,8 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
             hh: relativeTimeWithPlural,
             d: 'день',
             dd: relativeTimeWithPlural,
+            w: 'неделя',
+            ww: relativeTimeWithPlural,
             M: 'месяц',
             MM: relativeTimeWithPlural,
             y: 'год',
@@ -83494,6 +84318,7 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
 //! moment.js locale configuration
 //! locale : Serbian Cyrillic [sr-cyrl]
 //! author : Milan Janačković<milanjanackovic@gmail.com> : https://github.com/milan-j
+//! author : Stefan Crnjaković <stefan@hotmail.rs> : https://github.com/crnjakovic
 
 ;(function (global, factory) {
     true ? factory(__webpack_require__(/*! ../moment */ "./node_modules/moment/moment.js")) :
@@ -83550,10 +84375,10 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
         longDateFormat: {
             LT: 'H:mm',
             LTS: 'H:mm:ss',
-            L: 'DD.MM.YYYY',
-            LL: 'D. MMMM YYYY',
-            LLL: 'D. MMMM YYYY H:mm',
-            LLLL: 'dddd, D. MMMM YYYY H:mm',
+            L: 'D. M. YYYY.',
+            LL: 'D. MMMM YYYY.',
+            LLL: 'D. MMMM YYYY. H:mm',
+            LLLL: 'dddd, D. MMMM YYYY. H:mm',
         },
         calendar: {
             sameDay: '[данас у] LT',
@@ -83608,7 +84433,7 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
         ordinal: '%d.',
         week: {
             dow: 1, // Monday is the first day of the week.
-            doy: 7, // The week that contains Jan 7th is the first week of the year.
+            doy: 7, // The week that contains Jan 1st is the first week of the year.
         },
     });
 
@@ -83629,6 +84454,7 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
 //! moment.js locale configuration
 //! locale : Serbian [sr]
 //! author : Milan Janačković<milanjanackovic@gmail.com> : https://github.com/milan-j
+//! author : Stefan Crnjaković <stefan@hotmail.rs> : https://github.com/crnjakovic
 
 ;(function (global, factory) {
     true ? factory(__webpack_require__(/*! ../moment */ "./node_modules/moment/moment.js")) :
@@ -83687,10 +84513,10 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
         longDateFormat: {
             LT: 'H:mm',
             LTS: 'H:mm:ss',
-            L: 'DD.MM.YYYY',
-            LL: 'D. MMMM YYYY',
-            LLL: 'D. MMMM YYYY H:mm',
-            LLLL: 'dddd, D. MMMM YYYY H:mm',
+            L: 'D. M. YYYY.',
+            LL: 'D. MMMM YYYY.',
+            LLL: 'D. MMMM YYYY. H:mm',
+            LLLL: 'dddd, D. MMMM YYYY. H:mm',
         },
         calendar: {
             sameDay: '[danas u] LT',
@@ -84040,16 +84866,16 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
     //! moment.js locale configuration
 
     var symbolMap = {
-            '1': '௧',
-            '2': '௨',
-            '3': '௩',
-            '4': '௪',
-            '5': '௫',
-            '6': '௬',
-            '7': '௭',
-            '8': '௮',
-            '9': '௯',
-            '0': '௦',
+            1: '௧',
+            2: '௨',
+            3: '௩',
+            4: '௪',
+            5: '௫',
+            6: '௬',
+            7: '௭',
+            8: '௮',
+            9: '௯',
+            0: '௦',
         },
         numberMap = {
             '௧': '1',
@@ -84408,9 +85234,14 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
     };
 
     var tg = moment.defineLocale('tg', {
-        months: 'январ_феврал_март_апрел_май_июн_июл_август_сентябр_октябр_ноябр_декабр'.split(
-            '_'
-        ),
+        months: {
+            format: 'январи_феврали_марти_апрели_майи_июни_июли_августи_сентябри_октябри_ноябри_декабри'.split(
+                '_'
+            ),
+            standalone: 'январ_феврал_март_апрел_май_июн_июл_август_сентябр_октябр_ноябр_декабр'.split(
+                '_'
+            ),
+        },
         monthsShort: 'янв_фев_мар_апр_май_июн_июл_авг_сен_окт_ноя_дек'.split('_'),
         weekdays: 'якшанбе_душанбе_сешанбе_чоршанбе_панҷшанбе_ҷумъа_шанбе'.split(
             '_'
@@ -84420,14 +85251,14 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
         longDateFormat: {
             LT: 'HH:mm',
             LTS: 'HH:mm:ss',
-            L: 'DD/MM/YYYY',
+            L: 'DD.MM.YYYY',
             LL: 'D MMMM YYYY',
             LLL: 'D MMMM YYYY HH:mm',
             LLLL: 'dddd, D MMMM YYYY HH:mm',
         },
         calendar: {
             sameDay: '[Имрӯз соати] LT',
-            nextDay: '[Пагоҳ соати] LT',
+            nextDay: '[Фардо соати] LT',
             lastDay: '[Дирӯз соати] LT',
             nextWeek: 'dddd[и] [ҳафтаи оянда соати] LT',
             lastWeek: 'dddd[и] [ҳафтаи гузашта соати] LT',
@@ -84563,6 +85394,8 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
             hh: '%d ชั่วโมง',
             d: '1 วัน',
             dd: '%d วัน',
+            w: '1 สัปดาห์',
+            ww: '%d สัปดาห์',
             M: '1 เดือน',
             MM: '%d เดือน',
             y: '1 ปี',
@@ -84585,7 +85418,7 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
-//! locale : Turkmen [trk]
+//! locale : Turkmen [tk]
 //! author : Atamyrat Abdyrahmanov : https://github.com/atamyratabdy
 
 ;(function (global, factory) {
@@ -84998,6 +85831,8 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
             hh: '%d saat',
             d: 'bir gün',
             dd: '%d gün',
+            w: 'bir hafta',
+            ww: '%d hafta',
             M: 'bir ay',
             MM: '%d ay',
             y: 'bir yıl',
@@ -85296,7 +86131,7 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-//! moment.js language configuration
+//! moment.js locale configuration
 //! locale : Uyghur (China) [ug-cn]
 //! author: boyaq : https://github.com/boyaq
 
@@ -85305,7 +86140,7 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
    undefined
 }(this, (function (moment) { 'use strict';
 
-    //! moment.js language configuration
+    //! moment.js locale configuration
 
     var ugCn = moment.defineLocale('ug-cn', {
         months: 'يانۋار_فېۋرال_مارت_ئاپرېل_ماي_ئىيۇن_ئىيۇل_ئاۋغۇست_سېنتەبىر_ئۆكتەبىر_نويابىر_دېكابىر'.split(
@@ -85923,6 +86758,8 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
             hh: '%d giờ',
             d: 'một ngày',
             dd: '%d ngày',
+            w: 'một tuần',
+            ww: '%d tuần',
             M: 'một tháng',
             MM: '%d tháng',
             y: 'một năm',
@@ -86228,6 +87065,8 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
             hh: '%d 小时',
             d: '1 天',
             dd: '%d 天',
+            w: '1 周',
+            ww: '%d 周',
             M: '1 个月',
             MM: '%d 个月',
             y: '1 年',
@@ -86615,7 +87454,7 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module) {var require;//! moment.js
-//! version : 2.27.0
+//! version : 2.29.1
 //! authors : Tim Wood, Iskren Chernev, Moment.js contributors
 //! license : MIT
 //! momentjs.com
@@ -89155,8 +89994,7 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
     hooks.createFromInputFallback = deprecate(
         'value provided is not in a recognized RFC2822 or ISO format. moment construction falls back to js Date(), ' +
             'which is not reliable across all browsers and versions. Non RFC2822/ISO date formats are ' +
-            'discouraged and will be removed in an upcoming major release. Please refer to ' +
-            'http://momentjs.com/guides/#/warnings/js-date/ for more info.',
+            'discouraged. Please refer to http://momentjs.com/guides/#/warnings/js-date/ for more info.',
         function (config) {
             config._d = new Date(config._i + (config._useUTC ? ' UTC' : ''));
         }
@@ -90341,7 +91179,10 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
     function calendar$1(time, formats) {
         // Support for single parameter, formats only overload to the calendar function
         if (arguments.length === 1) {
-            if (isMomentInput(arguments[0])) {
+            if (!arguments[0]) {
+                time = undefined;
+                formats = undefined;
+            } else if (isMomentInput(arguments[0])) {
                 time = arguments[0];
                 formats = undefined;
             } else if (isCalendarSpec(arguments[0])) {
@@ -91019,7 +91860,7 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
             eras = this.localeData().eras();
         for (i = 0, l = eras.length; i < l; ++i) {
             // truncate time
-            val = this.startOf('day').valueOf();
+            val = this.clone().startOf('day').valueOf();
 
             if (eras[i].since <= val && val <= eras[i].until) {
                 return eras[i].name;
@@ -91039,7 +91880,7 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
             eras = this.localeData().eras();
         for (i = 0, l = eras.length; i < l; ++i) {
             // truncate time
-            val = this.startOf('day').valueOf();
+            val = this.clone().startOf('day').valueOf();
 
             if (eras[i].since <= val && val <= eras[i].until) {
                 return eras[i].narrow;
@@ -91059,7 +91900,7 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
             eras = this.localeData().eras();
         for (i = 0, l = eras.length; i < l; ++i) {
             // truncate time
-            val = this.startOf('day').valueOf();
+            val = this.clone().startOf('day').valueOf();
 
             if (eras[i].since <= val && val <= eras[i].until) {
                 return eras[i].abbr;
@@ -91082,7 +91923,7 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
             dir = eras[i].since <= eras[i].until ? +1 : -1;
 
             // truncate time
-            val = this.startOf('day').valueOf();
+            val = this.clone().startOf('day').valueOf();
 
             if (
                 (eras[i].since <= val && val <= eras[i].until) ||
@@ -92233,7 +93074,7 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
 
     //! moment.js
 
-    hooks.version = '2.27.0';
+    hooks.version = '2.29.1';
 
     setHookCallback(createLocal);
 
@@ -103108,6 +103949,8 @@ var Emitter = __webpack_require__(/*! component-emitter */ "./node_modules/compo
 
 var safeStringify = __webpack_require__(/*! fast-safe-stringify */ "./node_modules/fast-safe-stringify/index.js");
 
+var qs = __webpack_require__(/*! qs */ "./node_modules/superagent/node_modules/qs/lib/index.js");
+
 var RequestBase = __webpack_require__(/*! ./request-base */ "./node_modules/superagent/lib/request-base.js");
 
 var isObject = __webpack_require__(/*! ./is-object */ "./node_modules/superagent/lib/is-object.js");
@@ -103296,7 +104139,7 @@ request.types = {
  */
 
 request.serialize = {
-  'application/x-www-form-urlencoded': serialize,
+  'application/x-www-form-urlencoded': qs.stringify,
   'application/json': safeStringify
 };
 /**
@@ -104102,7 +104945,7 @@ request.put = function (url, data, fn) {
   if (fn) req.end(fn);
   return req;
 };
-//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uL3NyYy9jbGllbnQuanMiXSwibmFtZXMiOlsicm9vdCIsIndpbmRvdyIsInNlbGYiLCJjb25zb2xlIiwid2FybiIsIkVtaXR0ZXIiLCJyZXF1aXJlIiwic2FmZVN0cmluZ2lmeSIsIlJlcXVlc3RCYXNlIiwiaXNPYmplY3QiLCJSZXNwb25zZUJhc2UiLCJBZ2VudCIsIm5vb3AiLCJtb2R1bGUiLCJleHBvcnRzIiwibWV0aG9kIiwidXJsIiwiUmVxdWVzdCIsImVuZCIsImFyZ3VtZW50cyIsImxlbmd0aCIsInJlcXVlc3QiLCJnZXRYSFIiLCJYTUxIdHRwUmVxdWVzdCIsImxvY2F0aW9uIiwicHJvdG9jb2wiLCJBY3RpdmVYT2JqZWN0IiwiRXJyb3IiLCJ0cmltIiwicyIsInJlcGxhY2UiLCJzZXJpYWxpemUiLCJvYmoiLCJwYWlycyIsImtleSIsIk9iamVjdCIsInByb3RvdHlwZSIsImhhc093blByb3BlcnR5IiwiY2FsbCIsInB1c2hFbmNvZGVkS2V5VmFsdWVQYWlyIiwiam9pbiIsInZhbCIsInVuZGVmaW5lZCIsInB1c2giLCJlbmNvZGVVUkkiLCJBcnJheSIsImlzQXJyYXkiLCJmb3JFYWNoIiwidiIsInN1YmtleSIsImVuY29kZVVSSUNvbXBvbmVudCIsInNlcmlhbGl6ZU9iamVjdCIsInBhcnNlU3RyaW5nIiwic3RyIiwic3BsaXQiLCJwYWlyIiwicG9zIiwiaSIsImxlbiIsImluZGV4T2YiLCJkZWNvZGVVUklDb21wb25lbnQiLCJzbGljZSIsInR5cGVzIiwiaHRtbCIsImpzb24iLCJ4bWwiLCJ1cmxlbmNvZGVkIiwiZm9ybSIsInBhcnNlIiwiSlNPTiIsInBhcnNlSGVhZGVyIiwibGluZXMiLCJmaWVsZHMiLCJpbmRleCIsImxpbmUiLCJmaWVsZCIsInRvTG93ZXJDYXNlIiwiaXNKU09OIiwibWltZSIsInRlc3QiLCJSZXNwb25zZSIsInJlcSIsInhociIsInRleHQiLCJyZXNwb25zZVR5cGUiLCJyZXNwb25zZVRleHQiLCJzdGF0dXNUZXh0Iiwic3RhdHVzIiwiX3NldFN0YXR1c1Byb3BlcnRpZXMiLCJoZWFkZXJzIiwiZ2V0QWxsUmVzcG9uc2VIZWFkZXJzIiwiaGVhZGVyIiwiZ2V0UmVzcG9uc2VIZWFkZXIiLCJfc2V0SGVhZGVyUHJvcGVydGllcyIsIl9yZXNwb25zZVR5cGUiLCJib2R5IiwicmVzcG9uc2UiLCJfcGFyc2VCb2R5IiwidHlwZSIsIl9wYXJzZXIiLCJ0b0Vycm9yIiwibXNnIiwiZXJyIiwiX3F1ZXJ5IiwiX2hlYWRlciIsIm9uIiwicmVzIiwiZXJyXyIsIm9yaWdpbmFsIiwicmF3UmVzcG9uc2UiLCJzdGF0dXNDb2RlIiwiY2FsbGJhY2siLCJlbWl0IiwibmV3X2VyciIsIl9pc1Jlc3BvbnNlT0siLCJzZXQiLCJhY2NlcHQiLCJhdXRoIiwidXNlciIsInBhc3MiLCJvcHRpb25zIiwiYnRvYSIsImVuY29kZXIiLCJzdHJpbmciLCJfYXV0aCIsInF1ZXJ5IiwiYXR0YWNoIiwiZmlsZSIsIl9kYXRhIiwiX2dldEZvcm1EYXRhIiwiYXBwZW5kIiwibmFtZSIsIl9mb3JtRGF0YSIsIkZvcm1EYXRhIiwiX3Nob3VsZFJldHJ5IiwiX3JldHJ5IiwiZm4iLCJfY2FsbGJhY2siLCJjbGVhclRpbWVvdXQiLCJfbWF4UmV0cmllcyIsInJldHJpZXMiLCJfcmV0cmllcyIsImNyb3NzRG9tYWluRXJyb3IiLCJjcm9zc0RvbWFpbiIsImFnZW50IiwiY2EiLCJidWZmZXIiLCJ3cml0ZSIsInBpcGUiLCJfaXNIb3N0IiwidG9TdHJpbmciLCJfZW5kQ2FsbGVkIiwiX2ZpbmFsaXplUXVlcnlTdHJpbmciLCJfZW5kIiwiX3NldFVwbG9hZFRpbWVvdXQiLCJfdXBsb2FkVGltZW91dCIsIl91cGxvYWRUaW1lb3V0VGltZXIiLCJzZXRUaW1lb3V0IiwiX3RpbWVvdXRFcnJvciIsIl9hYm9ydGVkIiwiZGF0YSIsIl9zZXRUaW1lb3V0cyIsIm9ucmVhZHlzdGF0ZWNoYW5nZSIsInJlYWR5U3RhdGUiLCJfcmVzcG9uc2VUaW1lb3V0VGltZXIiLCJ0aW1lZG91dCIsImhhbmRsZVByb2dyZXNzIiwiZGlyZWN0aW9uIiwiZSIsInRvdGFsIiwicGVyY2VudCIsImxvYWRlZCIsImhhc0xpc3RlbmVycyIsImFkZEV2ZW50TGlzdGVuZXIiLCJiaW5kIiwidXBsb2FkIiwidXNlcm5hbWUiLCJwYXNzd29yZCIsIm9wZW4iLCJfd2l0aENyZWRlbnRpYWxzIiwid2l0aENyZWRlbnRpYWxzIiwiY29udGVudFR5cGUiLCJfc2VyaWFsaXplciIsInNldFJlcXVlc3RIZWFkZXIiLCJzZW5kIiwiX3NldERlZmF1bHRzIiwiZGVsIiwiZGVsZXRlIiwiZ2V0IiwiaGVhZCIsInBhdGNoIiwicG9zdCIsInB1dCJdLCJtYXBwaW5ncyI6Ijs7OztBQUFBOzs7QUFJQSxJQUFJQSxJQUFKOztBQUNBLElBQUksT0FBT0MsTUFBUCxLQUFrQixXQUF0QixFQUFtQztBQUNqQztBQUNBRCxFQUFBQSxJQUFJLEdBQUdDLE1BQVA7QUFDRCxDQUhELE1BR08sSUFBSSxPQUFPQyxJQUFQLEtBQWdCLFdBQXBCLEVBQWlDO0FBQ3RDO0FBQ0FDLEVBQUFBLE9BQU8sQ0FBQ0MsSUFBUixDQUNFLHFFQURGO0FBR0FKLEVBQUFBLElBQUksU0FBSjtBQUNELENBTk0sTUFNQTtBQUNMO0FBQ0FBLEVBQUFBLElBQUksR0FBR0UsSUFBUDtBQUNEOztBQUVELElBQU1HLE9BQU8sR0FBR0MsT0FBTyxDQUFDLG1CQUFELENBQXZCOztBQUNBLElBQU1DLGFBQWEsR0FBR0QsT0FBTyxDQUFDLHFCQUFELENBQTdCOztBQUNBLElBQU1FLFdBQVcsR0FBR0YsT0FBTyxDQUFDLGdCQUFELENBQTNCOztBQUNBLElBQU1HLFFBQVEsR0FBR0gsT0FBTyxDQUFDLGFBQUQsQ0FBeEI7O0FBQ0EsSUFBTUksWUFBWSxHQUFHSixPQUFPLENBQUMsaUJBQUQsQ0FBNUI7O0FBQ0EsSUFBTUssS0FBSyxHQUFHTCxPQUFPLENBQUMsY0FBRCxDQUFyQjtBQUVBOzs7OztBQUlBLFNBQVNNLElBQVQsR0FBZ0IsQ0FBRTtBQUVsQjs7Ozs7QUFJ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IHJlZmVyZW5jZSBmb3IgaWZyYW1lcy5cbiAqL1xuXG5sZXQgcm9vdDtcbmlmICh0eXBlb2Ygd2luZG93ICE9PSAndW5kZWZpbmVkJykge1xuICAvLyBCcm93c2VyIHdpbmRvd1xuICByb290ID0gd2luZG93O1xufSBlbHNlIGlmICh0eXBlb2Ygc2VsZiA9PT0gJ3VuZGVmaW5lZCcpIHtcbiAgLy8gT3RoZXIgZW52aXJvbm1lbnRzXG4gIGNvbnNvbGUud2FybihcbiAgICAnVXNpbmcgYnJvd3Nlci1vbmx5IHZlcnNpb24gb2Ygc3VwZXJhZ2VudCBpbiBub24tYnJvd3NlciBlbnZpcm9ubWVudCdcbiAgKTtcbiAgcm9vdCA9IHRoaXM7XG59IGVsc2Uge1xuICAvLyBXZWIgV29ya2VyXG4gIHJvb3QgPSBzZWxmO1xufVxuXG5jb25zdCBFbWl0dGVyID0gcmVxdWlyZSgnY29tcG9uZW50LWVtaXR0ZXInKTtcbmNvbnN0IHNhZmVTdHJpbmdpZnkgPSByZXF1aXJlKCdmYXN0LXNhZmUtc3RyaW5naWZ5Jyk7XG5jb25zdCBSZXF1ZXN0QmFzZSA9IHJlcXVpcmUoJy4vcmVxdWVzdC1iYXNlJyk7XG5jb25zdCBpc09iamVjdCA9IHJlcXVpcmUoJy4vaXMtb2JqZWN0Jyk7XG5jb25zdCBSZXNwb25zZUJhc2UgPSByZXF1aXJlKCcuL3Jlc3BvbnNlLWJhc2UnKTtcbmNvbnN0IEFnZW50ID0gcmVxdWlyZSgnLi9hZ2VudC1iYXNlJyk7XG5cbi8qKlxuICogTm9vcC5cbiAqL1xuXG5mdW5jdGlvbiBub29wKCkge31cblxuLyoqXG4gKiBFeHBvc2UgYHJlcXVlc3RgLlxuICovXG5cbm1vZHVsZS5leHBvcnRzID0gZnVuY3Rpb24gKG1ldGhvZCwgdXJsKSB7XG4gIC8vIGNhbGxiYWNrXG4gIGlmICh0eXBlb2YgdXJsID09PSAnZnVuY3Rpb24nKSB7XG4gICAgcmV0dXJuIG5ldyBleHBvcnRzLlJlcXVlc3QoJ0dFVCcsIG1ldGhvZCkuZW5kKHVybCk7XG4gIH1cblxuICAvLyB1cmwgZmlyc3RcbiAgaWYgKGFyZ3VtZW50cy5sZW5ndGggPT09IDEpIHtcbiAgICByZXR1cm4gbmV3IGV4cG9ydHMuUmVxdWVzdCgnR0VUJywgbWV0aG9kKTtcbiAgfVxuXG4gIHJldHVybiBuZXcgZXhwb3J0cy5SZXF1ZXN0KG1ldGhvZCwgdXJsKTtcbn07XG5cbmV4cG9ydHMgPSBtb2R1bGUuZXhwb3J0cztcblxuY29uc3QgcmVxdWVzdCA9IGV4cG9ydHM7XG5cbmV4cG9ydHMuUmVxdWVzdCA9IFJlcXVlc3Q7XG5cbi8qKlxuICogRGV0ZXJtaW5lIFhIUi5cbiAqL1xuXG5yZXF1ZXN0LmdldFhIUiA9ICgpID0+IHtcbiAgaWYgKFxuICAgIHJvb3QuWE1MSHR0cFJlcXVlc3QgJiZcbiAgICAoIXJvb3QubG9jYXRpb24gfHxcbiAgICAgIHJvb3QubG9jYXRpb24ucHJvdG9jb2wgIT09ICdmaWxlOicgfHxcbiAgICAgICFyb290LkFjdGl2ZVhPYmplY3QpXG4gICkge1xuICAgIHJldHVybiBuZXcgWE1MSHR0cFJlcXVlc3QoKTtcbiAgfVxuXG4gIHRyeSB7XG4gICAgcmV0dXJuIG5ldyBBY3RpdmVYT2JqZWN0KCdNaWNyb3NvZnQuWE1MSFRUUCcpO1xuICB9IGNhdGNoIHt9XG5cbiAgdHJ5IHtcbiAgICByZXR1cm4gbmV3IEFjdGl2ZVhPYmplY3QoJ01zeG1sMi5YTUxIVFRQLjYuMCcpO1xuICB9IGNhdGNoIHt9XG5cbiAgdHJ5IHtcbiAgICByZXR1cm4gbmV3IEFjdGl2ZVhPYmplY3QoJ01zeG1sMi5YTUxIVFRQLjMuMCcpO1xuICB9IGNhdGNoIHt9XG5cbiAgdHJ5IHtcbiAgICByZXR1cm4gbmV3IEFjdGl2ZVhPYmplY3QoJ01zeG1sMi5YTUxIVFRQJyk7XG4gIH0gY2F0Y2gge31cblxuICB0aHJvdyBuZXcgRXJyb3IoJ0Jyb3dzZXItb25seSB2ZXJzaW9uIG9mIHN1cGVyYWdlbnQgY291bGQgbm90IGZpbmQgWEhSJyk7XG59O1xuXG4vKipcbiAqIFJlbW92ZXMgbGVhZGluZyBhbmQgdHJhaWxpbmcgd2hpdGVzcGFjZSwgYWRkZWQgdG8gc3VwcG9ydCBJRS5cbiAqXG4gKiBAcGFyYW0ge1N0cmluZ30gc1xuICogQHJldHVybiB7U3RyaW5nfVxuICogQGFwaSBwcml2YXRlXG4gKi9cblxuY29uc3QgdHJpbSA9ICcnLnRyaW0gPyAocykgPT4gcy50cmltKCkgOiAocykgPT4gcy5yZXBsYWNlKC8oXlxccyp8XFxzKiQpL2csICcnKTtcblxuLyoqXG4gKiBTZXJpYWxpemUgdGhlIGdpdmVuIGBvYmpgLlxuICpcbiAqIEBwYXJhbSB7T2JqZWN0fSBvYmpcbiAqIEByZXR1cm4ge1N0cmluZ31cbiAqIEBhcGkgcHJpdmF0ZVxuICovXG5cbmZ1bmN0aW9uIHNlcmlhbGl6ZShvYmopIHtcbiAgaWYgKCFpc09iamVjdChvYmopKSByZXR1cm4gb2JqO1xuICBjb25zdCBwYWlycyA9IFtdO1xuICBmb3IgKGNvbnN0IGtleSBpbiBvYmopIHtcbiAgICBpZiAoT2JqZWN0LnByb3RvdHlwZS5oYXNPd25Qcm9wZXJ0eS5jYWxsKG9iaiwga2V5KSlcbiAgICAgIHB1c2hFbmNvZGVkS2V5VmFsdWVQYWlyKHBhaXJzLCBrZXksIG9ialtrZXldKTtcbiAgfVxuXG4gIHJldHVybiBwYWlycy5qb2luKCcmJyk7XG59XG5cbi8qKlxuICogSGVscHMgJ3NlcmlhbGl6ZScgd2l0aCBzZXJpYWxpemluZyBhcnJheXMuXG4gKiBNdXRhdGVzIHRoZSBwYWlycyBhcnJheS5cbiAqXG4gKiBAcGFyYW0ge0FycmF5fSBwYWlyc1xuICogQHBhcmFtIHtTdHJpbmd9IGtleVxuICogQHBhcmFtIHtNaXhlZH0gdmFsXG4gKi9cblxuZnVuY3Rpb24gcHVzaEVuY29kZWRLZXlWYWx1ZVBhaXIocGFpcnMsIGtleSwgdmFsKSB7XG4gIGlmICh2YWwgPT09IHVuZGVmaW5lZCkgcmV0dXJuO1xuICBpZiAodmFsID09PSBudWxsKSB7XG4gICAgcGFpcnMucHVzaChlbmNvZGVVUkkoa2V5KSk7XG4gICAgcmV0dXJuO1xuICB9XG5cbiAgaWYgKEFycmF5LmlzQXJyYXkodmFsKSkge1xuICAgIHZhbC5mb3JFYWNoKCh2KSA9PiB7XG4gICAgICBwdXNoRW5jb2RlZEtleVZhbHVlUGFpcihwYWlycywga2V5LCB2KTtcbiAgICB9KTtcbiAgfSBlbHNlIGlmIChpc09iamVjdCh2YWwpKSB7XG4gICAgZm9yIChjb25zdCBzdWJrZXkgaW4gdmFsKSB7XG4gICAgICBpZiAoT2JqZWN0LnByb3RvdHlwZS5oYXNPd25Qcm9wZXJ0eS5jYWxsKHZhbCwgc3Via2V5KSlcbiAgICAgICAgcHVzaEVuY29kZWRLZXlWYWx1ZVBhaXIocGFpcnMsIGAke2tleX1bJHtzdWJrZXl9XWAsIHZhbFtzdWJrZXldKTtcbiAgICB9XG4gIH0gZWxzZSB7XG4gICAgcGFpcnMucHVzaChlbmNvZGVVUkkoa2V5KSArICc9JyArIGVuY29kZVVSSUNvbXBvbmVudCh2YWwpKTtcbiAgfVxufVxuXG4vKipcbiAqIEV4cG9zZSBzZXJpYWxpemF0aW9uIG1ldGhvZC5cbiAqL1xuXG5yZXF1ZXN0LnNlcmlhbGl6ZU9iamVjdCA9IHNlcmlhbGl6ZTtcblxuLyoqXG4gKiBQYXJzZSB0aGUgZ2l2ZW4geC13d3ctZm9ybS11cmxlbmNvZGVkIGBzdHJgLlxuICpcbiAqIEBwYXJhbSB7U3RyaW5nfSBzdHJcbiAqIEByZXR1cm4ge09iamVjdH1cbiAqIEBhcGkgcHJpdmF0ZVxuICovXG5cbmZ1bmN0aW9uIHBhcnNlU3RyaW5nKHN0cikge1xuICBjb25zdCBvYmogPSB7fTtcbiAgY29uc3QgcGFpcnMgPSBzdHIuc3BsaXQoJyYnKTtcbiAgbGV0IHBhaXI7XG4gIGxldCBwb3M7XG5cbiAgZm9yIChsZXQgaSA9IDAsIGxlbiA9IHBhaXJzLmxlbmd0aDsgaSA8IGxlbjsgKytpKSB7XG4gICAgcGFpciA9IHBhaXJzW2ldO1xuICAgIHBvcyA9IHBhaXIuaW5kZXhPZignPScpO1xuICAgIGlmIChwb3MgPT09IC0xKSB7XG4gICAgICBvYmpbZGVjb2RlVVJJQ29tcG9uZW50KHBhaXIpXSA9ICcnO1xuICAgIH0gZWxzZSB7XG4gICAgICBvYmpbZGVjb2RlVVJJQ29tcG9uZW50KHBhaXIuc2xpY2UoMCwgcG9zKSldID0gZGVjb2RlVVJJQ29tcG9uZW50KFxuICAgICAgICBwYWlyLnNsaWNlKHBvcyArIDEpXG4gICAgICApO1xuICAgIH1cbiAgfVxuXG4gIHJldHVybiBvYmo7XG59XG5cbi8qKlxuICogRXhwb3NlIHBhcnNlci5cbiAqL1xuXG5yZXF1ZXN0LnBhcnNlU3RyaW5nID0gcGFyc2VTdHJpbmc7XG5cbi8qKlxuICogRGVmYXVsdCBNSU1FIHR5cGUgbWFwLlxuICpcbiAqICAgICBzdXBlcmFnZW50LnR5cGVzLnhtbCA9ICdhcHBsaWNhdGlvbi94bWwnO1xuICpcbiAqL1xuXG5yZXF1ZXN0LnR5cGVzID0ge1xuICBodG1sOiAndGV4dC9odG1sJyxcbiAganNvbjogJ2FwcGxpY2F0aW9uL2pzb24nLFxuICB4bWw6ICd0ZXh0L3htbCcsXG4gIHVybGVuY29kZWQ6ICdhcHBsaWNhdGlvbi94LXd3dy1mb3JtLXVybGVuY29kZWQnLFxuICBmb3JtOiAnYXBwbGljYXRpb24veC13d3ctZm9ybS11cmxlbmNvZGVkJyxcbiAgJ2Zvcm0tZGF0YSc6ICdhcHBsaWNhdGlvbi94LXd3dy1mb3JtLXVybGVuY29kZWQnXG59O1xuXG4vKipcbiAqIERlZmF1bHQgc2VyaWFsaXphdGlvbiBtYXAuXG4gKlxuICogICAgIHN1cGVyYWdlbnQuc2VyaWFsaXplWydhcHBsaWNhdGlvbi94bWwnXSA9IGZ1bmN0aW9uKG9iail7XG4gKiAgICAgICByZXR1cm4gJ2dlbmVyYXRlZCB4bWwgaGVyZSc7XG4gKiAgICAgfTtcbiAqXG4gKi9cblxucmVxdWVzdC5zZXJpYWxpemUgPSB7XG4gICdhcHBsaWNhdGlvbi94LXd3dy1mb3JtLXVybGVuY29kZWQnOiBzZXJpYWxpemUsXG4gICdhcHBsaWNhdGlvbi9qc29uJzogc2FmZVN0cmluZ2lmeVxufTtcblxuLyoqXG4gKiBEZWZhdWx0IHBhcnNlcnMuXG4gKlxuICogICAgIHN1cGVyYWdlbnQucGFyc2VbJ2FwcGxpY2F0aW9uL3htbCddID0gZnVuY3Rpb24oc3RyKXtcbiAqICAgICAgIHJldHVybiB7IG9iamVjdCBwYXJzZWQgZnJvbSBzdHIgfTtcbiAqICAgICB9O1xuICpcbiAqL1xuXG5yZXF1ZXN0LnBhcnNlID0ge1xuICAnYXBwbGljYXRpb24veC13d3ctZm9ybS11cmxlbmNvZGVkJzogcGFyc2VTdHJpbmcsXG4gICdhcHBsaWNhdGlvbi9qc29uJzogSlNPTi5wYXJzZVxufTtcblxuLyoqXG4gKiBQYXJzZSB0aGUgZ2l2ZW4gaGVhZGVyIGBzdHJgIGludG9cbiAqIGFuIG9iamVjdCBjb250YWluaW5nIHRoZSBtYXBwZWQgZmllbGRzLlxuICpcbiAqIEBwYXJhbSB7U3RyaW5nfSBzdHJcbiAqIEByZXR1cm4ge09iamVjdH1cbiAqIEBhcGkgcHJpdmF0ZVxuICovXG5cbmZ1bmN0aW9uIHBhcnNlSGVhZGVyKHN0cikge1xuICBjb25zdCBsaW5lcyA9IHN0ci5zcGxpdCgvXFxyP1xcbi8pO1xuICBjb25zdCBmaWVsZHMgPSB7fTtcbiAgbGV0IGluZGV4O1xuICBsZXQgbGluZTtcbiAgbGV0IGZpZWxkO1xuICBsZXQgdmFsO1xuXG4gIGZvciAobGV0IGkgPSAwLCBsZW4gPSBsaW5lcy5sZW5ndGg7IGkgPCBsZW47ICsraSkge1xuICAgIGxpbmUgPSBsaW5lc1tpXTtcbiAgICBpbmRleCA9IGxpbmUuaW5kZXhPZignOicpO1xuICAgIGlmIChpbmRleCA9PT0gLTEpIHtcbiAgICAgIC8vIGNvdWxkIGJlIGVtcHR5IGxpbmUsIGp1c3Qgc2tpcCBpdFxuICAgICAgY29udGludWU7XG4gICAgfVxuXG4gICAgZmllbGQgPSBsaW5lLnNsaWNlKDAsIGluZGV4KS50b0xvd2VyQ2FzZSgpO1xuICAgIHZhbCA9IHRyaW0obGluZS5zbGljZShpbmRleCArIDEpKTtcbiAgICBmaWVsZHNbZmllbGRdID0gdmFsO1xuICB9XG5cbiAgcmV0dXJuIGZpZWxkcztcbn1cblxuLyoqXG4gKiBDaGVjayBpZiBgbWltZWAgaXMganNvbiBvciBoYXMgK2pzb24gc3RydWN0dXJlZCBzeW50YXggc3VmZml4LlxuICpcbiAqIEBwYXJhbSB7U3RyaW5nfSBtaW1lXG4gKiBAcmV0dXJuIHtCb29sZWFufVxuICogQGFwaSBwcml2YXRlXG4gKi9cblxuZnVuY3Rpb24gaXNKU09OKG1pbWUpIHtcbiAgLy8gc2hvdWxkIG1hdGNoIC9qc29uIG9yICtqc29uXG4gIC8vIGJ1dCBub3QgL2pzb24tc2VxXG4gIHJldHVybiAvWy8rXWpzb24oJHxbXi1cXHddKS9pLnRlc3QobWltZSk7XG59XG5cbi8qKlxuICogSW5pdGlhbGl6ZSBhIG5ldyBgUmVzcG9uc2VgIHdpdGggdGhlIGdpdmVuIGB4aHJgLlxuICpcbiAqICAtIHNldCBmbGFncyAoLm9rLCAuZXJyb3IsIGV0YylcbiAqICAtIHBhcnNlIGhlYWRlclxuICpcbiAqIEV4YW1wbGVzOlxuICpcbiAqICBBbGlhc2luZyBgc3VwZXJhZ2VudGAgYXMgYHJlcXVlc3RgIGlzIG5pY2U6XG4gKlxuICogICAgICByZXF1ZXN0ID0gc3VwZXJhZ2VudDtcbiAqXG4gKiAgV2UgY2FuIHVzZSB0aGUgcHJvbWlzZS1saWtlIEFQSSwgb3IgcGFzcyBjYWxsYmFja3M6XG4gKlxuICogICAgICByZXF1ZXN0LmdldCgnLycpLmVuZChmdW5jdGlvbihyZXMpe30pO1xuICogICAgICByZXF1ZXN0LmdldCgnLycsIGZ1bmN0aW9uKHJlcyl7fSk7XG4gKlxuICogIFNlbmRpbmcgZGF0YSBjYW4gYmUgY2hhaW5lZDpcbiAqXG4gKiAgICAgIHJlcXVlc3RcbiAqICAgICAgICAucG9zdCgnL3VzZXInKVxuICogICAgICAgIC5zZW5kKHsgbmFtZTogJ3RqJyB9KVxuICogICAgICAgIC5lbmQoZnVuY3Rpb24ocmVzKXt9KTtcbiAqXG4gKiAgT3IgcGFzc2VkIHRvIGAuc2VuZCgpYDpcbiAqXG4gKiAgICAgIHJlcXVlc3RcbiAqICAgICAgICAucG9zdCgnL3VzZXInKVxuICogICAgICAgIC5zZW5kKHsgbmFtZTogJ3RqJyB9LCBmdW5jdGlvbihyZXMpe30pO1xuICpcbiAqICBPciBwYXNzZWQgdG8gYC5wb3N0KClgOlxuICpcbiAqICAgICAgcmVxdWVzdFxuICogICAgICAgIC5wb3N0KCcvdXNlcicsIHsgbmFtZTogJ3RqJyB9KVxuICogICAgICAgIC5lbmQoZnVuY3Rpb24ocmVzKXt9KTtcbiAqXG4gKiBPciBmdXJ0aGVyIHJlZHVjZWQgdG8gYSBzaW5nbGUgY2FsbCBmb3Igc2ltcGxlIGNhc2VzOlxuICpcbiAqICAgICAgcmVxdWVzdFxuICogICAgICAgIC5wb3N0KCcvdXNlcicsIHsgbmFtZTogJ3RqJyB9LCBmdW5jdGlvbihyZXMpe30pO1xuICpcbiAqIEBwYXJhbSB7WE1MSFRUUFJlcXVlc3R9IHhoclxuICogQHBhcmFtIHtPYmplY3R9IG9wdGlvbnNcbiAqIEBhcGkgcHJpdmF0ZVxuICovXG5cbmZ1bmN0aW9uIFJlc3BvbnNlKHJlcSkge1xuICB0aGlzLnJlcSA9IHJlcTtcbiAgdGhpcy54aHIgPSB0aGlzLnJlcS54aHI7XG4gIC8vIHJlc3BvbnNlVGV4dCBpcyBhY2Nlc3NpYmxlIG9ubHkgaWYgcmVzcG9uc2VUeXBlIGlzICcnIG9yICd0ZXh0JyBhbmQgb24gb2xkZXIgYnJvd3NlcnNcbiAgdGhpcy50ZXh0ID1cbiAgICAodGhpcy5yZXEubWV0aG9kICE9PSAnSEVBRCcgJiZcbiAgICAgICh0aGlzLnhoci5yZXNwb25zZVR5cGUgPT09ICcnIHx8IHRoaXMueGhyLnJlc3BvbnNlVHlwZSA9PT0gJ3RleHQnKSkgfHxcbiAgICB0eXBlb2YgdGhpcy54aHIucmVzcG9uc2VUeXBlID09PSAndW5kZWZpbmVkJ1xuICAgICAgPyB0aGlzLnhoci5yZXNwb25zZVRleHRcbiAgICAgIDogbnVsbDtcbiAgdGhpcy5zdGF0dXNUZXh0ID0gdGhpcy5yZXEueGhyLnN0YXR1c1RleHQ7XG4gIGxldCB7IHN0YXR1cyB9ID0gdGhpcy54aHI7XG4gIC8vIGhhbmRsZSBJRTkgYnVnOiBodHRwOi8vc3RhY2tvdmVyZmxvdy5jb20vcXVlc3Rpb25zLzEwMDQ2OTcyL21zaWUtcmV0dXJucy1zdGF0dXMtY29kZS1vZi0xMjIzLWZvci1hamF4LXJlcXVlc3RcbiAgaWYgKHN0YXR1cyA9PT0gMTIyMykge1xuICAgIHN0YXR1cyA9IDIwNDtcbiAgfVxuXG4gIHRoaXMuX3NldFN0YXR1c1Byb3BlcnRpZXMoc3RhdHVzKTtcbiAgdGhpcy5oZWFkZXJzID0gcGFyc2VIZWFkZXIodGhpcy54aHIuZ2V0QWxsUmVzcG9uc2VIZWFkZXJzKCkpO1xuICB0aGlzLmhlYWRlciA9IHRoaXMuaGVhZGVycztcbiAgLy8gZ2V0QWxsUmVzcG9uc2VIZWFkZXJzIHNvbWV0aW1lcyBmYWxzZWx5IHJldHVybnMgXCJcIiBmb3IgQ09SUyByZXF1ZXN0cywgYnV0XG4gIC8vIGdldFJlc3BvbnNlSGVhZGVyIHN0aWxsIHdvcmtzLiBzbyB3ZSBnZXQgY29udGVudC10eXBlIGV2ZW4gaWYgZ2V0dGluZ1xuICAvLyBvdGhlciBoZWFkZXJzIGZhaWxzLlxuICB0aGlzLmhlYWRlclsnY29udGVudC10eXBlJ10gPSB0aGlzLnhoci5nZXRSZXNwb25zZUhlYWRlcignY29udGVudC10eXBlJyk7XG4gIHRoaXMuX3NldEhlYWRlclByb3BlcnRpZXModGhpcy5oZWFkZXIpO1xuXG4gIGlmICh0aGlzLnRleHQgPT09IG51bGwgJiYgcmVxLl9yZXNwb25zZVR5cGUpIHtcbiAgICB0aGlzLmJvZHkgPSB0aGlzLnhoci5yZXNwb25zZTtcbiAgfSBlbHNlIHtcbiAgICB0aGlzLmJvZHkgPVxuICAgICAgdGhpcy5yZXEubWV0aG9kID09PSAnSEVBRCdcbiAgICAgICAgPyBudWxsXG4gICAgICAgIDogdGhpcy5fcGFyc2VCb2R5KHRoaXMudGV4dCA/IHRoaXMudGV4dCA6IHRoaXMueGhyLnJlc3BvbnNlKTtcbiAgfVxufVxuXG4vLyBlc2xpbnQtZGlzYWJsZS1uZXh0LWxpbmUgbmV3LWNhcFxuUmVzcG9uc2VCYXNlKFJlc3BvbnNlLnByb3RvdHlwZSk7XG5cbi8qKlxuICogUGFyc2UgdGhlIGdpdmVuIGJvZHkgYHN0cmAuXG4gKlxuICogVXNlZCBmb3IgYXV0by1wYXJzaW5nIG9mIGJvZGllcy4gUGFyc2Vyc1xuICogYXJlIGRlZmluZWQgb24gdGhlIGBzdXBlcmFnZW50LnBhcnNlYCBvYmplY3QuXG4gKlxuICogQHBhcmFtIHtTdHJpbmd9IHN0clxuICogQHJldHVybiB7TWl4ZWR9XG4gKiBAYXBpIHByaXZhdGVcbiAqL1xuXG5SZXNwb25zZS5wcm90b3R5cGUuX3BhcnNlQm9keSA9IGZ1bmN0aW9uIChzdHIpIHtcbiAgbGV0IHBhcnNlID0gcmVxdWVzdC5wYXJzZVt0aGlzLnR5cGVdO1xuICBpZiAodGhpcy5yZXEuX3BhcnNlcikge1xuICAgIHJldHVybiB0aGlzLnJlcS5fcGFyc2VyKHRoaXMsIHN0cik7XG4gIH1cblxuICBpZiAoIXBhcnNlICYmIGlzSlNPTih0aGlzLnR5cGUpKSB7XG4gICAgcGFyc2UgPSByZXF1ZXN0LnBhcnNlWydhcHBsaWNhdGlvbi9qc29uJ107XG4gIH1cblxuICByZXR1cm4gcGFyc2UgJiYgc3RyICYmIChzdHIubGVuZ3RoID4gMCB8fCBzdHIgaW5zdGFuY2VvZiBPYmplY3QpXG4gICAgPyBwYXJzZShzdHIpXG4gICAgOiBudWxsO1xufTtcblxuLyoqXG4gKiBSZXR1cm4gYW4gYEVycm9yYCByZXByZXNlbnRhdGl2ZSBvZiB0aGlzIHJlc3BvbnNlLlxuICpcbiAqIEByZXR1cm4ge0Vycm9yfVxuICogQGFwaSBwdWJsaWNcbiAqL1xuXG5SZXNwb25zZS5wcm90b3R5cGUudG9FcnJvciA9IGZ1bmN0aW9uICgpIHtcbiAgY29uc3QgeyByZXEgfSA9IHRoaXM7XG4gIGNvbnN0IHsgbWV0aG9kIH0gPSByZXE7XG4gIGNvbnN0IHsgdXJsIH0gPSByZXE7XG5cbiAgY29uc3QgbXNnID0gYGNhbm5vdCAke21ldGhvZH0gJHt1cmx9ICgke3RoaXMuc3RhdHVzfSlgO1xuICBjb25zdCBlcnIgPSBuZXcgRXJyb3IobXNnKTtcbiAgZXJyLnN0YXR1cyA9IHRoaXMuc3RhdHVzO1xuICBlcnIubWV0aG9kID0gbWV0aG9kO1xuICBlcnIudXJsID0gdXJsO1xuXG4gIHJldHVybiBlcnI7XG59O1xuXG4vKipcbiAqIEV4cG9zZSBgUmVzcG9uc2VgLlxuICovXG5cbnJlcXVlc3QuUmVzcG9uc2UgPSBSZXNwb25zZTtcblxuLyoqXG4gKiBJbml0aWFsaXplIGEgbmV3IGBSZXF1ZXN0YCB3aXRoIHRoZSBnaXZlbiBgbWV0aG9kYCBhbmQgYHVybGAuXG4gKlxuICogQHBhcmFtIHtTdHJpbmd9IG1ldGhvZFxuICogQHBhcmFtIHtTdHJpbmd9IHVybFxuICogQGFwaSBwdWJsaWNcbiAqL1xuXG5mdW5jdGlvbiBSZXF1ZXN0KG1ldGhvZCwgdXJsKSB7XG4gIGNvbnN0IHNlbGYgPSB0aGlzO1xuICB0aGlzLl9xdWVyeSA9IHRoaXMuX3F1ZXJ5IHx8IFtdO1xuICB0aGlzLm1ldGhvZCA9IG1ldGhvZDtcbiAgdGhpcy51cmwgPSB1cmw7XG4gIHRoaXMuaGVhZGVyID0ge307IC8vIHByZXNlcnZlcyBoZWFkZXIgbmFtZSBjYXNlXG4gIHRoaXMuX2hlYWRlciA9IHt9OyAvLyBjb2VyY2VzIGhlYWRlciBuYW1lcyB0byBsb3dlcmNhc2VcbiAgdGhpcy5vbignZW5kJywgKCkgPT4ge1xuICAgIGxldCBlcnIgPSBudWxsO1xuICAgIGxldCByZXMgPSBudWxsO1xuXG4gICAgdHJ5IHtcbiAgICAgIHJlcyA9IG5ldyBSZXNwb25zZShzZWxmKTtcbiAgICB9IGNhdGNoIChlcnJfKSB7XG4gICAgICBlcnIgPSBuZXcgRXJyb3IoJ1BhcnNlciBpcyB1bmFibGUgdG8gcGFyc2UgdGhlIHJlc3BvbnNlJyk7XG4gICAgICBlcnIucGFyc2UgPSB0cnVlO1xuICAgICAgZXJyLm9yaWdpbmFsID0gZXJyXztcbiAgICAgIC8vIGlzc3VlICM2NzU6IHJldHVybiB0aGUgcmF3IHJlc3BvbnNlIGlmIHRoZSByZXNwb25zZSBwYXJzaW5nIGZhaWxzXG4gICAgICBpZiAoc2VsZi54aHIpIHtcbiAgICAgICAgLy8gaWU5IGRvZXNuJ3QgaGF2ZSAncmVzcG9uc2UnIHByb3BlcnR5XG4gICAgICAgIGVyci5yYXdSZXNwb25zZSA9XG4gICAgICAgICAgdHlwZW9mIHNlbGYueGhyLnJlc3BvbnNlVHlwZSA9PT0gJ3VuZGVmaW5lZCdcbiAgICAgICAgICAgID8gc2VsZi54aHIucmVzcG9uc2VUZXh0XG4gICAgICAgICAgICA6IHNlbGYueGhyLnJlc3BvbnNlO1xuICAgICAgICAvLyBpc3N1ZSAjODc2OiByZXR1cm4gdGhlIGh0dHAgc3RhdHVzIGNvZGUgaWYgdGhlIHJlc3BvbnNlIHBhcnNpbmcgZmFpbHNcbiAgICAgICAgZXJyLnN0YXR1cyA9IHNlbGYueGhyLnN0YXR1cyA/IHNlbGYueGhyLnN0YXR1cyA6IG51bGw7XG4gICAgICAgIGVyci5zdGF0dXNDb2RlID0gZXJyLnN0YXR1czsgLy8gYmFja3dhcmRzLWNvbXBhdCBvbmx5XG4gICAgICB9IGVsc2Uge1xuICAgICAgICBlcnIucmF3UmVzcG9uc2UgPSBudWxsO1xuICAgICAgICBlcnIuc3RhdHVzID0gbnVsbDtcbiAgICAgIH1cblxuICAgICAgcmV0dXJuIHNlbGYuY2FsbGJhY2soZXJyKTtcbiAgICB9XG5cbiAgICBzZWxmLmVtaXQoJ3Jlc3BvbnNlJywgcmVzKTtcblxuICAgIGxldCBuZXdfZXJyO1xuICAgIHRyeSB7XG4gICAgICBpZiAoIXNlbGYuX2lzUmVzcG9uc2VPSyhyZXMpKSB7XG4gICAgICAgIG5ld19lcnIgPSBuZXcgRXJyb3IoXG4gICAgICAgICAgcmVzLnN0YXR1c1RleHQgfHwgcmVzLnRleHQgfHwgJ1Vuc3VjY2Vzc2Z1bCBIVFRQIHJlc3BvbnNlJ1xuICAgICAgICApO1xuICAgICAgfVxuICAgIH0gY2F0Y2ggKGVycl8pIHtcbiAgICAgIG5ld19lcnIgPSBlcnJfOyAvLyBvaygpIGNhbGxiYWNrIGNhbiB0aHJvd1xuICAgIH1cblxuICAgIC8vICMxMDAwIGRvbid0IGNhdGNoIGVycm9ycyBmcm9tIHRoZSBjYWxsYmFjayB0byBhdm9pZCBkb3VibGUgY2FsbGluZyBpdFxuICAgIGlmIChuZXdfZXJyKSB7XG4gICAgICBuZXdfZXJyLm9yaWdpbmFsID0gZXJyO1xuICAgICAgbmV3X2Vyci5yZXNwb25zZSA9IHJlcztcbiAgICAgIG5ld19lcnIuc3RhdHVzID0gcmVzLnN0YXR1cztcbiAgICAgIHNlbGYuY2FsbGJhY2sobmV3X2VyciwgcmVzKTtcbiAgICB9IGVsc2Uge1xuICAgICAgc2VsZi5jYWxsYmFjayhudWxsLCByZXMpO1xuICAgIH1cbiAgfSk7XG59XG5cbi8qKlxuICogTWl4aW4gYEVtaXR0ZXJgIGFuZCBgUmVxdWVzdEJhc2VgLlxuICovXG5cbi8vIGVzbGludC1kaXNhYmxlLW5leHQtbGluZSBuZXctY2FwXG5FbWl0dGVyKFJlcXVlc3QucHJvdG90eXBlKTtcbi8vIGVzbGludC1kaXNhYmxlLW5leHQtbGluZSBuZXctY2FwXG5SZXF1ZXN0QmFzZShSZXF1ZXN0LnByb3RvdHlwZSk7XG5cbi8qKlxuICogU2V0IENvbnRlbnQtVHlwZSB0byBgdHlwZWAsIG1hcHBpbmcgdmFsdWVzIGZyb20gYHJlcXVlc3QudHlwZXNgLlxuICpcbiAqIEV4YW1wbGVzOlxuICpcbiAqICAgICAgc3VwZXJhZ2VudC50eXBlcy54bWwgPSAnYXBwbGljYXRpb24veG1sJztcbiAqXG4gKiAgICAgIHJlcXVlc3QucG9zdCgnLycpXG4gKiAgICAgICAgLnR5cGUoJ3htbCcpXG4gKiAgICAgICAgLnNlbmQoeG1sc3RyaW5nKVxuICogICAgICAgIC5lbmQoY2FsbGJhY2spO1xuICpcbiAqICAgICAgcmVxdWVzdC5wb3N0KCcvJylcbiAqICAgICAgICAudHlwZSgnYXBwbGljYXRpb24veG1sJylcbiAqICAgICAgICAuc2VuZCh4bWxzdHJpbmcpXG4gKiAgICAgICAgLmVuZChjYWxsYmFjayk7XG4gKlxuICogQHBhcmFtIHtTdHJpbmd9IHR5cGVcbiAqIEByZXR1cm4ge1JlcXVlc3R9IGZvciBjaGFpbmluZ1xuICogQGFwaSBwdWJsaWNcbiAqL1xuXG5SZXF1ZXN0LnByb3RvdHlwZS50eXBlID0gZnVuY3Rpb24gKHR5cGUpIHtcbiAgdGhpcy5zZXQoJ0NvbnRlbnQtVHlwZScsIHJlcXVlc3QudHlwZXNbdHlwZV0gfHwgdHlwZSk7XG4gIHJldHVybiB0aGlzO1xufTtcblxuLyoqXG4gKiBTZXQgQWNjZXB0IHRvIGB0eXBlYCwgbWFwcGluZyB2YWx1ZXMgZnJvbSBgcmVxdWVzdC50eXBlc2AuXG4gKlxuICogRXhhbXBsZXM6XG4gKlxuICogICAgICBzdXBlcmFnZW50LnR5cGVzLmpzb24gPSAnYXBwbGljYXRpb24vanNvbic7XG4gKlxuICogICAgICByZXF1ZXN0LmdldCgnL2FnZW50JylcbiAqICAgICAgICAuYWNjZXB0KCdqc29uJylcbiAqICAgICAgICAuZW5kKGNhbGxiYWNrKTtcbiAqXG4gKiAgICAgIHJlcXVlc3QuZ2V0KCcvYWdlbnQnKVxuICogICAgICAgIC5hY2NlcHQoJ2FwcGxpY2F0aW9uL2pzb24nKVxuICogICAgICAgIC5lbmQoY2FsbGJhY2spO1xuICpcbiAqIEBwYXJhbSB7U3RyaW5nfSBhY2NlcHRcbiAqIEByZXR1cm4ge1JlcXVlc3R9IGZvciBjaGFpbmluZ1xuICogQGFwaSBwdWJsaWNcbiAqL1xuXG5SZXF1ZXN0LnByb3RvdHlwZS5hY2NlcHQgPSBmdW5jdGlvbiAodHlwZSkge1xuICB0aGlzLnNldCgnQWNjZXB0JywgcmVxdWVzdC50eXBlc1t0eXBlXSB8fCB0eXBlKTtcbiAgcmV0dXJuIHRoaXM7XG59O1xuXG4vKipcbiAqIFNldCBBdXRob3JpemF0aW9uIGZpZWxkIHZhbHVlIHdpdGggYHVzZXJgIGFuZCBgcGFzc2AuXG4gKlxuICogQHBhcmFtIHtTdHJpbmd9IHVzZXJcbiAqIEBwYXJhbSB7U3RyaW5nfSBbcGFzc10gb3B0aW9uYWwgaW4gY2FzZSBvZiB1c2luZyAnYmVhcmVyJyBhcyB0eXBlXG4gKiBAcGFyYW0ge09iamVjdH0gb3B0aW9ucyB3aXRoICd0eXBlJyBwcm9wZXJ0eSAnYXV0bycsICdiYXNpYycgb3IgJ2JlYXJlcicgKGRlZmF1bHQgJ2Jhc2ljJylcbiAqIEByZXR1cm4ge1JlcXVlc3R9IGZvciBjaGFpbmluZ1xuICogQGFwaSBwdWJsaWNcbiAqL1xuXG5SZXF1ZXN0LnByb3RvdHlwZS5hdXRoID0gZnVuY3Rpb24gKHVzZXIsIHBhc3MsIG9wdGlvbnMpIHtcbiAgaWYgKGFyZ3VtZW50cy5sZW5ndGggPT09IDEpIHBhc3MgPSAnJztcbiAgaWYgKHR5cGVvZiBwYXNzID09PSAnb2JqZWN0JyAmJiBwYXNzICE9PSBudWxsKSB7XG4gICAgLy8gcGFzcyBpcyBvcHRpb25hbCBhbmQgY2FuIGJlIHJlcGxhY2VkIHdpdGggb3B0aW9uc1xuICAgIG9wdGlvbnMgPSBwYXNzO1xuICAgIHBhc3MgPSAnJztcbiAgfVxuXG4gIGlmICghb3B0aW9ucykge1xuICAgIG9wdGlvbnMgPSB7XG4gICAgICB0eXBlOiB0eXBlb2YgYnRvYSA9PT0gJ2Z1bmN0aW9uJyA/ICdiYXNpYycgOiAnYXV0bydcbiAgICB9O1xuICB9XG5cbiAgY29uc3QgZW5jb2RlciA9IChzdHJpbmcpID0+IHtcbiAgICBpZiAodHlwZW9mIGJ0b2EgPT09ICdmdW5jdGlvbicpIHtcbiAgICAgIHJldHVybiBidG9hKHN0cmluZyk7XG4gICAgfVxuXG4gICAgdGhyb3cgbmV3IEVycm9yKCdDYW5ub3QgdXNlIGJhc2ljIGF1dGgsIGJ0b2EgaXMgbm90IGEgZnVuY3Rpb24nKTtcbiAgfTtcblxuICByZXR1cm4gdGhpcy5fYXV0aCh1c2VyLCBwYXNzLCBvcHRpb25zLCBlbmNvZGVyKTtcbn07XG5cbi8qKlxuICogQWRkIHF1ZXJ5LXN0cmluZyBgdmFsYC5cbiAqXG4gKiBFeGFtcGxlczpcbiAqXG4gKiAgIHJlcXVlc3QuZ2V0KCcvc2hvZXMnKVxuICogICAgIC5xdWVyeSgnc2l6ZT0xMCcpXG4gKiAgICAgLnF1ZXJ5KHsgY29sb3I6ICdibHVlJyB9KVxuICpcbiAqIEBwYXJhbSB7T2JqZWN0fFN0cmluZ30gdmFsXG4gKiBAcmV0dXJuIHtSZXF1ZXN0fSBmb3IgY2hhaW5pbmdcbiAqIEBhcGkgcHVibGljXG4gKi9cblxuUmVxdWVzdC5wcm90b3R5cGUucXVlcnkgPSBmdW5jdGlvbiAodmFsKSB7XG4gIGlmICh0eXBlb2YgdmFsICE9PSAnc3RyaW5nJykgdmFsID0gc2VyaWFsaXplKHZhbCk7XG4gIGlmICh2YWwpIHRoaXMuX3F1ZXJ5LnB1c2godmFsKTtcbiAgcmV0dXJuIHRoaXM7XG59O1xuXG4vKipcbiAqIFF1ZXVlIHRoZSBnaXZlbiBgZmlsZWAgYXMgYW4gYXR0YWNobWVudCB0byB0aGUgc3BlY2lmaWVkIGBmaWVsZGAsXG4gKiB3aXRoIG9wdGlvbmFsIGBvcHRpb25zYCAob3IgZmlsZW5hbWUpLlxuICpcbiAqIGBgYCBqc1xuICogcmVxdWVzdC5wb3N0KCcvdXBsb2FkJylcbiAqICAgLmF0dGFjaCgnY29udGVudCcsIG5ldyBCbG9iKFsnPGEgaWQ9XCJhXCI+PGIgaWQ9XCJiXCI+aGV5ITwvYj48L2E+J10sIHsgdHlwZTogXCJ0ZXh0L2h0bWxcIn0pKVxuICogICAuZW5kKGNhbGxiYWNrKTtcbiAqIGBgYFxuICpcbiAqIEBwYXJhbSB7U3RyaW5nfSBmaWVsZFxuICogQHBhcmFtIHtCbG9ifEZpbGV9IGZpbGVcbiAqIEBwYXJhbSB7U3RyaW5nfE9iamVjdH0gb3B0aW9uc1xuICogQHJldHVybiB7UmVxdWVzdH0gZm9yIGNoYWluaW5nXG4gKiBAYXBpIHB1YmxpY1xuICovXG5cblJlcXVlc3QucHJvdG90eXBlLmF0dGFjaCA9IGZ1bmN0aW9uIChmaWVsZCwgZmlsZSwgb3B0aW9ucykge1xuICBpZiAoZmlsZSkge1xuICAgIGlmICh0aGlzLl9kYXRhKSB7XG4gICAgICB0aHJvdyBuZXcgRXJyb3IoXCJzdXBlcmFnZW50IGNhbid0IG1peCAuc2VuZCgpIGFuZCAuYXR0YWNoKClcIik7XG4gICAgfVxuXG4gICAgdGhpcy5fZ2V0Rm9ybURhdGEoKS5hcHBlbmQoZmllbGQsIGZpbGUsIG9wdGlvbnMgfHwgZmlsZS5uYW1lKTtcbiAgfVxuXG4gIHJldHVybiB0aGlzO1xufTtcblxuUmVxdWVzdC5wcm90b3R5cGUuX2dldEZvcm1EYXRhID0gZnVuY3Rpb24gKCkge1xuICBpZiAoIXRoaXMuX2Zvcm1EYXRhKSB7XG4gICAgdGhpcy5fZm9ybURhdGEgPSBuZXcgcm9vdC5Gb3JtRGF0YSgpO1xuICB9XG5cbiAgcmV0dXJuIHRoaXMuX2Zvcm1EYXRhO1xufTtcblxuLyoqXG4gKiBJbnZva2UgdGhlIGNhbGxiYWNrIHdpdGggYGVycmAgYW5kIGByZXNgXG4gKiBhbmQgaGFuZGxlIGFyaXR5IGNoZWNrLlxuICpcbiAqIEBwYXJhbSB7RXJyb3J9IGVyclxuICogQHBhcmFtIHtSZXNwb25zZX0gcmVzXG4gKiBAYXBpIHByaXZhdGVcbiAqL1xuXG5SZXF1ZXN0LnByb3RvdHlwZS5jYWxsYmFjayA9IGZ1bmN0aW9uIChlcnIsIHJlcykge1xuICBpZiAodGhpcy5fc2hvdWxkUmV0cnkoZXJyLCByZXMpKSB7XG4gICAgcmV0dXJuIHRoaXMuX3JldHJ5KCk7XG4gIH1cblxuICBjb25zdCBmbiA9IHRoaXMuX2NhbGxiYWNrO1xuICB0aGlzLmNsZWFyVGltZW91dCgpO1xuXG4gIGlmIChlcnIpIHtcbiAgICBpZiAodGhpcy5fbWF4UmV0cmllcykgZXJyLnJldHJpZXMgPSB0aGlzLl9yZXRyaWVzIC0gMTtcbiAgICB0aGlzLmVtaXQoJ2Vycm9yJywgZXJyKTtcbiAgfVxuXG4gIGZuKGVyciwgcmVzKTtcbn07XG5cbi8qKlxuICogSW52b2tlIGNhbGxiYWNrIHdpdGggeC1kb21haW4gZXJyb3IuXG4gKlxuICogQGFwaSBwcml2YXRlXG4gKi9cblxuUmVxdWVzdC5wcm90b3R5cGUuY3Jvc3NEb21haW5FcnJvciA9IGZ1bmN0aW9uICgpIHtcbiAgY29uc3QgZXJyID0gbmV3IEVycm9yKFxuICAgICdSZXF1ZXN0IGhhcyBiZWVuIHRlcm1pbmF0ZWRcXG5Qb3NzaWJsZSBjYXVzZXM6IHRoZSBuZXR3b3JrIGlzIG9mZmxpbmUsIE9yaWdpbiBpcyBub3QgYWxsb3dlZCBieSBBY2Nlc3MtQ29udHJvbC1BbGxvdy1PcmlnaW4sIHRoZSBwYWdlIGlzIGJlaW5nIHVubG9hZGVkLCBldGMuJ1xuICApO1xuICBlcnIuY3Jvc3NEb21haW4gPSB0cnVlO1xuXG4gIGVyci5zdGF0dXMgPSB0aGlzLnN0YXR1cztcbiAgZXJyLm1ldGhvZCA9IHRoaXMubWV0aG9kO1xuICBlcnIudXJsID0gdGhpcy51cmw7XG5cbiAgdGhpcy5jYWxsYmFjayhlcnIpO1xufTtcblxuLy8gVGhpcyBvbmx5IHdhcm5zLCBiZWNhdXNlIHRoZSByZXF1ZXN0IGlzIHN0aWxsIGxpa2VseSB0byB3b3JrXG5SZXF1ZXN0LnByb3RvdHlwZS5hZ2VudCA9IGZ1bmN0aW9uICgpIHtcbiAgY29uc29sZS53YXJuKCdUaGlzIGlzIG5vdCBzdXBwb3J0ZWQgaW4gYnJvd3NlciB2ZXJzaW9uIG9mIHN1cGVyYWdlbnQnKTtcbiAgcmV0dXJuIHRoaXM7XG59O1xuXG5SZXF1ZXN0LnByb3RvdHlwZS5jYSA9IFJlcXVlc3QucHJvdG90eXBlLmFnZW50O1xuUmVxdWVzdC5wcm90b3R5cGUuYnVmZmVyID0gUmVxdWVzdC5wcm90b3R5cGUuY2E7XG5cbi8vIFRoaXMgdGhyb3dzLCBiZWNhdXNlIGl0IGNhbid0IHNlbmQvcmVjZWl2ZSBkYXRhIGFzIGV4cGVjdGVkXG5SZXF1ZXN0LnByb3RvdHlwZS53cml0ZSA9ICgpID0+IHtcbiAgdGhyb3cgbmV3IEVycm9yKFxuICAgICdTdHJlYW1pbmcgaXMgbm90IHN1cHBvcnRlZCBpbiBicm93c2VyIHZlcnNpb24gb2Ygc3VwZXJhZ2VudCdcbiAgKTtcbn07XG5cblJlcXVlc3QucHJvdG90eXBlLnBpcGUgPSBSZXF1ZXN0LnByb3RvdHlwZS53cml0ZTtcblxuLyoqXG4gKiBDaGVjayBpZiBgb2JqYCBpcyBhIGhvc3Qgb2JqZWN0LFxuICogd2UgZG9uJ3Qgd2FudCB0byBzZXJpYWxpemUgdGhlc2UgOilcbiAqXG4gKiBAcGFyYW0ge09iamVjdH0gb2JqIGhvc3Qgb2JqZWN0XG4gKiBAcmV0dXJuIHtCb29sZWFufSBpcyBhIGhvc3Qgb2JqZWN0XG4gKiBAYXBpIHByaXZhdGVcbiAqL1xuUmVxdWVzdC5wcm90b3R5cGUuX2lzSG9zdCA9IGZ1bmN0aW9uIChvYmopIHtcbiAgLy8gTmF0aXZlIG9iamVjdHMgc3RyaW5naWZ5IHRvIFtvYmplY3QgRmlsZV0sIFtvYmplY3QgQmxvYl0sIFtvYmplY3QgRm9ybURhdGFdLCBldGMuXG4gIHJldHVybiAoXG4gICAgb2JqICYmXG4gICAgdHlwZW9mIG9iaiA9PT0gJ29iamVjdCcgJiZcbiAgICAhQXJyYXkuaXNBcnJheShvYmopICYmXG4gICAgT2JqZWN0LnByb3RvdHlwZS50b1N0cmluZy5jYWxsKG9iaikgIT09ICdbb2JqZWN0IE9iamVjdF0nXG4gICk7XG59O1xuXG4vKipcbiAqIEluaXRpYXRlIHJlcXVlc3QsIGludm9raW5nIGNhbGxiYWNrIGBmbihyZXMpYFxuICogd2l0aCBhbiBpbnN0YW5jZW9mIGBSZXNwb25zZWAuXG4gKlxuICogQHBhcmFtIHtGdW5jdGlvbn0gZm5cbiAqIEByZXR1cm4ge1JlcXVlc3R9IGZvciBjaGFpbmluZ1xuICogQGFwaSBwdWJsaWNcbiAqL1xuXG5SZXF1ZXN0LnByb3RvdHlwZS5lbmQgPSBmdW5jdGlvbiAoZm4pIHtcbiAgaWYgKHRoaXMuX2VuZENhbGxlZCkge1xuICAgIGNvbnNvbGUud2FybihcbiAgICAgICdXYXJuaW5nOiAuZW5kKCkgd2FzIGNhbGxlZCB0d2ljZS4gVGhpcyBpcyBub3Qgc3VwcG9ydGVkIGluIHN1cGVyYWdlbnQnXG4gICAgKTtcbiAgfVxuXG4gIHRoaXMuX2VuZENhbGxlZCA9IHRydWU7XG5cbiAgLy8gc3RvcmUgY2FsbGJhY2tcbiAgdGhpcy5fY2FsbGJhY2sgPSBmbiB8fCBub29wO1xuXG4gIC8vIHF1ZXJ5c3RyaW5nXG4gIHRoaXMuX2ZpbmFsaXplUXVlcnlTdHJpbmcoKTtcblxuICB0aGlzLl9lbmQoKTtcbn07XG5cblJlcXVlc3QucHJvdG90eXBlLl9zZXRVcGxvYWRUaW1lb3V0ID0gZnVuY3Rpb24gKCkge1xuICBjb25zdCBzZWxmID0gdGhpcztcblxuICAvLyB1cGxvYWQgdGltZW91dCBpdCdzIHdva3JzIG9ubHkgaWYgZGVhZGxpbmUgdGltZW91dCBpcyBvZmZcbiAgaWYgKHRoaXMuX3VwbG9hZFRpbWVvdXQgJiYgIXRoaXMuX3VwbG9hZFRpbWVvdXRUaW1lcikge1xuICAgIHRoaXMuX3VwbG9hZFRpbWVvdXRUaW1lciA9IHNldFRpbWVvdXQoKCkgPT4ge1xuICAgICAgc2VsZi5fdGltZW91dEVycm9yKFxuICAgICAgICAnVXBsb2FkIHRpbWVvdXQgb2YgJyxcbiAgICAgICAgc2VsZi5fdXBsb2FkVGltZW91dCxcbiAgICAgICAgJ0VUSU1FRE9VVCdcbiAgICAgICk7XG4gICAgfSwgdGhpcy5fdXBsb2FkVGltZW91dCk7XG4gIH1cbn07XG5cbi8vIGVzbGludC1kaXNhYmxlLW5leHQtbGluZSBjb21wbGV4aXR5XG5SZXF1ZXN0LnByb3RvdHlwZS5fZW5kID0gZnVuY3Rpb24gKCkge1xuICBpZiAodGhpcy5fYWJvcnRlZClcbiAgICByZXR1cm4gdGhpcy5jYWxsYmFjayhcbiAgICAgIG5ldyBFcnJvcignVGhlIHJlcXVlc3QgaGFzIGJlZW4gYWJvcnRlZCBldmVuIGJlZm9yZSAuZW5kKCkgd2FzIGNhbGxlZCcpXG4gICAgKTtcblxuICBjb25zdCBzZWxmID0gdGhpcztcbiAgdGhpcy54aHIgPSByZXF1ZXN0LmdldFhIUigpO1xuICBjb25zdCB7IHhociB9ID0gdGhpcztcbiAgbGV0IGRhdGEgPSB0aGlzLl9mb3JtRGF0YSB8fCB0aGlzLl9kYXRhO1xuXG4gIHRoaXMuX3NldFRpbWVvdXRzKCk7XG5cbiAgLy8gc3RhdGUgY2hhbmdlXG4gIHhoci5vbnJlYWR5c3RhdGVjaGFuZ2UgPSAoKSA9PiB7XG4gICAgY29uc3QgeyByZWFkeVN0YXRlIH0gPSB4aHI7XG4gICAgaWYgKHJlYWR5U3RhdGUgPj0gMiAmJiBzZWxmLl9yZXNwb25zZVRpbWVvdXRUaW1lcikge1xuICAgICAgY2xlYXJUaW1lb3V0KHNlbGYuX3Jlc3BvbnNlVGltZW91dFRpbWVyKTtcbiAgICB9XG5cbiAgICBpZiAocmVhZHlTdGF0ZSAhPT0gNCkge1xuICAgICAgcmV0dXJuO1xuICAgIH1cblxuICAgIC8vIEluIElFOSwgcmVhZHMgdG8gYW55IHByb3BlcnR5IChlLmcuIHN0YXR1cykgb2ZmIG9mIGFuIGFib3J0ZWQgWEhSIHdpbGxcbiAgICAvLyByZXN1bHQgaW4gdGhlIGVycm9yIFwiQ291bGQgbm90IGNvbXBsZXRlIHRoZSBvcGVyYXRpb24gZHVlIHRvIGVycm9yIGMwMGMwMjNmXCJcbiAgICBsZXQgc3RhdHVzO1xuICAgIHRyeSB7XG4gICAgICBzdGF0dXMgPSB4aHIuc3RhdHVzO1xuICAgIH0gY2F0Y2gge1xuICAgICAgc3RhdHVzID0gMDtcbiAgICB9XG5cbiAgICBpZiAoIXN0YXR1cykge1xuICAgICAgaWYgKHNlbGYudGltZWRvdXQgfHwgc2VsZi5fYWJvcnRlZCkgcmV0dXJuO1xuICAgICAgcmV0dXJuIHNlbGYuY3Jvc3NEb21haW5FcnJvcigpO1xuICAgIH1cblxuICAgIHNlbGYuZW1pdCgnZW5kJyk7XG4gIH07XG5cbiAgLy8gcHJvZ3Jlc3NcbiAgY29uc3QgaGFuZGxlUHJvZ3Jlc3MgPSAoZGlyZWN0aW9uLCBlKSA9PiB7XG4gICAgaWYgKGUudG90YWwgPiAwKSB7XG4gICAgICBlLnBlcmNlbnQgPSAoZS5sb2FkZWQgLyBlLnRvdGFsKSAqIDEwMDtcblxuICAgICAgaWYgKGUucGVyY2VudCA9PT0gMTAwKSB7XG4gICAgICAgIGNsZWFyVGltZW91dChzZWxmLl91cGxvYWRUaW1lb3V0VGltZXIpO1xuICAgICAgfVxuICAgIH1cblxuICAgIGUuZGlyZWN0aW9uID0gZGlyZWN0aW9uO1xuICAgIHNlbGYuZW1pdCgncHJvZ3Jlc3MnLCBlKTtcbiAgfTtcblxuICBpZiAodGhpcy5oYXNMaXN0ZW5lcnMoJ3Byb2dyZXNzJykpIHtcbiAgICB0cnkge1xuICAgICAgeGhyLmFkZEV2ZW50TGlzdGVuZXIoJ3Byb2dyZXNzJywgaGFuZGxlUHJvZ3Jlc3MuYmluZChudWxsLCAnZG93bmxvYWQnKSk7XG4gICAgICBpZiAoeGhyLnVwbG9hZCkge1xuICAgICAgICB4aHIudXBsb2FkLmFkZEV2ZW50TGlzdGVuZXIoXG4gICAgICAgICAgJ3Byb2dyZXNzJyxcbiAgICAgICAgICBoYW5kbGVQcm9ncmVzcy5iaW5kKG51bGwsICd1cGxvYWQnKVxuICAgICAgICApO1xuICAgICAgfVxuICAgIH0gY2F0Y2gge1xuICAgICAgLy8gQWNjZXNzaW5nIHhoci51cGxvYWQgZmFpbHMgaW4gSUUgZnJvbSBhIHdlYiB3b3JrZXIsIHNvIGp1c3QgcHJldGVuZCBpdCBkb2Vzbid0IGV4aXN0LlxuICAgICAgLy8gUmVwb3J0ZWQgaGVyZTpcbiAgICAgIC8vIGh0dHBzOi8vY29ubmVjdC5taWNyb3NvZnQuY29tL0lFL2ZlZWRiYWNrL2RldGFpbHMvODM3MjQ1L3htbGh0dHByZXF1ZXN0LXVwbG9hZC10aHJvd3MtaW52YWxpZC1hcmd1bWVudC13aGVuLXVzZWQtZnJvbS13ZWItd29ya2VyLWNvbnRleHRcbiAgICB9XG4gIH1cblxuICBpZiAoeGhyLnVwbG9hZCkge1xuICAgIHRoaXMuX3NldFVwbG9hZFRpbWVvdXQoKTtcbiAgfVxuXG4gIC8vIGluaXRpYXRlIHJlcXVlc3RcbiAgdHJ5IHtcbiAgICBpZiAodGhpcy51c2VybmFtZSAmJiB0aGlzLnBhc3N3b3JkKSB7XG4gICAgICB4aHIub3Blbih0aGlzLm1ldGhvZCwgdGhpcy51cmwsIHRydWUsIHRoaXMudXNlcm5hbWUsIHRoaXMucGFzc3dvcmQpO1xuICAgIH0gZWxzZSB7XG4gICAgICB4aHIub3Blbih0aGlzLm1ldGhvZCwgdGhpcy51cmwsIHRydWUpO1xuICAgIH1cbiAgfSBjYXRjaCAoZXJyKSB7XG4gICAgLy8gc2VlICMxMTQ5XG4gICAgcmV0dXJuIHRoaXMuY2FsbGJhY2soZXJyKTtcbiAgfVxuXG4gIC8vIENPUlNcbiAgaWYgKHRoaXMuX3dpdGhDcmVkZW50aWFscykgeGhyLndpdGhDcmVkZW50aWFscyA9IHRydWU7XG5cbiAgLy8gYm9keVxuICBpZiAoXG4gICAgIXRoaXMuX2Zvcm1EYXRhICYmXG4gICAgdGhpcy5tZXRob2QgIT09ICdHRVQnICYmXG4gICAgdGhpcy5tZXRob2QgIT09ICdIRUFEJyAmJlxuICAgIHR5cGVvZiBkYXRhICE9PSAnc3RyaW5nJyAmJlxuICAgICF0aGlzLl9pc0hvc3QoZGF0YSlcbiAgKSB7XG4gICAgLy8gc2VyaWFsaXplIHN0dWZmXG4gICAgY29uc3QgY29udGVudFR5cGUgPSB0aGlzLl9oZWFkZXJbJ2NvbnRlbnQtdHlwZSddO1xuICAgIGxldCBzZXJpYWxpemUgPVxuICAgICAgdGhpcy5fc2VyaWFsaXplciB8fFxuICAgICAgcmVxdWVzdC5zZXJpYWxpemVbY29udGVudFR5cGUgPyBjb250ZW50VHlwZS5zcGxpdCgnOycpWzBdIDogJyddO1xuICAgIGlmICghc2VyaWFsaXplICYmIGlzSlNPTihjb250ZW50VHlwZSkpIHtcbiAgICAgIHNlcmlhbGl6ZSA9IHJlcXVlc3Quc2VyaWFsaXplWydhcHBsaWNhdGlvbi9qc29uJ107XG4gICAgfVxuXG4gICAgaWYgKHNlcmlhbGl6ZSkgZGF0YSA9IHNlcmlhbGl6ZShkYXRhKTtcbiAgfVxuXG4gIC8vIHNldCBoZWFkZXIgZmllbGRzXG4gIGZvciAoY29uc3QgZmllbGQgaW4gdGhpcy5oZWFkZXIpIHtcbiAgICBpZiAodGhpcy5oZWFkZXJbZmllbGRdID09PSBudWxsKSBjb250aW51ZTtcblxuICAgIGlmIChPYmplY3QucHJvdG90eXBlLmhhc093blByb3BlcnR5LmNhbGwodGhpcy5oZWFkZXIsIGZpZWxkKSlcbiAgICAgIHhoci5zZXRSZXF1ZXN0SGVhZGVyKGZpZWxkLCB0aGlzLmhlYWRlcltmaWVsZF0pO1xuICB9XG5cbiAgaWYgKHRoaXMuX3Jlc3BvbnNlVHlwZSkge1xuICAgIHhoci5yZXNwb25zZVR5cGUgPSB0aGlzLl9yZXNwb25zZVR5cGU7XG4gIH1cblxuICAvLyBzZW5kIHN0dWZmXG4gIHRoaXMuZW1pdCgncmVxdWVzdCcsIHRoaXMpO1xuXG4gIC8vIElFMTEgeGhyLnNlbmQodW5kZWZpbmVkKSBzZW5kcyAndW5kZWZpbmVkJyBzdHJpbmcgYXMgUE9TVCBwYXlsb2FkIChpbnN0ZWFkIG9mIG5vdGhpbmcpXG4gIC8vIFdlIG5lZWQgbnVsbCBoZXJlIGlmIGRhdGEgaXMgdW5kZWZpbmVkXG4gIHhoci5zZW5kKHR5cGVvZiBkYXRhID09PSAndW5kZWZpbmVkJyA/IG51bGwgOiBkYXRhKTtcbn07XG5cbnJlcXVlc3QuYWdlbnQgPSAoKSA9PiBuZXcgQWdlbnQoKTtcblxuWydHRVQnLCAnUE9TVCcsICdPUFRJT05TJywgJ1BBVENIJywgJ1BVVCcsICdERUxFVEUnXS5mb3JFYWNoKChtZXRob2QpID0+IHtcbiAgQWdlbnQucHJvdG90eXBlW21ldGhvZC50b0xvd2VyQ2FzZSgpXSA9IGZ1bmN0aW9uICh1cmwsIGZuKSB7XG4gICAgY29uc3QgcmVxID0gbmV3IHJlcXVlc3QuUmVxdWVzdChtZXRob2QsIHVybCk7XG4gICAgdGhpcy5fc2V0RGVmYXVsdHMocmVxKTtcbiAgICBpZiAoZm4pIHtcbiAgICAgIHJlcS5lbmQoZm4pO1xuICAgIH1cblxuICAgIHJldHVybiByZXE7XG4gIH07XG59KTtcblxuQWdlbnQucHJvdG90eXBlLmRlbCA9IEFnZW50LnByb3RvdHlwZS5kZWxldGU7XG5cbi8qKlxuICogR0VUIGB1cmxgIHdpdGggb3B0aW9uYWwgY2FsbGJhY2sgYGZuKHJlcylgLlxuICpcbiAqIEBwYXJhbSB7U3RyaW5nfSB1cmxcbiAqIEBwYXJhbSB7TWl4ZWR8RnVuY3Rpb259IFtkYXRhXSBvciBmblxuICogQHBhcmFtIHtGdW5jdGlvbn0gW2ZuXVxuICogQHJldHVybiB7UmVxdWVzdH1cbiAqIEBhcGkgcHVibGljXG4gKi9cblxucmVxdWVzdC5nZXQgPSAodXJsLCBkYXRhLCBmbikgPT4ge1xuICBjb25zdCByZXEgPSByZXF1ZXN0KCdHRVQnLCB1cmwpO1xuICBpZiAodHlwZW9mIGRhdGEgPT09ICdmdW5jdGlvbicpIHtcbiAgICBmbiA9IGRhdGE7XG4gICAgZGF0YSA9IG51bGw7XG4gIH1cblxuICBpZiAoZGF0YSkgcmVxLnF1ZXJ5KGRhdGEpO1xuICBpZiAoZm4pIHJlcS5lbmQoZm4pO1xuICByZXR1cm4gcmVxO1xufTtcblxuLyoqXG4gKiBIRUFEIGB1cmxgIHdpdGggb3B0aW9uYWwgY2FsbGJhY2sgYGZuKHJlcylgLlxuICpcbiAqIEBwYXJhbSB7U3RyaW5nfSB1cmxcbiAqIEBwYXJhbSB7TWl4ZWR8RnVuY3Rpb259IFtkYXRhXSBvciBmblxuICogQHBhcmFtIHtGdW5jdGlvbn0gW2ZuXVxuICogQHJldHVybiB7UmVxdWVzdH1cbiAqIEBhcGkgcHVibGljXG4gKi9cblxucmVxdWVzdC5oZWFkID0gKHVybCwgZGF0YSwgZm4pID0+IHtcbiAgY29uc3QgcmVxID0gcmVxdWVzdCgnSEVBRCcsIHVybCk7XG4gIGlmICh0eXBlb2YgZGF0YSA9PT0gJ2Z1bmN0aW9uJykge1xuICAgIGZuID0gZGF0YTtcbiAgICBkYXRhID0gbnVsbDtcbiAgfVxuXG4gIGlmIChkYXRhKSByZXEucXVlcnkoZGF0YSk7XG4gIGlmIChmbikgcmVxLmVuZChmbik7XG4gIHJldHVybiByZXE7XG59O1xuXG4vKipcbiAqIE9QVElPTlMgcXVlcnkgdG8gYHVybGAgd2l0aCBvcHRpb25hbCBjYWxsYmFjayBgZm4ocmVzKWAuXG4gKlxuICogQHBhcmFtIHtTdHJpbmd9IHVybFxuICogQHBhcmFtIHtNaXhlZHxGdW5jdGlvbn0gW2RhdGFdIG9yIGZuXG4gKiBAcGFyYW0ge0Z1bmN0aW9ufSBbZm5dXG4gKiBAcmV0dXJuIHtSZXF1ZXN0fVxuICogQGFwaSBwdWJsaWNcbiAqL1xuXG5yZXF1ZXN0Lm9wdGlvbnMgPSAodXJsLCBkYXRhLCBmbikgPT4ge1xuICBjb25zdCByZXEgPSByZXF1ZXN0KCdPUFRJT05TJywgdXJsKTtcbiAgaWYgKHR5cGVvZiBkYXRhID09PSAnZnVuY3Rpb24nKSB7XG4gICAgZm4gPSBkYXRhO1xuICAgIGRhdGEgPSBudWxsO1xuICB9XG5cbiAgaWYgKGRhdGEpIHJlcS5zZW5kKGRhdGEpO1xuICBpZiAoZm4pIHJlcS5lbmQoZm4pO1xuICByZXR1cm4gcmVxO1xufTtcblxuLyoqXG4gKiBERUxFVEUgYHVybGAgd2l0aCBvcHRpb25hbCBgZGF0YWAgYW5kIGNhbGxiYWNrIGBmbihyZXMpYC5cbiAqXG4gKiBAcGFyYW0ge1N0cmluZ30gdXJsXG4gKiBAcGFyYW0ge01peGVkfSBbZGF0YV1cbiAqIEBwYXJhbSB7RnVuY3Rpb259IFtmbl1cbiAqIEByZXR1cm4ge1JlcXVlc3R9XG4gKiBAYXBpIHB1YmxpY1xuICovXG5cbmZ1bmN0aW9uIGRlbCh1cmwsIGRhdGEsIGZuKSB7XG4gIGNvbnN0IHJlcSA9IHJlcXVlc3QoJ0RFTEVURScsIHVybCk7XG4gIGlmICh0eXBlb2YgZGF0YSA9PT0gJ2Z1bmN0aW9uJykge1xuICAgIGZuID0gZGF0YTtcbiAgICBkYXRhID0gbnVsbDtcbiAgfVxuXG4gIGlmIChkYXRhKSByZXEuc2VuZChkYXRhKTtcbiAgaWYgKGZuKSByZXEuZW5kKGZuKTtcbiAgcmV0dXJuIHJlcTtcbn1cblxucmVxdWVzdC5kZWwgPSBkZWw7XG5yZXF1ZXN0LmRlbGV0ZSA9IGRlbDtcblxuLyoqXG4gKiBQQVRDSCBgdXJsYCB3aXRoIG9wdGlvbmFsIGBkYXRhYCBhbmQgY2FsbGJhY2sgYGZuKHJlcylgLlxuICpcbiAqIEBwYXJhbSB7U3RyaW5nfSB1cmxcbiAqIEBwYXJhbSB7TWl4ZWR9IFtkYXRhXVxuICogQHBhcmFtIHtGdW5jdGlvbn0gW2ZuXVxuICogQHJldHVybiB7UmVxdWVzdH1cbiAqIEBhcGkgcHVibGljXG4gKi9cblxucmVxdWVzdC5wYXRjaCA9ICh1cmwsIGRhdGEsIGZuKSA9PiB7XG4gIGNvbnN0IHJlcSA9IHJlcXVlc3QoJ1BBVENIJywgdXJsKTtcbiAgaWYgKHR5cGVvZiBkYXRhID09PSAnZnVuY3Rpb24nKSB7XG4gICAgZm4gPSBkYXRhO1xuICAgIGRhdGEgPSBudWxsO1xuICB9XG5cbiAgaWYgKGRhdGEpIHJlcS5zZW5kKGRhdGEpO1xuICBpZiAoZm4pIHJlcS5lbmQoZm4pO1xuICByZXR1cm4gcmVxO1xufTtcblxuLyoqXG4gKiBQT1NUIGB1cmxgIHdpdGggb3B0aW9uYWwgYGRhdGFgIGFuZCBjYWxsYmFjayBgZm4ocmVzKWAuXG4gKlxuICogQHBhcmFtIHtTdHJpbmd9IHVybFxuICogQHBhcmFtIHtNaXhlZH0gW2RhdGFdXG4gKiBAcGFyYW0ge0Z1bmN0aW9ufSBbZm5dXG4gKiBAcmV0dXJuIHtSZXF1ZXN0fVxuICogQGFwaSBwdWJsaWNcbiAqL1xuXG5yZXF1ZXN0LnBvc3QgPSAodXJsLCBkYXRhLCBmbikgPT4ge1xuICBjb25zdCByZXEgPSByZXF1ZXN0KCdQT1NUJywgdXJsKTtcbiAgaWYgKHR5cGVvZiBkYXRhID09PSAnZnVuY3Rpb24nKSB7XG4gICAgZm4gPSBkYXRhO1xuICAgIGRhdGEgPSBudWxsO1xuICB9XG5cbiAgaWYgKGRhdGEpIHJlcS5zZW5kKGRhdGEpO1xuICBpZiAoZm4pIHJlcS5lbmQoZm4pO1xuICByZXR1cm4gcmVxO1xufTtcblxuLyoqXG4gKiBQVVQgYHVybGAgd2l0aCBvcHRpb25hbCBgZGF0YWAgYW5kIGNhbGxiYWNrIGBmbihyZXMpYC5cbiAqXG4gKiBAcGFyYW0ge1N0cmluZ30gdXJsXG4gKiBAcGFyYW0ge01peGVkfEZ1bmN0aW9ufSBbZGF0YV0gb3IgZm5cbiAqIEBwYXJhbSB7RnVuY3Rpb259IFtmbl1cbiAqIEByZXR1cm4ge1JlcXVlc3R9XG4gKiBAYXBpIHB1YmxpY1xuICovXG5cbnJlcXVlc3QucHV0ID0gKHVybCwgZGF0YSwgZm4pID0+IHtcbiAgY29uc3QgcmVxID0gcmVxdWVzdCgnUFVUJywgdXJsKTtcbiAgaWYgKHR5cGVvZiBkYXRhID09PSAnZnVuY3Rpb24nKSB7XG4gICAgZm4gPSBkYXRhO1xuICAgIGRhdGEgPSBudWxsO1xuICB9XG5cbiAgaWYgKGRhdGEpIHJlcS5zZW5kKGRhdGEpO1xuICBpZiAoZm4pIHJlcS5lbmQoZm4pO1xuICByZXR1cm4gcmVxO1xufTtcbiJdfQ==
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uL3NyYy9jbGllbnQuanMiXSwibmFtZXMiOlsicm9vdCIsIndpbmRvdyIsInNlbGYiLCJjb25zb2xlIiwid2FybiIsIkVtaXR0ZXIiLCJyZXF1aXJlIiwic2FmZVN0cmluZ2lmeSIsInFzIiwiUmVxdWVzdEJhc2UiLCJpc09iamVjdCIsIlJlc3BvbnNlQmFzZSIsIkFnZW50Iiwibm9vcCIsIm1vZHVsZSIsImV4cG9ydHMiLCJtZXRob2QiLCJ1cmwiLCJSZXF1ZXN0IiwiZW5kIiwiYXJndW1lbnRzIiwibGVuZ3RoIiwicmVxdWVzdCIsImdldFhIUiIsIlhNTEh0dHBSZXF1ZXN0IiwibG9jYXRpb24iLCJwcm90b2NvbCIsIkFjdGl2ZVhPYmplY3QiLCJFcnJvciIsInRyaW0iLCJzIiwicmVwbGFjZSIsInNlcmlhbGl6ZSIsIm9iaiIsInBhaXJzIiwia2V5IiwiT2JqZWN0IiwicHJvdG90eXBlIiwiaGFzT3duUHJvcGVydHkiLCJjYWxsIiwicHVzaEVuY29kZWRLZXlWYWx1ZVBhaXIiLCJqb2luIiwidmFsIiwidW5kZWZpbmVkIiwicHVzaCIsImVuY29kZVVSSSIsIkFycmF5IiwiaXNBcnJheSIsImZvckVhY2giLCJ2Iiwic3Via2V5IiwiZW5jb2RlVVJJQ29tcG9uZW50Iiwic2VyaWFsaXplT2JqZWN0IiwicGFyc2VTdHJpbmciLCJzdHIiLCJzcGxpdCIsInBhaXIiLCJwb3MiLCJpIiwibGVuIiwiaW5kZXhPZiIsImRlY29kZVVSSUNvbXBvbmVudCIsInNsaWNlIiwidHlwZXMiLCJodG1sIiwianNvbiIsInhtbCIsInVybGVuY29kZWQiLCJmb3JtIiwic3RyaW5naWZ5IiwicGFyc2UiLCJKU09OIiwicGFyc2VIZWFkZXIiLCJsaW5lcyIsImZpZWxkcyIsImluZGV4IiwibGluZSIsImZpZWxkIiwidG9Mb3dlckNhc2UiLCJpc0pTT04iLCJtaW1lIiwidGVzdCIsIlJlc3BvbnNlIiwicmVxIiwieGhyIiwidGV4dCIsInJlc3BvbnNlVHlwZSIsInJlc3BvbnNlVGV4dCIsInN0YXR1c1RleHQiLCJzdGF0dXMiLCJfc2V0U3RhdHVzUHJvcGVydGllcyIsImhlYWRlcnMiLCJnZXRBbGxSZXNwb25zZUhlYWRlcnMiLCJoZWFkZXIiLCJnZXRSZXNwb25zZUhlYWRlciIsIl9zZXRIZWFkZXJQcm9wZXJ0aWVzIiwiX3Jlc3BvbnNlVHlwZSIsImJvZHkiLCJyZXNwb25zZSIsIl9wYXJzZUJvZHkiLCJ0eXBlIiwiX3BhcnNlciIsInRvRXJyb3IiLCJtc2ciLCJlcnIiLCJfcXVlcnkiLCJfaGVhZGVyIiwib24iLCJyZXMiLCJlcnJfIiwib3JpZ2luYWwiLCJyYXdSZXNwb25zZSIsInN0YXR1c0NvZGUiLCJjYWxsYmFjayIsImVtaXQiLCJuZXdfZXJyIiwiX2lzUmVzcG9uc2VPSyIsInNldCIsImFjY2VwdCIsImF1dGgiLCJ1c2VyIiwicGFzcyIsIm9wdGlvbnMiLCJidG9hIiwiZW5jb2RlciIsInN0cmluZyIsIl9hdXRoIiwicXVlcnkiLCJhdHRhY2giLCJmaWxlIiwiX2RhdGEiLCJfZ2V0Rm9ybURhdGEiLCJhcHBlbmQiLCJuYW1lIiwiX2Zvcm1EYXRhIiwiRm9ybURhdGEiLCJfc2hvdWxkUmV0cnkiLCJfcmV0cnkiLCJmbiIsIl9jYWxsYmFjayIsImNsZWFyVGltZW91dCIsIl9tYXhSZXRyaWVzIiwicmV0cmllcyIsIl9yZXRyaWVzIiwiY3Jvc3NEb21haW5FcnJvciIsImNyb3NzRG9tYWluIiwiYWdlbnQiLCJjYSIsImJ1ZmZlciIsIndyaXRlIiwicGlwZSIsIl9pc0hvc3QiLCJ0b1N0cmluZyIsIl9lbmRDYWxsZWQiLCJfZmluYWxpemVRdWVyeVN0cmluZyIsIl9lbmQiLCJfc2V0VXBsb2FkVGltZW91dCIsIl91cGxvYWRUaW1lb3V0IiwiX3VwbG9hZFRpbWVvdXRUaW1lciIsInNldFRpbWVvdXQiLCJfdGltZW91dEVycm9yIiwiX2Fib3J0ZWQiLCJkYXRhIiwiX3NldFRpbWVvdXRzIiwib25yZWFkeXN0YXRlY2hhbmdlIiwicmVhZHlTdGF0ZSIsIl9yZXNwb25zZVRpbWVvdXRUaW1lciIsInRpbWVkb3V0IiwiaGFuZGxlUHJvZ3Jlc3MiLCJkaXJlY3Rpb24iLCJlIiwidG90YWwiLCJwZXJjZW50IiwibG9hZGVkIiwiaGFzTGlzdGVuZXJzIiwiYWRkRXZlbnRMaXN0ZW5lciIsImJpbmQiLCJ1cGxvYWQiLCJ1c2VybmFtZSIsInBhc3N3b3JkIiwib3BlbiIsIl93aXRoQ3JlZGVudGlhbHMiLCJ3aXRoQ3JlZGVudGlhbHMiLCJjb250ZW50VHlwZSIsIl9zZXJpYWxpemVyIiwic2V0UmVxdWVzdEhlYWRlciIsInNlbmQiLCJfc2V0RGVmYXVsdHMiLCJkZWwiLCJkZWxldGUiLCJnZXQiLCJoZWFkIiwicGF0Y2giLCJwb3N0IiwicHV0Il0sIm1hcHBpbmdzIjoiOzs7O0FBQUE7OztBQUlBLElBQUlBLElBQUo7O0FBQ0EsSUFBSSxPQUFPQyxNQUFQLEtBQWtCLFdBQXRCLEVBQW1DO0FBQ2pDO0FBQ0FELEVBQUFBLElBQUksR0FBR0MsTUFBUDtBQUNELENBSEQsTUFHTyxJQUFJLE9BQU9DLElBQVAsS0FBZ0IsV0FBcEIsRUFBaUM7QUFDdEM7QUFDQUMsRUFBQUEsT0FBTyxDQUFDQyxJQUFSLENBQ0UscUVBREY7QUFHQUosRUFBQUEsSUFBSSxTQUFKO0FBQ0QsQ0FOTSxNQU1BO0FBQ0w7QUFDQUEsRUFBQUEsSUFBSSxHQUFHRSxJQUFQO0FBQ0Q7O0FBRUQsSUFBTUcsT0FBTyxHQUFHQyxPQUFPLENBQUMsbUJBQUQsQ0FBdkI7O0FBQ0EsSUFBTUMsYUFBYSxHQUFHRCxPQUFPLENBQUMscUJBQUQsQ0FBN0I7O0FBQ0EsSUFBTUUsRUFBRSxHQUFHRixPQUFPLENBQUMsSUFBRCxDQUFsQjs7QUFDQSxJQUFNRyxXQUFXLEdBQUdILE9BQU8sQ0FBQyxnQkFBRCxDQUEzQjs7QUFDQSxJQUFNSSxRQUFRLEdBQUdKLE9BQU8sQ0FBQyxhQUFELENBQXhCOztBQUNBLElBQU1LLFlBQVksR0FBR0wsT0FBTyxDQUFDLGlCQUFELENBQTVCOztBQUNBLElBQU1NLEtBQUssR0FBR04sT0FBTyxDQUFD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aEUsR0FBSixDQUFRdUgsRUFBUjtBQUNSLFNBQU92RCxHQUFQO0FBQ0QsQ0FWRCIsInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogUm9vdCByZWZlcmVuY2UgZm9yIGlmcmFtZXMuXG4gKi9cblxubGV0IHJvb3Q7XG5pZiAodHlwZW9mIHdpbmRvdyAhPT0gJ3VuZGVmaW5lZCcpIHtcbiAgLy8gQnJvd3NlciB3aW5kb3dcbiAgcm9vdCA9IHdpbmRvdztcbn0gZWxzZSBpZiAodHlwZW9mIHNlbGYgPT09ICd1bmRlZmluZWQnKSB7XG4gIC8vIE90aGVyIGVudmlyb25tZW50c1xuICBjb25zb2xlLndhcm4oXG4gICAgJ1VzaW5nIGJyb3dzZXItb25seSB2ZXJzaW9uIG9mIHN1cGVyYWdlbnQgaW4gbm9uLWJyb3dzZXIgZW52aXJvbm1lbnQnXG4gICk7XG4gIHJvb3QgPSB0aGlzO1xufSBlbHNlIHtcbiAgLy8gV2ViIFdvcmtlclxuICByb290ID0gc2VsZjtcbn1cblxuY29uc3QgRW1pdHRlciA9IHJlcXVpcmUoJ2NvbXBvbmVudC1lbWl0dGVyJyk7XG5jb25zdCBzYWZlU3RyaW5naWZ5ID0gcmVxdWlyZSgnZmFzdC1zYWZlLXN0cmluZ2lmeScpO1xuY29uc3QgcXMgPSByZXF1aXJlKCdxcycpO1xuY29uc3QgUmVxdWVzdEJhc2UgPSByZXF1aXJlKCcuL3JlcXVlc3QtYmFzZScpO1xuY29uc3QgaXNPYmplY3QgPSByZXF1aXJlKCcuL2lzLW9iamVjdCcpO1xuY29uc3QgUmVzcG9uc2VCYXNlID0gcmVxdWlyZSgnLi9yZXNwb25zZS1iYXNlJyk7XG5jb25zdCBBZ2VudCA9IHJlcXVpcmUoJy4vYWdlbnQtYmFzZScpO1xuXG4vKipcbiAqIE5vb3AuXG4gKi9cblxuZnVuY3Rpb24gbm9vcCgpIHt9XG5cbi8qKlxuICogRXhwb3NlIGByZXF1ZXN0YC5cbiAqL1xuXG5tb2R1bGUuZXhwb3J0cyA9IGZ1bmN0aW9uIChtZXRob2QsIHVybCkge1xuICAvLyBjYWxsYmFja1xuICBpZiAodHlwZW9mIHVybCA9PT0gJ2Z1bmN0aW9uJykge1xuICAgIHJldHVybiBuZXcgZXhwb3J0cy5SZXF1ZXN0KCdHRVQnLCBtZXRob2QpLmVuZCh1cmwpO1xuICB9XG5cbiAgLy8gdXJsIGZpcnN0XG4gIGlmIChhcmd1bWVudHMubGVuZ3RoID09PSAxKSB7XG4gICAgcmV0dXJuIG5ldyBleHBvcnRzLlJlcXVlc3QoJ0dFVCcsIG1ldGhvZCk7XG4gIH1cblxuICByZXR1cm4gbmV3IGV4cG9ydHMuUmVxdWVzdChtZXRob2QsIHVybCk7XG59O1xuXG5leHBvcnRzID0gbW9kdWxlLmV4cG9ydHM7XG5cbmNvbnN0IHJlcXVlc3QgPSBleHBvcnRzO1xuXG5leHBvcnRzLlJlcXVlc3QgPSBSZXF1ZXN0O1xuXG4vKipcbiAqIERldGVybWluZSBYSFIuXG4gKi9cblxucmVxdWVzdC5nZXRYSFIgPSAoKSA9PiB7XG4gIGlmIChcbiAgICByb290LlhNTEh0dHBSZXF1ZXN0ICYmXG4gICAgKCFyb290LmxvY2F0aW9uIHx8XG4gICAgICByb290LmxvY2F0aW9uLnByb3RvY29sICE9PSAnZmlsZTonIHx8XG4gICAgICAhcm9vdC5BY3RpdmVYT2JqZWN0KVxuICApIHtcbiAgICByZXR1cm4gbmV3IFhNTEh0dHBSZXF1ZXN0KCk7XG4gIH1cblxuICB0cnkge1xuICAgIHJldHVybiBuZXcgQWN0aXZlWE9iamVjdCgnTWljcm9zb2Z0LlhNTEhUVFAnKTtcbiAgfSBjYXRjaCB7fVxuXG4gIHRyeSB7XG4gICAgcmV0dXJuIG5ldyBBY3RpdmVYT2JqZWN0KCdNc3htbDIuWE1MSFRUUC42LjAnKTtcbiAgfSBjYXRjaCB7fVxuXG4gIHRyeSB7XG4gICAgcmV0dXJuIG5ldyBBY3RpdmVYT2JqZWN0KCdNc3htbDIuWE1MSFRUUC4zLjAnKTtcbiAgfSBjYXRjaCB7fVxuXG4gIHRyeSB7XG4gICAgcmV0dXJuIG5ldyBBY3RpdmVYT2JqZWN0KCdNc3htbDIuWE1MSFRUUCcpO1xuICB9IGNhdGNoIHt9XG5cbiAgdGhyb3cgbmV3IEVycm9yKCdCcm93c2VyLW9ubHkgdmVyc2lvbiBvZiBzdXBlcmFnZW50IGNvdWxkIG5vdCBmaW5kIFhIUicpO1xufTtcblxuLyoqXG4gKiBSZW1vdmVzIGxlYWRpbmcgYW5kIHRyYWlsaW5nIHdoaXRlc3BhY2UsIGFkZGVkIHRvIHN1cHBvcnQgSUUuXG4gKlxuICogQHBhcmFtIHtTdHJpbmd9IHNcbiAqIEByZXR1cm4ge1N0cmluZ31cbiAqIEBhcGkgcHJpdmF0ZVxuICovXG5cbmNvbnN0IHRyaW0gPSAnJy50cmltID8gKHMpID0+IHMudHJpbSgpIDogKHMpID0+IHMucmVwbGFjZSgvKF5cXHMqfFxccyokKS9nLCAnJyk7XG5cbi8qKlxuICogU2VyaWFsaXplIHRoZSBnaXZlbiBgb2JqYC5cbiAqXG4gKiBAcGFyYW0ge09iamVjdH0gb2JqXG4gKiBAcmV0dXJuIHtTdHJpbmd9XG4gKiBAYXBpIHByaXZhdGVcbiAqL1xuXG5mdW5jdGlvbiBzZXJpYWxpemUob2JqKSB7XG4gIGlmICghaXNPYmplY3Qob2JqKSkgcmV0dXJuIG9iajtcbiAgY29uc3QgcGFpcnMgPSBbXTtcbiAgZm9yIChjb25zdCBrZXkgaW4gb2JqKSB7XG4gICAgaWYgKE9iamVjdC5wcm90b3R5cGUuaGFzT3duUHJvcGVydHkuY2FsbChvYmosIGtleSkpXG4gICAgICBwdXNoRW5jb2RlZEtleVZhbHVlUGFpcihwYWlycywga2V5LCBvYmpba2V5XSk7XG4gIH1cblxuICByZXR1cm4gcGFpcnMuam9pbignJicpO1xufVxuXG4vKipcbiAqIEhlbHBzICdzZXJpYWxpemUnIHdpdGggc2VyaWFsaXppbmcgYXJyYXlzLlxuICogTXV0YXRlcyB0aGUgcGFpcnMgYXJyYXkuXG4gKlxuICogQHBhcmFtIHtBcnJheX0gcGFpcnNcbiAqIEBwYXJhbSB7U3RyaW5nfSBrZXlcbiAqIEBwYXJhbSB7TWl4ZWR9IHZhbFxuICovXG5cbmZ1bmN0aW9uIHB1c2hFbmNvZGVkS2V5VmFsdWVQYWlyKHBhaXJzLCBrZXksIHZhbCkge1xuICBpZiAodmFsID09PSB1bmRlZmluZWQpIHJldHVybjtcbiAgaWYgKHZhbCA9PT0gbnVsbCkge1xuICAgIHBhaXJzLnB1c2goZW5jb2RlVVJJKGtleSkpO1xuICAgIHJldHVybjtcbiAgfVxuXG4gIGlmIChBcnJheS5pc0FycmF5KHZhbCkpIHtcbiAgICB2YWwuZm9yRWFjaCgodikgPT4ge1xuICAgICAgcHVzaEVuY29kZWRLZXlWYWx1ZVBhaXIocGFpcnMsIGtleSwgdik7XG4gICAgfSk7XG4gIH0gZWxzZSBpZiAoaXNPYmplY3QodmFsKSkge1xuICAgIGZvciAoY29uc3Qgc3Via2V5IGluIHZhbCkge1xuICAgICAgaWYgKE9iamVjdC5wcm90b3R5cGUuaGFzT3duUHJvcGVydHkuY2FsbCh2YWwsIHN1YmtleSkpXG4gICAgICAgIHB1c2hFbmNvZGVkS2V5VmFsdWVQYWlyKHBhaXJzLCBgJHtrZXl9WyR7c3Via2V5fV1gLCB2YWxbc3Via2V5XSk7XG4gICAgfVxuICB9IGVsc2Uge1xuICAgIHBhaXJzLnB1c2goZW5jb2RlVVJJKGtleSkgKyAnPScgKyBlbmNvZGVVUklDb21wb25lbnQodmFsKSk7XG4gIH1cbn1cblxuLyoqXG4gKiBFeHBvc2Ugc2VyaWFsaXphdGlvbiBtZXRob2QuXG4gKi9cblxucmVxdWVzdC5zZXJpYWxpemVPYmplY3QgPSBzZXJpYWxpemU7XG5cbi8qKlxuICogUGFyc2UgdGhlIGdpdmVuIHgtd3d3LWZvcm0tdXJsZW5jb2RlZCBgc3RyYC5cbiAqXG4gKiBAcGFyYW0ge1N0cmluZ30gc3RyXG4gKiBAcmV0dXJuIHtPYmplY3R9XG4gKiBAYXBpIHByaXZhdGVcbiAqL1xuXG5mdW5jdGlvbiBwYXJzZVN0cmluZyhzdHIpIHtcbiAgY29uc3Qgb2JqID0ge307XG4gIGNvbnN0IHBhaXJzID0gc3RyLnNwbGl0KCcmJyk7XG4gIGxldCBwYWlyO1xuICBsZXQgcG9zO1xuXG4gIGZvciAobGV0IGkgPSAwLCBsZW4gPSBwYWlycy5sZW5ndGg7IGkgPCBsZW47ICsraSkge1xuICAgIHBhaXIgPSBwYWlyc1tpXTtcbiAgICBwb3MgPSBwYWlyLmluZGV4T2YoJz0nKTtcbiAgICBpZiAocG9zID09PSAtMSkge1xuICAgICAgb2JqW2RlY29kZVVSSUNvbXBvbmVudChwYWlyKV0gPSAnJztcbiAgICB9IGVsc2Uge1xuICAgICAgb2JqW2RlY29kZVVSSUNvbXBvbmVudChwYWlyLnNsaWNlKDAsIHBvcykpXSA9IGRlY29kZVVSSUNvbXBvbmVudChcbiAgICAgICAgcGFpci5zbGljZShwb3MgKyAxKVxuICAgICAgKTtcbiAgICB9XG4gIH1cblxuICByZXR1cm4gb2JqO1xufVxuXG4vKipcbiAqIEV4cG9zZSBwYXJzZXIuXG4gKi9cblxucmVxdWVzdC5wYXJzZVN0cmluZyA9IHBhcnNlU3RyaW5nO1xuXG4vKipcbiAqIERlZmF1bHQgTUlNRSB0eXBlIG1hcC5cbiAqXG4gKiAgICAgc3VwZXJhZ2VudC50eXBlcy54bWwgPSAnYXBwbGljYXRpb24veG1sJztcbiAqXG4gKi9cblxucmVxdWVzdC50eXBlcyA9IHtcbiAgaHRtbDogJ3RleHQvaHRtbCcsXG4gIGpzb246ICdhcHBsaWNhdGlvbi9qc29uJyxcbiAgeG1sOiAndGV4dC94bWwnLFxuICB1cmxlbmNvZGVkOiAnYXBwbGljYXRpb24veC13d3ctZm9ybS11cmxlbmNvZGVkJyxcbiAgZm9ybTogJ2FwcGxpY2F0aW9uL3gtd3d3LWZvcm0tdXJsZW5jb2RlZCcsXG4gICdmb3JtLWRhdGEnOiAnYXBwbGljYXRpb24veC13d3ctZm9ybS11cmxlbmNvZGVkJ1xufTtcblxuLyoqXG4gKiBEZWZhdWx0IHNlcmlhbGl6YXRpb24gbWFwLlxuICpcbiAqICAgICBzdXBlcmFnZW50LnNlcmlhbGl6ZVsnYXBwbGljYXRpb24veG1sJ10gPSBmdW5jdGlvbihvYmope1xuICogICAgICAgcmV0dXJuICdnZW5lcmF0ZWQgeG1sIGhlcmUnO1xuICogICAgIH07XG4gKlxuICovXG5cbnJlcXVlc3Quc2VyaWFsaXplID0ge1xuICAnYXBwbGljYXRpb24veC13d3ctZm9ybS11cmxlbmNvZGVkJzogcXMuc3RyaW5naWZ5LFxuICAnYXBwbGljYXRpb24vanNvbic6IHNhZmVTdHJpbmdpZnlcbn07XG5cbi8qKlxuICogRGVmYXVsdCBwYXJzZXJzLlxuICpcbiAqICAgICBzdXBlcmFnZW50LnBhcnNlWydhcHBsaWNhdGlvbi94bWwnXSA9IGZ1bmN0aW9uKHN0cil7XG4gKiAgICAgICByZXR1cm4geyBvYmplY3QgcGFyc2VkIGZyb20gc3RyIH07XG4gKiAgICAgfTtcbiAqXG4gKi9cblxucmVxdWVzdC5wYXJzZSA9IHtcbiAgJ2FwcGxpY2F0aW9uL3gtd3d3LWZvcm0tdXJsZW5jb2RlZCc6IHBhcnNlU3RyaW5nLFxuICAnYXBwbGljYXRpb24vanNvbic6IEpTT04ucGFyc2Vcbn07XG5cbi8qKlxuICogUGFyc2UgdGhlIGdpdmVuIGhlYWRlciBgc3RyYCBpbnRvXG4gKiBhbiBvYmplY3QgY29udGFpbmluZyB0aGUgbWFwcGVkIGZpZWxkcy5cbiAqXG4gKiBAcGFyYW0ge1N0cmluZ30gc3RyXG4gKiBAcmV0dXJuIHtPYmplY3R9XG4gKiBAYXBpIHByaXZhdGVcbiAqL1xuXG5mdW5jdGlvbiBwYXJzZUhlYWRlcihzdHIpIHtcbiAgY29uc3QgbGluZXMgPSBzdHIuc3BsaXQoL1xccj9cXG4vKTtcbiAgY29uc3QgZmllbGRzID0ge307XG4gIGxldCBpbmRleDtcbiAgbGV0IGxpbmU7XG4gIGxldCBmaWVsZDtcbiAgbGV0IHZhbDtcblxuICBmb3IgKGxldCBpID0gMCwgbGVuID0gbGluZXMubGVuZ3RoOyBpIDwgbGVuOyArK2kpIHtcbiAgICBsaW5lID0gbGluZXNbaV07XG4gICAgaW5kZXggPSBsaW5lLmluZGV4T2YoJzonKTtcbiAgICBpZiAoaW5kZXggPT09IC0xKSB7XG4gICAgICAvLyBjb3VsZCBiZSBlbXB0eSBsaW5lLCBqdXN0IHNraXAgaXRcbiAgICAgIGNvbnRpbnVlO1xuICAgIH1cblxuICAgIGZpZWxkID0gbGluZS5zbGljZSgwLCBpbmRleCkudG9Mb3dlckNhc2UoKTtcbiAgICB2YWwgPSB0cmltKGxpbmUuc2xpY2UoaW5kZXggKyAxKSk7XG4gICAgZmllbGRzW2ZpZWxkXSA9IHZhbDtcbiAgfVxuXG4gIHJldHVybiBmaWVsZHM7XG59XG5cbi8qKlxuICogQ2hlY2sgaWYgYG1pbWVgIGlzIGpzb24gb3IgaGFzICtqc29uIHN0cnVjdHVyZWQgc3ludGF4IHN1ZmZpeC5cbiAqXG4gKiBAcGFyYW0ge1N0cmluZ30gbWltZVxuICogQHJldHVybiB7Qm9vbGVhbn1cbiAqIEBhcGkgcHJpdmF0ZVxuICovXG5cbmZ1bmN0aW9uIGlzSlNPTihtaW1lKSB7XG4gIC8vIHNob3VsZCBtYXRjaCAvanNvbiBvciAranNvblxuICAvLyBidXQgbm90IC9qc29uLXNlcVxuICByZXR1cm4gL1svK11qc29uKCR8W14tXFx3XSkvaS50ZXN0KG1pbWUpO1xufVxuXG4vKipcbiAqIEluaXRpYWxpemUgYSBuZXcgYFJlc3BvbnNlYCB3aXRoIHRoZSBnaXZlbiBgeGhyYC5cbiAqXG4gKiAgLSBzZXQgZmxhZ3MgKC5vaywgLmVycm9yLCBldGMpXG4gKiAgLSBwYXJzZSBoZWFkZXJcbiAqXG4gKiBFeGFtcGxlczpcbiAqXG4gKiAgQWxpYXNpbmcgYHN1cGVyYWdlbnRgIGFzIGByZXF1ZXN0YCBpcyBuaWNlOlxuICpcbiAqICAgICAgcmVxdWVzdCA9IHN1cGVyYWdlbnQ7XG4gKlxuICogIFdlIGNhbiB1c2UgdGhlIHByb21pc2UtbGlrZSBBUEksIG9yIHBhc3MgY2FsbGJhY2tzOlxuICpcbiAqICAgICAgcmVxdWVzdC5nZXQoJy8nKS5lbmQoZnVuY3Rpb24ocmVzKXt9KTtcbiAqICAgICAgcmVxdWVzdC5nZXQoJy8nLCBmdW5jdGlvbihyZXMpe30pO1xuICpcbiAqICBTZW5kaW5nIGRhdGEgY2FuIGJlIGNoYWluZWQ6XG4gKlxuICogICAgICByZXF1ZXN0XG4gKiAgICAgICAgLnBvc3QoJy91c2VyJylcbiAqICAgICAgICAuc2VuZCh7IG5hbWU6ICd0aicgfSlcbiAqICAgICAgICAuZW5kKGZ1bmN0aW9uKHJlcyl7fSk7XG4gKlxuICogIE9yIHBhc3NlZCB0byBgLnNlbmQoKWA6XG4gKlxuICogICAgICByZXF1ZXN0XG4gKiAgICAgICAgLnBvc3QoJy91c2VyJylcbiAqICAgICAgICAuc2VuZCh7IG5hbWU6ICd0aicgfSwgZnVuY3Rpb24ocmVzKXt9KTtcbiAqXG4gKiAgT3IgcGFzc2VkIHRvIGAucG9zdCgpYDpcbiAqXG4gKiAgICAgIHJlcXVlc3RcbiAqICAgICAgICAucG9zdCgnL3VzZXInLCB7IG5hbWU6ICd0aicgfSlcbiAqICAgICAgICAuZW5kKGZ1bmN0aW9uKHJlcyl7fSk7XG4gKlxuICogT3IgZnVydGhlciByZWR1Y2VkIHRvIGEgc2luZ2xlIGNhbGwgZm9yIHNpbXBsZSBjYXNlczpcbiAqXG4gKiAgICAgIHJlcXVlc3RcbiAqICAgICAgICAucG9zdCgnL3VzZXInLCB7IG5hbWU6ICd0aicgfSwgZnVuY3Rpb24ocmVzKXt9KTtcbiAqXG4gKiBAcGFyYW0ge1hNTEhUVFBSZXF1ZXN0fSB4aHJcbiAqIEBwYXJhbSB7T2JqZWN0fSBvcHRpb25zXG4gKiBAYXBpIHByaXZhdGVcbiAqL1xuXG5mdW5jdGlvbiBSZXNwb25zZShyZXEpIHtcbiAgdGhpcy5yZXEgPSByZXE7XG4gIHRoaXMueGhyID0gdGhpcy5yZXEueGhyO1xuICAvLyByZXNwb25zZVRleHQgaXMgYWNjZXNzaWJsZSBvbmx5IGlmIHJlc3BvbnNlVHlwZSBpcyAnJyBvciAndGV4dCcgYW5kIG9uIG9sZGVyIGJyb3dzZXJzXG4gIHRoaXMudGV4dCA9XG4gICAgKHRoaXMucmVxLm1ldGhvZCAhPT0gJ0hFQUQnICYmXG4gICAgICAodGhpcy54aHIucmVzcG9uc2VUeXBlID09PSAnJyB8fCB0aGlzLnhoci5yZXNwb25zZVR5cGUgPT09ICd0ZXh0JykpIHx8XG4gICAgdHlwZW9mIHRoaXMueGhyLnJlc3BvbnNlVHlwZSA9PT0gJ3VuZGVmaW5lZCdcbiAgICAgID8gdGhpcy54aHIucmVzcG9uc2VUZXh0XG4gICAgICA6IG51bGw7XG4gIHRoaXMuc3RhdHVzVGV4dCA9IHRoaXMucmVxLnhoci5zdGF0dXNUZXh0O1xuICBsZXQgeyBzdGF0dXMgfSA9IHRoaXMueGhyO1xuICAvLyBoYW5kbGUgSUU5IGJ1ZzogaHR0cDovL3N0YWNrb3ZlcmZsb3cuY29tL3F1ZXN0aW9ucy8xMDA0Njk3Mi9tc2llLXJldHVybnMtc3RhdHVzLWNvZGUtb2YtMTIyMy1mb3ItYWpheC1yZXF1ZXN0XG4gIGlmIChzdGF0dXMgPT09IDEyMjMpIHtcbiAgICBzdGF0dXMgPSAyMDQ7XG4gIH1cblxuICB0aGlzLl9zZXRTdGF0dXNQcm9wZXJ0aWVzKHN0YXR1cyk7XG4gIHRoaXMuaGVhZGVycyA9IHBhcnNlSGVhZGVyKHRoaXMueGhyLmdldEFsbFJlc3BvbnNlSGVhZGVycygpKTtcbiAgdGhpcy5oZWFkZXIgPSB0aGlzLmhlYWRlcnM7XG4gIC8vIGdldEFsbFJlc3BvbnNlSGVhZGVycyBzb21ldGltZXMgZmFsc2VseSByZXR1cm5zIFwiXCIgZm9yIENPUlMgcmVxdWVzdHMsIGJ1dFxuICAvLyBnZXRSZXNwb25zZUhlYWRlciBzdGlsbCB3b3Jrcy4gc28gd2UgZ2V0IGNvbnRlbnQtdHlwZSBldmVuIGlmIGdldHRpbmdcbiAgLy8gb3RoZXIgaGVhZGVycyBmYWlscy5cbiAgdGhpcy5oZWFkZXJbJ2NvbnRlbnQtdHlwZSddID0gdGhpcy54aHIuZ2V0UmVzcG9uc2VIZWFkZXIoJ2NvbnRlbnQtdHlwZScpO1xuICB0aGlzLl9zZXRIZWFkZXJQcm9wZXJ0aWVzKHRoaXMuaGVhZGVyKTtcblxuICBpZiAodGhpcy50ZXh0ID09PSBudWxsICYmIHJlcS5fcmVzcG9uc2VUeXBlKSB7XG4gICAgdGhpcy5ib2R5ID0gdGhpcy54aHIucmVzcG9uc2U7XG4gIH0gZWxzZSB7XG4gICAgdGhpcy5ib2R5ID1cbiAgICAgIHRoaXMucmVxLm1ldGhvZCA9PT0gJ0hFQUQnXG4gICAgICAgID8gbnVsbFxuICAgICAgICA6IHRoaXMuX3BhcnNlQm9keSh0aGlzLnRleHQgPyB0aGlzLnRleHQgOiB0aGlzLnhoci5yZXNwb25zZSk7XG4gIH1cbn1cblxuLy8gZXNsaW50LWRpc2FibGUtbmV4dC1saW5lIG5ldy1jYXBcblJlc3BvbnNlQmFzZShSZXNwb25zZS5wcm90b3R5cGUpO1xuXG4vKipcbiAqIFBhcnNlIHRoZSBnaXZlbiBib2R5IGBzdHJgLlxuICpcbiAqIFVzZWQgZm9yIGF1dG8tcGFyc2luZyBvZiBib2RpZXMuIFBhcnNlcnNcbiAqIGFyZSBkZWZpbmVkIG9uIHRoZSBgc3VwZXJhZ2VudC5wYXJzZWAgb2JqZWN0LlxuICpcbiAqIEBwYXJhbSB7U3RyaW5nfSBzdHJcbiAqIEByZXR1cm4ge01peGVkfVxuICogQGFwaSBwcml2YXRlXG4gKi9cblxuUmVzcG9uc2UucHJvdG90eXBlLl9wYXJzZUJvZHkgPSBmdW5jdGlvbiAoc3RyKSB7XG4gIGxldCBwYXJzZSA9IHJlcXVlc3QucGFyc2VbdGhpcy50eXBlXTtcbiAgaWYgKHRoaXMucmVxLl9wYXJzZXIpIHtcbiAgICByZXR1cm4gdGhpcy5yZXEuX3BhcnNlcih0aGlzLCBzdHIpO1xuICB9XG5cbiAgaWYgKCFwYXJzZSAmJiBpc0pTT04odGhpcy50eXBlKSkge1xuICAgIHBhcnNlID0gcmVxdWVzdC5wYXJzZVsnYXBwbGljYXRpb24vanNvbiddO1xuICB9XG5cbiAgcmV0dXJuIHBhcnNlICYmIHN0ciAmJiAoc3RyLmxlbmd0aCA+IDAgfHwgc3RyIGluc3RhbmNlb2YgT2JqZWN0KVxuICAgID8gcGFyc2Uoc3RyKVxuICAgIDogbnVsbDtcbn07XG5cbi8qKlxuICogUmV0dXJuIGFuIGBFcnJvcmAgcmVwcmVzZW50YXRpdmUgb2YgdGhpcyByZXNwb25zZS5cbiAqXG4gKiBAcmV0dXJuIHtFcnJvcn1cbiAqIEBhcGkgcHVibGljXG4gKi9cblxuUmVzcG9uc2UucHJvdG90eXBlLnRvRXJyb3IgPSBmdW5jdGlvbiAoKSB7XG4gIGNvbnN0IHsgcmVxIH0gPSB0aGlzO1xuICBjb25zdCB7IG1ldGhvZCB9ID0gcmVxO1xuICBjb25zdCB7IHVybCB9ID0gcmVxO1xuXG4gIGNvbnN0IG1zZyA9IGBjYW5ub3QgJHttZXRob2R9ICR7dXJsfSAoJHt0aGlzLnN0YXR1c30pYDtcbiAgY29uc3QgZXJyID0gbmV3IEVycm9yKG1zZyk7XG4gIGVyci5zdGF0dXMgPSB0aGlzLnN0YXR1cztcbiAgZXJyLm1ldGhvZCA9IG1ldGhvZDtcbiAgZXJyLnVybCA9IHVybDtcblxuICByZXR1cm4gZXJyO1xufTtcblxuLyoqXG4gKiBFeHBvc2UgYFJlc3BvbnNlYC5cbiAqL1xuXG5yZXF1ZXN0LlJlc3BvbnNlID0gUmVzcG9uc2U7XG5cbi8qKlxuICogSW5pdGlhbGl6ZSBhIG5ldyBgUmVxdWVzdGAgd2l0aCB0aGUgZ2l2ZW4gYG1ldGhvZGAgYW5kIGB1cmxgLlxuICpcbiAqIEBwYXJhbSB7U3RyaW5nfSBtZXRob2RcbiAqIEBwYXJhbSB7U3RyaW5nfSB1cmxcbiAqIEBhcGkgcHVibGljXG4gKi9cblxuZnVuY3Rpb24gUmVxdWVzdChtZXRob2QsIHVybCkge1xuICBjb25zdCBzZWxmID0gdGhpcztcbiAgdGhpcy5fcXVlcnkgPSB0aGlzLl9xdWVyeSB8fCBbXTtcbiAgdGhpcy5tZXRob2QgPSBtZXRob2Q7XG4gIHRoaXMudXJsID0gdXJsO1xuICB0aGlzLmhlYWRlciA9IHt9OyAvLyBwcmVzZXJ2ZXMgaGVhZGVyIG5hbWUgY2FzZVxuICB0aGlzLl9oZWFkZXIgPSB7fTsgLy8gY29lcmNlcyBoZWFkZXIgbmFtZXMgdG8gbG93ZXJjYXNlXG4gIHRoaXMub24oJ2VuZCcsICgpID0+IHtcbiAgICBsZXQgZXJyID0gbnVsbDtcbiAgICBsZXQgcmVzID0gbnVsbDtcblxuICAgIHRyeSB7XG4gICAgICByZXMgPSBuZXcgUmVzcG9uc2Uoc2VsZik7XG4gICAgfSBjYXRjaCAoZXJyXykge1xuICAgICAgZXJyID0gbmV3IEVycm9yKCdQYXJzZXIgaXMgdW5hYmxlIHRvIHBhcnNlIHRoZSByZXNwb25zZScpO1xuICAgICAgZXJyLnBhcnNlID0gdHJ1ZTtcbiAgICAgIGVyci5vcmlnaW5hbCA9IGVycl87XG4gICAgICAvLyBpc3N1ZSAjNjc1OiByZXR1cm4gdGhlIHJhdyByZXNwb25zZSBpZiB0aGUgcmVzcG9uc2UgcGFyc2luZyBmYWlsc1xuICAgICAgaWYgKHNlbGYueGhyKSB7XG4gICAgICAgIC8vIGllOSBkb2Vzbid0IGhhdmUgJ3Jlc3BvbnNlJyBwcm9wZXJ0eVxuICAgICAgICBlcnIucmF3UmVzcG9uc2UgPVxuICAgICAgICAgIHR5cGVvZiBzZWxmLnhoci5yZXNwb25zZVR5cGUgPT09ICd1bmRlZmluZWQnXG4gICAgICAgICAgICA/IHNlbGYueGhyLnJlc3BvbnNlVGV4dFxuICAgICAgICAgICAgOiBzZWxmLnhoci5yZXNwb25zZTtcbiAgICAgICAgLy8gaXNzdWUgIzg3NjogcmV0dXJuIHRoZSBodHRwIHN0YXR1cyBjb2RlIGlmIHRoZSByZXNwb25zZSBwYXJzaW5nIGZhaWxzXG4gICAgICAgIGVyci5zdGF0dXMgPSBzZWxmLnhoci5zdGF0dXMgPyBzZWxmLnhoci5zdGF0dXMgOiBudWxsO1xuICAgICAgICBlcnIuc3RhdHVzQ29kZSA9IGVyci5zdGF0dXM7IC8vIGJhY2t3YXJkcy1jb21wYXQgb25seVxuICAgICAgfSBlbHNlIHtcbiAgICAgICAgZXJyLnJhd1Jlc3BvbnNlID0gbnVsbDtcbiAgICAgICAgZXJyLnN0YXR1cyA9IG51bGw7XG4gICAgICB9XG5cbiAgICAgIHJldHVybiBzZWxmLmNhbGxiYWNrKGVycik7XG4gICAgfVxuXG4gICAgc2VsZi5lbWl0KCdyZXNwb25zZScsIHJlcyk7XG5cbiAgICBsZXQgbmV3X2VycjtcbiAgICB0cnkge1xuICAgICAgaWYgKCFzZWxmLl9pc1Jlc3BvbnNlT0socmVzKSkge1xuICAgICAgICBuZXdfZXJyID0gbmV3IEVycm9yKFxuICAgICAgICAgIHJlcy5zdGF0dXNUZXh0IHx8IHJlcy50ZXh0IHx8ICdVbnN1Y2Nlc3NmdWwgSFRUUCByZXNwb25zZSdcbiAgICAgICAgKTtcbiAgICAgIH1cbiAgICB9IGNhdGNoIChlcnJfKSB7XG4gICAgICBuZXdfZXJyID0gZXJyXzsgLy8gb2soKSBjYWxsYmFjayBjYW4gdGhyb3dcbiAgICB9XG5cbiAgICAvLyAjMTAwMCBkb24ndCBjYXRjaCBlcnJvcnMgZnJvbSB0aGUgY2FsbGJhY2sgdG8gYXZvaWQgZG91YmxlIGNhbGxpbmcgaXRcbiAgICBpZiAobmV3X2Vycikge1xuICAgICAgbmV3X2Vyci5vcmlnaW5hbCA9IGVycjtcbiAgICAgIG5ld19lcnIucmVzcG9uc2UgPSByZXM7XG4gICAgICBuZXdfZXJyLnN0YXR1cyA9IHJlcy5zdGF0dXM7XG4gICAgICBzZWxmLmNhbGxiYWNrKG5ld19lcnIsIHJlcyk7XG4gICAgfSBlbHNlIHtcbiAgICAgIHNlbGYuY2FsbGJhY2sobnVsbCwgcmVzKTtcbiAgICB9XG4gIH0pO1xufVxuXG4vKipcbiAqIE1peGluIGBFbWl0dGVyYCBhbmQgYFJlcXVlc3RCYXNlYC5cbiAqL1xuXG4vLyBlc2xpbnQtZGlzYWJsZS1uZXh0LWxpbmUgbmV3LWNhcFxuRW1pdHRlcihSZXF1ZXN0LnByb3RvdHlwZSk7XG4vLyBlc2xpbnQtZGlzYWJsZS1uZXh0LWxpbmUgbmV3LWNhcFxuUmVxdWVzdEJhc2UoUmVxdWVzdC5wcm90b3R5cGUpO1xuXG4vKipcbiAqIFNldCBDb250ZW50LVR5cGUgdG8gYHR5cGVgLCBtYXBwaW5nIHZhbHVlcyBmcm9tIGByZXF1ZXN0LnR5cGVzYC5cbiAqXG4gKiBFeGFtcGxlczpcbiAqXG4gKiAgICAgIHN1cGVyYWdlbnQudHlwZXMueG1sID0gJ2FwcGxpY2F0aW9uL3htbCc7XG4gKlxuICogICAgICByZXF1ZXN0LnBvc3QoJy8nKVxuICogICAgICAgIC50eXBlKCd4bWwnKVxuICogICAgICAgIC5zZW5kKHhtbHN0cmluZylcbiAqICAgICAgICAuZW5kKGNhbGxiYWNrKTtcbiAqXG4gKiAgICAgIHJlcXVlc3QucG9zdCgnLycpXG4gKiAgICAgICAgLnR5cGUoJ2FwcGxpY2F0aW9uL3htbCcpXG4gKiAgICAgICAgLnNlbmQoeG1sc3RyaW5nKVxuICogICAgICAgIC5lbmQoY2FsbGJhY2spO1xuICpcbiAqIEBwYXJhbSB7U3RyaW5nfSB0eXBlXG4gKiBAcmV0dXJuIHtSZXF1ZXN0fSBmb3IgY2hhaW5pbmdcbiAqIEBhcGkgcHVibGljXG4gKi9cblxuUmVxdWVzdC5wcm90b3R5cGUudHlwZSA9IGZ1bmN0aW9uICh0eXBlKSB7XG4gIHRoaXMuc2V0KCdDb250ZW50LVR5cGUnLCByZXF1ZXN0LnR5cGVzW3R5cGVdIHx8IHR5cGUpO1xuICByZXR1cm4gdGhpcztcbn07XG5cbi8qKlxuICogU2V0IEFjY2VwdCB0byBgdHlwZWAsIG1hcHBpbmcgdmFsdWVzIGZyb20gYHJlcXVlc3QudHlwZXNgLlxuICpcbiAqIEV4YW1wbGVzOlxuICpcbiAqICAgICAgc3VwZXJhZ2VudC50eXBlcy5qc29uID0gJ2FwcGxpY2F0aW9uL2pzb24nO1xuICpcbiAqICAgICAgcmVxdWVzdC5nZXQoJy9hZ2VudCcpXG4gKiAgICAgICAgLmFjY2VwdCgnanNvbicpXG4gKiAgICAgICAgLmVuZChjYWxsYmFjayk7XG4gKlxuICogICAgICByZXF1ZXN0LmdldCgnL2FnZW50JylcbiAqICAgICAgICAuYWNjZXB0KCdhcHBsaWNhdGlvbi9qc29uJylcbiAqICAgICAgICAuZW5kKGNhbGxiYWNrKTtcbiAqXG4gKiBAcGFyYW0ge1N0cmluZ30gYWNjZXB0XG4gKiBAcmV0dXJuIHtSZXF1ZXN0fSBmb3IgY2hhaW5pbmdcbiAqIEBhcGkgcHVibGljXG4gKi9cblxuUmVxdWVzdC5wcm90b3R5cGUuYWNjZXB0ID0gZnVuY3Rpb24gKHR5cGUpIHtcbiAgdGhpcy5zZXQoJ0FjY2VwdCcsIHJlcXVlc3QudHlwZXNbdHlwZV0gfHwgdHlwZSk7XG4gIHJldHVybiB0aGlzO1xufTtcblxuLyoqXG4gKiBTZXQgQXV0aG9yaXphdGlvbiBmaWVsZCB2YWx1ZSB3aXRoIGB1c2VyYCBhbmQgYHBhc3NgLlxuICpcbiAqIEBwYXJhbSB7U3RyaW5nfSB1c2VyXG4gKiBAcGFyYW0ge1N0cmluZ30gW3Bhc3NdIG9wdGlvbmFsIGluIGNhc2Ugb2YgdXNpbmcgJ2JlYXJlcicgYXMgdHlwZVxuICogQHBhcmFtIHtPYmplY3R9IG9wdGlvbnMgd2l0aCAndHlwZScgcHJvcGVydHkgJ2F1dG8nLCAnYmFzaWMnIG9yICdiZWFyZXInIChkZWZhdWx0ICdiYXNpYycpXG4gKiBAcmV0dXJuIHtSZXF1ZXN0fSBmb3IgY2hhaW5pbmdcbiAqIEBhcGkgcHVibGljXG4gKi9cblxuUmVxdWVzdC5wcm90b3R5cGUuYXV0aCA9IGZ1bmN0aW9uICh1c2VyLCBwYXNzLCBvcHRpb25zKSB7XG4gIGlmIChhcmd1bWVudHMubGVuZ3RoID09PSAxKSBwYXNzID0gJyc7XG4gIGlmICh0eXBlb2YgcGFzcyA9PT0gJ29iamVjdCcgJiYgcGFzcyAhPT0gbnVsbCkge1xuICAgIC8vIHBhc3MgaXMgb3B0aW9uYWwgYW5kIGNhbiBiZSByZXBsYWNlZCB3aXRoIG9wdGlvbnNcbiAgICBvcHRpb25zID0gcGFzcztcbiAgICBwYXNzID0gJyc7XG4gIH1cblxuICBpZiAoIW9wdGlvbnMpIHtcbiAgICBvcHRpb25zID0ge1xuICAgICAgdHlwZTogdHlwZW9mIGJ0b2EgPT09ICdmdW5jdGlvbicgPyAnYmFzaWMnIDogJ2F1dG8nXG4gICAgfTtcbiAgfVxuXG4gIGNvbnN0IGVuY29kZXIgPSAoc3RyaW5nKSA9PiB7XG4gICAgaWYgKHR5cGVvZiBidG9hID09PSAnZnVuY3Rpb24nKSB7XG4gICAgICByZXR1cm4gYnRvYShzdHJpbmcpO1xuICAgIH1cblxuICAgIHRocm93IG5ldyBFcnJvcignQ2Fubm90IHVzZSBiYXNpYyBhdXRoLCBidG9hIGlzIG5vdCBhIGZ1bmN0aW9uJyk7XG4gIH07XG5cbiAgcmV0dXJuIHRoaXMuX2F1dGgodXNlciwgcGFzcywgb3B0aW9ucywgZW5jb2Rlcik7XG59O1xuXG4vKipcbiAqIEFkZCBxdWVyeS1zdHJpbmcgYHZhbGAuXG4gKlxuICogRXhhbXBsZXM6XG4gKlxuICogICByZXF1ZXN0LmdldCgnL3Nob2VzJylcbiAqICAgICAucXVlcnkoJ3NpemU9MTAnKVxuICogICAgIC5xdWVyeSh7IGNvbG9yOiAnYmx1ZScgfSlcbiAqXG4gKiBAcGFyYW0ge09iamVjdHxTdHJpbmd9IHZhbFxuICogQHJldHVybiB7UmVxdWVzdH0gZm9yIGNoYWluaW5nXG4gKiBAYXBpIHB1YmxpY1xuICovXG5cblJlcXVlc3QucHJvdG90eXBlLnF1ZXJ5ID0gZnVuY3Rpb24gKHZhbCkge1xuICBpZiAodHlwZW9mIHZhbCAhPT0gJ3N0cmluZycpIHZhbCA9IHNlcmlhbGl6ZSh2YWwpO1xuICBpZiAodmFsKSB0aGlzLl9xdWVyeS5wdXNoKHZhbCk7XG4gIHJldHVybiB0aGlzO1xufTtcblxuLyoqXG4gKiBRdWV1ZSB0aGUgZ2l2ZW4gYGZpbGVgIGFzIGFuIGF0dGFjaG1lbnQgdG8gdGhlIHNwZWNpZmllZCBgZmllbGRgLFxuICogd2l0aCBvcHRpb25hbCBgb3B0aW9uc2AgKG9yIGZpbGVuYW1lKS5cbiAqXG4gKiBgYGAganNcbiAqIHJlcXVlc3QucG9zdCgnL3VwbG9hZCcpXG4gKiAgIC5hdHRhY2goJ2NvbnRlbnQnLCBuZXcgQmxvYihbJzxhIGlkPVwiYVwiPjxiIGlkPVwiYlwiPmhleSE8L2I+PC9hPiddLCB7IHR5cGU6IFwidGV4dC9odG1sXCJ9KSlcbiAqICAgLmVuZChjYWxsYmFjayk7XG4gKiBgYGBcbiAqXG4gKiBAcGFyYW0ge1N0cmluZ30gZmllbGRcbiAqIEBwYXJhbSB7QmxvYnxGaWxlfSBmaWxlXG4gKiBAcGFyYW0ge1N0cmluZ3xPYmplY3R9IG9wdGlvbnNcbiAqIEByZXR1cm4ge1JlcXVlc3R9IGZvciBjaGFpbmluZ1xuICogQGFwaSBwdWJsaWNcbiAqL1xuXG5SZXF1ZXN0LnByb3RvdHlwZS5hdHRhY2ggPSBmdW5jdGlvbiAoZmllbGQsIGZpbGUsIG9wdGlvbnMpIHtcbiAgaWYgKGZpbGUpIHtcbiAgICBpZiAodGhpcy5fZGF0YSkge1xuICAgICAgdGhyb3cgbmV3IEVycm9yKFwic3VwZXJhZ2VudCBjYW4ndCBtaXggLnNlbmQoKSBhbmQgLmF0dGFjaCgpXCIpO1xuICAgIH1cblxuICAgIHRoaXMuX2dldEZvcm1EYXRhKCkuYXBwZW5kKGZpZWxkLCBmaWxlLCBvcHRpb25zIHx8IGZpbGUubmFtZSk7XG4gIH1cblxuICByZXR1cm4gdGhpcztcbn07XG5cblJlcXVlc3QucHJvdG90eXBlLl9nZXRGb3JtRGF0YSA9IGZ1bmN0aW9uICgpIHtcbiAgaWYgKCF0aGlzLl9mb3JtRGF0YSkge1xuICAgIHRoaXMuX2Zvcm1EYXRhID0gbmV3IHJvb3QuRm9ybURhdGEoKTtcbiAgfVxuXG4gIHJldHVybiB0aGlzLl9mb3JtRGF0YTtcbn07XG5cbi8qKlxuICogSW52b2tlIHRoZSBjYWxsYmFjayB3aXRoIGBlcnJgIGFuZCBgcmVzYFxuICogYW5kIGhhbmRsZSBhcml0eSBjaGVjay5cbiAqXG4gKiBAcGFyYW0ge0Vycm9yfSBlcnJcbiAqIEBwYXJhbSB7UmVzcG9uc2V9IHJlc1xuICogQGFwaSBwcml2YXRlXG4gKi9cblxuUmVxdWVzdC5wcm90b3R5cGUuY2FsbGJhY2sgPSBmdW5jdGlvbiAoZXJyLCByZXMpIHtcbiAgaWYgKHRoaXMuX3Nob3VsZFJldHJ5KGVyciwgcmVzKSkge1xuICAgIHJldHVybiB0aGlzLl9yZXRyeSgpO1xuICB9XG5cbiAgY29uc3QgZm4gPSB0aGlzLl9jYWxsYmFjaztcbiAgdGhpcy5jbGVhclRpbWVvdXQoKTtcblxuICBpZiAoZXJyKSB7XG4gICAgaWYgKHRoaXMuX21heFJldHJpZXMpIGVyci5yZXRyaWVzID0gdGhpcy5fcmV0cmllcyAtIDE7XG4gICAgdGhpcy5lbWl0KCdlcnJvcicsIGVycik7XG4gIH1cblxuICBmbihlcnIsIHJlcyk7XG59O1xuXG4vKipcbiAqIEludm9rZSBjYWxsYmFjayB3aXRoIHgtZG9tYWluIGVycm9yLlxuICpcbiAqIEBhcGkgcHJpdmF0ZVxuICovXG5cblJlcXVlc3QucHJvdG90eXBlLmNyb3NzRG9tYWluRXJyb3IgPSBmdW5jdGlvbiAoKSB7XG4gIGNvbnN0IGVyciA9IG5ldyBFcnJvcihcbiAgICAnUmVxdWVzdCBoYXMgYmVlbiB0ZXJtaW5hdGVkXFxuUG9zc2libGUgY2F1c2VzOiB0aGUgbmV0d29yayBpcyBvZmZsaW5lLCBPcmlnaW4gaXMgbm90IGFsbG93ZWQgYnkgQWNjZXNzLUNvbnRyb2wtQWxsb3ctT3JpZ2luLCB0aGUgcGFnZSBpcyBiZWluZyB1bmxvYWRlZCwgZXRjLidcbiAgKTtcbiAgZXJyLmNyb3NzRG9tYWluID0gdHJ1ZTtcblxuICBlcnIuc3RhdHVzID0gdGhpcy5zdGF0dXM7XG4gIGVyci5tZXRob2QgPSB0aGlzLm1ldGhvZDtcbiAgZXJyLnVybCA9IHRoaXMudXJsO1xuXG4gIHRoaXMuY2FsbGJhY2soZXJyKTtcbn07XG5cbi8vIFRoaXMgb25seSB3YXJucywgYmVjYXVzZSB0aGUgcmVxdWVzdCBpcyBzdGlsbCBsaWtlbHkgdG8gd29ya1xuUmVxdWVzdC5wcm90b3R5cGUuYWdlbnQgPSBmdW5jdGlvbiAoKSB7XG4gIGNvbnNvbGUud2FybignVGhpcyBpcyBub3Qgc3VwcG9ydGVkIGluIGJyb3dzZXIgdmVyc2lvbiBvZiBzdXBlcmFnZW50Jyk7XG4gIHJldHVybiB0aGlzO1xufTtcblxuUmVxdWVzdC5wcm90b3R5cGUuY2EgPSBSZXF1ZXN0LnByb3RvdHlwZS5hZ2VudDtcblJlcXVlc3QucHJvdG90eXBlLmJ1ZmZlciA9IFJlcXVlc3QucHJvdG90eXBlLmNhO1xuXG4vLyBUaGlzIHRocm93cywgYmVjYXVzZSBpdCBjYW4ndCBzZW5kL3JlY2VpdmUgZGF0YSBhcyBleHBlY3RlZFxuUmVxdWVzdC5wcm90b3R5cGUud3JpdGUgPSAoKSA9PiB7XG4gIHRocm93IG5ldyBFcnJvcihcbiAgICAnU3RyZWFtaW5nIGlzIG5vdCBzdXBwb3J0ZWQgaW4gYnJvd3NlciB2ZXJzaW9uIG9mIHN1cGVyYWdlbnQnXG4gICk7XG59O1xuXG5SZXF1ZXN0LnByb3RvdHlwZS5waXBlID0gUmVxdWVzdC5wcm90b3R5cGUud3JpdGU7XG5cbi8qKlxuICogQ2hlY2sgaWYgYG9iamAgaXMgYSBob3N0IG9iamVjdCxcbiAqIHdlIGRvbid0IHdhbnQgdG8gc2VyaWFsaXplIHRoZXNlIDopXG4gKlxuICogQHBhcmFtIHtPYmplY3R9IG9iaiBob3N0IG9iamVjdFxuICogQHJldHVybiB7Qm9vbGVhbn0gaXMgYSBob3N0IG9iamVjdFxuICogQGFwaSBwcml2YXRlXG4gKi9cblJlcXVlc3QucHJvdG90eXBlLl9pc0hvc3QgPSBmdW5jdGlvbiAob2JqKSB7XG4gIC8vIE5hdGl2ZSBvYmplY3RzIHN0cmluZ2lmeSB0byBbb2JqZWN0IEZpbGVdLCBbb2JqZWN0IEJsb2JdLCBbb2JqZWN0IEZvcm1EYXRhXSwgZXRjLlxuICByZXR1cm4gKFxuICAgIG9iaiAmJlxuICAgIHR5cGVvZiBvYmogPT09ICdvYmplY3QnICYmXG4gICAgIUFycmF5LmlzQXJyYXkob2JqKSAmJlxuICAgIE9iamVjdC5wcm90b3R5cGUudG9TdHJpbmcuY2FsbChvYmopICE9PSAnW29iamVjdCBPYmplY3RdJ1xuICApO1xufTtcblxuLyoqXG4gKiBJbml0aWF0ZSByZXF1ZXN0LCBpbnZva2luZyBjYWxsYmFjayBgZm4ocmVzKWBcbiAqIHdpdGggYW4gaW5zdGFuY2VvZiBgUmVzcG9uc2VgLlxuICpcbiAqIEBwYXJhbSB7RnVuY3Rpb259IGZuXG4gKiBAcmV0dXJuIHtSZXF1ZXN0fSBmb3IgY2hhaW5pbmdcbiAqIEBhcGkgcHVibGljXG4gKi9cblxuUmVxdWVzdC5wcm90b3R5cGUuZW5kID0gZnVuY3Rpb24gKGZuKSB7XG4gIGlmICh0aGlzLl9lbmRDYWxsZWQpIHtcbiAgICBjb25zb2xlLndhcm4oXG4gICAgICAnV2FybmluZzogLmVuZCgpIHdhcyBjYWxsZWQgdHdpY2UuIFRoaXMgaXMgbm90IHN1cHBvcnRlZCBpbiBzdXBlcmFnZW50J1xuICAgICk7XG4gIH1cblxuICB0aGlzLl9lbmRDYWxsZWQgPSB0cnVlO1xuXG4gIC8vIHN0b3JlIGNhbGxiYWNrXG4gIHRoaXMuX2NhbGxiYWNrID0gZm4gfHwgbm9vcDtcblxuICAvLyBxdWVyeXN0cmluZ1xuICB0aGlzLl9maW5hbGl6ZVF1ZXJ5U3RyaW5nKCk7XG5cbiAgdGhpcy5fZW5kKCk7XG59O1xuXG5SZXF1ZXN0LnByb3RvdHlwZS5fc2V0VXBsb2FkVGltZW91dCA9IGZ1bmN0aW9uICgpIHtcbiAgY29uc3Qgc2VsZiA9IHRoaXM7XG5cbiAgLy8gdXBsb2FkIHRpbWVvdXQgaXQncyB3b2tycyBvbmx5IGlmIGRlYWRsaW5lIHRpbWVvdXQgaXMgb2ZmXG4gIGlmICh0aGlzLl91cGxvYWRUaW1lb3V0ICYmICF0aGlzLl91cGxvYWRUaW1lb3V0VGltZXIpIHtcbiAgICB0aGlzLl91cGxvYWRUaW1lb3V0VGltZXIgPSBzZXRUaW1lb3V0KCgpID0+IHtcbiAgICAgIHNlbGYuX3RpbWVvdXRFcnJvcihcbiAgICAgICAgJ1VwbG9hZCB0aW1lb3V0IG9mICcsXG4gICAgICAgIHNlbGYuX3VwbG9hZFRpbWVvdXQsXG4gICAgICAgICdFVElNRURPVVQnXG4gICAgICApO1xuICAgIH0sIHRoaXMuX3VwbG9hZFRpbWVvdXQpO1xuICB9XG59O1xuXG4vLyBlc2xpbnQtZGlzYWJsZS1uZXh0LWxpbmUgY29tcGxleGl0eVxuUmVxdWVzdC5wcm90b3R5cGUuX2VuZCA9IGZ1bmN0aW9uICgpIHtcbiAgaWYgKHRoaXMuX2Fib3J0ZWQpXG4gICAgcmV0dXJuIHRoaXMuY2FsbGJhY2soXG4gICAgICBuZXcgRXJyb3IoJ1RoZSByZXF1ZXN0IGhhcyBiZWVuIGFib3J0ZWQgZXZlbiBiZWZvcmUgLmVuZCgpIHdhcyBjYWxsZWQnKVxuICAgICk7XG5cbiAgY29uc3Qgc2VsZiA9IHRoaXM7XG4gIHRoaXMueGhyID0gcmVxdWVzdC5nZXRYSFIoKTtcbiAgY29uc3QgeyB4aHIgfSA9IHRoaXM7XG4gIGxldCBkYXRhID0gdGhpcy5fZm9ybURhdGEgfHwgdGhpcy5fZGF0YTtcblxuICB0aGlzLl9zZXRUaW1lb3V0cygpO1xuXG4gIC8vIHN0YXRlIGNoYW5nZVxuICB4aHIub25yZWFkeXN0YXRlY2hhbmdlID0gKCkgPT4ge1xuICAgIGNvbnN0IHsgcmVhZHlTdGF0ZSB9ID0geGhyO1xuICAgIGlmIChyZWFkeVN0YXRlID49IDIgJiYgc2VsZi5fcmVzcG9uc2VUaW1lb3V0VGltZXIpIHtcbiAgICAgIGNsZWFyVGltZW91dChzZWxmLl9yZXNwb25zZVRpbWVvdXRUaW1lcik7XG4gICAgfVxuXG4gICAgaWYgKHJlYWR5U3RhdGUgIT09IDQpIHtcbiAgICAgIHJldHVybjtcbiAgICB9XG5cbiAgICAvLyBJbiBJRTksIHJlYWRzIHRvIGFueSBwcm9wZXJ0eSAoZS5nLiBzdGF0dXMpIG9mZiBvZiBhbiBhYm9ydGVkIFhIUiB3aWxsXG4gICAgLy8gcmVzdWx0IGluIHRoZSBlcnJvciBcIkNvdWxkIG5vdCBjb21wbGV0ZSB0aGUgb3BlcmF0aW9uIGR1ZSB0byBlcnJvciBjMDBjMDIzZlwiXG4gICAgbGV0IHN0YXR1cztcbiAgICB0cnkge1xuICAgICAgc3RhdHVzID0geGhyLnN0YXR1cztcbiAgICB9IGNhdGNoIHtcbiAgICAgIHN0YXR1cyA9IDA7XG4gICAgfVxuXG4gICAgaWYgKCFzdGF0dXMpIHtcbiAgICAgIGlmIChzZWxmLnRpbWVkb3V0IHx8IHNlbGYuX2Fib3J0ZWQpIHJldHVybjtcbiAgICAgIHJldHVybiBzZWxmLmNyb3NzRG9tYWluRXJyb3IoKTtcbiAgICB9XG5cbiAgICBzZWxmLmVtaXQoJ2VuZCcpO1xuICB9O1xuXG4gIC8vIHByb2dyZXNzXG4gIGNvbnN0IGhhbmRsZVByb2dyZXNzID0gKGRpcmVjdGlvbiwgZSkgPT4ge1xuICAgIGlmIChlLnRvdGFsID4gMCkge1xuICAgICAgZS5wZXJjZW50ID0gKGUubG9hZGVkIC8gZS50b3RhbCkgKiAxMDA7XG5cbiAgICAgIGlmIChlLnBlcmNlbnQgPT09IDEwMCkge1xuICAgICAgICBjbGVhclRpbWVvdXQoc2VsZi5fdXBsb2FkVGltZW91dFRpbWVyKTtcbiAgICAgIH1cbiAgICB9XG5cbiAgICBlLmRpcmVjdGlvbiA9IGRpcmVjdGlvbjtcbiAgICBzZWxmLmVtaXQoJ3Byb2dyZXNzJywgZSk7XG4gIH07XG5cbiAgaWYgKHRoaXMuaGFzTGlzdGVuZXJzKCdwcm9ncmVzcycpKSB7XG4gICAgdHJ5IHtcbiAgICAgIHhoci5hZGRFdmVudExpc3RlbmVyKCdwcm9ncmVzcycsIGhhbmRsZVByb2dyZXNzLmJpbmQobnVsbCwgJ2Rvd25sb2FkJykpO1xuICAgICAgaWYgKHhoci51cGxvYWQpIHtcbiAgICAgICAgeGhyLnVwbG9hZC5hZGRFdmVudExpc3RlbmVyKFxuICAgICAgICAgICdwcm9ncmVzcycsXG4gICAgICAgICAgaGFuZGxlUHJvZ3Jlc3MuYmluZChudWxsLCAndXBsb2FkJylcbiAgICAgICAgKTtcbiAgICAgIH1cbiAgICB9IGNhdGNoIHtcbiAgICAgIC8vIEFjY2Vzc2luZyB4aHIudXBsb2FkIGZhaWxzIGluIElFIGZyb20gYSB3ZWIgd29ya2VyLCBzbyBqdXN0IHByZXRlbmQgaXQgZG9lc24ndCBleGlzdC5cbiAgICAgIC8vIFJlcG9ydGVkIGhlcmU6XG4gICAgICAvLyBodHRwczovL2Nvbm5lY3QubWljcm9zb2Z0LmNvbS9JRS9mZWVkYmFjay9kZXRhaWxzLzgzNzI0NS94bWxodHRwcmVxdWVzdC11cGxvYWQtdGhyb3dzLWludmFsaWQtYXJndW1lbnQtd2hlbi11c2VkLWZyb20td2ViLXdvcmtlci1jb250ZXh0XG4gICAgfVxuICB9XG5cbiAgaWYgKHhoci51cGxvYWQpIHtcbiAgICB0aGlzLl9zZXRVcGxvYWRUaW1lb3V0KCk7XG4gIH1cblxuICAvLyBpbml0aWF0ZSByZXF1ZXN0XG4gIHRyeSB7XG4gICAgaWYgKHRoaXMudXNlcm5hbWUgJiYgdGhpcy5wYXNzd29yZCkge1xuICAgICAgeGhyLm9wZW4odGhpcy5tZXRob2QsIHRoaXMudXJsLCB0cnVlLCB0aGlzLnVzZXJuYW1lLCB0aGlzLnBhc3N3b3JkKTtcbiAgICB9IGVsc2Uge1xuICAgICAgeGhyLm9wZW4odGhpcy5tZXRob2QsIHRoaXMudXJsLCB0cnVlKTtcbiAgICB9XG4gIH0gY2F0Y2ggKGVycikge1xuICAgIC8vIHNlZSAjMTE0OVxuICAgIHJldHVybiB0aGlzLmNhbGxiYWNrKGVycik7XG4gIH1cblxuICAvLyBDT1JTXG4gIGlmICh0aGlzLl93aXRoQ3JlZGVudGlhbHMpIHhoci53aXRoQ3JlZGVudGlhbHMgPSB0cnVlO1xuXG4gIC8vIGJvZHlcbiAgaWYgKFxuICAgICF0aGlzLl9mb3JtRGF0YSAmJlxuICAgIHRoaXMubWV0aG9kICE9PSAnR0VUJyAmJlxuICAgIHRoaXMubWV0aG9kICE9PSAnSEVBRCcgJiZcbiAgICB0eXBlb2YgZGF0YSAhPT0gJ3N0cmluZycgJiZcbiAgICAhdGhpcy5faXNIb3N0KGRhdGEpXG4gICkge1xuICAgIC8vIHNlcmlhbGl6ZSBzdHVmZlxuICAgIGNvbnN0IGNvbnRlbnRUeXBlID0gdGhpcy5faGVhZGVyWydjb250ZW50LXR5cGUnXTtcbiAgICBsZXQgc2VyaWFsaXplID1cbiAgICAgIHRoaXMuX3NlcmlhbGl6ZXIgfHxcbiAgICAgIHJlcXVlc3Quc2VyaWFsaXplW2NvbnRlbnRUeXBlID8gY29udGVudFR5cGUuc3BsaXQoJzsnKVswXSA6ICcnXTtcbiAgICBpZiAoIXNlcmlhbGl6ZSAmJiBpc0pTT04oY29udGVudFR5cGUpKSB7XG4gICAgICBzZXJpYWxpemUgPSByZXF1ZXN0LnNlcmlhbGl6ZVsnYXBwbGljYXRpb24vanNvbiddO1xuICAgIH1cblxuICAgIGlmIChzZXJpYWxpemUpIGRhdGEgPSBzZXJpYWxpemUoZGF0YSk7XG4gIH1cblxuICAvLyBzZXQgaGVhZGVyIGZpZWxkc1xuICBmb3IgKGNvbnN0IGZpZWxkIGluIHRoaXMuaGVhZGVyKSB7XG4gICAgaWYgKHRoaXMuaGVhZGVyW2ZpZWxkXSA9PT0gbnVsbCkgY29udGludWU7XG5cbiAgICBpZiAoT2JqZWN0LnByb3RvdHlwZS5oYXNPd25Qcm9wZXJ0eS5jYWxsKHRoaXMuaGVhZGVyLCBmaWVsZCkpXG4gICAgICB4aHIuc2V0UmVxdWVzdEhlYWRlcihmaWVsZCwgdGhpcy5oZWFkZXJbZmllbGRdKTtcbiAgfVxuXG4gIGlmICh0aGlzLl9yZXNwb25zZVR5cGUpIHtcbiAgICB4aHIucmVzcG9uc2VUeXBlID0gdGhpcy5fcmVzcG9uc2VUeXBlO1xuICB9XG5cbiAgLy8gc2VuZCBzdHVmZlxuICB0aGlzLmVtaXQoJ3JlcXVlc3QnLCB0aGlzKTtcblxuICAvLyBJRTExIHhoci5zZW5kKHVuZGVmaW5lZCkgc2VuZHMgJ3VuZGVmaW5lZCcgc3RyaW5nIGFzIFBPU1QgcGF5bG9hZCAoaW5zdGVhZCBvZiBub3RoaW5nKVxuICAvLyBXZSBuZWVkIG51bGwgaGVyZSBpZiBkYXRhIGlzIHVuZGVmaW5lZFxuICB4aHIuc2VuZCh0eXBlb2YgZGF0YSA9PT0gJ3VuZGVmaW5lZCcgPyBudWxsIDogZGF0YSk7XG59O1xuXG5yZXF1ZXN0LmFnZW50ID0gKCkgPT4gbmV3IEFnZW50KCk7XG5cblsnR0VUJywgJ1BPU1QnLCAnT1BUSU9OUycsICdQQVRDSCcsICdQVVQnLCAnREVMRVRFJ10uZm9yRWFjaCgobWV0aG9kKSA9PiB7XG4gIEFnZW50LnByb3RvdHlwZVttZXRob2QudG9Mb3dlckNhc2UoKV0gPSBmdW5jdGlvbiAodXJsLCBmbikge1xuICAgIGNvbnN0IHJlcSA9IG5ldyByZXF1ZXN0LlJlcXVlc3QobWV0aG9kLCB1cmwpO1xuICAgIHRoaXMuX3NldERlZmF1bHRzKHJlcSk7XG4gICAgaWYgKGZuKSB7XG4gICAgICByZXEuZW5kKGZuKTtcbiAgICB9XG5cbiAgICByZXR1cm4gcmVxO1xuICB9O1xufSk7XG5cbkFnZW50LnByb3RvdHlwZS5kZWwgPSBBZ2VudC5wcm90b3R5cGUuZGVsZXRlO1xuXG4vKipcbiAqIEdFVCBgdXJsYCB3aXRoIG9wdGlvbmFsIGNhbGxiYWNrIGBmbihyZXMpYC5cbiAqXG4gKiBAcGFyYW0ge1N0cmluZ30gdXJsXG4gKiBAcGFyYW0ge01peGVkfEZ1bmN0aW9ufSBbZGF0YV0gb3IgZm5cbiAqIEBwYXJhbSB7RnVuY3Rpb259IFtmbl1cbiAqIEByZXR1cm4ge1JlcXVlc3R9XG4gKiBAYXBpIHB1YmxpY1xuICovXG5cbnJlcXVlc3QuZ2V0ID0gKHVybCwgZGF0YSwgZm4pID0+IHtcbiAgY29uc3QgcmVxID0gcmVxdWVzdCgnR0VUJywgdXJsKTtcbiAgaWYgKHR5cGVvZiBkYXRhID09PSAnZnVuY3Rpb24nKSB7XG4gICAgZm4gPSBkYXRhO1xuICAgIGRhdGEgPSBudWxsO1xuICB9XG5cbiAgaWYgKGRhdGEpIHJlcS5xdWVyeShkYXRhKTtcbiAgaWYgKGZuKSByZXEuZW5kKGZuKTtcbiAgcmV0dXJuIHJlcTtcbn07XG5cbi8qKlxuICogSEVBRCBgdXJsYCB3aXRoIG9wdGlvbmFsIGNhbGxiYWNrIGBmbihyZXMpYC5cbiAqXG4gKiBAcGFyYW0ge1N0cmluZ30gdXJsXG4gKiBAcGFyYW0ge01peGVkfEZ1bmN0aW9ufSBbZGF0YV0gb3IgZm5cbiAqIEBwYXJhbSB7RnVuY3Rpb259IFtmbl1cbiAqIEByZXR1cm4ge1JlcXVlc3R9XG4gKiBAYXBpIHB1YmxpY1xuICovXG5cbnJlcXVlc3QuaGVhZCA9ICh1cmwsIGRhdGEsIGZuKSA9PiB7XG4gIGNvbnN0IHJlcSA9IHJlcXVlc3QoJ0hFQUQnLCB1cmwpO1xuICBpZiAodHlwZW9mIGRhdGEgPT09ICdmdW5jdGlvbicpIHtcbiAgICBmbiA9IGRhdGE7XG4gICAgZGF0YSA9IG51bGw7XG4gIH1cblxuICBpZiAoZGF0YSkgcmVxLnF1ZXJ5KGRhdGEpO1xuICBpZiAoZm4pIHJlcS5lbmQoZm4pO1xuICByZXR1cm4gcmVxO1xufTtcblxuLyoqXG4gKiBPUFRJT05TIHF1ZXJ5IHRvIGB1cmxgIHdpdGggb3B0aW9uYWwgY2FsbGJhY2sgYGZuKHJlcylgLlxuICpcbiAqIEBwYXJhbSB7U3RyaW5nfSB1cmxcbiAqIEBwYXJhbSB7TWl4ZWR8RnVuY3Rpb259IFtkYXRhXSBvciBmblxuICogQHBhcmFtIHtGdW5jdGlvbn0gW2ZuXVxuICogQHJldHVybiB7UmVxdWVzdH1cbiAqIEBhcGkgcHVibGljXG4gKi9cblxucmVxdWVzdC5vcHRpb25zID0gKHVybCwgZGF0YSwgZm4pID0+IHtcbiAgY29uc3QgcmVxID0gcmVxdWVzdCgnT1BUSU9OUycsIHVybCk7XG4gIGlmICh0eXBlb2YgZGF0YSA9PT0gJ2Z1bmN0aW9uJykge1xuICAgIGZuID0gZGF0YTtcbiAgICBkYXRhID0gbnVsbDtcbiAgfVxuXG4gIGlmIChkYXRhKSByZXEuc2VuZChkYXRhKTtcbiAgaWYgKGZuKSByZXEuZW5kKGZuKTtcbiAgcmV0dXJuIHJlcTtcbn07XG5cbi8qKlxuICogREVMRVRFIGB1cmxgIHdpdGggb3B0aW9uYWwgYGRhdGFgIGFuZCBjYWxsYmFjayBgZm4ocmVzKWAuXG4gKlxuICogQHBhcmFtIHtTdHJpbmd9IHVybFxuICogQHBhcmFtIHtNaXhlZH0gW2RhdGFdXG4gKiBAcGFyYW0ge0Z1bmN0aW9ufSBbZm5dXG4gKiBAcmV0dXJuIHtSZXF1ZXN0fVxuICogQGFwaSBwdWJsaWNcbiAqL1xuXG5mdW5jdGlvbiBkZWwodXJsLCBkYXRhLCBmbikge1xuICBjb25zdCByZXEgPSByZXF1ZXN0KCdERUxFVEUnLCB1cmwpO1xuICBpZiAodHlwZW9mIGRhdGEgPT09ICdmdW5jdGlvbicpIHtcbiAgICBmbiA9IGRhdGE7XG4gICAgZGF0YSA9IG51bGw7XG4gIH1cblxuICBpZiAoZGF0YSkgcmVxLnNlbmQoZGF0YSk7XG4gIGlmIChmbikgcmVxLmVuZChmbik7XG4gIHJldHVybiByZXE7XG59XG5cbnJlcXVlc3QuZGVsID0gZGVsO1xucmVxdWVzdC5kZWxldGUgPSBkZWw7XG5cbi8qKlxuICogUEFUQ0ggYHVybGAgd2l0aCBvcHRpb25hbCBgZGF0YWAgYW5kIGNhbGxiYWNrIGBmbihyZXMpYC5cbiAqXG4gKiBAcGFyYW0ge1N0cmluZ30gdXJsXG4gKiBAcGFyYW0ge01peGVkfSBbZGF0YV1cbiAqIEBwYXJhbSB7RnVuY3Rpb259IFtmbl1cbiAqIEByZXR1cm4ge1JlcXVlc3R9XG4gKiBAYXBpIHB1YmxpY1xuICovXG5cbnJlcXVlc3QucGF0Y2ggPSAodXJsLCBkYXRhLCBmbikgPT4ge1xuICBjb25zdCByZXEgPSByZXF1ZXN0KCdQQVRDSCcsIHVybCk7XG4gIGlmICh0eXBlb2YgZGF0YSA9PT0gJ2Z1bmN0aW9uJykge1xuICAgIGZuID0gZGF0YTtcbiAgICBkYXRhID0gbnVsbDtcbiAgfVxuXG4gIGlmIChkYXRhKSByZXEuc2VuZChkYXRhKTtcbiAgaWYgKGZuKSByZXEuZW5kKGZuKTtcbiAgcmV0dXJuIHJlcTtcbn07XG5cbi8qKlxuICogUE9TVCBgdXJsYCB3aXRoIG9wdGlvbmFsIGBkYXRhYCBhbmQgY2FsbGJhY2sgYGZuKHJlcylgLlxuICpcbiAqIEBwYXJhbSB7U3RyaW5nfSB1cmxcbiAqIEBwYXJhbSB7TWl4ZWR9IFtkYXRhXVxuICogQHBhcmFtIHtGdW5jdGlvbn0gW2ZuXVxuICogQHJldHVybiB7UmVxdWVzdH1cbiAqIEBhcGkgcHVibGljXG4gKi9cblxucmVxdWVzdC5wb3N0ID0gKHVybCwgZGF0YSwgZm4pID0+IHtcbiAgY29uc3QgcmVxID0gcmVxdWVzdCgnUE9TVCcsIHVybCk7XG4gIGlmICh0eXBlb2YgZGF0YSA9PT0gJ2Z1bmN0aW9uJykge1xuICAgIGZuID0gZGF0YTtcbiAgICBkYXRhID0gbnVsbDtcbiAgfVxuXG4gIGlmIChkYXRhKSByZXEuc2VuZChkYXRhKTtcbiAgaWYgKGZuKSByZXEuZW5kKGZuKTtcbiAgcmV0dXJuIHJlcTtcbn07XG5cbi8qKlxuICogUFVUIGB1cmxgIHdpdGggb3B0aW9uYWwgYGRhdGFgIGFuZCBjYWxsYmFjayBgZm4ocmVzKWAuXG4gKlxuICogQHBhcmFtIHtTdHJpbmd9IHVybFxuICogQHBhcmFtIHtNaXhlZHxGdW5jdGlvbn0gW2RhdGFdIG9yIGZuXG4gKiBAcGFyYW0ge0Z1bmN0aW9ufSBbZm5dXG4gKiBAcmV0dXJuIHtSZXF1ZXN0fVxuICogQGFwaSBwdWJsaWNcbiAqL1xuXG5yZXF1ZXN0LnB1dCA9ICh1cmwsIGRhdGEsIGZuKSA9PiB7XG4gIGNvbnN0IHJlcSA9IHJlcXVlc3QoJ1BVVCcsIHVybCk7XG4gIGlmICh0eXBlb2YgZGF0YSA9PT0gJ2Z1bmN0aW9uJykge1xuICAgIGZuID0gZGF0YTtcbiAgICBkYXRhID0gbnVsbDtcbiAgfVxuXG4gIGlmIChkYXRhKSByZXEuc2VuZChkYXRhKTtcbiAgaWYgKGZuKSByZXEuZW5kKGZuKTtcbiAgcmV0dXJuIHJlcTtcbn07XG4iXX0=
 
 /***/ }),
 
@@ -105182,6 +106025,879 @@ exports.cleanHeader = function (header, changesOrigin) {
   return header;
 };
 //# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uL3NyYy91dGlscy5qcyJdLCJuYW1lcyI6WyJleHBvcnRzIiwidHlwZSIsInN0ciIsInNwbGl0Iiwic2hpZnQiLCJwYXJhbXMiLCJ2YWwiLCJvYmoiLCJwYXJ0cyIsImtleSIsInBhcnNlTGlua3MiLCJ1cmwiLCJzbGljZSIsInJlbCIsImNsZWFuSGVhZGVyIiwiaGVhZGVyIiwiY2hhbmdlc09yaWdpbiIsImhvc3QiLCJhdXRob3JpemF0aW9uIiwiY29va2llIl0sIm1hcHBpbmdzIjoiOzs7Ozs7OztBQUFBOzs7Ozs7O0FBUUFBLE9BQU8sQ0FBQ0MsSUFBUixHQUFlLFVBQUNDLEdBQUQ7QUFBQSxTQUFTQSxHQUFHLENBQUNDLEtBQUosQ0FBVSxPQUFWLEVBQW1CQyxLQUFuQixFQUFUO0FBQUEsQ0FBZjtBQUVBOzs7Ozs7Ozs7QUFRQUosT0FBTyxDQUFDSyxNQUFSLEdBQWlCLFVBQUNDLEdBQUQsRUFBUztBQUN4QixNQUFNQyxHQUFHLEdBQUcsRUFBWjs7QUFEd0IsNkNBRU5ELEdBQUcsQ0FBQ0gsS0FBSixDQUFVLE9BQVYsQ0FGTTtBQUFBOztBQUFBO0FBRXhCLHdEQUFzQztBQUFBLFVBQTNCRCxHQUEyQjtBQUNwQyxVQUFNTSxLQUFLLEdBQUdOLEdBQUcsQ0FBQ0MsS0FBSixDQUFVLE9BQVYsQ0FBZDtBQUNBLFVBQU1NLEdBQUcsR0FBR0QsS0FBSyxDQUFDSixLQUFOLEVBQVo7O0FBQ0EsVUFBTUUsSUFBRyxHQUFHRSxLQUFLLENBQUNKLEtBQU4sRUFBWjs7QUFFQSxVQUFJSyxHQUFHLElBQUlILElBQVgsRUFBZ0JDLEdBQUcsQ0FBQ0UsR0FBRCxDQUFILEdBQVdILElBQVg7QUFDakI7QUFSdUI7QUFBQTtBQUFBO0FBQUE7QUFBQTs7QUFVeEIsU0FBT0MsR0FBUDtBQUNELENBWEQ7QUFhQTs7Ozs7Ozs7O0FBUUFQLE9BQU8sQ0FBQ1UsVUFBUixHQUFxQixVQUFDSixHQUFELEVBQVM7QUFDNUIsTUFBTUMsR0FBRyxHQUFHLEVBQVo7O0FBRDRCLDhDQUVWRCxHQUFHLENBQUNILEtBQUosQ0FBVSxPQUFWLENBRlU7QUFBQTs7QUFBQTtBQUU1QiwyREFBc0M7QUFBQSxVQUEzQkQsR0FBMkI7QUFDcEMsVUFBTU0sS0FBSyxHQUFHTixHQUFHLENBQUNDLEtBQUosQ0FBVSxPQUFWLENBQWQ7QUFDQSxVQUFNUSxHQUFHLEdBQUdILEtBQUssQ0FBQyxDQUFELENBQUwsQ0FBU0ksS0FBVCxDQUFlLENBQWYsRUFBa0IsQ0FBQyxDQUFuQixDQUFaO0FBQ0EsVUFBTUMsR0FBRyxHQUFHTCxLQUFLLENBQUMsQ0FBRCxDQUFMLENBQVNMLEtBQVQsQ0FBZSxPQUFmLEVBQXdCLENBQXhCLEVBQTJCUyxLQUEzQixDQUFpQyxDQUFqQyxFQUFvQyxDQUFDLENBQXJDLENBQVo7QUFDQUwsTUFBQUEsR0FBRyxDQUFDTSxHQUFELENBQUgsR0FBV0YsR0FBWDtBQUNEO0FBUDJCO0FBQUE7QUFBQTtBQUFBO0FBQUE7O0FBUzVCLFNBQU9KLEdBQVA7QUFDRCxDQVZEO0FBWUE7Ozs7Ozs7OztBQVFBUCxPQUFPLENBQUNjLFdBQVIsR0FBc0IsVUFBQ0MsTUFBRCxFQUFTQyxhQUFULEVBQTJCO0FBQy9DLFNBQU9ELE1BQU0sQ0FBQyxjQUFELENBQWI7QUFDQSxTQUFPQSxNQUFNLENBQUMsZ0JBQUQsQ0FBYjtBQUNBLFNBQU9BLE1BQU0sQ0FBQyxtQkFBRCxDQUFiO0FBQ0EsU0FBT0EsTUFBTSxDQUFDRSxJQUFkLENBSitDLENBSy9DOztBQUNBLE1BQUlELGFBQUosRUFBbUI7QUFDakIsV0FBT0QsTUFBTSxDQUFDRyxhQUFkO0FBQ0EsV0FBT0gsTUFBTSxDQUFDSSxNQUFkO0FBQ0Q7O0FBRUQsU0FBT0osTUFBUDtBQUNELENBWkQiLCJzb3VyY2VzQ29udGVudCI6WyIvKipcbiAqIFJldHVybiB0aGUgbWltZSB0eXBlIGZvciB0aGUgZ2l2ZW4gYHN0cmAuXG4gKlxuICogQHBhcmFtIHtTdHJpbmd9IHN0clxuICogQHJldHVybiB7U3RyaW5nfVxuICogQGFwaSBwcml2YXRlXG4gKi9cblxuZXhwb3J0cy50eXBlID0gKHN0cikgPT4gc3RyLnNwbGl0KC8gKjsgKi8pLnNoaWZ0KCk7XG5cbi8qKlxuICogUmV0dXJuIGhlYWRlciBmaWVsZCBwYXJhbWV0ZXJzLlxuICpcbiAqIEBwYXJhbSB7U3RyaW5nfSBzdHJcbiAqIEByZXR1cm4ge09iamVjdH1cbiAqIEBhcGkgcHJpdmF0ZVxuICovXG5cbmV4cG9ydHMucGFyYW1zID0gKHZhbCkgPT4ge1xuICBjb25zdCBvYmogPSB7fTtcbiAgZm9yIChjb25zdCBzdHIgb2YgdmFsLnNwbGl0KC8gKjsgKi8pKSB7XG4gICAgY29uc3QgcGFydHMgPSBzdHIuc3BsaXQoLyAqPSAqLyk7XG4gICAgY29uc3Qga2V5ID0gcGFydHMuc2hpZnQoKTtcbiAgICBjb25zdCB2YWwgPSBwYXJ0cy5zaGlmdCgpO1xuXG4gICAgaWYgKGtleSAmJiB2YWwpIG9ialtrZXldID0gdmFsO1xuICB9XG5cbiAgcmV0dXJuIG9iajtcbn07XG5cbi8qKlxuICogUGFyc2UgTGluayBoZWFkZXIgZmllbGRzLlxuICpcbiAqIEBwYXJhbSB7U3RyaW5nfSBzdHJcbiAqIEByZXR1cm4ge09iamVjdH1cbiAqIEBhcGkgcHJpdmF0ZVxuICovXG5cbmV4cG9ydHMucGFyc2VMaW5rcyA9ICh2YWwpID0+IHtcbiAgY29uc3Qgb2JqID0ge307XG4gIGZvciAoY29uc3Qgc3RyIG9mIHZhbC5zcGxpdCgvICosICovKSkge1xuICAgIGNvbnN0IHBhcnRzID0gc3RyLnNwbGl0KC8gKjsgKi8pO1xuICAgIGNvbnN0IHVybCA9IHBhcnRzWzBdLnNsaWNlKDEsIC0xKTtcbiAgICBjb25zdCByZWwgPSBwYXJ0c1sxXS5zcGxpdCgvICo9ICovKVsxXS5zbGljZSgxLCAtMSk7XG4gICAgb2JqW3JlbF0gPSB1cmw7XG4gIH1cblxuICByZXR1cm4gb2JqO1xufTtcblxuLyoqXG4gKiBTdHJpcCBjb250ZW50IHJlbGF0ZWQgZmllbGRzIGZyb20gYGhlYWRlcmAuXG4gKlxuICogQHBhcmFtIHtPYmplY3R9IGhlYWRlclxuICogQHJldHVybiB7T2JqZWN0fSBoZWFkZXJcbiAqIEBhcGkgcHJpdmF0ZVxuICovXG5cbmV4cG9ydHMuY2xlYW5IZWFkZXIgPSAoaGVhZGVyLCBjaGFuZ2VzT3JpZ2luKSA9PiB7XG4gIGRlbGV0ZSBoZWFkZXJbJ2NvbnRlbnQtdHlwZSddO1xuICBkZWxldGUgaGVhZGVyWydjb250ZW50LWxlbmd0aCddO1xuICBkZWxldGUgaGVhZGVyWyd0cmFuc2Zlci1lbmNvZGluZyddO1xuICBkZWxldGUgaGVhZGVyLmhvc3Q7XG4gIC8vIHNlY3VpcnR5XG4gIGlmIChjaGFuZ2VzT3JpZ2luKSB7XG4gICAgZGVsZXRlIGhlYWRlci5hdXRob3JpemF0aW9uO1xuICAgIGRlbGV0ZSBoZWFkZXIuY29va2llO1xuICB9XG5cbiAgcmV0dXJuIGhlYWRlcjtcbn07XG4iXX0=
+
+/***/ }),
+
+/***/ "./node_modules/superagent/node_modules/qs/lib/formats.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/superagent/node_modules/qs/lib/formats.js ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var replace = String.prototype.replace;
+var percentTwenties = /%20/g;
+
+var util = __webpack_require__(/*! ./utils */ "./node_modules/superagent/node_modules/qs/lib/utils.js");
+
+var Format = {
+    RFC1738: 'RFC1738',
+    RFC3986: 'RFC3986'
+};
+
+module.exports = util.assign(
+    {
+        'default': Format.RFC3986,
+        formatters: {
+            RFC1738: function (value) {
+                return replace.call(value, percentTwenties, '+');
+            },
+            RFC3986: function (value) {
+                return String(value);
+            }
+        }
+    },
+    Format
+);
+
+
+/***/ }),
+
+/***/ "./node_modules/superagent/node_modules/qs/lib/index.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/superagent/node_modules/qs/lib/index.js ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var stringify = __webpack_require__(/*! ./stringify */ "./node_modules/superagent/node_modules/qs/lib/stringify.js");
+var parse = __webpack_require__(/*! ./parse */ "./node_modules/superagent/node_modules/qs/lib/parse.js");
+var formats = __webpack_require__(/*! ./formats */ "./node_modules/superagent/node_modules/qs/lib/formats.js");
+
+module.exports = {
+    formats: formats,
+    parse: parse,
+    stringify: stringify
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/superagent/node_modules/qs/lib/parse.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/superagent/node_modules/qs/lib/parse.js ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(/*! ./utils */ "./node_modules/superagent/node_modules/qs/lib/utils.js");
+
+var has = Object.prototype.hasOwnProperty;
+var isArray = Array.isArray;
+
+var defaults = {
+    allowDots: false,
+    allowPrototypes: false,
+    arrayLimit: 20,
+    charset: 'utf-8',
+    charsetSentinel: false,
+    comma: false,
+    decoder: utils.decode,
+    delimiter: '&',
+    depth: 5,
+    ignoreQueryPrefix: false,
+    interpretNumericEntities: false,
+    parameterLimit: 1000,
+    parseArrays: true,
+    plainObjects: false,
+    strictNullHandling: false
+};
+
+var interpretNumericEntities = function (str) {
+    return str.replace(/&#(\d+);/g, function ($0, numberStr) {
+        return String.fromCharCode(parseInt(numberStr, 10));
+    });
+};
+
+var parseArrayValue = function (val, options) {
+    if (val && typeof val === 'string' && options.comma && val.indexOf(',') > -1) {
+        return val.split(',');
+    }
+
+    return val;
+};
+
+// This is what browsers will submit when the ✓ character occurs in an
+// application/x-www-form-urlencoded body and the encoding of the page containing
+// the form is iso-8859-1, or when the submitted form has an accept-charset
+// attribute of iso-8859-1. Presumably also with other charsets that do not contain
+// the ✓ character, such as us-ascii.
+var isoSentinel = 'utf8=%26%2310003%3B'; // encodeURIComponent('&#10003;')
+
+// These are the percent-encoded utf-8 octets representing a checkmark, indicating that the request actually is utf-8 encoded.
+var charsetSentinel = 'utf8=%E2%9C%93'; // encodeURIComponent('✓')
+
+var parseValues = function parseQueryStringValues(str, options) {
+    var obj = {};
+    var cleanStr = options.ignoreQueryPrefix ? str.replace(/^\?/, '') : str;
+    var limit = options.parameterLimit === Infinity ? undefined : options.parameterLimit;
+    var parts = cleanStr.split(options.delimiter, limit);
+    var skipIndex = -1; // Keep track of where the utf8 sentinel was found
+    var i;
+
+    var charset = options.charset;
+    if (options.charsetSentinel) {
+        for (i = 0; i < parts.length; ++i) {
+            if (parts[i].indexOf('utf8=') === 0) {
+                if (parts[i] === charsetSentinel) {
+                    charset = 'utf-8';
+                } else if (parts[i] === isoSentinel) {
+                    charset = 'iso-8859-1';
+                }
+                skipIndex = i;
+                i = parts.length; // The eslint settings do not allow break;
+            }
+        }
+    }
+
+    for (i = 0; i < parts.length; ++i) {
+        if (i === skipIndex) {
+            continue;
+        }
+        var part = parts[i];
+
+        var bracketEqualsPos = part.indexOf(']=');
+        var pos = bracketEqualsPos === -1 ? part.indexOf('=') : bracketEqualsPos + 1;
+
+        var key, val;
+        if (pos === -1) {
+            key = options.decoder(part, defaults.decoder, charset, 'key');
+            val = options.strictNullHandling ? null : '';
+        } else {
+            key = options.decoder(part.slice(0, pos), defaults.decoder, charset, 'key');
+            val = utils.maybeMap(
+                parseArrayValue(part.slice(pos + 1), options),
+                function (encodedVal) {
+                    return options.decoder(encodedVal, defaults.decoder, charset, 'value');
+                }
+            );
+        }
+
+        if (val && options.interpretNumericEntities && charset === 'iso-8859-1') {
+            val = interpretNumericEntities(val);
+        }
+
+        if (part.indexOf('[]=') > -1) {
+            val = isArray(val) ? [val] : val;
+        }
+
+        if (has.call(obj, key)) {
+            obj[key] = utils.combine(obj[key], val);
+        } else {
+            obj[key] = val;
+        }
+    }
+
+    return obj;
+};
+
+var parseObject = function (chain, val, options, valuesParsed) {
+    var leaf = valuesParsed ? val : parseArrayValue(val, options);
+
+    for (var i = chain.length - 1; i >= 0; --i) {
+        var obj;
+        var root = chain[i];
+
+        if (root === '[]' && options.parseArrays) {
+            obj = [].concat(leaf);
+        } else {
+            obj = options.plainObjects ? Object.create(null) : {};
+            var cleanRoot = root.charAt(0) === '[' && root.charAt(root.length - 1) === ']' ? root.slice(1, -1) : root;
+            var index = parseInt(cleanRoot, 10);
+            if (!options.parseArrays && cleanRoot === '') {
+                obj = { 0: leaf };
+            } else if (
+                !isNaN(index)
+                && root !== cleanRoot
+                && String(index) === cleanRoot
+                && index >= 0
+                && (options.parseArrays && index <= options.arrayLimit)
+            ) {
+                obj = [];
+                obj[index] = leaf;
+            } else {
+                obj[cleanRoot] = leaf;
+            }
+        }
+
+        leaf = obj; // eslint-disable-line no-param-reassign
+    }
+
+    return leaf;
+};
+
+var parseKeys = function parseQueryStringKeys(givenKey, val, options, valuesParsed) {
+    if (!givenKey) {
+        return;
+    }
+
+    // Transform dot notation to bracket notation
+    var key = options.allowDots ? givenKey.replace(/\.([^.[]+)/g, '[$1]') : givenKey;
+
+    // The regex chunks
+
+    var brackets = /(\[[^[\]]*])/;
+    var child = /(\[[^[\]]*])/g;
+
+    // Get the parent
+
+    var segment = options.depth > 0 && brackets.exec(key);
+    var parent = segment ? key.slice(0, segment.index) : key;
+
+    // Stash the parent if it exists
+
+    var keys = [];
+    if (parent) {
+        // If we aren't using plain objects, optionally prefix keys that would overwrite object prototype properties
+        if (!options.plainObjects && has.call(Object.prototype, parent)) {
+            if (!options.allowPrototypes) {
+                return;
+            }
+        }
+
+        keys.push(parent);
+    }
+
+    // Loop through children appending to the array until we hit depth
+
+    var i = 0;
+    while (options.depth > 0 && (segment = child.exec(key)) !== null && i < options.depth) {
+        i += 1;
+        if (!options.plainObjects && has.call(Object.prototype, segment[1].slice(1, -1))) {
+            if (!options.allowPrototypes) {
+                return;
+            }
+        }
+        keys.push(segment[1]);
+    }
+
+    // If there's a remainder, just add whatever is left
+
+    if (segment) {
+        keys.push('[' + key.slice(segment.index) + ']');
+    }
+
+    return parseObject(keys, val, options, valuesParsed);
+};
+
+var normalizeParseOptions = function normalizeParseOptions(opts) {
+    if (!opts) {
+        return defaults;
+    }
+
+    if (opts.decoder !== null && opts.decoder !== undefined && typeof opts.decoder !== 'function') {
+        throw new TypeError('Decoder has to be a function.');
+    }
+
+    if (typeof opts.charset !== 'undefined' && opts.charset !== 'utf-8' && opts.charset !== 'iso-8859-1') {
+        throw new TypeError('The charset option must be either utf-8, iso-8859-1, or undefined');
+    }
+    var charset = typeof opts.charset === 'undefined' ? defaults.charset : opts.charset;
+
+    return {
+        allowDots: typeof opts.allowDots === 'undefined' ? defaults.allowDots : !!opts.allowDots,
+        allowPrototypes: typeof opts.allowPrototypes === 'boolean' ? opts.allowPrototypes : defaults.allowPrototypes,
+        arrayLimit: typeof opts.arrayLimit === 'number' ? opts.arrayLimit : defaults.arrayLimit,
+        charset: charset,
+        charsetSentinel: typeof opts.charsetSentinel === 'boolean' ? opts.charsetSentinel : defaults.charsetSentinel,
+        comma: typeof opts.comma === 'boolean' ? opts.comma : defaults.comma,
+        decoder: typeof opts.decoder === 'function' ? opts.decoder : defaults.decoder,
+        delimiter: typeof opts.delimiter === 'string' || utils.isRegExp(opts.delimiter) ? opts.delimiter : defaults.delimiter,
+        // eslint-disable-next-line no-implicit-coercion, no-extra-parens
+        depth: (typeof opts.depth === 'number' || opts.depth === false) ? +opts.depth : defaults.depth,
+        ignoreQueryPrefix: opts.ignoreQueryPrefix === true,
+        interpretNumericEntities: typeof opts.interpretNumericEntities === 'boolean' ? opts.interpretNumericEntities : defaults.interpretNumericEntities,
+        parameterLimit: typeof opts.parameterLimit === 'number' ? opts.parameterLimit : defaults.parameterLimit,
+        parseArrays: opts.parseArrays !== false,
+        plainObjects: typeof opts.plainObjects === 'boolean' ? opts.plainObjects : defaults.plainObjects,
+        strictNullHandling: typeof opts.strictNullHandling === 'boolean' ? opts.strictNullHandling : defaults.strictNullHandling
+    };
+};
+
+module.exports = function (str, opts) {
+    var options = normalizeParseOptions(opts);
+
+    if (str === '' || str === null || typeof str === 'undefined') {
+        return options.plainObjects ? Object.create(null) : {};
+    }
+
+    var tempObj = typeof str === 'string' ? parseValues(str, options) : str;
+    var obj = options.plainObjects ? Object.create(null) : {};
+
+    // Iterate over the keys and setup the new object
+
+    var keys = Object.keys(tempObj);
+    for (var i = 0; i < keys.length; ++i) {
+        var key = keys[i];
+        var newObj = parseKeys(key, tempObj[key], options, typeof str === 'string');
+        obj = utils.merge(obj, newObj, options);
+    }
+
+    return utils.compact(obj);
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/superagent/node_modules/qs/lib/stringify.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/superagent/node_modules/qs/lib/stringify.js ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(/*! ./utils */ "./node_modules/superagent/node_modules/qs/lib/utils.js");
+var formats = __webpack_require__(/*! ./formats */ "./node_modules/superagent/node_modules/qs/lib/formats.js");
+var has = Object.prototype.hasOwnProperty;
+
+var arrayPrefixGenerators = {
+    brackets: function brackets(prefix) {
+        return prefix + '[]';
+    },
+    comma: 'comma',
+    indices: function indices(prefix, key) {
+        return prefix + '[' + key + ']';
+    },
+    repeat: function repeat(prefix) {
+        return prefix;
+    }
+};
+
+var isArray = Array.isArray;
+var push = Array.prototype.push;
+var pushToArray = function (arr, valueOrArray) {
+    push.apply(arr, isArray(valueOrArray) ? valueOrArray : [valueOrArray]);
+};
+
+var toISO = Date.prototype.toISOString;
+
+var defaultFormat = formats['default'];
+var defaults = {
+    addQueryPrefix: false,
+    allowDots: false,
+    charset: 'utf-8',
+    charsetSentinel: false,
+    delimiter: '&',
+    encode: true,
+    encoder: utils.encode,
+    encodeValuesOnly: false,
+    format: defaultFormat,
+    formatter: formats.formatters[defaultFormat],
+    // deprecated
+    indices: false,
+    serializeDate: function serializeDate(date) {
+        return toISO.call(date);
+    },
+    skipNulls: false,
+    strictNullHandling: false
+};
+
+var isNonNullishPrimitive = function isNonNullishPrimitive(v) {
+    return typeof v === 'string'
+        || typeof v === 'number'
+        || typeof v === 'boolean'
+        || typeof v === 'symbol'
+        || typeof v === 'bigint';
+};
+
+var stringify = function stringify(
+    object,
+    prefix,
+    generateArrayPrefix,
+    strictNullHandling,
+    skipNulls,
+    encoder,
+    filter,
+    sort,
+    allowDots,
+    serializeDate,
+    formatter,
+    encodeValuesOnly,
+    charset
+) {
+    var obj = object;
+    if (typeof filter === 'function') {
+        obj = filter(prefix, obj);
+    } else if (obj instanceof Date) {
+        obj = serializeDate(obj);
+    } else if (generateArrayPrefix === 'comma' && isArray(obj)) {
+        obj = utils.maybeMap(obj, function (value) {
+            if (value instanceof Date) {
+                return serializeDate(value);
+            }
+            return value;
+        }).join(',');
+    }
+
+    if (obj === null) {
+        if (strictNullHandling) {
+            return encoder && !encodeValuesOnly ? encoder(prefix, defaults.encoder, charset, 'key') : prefix;
+        }
+
+        obj = '';
+    }
+
+    if (isNonNullishPrimitive(obj) || utils.isBuffer(obj)) {
+        if (encoder) {
+            var keyValue = encodeValuesOnly ? prefix : encoder(prefix, defaults.encoder, charset, 'key');
+            return [formatter(keyValue) + '=' + formatter(encoder(obj, defaults.encoder, charset, 'value'))];
+        }
+        return [formatter(prefix) + '=' + formatter(String(obj))];
+    }
+
+    var values = [];
+
+    if (typeof obj === 'undefined') {
+        return values;
+    }
+
+    var objKeys;
+    if (isArray(filter)) {
+        objKeys = filter;
+    } else {
+        var keys = Object.keys(obj);
+        objKeys = sort ? keys.sort(sort) : keys;
+    }
+
+    for (var i = 0; i < objKeys.length; ++i) {
+        var key = objKeys[i];
+        var value = obj[key];
+
+        if (skipNulls && value === null) {
+            continue;
+        }
+
+        var keyPrefix = isArray(obj)
+            ? typeof generateArrayPrefix === 'function' ? generateArrayPrefix(prefix, key) : prefix
+            : prefix + (allowDots ? '.' + key : '[' + key + ']');
+
+        pushToArray(values, stringify(
+            value,
+            keyPrefix,
+            generateArrayPrefix,
+            strictNullHandling,
+            skipNulls,
+            encoder,
+            filter,
+            sort,
+            allowDots,
+            serializeDate,
+            formatter,
+            encodeValuesOnly,
+            charset
+        ));
+    }
+
+    return values;
+};
+
+var normalizeStringifyOptions = function normalizeStringifyOptions(opts) {
+    if (!opts) {
+        return defaults;
+    }
+
+    if (opts.encoder !== null && opts.encoder !== undefined && typeof opts.encoder !== 'function') {
+        throw new TypeError('Encoder has to be a function.');
+    }
+
+    var charset = opts.charset || defaults.charset;
+    if (typeof opts.charset !== 'undefined' && opts.charset !== 'utf-8' && opts.charset !== 'iso-8859-1') {
+        throw new TypeError('The charset option must be either utf-8, iso-8859-1, or undefined');
+    }
+
+    var format = formats['default'];
+    if (typeof opts.format !== 'undefined') {
+        if (!has.call(formats.formatters, opts.format)) {
+            throw new TypeError('Unknown format option provided.');
+        }
+        format = opts.format;
+    }
+    var formatter = formats.formatters[format];
+
+    var filter = defaults.filter;
+    if (typeof opts.filter === 'function' || isArray(opts.filter)) {
+        filter = opts.filter;
+    }
+
+    return {
+        addQueryPrefix: typeof opts.addQueryPrefix === 'boolean' ? opts.addQueryPrefix : defaults.addQueryPrefix,
+        allowDots: typeof opts.allowDots === 'undefined' ? defaults.allowDots : !!opts.allowDots,
+        charset: charset,
+        charsetSentinel: typeof opts.charsetSentinel === 'boolean' ? opts.charsetSentinel : defaults.charsetSentinel,
+        delimiter: typeof opts.delimiter === 'undefined' ? defaults.delimiter : opts.delimiter,
+        encode: typeof opts.encode === 'boolean' ? opts.encode : defaults.encode,
+        encoder: typeof opts.encoder === 'function' ? opts.encoder : defaults.encoder,
+        encodeValuesOnly: typeof opts.encodeValuesOnly === 'boolean' ? opts.encodeValuesOnly : defaults.encodeValuesOnly,
+        filter: filter,
+        formatter: formatter,
+        serializeDate: typeof opts.serializeDate === 'function' ? opts.serializeDate : defaults.serializeDate,
+        skipNulls: typeof opts.skipNulls === 'boolean' ? opts.skipNulls : defaults.skipNulls,
+        sort: typeof opts.sort === 'function' ? opts.sort : null,
+        strictNullHandling: typeof opts.strictNullHandling === 'boolean' ? opts.strictNullHandling : defaults.strictNullHandling
+    };
+};
+
+module.exports = function (object, opts) {
+    var obj = object;
+    var options = normalizeStringifyOptions(opts);
+
+    var objKeys;
+    var filter;
+
+    if (typeof options.filter === 'function') {
+        filter = options.filter;
+        obj = filter('', obj);
+    } else if (isArray(options.filter)) {
+        filter = options.filter;
+        objKeys = filter;
+    }
+
+    var keys = [];
+
+    if (typeof obj !== 'object' || obj === null) {
+        return '';
+    }
+
+    var arrayFormat;
+    if (opts && opts.arrayFormat in arrayPrefixGenerators) {
+        arrayFormat = opts.arrayFormat;
+    } else if (opts && 'indices' in opts) {
+        arrayFormat = opts.indices ? 'indices' : 'repeat';
+    } else {
+        arrayFormat = 'indices';
+    }
+
+    var generateArrayPrefix = arrayPrefixGenerators[arrayFormat];
+
+    if (!objKeys) {
+        objKeys = Object.keys(obj);
+    }
+
+    if (options.sort) {
+        objKeys.sort(options.sort);
+    }
+
+    for (var i = 0; i < objKeys.length; ++i) {
+        var key = objKeys[i];
+
+        if (options.skipNulls && obj[key] === null) {
+            continue;
+        }
+        pushToArray(keys, stringify(
+            obj[key],
+            key,
+            generateArrayPrefix,
+            options.strictNullHandling,
+            options.skipNulls,
+            options.encode ? options.encoder : null,
+            options.filter,
+            options.sort,
+            options.allowDots,
+            options.serializeDate,
+            options.formatter,
+            options.encodeValuesOnly,
+            options.charset
+        ));
+    }
+
+    var joined = keys.join(options.delimiter);
+    var prefix = options.addQueryPrefix === true ? '?' : '';
+
+    if (options.charsetSentinel) {
+        if (options.charset === 'iso-8859-1') {
+            // encodeURIComponent('&#10003;'), the "numeric entity" representation of a checkmark
+            prefix += 'utf8=%26%2310003%3B&';
+        } else {
+            // encodeURIComponent('✓')
+            prefix += 'utf8=%E2%9C%93&';
+        }
+    }
+
+    return joined.length > 0 ? prefix + joined : '';
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/superagent/node_modules/qs/lib/utils.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/superagent/node_modules/qs/lib/utils.js ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var has = Object.prototype.hasOwnProperty;
+var isArray = Array.isArray;
+
+var hexTable = (function () {
+    var array = [];
+    for (var i = 0; i < 256; ++i) {
+        array.push('%' + ((i < 16 ? '0' : '') + i.toString(16)).toUpperCase());
+    }
+
+    return array;
+}());
+
+var compactQueue = function compactQueue(queue) {
+    while (queue.length > 1) {
+        var item = queue.pop();
+        var obj = item.obj[item.prop];
+
+        if (isArray(obj)) {
+            var compacted = [];
+
+            for (var j = 0; j < obj.length; ++j) {
+                if (typeof obj[j] !== 'undefined') {
+                    compacted.push(obj[j]);
+                }
+            }
+
+            item.obj[item.prop] = compacted;
+        }
+    }
+};
+
+var arrayToObject = function arrayToObject(source, options) {
+    var obj = options && options.plainObjects ? Object.create(null) : {};
+    for (var i = 0; i < source.length; ++i) {
+        if (typeof source[i] !== 'undefined') {
+            obj[i] = source[i];
+        }
+    }
+
+    return obj;
+};
+
+var merge = function merge(target, source, options) {
+    /* eslint no-param-reassign: 0 */
+    if (!source) {
+        return target;
+    }
+
+    if (typeof source !== 'object') {
+        if (isArray(target)) {
+            target.push(source);
+        } else if (target && typeof target === 'object') {
+            if ((options && (options.plainObjects || options.allowPrototypes)) || !has.call(Object.prototype, source)) {
+                target[source] = true;
+            }
+        } else {
+            return [target, source];
+        }
+
+        return target;
+    }
+
+    if (!target || typeof target !== 'object') {
+        return [target].concat(source);
+    }
+
+    var mergeTarget = target;
+    if (isArray(target) && !isArray(source)) {
+        mergeTarget = arrayToObject(target, options);
+    }
+
+    if (isArray(target) && isArray(source)) {
+        source.forEach(function (item, i) {
+            if (has.call(target, i)) {
+                var targetItem = target[i];
+                if (targetItem && typeof targetItem === 'object' && item && typeof item === 'object') {
+                    target[i] = merge(targetItem, item, options);
+                } else {
+                    target.push(item);
+                }
+            } else {
+                target[i] = item;
+            }
+        });
+        return target;
+    }
+
+    return Object.keys(source).reduce(function (acc, key) {
+        var value = source[key];
+
+        if (has.call(acc, key)) {
+            acc[key] = merge(acc[key], value, options);
+        } else {
+            acc[key] = value;
+        }
+        return acc;
+    }, mergeTarget);
+};
+
+var assign = function assignSingleSource(target, source) {
+    return Object.keys(source).reduce(function (acc, key) {
+        acc[key] = source[key];
+        return acc;
+    }, target);
+};
+
+var decode = function (str, decoder, charset) {
+    var strWithoutPlus = str.replace(/\+/g, ' ');
+    if (charset === 'iso-8859-1') {
+        // unescape never throws, no try...catch needed:
+        return strWithoutPlus.replace(/%[0-9a-f]{2}/gi, unescape);
+    }
+    // utf-8
+    try {
+        return decodeURIComponent(strWithoutPlus);
+    } catch (e) {
+        return strWithoutPlus;
+    }
+};
+
+var encode = function encode(str, defaultEncoder, charset) {
+    // This code was originally written by Brian White (mscdex) for the io.js core querystring library.
+    // It has been adapted here for stricter adherence to RFC 3986
+    if (str.length === 0) {
+        return str;
+    }
+
+    var string = str;
+    if (typeof str === 'symbol') {
+        string = Symbol.prototype.toString.call(str);
+    } else if (typeof str !== 'string') {
+        string = String(str);
+    }
+
+    if (charset === 'iso-8859-1') {
+        return escape(string).replace(/%u[0-9a-f]{4}/gi, function ($0) {
+            return '%26%23' + parseInt($0.slice(2), 16) + '%3B';
+        });
+    }
+
+    var out = '';
+    for (var i = 0; i < string.length; ++i) {
+        var c = string.charCodeAt(i);
+
+        if (
+            c === 0x2D // -
+            || c === 0x2E // .
+            || c === 0x5F // _
+            || c === 0x7E // ~
+            || (c >= 0x30 && c <= 0x39) // 0-9
+            || (c >= 0x41 && c <= 0x5A) // a-z
+            || (c >= 0x61 && c <= 0x7A) // A-Z
+        ) {
+            out += string.charAt(i);
+            continue;
+        }
+
+        if (c < 0x80) {
+            out = out + hexTable[c];
+            continue;
+        }
+
+        if (c < 0x800) {
+            out = out + (hexTable[0xC0 | (c >> 6)] + hexTable[0x80 | (c & 0x3F)]);
+            continue;
+        }
+
+        if (c < 0xD800 || c >= 0xE000) {
+            out = out + (hexTable[0xE0 | (c >> 12)] + hexTable[0x80 | ((c >> 6) & 0x3F)] + hexTable[0x80 | (c & 0x3F)]);
+            continue;
+        }
+
+        i += 1;
+        c = 0x10000 + (((c & 0x3FF) << 10) | (string.charCodeAt(i) & 0x3FF));
+        out += hexTable[0xF0 | (c >> 18)]
+            + hexTable[0x80 | ((c >> 12) & 0x3F)]
+            + hexTable[0x80 | ((c >> 6) & 0x3F)]
+            + hexTable[0x80 | (c & 0x3F)];
+    }
+
+    return out;
+};
+
+var compact = function compact(value) {
+    var queue = [{ obj: { o: value }, prop: 'o' }];
+    var refs = [];
+
+    for (var i = 0; i < queue.length; ++i) {
+        var item = queue[i];
+        var obj = item.obj[item.prop];
+
+        var keys = Object.keys(obj);
+        for (var j = 0; j < keys.length; ++j) {
+            var key = keys[j];
+            var val = obj[key];
+            if (typeof val === 'object' && val !== null && refs.indexOf(val) === -1) {
+                queue.push({ obj: obj, prop: key });
+                refs.push(val);
+            }
+        }
+    }
+
+    compactQueue(queue);
+
+    return value;
+};
+
+var isRegExp = function isRegExp(obj) {
+    return Object.prototype.toString.call(obj) === '[object RegExp]';
+};
+
+var isBuffer = function isBuffer(obj) {
+    if (!obj || typeof obj !== 'object') {
+        return false;
+    }
+
+    return !!(obj.constructor && obj.constructor.isBuffer && obj.constructor.isBuffer(obj));
+};
+
+var combine = function combine(a, b) {
+    return [].concat(a, b);
+};
+
+var maybeMap = function maybeMap(val, fn) {
+    if (isArray(val)) {
+        var mapped = [];
+        for (var i = 0; i < val.length; i += 1) {
+            mapped.push(fn(val[i]));
+        }
+        return mapped;
+    }
+    return fn(val);
+};
+
+module.exports = {
+    arrayToObject: arrayToObject,
+    assign: assign,
+    combine: combine,
+    compact: compact,
+    decode: decode,
+    encode: encode,
+    isBuffer: isBuffer,
+    isRegExp: isRegExp,
+    maybeMap: maybeMap,
+    merge: merge
+};
+
 
 /***/ }),
 
