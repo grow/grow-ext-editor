@@ -17,6 +17,10 @@ import {
   GoogleImageField,
 } from './field/image'
 import {
+  MediaFileField,
+  GoogleMediaField,
+} from './field/media'
+import {
   EditorListField,
 } from './field/list'
 import {
@@ -39,11 +43,13 @@ export const defaultFields = {
   'datetime': DateTimeField,
   'document': DocumentField,
   'google_image': GoogleImageField,
+  'google_media': GoogleMediaField,
   'group': GroupField,
   'html': HtmlField,
   'image': ImageFileField,
   'list': EditorListField,
   'markdown': MarkdownField,
+  'media': MediaFileField,
   'partials': PartialsField,
   'select': SelectField,
   'static': StaticField,
