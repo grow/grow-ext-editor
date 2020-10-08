@@ -109,12 +109,14 @@ class PodApi(object):
             # Support flask requests.
             return self.request.args.get(param_name)
 
-    def _get_post(self, param_name):
+    def _get_post(self, param_name, is_file=False):
         """Support getting form data from different request types."""
         try:
             return self.request.POST.get(param_name)
         except AttributeError:
             # Support flask requests.
+            if is_file:
+                return self.request.files[param_name]
             return self.request.form.get(param_name)
 
     def _get_resolutions(self):
@@ -594,8 +596,11 @@ class PodApi(object):
     def post_image(self):
         """Handle the request to save an image."""
         destination = self._get_post('destination')
-        upload_file = self._get_post('file')
-        file_contents = upload_file.file.read()
+        upload_file = self._get_post('file', is_file=True)
+        try:
+            file_contents = upload_file.file.read()
+        except AttributeError:
+            file_contents = upload_file.read()
 
         # Generate a random filename if the upload was a blob.
         filename = upload_file.filename
