@@ -100160,7 +100160,7 @@ __webpack_require__.r(__webpack_exports__);
 
 const VALID_IMAGE_MIME_TYPES = ['image/avif', 'image/gif', 'image/jpeg', 'image/png', 'image/svg+xml', 'image/webp'];
 const VALID_VIDEO_MIME_TYPES = ['image/mp4', 'image/mov', 'image/webm'];
-const MIME_TYPE_TO_FORMAT = {
+const MIME_TYPE_TO_EXT = {
   'image/avif': 'avif',
   'image/gif': 'gif',
   'image/jpeg': 'jpg',
@@ -100299,6 +100299,16 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
     this.render();
   }
 
+  handleLabelInput(evt) {
+    const target = evt.target;
+    const locale = target.dataset.locale;
+    const label = evt.target.value;
+    const value = this.getValueForLocale(locale) || {};
+    this.setValueForLocale(locale, Object.assign(value, {
+      'label': label
+    }));
+  }
+
   handleMediaLoad(evt) {
     this._metas[evt.target.dataset.servingPath] = {
       height: evt.target.naturalHeight,
@@ -100333,10 +100343,30 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
       </div>`;
   }
 
+  renderLabelInput(selective, data, locale) {
+    const value = this.getValueForLocale(locale) || {};
+    const localeKey = this.keyForLocale(locale);
+    const label = value.label || '';
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <div class="selective__media__label">
+        <div class="selective__field__label selective__field__label--secondary">
+          Accessibility Label
+        </div>
+        <input
+          type="text"
+          placeholder="Accessibility Label"
+          id="${this.uid}${locale || ''}-label"
+          data-locale=${locale || ''}
+          @input=${this.handleLabelInput.bind(this)}
+          value=${label} />
+      </div>`;
+  }
+
   renderMediaMeta(selective, data, locale) {
     const mediaMeta = [];
-    const value = this.getValueForLocale(locale) || '';
-    const servingPath = this.getServingPath(value, locale);
+    const value = this.getValueForLocale(locale) || {};
+    const url = value.url || '';
+    const servingPath = this.getServingPath(url, locale);
     const meta = this._metas[servingPath];
 
     if (!meta) {
@@ -100358,7 +100388,8 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
   }
 
   renderInput(selective, data, locale) {
-    const value = this.getValueForLocale(locale) || '';
+    const value = this.getValueForLocale(locale) || {};
+    const url = value.url || '';
     const localeKey = this.keyForLocale(locale);
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
       <div
@@ -100375,7 +100406,7 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
             data-locale=${locale || ''}
             ?disabled=${this._isLoading[localeKey]}
             @input=${this.handleInput.bind(this)}
-            value=${value || ''} />
+            value=${url} />
           <i
               class="material-icons selective__field__media_file__file_input_icon"
               title="Upload file"
@@ -100386,13 +100417,15 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
         </div>
         ${this.renderFileInput(selective, data, locale)}
         ${this.renderPreview(selective, data, locale)}
+        ${this.renderLabelInput(selective, data, locale)}
       </div>`;
   }
 
   renderPreview(selective, data, locale) {
-    const value = this.getValueForLocale(locale) || '';
+    const value = this.getValueForLocale(locale) || {};
+    const url = value.url || '';
     const localeKey = this.keyForLocale(locale);
-    const servingPath = this.getServingPath(value, locale);
+    const servingPath = this.getServingPath(url, locale);
 
     if (this._isLoading[localeKey]) {
       return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
@@ -100417,8 +100450,10 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
   }
 
   renderPreviewMedia(selective, data, locale, servingPath) {
-    for (const videoExt of VIDEO_EXT) {
-      if (servingPath.endsWith(`.${videoExt}`)) {
+    for (const fileExt of Object.keys(EXT_TO_MIME_TYPE)) {
+      const isVideoFile = VALID_VIDEO_MIME_TYPES.includes(fileExt);
+
+      if (isVideoFile && servingPath.endsWith(`.${fileExt}`)) {
         return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<video
             data-serving-path=${servingPath}
             @loadeddata=${this.handleVideoLoad.bind(this)}
@@ -100437,10 +100472,13 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
   uploadFile(file, locale) {
     const destination = this.config.get('destination', '/static/img/upload');
     const localeKey = this.keyForLocale(locale);
-    this.api.saveMedia(file, destination).then(result => {
+    this.api.saveImage(file, destination).then(result => {
       this._showFileInput[localeKey] = false;
       this._isLoading[localeKey] = false;
-      this.setValueForLocale(locale, result['pod_path']);
+      const value = this.getValueForLocale(locale) || {};
+      this.setValueForLocale(locale, Object.assign(value, {
+        'url': result['pod_path']
+      }));
     }).catch(err => {
       console.error(err);
       this._errors['upload'] = err;
@@ -100502,8 +100540,10 @@ class MediaFileField extends MediaField {
   }
 
   handlePodPath(podPath, locale) {
-    const value = podPath;
-    this.setValueForLocale(locale, value);
+    const value = this.getValueForLocale(locale) || {};
+    this.setValueForLocale(locale, Object.assign(value, {
+      url: podPath
+    }));
   }
 
   handleServingPathResponse(response) {
@@ -100512,7 +100552,8 @@ class MediaFileField extends MediaField {
   }
 
   renderInput(selective, data, locale) {
-    const value = this.getValueForLocale(locale) || '';
+    const value = this.getValueForLocale(locale) || {};
+    const url = value.url || '';
     const fileListUi = this.fileListUiForLocale(locale);
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
       <div
@@ -100528,7 +100569,7 @@ class MediaFileField extends MediaField {
             placeholder=${this.config.placeholder || ''}
             data-locale=${locale || ''}
             @input=${this.handleInput.bind(this)}
-            value=${value || ''} />
+            value=${url || ''} />
           <i
               class="material-icons selective__field__media_file__file_input_icon"
               title="Upload file"
@@ -100547,6 +100588,7 @@ class MediaFileField extends MediaField {
         ${fileListUi.renderFileList(selective, data, locale)}
         ${this.renderFileInput(selective, data, locale)}
         ${this.renderPreview(selective, data, locale)}
+        ${this.renderLabelInput(selective, data, locale)}
       </div>`;
   }
 
@@ -100594,7 +100636,10 @@ class GoogleMediaField extends MediaField {
       this.api.saveGoogleMedia(file, uploadUrl, bucket).then(result => {
         this._showFileInput[localeKey] = false;
         this._isLoading[localeKey] = false;
-        this.setValueForLocale(locale, result['url']);
+        const value = this.getValueForLocale(locale) || {};
+        this.setValueForLocale(locale, Object.assign(value, {
+          'url': result['url']
+        }));
         this.render();
       }).catch(err => {
         console.error(err);
