@@ -100319,24 +100319,39 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
     const locale = target.dataset.locale;
     const label = evt.target.value;
     const value = this.getValueForLocale(locale) || {};
-    this.setValueForLocale(locale, Object.assign(value, {
+    this.setValueForLocale(locale, Object.assign({}, value, {
       'label': label
     }));
+    this.render();
   }
 
   handleMediaLoad(evt) {
-    this._metas[evt.target.dataset.servingPath] = {
+    const meta = {
       height: evt.target.naturalHeight,
       width: evt.target.naturalWidth
-    };
+    }; // Copy the meta information into the value.
+
+    const locale = evt.target.dataset.locale;
+    const value = this.getValueForLocale(locale) || {};
+    this.setValueForLocale(locale, Object.assign({}, value, {
+      '_meta': meta
+    }));
+    this._metas[evt.target.dataset.servingPath] = meta;
     this.render();
   }
 
   handleVideoLoad(evt) {
-    this._metas[evt.target.dataset.servingPath] = {
+    const meta = {
       height: evt.target.videoHeight,
       width: evt.target.videoWidth
-    };
+    }; // Copy the meta information into the value.
+
+    const locale = evt.target.dataset.locale;
+    const value = this.getValueForLocale(locale) || {};
+    this.setValueForLocale(locale, Object.assign({}, value, {
+      '_meta': meta
+    }));
+    this._metas[evt.target.dataset.servingPath] = meta;
     this.render();
   }
 
@@ -100416,7 +100431,7 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
           data-locale=${locale || ''}>
         <div class="selective__field__media_file__input">
           <input
-            id="${this.uid}${locale}"
+            id="${this.uid}${locale || ''}"
             placeholder=${this.config.placeholder || ''}
             data-locale=${locale || ''}
             ?disabled=${this._isLoading[localeKey]}
@@ -100444,7 +100459,7 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
 
     if (this._isLoading[localeKey]) {
       return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-        <div id="${this.uid}${locale}-preview" class="selective__media__preview">
+        <div id="${this.uid}${locale || ''}-preview" class="selective__media__preview">
           <div class="editor__loading editor__loading--small editor__loading--pad"></div>
         </div>`;
     }
@@ -100454,7 +100469,7 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
     }
 
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <div id="${this.uid}${locale}-preview" class="selective__media__preview">
+      <div id="${this.uid}${locale || ''}-preview" class="selective__media__preview">
         <div class="selective__media__preview__media">
           ${this.renderPreviewMedia(selective, data, locale, servingPath)}
         </div>
@@ -100470,6 +100485,7 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
 
       if (isVideoFile && servingPath.endsWith(`.${fileExt}`)) {
         return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<video
+            data-locale=${locale || ''}
             data-serving-path=${servingPath}
             @loadeddata=${this.handleVideoLoad.bind(this)}
             playsinline disableremoteplayback muted autoplay loop>
@@ -100479,6 +100495,7 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
     }
 
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<img
+      data-locale=${locale || ''}
       data-serving-path=${servingPath}
       @load=${this.handleMediaLoad.bind(this)}
       src="${servingPath}" />`;
@@ -100491,7 +100508,7 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
       this._showFileInput[localeKey] = false;
       this._isLoading[localeKey] = false;
       const value = this.getValueForLocale(locale) || {};
-      this.setValueForLocale(locale, Object.assign(value, {
+      this.setValueForLocale(locale, Object.assign({}, value, {
         'url': result['pod_path']
       }));
     }).catch(err => {
@@ -100556,7 +100573,7 @@ class MediaFileField extends MediaField {
 
   handlePodPath(podPath, locale) {
     const value = this.getValueForLocale(locale) || {};
-    this.setValueForLocale(locale, Object.assign(value, {
+    this.setValueForLocale(locale, Object.assign({}, value, {
       url: podPath
     }));
   }
@@ -100580,7 +100597,7 @@ class MediaFileField extends MediaField {
           data-locale=${locale || ''}>
         <div class="selective__field__media_file__input">
           <input
-            id="${this.uid}${locale}"
+            id="${this.uid}${locale || ''}"
             placeholder=${this.config.placeholder || ''}
             data-locale=${locale || ''}
             @input=${this.handleInput.bind(this)}
@@ -100652,7 +100669,7 @@ class GoogleMediaField extends MediaField {
         this._showFileInput[localeKey] = false;
         this._isLoading[localeKey] = false;
         const value = this.getValueForLocale(locale) || {};
-        this.setValueForLocale(locale, Object.assign(value, {
+        this.setValueForLocale(locale, Object.assign({}, value, {
           'url': result['url']
         }));
         this.render();
