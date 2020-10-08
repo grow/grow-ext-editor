@@ -100429,6 +100429,9 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
           @dragleave=${this.handleDragLeave.bind(this)}
           @dragover=${this.handleDragOver.bind(this)}
           data-locale=${locale || ''}>
+        <div class="selective__field__label selective__field__label--secondary">
+          Media url
+        </div>
         <div class="selective__field__media_file__input">
           <input
             id="${this.uid}${locale || ''}"
@@ -100595,6 +100598,7 @@ class MediaFileField extends MediaField {
           @dragleave=${this.handleDragLeave.bind(this)}
           @dragover=${this.handleDragOver.bind(this)}
           data-locale=${locale || ''}>
+        ${this.renderInputLabel(selective, data, locale)}
         <div class="selective__field__media_file__input">
           <input
             id="${this.uid}${locale || ''}"
@@ -100624,6 +100628,13 @@ class MediaFileField extends MediaField {
       </div>`;
   }
 
+  renderInputLabel(selective, data, locale) {
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <div class="selective__field__label selective__field__label--secondary">
+        Media path
+      </div>`;
+  }
+
 } // TODO: Move into the google media extension.
 
 class GoogleMediaField extends MediaField {
@@ -100649,6 +100660,13 @@ class GoogleMediaField extends MediaField {
     }
 
     return value;
+  }
+
+  renderInputLabel(selective, data, locale) {
+    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <div class="selective__field__label selective__field__label--secondary">
+        Media url
+      </div>`;
   }
 
   uploadFile(file, locale) {

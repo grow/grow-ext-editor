@@ -296,6 +296,9 @@ export class MediaField extends Field {
           @dragleave=${this.handleDragLeave.bind(this)}
           @dragover=${this.handleDragOver.bind(this)}
           data-locale=${locale || ''}>
+        <div class="selective__field__label selective__field__label--secondary">
+          Media url
+        </div>
         <div class="selective__field__media_file__input">
           <input
             id="${this.uid}${locale || ''}"
@@ -466,6 +469,7 @@ export class MediaFileField extends MediaField {
           @dragleave=${this.handleDragLeave.bind(this)}
           @dragover=${this.handleDragOver.bind(this)}
           data-locale=${locale || ''}>
+        ${this.renderInputLabel(selective, data, locale)}
         <div class="selective__field__media_file__input">
           <input
             id="${this.uid}${locale || ''}"
@@ -492,6 +496,13 @@ export class MediaFileField extends MediaField {
         ${this.renderFileInput(selective, data, locale)}
         ${this.renderPreview(selective, data, locale)}
         ${this.renderLabelInput(selective, data, locale)}
+      </div>`
+  }
+
+  renderInputLabel(selective, data, locale) {
+    return html`
+      <div class="selective__field__label selective__field__label--secondary">
+        Media path
       </div>`
   }
 }
@@ -522,6 +533,13 @@ export class GoogleMediaField extends MediaField {
     }
 
     return value
+  }
+
+  renderInputLabel(selective, data, locale) {
+    return html`
+      <div class="selective__field__label selective__field__label--secondary">
+        Media url
+      </div>`
   }
 
   uploadFile(file, locale) {
