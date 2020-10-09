@@ -127,7 +127,8 @@ module.exports = {
   },
   interceptRequest: intercept.interceptRequest,
   pageSetup: pageSetup,
-  saveWaitFor: 100,
+  saveWaitFor: 250,
+  imageMetaWaitFor: 2000,
   snapshotOptions: {
     widths: [1280],
   },

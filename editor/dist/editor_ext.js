@@ -100200,6 +100200,7 @@ const EXT_TO_MIME_TYPE = {
 };
 const MEDIA_HOVER_CLASS = 'selective__media--hover';
 const FILE_EXT_REGEX = /\.[0-9a-z]{1,5}$/i;
+const ABSOLUTE_URL_REGEX = /^(\/\/|http(s)?:)/i;
 
 const fractReduce = (numerator, denominator) => {
   // Reduce a fraction by finding the Greatest Common Divisor and dividing by it.
@@ -100244,6 +100245,10 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
   }
 
   getServingPath(value, locale) {
+    if (!value || value == '') {
+      return;
+    }
+
     return value;
   }
 
@@ -100311,6 +100316,16 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
       this.delayedFocus(locale);
     }
 
+    this.render();
+  }
+
+  handleInput(evt) {
+    const url = evt.target.value;
+    const locale = evt.target.dataset.locale;
+    const value = this.getValueForLocale(locale) || {};
+    this.setValueForLocale(locale, Object.assign({}, value, {
+      'url': url
+    }));
     this.render();
   }
 
@@ -100555,12 +100570,16 @@ class MediaFileField extends MediaField {
       return;
     }
 
+    if (ABSOLUTE_URL_REGEX.test(value)) {
+      return value;
+    }
+
     if (this._servingPaths[value]) {
       return this._servingPaths[value];
     }
 
     if (this._servingPathsLoading[value]) {
-      return '';
+      return;
     } // Mark that the request has started to prevent duplicate requests.
 
 
@@ -100650,6 +100669,10 @@ class GoogleMediaField extends MediaField {
   }
 
   getServingPath(value, locale) {
+    if (!value || value == '') {
+      return;
+    }
+
     if (FILE_EXT_REGEX.test(value)) {
       return value;
     } // Add original size to the media so that we can get the full media specs.
