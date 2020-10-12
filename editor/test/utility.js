@@ -2,8 +2,8 @@ const shared = require('./shared')
 const { percySnapshot } = require('@percy/puppeteer')
 
 async function dragAndDrop(page, originSelector, destinationSelector, snapshotName) {
-  await page.waitFor(originSelector)
-  await page.waitFor(destinationSelector)
+  await page.waitForSelector(originSelector)
+  await page.waitForSelector(destinationSelector)
   const origin = await page.$(originSelector)
   const destination = await page.$(destinationSelector)
   const ob = await origin.boundingBox()
@@ -23,8 +23,8 @@ async function dragAndDrop(page, originSelector, destinationSelector, snapshotNa
 }
 
 async function dragAndDrop2(page, originSelector, destinationSelector, snapshotName) {
-  await page.waitFor(originSelector)
-  await page.waitFor(destinationSelector)
+  await page.waitForSelector(originSelector)
+  await page.waitForSelector(destinationSelector)
 
   await page.evaluate((originSelector, destinationSelector) => {
       source = document.querySelector(originSelector)
@@ -72,8 +72,8 @@ async function dragAndDrop2(page, originSelector, destinationSelector, snapshotN
 // https://github.com/puppeteer/puppeteer/issues/1366#issuecomment-589828387
 // https://gist.github.com/wardnath/0aa9f293ee964c3a2bc149d9e924822e
 async function dragAndDrop3(page, originSelector, destinationSelector, snapshotName) {
-  const sourceElement = await page.waitFor(originSelector)
-  const destinationElement = await page.waitFor(destinationSelector)
+  const sourceElement = await page.waitForSelector(originSelector)
+  const destinationElement = await page.waitForSelector(destinationSelector)
   const sourceBox = await sourceElement.boundingBox();
   const destinationBox = await destinationElement.boundingBox();
 

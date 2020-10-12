@@ -1,0 +1,64 @@
+.selective__field__media_file__input
+  align-items: center
+  display: flex
+  flex-flow: row
+
+.selective__field__media_file__file_input_icon,
+.selective__field__media_file__file_icon
+  +field-clickable
+  +field-color
+  padding: 0 $ge-pad/2
+
+.selective__media__file
+  margin: $ge-pad/2 0
+
+.selective__media__fingernail
+  margin: $ge-pad/2 0
+  max-height: 15vh
+  max-width: 100%
+
+.selective__media__preview
+  background: $ge-color-field-back
+  border-radius: $ge-radius-2
+  margin: $ge-pad/2 0
+  padding: $ge-pad/2
+  text-align: center
+  transition: all $ge-speed-slow ease-in-out
+
+  .selective__media--hover &
+    background-color: $ge-color-primary
+    color: $ge-color-on-primary
+
+.selective__media__preview__media
+  line-height: 0
+  padding: $ge-pad/2
+
+  img,
+  video
+    max-height: 15vh
+    max-width: 100%
+
+.selective__media__label
+  margin-top: $ge-pad/2
+
+.selective__media__preview__meta
+  align-items: center
+  display: flex
+  font-size: $ge-font-size-small
+  flex-flow: row
+  justify-content: center
+
+  &> div
+    padding: $ge-pad/2
+
+.selective__media__preview__meta__label
+  font-weight: 700
+
+.selective__media--hover
+  *
+    pointer-events: none
+
+  .selective__field__media_file__input
+    input
+      background-color: $ge-color-primary
+      color: $ge-color-on-primary

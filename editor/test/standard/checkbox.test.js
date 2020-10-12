@@ -59,7 +59,7 @@ describe('checkbox field', () => {
     // Save the changes.
     const saveButton = await page.$('.editor__save')
     await saveButton.click()
-    await page.waitFor(shared.saveWaitFor)
+    await page.waitForTimeout(shared.saveWaitFor)
     await page.waitForSelector('.editor__save:not(.editor__save--saving)')
 
     // Verify the new value was saved.
@@ -93,7 +93,7 @@ describe('checkbox field', () => {
 
     // Save the changes.
     await saveButton.click()
-    await page.waitFor(shared.saveWaitFor)
+    await page.waitForTimeout(shared.saveWaitFor)
     await page.waitForSelector('.editor__save:not(.editor__save--saving)')
 
     // Verify the new value was saved.
@@ -145,7 +145,7 @@ describe('checkbox field', () => {
     // Save the changes.
     const saveButton = await page.$('.editor__save')
     await saveButton.click()
-    await page.waitFor(shared.saveWaitFor)
+    await page.waitForTimeout(shared.saveWaitFor)
     await page.waitForSelector('.editor__save:not(.editor__save--saving)')
 
     // Verify the new value was saved.
@@ -183,7 +183,7 @@ describe('checkbox field', () => {
 
     // Save the changes.
     await saveButton.click()
-    await page.waitFor(shared.saveWaitFor)
+    await page.waitForTimeout(shared.saveWaitFor)
     await page.waitForSelector('.editor__save:not(.editor__save--saving)')
 
     // Verify the new value was saved.

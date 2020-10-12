@@ -5,8 +5,8 @@
 import { AutoFields } from 'selective-edit'
 
 
-const IMAGE_REGEX = /\.(jp[e]?g|png|svg|webp|gif|avif)$/i
-const GOOGLE_IMAGE_REGEX = /(\.googleusercontent.com|storage.googleapis.com)\//i
+const MEDIA_REGEX = /\.(jp[e]?g|png|svg|webp|gif|avif)$/i
+const GOOGLE_MEDIA_REGEX = /(\.googleusercontent.com|storage.googleapis.com)\//i
 
 
 export default class EditorAutoFields extends AutoFields {
@@ -68,12 +68,12 @@ export default class EditorAutoFields extends AutoFields {
     }
 
     if (value && typeof value == 'string') {
-      if(value.match(GOOGLE_IMAGE_REGEX)) {
-        return 'google_image'
+      if(value.match(GOOGLE_MEDIA_REGEX)) {
+        return 'google_media'
       }
 
-      if (value.startsWith('/') && value.match(IMAGE_REGEX)) {
-        return 'image'
+      if (value.startsWith('/') && value.match(MEDIA_REGEX)) {
+        return 'media'
       }
     }
 
