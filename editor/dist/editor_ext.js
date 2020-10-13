@@ -100217,6 +100217,7 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
     super(config, extendedConfig);
     this.fieldType = 'media';
     this._metas = {};
+    this._subFields = {};
     this._showFileInput = {};
     this._isLoading = {};
   }
@@ -100233,6 +100234,21 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
       evt.stopPropagation();
       return target;
     }
+  }
+
+  get isClean() {
+    if (!super.isClean) {
+      return false;
+    } // Check the sub fields to see if they are clean.
+
+
+    for (const localeKey of Object.keys(this._subFields)) {
+      if (!this._subFields[localeKey].isClean) {
+        return false;
+      }
+    }
+
+    return true;
   }
 
   delayedFocus(locale) {
@@ -100460,12 +100476,13 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
               title="Upload file"
               data-locale=${locale || ''}
               @click=${this.handleFileInputToggleClick.bind(this)}>
-            attachment
+            publish
           </i>
         </div>
         ${this.renderFileInput(selective, data, locale)}
         ${this.renderPreview(selective, data, locale)}
         ${this.renderLabelInput(selective, data, locale)}
+        ${this.renderSubFields(selective, data, locale)}
       </div>`;
   }
 
@@ -100517,6 +100534,25 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
       data-serving-path=${servingPath}
       @load=${this.handleMediaLoad.bind(this)}
       src="${servingPath}" />`;
+  }
+
+  renderSubFields(selective, data, locale) {
+    if (!this.config.fields) {
+      return '';
+    }
+
+    const localeKey = this.keyForLocale(locale);
+
+    if (!this._subFields[localeKey]) {
+      // Create the subfield's group using the fields config.
+      this._subFields[localeKey] = new selective_edit__WEBPACK_IMPORTED_MODULE_0__["GroupField"]({
+        'key': 'sub',
+        'label': this.config.extraLabel || 'Extra fields',
+        'fields': this.config.fields
+      });
+    }
+
+    return this._subFields[localeKey].template(selective, data, locale);
   }
 
   uploadFile(file, locale) {
@@ -100630,7 +100666,7 @@ class MediaFileField extends MediaField {
               title="Upload file"
               data-locale=${locale || ''}
               @click=${this.handleFileInputToggleClick.bind(this)}>
-            attachment
+            publish
           </i>
           <i
               class="material-icons selective__field__media_file__file_icon"
@@ -100644,6 +100680,7 @@ class MediaFileField extends MediaField {
         ${this.renderFileInput(selective, data, locale)}
         ${this.renderPreview(selective, data, locale)}
         ${this.renderLabelInput(selective, data, locale)}
+        ${this.renderSubFields(selective, data, locale)}
       </div>`;
   }
 

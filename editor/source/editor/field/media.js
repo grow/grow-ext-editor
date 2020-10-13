@@ -7,6 +7,7 @@ import {
   html,
   repeat,
   Field,
+  GroupField,
 } from 'selective-edit'
 import {
   findParentByClassname,
@@ -76,6 +77,7 @@ export class MediaField extends Field {
     super(config, extendedConfig)
     this.fieldType = 'media'
     this._metas = {}
+    this._subFields = {}
     this._showFileInput = {}
     this._isLoading = {}
   }
@@ -93,6 +95,21 @@ export class MediaField extends Field {
       evt.stopPropagation()
       return target
     }
+  }
+
+  get isClean() {
+    if (!super.isClean) {
+      return false
+    }
+
+    // Check the sub fields to see if they are clean.
+    for (const localeKey of Object.keys(this._subFields)) {
+      if (!this._subFields[localeKey].isClean) {
+        return false
+      }
+    }
+
+    return true
   }
 
   delayedFocus(locale) {
@@ -327,12 +344,13 @@ export class MediaField extends Field {
               title="Upload file"
               data-locale=${locale || ''}
               @click=${this.handleFileInputToggleClick.bind(this)}>
-            attachment
+            publish
           </i>
         </div>
         ${this.renderFileInput(selective, data, locale)}
         ${this.renderPreview(selective, data, locale)}
         ${this.renderLabelInput(selective, data, locale)}
+        ${this.renderSubFields(selective, data, locale)}
       </div>`
   }
 
@@ -383,6 +401,25 @@ export class MediaField extends Field {
       data-serving-path=${servingPath}
       @load=${this.handleMediaLoad.bind(this)}
       src="${servingPath}" />`
+  }
+
+  renderSubFields(selective, data, locale) {
+    if (!this.config.fields) {
+      return ''
+    }
+
+    const localeKey = this.keyForLocale(locale)
+
+    if (!this._subFields[localeKey]) {
+      // Create the subfield's group using the fields config.
+      this._subFields[localeKey] = new GroupField({
+        'key': 'sub',
+        'label': this.config.extraLabel || 'Extra fields',
+        'fields': this.config.fields,
+      })
+    }
+
+    return this._subFields[localeKey].template(selective, data, locale)
   }
 
   uploadFile(file, locale) {
@@ -501,7 +538,7 @@ export class MediaFileField extends MediaField {
               title="Upload file"
               data-locale=${locale || ''}
               @click=${this.handleFileInputToggleClick.bind(this)}>
-            attachment
+            publish
           </i>
           <i
               class="material-icons selective__field__media_file__file_icon"
@@ -515,6 +552,7 @@ export class MediaFileField extends MediaField {
         ${this.renderFileInput(selective, data, locale)}
         ${this.renderPreview(selective, data, locale)}
         ${this.renderLabelInput(selective, data, locale)}
+        ${this.renderSubFields(selective, data, locale)}
       </div>`
   }
 
