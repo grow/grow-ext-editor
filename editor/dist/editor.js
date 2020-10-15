@@ -568,9 +568,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lit-html/directives/repeat */ "../../../selective-edit/node_modules/lit-html/directives/repeat.js");
 /* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../utility/compose */ "../../../selective-edit/js/utility/compose.js");
 /* harmony import */ var _utility_dataType__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../utility/dataType */ "../../../selective-edit/js/utility/dataType.js");
-/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
-/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../mixin/config */ "../../../selective-edit/js/mixin/config.js");
-/* harmony import */ var _mixin_uid__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../mixin/uid */ "../../../selective-edit/js/mixin/uid.js");
+/* harmony import */ var _utility_listeners__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../utility/listeners */ "../../../selective-edit/js/utility/listeners.js");
+/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
+/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../mixin/config */ "../../../selective-edit/js/mixin/config.js");
+/* harmony import */ var _mixin_uid__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../mixin/uid */ "../../../selective-edit/js/mixin/uid.js");
 /**
  * Base field.
  */
@@ -583,7 +584,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_7__["default"], _mixin_uid__WEBPACK_IMPORTED_MODULE_8__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["Base"]) {
+
+class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_8__["default"], _mixin_uid__WEBPACK_IMPORTED_MODULE_9__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["Base"]) {
   constructor(config, globalConfig) {
     super();
     this.fieldType = 'Field';
@@ -592,6 +594,7 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compos
     this.ignoreLocalize = false;
     this.defaultLocale = 'en';
     this.locales = ['en'];
+    this.listeners = new _utility_listeners__WEBPACK_IMPORTED_MODULE_6__["default"]();
     this.setConfig(config);
     this._errors = {};
     this._isLocked = false;
@@ -896,7 +899,7 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compos
     let newValue = data;
 
     if (typeof data === 'object' && data !== null) {
-      data = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_6__["autoDeepObject"])(data);
+      data = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_7__["autoDeepObject"])(data);
       newValue = data.get(this.key);
     }
 
@@ -941,7 +944,7 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compos
       const newValues = {};
 
       if (typeof data === 'object' && data !== null) {
-        data = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_6__["autoDeepObject"])(data);
+        data = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_7__["autoDeepObject"])(data);
 
         for (const locale of this.locales) {
           if (locale == this.defaultLocale) {
@@ -48665,6 +48668,169 @@ function objEquiv(a, b, opts) {
 
 module.exports = deepEqual;
 
+
+/***/ }),
+
+/***/ "./node_modules/deep-extend/lib/deep-extend.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/deep-extend/lib/deep-extend.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(Buffer) {/*!
+ * @description Recursive object extending
+ * @author Viacheslav Lotsmanov <lotsmanov89@gmail.com>
+ * @license MIT
+ *
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2013-2018 Viacheslav Lotsmanov
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to
+ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+ * the Software, and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+ * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
+
+
+function isSpecificValue(val) {
+	return (
+		val instanceof Buffer
+		|| val instanceof Date
+		|| val instanceof RegExp
+	) ? true : false;
+}
+
+function cloneSpecificValue(val) {
+	if (val instanceof Buffer) {
+		var x = Buffer.alloc
+			? Buffer.alloc(val.length)
+			: new Buffer(val.length);
+		val.copy(x);
+		return x;
+	} else if (val instanceof Date) {
+		return new Date(val.getTime());
+	} else if (val instanceof RegExp) {
+		return new RegExp(val);
+	} else {
+		throw new Error('Unexpected situation');
+	}
+}
+
+/**
+ * Recursive cloning array.
+ */
+function deepCloneArray(arr) {
+	var clone = [];
+	arr.forEach(function (item, index) {
+		if (typeof item === 'object' && item !== null) {
+			if (Array.isArray(item)) {
+				clone[index] = deepCloneArray(item);
+			} else if (isSpecificValue(item)) {
+				clone[index] = cloneSpecificValue(item);
+			} else {
+				clone[index] = deepExtend({}, item);
+			}
+		} else {
+			clone[index] = item;
+		}
+	});
+	return clone;
+}
+
+function safeGetProperty(object, property) {
+	return property === '__proto__' ? undefined : object[property];
+}
+
+/**
+ * Extening object that entered in first argument.
+ *
+ * Returns extended object or false if have no target object or incorrect type.
+ *
+ * If you wish to clone source object (without modify it), just use empty new
+ * object as first argument, like this:
+ *   deepExtend({}, yourObj_1, [yourObj_N]);
+ */
+var deepExtend = module.exports = function (/*obj_1, [obj_2], [obj_N]*/) {
+	if (arguments.length < 1 || typeof arguments[0] !== 'object') {
+		return false;
+	}
+
+	if (arguments.length < 2) {
+		return arguments[0];
+	}
+
+	var target = arguments[0];
+
+	// convert arguments to array and cut off target object
+	var args = Array.prototype.slice.call(arguments, 1);
+
+	var val, src, clone;
+
+	args.forEach(function (obj) {
+		// skip argument if isn't an object, is null, or is an array
+		if (typeof obj !== 'object' || obj === null || Array.isArray(obj)) {
+			return;
+		}
+
+		Object.keys(obj).forEach(function (key) {
+			src = safeGetProperty(target, key); // source value
+			val = safeGetProperty(obj, key); // new value
+
+			// recursion prevention
+			if (val === target) {
+				return;
+
+			/**
+			 * if new value isn't object then just overwrite by new value
+			 * instead of extending.
+			 */
+			} else if (typeof val !== 'object' || val === null) {
+				target[key] = val;
+				return;
+
+			// just clone arrays (and recursive clone objects inside)
+			} else if (Array.isArray(val)) {
+				target[key] = deepCloneArray(val);
+				return;
+
+			// custom cloning and overwrite for specific objects
+			} else if (isSpecificValue(val)) {
+				target[key] = cloneSpecificValue(val);
+				return;
+
+			// overwrite by new value if source isn't object or array
+			} else if (typeof src !== 'object' || src === null || Array.isArray(src)) {
+				target[key] = deepExtend({}, val);
+				return;
+
+			// source value and new value is objects both, extending...
+			} else {
+				target[key] = deepExtend(src, val);
+				return;
+			}
+		});
+	});
+
+	return target;
+};
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../node-libs-browser/node_modules/buffer/index.js */ "./node_modules/node-libs-browser/node_modules/buffer/index.js").Buffer))
 
 /***/ }),
 
@@ -100147,13 +100313,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MediaField", function() { return MediaField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MediaFileField", function() { return MediaFileField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GoogleMediaField", function() { return GoogleMediaField; });
-/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
-/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
-/* harmony import */ var _utility_filter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/filter */ "./source/utility/filter.js");
-/* harmony import */ var _ui_file__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../ui/file */ "./source/editor/ui/file.js");
+/* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! deep-extend */ "./node_modules/deep-extend/lib/deep-extend.js");
+/* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(deep_extend__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
+/* harmony import */ var _utility_filter__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utility/filter */ "./source/utility/filter.js");
+/* harmony import */ var _ui_file__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../ui/file */ "./source/editor/ui/file.js");
 /**
  * Media field types for the editor extension.
  */
+
 
 
 
@@ -100197,7 +100366,7 @@ const fractReduce = (numerator, denominator) => {
   return [numerator / fracGcd, denominator / fracGcd];
 };
 
-class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
+class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
   constructor(config, extendedConfig) {
     super(config, extendedConfig);
     this.fieldType = 'media';
@@ -100205,10 +100374,11 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
     this._subFields = {};
     this._showFileInput = {};
     this._isLoading = {};
+    this._value = undefined;
   }
 
   _targetForDrop(evt) {
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, `selective__field__media_file__wrapper`);
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_2__["findParentByClassname"])(evt.target, `selective__field__media_file__wrapper`);
 
     if (!target) {
       return false;
@@ -100236,6 +100406,21 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
     return true;
   }
 
+  get value() {
+    let subFieldValue = {};
+    const localeKey = this.keyForLocale();
+
+    if (this._subFields[localeKey]) {
+      subFieldValue = this._subFields[localeKey].value;
+    }
+
+    return deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, this._value, subFieldValue);
+  }
+
+  set value(value) {
+    this._value = value;
+  }
+
   delayedFocus(locale) {
     // Wait for the render then focus on the file input.
     document.addEventListener('selective.render.complete', () => {
@@ -100251,6 +100436,17 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
     }
 
     return value;
+  }
+
+  getValueForLocale(locale) {
+    let subFieldValue = {};
+    const localeKey = this.keyForLocale(locale);
+
+    if (this._subFields[localeKey]) {
+      subFieldValue = this._subFields[localeKey].value;
+    }
+
+    return deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, super.getValueForLocale(locale), subFieldValue);
   }
 
   handleDragDrop(evt) {
@@ -100378,7 +100574,7 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
       return '';
     }
 
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+    return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
       <div class="selective__media__file">
         <input
           type="file"
@@ -100393,7 +100589,7 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
     const value = this.getValueForLocale(locale) || {};
     const localeKey = this.keyForLocale(locale);
     const label = value.label || '';
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+    return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
       <div class="selective__media__label">
         <div class="selective__field__label selective__field__label--secondary">
           Accessibility Label
@@ -100419,13 +100615,13 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
       return '';
     }
 
-    mediaMeta.push(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+    mediaMeta.push(selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
       <div class="selective__media__preview__meta__size">
         <span class="selective__media__preview__meta__label">Size:</span>
         <span class="selective__media__preview__meta__value">${meta.width}x${meta.height}</span>
       </div>`);
     const ratio = fractReduce(meta.width, meta.height);
-    mediaMeta.push(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+    mediaMeta.push(selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
       <div class="selective__media__preview__meta__ratio">
         <span class="selective__media__preview__meta__label">Ratio:</span>
         <span class="selective__media__preview__meta__value">${ratio[0]}:${ratio[1]}</span>
@@ -100437,7 +100633,7 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
     const value = this.getValueForLocale(locale) || {};
     const url = value.url || '';
     const localeKey = this.keyForLocale(locale);
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+    return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
       <div
           class="selective__field__media_file__wrapper"
           @drop=${this.handleDragDrop.bind(this)}
@@ -100478,7 +100674,7 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
     const servingPath = this.getServingPath(url, locale);
 
     if (this._isLoading[localeKey]) {
-      return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
         <div id="${this.uid}${locale || ''}-preview" class="selective__media__preview">
           <div class="editor__loading editor__loading--small editor__loading--pad"></div>
         </div>`;
@@ -100488,7 +100684,7 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
       return '';
     }
 
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+    return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
       <div id="${this.uid}${locale || ''}-preview" class="selective__media__preview">
         <div class="selective__media__preview__media">
           ${this.renderPreviewMedia(selective, data, locale, servingPath)}
@@ -100504,7 +100700,7 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
       const isVideoFile = VALID_VIDEO_MIME_TYPES.includes(fileExt);
 
       if (isVideoFile && servingPath.endsWith(`.${fileExt}`)) {
-        return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<video
+        return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<video
             data-locale=${locale || ''}
             data-serving-path=${servingPath}
             @loadeddata=${this.handleVideoLoad.bind(this)}
@@ -100514,7 +100710,7 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
       }
     }
 
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<img
+    return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<img
       data-locale=${locale || ''}
       data-serving-path=${servingPath}
       @load=${this.handleMediaLoad.bind(this)}
@@ -100530,14 +100726,15 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
 
     if (!this._subFields[localeKey]) {
       // Create the subfield's group using the fields config.
-      this._subFields[localeKey] = new selective_edit__WEBPACK_IMPORTED_MODULE_0__["GroupField"]({
-        'key': 'sub',
+      this._subFields[localeKey] = new selective_edit__WEBPACK_IMPORTED_MODULE_1__["GroupField"]({
+        'key': null,
+        // Null key since we combine it with the other values.
         'label': this.config.extraLabel || 'Extra fields',
         'fields': this.config.fields
       });
     }
 
-    return this._subFields[localeKey].template(selective, data, locale);
+    return this._subFields[localeKey].template(selective, this.originalValue, locale);
   }
 
   uploadFile(file, locale) {
@@ -100563,8 +100760,8 @@ class MediaFileField extends MediaField {
     super(config, extendedConfig);
     this.fieldType = 'media_file';
     this._fileListUi = {};
-    this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createWhiteBlackFilter"])(Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["regexList"])(this.config.get('whitelist'), [/^\/static\/.*\.(jp[e]?g|png|svg|webp)$/]), // Whitelist.
-    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["regexList"])(this.config.get('blacklist')) // Blacklist.
+    this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_3__["createWhiteBlackFilter"])(Object(_utility_filter__WEBPACK_IMPORTED_MODULE_3__["regexList"])(this.config.get('whitelist'), [/^\/static\/.*\.(jp[e]?g|png|svg|webp)$/]), // Whitelist.
+    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_3__["regexList"])(this.config.get('blacklist')) // Blacklist.
     ); // Use the API to get serving paths for local medias.
 
     this.api = this.config.get('api');
@@ -100576,7 +100773,7 @@ class MediaFileField extends MediaField {
     const localeKey = this.keyForLocale(locale);
 
     if (!this._fileListUi[localeKey]) {
-      this._fileListUi[localeKey] = new _ui_file__WEBPACK_IMPORTED_MODULE_3__["FileListUI"]({
+      this._fileListUi[localeKey] = new _ui_file__WEBPACK_IMPORTED_MODULE_4__["FileListUI"]({
         'filterFunc': this.filterFunc
       }); // Bind the pod path listener event for the UI.
 
@@ -100630,7 +100827,7 @@ class MediaFileField extends MediaField {
     const value = this.getValueForLocale(locale) || {};
     const url = value.url || '';
     const fileListUi = this.fileListUiForLocale(locale);
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+    return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
       <div
           class="selective__field__media_file__wrapper"
           @drop=${this.handleDragDrop.bind(this)}
@@ -100670,7 +100867,7 @@ class MediaFileField extends MediaField {
   }
 
   renderInputLabel(selective, data, locale) {
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+    return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
       <div class="selective__field__label selective__field__label--secondary">
         Media path
       </div>`;
@@ -100708,7 +100905,7 @@ class GoogleMediaField extends MediaField {
   }
 
   renderInputLabel(selective, data, locale) {
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
+    return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
       <div class="selective__field__label selective__field__label--secondary">
         Media url
       </div>`;

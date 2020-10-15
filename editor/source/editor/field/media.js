@@ -2,6 +2,7 @@
  * Media field types for the editor extension.
  */
 
+import * as extend from 'deep-extend'
 import {
   directive,
   html,
@@ -80,6 +81,7 @@ export class MediaField extends Field {
     this._subFields = {}
     this._showFileInput = {}
     this._isLoading = {}
+    this._value = undefined
   }
 
   _targetForDrop(evt) {
@@ -112,6 +114,24 @@ export class MediaField extends Field {
     return true
   }
 
+  get value() {
+    let subFieldValue = {}
+
+    const localeKey = this.keyForLocale()
+    if (this._subFields[localeKey]) {
+      subFieldValue = this._subFields[localeKey].value
+    }
+
+    return extend(
+      {},
+      this._value,
+      subFieldValue)
+  }
+
+  set value(value) {
+    this._value = value
+  }
+
   delayedFocus(locale) {
     // Wait for the render then focus on the file input.
     document.addEventListener('selective.render.complete', () => {
@@ -127,6 +147,20 @@ export class MediaField extends Field {
     }
 
     return value
+  }
+
+  getValueForLocale(locale) {
+    let subFieldValue = {}
+
+    const localeKey = this.keyForLocale(locale)
+    if (this._subFields[localeKey]) {
+      subFieldValue = this._subFields[localeKey].value
+    }
+
+    return extend(
+      {},
+      super.getValueForLocale(locale),
+      subFieldValue)
   }
 
   handleDragDrop(evt) {
@@ -413,13 +447,13 @@ export class MediaField extends Field {
     if (!this._subFields[localeKey]) {
       // Create the subfield's group using the fields config.
       this._subFields[localeKey] = new GroupField({
-        'key': 'sub',
+        'key': null,  // Null key since we combine it with the other values.
         'label': this.config.extraLabel || 'Extra fields',
         'fields': this.config.fields,
       })
     }
 
-    return this._subFields[localeKey].template(selective, data, locale)
+    return this._subFields[localeKey].template(selective, this.originalValue, locale)
   }
 
   uploadFile(file, locale) {
