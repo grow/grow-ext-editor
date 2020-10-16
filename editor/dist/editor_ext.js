@@ -100389,7 +100389,8 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
     this._subFields = {};
     this._showFileInput = {};
     this._isLoading = {};
-    this._value = undefined;
+    this._originalValue = {};
+    this._value = {};
   }
 
   _targetForDrop(evt) {
@@ -100645,9 +100646,9 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
   }
 
   renderInput(selective, data, locale) {
+    const localeKey = this.keyForLocale(locale);
     const value = this.getValueForLocale(locale) || {};
     const url = value.url || '';
-    const localeKey = this.keyForLocale(locale);
     return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
       <div
           class="selective__field__media_file__wrapper"

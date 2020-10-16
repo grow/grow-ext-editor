@@ -81,7 +81,8 @@ export class MediaField extends Field {
     this._subFields = {}
     this._showFileInput = {}
     this._isLoading = {}
-    this._value = undefined
+    this._originalValue = {}
+    this._value = {}
   }
 
   _targetForDrop(evt) {
@@ -350,9 +351,9 @@ export class MediaField extends Field {
   }
 
   renderInput(selective, data, locale) {
+    const localeKey = this.keyForLocale(locale)
     const value = this.getValueForLocale(locale) || {}
     const url = value.url || ''
-    const localeKey = this.keyForLocale(locale)
 
     return html`
       <div
