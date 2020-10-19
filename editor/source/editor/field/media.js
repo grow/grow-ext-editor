@@ -61,6 +61,7 @@ const EXT_TO_MIME_TYPE = {
 const MEDIA_HOVER_CLASS = 'selective__media--hover'
 const FILE_EXT_REGEX = /\.[0-9a-z]{1,5}$/i
 const ABSOLUTE_URL_REGEX = /^(\/\/|http(s)?:)/i
+const SUB_FIELDS_KEY = 'extra'
 
 
 const fractReduce = (numerator,denominator) => {
@@ -120,7 +121,7 @@ export class MediaField extends Field {
 
     const localeKey = this.keyForLocale()
     if (this._subFields[localeKey]) {
-      subFieldValue = this._subFields[localeKey].value
+      subFieldValue[SUB_FIELDS_KEY] = this._subFields[localeKey].value
     }
 
     return extend(
@@ -155,7 +156,7 @@ export class MediaField extends Field {
 
     const localeKey = this.keyForLocale(locale)
     if (this._subFields[localeKey]) {
-      subFieldValue = this._subFields[localeKey].value
+      subFieldValue[SUB_FIELDS_KEY] = this._subFields[localeKey].value
     }
 
     return extend(
@@ -448,13 +449,13 @@ export class MediaField extends Field {
     if (!this._subFields[localeKey]) {
       // Create the subfield's group using the fields config.
       this._subFields[localeKey] = new GroupField({
-        'key': '__sub',  // Key name does not matter but required.
+        'key': SUB_FIELDS_KEY,  // Key name does not matter but required.
         'label': this.config.extraLabel || 'Extra fields',
         'fields': this.config.fields,
       })
     }
 
-    return this._subFields[localeKey].template(selective, this.originalValue, locale)
+    return this._subFields[localeKey].template(selective, data, locale)
   }
 
   uploadFile(file, locale) {

@@ -100355,6 +100355,7 @@ const EXT_TO_MIME_TYPE = {
 const MEDIA_HOVER_CLASS = 'selective__media--hover';
 const FILE_EXT_REGEX = /\.[0-9a-z]{1,5}$/i;
 const ABSOLUTE_URL_REGEX = /^(\/\/|http(s)?:)/i;
+const SUB_FIELDS_KEY = 'extra';
 
 const fractReduce = (numerator, denominator) => {
   // Reduce a fraction by finding the Greatest Common Divisor and dividing by it.
@@ -100412,7 +100413,7 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
     const localeKey = this.keyForLocale();
 
     if (this._subFields[localeKey]) {
-      subFieldValue = this._subFields[localeKey].value;
+      subFieldValue[SUB_FIELDS_KEY] = this._subFields[localeKey].value;
     }
 
     return deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, this._value, subFieldValue);
@@ -100444,7 +100445,7 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
     const localeKey = this.keyForLocale(locale);
 
     if (this._subFields[localeKey]) {
-      subFieldValue = this._subFields[localeKey].value;
+      subFieldValue[SUB_FIELDS_KEY] = this._subFields[localeKey].value;
     }
 
     return deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, super.getValueForLocale(locale), subFieldValue);
@@ -100727,14 +100728,14 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
     if (!this._subFields[localeKey]) {
       // Create the subfield's group using the fields config.
       this._subFields[localeKey] = new selective_edit__WEBPACK_IMPORTED_MODULE_1__["GroupField"]({
-        'key': '__sub',
+        'key': SUB_FIELDS_KEY,
         // Key name does not matter but required.
         'label': this.config.extraLabel || 'Extra fields',
         'fields': this.config.fields
       });
     }
 
-    return this._subFields[localeKey].template(selective, this.originalValue, locale);
+    return this._subFields[localeKey].template(selective, data, locale);
   }
 
   uploadFile(file, locale) {
