@@ -179,13 +179,13 @@ describe('media field', () => {
     })
     expect(isClean).toBe(true)
 
-    await percySnapshot(page, 'Media field after save', shared.snapshotOptions)
+    await percySnapshot(page, 'Media w/extra field after save', shared.snapshotOptions)
 
     await page.evaluate(_ => {
       document.querySelector('.selective__field__media_file__wrapper').classList.add(
         'selective__media--hover')
     })
-    await percySnapshot(page, 'Media field hover state', shared.snapshotOptions)
+    await percySnapshot(page, 'Media w/extra field hover state', shared.snapshotOptions)
   })
 
   it('should work with file list', async () => {
@@ -201,7 +201,7 @@ describe('media field', () => {
     await page.waitForSelector('.selective__file_list__file')
     await page.waitForSelector('.selective__media__preview__meta__size')
 
-    await percySnapshot(page, 'Media field after file list load', shared.snapshotOptions)
+    await percySnapshot(page, 'Media w/extra field after file list load', shared.snapshotOptions)
 
     // Click on a file in the list.
     await page.waitForSelector('.selective__media__preview__meta__size')
@@ -250,7 +250,7 @@ describe('media field', () => {
     })
     expect(isClean).toBe(true)
 
-    await percySnapshot(page, 'Media field after file list save', shared.snapshotOptions)
+    await percySnapshot(page, 'Media w/extra field after file list save', shared.snapshotOptions)
   })
 
   // TODO: Fix the sub fields to work with localized values.
@@ -320,7 +320,7 @@ describe('media field', () => {
   //   // })
   //   // expect(isClean).toBe(true)
   //
-  //   await percySnapshot(page, 'Media field after localization save', shared.snapshotOptions)
+  //   await percySnapshot(page, 'Media w/extra field after localization save', shared.snapshotOptions)
   // })
 
   // TODO: Fix the sub fields to work with localized values.
@@ -344,7 +344,7 @@ describe('media field', () => {
   //   await page.waitForSelector('[data-locale=en] .selective__file_list__file')
   //   await page.waitForSelector('.selective__field__media_file__wrapper[data-locale=en] .selective__media__preview__meta__size')
   //
-  //   await percySnapshot(page, 'Media field after file list on en localization load', shared.snapshotOptions)
+  //   await percySnapshot(page, 'Media w/extra field after file list on en localization load', shared.snapshotOptions)
   //
   //   // Click on a file in the en list.
   //   let listItem = await page.$(`[data-locale=en] .selective__file_list__file[data-pod-path="${newEn}"]`)
@@ -360,7 +360,7 @@ describe('media field', () => {
   //   await fileListIcon.click()
   //   await page.waitForSelector('[data-locale=es] .selective__file_list__file')
   //
-  //   await percySnapshot(page, 'Media field after file list on es localization load', shared.snapshotOptions)
+  //   await percySnapshot(page, 'Media w/extra field after file list on es localization load', shared.snapshotOptions)
   //
   //   // Click on a file in the es list.
   //   listItem = await page.$(`[data-locale=es] .selective__file_list__file[data-pod-path="${newEs}"]`)
@@ -399,6 +399,6 @@ describe('media field', () => {
   //   // })
   //   // expect(isClean).toBe(true)
   //
-  //   await percySnapshot(page, 'Media field after file list localization save', shared.snapshotOptions)
+  //   await percySnapshot(page, 'Media w/extra field after file list localization save', shared.snapshotOptions)
   // })
 })
