@@ -100750,7 +100750,7 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
       });
     }
 
-    return this._subFields[localeKey].template(selective, data, locale);
+    return this._subFields[localeKey].template(selective, this.originalValue, locale);
   }
 
   uploadFile(file, locale) {

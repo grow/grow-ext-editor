@@ -455,7 +455,8 @@ export class MediaField extends Field {
       })
     }
 
-    return this._subFields[localeKey].template(selective, data, locale)
+    return this._subFields[localeKey].template(
+      selective, this.originalValue, locale)
   }
 
   uploadFile(file, locale) {
