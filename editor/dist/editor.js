@@ -100730,7 +100730,7 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
       this._subFields[localeKey] = new selective_edit__WEBPACK_IMPORTED_MODULE_1__["GroupField"]({
         'key': SUB_FIELDS_KEY,
         // Key name does not matter but required.
-        'label': this.config.extraLabel || 'Extra fields',
+        'label': this.config.extraLabel || 'Extra',
         'fields': this.config.fields
       });
     }
