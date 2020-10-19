@@ -233,18 +233,18 @@ export class MediaField extends Field {
     const url = evt.target.value
     const locale = evt.target.dataset.locale
     const value = this.getValueForLocale(locale) || {}
-    this.setValueForLocale(locale, Object.assign({}, value, {
+    this.setValueForLocale(locale, extend({}, value, {
       'url': url,
     }))
+
     this.render()
   }
 
   handleLabelInput(evt) {
-    const target = evt.target
-    const locale = target.dataset.locale
     const label = evt.target.value
+    const locale = evt.target.dataset.locale
     const value = this.getValueForLocale(locale) || {}
-    this.setValueForLocale(locale, Object.assign({}, value, {
+    this.setValueForLocale(locale, extend({}, value, {
       'label': label
     }))
     this.render()
@@ -259,7 +259,7 @@ export class MediaField extends Field {
     // Copy the meta information into the value.
     const locale = evt.target.dataset.locale
     const value = this.getValueForLocale(locale) || {}
-    this.setValueForLocale(locale, Object.assign({}, value, {
+    this.setValueForLocale(locale, extend({}, value, {
       '_meta': meta,
     }))
 
@@ -276,7 +276,7 @@ export class MediaField extends Field {
     // Copy the meta information into the value.
     const locale = evt.target.dataset.locale
     const value = this.getValueForLocale(locale) || {}
-    this.setValueForLocale(locale, Object.assign({}, value, {
+    this.setValueForLocale(locale, extend({}, value, {
       '_meta': meta,
     }))
 
@@ -465,7 +465,7 @@ export class MediaField extends Field {
       this._showFileInput[localeKey] = false
       this._isLoading[localeKey] = false
       const value = this.getValueForLocale(locale) || {}
-      this.setValueForLocale(locale, Object.assign({}, value, {
+      this.setValueForLocale(locale, extend({}, value, {
         'url': result['pod_path']
       }))
     }).catch((err) => {
@@ -537,7 +537,7 @@ export class MediaFileField extends MediaField {
 
   handlePodPath(podPath, locale) {
     const value = this.getValueForLocale(locale) || {}
-    this.setValueForLocale(locale, Object.assign({}, value, {
+    this.setValueForLocale(locale, extend({}, value, {
       url: podPath
     }))
   }
@@ -657,7 +657,7 @@ export class GoogleMediaField extends MediaField {
         this._showFileInput[localeKey] = false
         this._isLoading[localeKey] = false
         const value = this.getValueForLocale(locale) || {}
-        this.setValueForLocale(locale, Object.assign({}, value, {
+        this.setValueForLocale(locale, extend({}, value, {
           'url': result['url']
         }))
         this.render()
