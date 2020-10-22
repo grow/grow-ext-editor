@@ -2,11 +2,13 @@
  * Media field types for the editor extension.
  */
 
+import * as extend from 'deep-extend'
 import {
   directive,
   html,
   repeat,
   Field,
+  GroupField,
 } from 'selective-edit'
 import {
   findParentByClassname,
@@ -59,6 +61,7 @@ const EXT_TO_MIME_TYPE = {
 const MEDIA_HOVER_CLASS = 'selective__media--hover'
 const FILE_EXT_REGEX = /\.[0-9a-z]{1,5}$/i
 const ABSOLUTE_URL_REGEX = /^(\/\/|http(s)?:)/i
+const SUB_FIELDS_KEY = 'extra'
 
 
 const fractReduce = (numerator,denominator) => {
@@ -76,8 +79,11 @@ export class MediaField extends Field {
     super(config, extendedConfig)
     this.fieldType = 'media'
     this._metas = {}
+    this._subFields = {}
     this._showFileInput = {}
     this._isLoading = {}
+    this._originalValue = {}
+    this._value = {}
   }
 
   _targetForDrop(evt) {
@@ -95,6 +101,39 @@ export class MediaField extends Field {
     }
   }
 
+  get isClean() {
+    if (!super.isClean) {
+      return false
+    }
+
+    // Check the sub fields to see if they are clean.
+    for (const localeKey of Object.keys(this._subFields)) {
+      if (!this._subFields[localeKey].isClean) {
+        return false
+      }
+    }
+
+    return true
+  }
+
+  get value() {
+    let subFieldValue = {}
+
+    const localeKey = this.keyForLocale()
+    if (this._subFields[localeKey]) {
+      subFieldValue[SUB_FIELDS_KEY] = this._subFields[localeKey].value
+    }
+
+    return extend(
+      {},
+      this._value,
+      subFieldValue)
+  }
+
+  set value(value) {
+    this._value = value
+  }
+
   delayedFocus(locale) {
     // Wait for the render then focus on the file input.
     document.addEventListener('selective.render.complete', () => {
@@ -110,6 +149,20 @@ export class MediaField extends Field {
     }
 
     return value
+  }
+
+  getValueForLocale(locale) {
+    let subFieldValue = {}
+
+    const localeKey = this.keyForLocale(locale)
+    if (this._subFields[localeKey]) {
+      subFieldValue[SUB_FIELDS_KEY] = this._subFields[localeKey].value
+    }
+
+    return extend(
+      {},
+      super.getValueForLocale(locale),
+      subFieldValue)
   }
 
   handleDragDrop(evt) {
@@ -181,18 +234,18 @@ export class MediaField extends Field {
     const url = evt.target.value
     const locale = evt.target.dataset.locale
     const value = this.getValueForLocale(locale) || {}
-    this.setValueForLocale(locale, Object.assign({}, value, {
+    this.setValueForLocale(locale, extend({}, value, {
       'url': url,
     }))
+
     this.render()
   }
 
   handleLabelInput(evt) {
-    const target = evt.target
-    const locale = target.dataset.locale
     const label = evt.target.value
+    const locale = evt.target.dataset.locale
     const value = this.getValueForLocale(locale) || {}
-    this.setValueForLocale(locale, Object.assign({}, value, {
+    this.setValueForLocale(locale, extend({}, value, {
       'label': label
     }))
     this.render()
@@ -207,7 +260,7 @@ export class MediaField extends Field {
     // Copy the meta information into the value.
     const locale = evt.target.dataset.locale
     const value = this.getValueForLocale(locale) || {}
-    this.setValueForLocale(locale, Object.assign({}, value, {
+    this.setValueForLocale(locale, extend({}, value, {
       '_meta': meta,
     }))
 
@@ -224,7 +277,7 @@ export class MediaField extends Field {
     // Copy the meta information into the value.
     const locale = evt.target.dataset.locale
     const value = this.getValueForLocale(locale) || {}
-    this.setValueForLocale(locale, Object.assign({}, value, {
+    this.setValueForLocale(locale, extend({}, value, {
       '_meta': meta,
     }))
 
@@ -299,9 +352,9 @@ export class MediaField extends Field {
   }
 
   renderInput(selective, data, locale) {
+    const localeKey = this.keyForLocale(locale)
     const value = this.getValueForLocale(locale) || {}
     const url = value.url || ''
-    const localeKey = this.keyForLocale(locale)
 
     return html`
       <div
@@ -327,12 +380,13 @@ export class MediaField extends Field {
               title="Upload file"
               data-locale=${locale || ''}
               @click=${this.handleFileInputToggleClick.bind(this)}>
-            attachment
+            publish
           </i>
         </div>
         ${this.renderFileInput(selective, data, locale)}
         ${this.renderPreview(selective, data, locale)}
         ${this.renderLabelInput(selective, data, locale)}
+        ${this.renderSubFields(selective, data, locale)}
       </div>`
   }
 
@@ -385,6 +439,26 @@ export class MediaField extends Field {
       src="${servingPath}" />`
   }
 
+  renderSubFields(selective, data, locale) {
+    if (!this.config.fields) {
+      return ''
+    }
+
+    const localeKey = this.keyForLocale(locale)
+
+    if (!this._subFields[localeKey]) {
+      // Create the subfield's group using the fields config.
+      this._subFields[localeKey] = new GroupField({
+        'key': SUB_FIELDS_KEY,  // Key name does not matter but required.
+        'label': this.config.extraLabel || 'Extra',
+        'fields': this.config.fields,
+      })
+    }
+
+    return this._subFields[localeKey].template(
+      selective, this.originalValue, locale)
+  }
+
   uploadFile(file, locale) {
     const destination = this.config.get('destination', '/static/img/upload')
     const localeKey = this.keyForLocale(locale)
@@ -393,7 +467,7 @@ export class MediaField extends Field {
       this._showFileInput[localeKey] = false
       this._isLoading[localeKey] = false
       const value = this.getValueForLocale(locale) || {}
-      this.setValueForLocale(locale, Object.assign({}, value, {
+      this.setValueForLocale(locale, extend({}, value, {
         'url': result['pod_path']
       }))
     }).catch((err) => {
@@ -465,7 +539,7 @@ export class MediaFileField extends MediaField {
 
   handlePodPath(podPath, locale) {
     const value = this.getValueForLocale(locale) || {}
-    this.setValueForLocale(locale, Object.assign({}, value, {
+    this.setValueForLocale(locale, extend({}, value, {
       url: podPath
     }))
   }
@@ -501,7 +575,7 @@ export class MediaFileField extends MediaField {
               title="Upload file"
               data-locale=${locale || ''}
               @click=${this.handleFileInputToggleClick.bind(this)}>
-            attachment
+            publish
           </i>
           <i
               class="material-icons selective__field__media_file__file_icon"
@@ -515,6 +589,7 @@ export class MediaFileField extends MediaField {
         ${this.renderFileInput(selective, data, locale)}
         ${this.renderPreview(selective, data, locale)}
         ${this.renderLabelInput(selective, data, locale)}
+        ${this.renderSubFields(selective, data, locale)}
       </div>`
   }
 
@@ -584,7 +659,7 @@ export class GoogleMediaField extends MediaField {
         this._showFileInput[localeKey] = false
         this._isLoading[localeKey] = false
         const value = this.getValueForLocale(locale) || {}
-        this.setValueForLocale(locale, Object.assign({}, value, {
+        this.setValueForLocale(locale, extend({}, value, {
           'url': result['url']
         }))
         this.render()
