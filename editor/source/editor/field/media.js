@@ -62,6 +62,7 @@ const MEDIA_HOVER_CLASS = 'selective__media--hover'
 const FILE_EXT_REGEX = /\.[0-9a-z]{1,5}$/i
 const ABSOLUTE_URL_REGEX = /^(\/\/|http(s)?:)/i
 const SUB_FIELDS_KEY = 'extra'
+const LABEL_KEY = 'label@'
 
 
 const fractReduce = (numerator,denominator) => {
@@ -245,9 +246,9 @@ export class MediaField extends Field {
     const label = evt.target.value
     const locale = evt.target.dataset.locale
     const value = this.getValueForLocale(locale) || {}
-    this.setValueForLocale(locale, extend({}, value, {
-      'label': label
-    }))
+    const labelValue = {}
+    labelValue[LABEL_KEY] = label
+    this.setValueForLocale(locale, extend({}, value, labelValue))
     this.render()
   }
 
@@ -306,7 +307,7 @@ export class MediaField extends Field {
   renderLabelInput(selective, data, locale) {
     const value = this.getValueForLocale(locale) || {}
     const localeKey = this.keyForLocale(locale)
-    const label = value.label || ''
+    const label = value[LABEL_KEY] || ''
 
     return html`
       <div class="selective__media__label">
@@ -448,11 +449,12 @@ export class MediaField extends Field {
 
     if (!this._subFields[localeKey]) {
       // Create the subfield's group using the fields config.
-      this._subFields[localeKey] = new GroupField({
-        'key': SUB_FIELDS_KEY,  // Key name does not matter but required.
-        'label': this.config.extraLabel || 'Extra',
+      const groupFieldConfig = {
+        'key': SUB_FIELDS_KEY,
         'fields': this.config.fields,
-      })
+      }
+      groupFieldConfig[LABEL_KEY] = this.config.extraLabel || 'Extra'
+      this._subFields[localeKey] = new GroupField(groupFieldConfig)
     }
 
     return this._subFields[localeKey].template(

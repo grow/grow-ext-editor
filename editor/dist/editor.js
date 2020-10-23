@@ -100356,6 +100356,7 @@ const MEDIA_HOVER_CLASS = 'selective__media--hover';
 const FILE_EXT_REGEX = /\.[0-9a-z]{1,5}$/i;
 const ABSOLUTE_URL_REGEX = /^(\/\/|http(s)?:)/i;
 const SUB_FIELDS_KEY = 'extra';
+const LABEL_KEY = 'label@';
 
 const fractReduce = (numerator, denominator) => {
   // Reduce a fraction by finding the Greatest Common Divisor and dividing by it.
@@ -100532,9 +100533,9 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
     const label = evt.target.value;
     const locale = evt.target.dataset.locale;
     const value = this.getValueForLocale(locale) || {};
-    this.setValueForLocale(locale, deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, value, {
-      'label': label
-    }));
+    const labelValue = {};
+    labelValue[LABEL_KEY] = label;
+    this.setValueForLocale(locale, deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, value, labelValue));
     this.render();
   }
 
@@ -100589,7 +100590,7 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
   renderLabelInput(selective, data, locale) {
     const value = this.getValueForLocale(locale) || {};
     const localeKey = this.keyForLocale(locale);
-    const label = value.label || '';
+    const label = value[LABEL_KEY] || '';
     return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
       <div class="selective__media__label">
         <div class="selective__field__label selective__field__label--secondary">
@@ -100727,12 +100728,12 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
 
     if (!this._subFields[localeKey]) {
       // Create the subfield's group using the fields config.
-      this._subFields[localeKey] = new selective_edit__WEBPACK_IMPORTED_MODULE_1__["GroupField"]({
+      const groupFieldConfig = {
         'key': SUB_FIELDS_KEY,
-        // Key name does not matter but required.
-        'label': this.config.extraLabel || 'Extra',
         'fields': this.config.fields
-      });
+      };
+      groupFieldConfig[LABEL_KEY] = this.config.extraLabel || 'Extra';
+      this._subFields[localeKey] = new selective_edit__WEBPACK_IMPORTED_MODULE_1__["GroupField"](groupFieldConfig);
     }
 
     return this._subFields[localeKey].template(selective, this.originalValue, locale);
