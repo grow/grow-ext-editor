@@ -647,8 +647,8 @@ export class GoogleMediaField extends MediaField {
 
     // Wait for the url promise to return.
     this._extension_config_promise.then((result) => {
-      const uploadUrl = result['googleMediaUploadUrl']
-      const bucket = result['googleMediaBucket']
+      const uploadUrl = result['googleImageUploadUrl']
+      const bucket = result['googleImageBucket']
 
       if (!uploadUrl) {
         console.error('Unable to retrieve the upload url.');
@@ -657,7 +657,7 @@ export class GoogleMediaField extends MediaField {
         return
       }
 
-      this.api.saveGoogleMedia(file, uploadUrl, bucket).then((result) => {
+      this.api.saveGoogleImage(file, uploadUrl, bucket).then((result) => {
         this._showFileInput[localeKey] = false
         this._isLoading[localeKey] = false
         const value = this.getValueForLocale(locale) || {}
