@@ -101460,7 +101460,7 @@ class HtmlField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
                 'indent': '-1'
               }, {
                 'indent': '+1'
-              }], ['link', 'image'], ['clean']]
+              }], ['link', 'image', 'video'], ['clean']]
             },
             theme: 'snow'
           });
