@@ -196,7 +196,7 @@ export class HtmlField extends Field {
                 ['blockquote', 'code-block'],
                 [{ 'list': 'ordered'}, { 'list': 'bullet' }],
                 [{ 'indent': '-1'}, { 'indent': '+1' }],
-                ['link', 'image'],
+                ['link', 'image', 'video'],
                 ['clean'],
               ]
             },
