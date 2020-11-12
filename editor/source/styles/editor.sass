@@ -154,6 +154,9 @@
   &:last-child
     margin-right: $ge-pad/2
 
+.editor__invalid
+  color: $ge-color-warning
+
 .editor__menu
   align-items: center
   background-color: $ge-color-back
@@ -209,7 +212,13 @@
     &:focus
       box-shadow: none
 
+  &.editor__button--invalid
+    color: $ge-color-on-back-warning
+    background-color: $ge-color-back-warning
+    border-color: $ge-color-back-warning
+
 .editor__actions
+  align-items: center
   display: flex
   flex-flow: row
 

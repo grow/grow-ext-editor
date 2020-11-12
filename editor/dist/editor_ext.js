@@ -155,7 +155,7 @@ const UidMixin = superclass => class extends superclass {
 /*!***************************************************************!*\
   !*** /Users/randy/code/blinkk/selective-edit/js/selective.js ***!
   \***************************************************************/
-/*! exports provided: default, AutoFields, Field, Fields, GroupField, ListField, ListItem, UI, VariantField, autoConfig, autoDeepObject, directive, html, repeat, render, unsafeHTML */
+/*! exports provided: default, AutoFields, Field, Fields, GroupField, LengthValidationRule, ListField, ListItem, MatchValidationRule, PatternValidationRule, RangeValidationRule, RequiredValidationRule, UI, VariantField, ValidationRule, ValidationRules, autoConfig, autoDeepObject, directive, html, repeat, render, unsafeHTML */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -193,18 +193,35 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _selective_fields_fields__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./selective/fields/fields */ "../../../selective-edit/js/selective/fields/fields.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Fields", function() { return _selective_fields_fields__WEBPACK_IMPORTED_MODULE_8__["default"]; });
 
-/* harmony import */ var _selective_autoFields__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./selective/autoFields */ "../../../selective-edit/js/selective/autoFields.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AutoFields", function() { return _selective_autoFields__WEBPACK_IMPORTED_MODULE_9__["default"]; });
+/* harmony import */ var _selective_validation_rules__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./selective/validation/rules */ "../../../selective-edit/js/selective/validation/rules.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ValidationRules", function() { return _selective_validation_rules__WEBPACK_IMPORTED_MODULE_9__["default"]; });
 
-/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./utility/config */ "../../../selective-edit/js/utility/config.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "autoConfig", function() { return _utility_config__WEBPACK_IMPORTED_MODULE_10__["autoConfig"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LengthValidationRule", function() { return _selective_validation_rules__WEBPACK_IMPORTED_MODULE_9__["LengthValidationRule"]; });
 
-/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "autoDeepObject", function() { return _utility_deepObject__WEBPACK_IMPORTED_MODULE_11__["autoDeepObject"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "MatchValidationRule", function() { return _selective_validation_rules__WEBPACK_IMPORTED_MODULE_9__["MatchValidationRule"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "PatternValidationRule", function() { return _selective_validation_rules__WEBPACK_IMPORTED_MODULE_9__["PatternValidationRule"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "RangeValidationRule", function() { return _selective_validation_rules__WEBPACK_IMPORTED_MODULE_9__["RangeValidationRule"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "RequiredValidationRule", function() { return _selective_validation_rules__WEBPACK_IMPORTED_MODULE_9__["RequiredValidationRule"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ValidationRule", function() { return _selective_validation_rules__WEBPACK_IMPORTED_MODULE_9__["ValidationRule"]; });
+
+/* harmony import */ var _selective_autoFields__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./selective/autoFields */ "../../../selective-edit/js/selective/autoFields.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AutoFields", function() { return _selective_autoFields__WEBPACK_IMPORTED_MODULE_10__["default"]; });
+
+/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./utility/config */ "../../../selective-edit/js/utility/config.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "autoConfig", function() { return _utility_config__WEBPACK_IMPORTED_MODULE_11__["autoConfig"]; });
+
+/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "autoDeepObject", function() { return _utility_deepObject__WEBPACK_IMPORTED_MODULE_12__["autoDeepObject"]; });
 
 /**
  * Selective structure content editor.
  */
+
+
 
 
 
@@ -400,9 +417,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../mixin/config */ "../../../selective-edit/js/mixin/config.js");
 /* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
 /* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utility/compose */ "../../../selective-edit/js/utility/compose.js");
-/* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./autoFields */ "../../../selective-edit/js/selective/autoFields.js");
-/* harmony import */ var _fields_fields__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./fields/fields */ "../../../selective-edit/js/selective/fields/fields.js");
-/* harmony import */ var _fieldTypes__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./fieldTypes */ "../../../selective-edit/js/selective/fieldTypes.js");
+/* harmony import */ var _utility_classes__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utility/classes */ "../../../selective-edit/js/utility/classes.js");
+/* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./autoFields */ "../../../selective-edit/js/selective/autoFields.js");
+/* harmony import */ var _fields_fields__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./fields/fields */ "../../../selective-edit/js/selective/fields/fields.js");
 /**
  * Selective content editor.
  *
@@ -420,7 +437,8 @@ class Editor extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["compo
   constructor(containerEl, config) {
     super();
     this.containerEl = containerEl;
-    this.fieldTypes = new _fieldTypes__WEBPACK_IMPORTED_MODULE_6__["default"]();
+    this.fieldTypes = new _utility_classes__WEBPACK_IMPORTED_MODULE_4__["default"]();
+    this.ruleTypes = new _utility_classes__WEBPACK_IMPORTED_MODULE_4__["default"]();
     this.localize = false;
     this._fields = null;
     this._data = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_2__["autoDeepObject"])({}); // Needs to be defined before the config is set.
@@ -444,8 +462,8 @@ class Editor extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["compo
 
   get fields() {
     if (!this._fields) {
-      const FieldsCls = this.getConfig().get('FieldsCls', _fields_fields__WEBPACK_IMPORTED_MODULE_5__["default"]);
-      this._fields = new FieldsCls(this.fieldTypes);
+      const FieldsCls = this.getConfig().get('FieldsCls', _fields_fields__WEBPACK_IMPORTED_MODULE_6__["default"]);
+      this._fields = new FieldsCls(this.fieldTypes, this.ruleTypes);
     }
 
     return this._fields;
@@ -453,6 +471,10 @@ class Editor extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["compo
 
   get isClean() {
     return this.fields.isClean;
+  }
+
+  get isValid() {
+    return this.fields.isValid;
   }
 
   get selfRender() {
@@ -475,15 +497,22 @@ class Editor extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["compo
   }
 
   addFieldType(key, FieldCls) {
-    this.fieldTypes.addFieldType(key, FieldCls);
+    this.fieldTypes.setClass(key, FieldCls);
     this.render();
   }
 
   addFieldTypes(fieldTypes) {
-    for (const key of Object.keys(fieldTypes)) {
-      this.fieldTypes.addFieldType(key, fieldTypes[key]);
-    }
+    this.fieldTypes.setClasses(fieldTypes);
+    this.render();
+  }
 
+  addRuleType(key, RuleCls) {
+    this.ruleTypes.setClass(key, RuleCls);
+    this.render();
+  }
+
+  addRuleTypes(ruleTypes) {
+    this.ruleTypes.setClasses(ruleTypes);
     this.render();
   }
 
@@ -500,7 +529,7 @@ class Editor extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["compo
   }
 
   guessFields() {
-    const AutoFieldsCls = this.config.get('AutoFieldsCls', _autoFields__WEBPACK_IMPORTED_MODULE_4__["default"]);
+    const AutoFieldsCls = this.config.get('AutoFieldsCls', _autoFields__WEBPACK_IMPORTED_MODULE_5__["default"]);
     const autoFields = new AutoFieldsCls(this.data.obj);
     return autoFields.config;
   }
@@ -510,7 +539,7 @@ class Editor extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["compo
     // This supports external rendering using the template.
     containerEl = containerEl || this.containerEl; // Initialize any new fields.
 
-    this.fieldTypes.initialize(containerEl); // Trigger any field specific actions.
+    this.fieldTypes.forEachFunc('initialize', containerEl); // Trigger any field specific actions.
 
     this.fields.postRender(containerEl);
   }
@@ -572,6 +601,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
 /* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../mixin/config */ "../../../selective-edit/js/mixin/config.js");
 /* harmony import */ var _mixin_uid__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../mixin/uid */ "../../../selective-edit/js/mixin/uid.js");
+/* harmony import */ var _validation_errors__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../validation/errors */ "../../../selective-edit/js/selective/validation/errors.js");
+/* harmony import */ var _validation_rules__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../validation/rules */ "../../../selective-edit/js/selective/validation/rules.js");
 /**
  * Base field.
  */
@@ -585,10 +616,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
 class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_8__["default"], _mixin_uid__WEBPACK_IMPORTED_MODULE_9__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["Base"]) {
-  constructor(config, globalConfig) {
+  constructor(ruleTypes, config, globalConfig) {
     super();
     this.fieldType = 'Field';
+    this.ruleTypes = ruleTypes;
     this.globalConfig = globalConfig || {};
     this.isLocalized = false;
     this.ignoreLocalize = false;
@@ -596,14 +630,20 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compos
     this.locales = ['en'];
     this.listeners = new _utility_listeners__WEBPACK_IMPORTED_MODULE_6__["default"]();
     this.setConfig(config);
-    this._errors = {};
     this._isLocked = false;
     this._useAutoFields = false;
     this._originalValue = undefined;
     this.value = undefined; // Localization requires multiple values for one field.
 
     this._originalValues = {};
-    this.values = {};
+    this.errors = {};
+    this.values = {}; // Store the validation rules.
+
+    this._validationRules = new _validation_rules__WEBPACK_IMPORTED_MODULE_11__["default"]({
+      ruleTypes: this.ruleTypes
+    });
+
+    this._validationRules.addRules(this.config.get('validation', []));
   } // TODO: Remove. Look into directives.
 
 
@@ -637,6 +677,10 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compos
 
     if (!this.isClean) {
       classes.push('selective__field--dirty');
+    }
+
+    if (!this.isValid) {
+      classes.push('selective__field--invalid');
     }
 
     if (this.isLinkedField) {
@@ -693,6 +737,32 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compos
     return false;
   }
 
+  get isValid() {
+    let hasErrors = false;
+    let locales = [];
+
+    if (this.ignoreLocalize || this.locales.length < 1) {
+      locales.push(null);
+    } else {
+      locales = locales.concat(this.locales);
+    } // Validate each locale separately.
+
+
+    for (const locale of locales) {
+      const errors = new _validation_errors__WEBPACK_IMPORTED_MODULE_10__["default"]();
+      const isDefaultLocale = !locale || locale == this.defaultLocale;
+      const value = this.getValueForLocale(locale);
+      errors.validateRules(this._validationRules.rules, value, locale, isDefaultLocale);
+      this.setErrorsForLocale(locale, errors);
+
+      if (errors.hasErrors()) {
+        hasErrors = true;
+      }
+    }
+
+    return !hasErrors;
+  }
+
   get key() {
     return this.config.key;
   }
@@ -721,6 +791,27 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compos
 
   get uid() {
     return this.getUid();
+  }
+
+  getClassesForInput(locale, zoneKey) {
+    const classes = [];
+    const errors = this.getErrorsForLocale(locale);
+    const zoneErrors = errors.getErrorsForZone(zoneKey);
+    const errorTypes = Object.keys(zoneErrors).sort();
+
+    if (errorTypes.length) {
+      classes.push('selective__field__input--error');
+    }
+
+    for (const key of errorTypes) {
+      classes.push(`selective__field__input--error__${key}`);
+    }
+
+    return classes.join(' ');
+  }
+
+  getErrorsForLocale(locale) {
+    return this.errors[this.keyForLocale(locale)];
   }
 
   getOriginalValueForLocale(locale) {
@@ -790,19 +881,26 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compos
       ${this.renderHeader(selective, data)}
       ${this.renderLabel(selective, data)}
       ${this.renderLocalization(selective, data)}
-      ${this.renderError(selective, data)}
       ${this.renderHelp(selective, data)}
       ${this.renderFooter(selective, data)}`;
   }
 
-  renderError(selective, data) {
-    const errorKeys = Object.keys(this._errors);
+  renderErrors(selective, data, locale, zoneKey) {
+    const errors = this.getErrorsForLocale(locale);
+    const zoneErrors = errors.getErrorsForZone(zoneKey);
+    const errorTypes = Object.keys(zoneErrors).sort();
 
-    if (!errorKeys.length) {
+    if (!errorTypes.length) {
       return '';
     }
 
-    return lit_html__WEBPACK_IMPORTED_MODULE_2__["html"]`<div class="selective__field__errors">${errorKeys}</div>`;
+    return lit_html__WEBPACK_IMPORTED_MODULE_2__["html"]`<div class="selective__field__errors">
+        ${Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_3__["repeat"])(errorTypes, type => type, (type, index) => lit_html__WEBPACK_IMPORTED_MODULE_2__["html"]`
+            <div class="selective__field__error" data-error-type="${type}">
+              ${zoneErrors[type]}
+            </div>
+          `)}
+      </div>`;
   }
 
   renderFooter(selective, data) {
@@ -835,6 +933,10 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compos
           class="selective__field__deep_link"
           @click=${this.handleDeepLink.bind(this)}>
         <i class="material-icons">link</i>
+      </span>
+      <span
+          class="selective__field__invalid">
+        <i class="material-icons">error</i>
       </span>
       <label for="${this.uid}">${this.config.label}</label>
     </div>`;
@@ -870,6 +972,11 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compos
           data-field-full-key="${this.fullKey}">
         ${this.renderField(selective, data)}
       </div>`;
+  }
+
+  setErrorsForLocale(locale, value) {
+    const localeKey = this.keyForLocale(locale);
+    this.errors[localeKey] = value;
   }
 
   setValueForLocale(locale, value) {
@@ -1041,9 +1148,9 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
     this._sortableUi.listeners.add('sort', this.handleSort.bind(this));
   }
 
-  _createFields(fieldTypes, config) {
+  _createFields(fieldTypes, ruleTypes, config) {
     const FieldsCls = this.config.get('FieldsCls', _fields_fields__WEBPACK_IMPORTED_MODULE_10__["default"]);
-    return new FieldsCls(fieldTypes, config);
+    return new FieldsCls(fieldTypes, ruleTypes, config);
   }
 
   _createItems(selective, data, locale) {
@@ -1063,7 +1170,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
     this._useAutoFields = !fieldConfigs.length;
 
     for (const itemData of value) {
-      const fields = this._createFields(selective.fieldTypes);
+      const fields = this._createFields(selective.fieldTypes, selective.ruleTypes);
 
       fields.updateOriginal(selective, itemData); // Auto guess the fields if they are not defined.
 
@@ -1268,7 +1375,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
     const locale = evt.target.dataset.locale;
     const listItems = this._getListItemsForLocale(locale) || [];
 
-    const fields = this._createFields(selective.fieldTypes); // Use the field config for the list items to create the correct field types.
+    const fields = this._createFields(selective.fieldTypes, selective.ruleTypes); // Use the field config for the list items to create the correct field types.
 
 
     let fieldConfigs = this.config.get('fields', []); // If no field configs, use the last item config if availble.
@@ -1969,51 +2076,6 @@ class VariantField extends _field__WEBPACK_IMPORTED_MODULE_7__["default"] {
 
 /***/ }),
 
-/***/ "../../../selective-edit/js/selective/fieldTypes.js":
-/*!**************************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/js/selective/fieldTypes.js ***!
-  \**************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return FieldTypes; });
-/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../mixin/config */ "../../../selective-edit/js/mixin/config.js");
-/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utility/compose */ "../../../selective-edit/js/utility/compose.js");
-/**
- * Fields types defined for editing.
- */
-
-
-class FieldTypes extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_1__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_0__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_1__["Base"]) {
-  constructor(config) {
-    super();
-    this.fieldTypes = {};
-    this.setConfig(config);
-  }
-
-  addFieldType(key, FieldCls) {
-    this.fieldTypes[key] = FieldCls;
-  }
-
-  initialize(containerEl) {
-    for (const [key, value] of Object.entries(this.fieldTypes)) {
-      value.initialize(containerEl);
-    }
-  }
-
-  newField(type, ...args) {
-    if (type in this.fieldTypes) {
-      return new this.fieldTypes[type](...args);
-    } // TODO: Placeholder field.
-
-  }
-
-}
-
-/***/ }),
-
 /***/ "../../../selective-edit/js/selective/fields/fields.js":
 /*!*****************************************************************************!*\
   !*** /Users/randy/code/blinkk/selective-edit/js/selective/fields/fields.js ***!
@@ -2045,13 +2107,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 class Fields extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_4__["default"], _mixin_uid__WEBPACK_IMPORTED_MODULE_5__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["Base"]) {
-  constructor(fieldTypes, config) {
+  constructor(fieldTypes, ruleTypes, config) {
     super();
     this._originalValue = undefined;
     this._value = undefined;
     this._isLocked = false;
     this.fieldTypes = fieldTypes;
     this.fields = [];
+    this.ruleTypes = ruleTypes;
     this.setConfig(config);
   }
 
@@ -2078,6 +2141,19 @@ class Fields extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["compo
     }
 
     return true;
+  }
+
+  get isValid() {
+    let currentlyValid = true;
+
+    for (const field of this.fields) {
+      if (!field.isValid) {
+        // Does not return since we want to be able to mark all invalid fields.
+        currentlyValid = false;
+      }
+    }
+
+    return currentlyValid;
   }
 
   get isSimpleField() {
@@ -2142,7 +2218,7 @@ class Fields extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["compo
 
   addField(fieldConfig, globalConfig) {
     fieldConfig = Object(_utility_config__WEBPACK_IMPORTED_MODULE_6__["autoConfig"])(fieldConfig, globalConfig);
-    const newField = this.fieldTypes.newField(fieldConfig.type, fieldConfig, globalConfig); // TODO: Handle placeholders.
+    const newField = this.fieldTypes.newFromKey(fieldConfig.type, this.ruleTypes, fieldConfig, globalConfig); // TODO: Handle placeholders.
 
     if (newField) {
       this.fields.push(newField);
@@ -2363,6 +2439,413 @@ class UI extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_0__["compose"]
   render() {
     // Trigger a render event.
     document.dispatchEvent(new CustomEvent('selective.render'));
+  }
+
+}
+
+/***/ }),
+
+/***/ "../../../selective-edit/js/selective/validation/errors.js":
+/*!*********************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/selective/validation/errors.js ***!
+  \*********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ValidationErrors; });
+/**
+ * Validation errors for fields.
+ *
+ * 'Zone' based error tracking. Allows for complex fields that have different
+ * validation for different parts of the field.
+ */
+const DEFAULT_ZONE_KEY = '__default__';
+class ValidationErrors {
+  constructor() {
+    this._zones = {};
+  }
+
+  get errors() {
+    return this.getErrorsForZone();
+  }
+
+  addError(type, message, zoneKey) {
+    const zone = this.getErrorsForZone(zoneKey);
+    zone[type] = message;
+  }
+
+  getErrorsForZone(zoneKey) {
+    zoneKey = zoneKey || DEFAULT_ZONE_KEY;
+
+    if (!this._zones[zoneKey]) {
+      this._zones[zoneKey] = {};
+    }
+
+    return this._zones[zoneKey];
+  }
+
+  hasErrors(zoneKey) {
+    const zone = this.getErrorsForZone(zoneKey);
+    return Object.keys(zone).length > 0;
+  }
+
+  validateRules(rules, value, locale, isDefaultLocale, zoneKey) {
+    for (const rule of rules) {
+      // Ignore rules that only apply to default locale when not default.
+      // For example, a required rule is usually only required in the default.
+      if (!isDefaultLocale && rule.appliesToOnlyDefaultLocale) {
+        continue;
+      } // Ignore rules that only apply to non-default locales when default.
+
+
+      if (isDefaultLocale && rule.appliesToOnlyNonDefaultLocale) {
+        continue;
+      } // Using the result from the validation allows the message to be different
+      // based on what went wrong with the validation.
+
+
+      const result = rule.validate(value, locale, isDefaultLocale);
+
+      if (result) {
+        this.addError(rule.type, result, zoneKey);
+      }
+    }
+  }
+
+}
+
+/***/ }),
+
+/***/ "../../../selective-edit/js/selective/validation/rules.js":
+/*!********************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/selective/validation/rules.js ***!
+  \********************************************************************************/
+/*! exports provided: default, ValidationRule, LengthValidationRule, MatchValidationRule, PatternValidationRule, RangeValidationRule, RequiredValidationRule */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ValidationRules; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ValidationRule", function() { return ValidationRule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LengthValidationRule", function() { return LengthValidationRule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MatchValidationRule", function() { return MatchValidationRule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PatternValidationRule", function() { return PatternValidationRule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RangeValidationRule", function() { return RangeValidationRule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RequiredValidationRule", function() { return RequiredValidationRule; });
+/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../utility/compose */ "../../../selective-edit/js/utility/compose.js");
+/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../mixin/config */ "../../../selective-edit/js/mixin/config.js");
+/**
+ * Validation rules for fields.
+ */
+
+
+class ValidationRules extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_0__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_1__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_0__["Base"]) {
+  constructor(config) {
+    super();
+    this._rules = [];
+    this.setConfig(config);
+  }
+
+  get config() {
+    return this.getConfig();
+  }
+
+  get rules() {
+    return this._rules;
+  }
+
+  get ruleTypes() {
+    return this.config.ruleTypes;
+  }
+
+  addRule(rule) {
+    let newRule = this.ruleTypes.newFromKey(rule['type'], rule);
+
+    if (!newRule) {
+      newRule = new UnknownValidationRule(rule);
+    }
+
+    this._rules.push(newRule);
+  }
+
+  addRules(rules) {
+    for (const rule of rules) {
+      this.addRule(rule);
+    }
+  }
+
+}
+class ValidationRule extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_0__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_1__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_0__["Base"]) {
+  constructor(config) {
+    super();
+    this.setConfig(config);
+  }
+
+  get appliesToOnlyDefaultLocale() {
+    return this.config.onlyDefaultLocale || false;
+  }
+
+  get appliesToOnlyNonDefaultLocale() {
+    return this.config.onlyNonDefaultLocale || false;
+  }
+
+  get config() {
+    return this.getConfig();
+  }
+
+  get message() {
+    return this.config.message;
+  }
+
+  get type() {
+    return this.config.type;
+  }
+
+  validate(value, locale, isDefaultLocale) {
+    console.error('Validation check not defined.');
+  }
+
+}
+class LengthValidationRule extends ValidationRule {
+  get message() {
+    return super.message || 'Value needs to have the correct length.';
+  }
+
+  validate(value, locale, isDefaultLocale) {
+    // Allow for empty fields. Use the required rule for making sure it exists.
+    if (!value) {
+      return null;
+    } // Do not count whitespace.
+
+
+    value = value.trim();
+    const configMax = this.config.max;
+    const configMin = this.config.min;
+
+    if (configMin && value.length < configMin.value) {
+      return configMin.message || this.message;
+    }
+
+    if (configMax && value.length > configMax.value) {
+      return configMax.message || this.message;
+    }
+
+    return null;
+  }
+
+}
+class MatchValidationRule extends ValidationRule {
+  constructor(config) {
+    super(config);
+    this._patterns = {};
+  }
+
+  get message() {
+    return super.message || `Value needs to match the validation rule.`;
+  }
+
+  _testPattern(key, pattern, value) {
+    if (!this._patterns[key]) {
+      this._patterns[key] = new RegExp(pattern);
+    }
+
+    return this._patterns[key].test(value);
+  }
+
+  validate(value, locale, isDefaultLocale) {
+    // Allow for empty fields. Use the required rule for making sure it exists.
+    if (!value) {
+      return null;
+    } // Handle the allowed matching.
+
+
+    let matchConfig = this.config.allowed;
+
+    if (matchConfig) {
+      if (matchConfig.pattern) {
+        if (!this._testPattern('allowed', matchConfig.pattern, value)) {
+          return matchConfig.message || this.message;
+        }
+      }
+
+      if (matchConfig.values) {
+        if (!matchConfig.values.includes(value)) {
+          return matchConfig.message || this.message;
+        }
+      }
+    } // Handle the excluded matching.
+
+
+    matchConfig = this.config.excluded;
+
+    if (matchConfig) {
+      if (matchConfig.pattern) {
+        if (this._testPattern('excluded', matchConfig.pattern, value)) {
+          return matchConfig.message || this.message;
+        }
+      }
+
+      if (matchConfig.values) {
+        if (matchConfig.values.includes(value)) {
+          return matchConfig.message || this.message;
+        }
+      }
+    }
+
+    return null;
+  }
+
+}
+class PatternValidationRule extends ValidationRule {
+  get message() {
+    return super.message || `Value needs to match the pattern: ${this.config.pattern}`;
+  }
+
+  validate(value, locale, isDefaultLocale) {
+    // Allow for empty fields. Use the required rule for making sure it exists.
+    if (!value) {
+      return null;
+    } // Only need to compile the pattern once.
+
+
+    if (!this.pattern) {
+      this.pattern = new RegExp(this.config.pattern);
+    }
+
+    if (!this.pattern.test(value)) {
+      return this.message;
+    }
+
+    return null;
+  }
+
+}
+class RangeValidationRule extends ValidationRule {
+  get message() {
+    return super.message || 'Value needs to be a number in range.';
+  }
+
+  validate(value, locale, isDefaultLocale) {
+    // Allow for empty fields. Use the required rule for making sure it exists.
+    if (!value) {
+      return null;
+    } // Do not count whitespace.
+
+
+    value = parseFloat(value);
+
+    if (isNaN(value)) {
+      return this.message;
+    }
+
+    const configMax = this.config.max;
+    const configMin = this.config.min;
+
+    if (configMin && value < configMin.value) {
+      return configMin.message || this.message;
+    }
+
+    if (configMax && value > configMax.value) {
+      return configMax.message || this.message;
+    }
+
+    return null;
+  }
+
+}
+class RequiredValidationRule extends ValidationRule {
+  get appliesToOnlyDefaultLocale() {
+    const configValue = this.config.onlyDefaultLocale;
+
+    if (configValue == undefined) {
+      return true;
+    }
+
+    return configValue;
+  }
+
+  get message() {
+    return super.message || 'Value is required. Cannot be empty.';
+  }
+
+  validate(value, locale, isDefaultLocale) {
+    if (!value) {
+      return this.message;
+    } // Require that it be more than just whitespace.
+
+
+    value = value.trim();
+
+    if (!value.length) {
+      return this.message;
+    }
+
+    return null;
+  }
+
+}
+
+class UnknownValidationRule extends ValidationRule {
+  constructor(config) {
+    super(config);
+    console.warn(`Validation type '${this.type}' is not recognized.`);
+  }
+
+  validate(value, locale, isDefaultLocale) {
+    return null;
+  }
+
+}
+
+/***/ }),
+
+/***/ "../../../selective-edit/js/utility/classes.js":
+/*!*********************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/utility/classes.js ***!
+  \*********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ClassManager; });
+/**
+ * Generic key value manager for storing classes.
+ */
+class ClassManager {
+  constructor(DefaultCls) {
+    this.DefaultCls = DefaultCls || null;
+    this.classes = {};
+  }
+
+  forEachFunc(functionName, ...args) {
+    for (const [key, value] of Object.entries(this.classes)) {
+      value[functionName](...args);
+    }
+  }
+
+  newFromKey(key, ...args) {
+    if (this.classes[key]) {
+      return new this.classes[key](...args);
+    }
+
+    if (this.DefaultCls) {
+      return new this.DefaultCls(...args);
+    }
+
+    return null;
+  }
+
+  setClass(key, TypeCls) {
+    this.classes[key] = TypeCls;
+  }
+
+  setClasses(classes) {
+    for (const key of Object.keys(classes)) {
+      this.setClass(key, classes[key]);
+    }
   }
 
 }
@@ -97965,14 +98448,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _menu_menu__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./menu/menu */ "./source/editor/menu/menu.js");
 /* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./autoFields */ "./source/editor/autoFields.js");
 /* harmony import */ var _field__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./field */ "./source/editor/field.js");
-/* harmony import */ var _zoomIframe__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./zoomIframe */ "./source/editor/zoomIframe.js");
-/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../utility/dom */ "./source/utility/dom.js");
-/* harmony import */ var _utility_repo__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../utility/repo */ "./source/utility/repo.js");
-/* harmony import */ var _utility_storage__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../utility/storage */ "./source/utility/storage.js");
-/* harmony import */ var _utility_settings__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../utility/settings */ "./source/utility/settings.js");
+/* harmony import */ var _validation__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./validation */ "./source/editor/validation.js");
+/* harmony import */ var _zoomIframe__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./zoomIframe */ "./source/editor/zoomIframe.js");
+/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../utility/dom */ "./source/utility/dom.js");
+/* harmony import */ var _utility_repo__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../utility/repo */ "./source/utility/repo.js");
+/* harmony import */ var _utility_storage__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../utility/storage */ "./source/utility/storage.js");
+/* harmony import */ var _utility_settings__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ../utility/settings */ "./source/utility/settings.js");
 /**
  * Content editor.
  */
+
 
 
 
@@ -98012,7 +98497,7 @@ class Editor {
       </div>
     </div>`;
 
-    this.storage = new _utility_storage__WEBPACK_IMPORTED_MODULE_17__["default"](this.isTesting);
+    this.storage = new _utility_storage__WEBPACK_IMPORTED_MODULE_18__["default"](this.isTesting);
     const EditorApiCls = this.config.get('EditorApiCls', _editorApi__WEBPACK_IMPORTED_MODULE_10__["default"]);
     this.api = new EditorApiCls();
     this.listeners = new _utility_listeners__WEBPACK_IMPORTED_MODULE_8__["default"]();
@@ -98046,16 +98531,16 @@ class Editor {
     this._defaultDevice = 'desktop';
     this._device = this.storage.getItem('selective.device') || this._defaultDevice; // Persistent settings in local storage.
 
-    this.settingDeviceRotated = new _utility_settings__WEBPACK_IMPORTED_MODULE_18__["SettingToggle"](false, this.storage, 'selective.device.rotated');
-    this.settingDeviceView = new _utility_settings__WEBPACK_IMPORTED_MODULE_18__["SettingToggle"](false, this.storage, 'selective.device.view');
-    this.settingFullScreenEditor = new _utility_settings__WEBPACK_IMPORTED_MODULE_18__["SettingToggle"](false, this.storage, 'selective.fullScreenEditor');
-    this.settingFullScreenPreview = new _utility_settings__WEBPACK_IMPORTED_MODULE_18__["SettingToggle"](false, this.storage, 'selective.fullScreenPreview');
-    this.settingHighlightDirty = new _utility_settings__WEBPACK_IMPORTED_MODULE_18__["SettingToggle"](false, this.storage, 'selective.highlight.dirty');
-    this.settingHighlightGuess = new _utility_settings__WEBPACK_IMPORTED_MODULE_18__["SettingToggle"](false, this.storage, 'selective.highlight.guess');
-    this.settingHighlightLinked = new _utility_settings__WEBPACK_IMPORTED_MODULE_18__["SettingToggle"](false, this.storage, 'selective.highlight.linked');
-    this.settingLocalize = new _utility_settings__WEBPACK_IMPORTED_MODULE_18__["SettingToggle"](false, this.storage, 'selective.localize');
-    this.settingLocalizeUrls = new _utility_settings__WEBPACK_IMPORTED_MODULE_18__["SettingToggle"](false, this.storage, 'selective.localize.urls');
-    this.settingEditorPane = new _utility_settings__WEBPACK_IMPORTED_MODULE_18__["SettingSet"](['fields', 'source', 'history'], 'fields', this.storage, 'selective.editor.pane');
+    this.settingDeviceRotated = new _utility_settings__WEBPACK_IMPORTED_MODULE_19__["SettingToggle"](false, this.storage, 'selective.device.rotated');
+    this.settingDeviceView = new _utility_settings__WEBPACK_IMPORTED_MODULE_19__["SettingToggle"](false, this.storage, 'selective.device.view');
+    this.settingFullScreenEditor = new _utility_settings__WEBPACK_IMPORTED_MODULE_19__["SettingToggle"](false, this.storage, 'selective.fullScreenEditor');
+    this.settingFullScreenPreview = new _utility_settings__WEBPACK_IMPORTED_MODULE_19__["SettingToggle"](false, this.storage, 'selective.fullScreenPreview');
+    this.settingHighlightDirty = new _utility_settings__WEBPACK_IMPORTED_MODULE_19__["SettingToggle"](false, this.storage, 'selective.highlight.dirty');
+    this.settingHighlightGuess = new _utility_settings__WEBPACK_IMPORTED_MODULE_19__["SettingToggle"](false, this.storage, 'selective.highlight.guess');
+    this.settingHighlightLinked = new _utility_settings__WEBPACK_IMPORTED_MODULE_19__["SettingToggle"](false, this.storage, 'selective.highlight.linked');
+    this.settingLocalize = new _utility_settings__WEBPACK_IMPORTED_MODULE_19__["SettingToggle"](false, this.storage, 'selective.localize');
+    this.settingLocalizeUrls = new _utility_settings__WEBPACK_IMPORTED_MODULE_19__["SettingToggle"](false, this.storage, 'selective.localize.urls');
+    this.settingEditorPane = new _utility_settings__WEBPACK_IMPORTED_MODULE_19__["SettingSet"](['fields', 'source', 'history'], 'fields', this.storage, 'selective.editor.pane');
     this.settingLocale = null;
     this._isFullMarkdownEditor = false;
     this._hasLoadedFields = false;
@@ -98078,10 +98563,9 @@ class Editor {
 
     this.selective.localize = this.settingLocalize.on; // Add the editor extension default field types.
 
-    for (const key of Object.keys(_field__WEBPACK_IMPORTED_MODULE_13__["defaultFields"])) {
-      this.selective.addFieldType(key, _field__WEBPACK_IMPORTED_MODULE_13__["defaultFields"][key]);
-    }
+    this.selective.addFieldTypes(_field__WEBPACK_IMPORTED_MODULE_13__["defaultFields"]); // Add the editor extension default validation types.
 
+    this.selective.addRuleTypes(_validation__WEBPACK_IMPORTED_MODULE_14__["defaultValidationRules"]);
     this.bindEvents();
     this.bindKeyboard();
 
@@ -98117,6 +98601,14 @@ class Editor {
 
   get isTesting() {
     return this.config.get('testing', false);
+  }
+
+  get isValid() {
+    if (!this.document) {
+      return true;
+    }
+
+    return this.selective.isValid;
   }
 
   get linkedFields() {
@@ -98339,7 +98831,7 @@ class Editor {
   adjustIframeSize() {
     const iframeContainerEl = this.containerEl.querySelector('.editor__preview__frame');
     const iframeEl = this.containerEl.querySelector('.editor__preview iframe');
-    Object(_zoomIframe__WEBPACK_IMPORTED_MODULE_14__["zoomIframe"])(iframeContainerEl, iframeEl, this.settingDeviceView.on, this.settingDeviceRotated.on, this.devices[this.device], 'editor__preview__frame--contained');
+    Object(_zoomIframe__WEBPACK_IMPORTED_MODULE_15__["zoomIframe"])(iframeContainerEl, iframeEl, this.settingDeviceView.on, this.settingDeviceRotated.on, this.devices[this.device], 'editor__preview__frame--contained');
   }
 
   bindEvents() {
@@ -98468,7 +98960,7 @@ class Editor {
 
   documentFromResponse(response) {
     this.document = new _document__WEBPACK_IMPORTED_MODULE_9__["default"](response['pod_path'], response['front_matter'], response['raw_front_matter'], response['serving_paths'], response['default_locale'], response['locales'], response['content'], response['hash']);
-    this.settingLocale = new _utility_settings__WEBPACK_IMPORTED_MODULE_18__["SettingSet"](this.document.locales, this.document.defaultLocale, this.storage, 'selective.editor.locale');
+    this.settingLocale = new _utility_settings__WEBPACK_IMPORTED_MODULE_19__["SettingSet"](this.document.locales, this.document.defaultLocale, this.storage, 'selective.editor.locale');
   }
 
   handleDeviceRotateClick(evt) {
@@ -98477,7 +98969,7 @@ class Editor {
   }
 
   handleDeviceSwitchClick(evt) {
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_15__["findParentByClassname"])(evt.target, 'editor__preview__size');
+    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_16__["findParentByClassname"])(evt.target, 'editor__preview__size');
     this.device = target.dataset.device;
     this.render();
   }
@@ -98634,7 +99126,7 @@ class Editor {
 
   handleLoadRepo(response) {
     const repo = response['repo'];
-    this.repo = new _utility_repo__WEBPACK_IMPORTED_MODULE_16__["default"](repo.branch, repo.branches, repo.commits, repo.remote_url, repo.revision, repo.web_url);
+    this.repo = new _utility_repo__WEBPACK_IMPORTED_MODULE_17__["default"](repo.branch, repo.branches, repo.commits, repo.remote_url, repo.revision, repo.web_url);
     this.listeners.trigger('load.repo', {
       repo: this.repo
     });
@@ -98961,6 +99453,28 @@ class Editor {
       return '';
     }
 
+    const isValid = editor.isValid;
+    let saveStatusLabel = 'Save';
+    let saveDisabled = false;
+    let saveClasses = [];
+
+    if (editor.isClean) {
+      saveStatusLabel = 'No changes';
+      saveDisabled = true;
+    }
+
+    if (!isValid) {
+      saveClasses.push('editor__button--invalid');
+      saveStatusLabel = 'Invalid values';
+      saveDisabled = true;
+    }
+
+    if (editor._isSaving) {
+      saveClasses.push('editor__button--processing');
+      saveStatusLabel = 'Saving...';
+      saveDisabled = true;
+    }
+
     return selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`<div class="editor__edit">
       <div class="editor__edit__header">
         <div class="editor__edit__header__section">
@@ -98985,12 +99499,20 @@ class Editor {
               <button class="editor__style__raw editor__button editor__button--secondary ${this.settingEditorPane.is('source') ? 'editor__button--selected' : ''}" @click=${editor.handleSourceClick.bind(editor)} ?disabled=${!editor.isClean}>Source</button>
               <button class="editor__style__raw editor__button editor__button--secondary ${this.settingEditorPane.is('history') ? 'editor__button--selected' : ''}" @click=${editor.handleHistoryClick.bind(editor)} ?disabled=${!editor.isClean}>History</button>
             </div>
-            <button
-                ?disabled=${editor._isSaving || editor.isClean}
-                class="editor__save editor__button editor__button--primary ${editor._isSaving ? 'editor__save--saving' : ''}"
-                @click=${editor.save.bind(editor)}>
-              ${editor.isClean ? 'No changes' : editor._isSaving ? 'Saving...' : 'Save'}
-            </button>
+            <div class="editor__actions">
+              ${isValid ? '' : selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`<div class="editor__actions">
+                    <span
+                        class="editor__invalid">
+                      <i class="material-icons">error</i>
+                    </span>
+                  </div>`}
+              <button
+                  ?disabled=${saveDisabled}
+                  class="editor__save editor__button editor__button--primary ${saveClasses.join(' ')}"
+                  @click=${editor.save.bind(editor)}>
+                ${saveStatusLabel}
+              </button>
+            </div>
         </div>
         ${editor.templatePane}
       </div>
@@ -99610,11 +100132,13 @@ class ConstructorField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Fiel
     const value = this.getValueForLocale(locale) || {};
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
       <input
+        class="${this.getClassesForInput(locale)}"
         id="${this.uid}${locale}"
         placeholder=${this.config.placeholder || ''}
         data-locale=${locale || ''}
         @input=${this.handleInput.bind(this)}
-        value=${value.value || ''} />`;
+        value=${value.value || ''} />
+      ${this.renderErrors(selective, data, locale)}`;
   }
 
 }
@@ -99671,6 +100195,7 @@ class ConstructorFileField extends ConstructorField {
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
       <div class="selective__field__constructor__input">
         <input
+          class="${this.getClassesForInput(locale)}"
           id="${this.uid}${locale}"
           placeholder=${this.config.placeholder || ''}
           data-locale=${locale || ''}
@@ -99685,7 +100210,8 @@ class ConstructorFileField extends ConstructorField {
         </i>
       </div>
       ${this.renderMeta(selective, data, locale, value)}
-      ${fileListUi.renderFileList(selective, data, locale)}`;
+      ${fileListUi.renderFileList(selective, data, locale)}
+      ${this.renderErrors(selective, data, locale)}`;
   }
 
   renderMeta(selective, data, locale, value) {
@@ -99767,7 +100293,8 @@ class StringField extends ConstructorFileField {
             <div class="selective__field__constructor__preview__value">
               ${metaValue}
             </div>
-          </div>`;
+          </div>
+          ${this.renderErrors(selective, data, locale)}`;
       }
     }
 
@@ -100010,6 +100537,7 @@ class ImageField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
           data-locale=${locale || ''}>
         <div class="selective__field__image_file__input">
           <input
+            class="${this.getClassesForInput(locale)}"
             id="${this.uid}${locale}"
             placeholder=${this.config.placeholder || ''}
             data-locale=${locale || ''}
@@ -100026,6 +100554,7 @@ class ImageField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
         </div>
         ${this.renderFileInput(selective, data, locale)}
         ${this.renderPreview(selective, data, locale)}
+        ${this.renderErrors(selective, data, locale)}
       </div>`;
   }
 
@@ -100164,6 +100693,7 @@ class ImageFileField extends ImageField {
           data-locale=${locale || ''}>
         <div class="selective__field__image_file__input">
           <input
+            class="${this.getClassesForInput(locale)}"
             id="${this.uid}${locale}"
             placeholder=${this.config.placeholder || ''}
             data-locale=${locale || ''}
@@ -100187,6 +100717,7 @@ class ImageFileField extends ImageField {
         ${fileListUi.renderFileList(selective, data, locale)}
         ${this.renderFileInput(selective, data, locale)}
         ${this.renderPreview(selective, data, locale)}
+        ${this.renderErrors(selective, data, locale)}
       </div>`;
   }
 
@@ -100612,6 +101143,7 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
           Accessibility Label
         </div>
         <input
+          class="${this.getClassesForInput(locale, 'label')}"
           type="text"
           placeholder="Accessibility Label"
           id="${this.uid}${locale || ''}-label"
@@ -100663,6 +101195,7 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
         </div>
         <div class="selective__field__media_file__input">
           <input
+            class="${this.getClassesForInput(locale, 'file')}"
             id="${this.uid}${locale || ''}"
             placeholder=${this.config.placeholder || ''}
             data-locale=${locale || ''}
@@ -100678,8 +101211,10 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
           </i>
         </div>
         ${this.renderFileInput(selective, data, locale)}
+        ${this.renderErrors(selective, data, locale, 'file')}
         ${this.renderPreview(selective, data, locale)}
         ${this.renderLabelInput(selective, data, locale)}
+        ${this.renderErrors(selective, data, locale, 'label')}
         ${this.renderSubFields(selective, data, locale)}
       </div>`;
   }
@@ -100855,6 +101390,7 @@ class MediaFileField extends MediaField {
         ${this.renderInputLabel(selective, data, locale)}
         <div class="selective__field__media_file__input">
           <input
+            class="${this.getClassesForInput(locale, 'file')}"
             id="${this.uid}${locale || ''}"
             placeholder=${this.config.placeholder || ''}
             data-locale=${locale || ''}
@@ -100877,8 +101413,10 @@ class MediaFileField extends MediaField {
         </div>
         ${fileListUi.renderFileList(selective, data, locale)}
         ${this.renderFileInput(selective, data, locale)}
+        ${this.renderErrors(selective, data, locale, 'file')}
         ${this.renderPreview(selective, data, locale)}
         ${this.renderLabelInput(selective, data, locale)}
+        ${this.renderErrors(selective, data, locale, 'label')}
         ${this.renderSubFields(selective, data, locale)}
       </div>`;
   }
@@ -101303,8 +101841,10 @@ class CheckboxField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"]
     this.fieldType = 'checkbox';
   }
 
-  classesInput(value) {
-    const classes = ['selective__field__input__option'];
+  getClassesForInput(locale, zoneKey) {
+    const classes = super.getClassesForInput(locale, zoneKey).split(' ');
+    const value = this.getValueForLocale(locale) || false;
+    classes.push('selective__field__input__option');
 
     if (value) {
       classes.push('selective__field__input__option--selected');
@@ -101324,7 +101864,7 @@ class CheckboxField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"]
     const value = this.getValueForLocale(locale) || false;
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
       <div
-          class=${this.classesInput(value)}
+          class="${this.getClassesForInput(locale)}"
           data-locale=${locale || ''}
           @click=${this.handleInput.bind(this)}>
         <div class="selective__field__label">
@@ -101333,7 +101873,8 @@ class CheckboxField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"]
         <i class="material-icons">
           ${value ? 'check_box' : 'check_box_outline_blank'}
         </i>
-      </div>`;
+      </div>
+      ${this.renderErrors(selective, data)}`;
   } // Label is shown by the individual input.
 
 
@@ -101352,12 +101893,14 @@ class DateField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
     const value = this.getValueForLocale(locale) || '';
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
       <input
+        class="${this.getClassesForInput(locale)}"
         id="${this.uid}${locale || ''}"
         type="date"
         placeholder=${this.config.placeholder || ''}
         data-locale=${locale || ''}
         @input=${this.handleInput.bind(this)}
-        value=${value} />`;
+        value=${value} />
+      ${this.renderErrors(selective, data)}`;
   }
 
 }
@@ -101380,12 +101923,14 @@ class DateTimeField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"]
     const value = this.getValueForLocale(locale) || '';
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
       <input
+        class="${this.getClassesForInput(locale)}"
         id="${this.uid}${locale || ''}"
         type="datetime-local"
         placeholder=${this.config.placeholder || ''}
         data-locale=${locale || ''}
         @input=${this.handleInput.bind(this)}
-        value=${value} />`;
+        value=${value} />
+      ${this.renderErrors(selective, data)}`;
   }
 
 }
@@ -101433,6 +101978,13 @@ class HtmlField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
     return value;
   }
 
+  getClassesForInput(locale, zoneKey) {
+    const classes = super.getClassesForInput(locale, zoneKey).split(' ');
+    classes.push('selective__html');
+    classes.push('html_editor');
+    return classes.join(' ');
+  }
+
   imageUpload(element) {
     const base64Str = element.getAttribute('src');
     return this.imageUploader.uploadBase64(base64Str);
@@ -101442,9 +101994,10 @@ class HtmlField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
     const value = this.getValueForLocale(locale) || '';
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
       <div
+          class="${this.getClassesForInput(locale)}"
           id="${this.uid}${locale || ''}"
-          class="selective__html html_editor"
-          data-locale=${locale || ''}>${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["unsafeHTML"])(value)}</div>`;
+          data-locale=${locale || ''}>${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["unsafeHTML"])(value)}</div>
+      ${this.renderErrors(selective, data)}`;
   }
 
   postRender(containerEl) {
@@ -101508,13 +102061,21 @@ class MarkdownField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"]
     this.fieldType = 'markdown';
   }
 
+  getClassesForInput(locale, zoneKey) {
+    const classes = super.getClassesForInput(locale, zoneKey).split(' ');
+    classes.push('selective__markdown');
+    classes.push('markdown_editor');
+    return classes.join(' ');
+  }
+
   renderInput(selective, data, locale) {
     const value = this.getValueForLocale(locale) || '';
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
       <div
+          class="${this.getClassesForInput(locale)}"
           id="${this.uid}${locale || ''}"
-          class="selective__markdown markdown_editor"
-          data-locale=${locale || ''}></div>`;
+          data-locale=${locale || ''}></div>
+      ${this.renderErrors(selective, data)}`;
   }
 
   postRender(containerEl) {
@@ -101621,7 +102182,8 @@ class SelectField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
     };
 
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <div class="selective__field__select__options">
+      <div
+        class="${this.getClassesForInput(locale)} selective__field__select__options"
         ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(options, option => option.value, (option, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
           <div
               class="selective__field__select__option ${isOptionSelected(option.value) ? 'selective__field__select__option--checked' : ''}"
@@ -101636,7 +102198,8 @@ class SelectField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
             </div>
           </div>
         `)}
-      </div>`;
+      </div>
+      ${this.renderErrors(selective, data)}`;
   }
 
 }
@@ -101683,20 +102246,24 @@ class TextField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
     if (this._switched[locale]) {
       return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
         <textarea
+          class="${this.getClassesForInput(locale)}"
           id="${this.uid}${locale || ''}"
           rows=${this.config.rows || 6}
           placeholder=${this.config.placeholder || ''}
           data-locale=${locale || ''}
-          @input=${this.handleInput.bind(this)}>${value}</textarea>`;
+          @input=${this.handleInput.bind(this)}>${value}</textarea>
+        ${this.renderErrors(selective, data)}`;
     }
 
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
       <input
+        class="${this.getClassesForInput(locale)}"
         id="${this.uid}${locale || ''}"
         placeholder=${this.config.placeholder || ''}
         data-locale=${locale || ''}
         @input=${this.handleInput.bind(this)}
-        value=${value} />`;
+        value=${value} />
+      ${this.renderErrors(selective, data)}`;
   }
 
 }
@@ -101710,11 +102277,13 @@ class TextareaField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"]
     const value = this.getValueForLocale(locale) || '';
     return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
       <textarea
+        class="${this.getClassesForInput(locale)}"
         id="${this.uid}${locale || ''}"
         rows=${this.config.rows || 6}
         placeholder=${this.config.placeholder || ''}
         data-locale=${locale || ''}
-        @input=${this.handleInput.bind(this)}>${value}</textarea>`;
+        @input=${this.handleInput.bind(this)}>${value}</textarea>
+      ${this.renderErrors(selective, data)}`;
   }
 
 }
@@ -101737,8 +102306,8 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 class PartialsFields extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Fields"] {
-  constructor(fieldTypes, config, partialKey) {
-    super(fieldTypes, config);
+  constructor(fieldTypes, ruleTypes, config, partialKey) {
+    super(fieldTypes, ruleTypes, config);
     this._partialKey = partialKey;
   }
 
@@ -102931,14 +103500,32 @@ class WorkspaceMenu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
       'type': 'select',
       'key': 'base',
       'label': 'Parent workspace',
-      'help': 'Workspace to create the new workspace from.',
-      'options': options
+      'help': 'Workspace to base the new workspace on.',
+      'options': options,
+      'validation': [{
+        'type': 'required',
+        'message': 'Parent workspace is required.'
+      }]
     });
     newSelective.addField({
       'type': 'text',
       'key': 'workspace',
       'label': 'New workspace name',
-      'help': 'Can only contain alpha-numeric characters and - (dash).'
+      'help': 'Used for the workspace url and the git branch.',
+      'validation': [{
+        'type': 'required',
+        'message': 'Workspace name is required.'
+      }, {
+        'type': 'pattern',
+        'check': '^[a-zA-Z0-9-]*$',
+        'message': 'Can only contain alpha-numeric characters and - (dash).'
+      }, {
+        'type': 'match',
+        'excluded': {
+          'check': '^[a-zA-Z0-9-]*$',
+          'message': 'Can only contain alpha-numeric characters and - (dash).'
+        }
+      }]
     });
     return newSelective;
   }
@@ -103689,6 +104276,31 @@ class StringListUI extends _ui_file__WEBPACK_IMPORTED_MODULE_5__["FileListUI"] {
   }
 
 }
+
+/***/ }),
+
+/***/ "./source/editor/validation.js":
+/*!*************************************!*\
+  !*** ./source/editor/validation.js ***!
+  \*************************************/
+/*! exports provided: defaultValidationRules */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "defaultValidationRules", function() { return defaultValidationRules; });
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/**
+ * Field types for the editor extension.
+ */
+
+const defaultValidationRules = {
+  'length': selective_edit__WEBPACK_IMPORTED_MODULE_0__["LengthValidationRule"],
+  'match': selective_edit__WEBPACK_IMPORTED_MODULE_0__["MatchValidationRule"],
+  'pattern': selective_edit__WEBPACK_IMPORTED_MODULE_0__["PatternValidationRule"],
+  'range': selective_edit__WEBPACK_IMPORTED_MODULE_0__["RangeValidationRule"],
+  'required': selective_edit__WEBPACK_IMPORTED_MODULE_0__["RequiredValidationRule"]
+};
 
 /***/ }),
 

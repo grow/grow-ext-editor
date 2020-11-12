@@ -8,8 +8,8 @@ import {
 
 
 export default class PartialsFields extends Fields {
-  constructor(fieldTypes, config, partialKey) {
-    super(fieldTypes, config)
+  constructor(fieldTypes, ruleTypes, config, partialKey) {
+    super(fieldTypes, ruleTypes, config)
 
     this._partialKey = partialKey
   }

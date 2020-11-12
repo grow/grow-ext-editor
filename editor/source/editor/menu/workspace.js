@@ -57,15 +57,39 @@ export default class WorkspaceMenu extends MenuBase {
       'type': 'select',
       'key': 'base',
       'label': 'Parent workspace',
-      'help': 'Workspace to create the new workspace from.',
-      'options': options
+      'help': 'Workspace to base the new workspace on.',
+      'options': options,
+      'validation': [
+        {
+          'type': 'required',
+          'message': 'Parent workspace is required.',
+        },
+      ],
     })
 
     newSelective.addField({
       'type': 'text',
       'key': 'workspace',
       'label': 'New workspace name',
-      'help': 'Can only contain alpha-numeric characters and - (dash).',
+      'help': 'Used for the workspace url and the git branch.',
+      'validation': [
+        {
+          'type': 'required',
+          'message': 'Workspace name is required.',
+        },
+        {
+          'type': 'pattern',
+          'check': '^[a-zA-Z0-9-]*$',
+          'message': 'Can only contain alpha-numeric characters and - (dash).',
+        },
+        {
+          'type': 'match',
+          'excluded': {
+            'check': '^[a-zA-Z0-9-]*$',
+            'message': 'Can only contain alpha-numeric characters and - (dash).',
+          },
+        },
+      ],
     })
 
     return newSelective

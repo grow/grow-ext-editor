@@ -1,4 +1,5 @@
 .selective__field
+  border-radius: $ge-radius-3
   margin: $ge-pad 0 $ge-pad * 1.5 0
 
   .material-icons
@@ -13,18 +14,15 @@
   &--guess
     .editor--highlight-guess &
       border-right: $ge-border-size solid $ge-color-back-highlight !important
-      border-radius: $ge-radius-4
       padding-right: $ge-pad/2
 
   &--dirty
     .editor--highlight-dirty &
       border-right: $ge-border-size solid $ge-color-back-highlight !important
-      border-radius: $ge-radius-4
       padding-right: $ge-pad/2
 
   &--linked
     border: $ge-border-size solid $ge-color-back-highlight !important
-    border-radius: $ge-radius-4
     padding: $ge-pad/2
 
 .selective__actions
@@ -70,6 +68,9 @@
     font-weight: 500
     margin-bottom: $ge-pad/2
 
+  .selective__field--invalid &
+    color: $ge-color-warning
+
 .selective__field__deep_link
   display: none
   margin-right: $ge-pad/2
@@ -79,6 +80,14 @@
 
 .selective__field__input
   margin: $ge-pad/2 0
+
+.selective__field__invalid
+  color: $ge-color-warning
+  display: none
+  margin-right: $ge-pad/2
+
+  .selective__field--invalid &
+    display: inherit
 
 .selective__field__actions__wrapper
   align-items: center
@@ -91,9 +100,17 @@
   display: flex
   flex-flow: row
 
+.selective__field__errors
+  color: $ge-color-warning
+  font-size: $ge-font-size-small
+  margin: $ge-pad $ge-pad/2
+
+.selective__field__error
+  margin: $ge-pad 0
+
 .selective__field__help
   font-size: $ge-font-size-small
-  margin: $ge-pad/2
+  margin: $ge-pad $ge-pad/2
 
   // Alternate with nesting.
   // +list-nesting

@@ -42,11 +42,13 @@ export class ConstructorField extends Field {
 
     return html`
       <input
+        class="${this.getClassesForInput(locale)}"
         id="${this.uid}${locale}"
         placeholder=${this.config.placeholder || ''}
         data-locale=${locale || ''}
         @input=${this.handleInput.bind(this)}
-        value=${value.value || ''} />`
+        value=${value.value || ''} />
+      ${this.renderErrors(selective, data, locale)}`
   }
 }
 
@@ -109,6 +111,7 @@ export class ConstructorFileField extends ConstructorField {
     return html`
       <div class="selective__field__constructor__input">
         <input
+          class="${this.getClassesForInput(locale)}"
           id="${this.uid}${locale}"
           placeholder=${this.config.placeholder || ''}
           data-locale=${locale || ''}
@@ -123,7 +126,8 @@ export class ConstructorFileField extends ConstructorField {
         </i>
       </div>
       ${this.renderMeta(selective, data, locale, value)}
-      ${fileListUi.renderFileList(selective, data, locale)}`
+      ${fileListUi.renderFileList(selective, data, locale)}
+      ${this.renderErrors(selective, data, locale)}`
   }
 
   renderMeta(selective, data, locale, value) {
@@ -221,7 +225,8 @@ export class StringField extends ConstructorFileField {
             <div class="selective__field__constructor__preview__value">
               ${metaValue}
             </div>
-          </div>`
+          </div>
+          ${this.renderErrors(selective, data, locale)}`
       }
     }
     return ''

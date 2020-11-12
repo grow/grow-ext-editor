@@ -315,6 +315,7 @@ export class MediaField extends Field {
           Accessibility Label
         </div>
         <input
+          class="${this.getClassesForInput(locale, 'label')}"
           type="text"
           placeholder="Accessibility Label"
           id="${this.uid}${locale || ''}-label"
@@ -370,6 +371,7 @@ export class MediaField extends Field {
         </div>
         <div class="selective__field__media_file__input">
           <input
+            class="${this.getClassesForInput(locale, 'file')}"
             id="${this.uid}${locale || ''}"
             placeholder=${this.config.placeholder || ''}
             data-locale=${locale || ''}
@@ -385,8 +387,10 @@ export class MediaField extends Field {
           </i>
         </div>
         ${this.renderFileInput(selective, data, locale)}
+        ${this.renderErrors(selective, data, locale, 'file')}
         ${this.renderPreview(selective, data, locale)}
         ${this.renderLabelInput(selective, data, locale)}
+        ${this.renderErrors(selective, data, locale, 'label')}
         ${this.renderSubFields(selective, data, locale)}
       </div>`
   }
@@ -567,6 +571,7 @@ export class MediaFileField extends MediaField {
         ${this.renderInputLabel(selective, data, locale)}
         <div class="selective__field__media_file__input">
           <input
+            class="${this.getClassesForInput(locale, 'file')}"
             id="${this.uid}${locale || ''}"
             placeholder=${this.config.placeholder || ''}
             data-locale=${locale || ''}
@@ -589,8 +594,10 @@ export class MediaFileField extends MediaField {
         </div>
         ${fileListUi.renderFileList(selective, data, locale)}
         ${this.renderFileInput(selective, data, locale)}
+        ${this.renderErrors(selective, data, locale, 'file')}
         ${this.renderPreview(selective, data, locale)}
         ${this.renderLabelInput(selective, data, locale)}
+        ${this.renderErrors(selective, data, locale, 'label')}
         ${this.renderSubFields(selective, data, locale)}
       </div>`
   }
