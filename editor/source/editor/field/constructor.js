@@ -24,16 +24,26 @@ export class ConstructorField extends Field {
     super(ruleTypes, config, extendedConfig)
     this.fieldType = 'constructor'
     this.tag = '!g.*'
+
+    // Workaround to validat the `.value` of the data.
+    this.zonesToValue = {}
+    this.zonesToValue[this.ruleTypes.DEFAULT_ZONE_KEY] = 'value'
   }
 
   handleInput(evt) {
     const locale = evt.target.dataset.locale
+    let value = evt.target.value
 
-    // Constructors are represented as objects in json.
-    const value = {
-      'value': evt.target.value,
-      'tag': this.tag,
+    if (value.trim() == '') {
+      value = null
+    } else {
+      // Constructors are represented as objects in json.
+      value = {
+        'value': evt.target.value,
+        'tag': this.tag,
+      }
     }
+
     this.setValueForLocale(locale, value)
   }
 
@@ -192,7 +202,6 @@ export class StringField extends ConstructorFileField {
     // Constructors are represented as objects in json.
     // Let it be a normal string if there is not matching string.
     if (fileListUi.isValueValidReference(inputValue)) {
-      console.log('inputValue is valid reference.', inputValue);
       value = {
         'value': value,
         'tag': this.tag,
