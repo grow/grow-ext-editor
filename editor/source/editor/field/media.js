@@ -76,8 +76,8 @@ const fractReduce = (numerator,denominator) => {
 
 
 export class MediaField extends Field {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig)
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig)
     this.fieldType = 'media'
     this._metas = {}
     this._subFields = {}
@@ -85,6 +85,10 @@ export class MediaField extends Field {
     this._isLoading = {}
     this._originalValue = {}
     this._value = {}
+    this.zonesToValue = {
+      'url': 'url',
+      'label': LABEL_KEY,
+    }
   }
 
   _targetForDrop(evt) {
@@ -115,6 +119,19 @@ export class MediaField extends Field {
     }
 
     return true
+  }
+
+  get isValid() {
+    let extraIsValid = true
+
+    // Check the sub fields to see if they are clean.
+    for (const localeKey of Object.keys(this._subFields)) {
+      if (!this._subFields[localeKey].isValid) {
+        extraIsValid = false
+      }
+    }
+
+    return super.isValid && extraIsValid
   }
 
   get value() {
@@ -311,7 +328,7 @@ export class MediaField extends Field {
 
     return html`
       <div class="selective__media__label">
-        <div class="selective__field__label selective__field__label--secondary">
+        <div class="${this.getClassesForLabel(locale, 'label')}  selective__field__label--secondary">
           Accessibility Label
         </div>
         <input
@@ -366,12 +383,10 @@ export class MediaField extends Field {
           @dragleave=${this.handleDragLeave.bind(this)}
           @dragover=${this.handleDragOver.bind(this)}
           data-locale=${locale || ''}>
-        <div class="selective__field__label selective__field__label--secondary">
-          Media url
-        </div>
+        ${this.renderInputLabel(selective, data, locale)}
         <div class="selective__field__media_file__input">
           <input
-            class="${this.getClassesForInput(locale, 'file')}"
+            class="${this.getClassesForInput(locale, 'url')}"
             id="${this.uid}${locale || ''}"
             placeholder=${this.config.placeholder || ''}
             data-locale=${locale || ''}
@@ -387,11 +402,18 @@ export class MediaField extends Field {
           </i>
         </div>
         ${this.renderFileInput(selective, data, locale)}
-        ${this.renderErrors(selective, data, locale, 'file')}
+        ${this.renderErrors(selective, data, locale, 'url')}
         ${this.renderPreview(selective, data, locale)}
         ${this.renderLabelInput(selective, data, locale)}
         ${this.renderErrors(selective, data, locale, 'label')}
         ${this.renderSubFields(selective, data, locale)}
+      </div>`
+  }
+
+  renderInputLabel(selective, data, locale) {
+    return html`
+      <div class="${this.getClassesForLabel(locale, 'url')}  selective__field__label--secondary">
+        Media path
       </div>`
   }
 
@@ -455,10 +477,11 @@ export class MediaField extends Field {
       // Create the subfield's group using the fields config.
       const groupFieldConfig = {
         'key': SUB_FIELDS_KEY,
+        'label': this.config.extraLabel || 'Extra',
         'fields': this.config.fields,
       }
-      groupFieldConfig[LABEL_KEY] = this.config.extraLabel || 'Extra'
-      this._subFields[localeKey] = new GroupField(groupFieldConfig)
+      this._subFields[localeKey] = new GroupField(
+        this.ruleTypes, groupFieldConfig, this.globalConfig)
     }
 
     return this._subFields[localeKey].template(
@@ -485,8 +508,8 @@ export class MediaField extends Field {
 }
 
 export class MediaFileField extends MediaField {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig)
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig)
     this.fieldType = 'media_file'
     this._fileListUi = {}
     this.filterFunc = createWhiteBlackFilter(
@@ -571,7 +594,7 @@ export class MediaFileField extends MediaField {
         ${this.renderInputLabel(selective, data, locale)}
         <div class="selective__field__media_file__input">
           <input
-            class="${this.getClassesForInput(locale, 'file')}"
+            class="${this.getClassesForInput(locale, 'url')}"
             id="${this.uid}${locale || ''}"
             placeholder=${this.config.placeholder || ''}
             data-locale=${locale || ''}
@@ -594,18 +617,11 @@ export class MediaFileField extends MediaField {
         </div>
         ${fileListUi.renderFileList(selective, data, locale)}
         ${this.renderFileInput(selective, data, locale)}
-        ${this.renderErrors(selective, data, locale, 'file')}
+        ${this.renderErrors(selective, data, locale, 'url')}
         ${this.renderPreview(selective, data, locale)}
         ${this.renderLabelInput(selective, data, locale)}
         ${this.renderErrors(selective, data, locale, 'label')}
         ${this.renderSubFields(selective, data, locale)}
-      </div>`
-  }
-
-  renderInputLabel(selective, data, locale) {
-    return html`
-      <div class="selective__field__label selective__field__label--secondary">
-        Media path
       </div>`
   }
 }
@@ -644,7 +660,7 @@ export class GoogleMediaField extends MediaField {
 
   renderInputLabel(selective, data, locale) {
     return html`
-      <div class="selective__field__label selective__field__label--secondary">
+      <div class="${this.getClassesForLabel(locale, 'url')}  selective__field__label--secondary">
         Media url
       </div>`
   }

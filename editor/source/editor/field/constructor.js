@@ -20,8 +20,8 @@ import {
 } from '../ui/string'
 
 export class ConstructorField extends Field {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig)
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig)
     this.fieldType = 'constructor'
     this.tag = '!g.*'
   }
@@ -53,8 +53,8 @@ export class ConstructorField extends Field {
 }
 
 export class ConstructorFileField extends ConstructorField {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig)
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig)
     this._fileListUi = {}
     this._fileListCls = FileListUI
     this.filterFunc = createWhiteBlackFilter(
@@ -136,8 +136,8 @@ export class ConstructorFileField extends ConstructorField {
 }
 
 export class DocumentField extends ConstructorFileField {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig)
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig)
     this.fieldType = 'document'
     this.tag = '!g.doc'
     this.filterFunc = createWhiteBlackFilter(
@@ -150,8 +150,8 @@ export class DocumentField extends ConstructorFileField {
 }
 
 export class StaticField extends ConstructorFileField {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig)
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig)
     this.fieldType = 'static'
     this.tag = '!g.static'
     this.filterFunc = createWhiteBlackFilter(
@@ -168,8 +168,8 @@ export class StaticField extends ConstructorFileField {
 }
 
 export class StringField extends ConstructorFileField {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig)
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig)
     this.fieldType = 'string'
     this.tag = '!g.string'
     this._fileListUi = {}
@@ -234,8 +234,8 @@ export class StringField extends ConstructorFileField {
 }
 
 export class YamlField extends ConstructorFileField {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig)
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig)
     this.fieldType = 'yaml'
     this.tag = '!g.yaml'
     this.filterFunc = createWhiteBlackFilter(

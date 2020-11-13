@@ -18,8 +18,8 @@ import {
 import ImageUploader from '../quill/image-upload'
 
 export class CheckboxField extends Field {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig)
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig)
     this.fieldType = 'checkbox'
   }
 
@@ -68,8 +68,8 @@ export class CheckboxField extends Field {
 }
 
 export class DateField extends Field {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig)
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig)
     this.fieldType = 'date'
   }
 
@@ -90,8 +90,8 @@ export class DateField extends Field {
 }
 
 export class DateTimeField extends Field {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig)
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig)
     this.fieldType = 'datetime'
   }
 
@@ -120,8 +120,8 @@ export class DateTimeField extends Field {
 }
 
 export class HtmlField extends Field {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig)
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig)
     this.fieldType = 'html'
     this.api = this.config.get('api')
 
@@ -246,8 +246,8 @@ export class HtmlField extends Field {
 }
 
 export class MarkdownField extends Field {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig)
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig)
     this.fieldType = 'markdown'
   }
 
@@ -308,8 +308,8 @@ export class MarkdownField extends Field {
 }
 
 export class SelectField extends Field {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig)
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig)
     this.fieldType = 'select'
     this.threshold = this.config.threshold || 12
 
@@ -397,8 +397,8 @@ export class SelectField extends Field {
 }
 
 export class TextField extends Field {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig)
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig)
     this.fieldType = 'text'
 
     // When the text field is too long, convert input to a textarea.
@@ -462,8 +462,8 @@ export class TextField extends Field {
 }
 
 export class TextareaField extends Field {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig)
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig)
     this.fieldType = 'textarea'
   }
 

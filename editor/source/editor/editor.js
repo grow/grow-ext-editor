@@ -133,10 +133,10 @@ export default class Editor {
     // Load the selective editor preference for localize.
     this.selective.localize = this.settingLocalize.on
 
-    // Add the editor extension default field types.
+    // Add the editor default field types.
     this.selective.addFieldTypes(defaultFields)
 
-    // Add the editor extension default validation types.
+    // Add the editor default validation types.
     this.selective.addRuleTypes(defaultValidationRules)
 
     this.bindEvents()

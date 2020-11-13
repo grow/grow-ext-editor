@@ -68,7 +68,10 @@
     font-weight: 500
     margin-bottom: $ge-pad/2
 
-  .selective__field--invalid &
+  &--error
+    color: $ge-color-warning
+
+  .selective__field--invalid > &
     color: $ge-color-warning
 
 .selective__field__deep_link
@@ -83,11 +86,7 @@
 
 .selective__field__invalid
   color: $ge-color-warning
-  display: none
   margin-right: $ge-pad/2
-
-  .selective__field--invalid &
-    display: inherit
 
 .selective__field__actions__wrapper
   align-items: center

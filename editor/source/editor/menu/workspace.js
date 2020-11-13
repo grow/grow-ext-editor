@@ -9,6 +9,7 @@ import {
 } from 'selective-edit'
 import Selective from 'selective-edit'
 import { defaultFields } from '../field'
+import { defaultValidationRules } from '../validation'
 import { findParentByClassname } from '../../utility/dom'
 import MenuBase from './base'
 
@@ -40,10 +41,11 @@ export default class WorkspaceMenu extends MenuBase {
     const newSelective = new Selective(null)
     newSelective.data = {}
 
-    // Add the editor extension default field types.
-    for (const key of Object.keys(defaultFields)) {
-      newSelective.addFieldType(key, defaultFields[key])
-    }
+    // Add the editor default field types.
+    newSelective.addFieldTypes(defaultFields)
+
+    // Add the editor default validation types.
+    newSelective.addRuleTypes(defaultValidationRules)
 
     const options = []
     for (const workspace of workspaces) {

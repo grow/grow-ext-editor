@@ -50,8 +50,8 @@ const fractReduce = (numerator,denominator) => {
 
 
 export class ImageField extends Field {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig)
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig)
     this.fieldType = 'image'
     this._metas = {}
     this._showFileInput = {}
@@ -418,8 +418,8 @@ export class ImageFileField extends ImageField {
 
 // TODO: Move into the google image extension.
 export class GoogleImageField extends ImageField {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig)
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig)
     this.fieldType = 'google_image'
     this.api = this.config.get('api')
 

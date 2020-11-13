@@ -268,7 +268,6 @@ class AutoFields extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_1__["c
     this._data = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_2__["autoDeepObject"])(data);
     this.setConfig(config);
     this._ignoredKeys = null;
-    this.DataType = _utility_dataType__WEBPACK_IMPORTED_MODULE_3__["default"];
   }
 
   get config() {
@@ -290,7 +289,7 @@ class AutoFields extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_1__["c
     let fields = [];
     keyBase = keyBase || [];
 
-    if (this.DataType.isArray(data)) {
+    if (_utility_dataType__WEBPACK_IMPORTED_MODULE_3__["default"].isArray(data)) {
       const firstValue = data.length ? data[0] : null;
       fields.push(this._fieldConfig('', firstValue));
     } else {
@@ -317,7 +316,7 @@ class AutoFields extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_1__["c
       const newKeyBase = keyBase.concat([key]);
       const newData = data[key];
 
-      if (this.DataType.isObject(newData)) {
+      if (_utility_dataType__WEBPACK_IMPORTED_MODULE_3__["default"].isObject(newData)) {
         fields = fields.concat(this._deepGuessObject(newData, newKeyBase));
       } else {
         fields.push(this._deepGuessSimple(data[key], newKeyBase));
@@ -388,7 +387,7 @@ class AutoFields extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_1__["c
       return 'text';
     }
 
-    if (this.DataType.isArray(value)) {
+    if (_utility_dataType__WEBPACK_IMPORTED_MODULE_3__["default"].isArray(value)) {
       return 'list';
     }
 
@@ -637,7 +636,8 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compos
 
     this._originalValues = {};
     this.errors = {};
-    this.values = {}; // Store the validation rules.
+    this.values = {};
+    this.zonesToValue = null; // Store the validation rules.
 
     this._validationRules = new _validation_rules__WEBPACK_IMPORTED_MODULE_11__["default"]({
       ruleTypes: this.ruleTypes
@@ -738,6 +738,7 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compos
   }
 
   get isValid() {
+    // TODO: Only want to revalidate once per render.
     let hasErrors = false;
     let locales = [];
 
@@ -752,10 +753,22 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compos
       const errors = new _validation_errors__WEBPACK_IMPORTED_MODULE_10__["default"]();
       const isDefaultLocale = !locale || locale == this.defaultLocale;
       const value = this.getValueForLocale(locale);
-      errors.validateRules(this._validationRules.rules, value, locale, isDefaultLocale);
+
+      if (!this.zonesToValue) {
+        // Simple field, only one value/input to validate.
+        errors.validateRules(this._validationRules, value, locale, isDefaultLocale);
+      } else {
+        // Complex field type. There are multiple inputs, so we need to map the
+        // validation zone to the key of the value.
+        for (const zoneKey of Object.keys(this.zonesToValue)) {
+          const valueKey = this.zonesToValue[zoneKey];
+          errors.validateRules(this._validationRules, value[valueKey], locale, isDefaultLocale, zoneKey);
+        }
+      }
+
       this.setErrorsForLocale(locale, errors);
 
-      if (errors.hasErrors()) {
+      if (errors.hasAnyErrors()) {
         hasErrors = true;
       }
     }
@@ -796,15 +809,41 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compos
   getClassesForInput(locale, zoneKey) {
     const classes = [];
     const errors = this.getErrorsForLocale(locale);
-    const zoneErrors = errors.getErrorsForZone(zoneKey);
-    const errorTypes = Object.keys(zoneErrors).sort();
 
-    if (errorTypes.length) {
-      classes.push('selective__field__input--error');
+    if (errors) {
+      const zoneErrors = errors.getErrorsForZone(zoneKey);
+      const errorTypes = Object.keys(zoneErrors).sort();
+
+      if (errorTypes.length) {
+        classes.push('selective__field__input--error');
+      }
+
+      for (const key of errorTypes) {
+        classes.push(`selective__field__input--error__${key}`);
+      }
     }
 
-    for (const key of errorTypes) {
-      classes.push(`selective__field__input--error__${key}`);
+    return classes.join(' ');
+  }
+
+  getClassesForLabel(locale, zoneKey) {
+    const classes = ['selective__field__label'];
+
+    if (locale || zoneKey || !this.isLocalized) {
+      const errors = this.getErrorsForLocale(locale);
+
+      if (errors) {
+        const zoneErrors = errors.getErrorsForZone(zoneKey);
+        const errorTypes = Object.keys(zoneErrors).sort();
+
+        if (errorTypes.length) {
+          classes.push('selective__field__label--error');
+        }
+
+        for (const key of errorTypes) {
+          classes.push(`selective__field__label--error__${key}`);
+        }
+      }
     }
 
     return classes.join(' ');
@@ -887,6 +926,11 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compos
 
   renderErrors(selective, data, locale, zoneKey) {
     const errors = this.getErrorsForLocale(locale);
+
+    if (!errors) {
+      return '';
+    }
+
     const zoneErrors = errors.getErrorsForZone(zoneKey);
     const errorTypes = Object.keys(zoneErrors).sort();
 
@@ -919,6 +963,27 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compos
     return lit_html__WEBPACK_IMPORTED_MODULE_2__["html"]`<div class="selective__field__help">${this.config.help}</div>`;
   }
 
+  renderIconError(selective, data, locale) {
+    if (this.isValid) {
+      return '';
+    }
+
+    return lit_html__WEBPACK_IMPORTED_MODULE_2__["html"]`
+      <span
+          class="selective__field__invalid">
+        <i class="material-icons">error</i>
+      </span>`;
+  }
+
+  renderIconLink(selective, data, locale) {
+    return lit_html__WEBPACK_IMPORTED_MODULE_2__["html"]`
+      <span
+          class="selective__field__deep_link"
+          @click=${this.handleDeepLink.bind(this)}>
+        <i class="material-icons">link</i>
+      </span>`;
+  }
+
   renderInput(selective, data, locale) {
     return 'Input not defined.';
   }
@@ -928,16 +993,9 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compos
       return '';
     }
 
-    return lit_html__WEBPACK_IMPORTED_MODULE_2__["html"]`<div class="selective__field__label">
-      <span
-          class="selective__field__deep_link"
-          @click=${this.handleDeepLink.bind(this)}>
-        <i class="material-icons">link</i>
-      </span>
-      <span
-          class="selective__field__invalid">
-        <i class="material-icons">error</i>
-      </span>
+    return lit_html__WEBPACK_IMPORTED_MODULE_2__["html"]`<div class="${this.getClassesForLabel()}">
+      ${this.renderIconLink(selective, data)}
+      ${this.renderIconError(selective, data)}
       <label for="${this.uid}">${this.config.label}</label>
     </div>`;
   }
@@ -1137,8 +1195,8 @@ const COMMON_PREVIEW_KEYS = [// First match wins.
 const VIDEO_EXT = [// Video extensions.
 'mp4', 'webm'];
 class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
-  constructor(config, globalConfig) {
-    super(config, globalConfig);
+  constructor(ruleTypes, config, globalConfig) {
+    super(ruleTypes, config, globalConfig);
     this.fieldType = 'list';
     this.isLocalized = true;
     this._listItems = {};
@@ -1320,10 +1378,10 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
   }
 
   get value() {
-    const listItems = this._getListItemsForLocale() || [];
+    const listItems = this._getListItemsForLocale();
 
-    if (!listItems.length) {
-      return this.originalValue;
+    if (listItems == null) {
+      return this.originalValue || [];
     }
 
     const value = [];
@@ -1655,7 +1713,8 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
         ${Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__["repeat"])(items, item => item.uid, (item, index) => this.renderItem(selective, index < origValueLen ? origValue[index] : item.fields.defaultValue, item, index, locale))}
         ${items.length < 1 ? this.renderItemEmpty(selective, data, 0, locale) : ''}
       </div>
-      ${this.renderActionsFooter(selective, data, locale)}`;
+      ${this.renderActionsFooter(selective, data, locale)}
+      ${this.renderErrors(selective, data, locale)}`;
   }
 
   renderItem(selective, data, item, index, locale) {
@@ -1752,7 +1811,8 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
   renderLabel(selective, data) {
     return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
       <div class="selective__field__actions__wrapper">
-        <div class="selective__field__label">
+        <div class="${this.getClassesForLabel()}">
+          ${this.renderIconError(selective, data)}
           <label>${this.config.label}</label>
         </div>
         ${this.renderActionsHeader(selective, data)}
@@ -1838,8 +1898,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 class GroupField extends _field__WEBPACK_IMPORTED_MODULE_7__["default"] {
-  constructor(config, globalConfig) {
-    super(config, globalConfig);
+  constructor(ruleTypes, config, globalConfig) {
+    super(ruleTypes, config, globalConfig);
     this.fieldType = 'group';
     this.ignoreLocalize = true;
     this.fields = null;
@@ -1862,6 +1922,15 @@ class GroupField extends _field__WEBPACK_IMPORTED_MODULE_7__["default"] {
     return true;
   }
 
+  get isValid() {
+    // If there are no fields, all is valid.
+    if (!this.fields) {
+      return true;
+    }
+
+    return this.fields.isValid;
+  }
+
   get value() {
     if (!this.fields) {
       return this.originalValue;
@@ -1875,7 +1944,7 @@ class GroupField extends _field__WEBPACK_IMPORTED_MODULE_7__["default"] {
 
   _createFields(selective, data) {
     const FieldsCls = this.config.get('FieldsCls', _fields_fields__WEBPACK_IMPORTED_MODULE_6__["default"]);
-    const fields = new FieldsCls(selective.fieldTypes);
+    const fields = new FieldsCls(selective.fieldTypes, selective.ruleTypes);
     fields.updateOriginal(selective, this.originalValue);
     let fieldConfigs = this.config.fields || [];
     this._useAutoFields = fieldConfigs.length == 0;
@@ -1934,8 +2003,8 @@ class GroupField extends _field__WEBPACK_IMPORTED_MODULE_7__["default"] {
 
 }
 class VariantField extends _field__WEBPACK_IMPORTED_MODULE_7__["default"] {
-  constructor(config, globalConfig) {
-    super(config, globalConfig);
+  constructor(ruleTypes, config, globalConfig) {
+    super(ruleTypes, config, globalConfig);
     this.fieldType = 'variant';
     this.ignoreLocalize = true;
     this.variant = null;
@@ -1955,6 +2024,16 @@ class VariantField extends _field__WEBPACK_IMPORTED_MODULE_7__["default"] {
     }
 
     return true;
+  }
+
+  get isValid() {
+    const superValid = super.isValid; // If there are no fields, all is valid.
+
+    if (!this.fields) {
+      return superValid;
+    }
+
+    return this.fields.isValid && superValid;
   }
 
   get isDataClean() {
@@ -1991,7 +2070,7 @@ class VariantField extends _field__WEBPACK_IMPORTED_MODULE_7__["default"] {
     }
 
     const FieldsCls = this.config.get('FieldsCls', _fields_fields__WEBPACK_IMPORTED_MODULE_6__["default"]);
-    const fields = new FieldsCls(selective.fieldTypes);
+    const fields = new FieldsCls(selective.fieldTypes, selective.ruleTypes);
     fields.updateOriginal(selective, this.originalValue);
     const variantConfig = this.config.variants[variant] || {};
     let fieldConfigs = variantConfig.fields || [];
@@ -2042,7 +2121,6 @@ class VariantField extends _field__WEBPACK_IMPORTED_MODULE_7__["default"] {
   }
 
   renderInput(selective, data, locale) {
-    this.ensureFields(selective, data);
     let fieldsOutput = '';
 
     if (this.fields) {
@@ -2051,7 +2129,8 @@ class VariantField extends _field__WEBPACK_IMPORTED_MODULE_7__["default"] {
 
     return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
       ${this.renderVariants(selective, data, locale)}
-      ${fieldsOutput}`;
+      ${fieldsOutput}
+      ${this.renderErrors(selective, data, locale)}`;
   }
 
   renderVariants(selective, data, locale) {
@@ -2070,6 +2149,12 @@ class VariantField extends _field__WEBPACK_IMPORTED_MODULE_7__["default"] {
             </button>
           `)}
       </div>`;
+  }
+
+  renderWrapper(selective, data) {
+    // Need to ensure the fields exists before we check for the clean status.
+    this.ensureFields(selective, data);
+    return super.renderWrapper(selective, data);
   }
 
 }
@@ -2486,13 +2571,23 @@ class ValidationErrors {
     return this._zones[zoneKey];
   }
 
+  hasAnyErrors() {
+    for (const zoneKey of Object.keys(this._zones)) {
+      if (Object.keys(this._zones[zoneKey]).length > 0) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   hasErrors(zoneKey) {
     const zone = this.getErrorsForZone(zoneKey);
     return Object.keys(zone).length > 0;
   }
 
   validateRules(rules, value, locale, isDefaultLocale, zoneKey) {
-    for (const rule of rules) {
+    for (const rule of rules.getRulesForZone(zoneKey)) {
       // Ignore rules that only apply to default locale when not default.
       // For example, a required rule is usually only required in the default.
       if (!isDefaultLocale && rule.appliesToOnlyDefaultLocale) {
@@ -2536,15 +2631,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RequiredValidationRule", function() { return RequiredValidationRule; });
 /* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../utility/compose */ "../../../selective-edit/js/utility/compose.js");
 /* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../mixin/config */ "../../../selective-edit/js/mixin/config.js");
+/* harmony import */ var _utility_dataType__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/dataType */ "../../../selective-edit/js/utility/dataType.js");
 /**
  * Validation rules for fields.
  */
 
 
+
+const DEFAULT_ZONE_KEY = '__default__';
 class ValidationRules extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_0__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_1__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_0__["Base"]) {
   constructor(config) {
     super();
-    this._rules = [];
+    this._rules = {};
     this.setConfig(config);
   }
 
@@ -2560,20 +2658,39 @@ class ValidationRules extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_0
     return this.config.ruleTypes;
   }
 
-  addRule(rule) {
+  addRule(rule, zoneKey) {
     let newRule = this.ruleTypes.newFromKey(rule['type'], rule);
 
     if (!newRule) {
       newRule = new UnknownValidationRule(rule);
     }
 
-    this._rules.push(newRule);
+    const rules = this.getRulesForZone(zoneKey);
+    rules.push(newRule);
   }
 
-  addRules(rules) {
-    for (const rule of rules) {
-      this.addRule(rule);
+  addRules(rules, zoneKey) {
+    if (_utility_dataType__WEBPACK_IMPORTED_MODULE_2__["default"].isObject(rules)) {
+      for (const zoneKey of Object.keys(rules)) {
+        for (const rule of rules[zoneKey]) {
+          this.addRule(rule, zoneKey);
+        }
+      }
+    } else {
+      for (const rule of rules) {
+        this.addRule(rule, zoneKey);
+      }
     }
+  }
+
+  getRulesForZone(zoneKey) {
+    zoneKey = zoneKey || DEFAULT_ZONE_KEY;
+
+    if (!this._rules[zoneKey]) {
+      this._rules[zoneKey] = [];
+    }
+
+    return this._rules[zoneKey];
   }
 
 }
@@ -2773,13 +2890,27 @@ class RequiredValidationRule extends ValidationRule {
   validate(value, locale, isDefaultLocale) {
     if (!value) {
       return this.message;
+    } // Handle required array values.
+
+
+    if (_utility_dataType__WEBPACK_IMPORTED_MODULE_2__["default"].isArray(value)) {
+      if (value.length < 1) {
+        return this.message;
+      }
     } // Require that it be more than just whitespace.
 
 
-    value = value.trim();
+    try {
+      value = value.trim();
 
-    if (!value.length) {
-      return this.message;
+      if (!value.length) {
+        return this.message;
+      }
+    } catch (e) {
+      if (e instanceof TypeError) {// Value type doesn't have a trim or length.
+      } else {
+        throw e;
+      }
     }
 
     return null;
@@ -98561,9 +98692,9 @@ class Editor {
 
     this.selective.editor = this; // Load the selective editor preference for localize.
 
-    this.selective.localize = this.settingLocalize.on; // Add the editor extension default field types.
+    this.selective.localize = this.settingLocalize.on; // Add the editor default field types.
 
-    this.selective.addFieldTypes(_field__WEBPACK_IMPORTED_MODULE_13__["defaultFields"]); // Add the editor extension default validation types.
+    this.selective.addFieldTypes(_field__WEBPACK_IMPORTED_MODULE_13__["defaultFields"]); // Add the editor default validation types.
 
     this.selective.addRuleTypes(_validation__WEBPACK_IMPORTED_MODULE_14__["defaultValidationRules"]);
     this.bindEvents();
@@ -100112,8 +100243,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 class ConstructorField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig);
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig);
     this.fieldType = 'constructor';
     this.tag = '!g.*';
   }
@@ -100143,8 +100274,8 @@ class ConstructorField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Fiel
 
 }
 class ConstructorFileField extends ConstructorField {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig);
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig);
     this._fileListUi = {};
     this._fileListCls = _ui_file__WEBPACK_IMPORTED_MODULE_3__["FileListUI"];
     this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["createWhiteBlackFilter"])( // Whitelist.
@@ -100220,8 +100351,8 @@ class ConstructorFileField extends ConstructorField {
 
 }
 class DocumentField extends ConstructorFileField {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig);
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig);
     this.fieldType = 'document';
     this.tag = '!g.doc';
     this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["createWhiteBlackFilter"])( // Whitelist.
@@ -100231,8 +100362,8 @@ class DocumentField extends ConstructorFileField {
 
 }
 class StaticField extends ConstructorFileField {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig);
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig);
     this.fieldType = 'static';
     this.tag = '!g.static';
     this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["createWhiteBlackFilter"])( // Whitelist.
@@ -100242,8 +100373,8 @@ class StaticField extends ConstructorFileField {
 
 }
 class StringField extends ConstructorFileField {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig);
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig);
     this.fieldType = 'string';
     this.tag = '!g.string';
     this._fileListUi = {};
@@ -100303,8 +100434,8 @@ class StringField extends ConstructorFileField {
 
 }
 class YamlField extends ConstructorFileField {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig);
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig);
     this.fieldType = 'yaml';
     this.tag = '!g.yaml';
     this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["createWhiteBlackFilter"])( // Whitelist.
@@ -100364,8 +100495,8 @@ const fractReduce = (numerator, denominator) => {
 };
 
 class ImageField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig);
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig);
     this.fieldType = 'image';
     this._metas = {};
     this._showFileInput = {};
@@ -100724,8 +100855,8 @@ class ImageFileField extends ImageField {
 } // TODO: Move into the google image extension.
 
 class GoogleImageField extends ImageField {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig);
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig);
     this.fieldType = 'google_image';
     this.api = this.config.get('api'); // TODO: Change to use the API after the extension is updated to the new
     // Extension style.
@@ -100915,8 +101046,8 @@ const fractReduce = (numerator, denominator) => {
 };
 
 class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig);
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig);
     this.fieldType = 'media';
     this._metas = {};
     this._subFields = {};
@@ -100924,6 +101055,10 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
     this._isLoading = {};
     this._originalValue = {};
     this._value = {};
+    this.zonesToValue = {
+      'url': 'url',
+      'label': LABEL_KEY
+    };
   }
 
   _targetForDrop(evt) {
@@ -100953,6 +101088,18 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
     }
 
     return true;
+  }
+
+  get isValid() {
+    let extraIsValid = true; // Check the sub fields to see if they are clean.
+
+    for (const localeKey of Object.keys(this._subFields)) {
+      if (!this._subFields[localeKey].isValid) {
+        extraIsValid = false;
+      }
+    }
+
+    return super.isValid && extraIsValid;
   }
 
   get value() {
@@ -101139,7 +101286,7 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
     const label = value[LABEL_KEY] || '';
     return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
       <div class="selective__media__label">
-        <div class="selective__field__label selective__field__label--secondary">
+        <div class="${this.getClassesForLabel(locale, 'label')}  selective__field__label--secondary">
           Accessibility Label
         </div>
         <input
@@ -101190,12 +101337,10 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
           @dragleave=${this.handleDragLeave.bind(this)}
           @dragover=${this.handleDragOver.bind(this)}
           data-locale=${locale || ''}>
-        <div class="selective__field__label selective__field__label--secondary">
-          Media url
-        </div>
+        ${this.renderInputLabel(selective, data, locale)}
         <div class="selective__field__media_file__input">
           <input
-            class="${this.getClassesForInput(locale, 'file')}"
+            class="${this.getClassesForInput(locale, 'url')}"
             id="${this.uid}${locale || ''}"
             placeholder=${this.config.placeholder || ''}
             data-locale=${locale || ''}
@@ -101211,11 +101356,18 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
           </i>
         </div>
         ${this.renderFileInput(selective, data, locale)}
-        ${this.renderErrors(selective, data, locale, 'file')}
+        ${this.renderErrors(selective, data, locale, 'url')}
         ${this.renderPreview(selective, data, locale)}
         ${this.renderLabelInput(selective, data, locale)}
         ${this.renderErrors(selective, data, locale, 'label')}
         ${this.renderSubFields(selective, data, locale)}
+      </div>`;
+  }
+
+  renderInputLabel(selective, data, locale) {
+    return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
+      <div class="${this.getClassesForLabel(locale, 'url')}  selective__field__label--secondary">
+        Media path
       </div>`;
   }
 
@@ -101280,10 +101432,10 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
       // Create the subfield's group using the fields config.
       const groupFieldConfig = {
         'key': SUB_FIELDS_KEY,
+        'label': this.config.extraLabel || 'Extra',
         'fields': this.config.fields
       };
-      groupFieldConfig[LABEL_KEY] = this.config.extraLabel || 'Extra';
-      this._subFields[localeKey] = new selective_edit__WEBPACK_IMPORTED_MODULE_1__["GroupField"](groupFieldConfig);
+      this._subFields[localeKey] = new selective_edit__WEBPACK_IMPORTED_MODULE_1__["GroupField"](this.ruleTypes, groupFieldConfig, this.globalConfig);
     }
 
     return this._subFields[localeKey].template(selective, this.originalValue, locale);
@@ -101308,8 +101460,8 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
 
 }
 class MediaFileField extends MediaField {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig);
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig);
     this.fieldType = 'media_file';
     this._fileListUi = {};
     this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_3__["createWhiteBlackFilter"])(Object(_utility_filter__WEBPACK_IMPORTED_MODULE_3__["regexList"])(this.config.get('whitelist'), [/^\/static\/.*\.(jp[e]?g|png|svg|webp)$/]), // Whitelist.
@@ -101390,7 +101542,7 @@ class MediaFileField extends MediaField {
         ${this.renderInputLabel(selective, data, locale)}
         <div class="selective__field__media_file__input">
           <input
-            class="${this.getClassesForInput(locale, 'file')}"
+            class="${this.getClassesForInput(locale, 'url')}"
             id="${this.uid}${locale || ''}"
             placeholder=${this.config.placeholder || ''}
             data-locale=${locale || ''}
@@ -101413,18 +101565,11 @@ class MediaFileField extends MediaField {
         </div>
         ${fileListUi.renderFileList(selective, data, locale)}
         ${this.renderFileInput(selective, data, locale)}
-        ${this.renderErrors(selective, data, locale, 'file')}
+        ${this.renderErrors(selective, data, locale, 'url')}
         ${this.renderPreview(selective, data, locale)}
         ${this.renderLabelInput(selective, data, locale)}
         ${this.renderErrors(selective, data, locale, 'label')}
         ${this.renderSubFields(selective, data, locale)}
-      </div>`;
-  }
-
-  renderInputLabel(selective, data, locale) {
-    return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
-      <div class="selective__field__label selective__field__label--secondary">
-        Media path
       </div>`;
   }
 
@@ -101461,7 +101606,7 @@ class GoogleMediaField extends MediaField {
 
   renderInputLabel(selective, data, locale) {
     return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
-      <div class="selective__field__label selective__field__label--secondary">
+      <div class="${this.getClassesForLabel(locale, 'url')}  selective__field__label--secondary">
         Media url
       </div>`;
   }
@@ -101836,8 +101981,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 class CheckboxField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig);
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig);
     this.fieldType = 'checkbox';
   }
 
@@ -101884,8 +102029,8 @@ class CheckboxField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"]
 
 }
 class DateField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig);
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig);
     this.fieldType = 'date';
   }
 
@@ -101905,8 +102050,8 @@ class DateField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
 
 }
 class DateTimeField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig);
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig);
     this.fieldType = 'datetime';
   } // Original values may contain seconds which the datetime ignores.
 
@@ -101935,8 +102080,8 @@ class DateTimeField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"]
 
 }
 class HtmlField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig);
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig);
     this.fieldType = 'html';
     this.api = this.config.get('api');
 
@@ -102056,8 +102201,8 @@ class HtmlField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
 
 }
 class MarkdownField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig);
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig);
     this.fieldType = 'markdown';
   }
 
@@ -102116,8 +102261,8 @@ class MarkdownField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"]
 
 }
 class SelectField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig);
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig);
     this.fieldType = 'select';
     this.threshold = this.config.threshold || 12; // [0]: Unselected
     // [1]: Selected
@@ -102204,8 +102349,8 @@ class SelectField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
 
 }
 class TextField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig);
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig);
     this.fieldType = 'text'; // When the text field is too long, convert input to a textarea.
 
     this.threshold = this.config.threshold || 75;
@@ -102268,8 +102413,8 @@ class TextField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
 
 }
 class TextareaField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig);
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig);
     this.fieldType = 'textarea';
   }
 
@@ -103449,8 +103594,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return WorkspaceMenu; });
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
 /* harmony import */ var _field__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../field */ "./source/editor/field.js");
-/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
-/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./base */ "./source/editor/menu/base.js");
+/* harmony import */ var _validation__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../validation */ "./source/editor/validation.js");
+/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
+/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./base */ "./source/editor/menu/base.js");
 /**
  * Content editor.
  */
@@ -103459,9 +103605,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 const SPECIAL_BRANCHES = ['master', 'staging', 'sandbox'];
 const WORKSPACE_BRANCH_PREFIX = 'workspace/';
-class WorkspaceMenu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
+class WorkspaceMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
   constructor(config) {
     super(config);
     this.modalWindow = this.config.get('newWorkspaceModal');
@@ -103481,12 +103628,11 @@ class WorkspaceMenu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
   _createSelective(workspaces) {
     // Selective editor for the form to add new workspace.
     const newSelective = new selective_edit__WEBPACK_IMPORTED_MODULE_0__["default"](null);
-    newSelective.data = {}; // Add the editor extension default field types.
+    newSelective.data = {}; // Add the editor default field types.
 
-    for (const key of Object.keys(_field__WEBPACK_IMPORTED_MODULE_1__["defaultFields"])) {
-      newSelective.addFieldType(key, _field__WEBPACK_IMPORTED_MODULE_1__["defaultFields"][key]);
-    }
+    newSelective.addFieldTypes(_field__WEBPACK_IMPORTED_MODULE_1__["defaultFields"]); // Add the editor default validation types.
 
+    newSelective.addRuleTypes(_validation__WEBPACK_IMPORTED_MODULE_2__["defaultValidationRules"]);
     const options = [];
 
     for (const workspace of workspaces) {
