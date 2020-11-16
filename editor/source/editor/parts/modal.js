@@ -12,6 +12,9 @@ import generateUUID from '../../utility/uuid'
 import BasePart from './base'
 
 
+const disabledNoOp = () => false
+
+
 export default class ModalWindow extends BasePart {
   constructor(title) {
     super()
@@ -31,7 +34,8 @@ export default class ModalWindow extends BasePart {
     return html`${repeat(this.actions, (action) => action.uid, (action, index) => html`
       <button
           class="editor__button ${action.classes}"
-          @click=${action.callback}>
+          @click=${action.callback}
+          ?disabled=${action.callbackDisabled()}>
         ${action.label}
       </button>
     `)}`
@@ -63,7 +67,7 @@ export default class ModalWindow extends BasePart {
       </div>`
   }
 
-  addAction(label, callback, isPrimary, isSecondary) {
+  addAction(label, callback, isPrimary, isSecondary, callbackDisabled) {
     const classes = []
 
     if (isPrimary) {
@@ -78,6 +82,7 @@ export default class ModalWindow extends BasePart {
       uid: generateUUID(),
       label: label,
       callback: callback,
+      callbackDisabled: callbackDisabled || disabledNoOp,
       classes: classes,
       isPrimary: isPrimary,
       isSecondary: isSecondary,

@@ -36,10 +36,12 @@ export default class WorkspaceMenu extends MenuBase {
       </div>`
   }
 
-  _createSelective(workspaces) {
+  _createSelective(branch, workspaces) {
     // Selective editor for the form to add new workspace.
     const newSelective = new Selective(null)
-    newSelective.data = {}
+    newSelective.data = {
+      'base': branch,
+    }
 
     // Add the editor default field types.
     newSelective.addFieldTypes(defaultFields)
@@ -81,14 +83,17 @@ export default class WorkspaceMenu extends MenuBase {
         },
         {
           'type': 'pattern',
-          'check': '^[a-zA-Z0-9-]*$',
-          'message': 'Can only contain alpha-numeric characters and - (dash).',
+          'pattern': '^[a-z0-9-]*$',
+          'message': 'Workspace name can only contain lowercase alpha-numeric characters and - (dash).',
         },
         {
           'type': 'match',
           'excluded': {
-            'check': '^[a-zA-Z0-9-]*$',
-            'message': 'Can only contain alpha-numeric characters and - (dash).',
+            'values': [
+              'master',
+              'staging',
+            ],
+            'message': 'Workspace name cannot be "master" or "staging".',
           },
         },
       ],
@@ -97,9 +102,9 @@ export default class WorkspaceMenu extends MenuBase {
     return newSelective
   }
 
-  _getOrCreateSelective(workspaces) {
+  _getOrCreateSelective(branch, workspaces) {
     if (!this._selective) {
-      this._selective = this._createSelective(workspaces)
+      this._selective = this._createSelective(branch, workspaces)
     }
     return this._selective
   }
@@ -135,7 +140,8 @@ export default class WorkspaceMenu extends MenuBase {
     const workspaces = this.filterBranches(menuState.repo.branches.sort())
 
     if (this.modalWindow.isOpen) {
-      const newWorkspaceSelective = this._getOrCreateSelective(workspaces)
+      const newWorkspaceSelective = this._getOrCreateSelective(
+        menuState.repo.branch, workspaces)
 
       // Store the selective editor for the new file for processing in the menu.
       this.modalWindow.selective = newWorkspaceSelective

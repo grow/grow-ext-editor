@@ -106192,7 +106192,7 @@ var Menu = /*#__PURE__*/function (_MenuBase) {
 
     _this.newWorkspaceWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_3__["default"]('New workspace');
 
-    _this.newWorkspaceWindow.addAction('Create workspace', _this.handleWorkspaceNewSubmit.bind(_assertThisInitialized(_this)), true);
+    _this.newWorkspaceWindow.addAction('Create workspace', _this.handleWorkspaceNewSubmit.bind(_assertThisInitialized(_this)), true, null, _this.handleWorkspaceNewDisabled.bind(_assertThisInitialized(_this)));
 
     _this.newWorkspaceWindow.addAction('Cancel', _this.handleWorkspaceNewCancel.bind(_assertThisInitialized(_this)), false, true);
 
@@ -106346,9 +106346,24 @@ var Menu = /*#__PURE__*/function (_MenuBase) {
       this.newWorkspaceWindow.close();
     }
   }, {
+    key: "handleWorkspaceNewDisabled",
+    value: function handleWorkspaceNewDisabled() {
+      // Only do disabled when the selective for the window is defined.
+      if (!this.newWorkspaceWindow.selective) {
+        return false;
+      }
+
+      return !this.newWorkspaceWindow.selective.isValid;
+    }
+  }, {
     key: "handleWorkspaceNewSubmit",
     value: function handleWorkspaceNewSubmit(evt) {
-      evt.stopPropagation();
+      evt.stopPropagation(); // Do not do anything when the form is invalid.
+
+      if (!this.newWorkspaceWindow.selective.isValid) {
+        return;
+      }
+
       var value = this.newWorkspaceWindow.selective.value;
       document.dispatchEvent(new CustomEvent('editor.workspace.new', {
         detail: {
@@ -107181,10 +107196,12 @@ var WorkspaceMenu = /*#__PURE__*/function (_MenuBase) {
 
   _createClass(WorkspaceMenu, [{
     key: "_createSelective",
-    value: function _createSelective(workspaces) {
+    value: function _createSelective(branch, workspaces) {
       // Selective editor for the form to add new workspace.
       var newSelective = new selective_edit__WEBPACK_IMPORTED_MODULE_0__["default"](null);
-      newSelective.data = {}; // Add the editor default field types.
+      newSelective.data = {
+        'base': branch
+      }; // Add the editor default field types.
 
       newSelective.addFieldTypes(_field__WEBPACK_IMPORTED_MODULE_1__["defaultFields"]); // Add the editor default validation types.
 
@@ -107229,13 +107246,13 @@ var WorkspaceMenu = /*#__PURE__*/function (_MenuBase) {
           'message': 'Workspace name is required.'
         }, {
           'type': 'pattern',
-          'check': '^[a-zA-Z0-9-]*$',
-          'message': 'Can only contain alpha-numeric characters and - (dash).'
+          'pattern': '^[a-z0-9-]*$',
+          'message': 'Workspace name can only contain lowercase alpha-numeric characters and - (dash).'
         }, {
           'type': 'match',
           'excluded': {
-            'check': '^[a-zA-Z0-9-]*$',
-            'message': 'Can only contain alpha-numeric characters and - (dash).'
+            'values': ['master', 'staging'],
+            'message': 'Workspace name cannot be "master" or "staging".'
           }
         }]
       });
@@ -107243,9 +107260,9 @@ var WorkspaceMenu = /*#__PURE__*/function (_MenuBase) {
     }
   }, {
     key: "_getOrCreateSelective",
-    value: function _getOrCreateSelective(workspaces) {
+    value: function _getOrCreateSelective(branch, workspaces) {
       if (!this._selective) {
-        this._selective = this._createSelective(workspaces);
+        this._selective = this._createSelective(branch, workspaces);
       }
 
       return this._selective;
@@ -107296,7 +107313,7 @@ var WorkspaceMenu = /*#__PURE__*/function (_MenuBase) {
       var workspaces = this.filterBranches(menuState.repo.branches.sort());
 
       if (this.modalWindow.isOpen) {
-        var newWorkspaceSelective = this._getOrCreateSelective(workspaces); // Store the selective editor for the new file for processing in the menu.
+        var newWorkspaceSelective = this._getOrCreateSelective(menuState.repo.branch, workspaces); // Store the selective editor for the new file for processing in the menu.
 
 
         this.modalWindow.selective = newWorkspaceSelective;
@@ -107429,7 +107446,7 @@ function _templateObject3() {
 }
 
 function _templateObject2() {
-  var data = _taggedTemplateLiteral(["\n      <button\n          class=\"editor__button ", "\"\n          @click=", ">\n        ", "\n      </button>\n    "]);
+  var data = _taggedTemplateLiteral(["\n      <button\n          class=\"editor__button ", "\"\n          @click=", "\n          ?disabled=", ">\n        ", "\n      </button>\n    "]);
 
   _templateObject2 = function _templateObject2() {
     return data;
@@ -107479,6 +107496,10 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+var disabledNoOp = function disabledNoOp() {
+  return false;
+};
+
 var ModalWindow = /*#__PURE__*/function (_BasePart) {
   _inherits(ModalWindow, _BasePart);
 
@@ -107509,7 +107530,7 @@ var ModalWindow = /*#__PURE__*/function (_BasePart) {
 
   _createClass(ModalWindow, [{
     key: "addAction",
-    value: function addAction(label, callback, isPrimary, isSecondary) {
+    value: function addAction(label, callback, isPrimary, isSecondary, callbackDisabled) {
       var classes = [];
 
       if (isPrimary) {
@@ -107524,6 +107545,7 @@ var ModalWindow = /*#__PURE__*/function (_BasePart) {
         uid: Object(_utility_uuid__WEBPACK_IMPORTED_MODULE_3__["default"])(),
         label: label,
         callback: callback,
+        callbackDisabled: callbackDisabled || disabledNoOp,
         classes: classes,
         isPrimary: isPrimary,
         isSecondary: isSecondary
@@ -107575,7 +107597,7 @@ var ModalWindow = /*#__PURE__*/function (_BasePart) {
       return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject(), Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(this.actions, function (action) {
         return action.uid;
       }, function (action, index) {
-        return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject2(), action.classes, action.callback, action.label);
+        return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject2(), action.classes, action.callback, action.callbackDisabled(), action.label);
       }));
     }
   }, {

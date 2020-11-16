@@ -48,7 +48,8 @@ export default class Menu extends MenuBase {
     // Otherwise, the new modal is constrained to the menu modal.
     this.newWorkspaceWindow = new ModalWindow('New workspace')
     this.newWorkspaceWindow.addAction(
-      'Create workspace', this.handleWorkspaceNewSubmit.bind(this), true)
+      'Create workspace', this.handleWorkspaceNewSubmit.bind(this), true, null,
+      this.handleWorkspaceNewDisabled.bind(this))
     this.newWorkspaceWindow.addAction(
       'Cancel', this.handleWorkspaceNewCancel.bind(this), false, true)
 
@@ -195,8 +196,21 @@ export default class Menu extends MenuBase {
     this.newWorkspaceWindow.close()
   }
 
+  handleWorkspaceNewDisabled() {
+    // Only do disabled when the selective for the window is defined.
+    if (!this.newWorkspaceWindow.selective) {
+      return false
+    }
+    return !this.newWorkspaceWindow.selective.isValid
+  }
+
   handleWorkspaceNewSubmit(evt) {
     evt.stopPropagation()
+
+    // Do not do anything when the form is invalid.
+    if (!this.newWorkspaceWindow.selective.isValid) {
+      return
+    }
 
     const value = this.newWorkspaceWindow.selective.value
 
