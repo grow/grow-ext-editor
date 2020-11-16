@@ -104620,7 +104620,7 @@ function _templateObject7() {
 }
 
 function _templateObject6() {
-  var data = _taggedTemplateLiteral(["\n      <div\n        class=\"", " selective__field__select__options\"\n        ", "\n      </div>\n      ", ""]);
+  var data = _taggedTemplateLiteral(["\n      <div\n        class=\"", " selective__field__select__options\">\n        ", "\n      </div>\n      ", ""]);
 
   _templateObject6 = function _templateObject6() {
     return data;

@@ -376,7 +376,7 @@ export class SelectField extends Field {
 
     return html`
       <div
-        class="${this.getClassesForInput(locale)} selective__field__select__options"
+        class="${this.getClassesForInput(locale)} selective__field__select__options">
         ${repeat(options, (option) => option.value, (option, index) => html`
           <div
               class="selective__field__select__option ${isOptionSelected(option.value) ? 'selective__field__select__option--checked' : ''}"
