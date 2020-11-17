@@ -100731,20 +100731,15 @@ var Editor = /*#__PURE__*/function () {
       }); // Allow copying files.
 
       document.addEventListener('selective.path.copy', function (evt) {
-        var podPath = evt.detail['path'];
-        var parts = podPath.split('/');
-        var fileName = parts.pop();
-        var fileNameParts = fileName.split('.');
-        var fileNameExt = fileNameParts.pop();
-        var fileNameBase = fileNameParts.join('.');
-        var newFileNameBase = window.prompt("Enter the new file name for the duplicate of ".concat(fileNameBase), fileNameBase);
-        parts.push([newFileNameBase, fileNameExt].join('.'));
-        var newPodPath = parts.join('/');
+        var podPath = evt.detail['podPath'];
+        var newPodPath = evt.detail['newPodPath'];
 
-        _this2.api.copyFile(podPath, newPodPath).then(function () {
+        _this2.api.copyFile(podPath, newPodPath).then(function (response) {
           if (_this2._podPaths) {
             _this2.loadPodPaths(true);
           }
+
+          _this2.listeners.trigger('copy.response', response);
         }).catch(function (error) {
           console.error(error);
         });
@@ -105624,9 +105619,11 @@ var FileTreeMenu = /*#__PURE__*/function (_MenuBase) {
     _this = _super.call(this, config);
     _this.podPath = null;
     _this.expandedFolders = [];
-    _this._selectives = {};
+    _this._selectiveCopyFile = null;
+    _this._selectivesNewFile = {};
     _this.deleteFileWindow = _this.config.get('deleteFileModal');
     _this.newFileWindow = _this.config.get('newFileModal');
+    _this.copyFileWindow = _this.config.get('copyFileModal');
     return _this;
   }
 
@@ -105642,8 +105639,64 @@ var FileTreeMenu = /*#__PURE__*/function (_MenuBase) {
       }
     }
   }, {
-    key: "_createSelective",
-    value: function _createSelective(templates) {
+    key: "_createSelectiveCopyFile",
+    value: function _createSelectiveCopyFile(podPaths, podPath) {
+      // Selective editor for the form to add new file.
+      var newSelective = new selective_edit__WEBPACK_IMPORTED_MODULE_0__["default"](null);
+      newSelective.data = {
+        podPath: podPath,
+        fileName: podPath
+      }; // Add the editor default field types.
+
+      newSelective.addFieldTypes(_field__WEBPACK_IMPORTED_MODULE_2__["defaultFields"]); // Add the editor default validation types.
+
+      newSelective.addRuleTypes(_validation__WEBPACK_IMPORTED_MODULE_3__["defaultValidationRules"]); // The new file should match the extension of the old file.
+
+      var originalExt = 'yaml';
+
+      if (podPath.endsWith('.html')) {
+        originalExt = 'html';
+      } else if (podPath.endsWith('.md')) {
+        originalExt = 'md';
+      }
+
+      newSelective.addField({
+        'type': 'text',
+        'key': 'fileName',
+        'label': 'File name',
+        'help': "Copy '".concat(podPath, "' to this new file."),
+        'validation': [{
+          'type': 'required',
+          'message': 'File name is required.'
+        }, {
+          'type': 'pattern',
+          'pattern': '^[a-z0-9-_\.\/]*$',
+          'message': 'File name can only contain lowercase alpha-numeric characters, . (period), _ (underscore), / (forward slash), and - (dash).'
+        }, {
+          'type': 'pattern',
+          'pattern': '/[a-z0-9]+[^/]*$',
+          'message': 'File name in the sub directory needs to start with alpha-numeric characters.'
+        }, {
+          'type': 'pattern',
+          'pattern': '^/content/[a-z0-9]+/',
+          'message': 'File name needs to be in a collection (ex: /content/pages/).'
+        }, {
+          'type': 'pattern',
+          'pattern': "^.*.(".concat(originalExt, ")$"),
+          'message': "File name needs to end with \".".concat(originalExt, "\" to match the original file.")
+        }, {
+          'type': 'match',
+          'excluded': {
+            'values': podPaths,
+            'message': 'File name already exists.'
+          }
+        }]
+      });
+      return newSelective;
+    }
+  }, {
+    key: "_createSelectiveNewFile",
+    value: function _createSelectiveNewFile(templates) {
       // Selective editor for the form to add new file.
       var newSelective = new selective_edit__WEBPACK_IMPORTED_MODULE_0__["default"](null);
       newSelective.data = {}; // Add the editor default field types.
@@ -105726,17 +105779,26 @@ var FileTreeMenu = /*#__PURE__*/function (_MenuBase) {
       return newSelective;
     }
   }, {
-    key: "_getOrCreateSelective",
-    value: function _getOrCreateSelective(folder, templates) {
-      if (!this._selectives[folder]) {
+    key: "_getOrCreateSelectiveCopyFile",
+    value: function _getOrCreateSelectiveCopyFile(podPaths, podPath) {
+      if (!this._selectiveCopyFile) {
+        this._selectiveCopyFile = this._createSelectiveCopyFile(podPaths, podPath);
+      }
+
+      return this._selectiveCopyFile;
+    }
+  }, {
+    key: "_getOrCreateSelectiveNewFile",
+    value: function _getOrCreateSelectiveNewFile(folder, templates) {
+      if (!this._selectivesNewFile[folder]) {
         if (!templates) {
           console.error('Unable to create selective editor without templates.');
         }
 
-        this._selectives[folder] = this._createSelective(templates);
+        this._selectivesNewFile[folder] = this._createSelectiveNewFile(templates);
       }
 
-      return this._selectives[folder];
+      return this._selectivesNewFile[folder];
     }
   }, {
     key: "handleFileClick",
@@ -105754,13 +105816,11 @@ var FileTreeMenu = /*#__PURE__*/function (_MenuBase) {
     value: function handleFileCopyClick(evt) {
       evt.stopPropagation();
       var target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'menu__tree__folder__file');
-      var podPath = target.dataset.podPath;
-      console.log('copy: ', podPath);
-      document.dispatchEvent(new CustomEvent('selective.path.copy', {
-        detail: {
-          path: podPath
-        }
-      }));
+      var podPath = target.dataset.podPath; // Reset the selective form so that it can be regenerated.
+
+      this._selectiveCopyFile = null;
+      this.copyFileWindow.podPath = podPath;
+      this.copyFileWindow.open();
     }
   }, {
     key: "handleFileDeleteClick",
@@ -105823,10 +105883,25 @@ var FileTreeMenu = /*#__PURE__*/function (_MenuBase) {
 
       var folderStructure = new _folderStructure__WEBPACK_IMPORTED_MODULE_6__["default"](menuState.podPaths, menuState.templates, '/');
 
+      if (this.copyFileWindow.podPath) {
+        var copyFileSelective = this._getOrCreateSelectiveCopyFile(menuState.podPaths, this.copyFileWindow.podPath); // Store the selective editor for the new file for processing in the menu.
+
+
+        this.copyFileWindow.selective = copyFileSelective;
+
+        this.copyFileWindow.canClickToCloseFunc = function () {
+          return copyFileSelective.isClean;
+        };
+
+        this.copyFileWindow.contentRenderFunc = function () {
+          return copyFileSelective.template(copyFileSelective, copyFileSelective.data);
+        };
+      }
+
       if (this.newFileWindow.newFileFolder) {
         var templates = menuState.templates[this.newFileWindow.newFileFolder];
 
-        var newFileSelective = this._getOrCreateSelective(this.newFileWindow.newFileFolder, templates); // Store the selective editor for the new file for processing in the menu.
+        var newFileSelective = this._getOrCreateSelectiveNewFile(this.newFileWindow.newFileFolder, templates); // Store the selective editor for the new file for processing in the menu.
 
 
         this.newFileWindow.selective = newFileSelective;
@@ -106135,7 +106210,7 @@ function _templateObject3() {
 }
 
 function _templateObject2() {
-  var data = _taggedTemplateLiteral(["\n      ", "\n      ", "\n      ", "\n      ", ""]);
+  var data = _taggedTemplateLiteral(["\n      ", "\n      ", "\n      ", "\n      ", "\n      ", ""]);
 
   _templateObject2 = function _templateObject2() {
     return data;
@@ -106202,8 +106277,16 @@ var Menu = /*#__PURE__*/function (_MenuBase) {
     _this = _super.call(this, config);
     _this.editor = editor;
     _this.menuWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_3__["MenuWindow"](); // this.menuWindow.isOpen = true  // TODO: Remove
-    // Create the delete page modal outside of the modal for the menu.
+    // Create the copy page modal outside of the modal for the menu.
+    // Otherwise, the copy modal is constrained to the menu modal.
+
+    _this.copyFileWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_3__["default"]('Copy page');
+
+    _this.copyFileWindow.addAction('Copy file', _this.handleFileCopySubmit.bind(_assertThisInitialized(_this)), true, null, _this.handleFileCopyDisabled.bind(_assertThisInitialized(_this)));
+
+    _this.copyFileWindow.addAction('Cancel', _this.handleFileCopyCancel.bind(_assertThisInitialized(_this)), false, true); // Create the delete page modal outside of the modal for the menu.
     // Otherwise, the delete modal is constrained to the menu modal.
+
 
     _this.deleteFileWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_3__["default"]('Delete page');
 
@@ -106231,6 +106314,7 @@ var Menu = /*#__PURE__*/function (_MenuBase) {
       testing: _this.isTesting
     });
     _this._siteMenu = new _site__WEBPACK_IMPORTED_MODULE_6__["default"]({
+      copyFileModal: _this.copyFileWindow,
       deleteFileModal: _this.deleteFileWindow,
       newFileModal: _this.newFileWindow,
       testing: _this.isTesting
@@ -106281,6 +106365,36 @@ var Menu = /*#__PURE__*/function (_MenuBase) {
       });
     }
   }, {
+    key: "handleFileCopyCancel",
+    value: function handleFileCopyCancel(evt) {
+      evt.stopPropagation();
+      this.copyFileWindow.copyFileFolder = null;
+      this.copyFileWindow.close();
+    }
+  }, {
+    key: "handleFileCopyDisabled",
+    value: function handleFileCopyDisabled() {
+      // Only do disabled when the selective for the window is defined.
+      if (!this.copyFileWindow.selective) {
+        return false;
+      }
+
+      return !this.copyFileWindow.selective.isValid;
+    }
+  }, {
+    key: "handleFileCopySubmit",
+    value: function handleFileCopySubmit(evt) {
+      evt.stopPropagation();
+      var value = this.copyFileWindow.selective.value;
+      document.dispatchEvent(new CustomEvent('selective.path.copy', {
+        detail: {
+          podPath: value.podPath,
+          newPodPath: value.fileName
+        }
+      }));
+      this.copyFileWindow.close();
+    }
+  }, {
     key: "handleFileDeleteCancel",
     value: function handleFileDeleteCancel(evt) {
       evt.stopPropagation();
@@ -106291,7 +106405,6 @@ var Menu = /*#__PURE__*/function (_MenuBase) {
     value: function handleFileDeleteSubmit(evt) {
       evt.stopPropagation();
       var podPath = this.deleteFileWindow.podPath;
-      console.log('pod path: ', podPath);
       document.dispatchEvent(new CustomEvent('selective.path.delete', {
         detail: {
           path: podPath
@@ -106444,7 +106557,7 @@ var Menu = /*#__PURE__*/function (_MenuBase) {
         };
       }
 
-      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject2(), this.menuWindow.template, this.deleteFileWindow.template, this.newFileWindow.template, this.newWorkspaceWindow.template);
+      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject2(), this.menuWindow.template, this.copyFileWindow.template, this.deleteFileWindow.template, this.newFileWindow.template, this.newWorkspaceWindow.template);
     }
   }, {
     key: "renderMenuBar",
@@ -106667,6 +106780,7 @@ var SiteMenu = /*#__PURE__*/function (_MenuBase) {
 
     _this = _super.call(this, config);
     _this._treeMenu = new _tree__WEBPACK_IMPORTED_MODULE_3__["default"]({
+      copyFileModal: _this.config.get('copyFileModal'),
       deleteFileModal: _this.config.get('deleteFileModal'),
       newFileModal: _this.config.get('newFileModal'),
       testing: _this.isTesting
@@ -106805,6 +106919,7 @@ var SiteTreeMenu = /*#__PURE__*/function (_MenuBase) {
     _this.filterFunc = _this.config.get('filterFunc') || Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createWhiteBlackFilter"])([/\/content\//, /\/podspec.yaml/], // Whitelist.
     [] // Blacklist.
     );
+    _this.copyFileWindow = _this.config.get('copyFileModal');
     _this.deleteFileWindow = _this.config.get('deleteFileModal');
     return _this;
   }
@@ -106858,12 +106973,8 @@ var SiteTreeMenu = /*#__PURE__*/function (_MenuBase) {
       evt.stopPropagation();
       var target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'menu__tree__folder__file');
       var podPath = target.dataset.podPath;
-      console.log('copy: ', podPath);
-      document.dispatchEvent(new CustomEvent('selective.path.copy', {
-        detail: {
-          path: podPath
-        }
-      }));
+      this.copyFileWindow.podPath = podPath;
+      this.copyFileWindow.open();
     }
   }, {
     key: "handleFileDeleteClick",
@@ -107080,11 +107191,13 @@ var TreeMenu = /*#__PURE__*/function (_MenuBase) {
 
     _this = _super.call(this, config);
     _this._fileTreeMenu = new _filetree__WEBPACK_IMPORTED_MODULE_3__["default"]({
+      copyFileModal: _this.config.get('copyFileModal'),
       deleteFileModal: _this.config.get('deleteFileModal'),
       newFileModal: _this.config.get('newFileModal'),
       testing: _this.isTesting
     });
     _this._siteTreeMenu = new _sitetree__WEBPACK_IMPORTED_MODULE_4__["default"]({
+      copyFileModal: _this.config.get('copyFileModal'),
       deleteFileModal: _this.config.get('deleteFileModal'),
       newFileModal: _this.config.get('newFileModal'),
       testing: _this.isTesting

@@ -23,10 +23,12 @@ export default class FileTreeMenu extends MenuBase {
 
     this.podPath = null
     this.expandedFolders = []
-    this._selectives = {}
+    this._selectiveCopyFile = null
+    this._selectivesNewFile = {}
 
     this.deleteFileWindow = this.config.get('deleteFileModal')
     this.newFileWindow = this.config.get('newFileModal')
+    this.copyFileWindow = this.config.get('copyFileModal')
   }
 
   get template() {
@@ -44,7 +46,72 @@ export default class FileTreeMenu extends MenuBase {
     }
   }
 
-  _createSelective(templates) {
+  _createSelectiveCopyFile(podPaths, podPath) {
+    // Selective editor for the form to add new file.
+    const newSelective = new Selective(null)
+    newSelective.data = {
+      podPath: podPath,
+      fileName: podPath,
+    }
+
+    // Add the editor default field types.
+    newSelective.addFieldTypes(defaultFields)
+
+    // Add the editor default validation types.
+    newSelective.addRuleTypes(defaultValidationRules)
+
+    // The new file should match the extension of the old file.
+    let originalExt = 'yaml'
+    if (podPath.endsWith('.html')) {
+      originalExt = 'html'
+    } else if (podPath.endsWith('.md')) {
+      originalExt = 'md'
+    }
+
+    newSelective.addField({
+      'type': 'text',
+      'key': 'fileName',
+      'label': 'File name',
+      'help': `Copy '${podPath}' to this new file.`,
+      'validation': [
+        {
+          'type': 'required',
+          'message': 'File name is required.',
+        },
+        {
+          'type': 'pattern',
+          'pattern': '^[a-z0-9-_\.\/]*$',
+          'message': 'File name can only contain lowercase alpha-numeric characters, . (period), _ (underscore), / (forward slash), and - (dash).',
+        },
+        {
+          'type': 'pattern',
+          'pattern': '/[a-z0-9]+[^/]*$',
+          'message': 'File name in the sub directory needs to start with alpha-numeric characters.',
+        },
+        {
+          'type': 'pattern',
+          'pattern': '^/content/[a-z0-9]+/',
+          'message': 'File name needs to be in a collection (ex: /content/pages/).',
+        },
+        {
+          'type': 'pattern',
+          'pattern': `^.*\.(${originalExt})$`,
+          'message': `File name needs to end with ".${originalExt}" to match the original file.`,
+        },
+        {
+          'type': 'match',
+          'excluded': {
+            'values': podPaths,
+            'message': 'File name already exists.',
+          },
+        },
+      ],
+    })
+
+    return newSelective
+  }
+
+  _createSelectiveNewFile(templates) {
     // Selective editor for the form to add new file.
     const newSelective = new Selective(null)
     newSelective.data = {}
@@ -137,14 +204,21 @@ export default class FileTreeMenu extends MenuBase {
     return newSelective
   }
 
-  _getOrCreateSelective(folder, templates) {
-    if (!this._selectives[folder]) {
+  _getOrCreateSelectiveCopyFile(podPaths, podPath) {
+    if (!this._selectiveCopyFile) {
+      this._selectiveCopyFile = this._createSelectiveCopyFile(podPaths, podPath)
+    }
+    return this._selectiveCopyFile
+  }
+
+  _getOrCreateSelectiveNewFile(folder, templates) {
+    if (!this._selectivesNewFile[folder]) {
       if (!templates) {
         console.error('Unable to create selective editor without templates.')
       }
-      this._selectives[folder] = this._createSelective(templates)
+      this._selectivesNewFile[folder] = this._createSelectiveNewFile(templates)
     }
-    return this._selectives[folder]
+    return this._selectivesNewFile[folder]
   }
 
   handleFileClick(evt) {
@@ -161,12 +235,10 @@ export default class FileTreeMenu extends MenuBase {
     evt.stopPropagation()
     const target = findParentByClassname(evt.target, 'menu__tree__folder__file')
     const podPath = target.dataset.podPath
-    console.log('copy: ', podPath);
-    document.dispatchEvent(new CustomEvent('selective.path.copy', {
-      detail: {
-        path: podPath,
-      }
-    }))
+    // Reset the selective form so that it can be regenerated.
+    this._selectiveCopyFile = null
+    this.copyFileWindow.podPath = podPath
+    this.copyFileWindow.open()
   }
 
   handleFileDeleteClick(evt) {
@@ -220,9 +292,24 @@ export default class FileTreeMenu extends MenuBase {
 
     const folderStructure = new FolderStructure(menuState.podPaths, menuState.templates, '/')
 
+    if (this.copyFileWindow.podPath) {
+      const copyFileSelective = this._getOrCreateSelectiveCopyFile(menuState.podPaths, this.copyFileWindow.podPath)
+
+      // Store the selective editor for the new file for processing in the menu.
+      this.copyFileWindow.selective = copyFileSelective
+
+      this.copyFileWindow.canClickToCloseFunc = () => {
+         return copyFileSelective.isClean
+      }
+
+      this.copyFileWindow.contentRenderFunc = () => {
+         return copyFileSelective.template(copyFileSelective, copyFileSelective.data)
+      }
+    }
+
     if (this.newFileWindow.newFileFolder) {
       const templates = menuState.templates[this.newFileWindow.newFileFolder]
-      const newFileSelective = this._getOrCreateSelective(this.newFileWindow.newFileFolder, templates)
+      const newFileSelective = this._getOrCreateSelectiveNewFile(this.newFileWindow.newFileFolder, templates)
 
       // Store the selective editor for the new file for processing in the menu.
       this.newFileWindow.selective = newFileSelective

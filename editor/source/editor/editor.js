@@ -424,19 +424,13 @@ export default class Editor {
 
     // Allow copying files.
     document.addEventListener('selective.path.copy', (evt) => {
-      const podPath = evt.detail['path']
-      const parts = podPath.split('/')
-      const fileName = parts.pop()
-      const fileNameParts = fileName.split('.')
-      const fileNameExt = fileNameParts.pop()
-      const fileNameBase = fileNameParts.join('.')
-      const newFileNameBase = window.prompt(`Enter the new file name for the duplicate of ${fileNameBase}`, fileNameBase);
-      parts.push([newFileNameBase, fileNameExt].join('.'))
-      const newPodPath = parts.join('/')
-      this.api.copyFile(podPath, newPodPath).then(() => {
+      const podPath = evt.detail['podPath']
+      const newPodPath = evt.detail['newPodPath']
+      this.api.copyFile(podPath, newPodPath).then((response) => {
         if (this._podPaths) {
           this.loadPodPaths(true)
         }
+        this.listeners.trigger('copy.response', response)
       }).catch((error) => {
         console.error(error)
       })
