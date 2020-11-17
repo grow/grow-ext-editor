@@ -53,7 +53,8 @@ export default class ModalWindow extends BasePart {
       <div class=${this.classesMain}>
         <div
             class="modal__wrapper"
-            @click=${this.handleOffsetClick.bind(this)}>
+            @click=${this.handleOffsetClick.bind(this)}
+            @keydown=${this.handleOffsetKeyboard.bind(this)}>
           <div class="modal__container">
             ${this.title ? html`<h2>${this.title}</h2>` : ''}
             <div class="modal__content">
@@ -109,6 +110,17 @@ export default class ModalWindow extends BasePart {
     evt.stopPropagation()
 
     this.close()
+  }
+
+  handleOffsetKeyboard(evt) {
+    if (!this.canClickToCloseFunc()) {
+      return
+    }
+
+    // Allow escaping out of modal.
+    if (event.key == 'Escape') {
+      this.close()
+    }
   }
 
   open() {

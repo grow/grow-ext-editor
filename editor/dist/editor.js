@@ -105468,10 +105468,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
 /* harmony import */ var _field__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../field */ "./source/editor/field.js");
-/* harmony import */ var _utility_uuid__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utility/uuid */ "./source/utility/uuid.js");
-/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./base */ "./source/editor/menu/base.js");
-/* harmony import */ var _folderStructure__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./folderStructure */ "./source/editor/menu/folderStructure.js");
-/* harmony import */ var _parts_modal__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../parts/modal */ "./source/editor/parts/modal.js");
+/* harmony import */ var _validation__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../validation */ "./source/editor/validation.js");
+/* harmony import */ var _utility_uuid__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../utility/uuid */ "./source/utility/uuid.js");
+/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./base */ "./source/editor/menu/base.js");
+/* harmony import */ var _folderStructure__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./folderStructure */ "./source/editor/menu/folderStructure.js");
+/* harmony import */ var _parts_modal__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../parts/modal */ "./source/editor/parts/modal.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _templateObject8() {
@@ -105594,6 +105595,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
 var FileTreeMenu = /*#__PURE__*/function (_MenuBase) {
   _inherits(FileTreeMenu, _MenuBase);
 
@@ -105629,18 +105631,32 @@ var FileTreeMenu = /*#__PURE__*/function (_MenuBase) {
     value: function _createSelective(templates) {
       // Selective editor for the form to add new file.
       var newSelective = new selective_edit__WEBPACK_IMPORTED_MODULE_0__["default"](null);
-      newSelective.data = {}; // Add the editor extension default field types.
+      newSelective.data = {}; // Add the editor default field types.
 
-      for (var _i = 0, _Object$keys = Object.keys(_field__WEBPACK_IMPORTED_MODULE_2__["defaultFields"]); _i < _Object$keys.length; _i++) {
-        var key = _Object$keys[_i];
-        newSelective.addFieldType(key, _field__WEBPACK_IMPORTED_MODULE_2__["defaultFields"][key]);
-      }
+      newSelective.addFieldTypes(_field__WEBPACK_IMPORTED_MODULE_2__["defaultFields"]); // Add the editor default validation types.
 
+      newSelective.addRuleTypes(_validation__WEBPACK_IMPORTED_MODULE_3__["defaultValidationRules"]);
       newSelective.addField({
         'type': 'text',
         'key': 'fileName',
         'label': 'File name',
-        'help': 'May also be used for the url stub.'
+        'help': 'May also be used for the url stub.',
+        'validation': [{
+          'type': 'required',
+          'message': 'File name is required.'
+        }, {
+          'type': 'pattern',
+          'pattern': '^[a-z0-9-_\.]*$',
+          'message': 'File name can only contain lowercase alpha-numeric characters, . (period), _ (underscore) and - (dash).'
+        }, {
+          'type': 'pattern',
+          'pattern': '^[a-z0-9]+',
+          'message': 'File name can only start with an alpha-numeric character.'
+        }, {
+          'type': 'pattern',
+          'pattern': '^.*\.(yaml|md|html)$',
+          'message': 'File name needs to end with ".yaml", ".md", or ".html".'
+        }]
       });
       var keys = Object.keys(templates || {}).sort();
       var options = [{
@@ -105790,7 +105806,7 @@ var FileTreeMenu = /*#__PURE__*/function (_MenuBase) {
         this._addPodPathFolderAsExpanded(this.podPath);
       }
 
-      var folderStructure = new _folderStructure__WEBPACK_IMPORTED_MODULE_5__["default"](menuState.podPaths, menuState.templates, '/');
+      var folderStructure = new _folderStructure__WEBPACK_IMPORTED_MODULE_6__["default"](menuState.podPaths, menuState.templates, '/');
 
       if (this.newFileWindow.newFileFolder) {
         var templates = menuState.templates[this.newFileWindow.newFileFolder];
@@ -105829,7 +105845,7 @@ var FileTreeMenu = /*#__PURE__*/function (_MenuBase) {
   }]);
 
   return FileTreeMenu;
-}(_base__WEBPACK_IMPORTED_MODULE_4__["default"]);
+}(_base__WEBPACK_IMPORTED_MODULE_5__["default"]);
 
 
 
@@ -106184,7 +106200,7 @@ var Menu = /*#__PURE__*/function (_MenuBase) {
 
     _this.newFileWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_3__["default"]('New page');
 
-    _this.newFileWindow.addAction('Create file', _this.handleFileNewSubmit.bind(_assertThisInitialized(_this)), true);
+    _this.newFileWindow.addAction('Create file', _this.handleFileNewSubmit.bind(_assertThisInitialized(_this)), true, null, _this.handleFileNewDisabled.bind(_assertThisInitialized(_this)));
 
     _this.newFileWindow.addAction('Cancel', _this.handleFileNewCancel.bind(_assertThisInitialized(_this)), false, true); // Create the new workspace modal outside of the modal for the menu.
     // Otherwise, the new modal is constrained to the menu modal.
@@ -106274,6 +106290,16 @@ var Menu = /*#__PURE__*/function (_MenuBase) {
       evt.stopPropagation();
       this.newFileWindow.newFileFolder = null;
       this.newFileWindow.close();
+    }
+  }, {
+    key: "handleFileNewDisabled",
+    value: function handleFileNewDisabled() {
+      // Only do disabled when the selective for the window is defined.
+      if (!this.newFileWindow.selective) {
+        return false;
+      }
+
+      return !this.newFileWindow.selective.isValid;
     }
   }, {
     key: "handleFileNewSubmit",
@@ -107436,7 +107462,7 @@ function _templateObject4() {
 }
 
 function _templateObject3() {
-  var data = _taggedTemplateLiteral(["\n      <div class=", ">\n        <div\n            class=\"modal__wrapper\"\n            @click=", ">\n          <div class=\"modal__container\">\n            ", "\n            <div class=\"modal__content\">\n              ", "\n            </div>\n            <div class=\"modal__actions\">\n              ", "\n            </div>\n          </div>\n        </div>\n      </div>"]);
+  var data = _taggedTemplateLiteral(["\n      <div class=", ">\n        <div\n            class=\"modal__wrapper\"\n            @click=", "\n            @keydown=", ">\n          <div class=\"modal__container\">\n            ", "\n            <div class=\"modal__content\">\n              ", "\n            </div>\n            <div class=\"modal__actions\">\n              ", "\n            </div>\n          </div>\n        </div>\n      </div>"]);
 
   _templateObject3 = function _templateObject3() {
     return data;
@@ -107576,6 +107602,18 @@ var ModalWindow = /*#__PURE__*/function (_BasePart) {
       this.close();
     }
   }, {
+    key: "handleOffsetKeyboard",
+    value: function handleOffsetKeyboard(evt) {
+      if (!this.canClickToCloseFunc()) {
+        return;
+      } // Allow escaping out of modal.
+
+
+      if (event.key == 'Escape') {
+        this.close();
+      }
+    }
+  }, {
     key: "open",
     value: function open() {
       this.isOpen = true;
@@ -107612,7 +107650,7 @@ var ModalWindow = /*#__PURE__*/function (_BasePart) {
         return '';
       }
 
-      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject3(), this.classesMain, this.handleOffsetClick.bind(this), this.title ? Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject4(), this.title) : '', this.contentRenderFunc(), this.actionsTemplate);
+      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject3(), this.classesMain, this.handleOffsetClick.bind(this), this.handleOffsetKeyboard.bind(this), this.title ? Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject4(), this.title) : '', this.contentRenderFunc(), this.actionsTemplate);
     }
   }]);
 

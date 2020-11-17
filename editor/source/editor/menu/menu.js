@@ -40,7 +40,8 @@ export default class Menu extends MenuBase {
     // Otherwise, the new modal is constrained to the menu modal.
     this.newFileWindow = new ModalWindow('New page')
     this.newFileWindow.addAction(
-      'Create file', this.handleFileNewSubmit.bind(this), true)
+      'Create file', this.handleFileNewSubmit.bind(this), true, null,
+      this.handleFileNewDisabled.bind(this))
     this.newFileWindow.addAction(
       'Cancel', this.handleFileNewCancel.bind(this), false, true)
 
@@ -132,6 +133,14 @@ export default class Menu extends MenuBase {
     evt.stopPropagation()
     this.newFileWindow.newFileFolder = null
     this.newFileWindow.close()
+  }
+
+  handleFileNewDisabled() {
+    // Only do disabled when the selective for the window is defined.
+    if (!this.newFileWindow.selective) {
+      return false
+    }
+    return !this.newFileWindow.selective.isValid
   }
 
   handleFileNewSubmit(evt) {

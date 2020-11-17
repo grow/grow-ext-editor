@@ -10,6 +10,7 @@ import {
 import Selective from 'selective-edit'
 import { findParentByClassname } from '../../utility/dom'
 import { defaultFields } from '../field'
+import { defaultValidationRules } from '../validation'
 import generateUUID from '../../utility/uuid'
 import MenuBase from './base'
 import FolderStructure from './folderStructure'
@@ -48,16 +49,38 @@ export default class FileTreeMenu extends MenuBase {
     const newSelective = new Selective(null)
     newSelective.data = {}
 
-    // Add the editor extension default field types.
-    for (const key of Object.keys(defaultFields)) {
-      newSelective.addFieldType(key, defaultFields[key])
-    }
+    // Add the editor default field types.
+    newSelective.addFieldTypes(defaultFields)
+
+    // Add the editor default validation types.
+    newSelective.addRuleTypes(defaultValidationRules)
 
     newSelective.addField({
       'type': 'text',
       'key': 'fileName',
       'label': 'File name',
       'help': 'May also be used for the url stub.',
+      'validation': [
+        {
+          'type': 'required',
+          'message': 'File name is required.',
+        },
+        {
+          'type': 'pattern',
+          'pattern': '^[a-z0-9-_\.]*$',
+          'message': 'File name can only contain lowercase alpha-numeric characters, . (period), _ (underscore) and - (dash).',
+        },
+        {
+          'type': 'pattern',
+          'pattern': '^[a-z0-9]+',
+          'message': 'File name can only start with an alpha-numeric character.',
+        },
+        {
+          'type': 'pattern',
+          'pattern': '^.*\.(yaml|md|html)$',
+          'message': 'File name needs to end with ".yaml", ".md", or ".html".',
+        },
+      ],
     })
 
     const keys = Object.keys(templates || {}).sort()
