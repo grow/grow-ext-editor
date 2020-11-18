@@ -104,6 +104,14 @@ const pageSetup = async (page, interceptors) => {
   interceptors.push(podIntercept())
   interceptors.push(repoIntercept())
 
+  // Add error listeners to show errors.
+  page.on('error', err=> {
+    console.log('Page error: ', err)
+  })
+  page.on('pageerror', pageerr=> {
+    console.log('Error: ', pageerr)
+  })
+
   await page.setRequestInterception(true)
   page.on('request', intercept.interceptRequest(interceptors))
   await page.goto('http://localhost:3000/editor.html')
