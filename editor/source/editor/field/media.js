@@ -14,7 +14,7 @@ import {
   findParentByClassname,
 } from '../../utility/dom'
 import {
-  createWhiteBlackFilter,
+  createIncludeExcludeFilter,
   regexList,
 } from '../../utility/filter'
 import {
@@ -512,9 +512,9 @@ export class MediaFileField extends MediaField {
     super(ruleTypes, config, extendedConfig)
     this.fieldType = 'media_file'
     this._fileListUi = {}
-    this.filterFunc = createWhiteBlackFilter(
-      regexList(this.config.get('whitelist'), [/^\/static\/.*\.(jp[e]?g|png|svg|webp)$/]),  // Whitelist.
-      regexList(this.config.get('blacklist')),  // Blacklist.
+    this.filterFunc = createIncludeExcludeFilter(
+      regexList(this.config.get('included'), [/^\/static\/.*\.(jp[e]?g|png|svg|webp)$/]),  // Included.
+      regexList(this.config.get('excluded')),  // Excluded.
     )
 
     // Use the API to get serving paths for local medias.

@@ -9,7 +9,7 @@ import {
 } from 'selective-edit'
 import { findParentByClassname } from '../../utility/dom'
 import {
-  createWhiteBlackFilter,
+  createIncludeExcludeFilter,
 } from '../../utility/filter'
 import generateUUID from '../../utility/uuid'
 import MenuBase from './base'
@@ -24,9 +24,9 @@ export default class SiteTreeMenu extends MenuBase {
     this.path = null
     this.expandedFolders = []
 
-    this.filterFunc = this.config.get('filterFunc') || createWhiteBlackFilter(
-      [/\/content\//, /\/podspec.yaml/],  // Whitelist.
-      [],  // Blacklist.
+    this.filterFunc = this.config.get('filterFunc') || createIncludeExcludeFilter(
+      [/\/content\//, /\/podspec.yaml/],  // Included.
+      [],  // Excluded.
     )
 
     this.copyFileWindow = this.config.get('copyFileModal')

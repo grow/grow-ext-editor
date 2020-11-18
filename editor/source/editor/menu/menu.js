@@ -7,9 +7,10 @@ import {
   render,
   repeat,
 } from 'selective-edit'
+import { autoDeepObject } from '../../utility/deepObject'
 import { findParentByClassname } from '../../utility/dom'
 import {
-  createWhiteBlackFilter,
+  createIncludeExcludeFilter,
 } from '../../utility/filter'
 import {
   MenuWindow,
@@ -19,6 +20,10 @@ import MenuBase from './base'
 import RepoMenu from './repo'
 import SiteMenu from './site'
 import WorkspaceMenu from './workspace'
+
+
+const DEFAULT_FILTER_INCLUDED = [/^\/content\//, /^\/data\//]
+const DEFAULT_FILTER_EXCLUDED = []
 
 
 export default class Menu extends MenuBase {
@@ -93,9 +98,24 @@ export default class Menu extends MenuBase {
       },
     }
 
-    this.filterFunc = this.config.get('filterFunc') || createWhiteBlackFilter(
-      [/^\/content\//, /^\/data\//],  // Whitelist.
-      [],  // Blacklist.
+    this.filterFunc = this.config.get('filterFunc') || createIncludeExcludeFilter(
+      DEFAULT_FILTER_INCLUDED,
+      DEFAULT_FILTER_EXCLUDED,
+    )
+
+    // Allow for configuring a menu tree filter in the podspec.
+    this.config.api.getExtensionConfig('extensions.editor.EditorExtension').then(
+      result => {
+        result = autoDeepObject(result)
+        const filter = result.get('editor.menu.tree.filter')
+        if (filter) {
+          this.filterFunc = this.config.get('filterFunc') || createIncludeExcludeFilter(
+            filter.included || DEFAULT_FILTER_INCLUDED,
+            filter.excluded || DEFAULT_FILTER_EXCLUDED,
+          )
+          this.render()
+        }
+      }
     )
 
     this.bindEvents()

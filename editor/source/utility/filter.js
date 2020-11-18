@@ -1,28 +1,28 @@
 import DataType from './dataType'
 
-// Creates a filter that uses a whitelist and blacklist of regex to filter.
-export const createWhiteBlackFilter = (whitelist, blacklist) => {
-  whitelist = whitelist || []
-  blacklist = blacklist || []
+// Creates a filter that uses a included and excluded of regex to filter.
+export const createIncludeExcludeFilter = (included, excluded) => {
+  included = included || []
+  excluded = excluded || []
 
   return (value) => {
-    // Test against the whitelist.
-    if (whitelist.length) {
-      let meetsWhitelist = false
-      for (const exp of whitelist) {
+    // Test against the included.
+    if (included.length) {
+      let meetsIncluded = false
+      for (const exp of included) {
         if (value.match(exp)) {
-          meetsWhitelist = true
+          meetsIncluded = true
           break
         }
       }
 
-      if (!meetsWhitelist) {
+      if (!meetsIncluded) {
         return false
       }
     }
 
-    // Test against the blacklist.
-    for (const exp of blacklist) {
+    // Test against the excluded.
+    for (const exp of excluded) {
       if (value.match(exp)) {
         return false
       }

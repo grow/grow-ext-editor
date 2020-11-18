@@ -13,7 +13,7 @@ import {
   inputFocusAtEnd,
 } from '../../utility/dom'
 import {
-  createWhiteBlackFilter,
+  createIncludeExcludeFilter,
   createValueFilter,
   filterObject,
 } from '../../utility/filter'

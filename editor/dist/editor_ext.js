@@ -100618,6 +100618,7 @@ var Editor = /*#__PURE__*/function () {
     this.api = new EditorApiCls();
     this.listeners = new _utility_listeners__WEBPACK_IMPORTED_MODULE_8__["default"]();
     this.menu = new _menu_menu__WEBPACK_IMPORTED_MODULE_11__["default"]({
+      api: this.api,
       testing: this.isTesting,
       enableMenuWorkspace: this.config.enableMenuWorkspace
     }, this);
@@ -102368,9 +102369,9 @@ var ConstructorFileField = /*#__PURE__*/function (_ConstructorField) {
     _this2 = _super2.call(this, ruleTypes, config, extendedConfig);
     _this2._fileListUi = {};
     _this2._fileListCls = _ui_file__WEBPACK_IMPORTED_MODULE_3__["FileListUI"];
-    _this2.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["createWhiteBlackFilter"])( // Whitelist.
-    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(_this2.config.get('whitelist')), // Blacklist.
-    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(_this2.config.get('blacklist')));
+    _this2.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["createIncludeExcludeFilter"])( // Included.
+    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(_this2.config.get('included')), // Excluded.
+    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(_this2.config.get('excluded')));
     return _this2;
   }
 
@@ -102444,9 +102445,9 @@ var DocumentField = /*#__PURE__*/function (_ConstructorFileField) {
     _this3 = _super3.call(this, ruleTypes, config, extendedConfig);
     _this3.fieldType = 'document';
     _this3.tag = '!g.doc';
-    _this3.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["createWhiteBlackFilter"])( // Whitelist.
-    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(_this3.config.get('whitelist'), [/^\/content\//]), // Blacklist.
-    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(_this3.config.get('blacklist')));
+    _this3.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["createIncludeExcludeFilter"])( // Included.
+    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(_this3.config.get('included'), [/^\/content\//]), // Excluded.
+    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(_this3.config.get('excluded')));
     return _this3;
   }
 
@@ -102465,9 +102466,9 @@ var StaticField = /*#__PURE__*/function (_ConstructorFileField2) {
     _this4 = _super4.call(this, ruleTypes, config, extendedConfig);
     _this4.fieldType = 'static';
     _this4.tag = '!g.static';
-    _this4.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["createWhiteBlackFilter"])( // Whitelist.
-    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(_this4.config.get('whitelist'), [/^.*\.(png|svg|jpg|jpeg|gif|avif)$/, /^\/source\/static\//, /^\/static\//]), // Blacklist.
-    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(_this4.config.get('blacklist')));
+    _this4.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["createIncludeExcludeFilter"])( // Included.
+    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(_this4.config.get('included'), [/^.*\.(png|svg|jpg|jpeg|gif|avif)$/, /^\/source\/static\//, /^\/static\//]), // Excluded.
+    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(_this4.config.get('excluded')));
     return _this4;
   }
 
@@ -102488,9 +102489,9 @@ var StringField = /*#__PURE__*/function (_ConstructorFileField3) {
     _this5.tag = '!g.string';
     _this5._fileListUi = {};
     _this5._fileListCls = _ui_string__WEBPACK_IMPORTED_MODULE_4__["StringListUI"];
-    _this5.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["createWhiteBlackFilter"])( // Whitelist.
-    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(_this5.config.get('whitelist')), // Blacklist.
-    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(_this5.config.get('blacklist')));
+    _this5.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["createIncludeExcludeFilter"])( // Included.
+    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(_this5.config.get('included')), // Excluded.
+    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(_this5.config.get('excluded')));
     return _this5;
   }
 
@@ -102553,9 +102554,9 @@ var YamlField = /*#__PURE__*/function (_ConstructorFileField4) {
     _this6 = _super6.call(this, ruleTypes, config, extendedConfig);
     _this6.fieldType = 'yaml';
     _this6.tag = '!g.yaml';
-    _this6.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["createWhiteBlackFilter"])( // Whitelist.
-    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(_this6.config.get('whitelist'), [/^\/content\/.*\.yaml$/, /^\/data\/.*\.yaml$/]), // Blacklist.
-    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(_this6.config.get('blacklist')));
+    _this6.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["createIncludeExcludeFilter"])( // Included.
+    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(_this6.config.get('included'), [/^\/content\/.*\.yaml$/, /^\/data\/.*\.yaml$/]), // Excluded.
+    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(_this6.config.get('excluded')));
     return _this6;
   }
 
@@ -102993,8 +102994,8 @@ var ImageFileField = /*#__PURE__*/function (_ImageField) {
     _this4 = _super2.call(this, config, extendedConfig);
     _this4.fieldType = 'image_file';
     _this4._fileListUi = {};
-    _this4.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createWhiteBlackFilter"])(Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["regexList"])(_this4.config.get('whitelist'), [/^\/static\/.*\.(jp[e]?g|png|svg|webp)$/]), // Whitelist.
-    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["regexList"])(_this4.config.get('blacklist')) // Blacklist.
+    _this4.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createIncludeExcludeFilter"])(Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["regexList"])(_this4.config.get('included'), [/^\/static\/.*\.(jp[e]?g|png|svg|webp)$/]), // Included.
+    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["regexList"])(_this4.config.get('excluded')) // Excluded.
     ); // Use the API to get serving paths for local images.
 
     _this4.api = _this4.config.get('api');
@@ -103900,8 +103901,8 @@ var MediaFileField = /*#__PURE__*/function (_MediaField) {
     _this4 = _super2.call(this, ruleTypes, config, extendedConfig);
     _this4.fieldType = 'media_file';
     _this4._fileListUi = {};
-    _this4.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_3__["createWhiteBlackFilter"])(Object(_utility_filter__WEBPACK_IMPORTED_MODULE_3__["regexList"])(_this4.config.get('whitelist'), [/^\/static\/.*\.(jp[e]?g|png|svg|webp)$/]), // Whitelist.
-    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_3__["regexList"])(_this4.config.get('blacklist')) // Blacklist.
+    _this4.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_3__["createIncludeExcludeFilter"])(Object(_utility_filter__WEBPACK_IMPORTED_MODULE_3__["regexList"])(_this4.config.get('included'), [/^\/static\/.*\.(jp[e]?g|png|svg|webp)$/]), // Included.
+    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_3__["regexList"])(_this4.config.get('excluded')) // Excluded.
     ); // Use the API to get serving paths for local medias.
 
     _this4.api = _this4.config.get('api');
@@ -106180,13 +106181,14 @@ var FolderStructure = /*#__PURE__*/function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Menu; });
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
-/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
-/* harmony import */ var _utility_filter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/filter */ "./source/utility/filter.js");
-/* harmony import */ var _parts_modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../parts/modal */ "./source/editor/parts/modal.js");
-/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./base */ "./source/editor/menu/base.js");
-/* harmony import */ var _repo__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./repo */ "./source/editor/menu/repo.js");
-/* harmony import */ var _site__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./site */ "./source/editor/menu/site.js");
-/* harmony import */ var _workspace__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./workspace */ "./source/editor/menu/workspace.js");
+/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/deepObject */ "./source/utility/deepObject.js");
+/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
+/* harmony import */ var _utility_filter__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utility/filter */ "./source/utility/filter.js");
+/* harmony import */ var _parts_modal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../parts/modal */ "./source/editor/parts/modal.js");
+/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./base */ "./source/editor/menu/base.js");
+/* harmony import */ var _repo__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./repo */ "./source/editor/menu/repo.js");
+/* harmony import */ var _site__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./site */ "./source/editor/menu/site.js");
+/* harmony import */ var _workspace__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./workspace */ "./source/editor/menu/workspace.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _templateObject4() {
@@ -106264,6 +106266,9 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+var DEFAULT_FILTER_INCLUDED = [/^\/content\//, /^\/data\//];
+var DEFAULT_FILTER_EXCLUDED = [];
+
 var Menu = /*#__PURE__*/function (_MenuBase) {
   _inherits(Menu, _MenuBase);
 
@@ -106276,11 +106281,11 @@ var Menu = /*#__PURE__*/function (_MenuBase) {
 
     _this = _super.call(this, config);
     _this.editor = editor;
-    _this.menuWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_3__["MenuWindow"](); // this.menuWindow.isOpen = true  // TODO: Remove
+    _this.menuWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_4__["MenuWindow"](); // this.menuWindow.isOpen = true  // TODO: Remove
     // Create the copy page modal outside of the modal for the menu.
     // Otherwise, the copy modal is constrained to the menu modal.
 
-    _this.copyFileWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_3__["default"]('Copy page');
+    _this.copyFileWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_4__["default"]('Copy page');
 
     _this.copyFileWindow.addAction('Copy file', _this.handleFileCopySubmit.bind(_assertThisInitialized(_this)), true, null, _this.handleFileCopyDisabled.bind(_assertThisInitialized(_this)));
 
@@ -106288,7 +106293,7 @@ var Menu = /*#__PURE__*/function (_MenuBase) {
     // Otherwise, the delete modal is constrained to the menu modal.
 
 
-    _this.deleteFileWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_3__["default"]('Delete page');
+    _this.deleteFileWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_4__["default"]('Delete page');
 
     _this.deleteFileWindow.addAction('Delete file', _this.handleFileDeleteSubmit.bind(_assertThisInitialized(_this)), true);
 
@@ -106296,7 +106301,7 @@ var Menu = /*#__PURE__*/function (_MenuBase) {
     // Otherwise, the new modal is constrained to the menu modal.
 
 
-    _this.newFileWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_3__["default"]('New page');
+    _this.newFileWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_4__["default"]('New page');
 
     _this.newFileWindow.addAction('Create file', _this.handleFileNewSubmit.bind(_assertThisInitialized(_this)), true, null, _this.handleFileNewDisabled.bind(_assertThisInitialized(_this)));
 
@@ -106304,22 +106309,22 @@ var Menu = /*#__PURE__*/function (_MenuBase) {
     // Otherwise, the new modal is constrained to the menu modal.
 
 
-    _this.newWorkspaceWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_3__["default"]('New workspace');
+    _this.newWorkspaceWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_4__["default"]('New workspace');
 
     _this.newWorkspaceWindow.addAction('Create workspace', _this.handleWorkspaceNewSubmit.bind(_assertThisInitialized(_this)), true, null, _this.handleWorkspaceNewDisabled.bind(_assertThisInitialized(_this)));
 
     _this.newWorkspaceWindow.addAction('Cancel', _this.handleWorkspaceNewCancel.bind(_assertThisInitialized(_this)), false, true);
 
-    _this._repoMenu = new _repo__WEBPACK_IMPORTED_MODULE_5__["default"]({
+    _this._repoMenu = new _repo__WEBPACK_IMPORTED_MODULE_6__["default"]({
       testing: _this.isTesting
     });
-    _this._siteMenu = new _site__WEBPACK_IMPORTED_MODULE_6__["default"]({
+    _this._siteMenu = new _site__WEBPACK_IMPORTED_MODULE_7__["default"]({
       copyFileModal: _this.copyFileWindow,
       deleteFileModal: _this.deleteFileWindow,
       newFileModal: _this.newFileWindow,
       testing: _this.isTesting
     });
-    _this._workspaceMenu = new _workspace__WEBPACK_IMPORTED_MODULE_7__["default"]({
+    _this._workspaceMenu = new _workspace__WEBPACK_IMPORTED_MODULE_8__["default"]({
       newWorkspaceModal: _this.newWorkspaceWindow,
       testing: _this.isTesting
     });
@@ -106339,9 +106344,18 @@ var Menu = /*#__PURE__*/function (_MenuBase) {
         }
       }
     };
-    _this.filterFunc = _this.config.get('filterFunc') || Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createWhiteBlackFilter"])([/^\/content\//, /^\/data\//], // Whitelist.
-    [] // Blacklist.
-    );
+    _this.filterFunc = _this.config.get('filterFunc') || Object(_utility_filter__WEBPACK_IMPORTED_MODULE_3__["createIncludeExcludeFilter"])(DEFAULT_FILTER_INCLUDED, DEFAULT_FILTER_EXCLUDED); // Allow for configuring a menu tree filter in the podspec.
+
+    _this.config.api.getExtensionConfig('extensions.editor.EditorExtension').then(function (result) {
+      result = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_1__["autoDeepObject"])(result);
+      var filter = result.get('editor.menu.tree.filter');
+
+      if (filter) {
+        _this.filterFunc = _this.config.get('filterFunc') || Object(_utility_filter__WEBPACK_IMPORTED_MODULE_3__["createIncludeExcludeFilter"])(filter.included || DEFAULT_FILTER_INCLUDED, filter.excluded || DEFAULT_FILTER_EXCLUDED);
+
+        _this.render();
+      }
+    });
 
     _this.bindEvents();
 
@@ -106486,7 +106500,7 @@ var Menu = /*#__PURE__*/function (_MenuBase) {
   }, {
     key: "handleToggleTree",
     value: function handleToggleTree(evt) {
-      var target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'menu__tree__title');
+      var target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_2__["findParentByClassname"])(evt.target, 'menu__tree__title');
       var tree = target.dataset.tree;
       var isOpen = !this._state.trees[tree].isOpen;
       this._state.trees[tree].isOpen = isOpen;
@@ -106580,7 +106594,7 @@ var Menu = /*#__PURE__*/function (_MenuBase) {
   }]);
 
   return Menu;
-}(_base__WEBPACK_IMPORTED_MODULE_4__["default"]);
+}(_base__WEBPACK_IMPORTED_MODULE_5__["default"]);
 
 
 
@@ -106916,8 +106930,8 @@ var SiteTreeMenu = /*#__PURE__*/function (_MenuBase) {
     _this.podPath = null;
     _this.path = null;
     _this.expandedFolders = [];
-    _this.filterFunc = _this.config.get('filterFunc') || Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createWhiteBlackFilter"])([/\/content\//, /\/podspec.yaml/], // Whitelist.
-    [] // Blacklist.
+    _this.filterFunc = _this.config.get('filterFunc') || Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createIncludeExcludeFilter"])([/\/content\//, /\/podspec.yaml/], // Included.
+    [] // Excluded.
     );
     _this.copyFileWindow = _this.config.get('copyFileModal');
     _this.deleteFileWindow = _this.config.get('deleteFileModal');
@@ -108098,8 +108112,8 @@ var FileListUI = /*#__PURE__*/function (_UI) {
     _classCallCheck(this, FileListUI);
 
     _this = _super.call(this, config);
-    _this.filterFunc = _this.config.get('filterFunc') || Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createWhiteBlackFilter"])([], // Whitelist.
-    [] // Blacklist.
+    _this.filterFunc = _this.config.get('filterFunc') || Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createIncludeExcludeFilter"])([], // Included.
+    [] // Excluded.
     );
     _this.podPaths = null;
     _this.filterValue = '';
@@ -109040,12 +109054,12 @@ var inputFocusAtPosition = function inputFocusAtPosition(elementId, position) {
 /*!**********************************!*\
   !*** ./source/utility/filter.js ***!
   \**********************************/
-/*! exports provided: createWhiteBlackFilter, createValueFilter, filterObject, regexList */
+/*! exports provided: createIncludeExcludeFilter, createValueFilter, filterObject, regexList */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createWhiteBlackFilter", function() { return createWhiteBlackFilter; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createIncludeExcludeFilter", function() { return createIncludeExcludeFilter; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createValueFilter", function() { return createValueFilter; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "filterObject", function() { return filterObject; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "regexList", function() { return regexList; });
@@ -109056,17 +109070,17 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
- // Creates a filter that uses a whitelist and blacklist of regex to filter.
+ // Creates a filter that uses a included and excluded of regex to filter.
 
-var createWhiteBlackFilter = function createWhiteBlackFilter(whitelist, blacklist) {
-  whitelist = whitelist || [];
-  blacklist = blacklist || [];
+var createIncludeExcludeFilter = function createIncludeExcludeFilter(included, excluded) {
+  included = included || [];
+  excluded = excluded || [];
   return function (value) {
-    // Test against the whitelist.
-    if (whitelist.length) {
-      var meetsWhitelist = false;
+    // Test against the included.
+    if (included.length) {
+      var meetsIncluded = false;
 
-      var _iterator = _createForOfIteratorHelper(whitelist),
+      var _iterator = _createForOfIteratorHelper(included),
           _step;
 
       try {
@@ -109074,7 +109088,7 @@ var createWhiteBlackFilter = function createWhiteBlackFilter(whitelist, blacklis
           var exp = _step.value;
 
           if (value.match(exp)) {
-            meetsWhitelist = true;
+            meetsIncluded = true;
             break;
           }
         }
@@ -109084,13 +109098,13 @@ var createWhiteBlackFilter = function createWhiteBlackFilter(whitelist, blacklis
         _iterator.f();
       }
 
-      if (!meetsWhitelist) {
+      if (!meetsIncluded) {
         return false;
       }
-    } // Test against the blacklist.
+    } // Test against the excluded.
 
 
-    var _iterator2 = _createForOfIteratorHelper(blacklist),
+    var _iterator2 = _createForOfIteratorHelper(excluded),
         _step2;
 
     try {

@@ -12,7 +12,7 @@ import {
   inputFocusAtEnd,
 } from '../../utility/dom'
 import {
-  createWhiteBlackFilter,
+  createIncludeExcludeFilter,
   createValueFilter,
 } from '../../utility/filter'
 
@@ -21,9 +21,9 @@ export class FileListUI extends UI {
   constructor(config) {
     super(config)
 
-    this.filterFunc = this.config.get('filterFunc') || createWhiteBlackFilter(
-      [],  // Whitelist.
-      [],  // Blacklist.
+    this.filterFunc = this.config.get('filterFunc') || createIncludeExcludeFilter(
+      [],  // Included.
+      [],  // Excluded.
     )
 
     this.podPaths = null
