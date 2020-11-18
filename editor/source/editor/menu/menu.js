@@ -28,6 +28,15 @@ export default class Menu extends MenuBase {
     this.menuWindow = new MenuWindow()
     // this.menuWindow.isOpen = true  // TODO: Remove
 
+    // Create the copy page modal outside of the modal for the menu.
+    // Otherwise, the copy modal is constrained to the menu modal.
+    this.copyFileWindow = new ModalWindow('Copy page')
+    this.copyFileWindow.addAction(
+      'Copy file', this.handleFileCopySubmit.bind(this), true, null,
+      this.handleFileCopyDisabled.bind(this))
+    this.copyFileWindow.addAction(
+      'Cancel', this.handleFileCopyCancel.bind(this), false, true)
+
     // Create the delete page modal outside of the modal for the menu.
     // Otherwise, the delete modal is constrained to the menu modal.
     this.deleteFileWindow = new ModalWindow('Delete page')
@@ -40,7 +49,8 @@ export default class Menu extends MenuBase {
     // Otherwise, the new modal is constrained to the menu modal.
     this.newFileWindow = new ModalWindow('New page')
     this.newFileWindow.addAction(
-      'Create file', this.handleFileNewSubmit.bind(this), true)
+      'Create file', this.handleFileNewSubmit.bind(this), true, null,
+      this.handleFileNewDisabled.bind(this))
     this.newFileWindow.addAction(
       'Cancel', this.handleFileNewCancel.bind(this), false, true)
 
@@ -48,7 +58,8 @@ export default class Menu extends MenuBase {
     // Otherwise, the new modal is constrained to the menu modal.
     this.newWorkspaceWindow = new ModalWindow('New workspace')
     this.newWorkspaceWindow.addAction(
-      'Create workspace', this.handleWorkspaceNewSubmit.bind(this), true)
+      'Create workspace', this.handleWorkspaceNewSubmit.bind(this), true, null,
+      this.handleWorkspaceNewDisabled.bind(this))
     this.newWorkspaceWindow.addAction(
       'Cancel', this.handleWorkspaceNewCancel.bind(this), false, true)
 
@@ -56,6 +67,7 @@ export default class Menu extends MenuBase {
       testing: this.isTesting,
     })
     this._siteMenu = new SiteMenu({
+      copyFileModal: this.copyFileWindow,
       deleteFileModal: this.deleteFileWindow,
       newFileModal: this.newFileWindow,
       testing: this.isTesting,
@@ -110,6 +122,34 @@ export default class Menu extends MenuBase {
     })
   }
 
+  handleFileCopyCancel(evt) {
+    evt.stopPropagation()
+    this.copyFileWindow.copyFileFolder = null
+    this.copyFileWindow.close()
+  }
+
+  handleFileCopyDisabled() {
+    // Only do disabled when the selective for the window is defined.
+    if (!this.copyFileWindow.selective) {
+      return false
+    }
+    return !this.copyFileWindow.selective.isValid
+  }
+
+  handleFileCopySubmit(evt) {
+    evt.stopPropagation()
+
+    const value = this.copyFileWindow.selective.value
+
+    document.dispatchEvent(new CustomEvent('selective.path.copy', {
+      detail: {
+        podPath: value.podPath,
+        newPodPath: value.fileName,
+      }
+    }))
+    this.copyFileWindow.close()
+  }
+
   handleFileDeleteCancel(evt) {
     evt.stopPropagation()
     this.deleteFileWindow.close()
@@ -118,7 +158,6 @@ export default class Menu extends MenuBase {
   handleFileDeleteSubmit(evt) {
     evt.stopPropagation()
     const podPath = this.deleteFileWindow.podPath
-    console.log('pod path: ', podPath);
     document.dispatchEvent(new CustomEvent('selective.path.delete', {
       detail: {
         path: podPath,
@@ -131,6 +170,14 @@ export default class Menu extends MenuBase {
     evt.stopPropagation()
     this.newFileWindow.newFileFolder = null
     this.newFileWindow.close()
+  }
+
+  handleFileNewDisabled() {
+    // Only do disabled when the selective for the window is defined.
+    if (!this.newFileWindow.selective) {
+      return false
+    }
+    return !this.newFileWindow.selective.isValid
   }
 
   handleFileNewSubmit(evt) {
@@ -195,8 +242,21 @@ export default class Menu extends MenuBase {
     this.newWorkspaceWindow.close()
   }
 
+  handleWorkspaceNewDisabled() {
+    // Only do disabled when the selective for the window is defined.
+    if (!this.newWorkspaceWindow.selective) {
+      return false
+    }
+    return !this.newWorkspaceWindow.selective.isValid
+  }
+
   handleWorkspaceNewSubmit(evt) {
     evt.stopPropagation()
+
+    // Do not do anything when the form is invalid.
+    if (!this.newWorkspaceWindow.selective.isValid) {
+      return
+    }
 
     const value = this.newWorkspaceWindow.selective.value
 
@@ -250,6 +310,7 @@ export default class Menu extends MenuBase {
 
     return html`
       ${this.menuWindow.template}
+      ${this.copyFileWindow.template}
       ${this.deleteFileWindow.template}
       ${this.newFileWindow.template}
       ${this.newWorkspaceWindow.template}`

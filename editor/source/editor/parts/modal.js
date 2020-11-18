@@ -12,6 +12,9 @@ import generateUUID from '../../utility/uuid'
 import BasePart from './base'
 
 
+const disabledNoOp = () => false
+
+
 export default class ModalWindow extends BasePart {
   constructor(title) {
     super()
@@ -31,7 +34,8 @@ export default class ModalWindow extends BasePart {
     return html`${repeat(this.actions, (action) => action.uid, (action, index) => html`
       <button
           class="editor__button ${action.classes}"
-          @click=${action.callback}>
+          @click=${action.callback}
+          ?disabled=${action.callbackDisabled()}>
         ${action.label}
       </button>
     `)}`
@@ -49,7 +53,8 @@ export default class ModalWindow extends BasePart {
       <div class=${this.classesMain}>
         <div
             class="modal__wrapper"
-            @click=${this.handleOffsetClick.bind(this)}>
+            @click=${this.handleOffsetClick.bind(this)}
+            @keydown=${this.handleOffsetKeyboard.bind(this)}>
           <div class="modal__container">
             ${this.title ? html`<h2>${this.title}</h2>` : ''}
             <div class="modal__content">
@@ -63,7 +68,7 @@ export default class ModalWindow extends BasePart {
       </div>`
   }
 
-  addAction(label, callback, isPrimary, isSecondary) {
+  addAction(label, callback, isPrimary, isSecondary, callbackDisabled) {
     const classes = []
 
     if (isPrimary) {
@@ -78,6 +83,7 @@ export default class ModalWindow extends BasePart {
       uid: generateUUID(),
       label: label,
       callback: callback,
+      callbackDisabled: callbackDisabled || disabledNoOp,
       classes: classes,
       isPrimary: isPrimary,
       isSecondary: isSecondary,
@@ -104,6 +110,17 @@ export default class ModalWindow extends BasePart {
     evt.stopPropagation()
 
     this.close()
+  }
+
+  handleOffsetKeyboard(evt) {
+    if (!this.canClickToCloseFunc()) {
+      return
+    }
+
+    // Allow escaping out of modal.
+    if (event.key == 'Escape') {
+      this.close()
+    }
   }
 
   open() {

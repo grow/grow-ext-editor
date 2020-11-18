@@ -20,20 +20,30 @@ import {
 } from '../ui/string'
 
 export class ConstructorField extends Field {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig)
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig)
     this.fieldType = 'constructor'
     this.tag = '!g.*'
+
+    // Workaround to validat the `.value` of the data.
+    this.zonesToValue = {}
+    this.zonesToValue[this.ruleTypes.DEFAULT_ZONE_KEY] = 'value'
   }
 
   handleInput(evt) {
     const locale = evt.target.dataset.locale
+    let value = evt.target.value
 
-    // Constructors are represented as objects in json.
-    const value = {
-      'value': evt.target.value,
-      'tag': this.tag,
+    if (value.trim() == '') {
+      value = null
+    } else {
+      // Constructors are represented as objects in json.
+      value = {
+        'value': evt.target.value,
+        'tag': this.tag,
+      }
     }
+
     this.setValueForLocale(locale, value)
   }
 
@@ -42,17 +52,19 @@ export class ConstructorField extends Field {
 
     return html`
       <input
+        class="${this.getClassesForInput(locale)}"
         id="${this.uid}${locale}"
         placeholder=${this.config.placeholder || ''}
         data-locale=${locale || ''}
         @input=${this.handleInput.bind(this)}
-        value=${value.value || ''} />`
+        value=${value.value || ''} />
+      ${this.renderErrors(selective, data, locale)}`
   }
 }
 
 export class ConstructorFileField extends ConstructorField {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig)
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig)
     this._fileListUi = {}
     this._fileListCls = FileListUI
     this.filterFunc = createWhiteBlackFilter(
@@ -109,6 +121,7 @@ export class ConstructorFileField extends ConstructorField {
     return html`
       <div class="selective__field__constructor__input">
         <input
+          class="${this.getClassesForInput(locale)}"
           id="${this.uid}${locale}"
           placeholder=${this.config.placeholder || ''}
           data-locale=${locale || ''}
@@ -123,7 +136,8 @@ export class ConstructorFileField extends ConstructorField {
         </i>
       </div>
       ${this.renderMeta(selective, data, locale, value)}
-      ${fileListUi.renderFileList(selective, data, locale)}`
+      ${fileListUi.renderFileList(selective, data, locale)}
+      ${this.renderErrors(selective, data, locale)}`
   }
 
   renderMeta(selective, data, locale, value) {
@@ -132,8 +146,8 @@ export class ConstructorFileField extends ConstructorField {
 }
 
 export class DocumentField extends ConstructorFileField {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig)
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig)
     this.fieldType = 'document'
     this.tag = '!g.doc'
     this.filterFunc = createWhiteBlackFilter(
@@ -146,8 +160,8 @@ export class DocumentField extends ConstructorFileField {
 }
 
 export class StaticField extends ConstructorFileField {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig)
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig)
     this.fieldType = 'static'
     this.tag = '!g.static'
     this.filterFunc = createWhiteBlackFilter(
@@ -164,8 +178,8 @@ export class StaticField extends ConstructorFileField {
 }
 
 export class StringField extends ConstructorFileField {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig)
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig)
     this.fieldType = 'string'
     this.tag = '!g.string'
     this._fileListUi = {}
@@ -188,7 +202,6 @@ export class StringField extends ConstructorFileField {
     // Constructors are represented as objects in json.
     // Let it be a normal string if there is not matching string.
     if (fileListUi.isValueValidReference(inputValue)) {
-      console.log('inputValue is valid reference.', inputValue);
       value = {
         'value': value,
         'tag': this.tag,
@@ -221,7 +234,8 @@ export class StringField extends ConstructorFileField {
             <div class="selective__field__constructor__preview__value">
               ${metaValue}
             </div>
-          </div>`
+          </div>
+          ${this.renderErrors(selective, data, locale)}`
       }
     }
     return ''
@@ -229,8 +243,8 @@ export class StringField extends ConstructorFileField {
 }
 
 export class YamlField extends ConstructorFileField {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig)
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig)
     this.fieldType = 'yaml'
     this.tag = '!g.yaml'
     this.filterFunc = createWhiteBlackFilter(

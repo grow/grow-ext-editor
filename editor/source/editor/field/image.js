@@ -50,8 +50,8 @@ const fractReduce = (numerator,denominator) => {
 
 
 export class ImageField extends Field {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig)
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig)
     this.fieldType = 'image'
     this._metas = {}
     this._showFileInput = {}
@@ -226,6 +226,7 @@ export class ImageField extends Field {
           data-locale=${locale || ''}>
         <div class="selective__field__image_file__input">
           <input
+            class="${this.getClassesForInput(locale)}"
             id="${this.uid}${locale}"
             placeholder=${this.config.placeholder || ''}
             data-locale=${locale || ''}
@@ -242,6 +243,7 @@ export class ImageField extends Field {
         </div>
         ${this.renderFileInput(selective, data, locale)}
         ${this.renderPreview(selective, data, locale)}
+        ${this.renderErrors(selective, data, locale)}
       </div>`
   }
 
@@ -385,6 +387,7 @@ export class ImageFileField extends ImageField {
           data-locale=${locale || ''}>
         <div class="selective__field__image_file__input">
           <input
+            class="${this.getClassesForInput(locale)}"
             id="${this.uid}${locale}"
             placeholder=${this.config.placeholder || ''}
             data-locale=${locale || ''}
@@ -408,14 +411,15 @@ export class ImageFileField extends ImageField {
         ${fileListUi.renderFileList(selective, data, locale)}
         ${this.renderFileInput(selective, data, locale)}
         ${this.renderPreview(selective, data, locale)}
+        ${this.renderErrors(selective, data, locale)}
       </div>`
   }
 }
 
 // TODO: Move into the google image extension.
 export class GoogleImageField extends ImageField {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig)
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig)
     this.fieldType = 'google_image'
     this.api = this.config.get('api')
 

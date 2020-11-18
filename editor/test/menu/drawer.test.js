@@ -10,9 +10,17 @@ const templatesIntercept = shared.intercept.templates()
 
 contentIntercept.responseGet = {
   'editor': {
-    'fields': []
+    'fields': [
+      {
+        'type': 'text',
+        'key': 'title',
+        'label': 'Title',
+      },
+    ]
   },
-  'front_matter': {},
+  'front_matter': {
+    'title': 'testing',
+  },
 }
 
 podPathsIntercept.responseGet = {

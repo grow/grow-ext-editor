@@ -96,25 +96,63 @@
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utility/config */ "../../../selective-edit/js/utility/config.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 /**
  * Config mixin for adding configuration options to a class.
  */
 
 
-const ConfigMixin = superclass => class extends superclass {
-  constructor() {
-    super();
-    this._config = Object(_utility_config__WEBPACK_IMPORTED_MODULE_0__["autoConfig"])({});
-  }
+var ConfigMixin = function ConfigMixin(superclass) {
+  return /*#__PURE__*/function (_superclass) {
+    _inherits(_class, _superclass);
 
-  getConfig() {
-    return this._config;
-  }
+    var _super = _createSuper(_class);
 
-  setConfig(value) {
-    this._config = Object(_utility_config__WEBPACK_IMPORTED_MODULE_0__["autoConfig"])(value);
-  }
+    function _class() {
+      var _this;
 
+      _classCallCheck(this, _class);
+
+      _this = _super.call(this);
+      _this._config = Object(_utility_config__WEBPACK_IMPORTED_MODULE_0__["autoConfig"])({});
+      return _this;
+    }
+
+    _createClass(_class, [{
+      key: "getConfig",
+      value: function getConfig() {
+        return this._config;
+      }
+    }, {
+      key: "setConfig",
+      value: function setConfig(value) {
+        this._config = Object(_utility_config__WEBPACK_IMPORTED_MODULE_0__["autoConfig"])(value);
+      }
+    }]);
+
+    return _class;
+  }(superclass);
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (ConfigMixin);
@@ -131,20 +169,58 @@ const ConfigMixin = superclass => class extends superclass {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utility_uuid__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utility/uuid */ "../../../selective-edit/js/utility/uuid.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 /**
  * UID mixin for adding unique id to a class.
  */
 
 
-const UidMixin = superclass => class extends superclass {
-  getUid() {
-    if (!this._uid) {
-      this._uid = Object(_utility_uuid__WEBPACK_IMPORTED_MODULE_0__["default"])();
+var UidMixin = function UidMixin(superclass) {
+  return /*#__PURE__*/function (_superclass) {
+    _inherits(_class, _superclass);
+
+    var _super = _createSuper(_class);
+
+    function _class() {
+      _classCallCheck(this, _class);
+
+      return _super.apply(this, arguments);
     }
 
-    return this._uid;
-  }
+    _createClass(_class, [{
+      key: "getUid",
+      value: function getUid() {
+        if (!this._uid) {
+          this._uid = Object(_utility_uuid__WEBPACK_IMPORTED_MODULE_0__["default"])();
+        }
 
+        return this._uid;
+      }
+    }]);
+
+    return _class;
+  }(superclass);
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (UidMixin);
@@ -155,7 +231,7 @@ const UidMixin = superclass => class extends superclass {
 /*!***************************************************************!*\
   !*** /Users/randy/code/blinkk/selective-edit/js/selective.js ***!
   \***************************************************************/
-/*! exports provided: default, AutoFields, Field, Fields, GroupField, ListField, ListItem, UI, VariantField, autoConfig, autoDeepObject, directive, html, repeat, render, unsafeHTML */
+/*! exports provided: default, AutoFields, Field, Fields, GroupField, LengthValidationRule, ListField, ListItem, MatchValidationRule, PatternValidationRule, RangeValidationRule, RequiredValidationRule, UI, VariantField, ValidationRule, ValidationRules, autoConfig, autoDeepObject, directive, html, repeat, render, unsafeHTML */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -193,14 +269,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _selective_fields_fields__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./selective/fields/fields */ "../../../selective-edit/js/selective/fields/fields.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Fields", function() { return _selective_fields_fields__WEBPACK_IMPORTED_MODULE_8__["default"]; });
 
-/* harmony import */ var _selective_autoFields__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./selective/autoFields */ "../../../selective-edit/js/selective/autoFields.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AutoFields", function() { return _selective_autoFields__WEBPACK_IMPORTED_MODULE_9__["default"]; });
+/* harmony import */ var _selective_validation_rules__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./selective/validation/rules */ "../../../selective-edit/js/selective/validation/rules.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ValidationRules", function() { return _selective_validation_rules__WEBPACK_IMPORTED_MODULE_9__["default"]; });
 
-/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./utility/config */ "../../../selective-edit/js/utility/config.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "autoConfig", function() { return _utility_config__WEBPACK_IMPORTED_MODULE_10__["autoConfig"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LengthValidationRule", function() { return _selective_validation_rules__WEBPACK_IMPORTED_MODULE_9__["LengthValidationRule"]; });
 
-/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "autoDeepObject", function() { return _utility_deepObject__WEBPACK_IMPORTED_MODULE_11__["autoDeepObject"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "MatchValidationRule", function() { return _selective_validation_rules__WEBPACK_IMPORTED_MODULE_9__["MatchValidationRule"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "PatternValidationRule", function() { return _selective_validation_rules__WEBPACK_IMPORTED_MODULE_9__["PatternValidationRule"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "RangeValidationRule", function() { return _selective_validation_rules__WEBPACK_IMPORTED_MODULE_9__["RangeValidationRule"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "RequiredValidationRule", function() { return _selective_validation_rules__WEBPACK_IMPORTED_MODULE_9__["RequiredValidationRule"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ValidationRule", function() { return _selective_validation_rules__WEBPACK_IMPORTED_MODULE_9__["ValidationRule"]; });
+
+/* harmony import */ var _selective_autoFields__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./selective/autoFields */ "../../../selective-edit/js/selective/autoFields.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AutoFields", function() { return _selective_autoFields__WEBPACK_IMPORTED_MODULE_10__["default"]; });
+
+/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./utility/config */ "../../../selective-edit/js/utility/config.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "autoConfig", function() { return _utility_config__WEBPACK_IMPORTED_MODULE_11__["autoConfig"]; });
+
+/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "autoDeepObject", function() { return _utility_deepObject__WEBPACK_IMPORTED_MODULE_12__["autoDeepObject"]; });
 
 /**
  * Selective structure content editor.
@@ -217,7 +308,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const Selective = _selective_editor__WEBPACK_IMPORTED_MODULE_3__["default"];
+
+
+var Selective = _selective_editor__WEBPACK_IMPORTED_MODULE_3__["default"];
 /* harmony default export */ __webpack_exports__["default"] = (Selective);
 
 
@@ -237,6 +330,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utility/compose */ "../../../selective-edit/js/utility/compose.js");
 /* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
 /* harmony import */ var _utility_dataType__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utility/dataType */ "../../../selective-edit/js/utility/dataType.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 /**
  * Automatically guess the field configuration from data.
  */
@@ -244,145 +359,171 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class AutoFields extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_1__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_0__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_1__["Base"]) {
-  constructor(data, config) {
-    super();
-    this.data = data;
-    this._data = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_2__["autoDeepObject"])(data);
-    this.setConfig(config);
-    this._ignoredKeys = null;
-    this.DataType = _utility_dataType__WEBPACK_IMPORTED_MODULE_3__["default"];
+
+var AutoFields = /*#__PURE__*/function (_compose) {
+  _inherits(AutoFields, _compose);
+
+  var _super = _createSuper(AutoFields);
+
+  function AutoFields(data, config) {
+    var _this;
+
+    _classCallCheck(this, AutoFields);
+
+    _this = _super.call(this);
+    _this.data = data;
+    _this._data = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_2__["autoDeepObject"])(data);
+
+    _this.setConfig(config);
+
+    _this._ignoredKeys = null;
+    return _this;
   }
 
-  get config() {
-    return {
-      'fields': this.guessAll()
-    };
-  }
+  _createClass(AutoFields, [{
+    key: "_deepGuess",
+    value: function _deepGuess(data, keyBase) {
+      var fields = [];
+      keyBase = keyBase || [];
 
-  get ignoredKeys() {
-    if (this._ignoredKeys == null) {
-      const config = this.getConfig();
-      this._ignoredKeys = config.get('ignoredKeys', []);
-    }
-
-    return this._ignoredKeys;
-  }
-
-  _deepGuess(data, keyBase) {
-    let fields = [];
-    keyBase = keyBase || [];
-
-    if (this.DataType.isArray(data)) {
-      const firstValue = data.length ? data[0] : null;
-      fields.push(this._fieldConfig('', firstValue));
-    } else {
-      fields = fields.concat(this._deepGuessObject(data, keyBase));
-    }
-
-    return fields;
-  }
-
-  _deepGuessObject(data, keyBase) {
-    let fields = [];
-    keyBase = keyBase || [];
-
-    for (const key in data) {
-      if (!data.hasOwnProperty(key)) {
-        continue;
-      } // Skip ignored keys.
-
-
-      if (this.ignoredKeys.includes(key)) {
-        continue;
-      }
-
-      const newKeyBase = keyBase.concat([key]);
-      const newData = data[key];
-
-      if (this.DataType.isObject(newData)) {
-        fields = fields.concat(this._deepGuessObject(newData, newKeyBase));
+      if (_utility_dataType__WEBPACK_IMPORTED_MODULE_3__["default"].isArray(data)) {
+        var firstValue = data.length ? data[0] : null;
+        fields.push(this._fieldConfig('', firstValue));
       } else {
-        fields.push(this._deepGuessSimple(data[key], newKeyBase));
+        fields = fields.concat(this._deepGuessObject(data, keyBase));
       }
+
+      return fields;
     }
+  }, {
+    key: "_deepGuessObject",
+    value: function _deepGuessObject(data, keyBase) {
+      var fields = [];
+      keyBase = keyBase || [];
 
-    return fields;
-  }
+      for (var key in data) {
+        if (!data.hasOwnProperty(key)) {
+          continue;
+        } // Skip ignored keys.
 
-  _deepGuessSimple(data, keyBase) {
-    const fullKey = keyBase.join('.');
-    return this._fieldConfig(fullKey, data);
-  }
 
-  _fieldConfig(key, value) {
-    const fieldType = this.typeFromValue(value, key);
-    const label = this.labelFromKey(key);
-    const fieldConfig = {
-      "type": fieldType
-    };
+        if (this.ignoredKeys.includes(key)) {
+          continue;
+        }
 
-    if (key != '') {
-      fieldConfig['key'] = key;
+        var newKeyBase = keyBase.concat([key]);
+        var newData = data[key];
+
+        if (_utility_dataType__WEBPACK_IMPORTED_MODULE_3__["default"].isObject(newData)) {
+          fields = fields.concat(this._deepGuessObject(newData, newKeyBase));
+        } else {
+          fields.push(this._deepGuessSimple(data[key], newKeyBase));
+        }
+      }
+
+      return fields;
     }
-
-    if (label != '') {
-      fieldConfig['label'] = label;
+  }, {
+    key: "_deepGuessSimple",
+    value: function _deepGuessSimple(data, keyBase) {
+      var fullKey = keyBase.join('.');
+      return this._fieldConfig(fullKey, data);
     }
+  }, {
+    key: "_fieldConfig",
+    value: function _fieldConfig(key, value) {
+      var fieldType = this.typeFromValue(value, key);
+      var label = this.labelFromKey(key);
+      var fieldConfig = {
+        "type": fieldType
+      };
 
-    return fieldConfig;
-  }
-  /**
-   * Given a data key, guess the field configuration from the data.
-   */
+      if (key != '') {
+        fieldConfig['key'] = key;
+      }
 
+      if (label != '') {
+        fieldConfig['label'] = label;
+      }
 
-  guess(key) {
-    return this._fieldConfig(key, this.typeFromValue(this._data.get(key), key));
-  }
-  /**
-   * Guess all the field configuration from the data.
-   */
+      return fieldConfig;
+    }
+    /**
+     * Given a data key, guess the field configuration from the data.
+     */
 
+  }, {
+    key: "guess",
+    value: function guess(key) {
+      return this._fieldConfig(key, this.typeFromValue(this._data.get(key), key));
+    }
+    /**
+     * Guess all the field configuration from the data.
+     */
 
-  guessAll() {
-    return this._deepGuess(this.data);
-  }
-  /**
-   * From a key guess the label of the field.
-   */
+  }, {
+    key: "guessAll",
+    value: function guessAll() {
+      return this._deepGuess(this.data);
+    }
+    /**
+     * From a key guess the label of the field.
+     */
 
+  }, {
+    key: "labelFromKey",
+    value: function labelFromKey(key) {
+      key = key.replace(/\./g, ' ');
+      key = key.replace(/\-/g, ' ');
+      key = key.replace(/\_/g, ' ');
+      return key.split(' ').map(function (word) {
+        return word.charAt(0).toUpperCase() + word.slice(1);
+      }).join(' ');
+    }
+    /**
+     * From a value guess the type of field.
+     */
 
-  labelFromKey(key) {
-    key = key.replace(/\./g, ' ');
-    key = key.replace(/\-/g, ' ');
-    key = key.replace(/\_/g, ' ');
-    return key.split(' ').map(function (word) {
-      return word.charAt(0).toUpperCase() + word.slice(1);
-    }).join(' ');
-  }
-  /**
-   * From a value guess the type of field.
-   */
+  }, {
+    key: "typeFromValue",
+    value: function typeFromValue(value, key) {
+      if (value === null || value === undefined) {
+        return 'text';
+      }
 
+      if (_utility_dataType__WEBPACK_IMPORTED_MODULE_3__["default"].isArray(value)) {
+        return 'list';
+      }
 
-  typeFromValue(value, key) {
-    if (value === null || value === undefined) {
+      if (value.length > 75) {
+        return 'textarea';
+      }
+
       return 'text';
     }
-
-    if (this.DataType.isArray(value)) {
-      return 'list';
+  }, {
+    key: "config",
+    get: function get() {
+      return {
+        'fields': this.guessAll()
+      };
     }
+  }, {
+    key: "ignoredKeys",
+    get: function get() {
+      if (this._ignoredKeys == null) {
+        var config = this.getConfig();
+        this._ignoredKeys = config.get('ignoredKeys', []);
+      }
 
-    if (value.length > 75) {
-      return 'textarea';
+      return this._ignoredKeys;
     }
+  }]);
 
-    return 'text';
-  }
+  return AutoFields;
+}(Object(_utility_compose__WEBPACK_IMPORTED_MODULE_1__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_0__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_1__["Base"]));
 
-}
+
 
 /***/ }),
 
@@ -400,9 +541,53 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../mixin/config */ "../../../selective-edit/js/mixin/config.js");
 /* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
 /* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utility/compose */ "../../../selective-edit/js/utility/compose.js");
-/* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./autoFields */ "../../../selective-edit/js/selective/autoFields.js");
-/* harmony import */ var _fields_fields__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./fields/fields */ "../../../selective-edit/js/selective/fields/fields.js");
-/* harmony import */ var _fieldTypes__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./fieldTypes */ "../../../selective-edit/js/selective/fieldTypes.js");
+/* harmony import */ var _utility_classes__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utility/classes */ "../../../selective-edit/js/utility/classes.js");
+/* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./autoFields */ "../../../selective-edit/js/selective/autoFields.js");
+/* harmony import */ var _fields_fields__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./fields/fields */ "../../../selective-edit/js/selective/fields/fields.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["<div class=\"selective\">\n      ", "\n    </div>"]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
+
+function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 /**
  * Selective content editor.
  *
@@ -416,137 +601,200 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class Editor extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_1__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["Base"]) {
-  constructor(containerEl, config) {
-    super();
-    this.containerEl = containerEl;
-    this.fieldTypes = new _fieldTypes__WEBPACK_IMPORTED_MODULE_6__["default"]();
-    this.localize = false;
-    this._fields = null;
-    this._data = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_2__["autoDeepObject"])({}); // Needs to be defined before the config is set.
 
-    this.template = (editor, data) => lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective">
-      ${editor.fields.template(editor, data)}
-    </div>`;
+var Editor = /*#__PURE__*/function (_compose) {
+  _inherits(Editor, _compose);
 
-    this.setConfig(config);
-    this.bindEvents();
-    this.render();
+  var _super = _createSuper(Editor);
+
+  function Editor(containerEl, config) {
+    var _this;
+
+    _classCallCheck(this, Editor);
+
+    _this = _super.call(this);
+    _this.containerEl = containerEl;
+    _this.fieldTypes = new _utility_classes__WEBPACK_IMPORTED_MODULE_4__["default"]();
+    _this.ruleTypes = new _utility_classes__WEBPACK_IMPORTED_MODULE_4__["default"]();
+    _this.ruleTypes.DEFAULT_ZONE_KEY = '__default__';
+    _this.localize = false;
+    _this._fields = null;
+    _this._data = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_2__["autoDeepObject"])({}); // Needs to be defined before the config is set.
+
+    _this.template = function (editor, data) {
+      return Object(lit_html__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject(), editor.fields.template(editor, data));
+    };
+
+    _this.setConfig(config);
+
+    _this.bindEvents();
+
+    _this.render();
+
+    return _this;
   }
 
-  get config() {
-    return this.getConfig();
-  }
+  _createClass(Editor, [{
+    key: "addField",
+    value: function addField() {
+      var _this$fields;
 
-  get data() {
-    return this._data;
-  }
-
-  get fields() {
-    if (!this._fields) {
-      const FieldsCls = this.getConfig().get('FieldsCls', _fields_fields__WEBPACK_IMPORTED_MODULE_5__["default"]);
-      this._fields = new FieldsCls(this.fieldTypes);
+      (_this$fields = this.fields).addField.apply(_this$fields, arguments);
     }
-
-    return this._fields;
-  }
-
-  get isClean() {
-    return this.fields.isClean;
-  }
-
-  get selfRender() {
-    // Determine if we are self rendering or being externally rendered.
-    return this.containerEl !== null;
-  }
-
-  get value() {
-    return this.fields.value;
-  }
-
-  set data(value) {
-    this._data = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_2__["autoDeepObject"])(value);
-    this.render();
-    return this._data;
-  }
-
-  addField(...args) {
-    this.fields.addField(...args);
-  }
-
-  addFieldType(key, FieldCls) {
-    this.fieldTypes.addFieldType(key, FieldCls);
-    this.render();
-  }
-
-  addFieldTypes(fieldTypes) {
-    for (const key of Object.keys(fieldTypes)) {
-      this.fieldTypes.addFieldType(key, fieldTypes[key]);
-    }
-
-    this.render();
-  }
-
-  bindEvents() {
-    // Skip binding if externally rendering.
-    if (!this.selfRender) {
-      return;
-    } // Allow triggering a re-render.
-
-
-    document.addEventListener('selective.render', () => {
+  }, {
+    key: "addFieldType",
+    value: function addFieldType(key, FieldCls) {
+      this.fieldTypes.setClass(key, FieldCls);
       this.render();
-    });
-  }
-
-  guessFields() {
-    const AutoFieldsCls = this.config.get('AutoFieldsCls', _autoFields__WEBPACK_IMPORTED_MODULE_4__["default"]);
-    const autoFields = new AutoFieldsCls(this.data.obj);
-    return autoFields.config;
-  }
-
-  postRender(containerEl) {
-    // Allow for using without explicitly calling the render
-    // This supports external rendering using the template.
-    containerEl = containerEl || this.containerEl; // Initialize any new fields.
-
-    this.fieldTypes.initialize(containerEl); // Trigger any field specific actions.
-
-    this.fields.postRender(containerEl);
-  }
-
-  render() {
-    // Do nothing when not self rendering.
-    if (!this.selfRender) {
-      return;
     }
+  }, {
+    key: "addFieldTypes",
+    value: function addFieldTypes(fieldTypes) {
+      this.fieldTypes.setClasses(fieldTypes);
+      this.render();
+    }
+  }, {
+    key: "addRuleType",
+    value: function addRuleType(key, RuleCls) {
+      this.ruleTypes.setClass(key, RuleCls);
+      this.render();
+    }
+  }, {
+    key: "addRuleTypes",
+    value: function addRuleTypes(ruleTypes) {
+      this.ruleTypes.setClasses(ruleTypes);
+      this.render();
+    }
+  }, {
+    key: "bindEvents",
+    value: function bindEvents() {
+      var _this2 = this;
 
-    Object(lit_html__WEBPACK_IMPORTED_MODULE_0__["render"])(this.template(this, this.data), this.containerEl);
-    this.postRender();
-    document.dispatchEvent(new CustomEvent('selective.render.complete'));
-  }
+      // Skip binding if externally rendering.
+      if (!this.selfRender) {
+        return;
+      } // Allow triggering a re-render.
 
-  setConfig(value) {
-    super.setConfig(value);
 
-    if (value) {
-      // Reset the fields and add new field configs.
-      this.fields.reset();
+      document.addEventListener('selective.render', function () {
+        _this2.render();
+      });
+    }
+  }, {
+    key: "guessFields",
+    value: function guessFields() {
+      var AutoFieldsCls = this.config.get('AutoFieldsCls', _autoFields__WEBPACK_IMPORTED_MODULE_5__["default"]);
+      var autoFields = new AutoFieldsCls(this.data.obj);
+      return autoFields.config;
+    }
+  }, {
+    key: "postRender",
+    value: function postRender(containerEl) {
+      // Allow for using without explicitly calling the render
+      // This supports external rendering using the template.
+      containerEl = containerEl || this.containerEl; // Initialize any new fields.
 
-      for (const fieldConfig of this.getConfig().get('fields', [])) {
-        this.addField(fieldConfig);
+      this.fieldTypes.forEachFunc('initialize', containerEl); // Trigger any field specific actions.
+
+      this.fields.postRender(containerEl);
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      // Do nothing when not self rendering.
+      if (!this.selfRender) {
+        return;
       }
 
-      this.render();
+      Object(lit_html__WEBPACK_IMPORTED_MODULE_0__["render"])(this.template(this, this.data), this.containerEl);
+
+      this.postRender();
+      document.dispatchEvent(new CustomEvent('selective.render.complete'));
     }
-  }
+  }, {
+    key: "setConfig",
+    value: function setConfig(value) {
+      _get(_getPrototypeOf(Editor.prototype), "setConfig", this).call(this, value);
 
-  update(value) {
-    this.data = extend({}, this.data.obj, value);
-    return this.data;
-  }
+      if (value) {
+        // Reset the fields and add new field configs.
+        this.fields.reset();
 
-}
+        var _iterator = _createForOfIteratorHelper(this.getConfig().get('fields', [])),
+            _step;
+
+        try {
+          for (_iterator.s(); !(_step = _iterator.n()).done;) {
+            var fieldConfig = _step.value;
+            this.addField(fieldConfig);
+          }
+        } catch (err) {
+          _iterator.e(err);
+        } finally {
+          _iterator.f();
+        }
+
+        this.render();
+      }
+    }
+  }, {
+    key: "update",
+    value: function update(value) {
+      this.data = extend({}, this.data.obj, value);
+      return this.data;
+    }
+  }, {
+    key: "config",
+    get: function get() {
+      return this.getConfig();
+    }
+  }, {
+    key: "data",
+    get: function get() {
+      return this._data;
+    },
+    set: function set(value) {
+      this._data = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_2__["autoDeepObject"])(value);
+      this.render();
+      return this._data;
+    }
+  }, {
+    key: "fields",
+    get: function get() {
+      if (!this._fields) {
+        var FieldsCls = this.getConfig().get('FieldsCls', _fields_fields__WEBPACK_IMPORTED_MODULE_6__["default"]);
+        this._fields = new FieldsCls(this.fieldTypes, this.ruleTypes);
+      }
+
+      return this._fields;
+    }
+  }, {
+    key: "isClean",
+    get: function get() {
+      return this.fields.isClean;
+    }
+  }, {
+    key: "isValid",
+    get: function get() {
+      return this.fields.isValid;
+    }
+  }, {
+    key: "selfRender",
+    get: function get() {
+      // Determine if we are self rendering or being externally rendered.
+      return this.containerEl !== null;
+    }
+  }, {
+    key: "value",
+    get: function get() {
+      return this.fields.value;
+    }
+  }]);
+
+  return Editor;
+}(Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_1__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["Base"]));
+
+
 
 /***/ }),
 
@@ -572,6 +820,176 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
 /* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../mixin/config */ "../../../selective-edit/js/mixin/config.js");
 /* harmony import */ var _mixin_uid__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../mixin/uid */ "../../../selective-edit/js/mixin/uid.js");
+/* harmony import */ var _validation_errors__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../validation/errors */ "../../../selective-edit/js/selective/validation/errors.js");
+/* harmony import */ var _validation_rules__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../validation/rules */ "../../../selective-edit/js/selective/validation/rules.js");
+function _templateObject13() {
+  var data = _taggedTemplateLiteral(["\n      ", "\n      ", ""]);
+
+  _templateObject13 = function _templateObject13() {
+    return data;
+  };
+
+  return data;
+}
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _templateObject12() {
+  var data = _taggedTemplateLiteral(["\n      <div\n          class=", "\n          data-field-type=\"", "\"\n          data-field-full-key=\"", "\">\n        ", "\n      </div>"]);
+
+  _templateObject12 = function _templateObject12() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject11() {
+  var data = _taggedTemplateLiteral(["<span>(default)</span>"]);
+
+  _templateObject11 = function _templateObject11() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject10() {
+  var data = _taggedTemplateLiteral(["\n            <div class=\"selective__field__locale\">\n              <label for=\"", "", "\">", " ", "</label>\n            </div>\n            <div class=\"selective__field__input\">\n              ", "\n            </div>\n          "]);
+
+  _templateObject10 = function _templateObject10() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject9() {
+  var data = _taggedTemplateLiteral(["\n      <div class=\"selective__field__localization\">\n        ", "\n      </div>"]);
+
+  _templateObject9 = function _templateObject9() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject8() {
+  var data = _taggedTemplateLiteral(["\n        <div class=\"selective__field__input\">\n          ", "\n        </div>"]);
+
+  _templateObject8 = function _templateObject8() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject7() {
+  var data = _taggedTemplateLiteral(["<div class=\"", "\">\n      ", "\n      ", "\n      <label for=\"", "\">", "</label>\n    </div>"]);
+
+  _templateObject7 = function _templateObject7() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject6() {
+  var data = _taggedTemplateLiteral(["\n      <span\n          class=\"selective__field__deep_link\"\n          @click=", ">\n        <i class=\"material-icons\">link</i>\n      </span>"]);
+
+  _templateObject6 = function _templateObject6() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject5() {
+  var data = _taggedTemplateLiteral(["\n      <span\n          class=\"selective__field__invalid\">\n        <i class=\"material-icons\">error</i>\n      </span>"]);
+
+  _templateObject5 = function _templateObject5() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject4() {
+  var data = _taggedTemplateLiteral(["<div class=\"selective__field__help\">", "</div>"]);
+
+  _templateObject4 = function _templateObject4() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject3() {
+  var data = _taggedTemplateLiteral(["\n            <div class=\"selective__field__error\" data-error-type=\"", "\">\n              ", "\n            </div>\n          "]);
+
+  _templateObject3 = function _templateObject3() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject2() {
+  var data = _taggedTemplateLiteral(["<div class=\"selective__field__errors\">\n        ", "\n      </div>"]);
+
+  _templateObject2 = function _templateObject2() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["\n      ", "\n      ", "\n      ", "\n      ", "\n      ", ""]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 /**
  * Base field.
  */
@@ -585,402 +1003,641 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_8__["default"], _mixin_uid__WEBPACK_IMPORTED_MODULE_9__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["Base"]) {
-  constructor(config, globalConfig) {
-    super();
-    this.fieldType = 'Field';
-    this.globalConfig = globalConfig || {};
-    this.isLocalized = false;
-    this.ignoreLocalize = false;
-    this.defaultLocale = 'en';
-    this.locales = ['en'];
-    this.listeners = new _utility_listeners__WEBPACK_IMPORTED_MODULE_6__["default"]();
-    this.setConfig(config);
-    this._errors = {};
-    this._isLocked = false;
-    this._useAutoFields = false;
-    this._originalValue = undefined;
-    this.value = undefined; // Localization requires multiple values for one field.
 
-    this._originalValues = {};
-    this.values = {};
+
+
+var Field = /*#__PURE__*/function (_compose) {
+  _inherits(Field, _compose);
+
+  var _super = _createSuper(Field);
+
+  function Field(ruleTypes, config, globalConfig) {
+    var _this;
+
+    _classCallCheck(this, Field);
+
+    _this = _super.call(this);
+    _this.fieldType = 'Field';
+    _this.ruleTypes = ruleTypes;
+    _this.globalConfig = globalConfig || {};
+    _this.isLocalized = false;
+    _this.ignoreLocalize = false;
+    _this.defaultLocale = 'en';
+    _this.locales = ['en'];
+    _this.listeners = new _utility_listeners__WEBPACK_IMPORTED_MODULE_6__["default"]();
+
+    _this.setConfig(config);
+
+    _this._isLocked = false;
+    _this._useAutoFields = false;
+    _this._originalValue = undefined;
+    _this.value = undefined; // Localization requires multiple values for one field.
+
+    _this._originalValues = {};
+    _this.errors = {};
+    _this.values = {};
+    _this.zonesToValue = null; // Store the validation rules.
+
+    _this._validationRules = new _validation_rules__WEBPACK_IMPORTED_MODULE_11__["default"]({
+      ruleTypes: _this.ruleTypes
+    });
+
+    _this._validationRules.addRules(_this.config.get('validation', []));
+
+    return _this;
   } // TODO: Remove. Look into directives.
 
 
-  static initialize(containerEl) {// Pass.
-  }
-
-  get config() {
-    return this.getConfig();
-  }
-
-  get classesField() {
-    const classes = ['selective__field', `selective__field__type__${this.fieldType}`];
-
-    if (this.config.classes) {
-      for (const className of this.config.classes) {
-        classes.push(className);
-      }
-    }
-
-    if (this._useAutoFields) {
-      classes.push('selective__field--auto');
-    }
-
-    if (this.config.key && this.config.key.endsWith('@')) {
-      classes.push('selective__field--translatable');
-    }
-
-    if (this.config.isGuessed) {
-      classes.push('selective__field--guess');
-    }
-
-    if (!this.isClean) {
-      classes.push('selective__field--dirty');
-    }
-
-    if (this.isLinkedField) {
-      classes.push('selective__field--linked');
-    }
-
-    return classes.join(' ');
-  }
-
-  get fullKey() {
-    const parentKey = this.config.get('parentKey');
-
-    if (parentKey) {
-      return `${parentKey}.${this.key}`;
-    }
-
-    return this.key;
-  }
-
-  get isClean() {
-    // When locked, the field is automatically considered dirty.
-    if (this._isLocked) {
-      return false;
-    }
-
-    if (this.isLocalized) {
-      if (json_stable_stringify__WEBPACK_IMPORTED_MODULE_1__(this.values) != json_stable_stringify__WEBPACK_IMPORTED_MODULE_1__(this._originalValues)) {
-        return false;
-      }
-    } // Handle complex value.
-
-
-    const isArray = _utility_dataType__WEBPACK_IMPORTED_MODULE_5__["default"].isArray(this.originalValue) || _utility_dataType__WEBPACK_IMPORTED_MODULE_5__["default"].isArray(this.value);
-    const isObject = _utility_dataType__WEBPACK_IMPORTED_MODULE_5__["default"].isObject(this.originalValue) || _utility_dataType__WEBPACK_IMPORTED_MODULE_5__["default"].isObject(this.value);
-
-    if (isArray || isObject) {
-      return json_stable_stringify__WEBPACK_IMPORTED_MODULE_1__(this.value) == json_stable_stringify__WEBPACK_IMPORTED_MODULE_1__(this.originalValue);
-    }
-
-    return this.originalValue == this.value;
-  }
-
-  get isLinkedField() {
-    // Is the field a linked field in the config.
-    const fullKey = this.fullKey;
-    const linkedFields = this.config.get('linkedFieldsFunc', () => [])();
-
-    for (const linkedField of linkedFields) {
-      if (linkedField == fullKey) {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
-  get key() {
-    return this.config.key;
-  }
-
-  get localizedValues() {
-    const localizedValues = {};
-
-    for (const key of Object.keys(this.values)) {
-      localizedValues[key] = this.values[key];
-    } // Set after the localized values are updated.
-
-
-    localizedValues[this.key] = this.value;
-    return deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, this._originalValues, localizedValues);
-  }
-
-  get originalValue() {
-    return this._originalValue;
-  }
-
-  get template() {
-    return (selective, data) => lit_html__WEBPACK_IMPORTED_MODULE_2__["html"]`
-      ${this.updateOriginal(selective, data)}
-      ${this.renderWrapper(selective, data)}`;
-  }
-
-  get uid() {
-    return this.getUid();
-  }
-
-  getOriginalValueForLocale(locale) {
-    if (!locale || locale == this.defaultLocale) {
-      return this.originalValue;
-    }
-
-    return this._originalValues[this.keyForLocale(locale)];
-  }
-
-  getValueForLocale(locale) {
-    if (!locale || locale == this.defaultLocale) {
-      return this.value;
-    }
-
-    return this.values[this.keyForLocale(locale)];
-  }
-
-  set originalValue(value) {
-    this._originalValue = value;
-  } // Original values may come back in a bad format for the editor.
-
-
-  _cleanOriginalValue(value) {
-    return value;
-  }
-
-  handleInput(evt) {
-    const value = evt.target.value;
-    const locale = evt.target.dataset.locale;
-    this.setValueForLocale(locale, value);
-  }
-
-  handleDeepLink(evt) {
-    // Trigger a deep link event.
-    document.dispatchEvent(new CustomEvent('selective.field.deep_link', {
-      detail: {
-        field: this.fullKey,
-        operation: evt.shiftKey ? 'toggle' : 'replace'
-      }
-    }));
-  }
-
-  keyForLocale(locale) {
-    // Default locale does not get tagged.
-    if (locale == this.defaultLocale || !locale || locale == undefined) {
-      return this.key;
-    }
-
-    return `${this.key}@${locale}`;
-  }
-
-  lock() {
-    this._isLocked = true;
-  } // TODO: Remove? Directives?
-
-
-  postRender(containerEl) {}
-
-  render() {
-    // Trigger a render event.
-    document.dispatchEvent(new CustomEvent('selective.render'));
-  }
-
-  renderField(selective, data) {
-    return lit_html__WEBPACK_IMPORTED_MODULE_2__["html"]`
-      ${this.renderHeader(selective, data)}
-      ${this.renderLabel(selective, data)}
-      ${this.renderLocalization(selective, data)}
-      ${this.renderError(selective, data)}
-      ${this.renderHelp(selective, data)}
-      ${this.renderFooter(selective, data)}`;
-  }
-
-  renderError(selective, data) {
-    const errorKeys = Object.keys(this._errors);
-
-    if (!errorKeys.length) {
-      return '';
-    }
-
-    return lit_html__WEBPACK_IMPORTED_MODULE_2__["html"]`<div class="selective__field__errors">${errorKeys}</div>`;
-  }
-
-  renderFooter(selective, data) {
-    return '';
-  }
-
-  renderHeader(selective, data) {
-    return '';
-  }
-
-  renderHelp(selective, data) {
-    if (!this.config.help) {
-      return '';
-    }
-
-    return lit_html__WEBPACK_IMPORTED_MODULE_2__["html"]`<div class="selective__field__help">${this.config.help}</div>`;
-  }
-
-  renderInput(selective, data, locale) {
-    return 'Input not defined.';
-  }
-
-  renderLabel(selective, data) {
-    if (!this.config.label) {
-      return '';
-    }
-
-    return lit_html__WEBPACK_IMPORTED_MODULE_2__["html"]`<div class="selective__field__label">
-      <span
-          class="selective__field__deep_link"
-          @click=${this.handleDeepLink.bind(this)}>
-        <i class="material-icons">link</i>
-      </span>
-      <label for="${this.uid}">${this.config.label}</label>
-    </div>`;
-  }
-
-  renderLocalization(selective, data) {
-    if (this.ignoreLocalize || !selective.localize) {
-      return lit_html__WEBPACK_IMPORTED_MODULE_2__["html"]`
-        <div class="selective__field__input">
-          ${this.renderInput(selective, data)}
-        </div>`;
-    } // Render the localization grid.
-
-
-    return lit_html__WEBPACK_IMPORTED_MODULE_2__["html"]`
-      <div class="selective__field__localization">
-        ${Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_3__["repeat"])(this.locales, locale => locale, (locale, index) => lit_html__WEBPACK_IMPORTED_MODULE_2__["html"]`
-            <div class="selective__field__locale">
-              <label for="${this.uid}${locale}">${locale} ${locale == this.defaultLocale ? lit_html__WEBPACK_IMPORTED_MODULE_2__["html"]`<span>(default)</span>` : ''}</label>
-            </div>
-            <div class="selective__field__input">
-              ${this.renderInput(selective, data, locale)}
-            </div>
-          `)}
-      </div>`;
-  }
-
-  renderWrapper(selective, data) {
-    return lit_html__WEBPACK_IMPORTED_MODULE_2__["html"]`
-      <div
-          class=${this.classesField}
-          data-field-type="${this.fieldType}"
-          data-field-full-key="${this.fullKey}">
-        ${this.renderField(selective, data)}
-      </div>`;
-  }
-
-  setValueForLocale(locale, value) {
-    if (!locale || locale == undefined || locale == this.defaultLocale) {
-      this.value = value;
-    } else {
-      const localeKey = this.keyForLocale(locale);
-      this.values[localeKey] = value;
-    }
-
-    this.render();
-  }
-
-  unlock() {
-    this._isLocked = false;
-  } // Use the data passed to render to update the original value.
-  // Also update the clean value when applicable.
-
-
-  updateOriginal(selective, data) {
-    // Manual locking prevents the original value overwriting the value
-    // in special cases when it should not.
-    if (this._isLocked) {
-      return;
-    }
-
-    let newValue = data;
-
-    if (typeof data === 'object' && data !== null) {
-      data = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_7__["autoDeepObject"])(data);
-      newValue = data.get(this.key);
-    }
-
-    const isClean = this.isClean;
-    this.isLocalized = selective.localize;
-    this.defaultLocale = selective.config.defaultLocale || 'en'; // Order the locales so that the first locale is always the default locale.
-
-    const sortedLocales = (selective.config.locales || [this.defaultLocale]).sort();
-    const newLocales = [this.defaultLocale];
-
-    for (const locale of sortedLocales) {
-      if (locale != this.defaultLocale) {
-        newLocales.push(locale);
-      }
-    }
-
-    this.locales = newLocales; // Certain formats in the data may need to be cleaned up
-
-    newValue = this._cleanOriginalValue(newValue); // Copy the array to prevent shared array.
-
-    if (Array.isArray(newValue)) {
-      newValue = [...newValue];
-    }
-
-    this.originalValue = newValue; // Only if the field is clean, update the value.
-
-    if (isClean) {
-      // Copy the array to prevent shared array.
-      if (Array.isArray(newValue)) {
-        newValue = [...newValue];
+  _createClass(Field, [{
+    key: "getClassesForInput",
+    value: function getClassesForInput(locale, zoneKey) {
+      var classes = [];
+      var errors = this.getErrorsForLocale(locale);
+
+      if (errors) {
+        var zoneErrors = errors.getErrorsForZone(zoneKey);
+        var errorTypes = Object.keys(zoneErrors).sort();
+
+        if (errorTypes.length) {
+          classes.push('selective__field__input--error');
+        }
+
+        var _iterator = _createForOfIteratorHelper(errorTypes),
+            _step;
+
+        try {
+          for (_iterator.s(); !(_step = _iterator.n()).done;) {
+            var key = _step.value;
+            classes.push("selective__field__input--error__".concat(key));
+          }
+        } catch (err) {
+          _iterator.e(err);
+        } finally {
+          _iterator.f();
+        }
       }
 
-      this.value = newValue;
+      return classes.join(' ');
+    }
+  }, {
+    key: "getClassesForLabel",
+    value: function getClassesForLabel(locale, zoneKey) {
+      var classes = ['selective__field__label'];
 
-      if (this.value == undefined) {
-        this.value = this.config.default;
-      }
-    } // Pull in localized values.
+      if (locale || zoneKey || !this.isLocalized) {
+        var errors = this.getErrorsForLocale(locale);
 
+        if (errors) {
+          var zoneErrors = errors.getErrorsForZone(zoneKey);
+          var errorTypes = Object.keys(zoneErrors).sort();
 
-    if (this.isLocalized) {
-      const newValues = {};
-
-      if (typeof data === 'object' && data !== null) {
-        data = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_7__["autoDeepObject"])(data);
-
-        for (const locale of this.locales) {
-          if (locale == this.defaultLocale) {
-            continue;
+          if (errorTypes.length) {
+            classes.push('selective__field__label--error');
           }
 
-          const localeKey = this.keyForLocale(locale);
-          newValues[localeKey] = this._cleanOriginalValue(data.get(localeKey));
+          var _iterator2 = _createForOfIteratorHelper(errorTypes),
+              _step2;
+
+          try {
+            for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+              var key = _step2.value;
+              classes.push("selective__field__label--error__".concat(key));
+            }
+          } catch (err) {
+            _iterator2.e(err);
+          } finally {
+            _iterator2.f();
+          }
         }
-      } // Only if the field is clean, update the value.
-
-
-      if (isClean) {
-        // Copy the values to prevent shared pointer.
-        this.values = deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, newValues);
       }
 
-      this._originalValues = newValues;
+      return classes.join(' ');
     }
+  }, {
+    key: "getErrorsForLocale",
+    value: function getErrorsForLocale(locale) {
+      return this.errors[this.keyForLocale(locale)];
+    }
+  }, {
+    key: "getOriginalValueForLocale",
+    value: function getOriginalValueForLocale(locale) {
+      if (!locale || locale == this.defaultLocale) {
+        return this.originalValue;
+      }
 
-    if (isClean != this.isClean) {
-      // Clean state has changed. Rerender.
+      return this._originalValues[this.keyForLocale(locale)];
+    }
+  }, {
+    key: "getValueForLocale",
+    value: function getValueForLocale(locale) {
+      if (!locale || locale == this.defaultLocale) {
+        return this.value;
+      }
+
+      return this.values[this.keyForLocale(locale)];
+    }
+  }, {
+    key: "_cleanOriginalValue",
+    // Original values may come back in a bad format for the editor.
+    value: function _cleanOriginalValue(value) {
+      return value;
+    }
+  }, {
+    key: "handleInput",
+    value: function handleInput(evt) {
+      var value = evt.target.value;
+      var locale = evt.target.dataset.locale;
+      this.setValueForLocale(locale, value);
+    }
+  }, {
+    key: "handleDeepLink",
+    value: function handleDeepLink(evt) {
+      // Trigger a deep link event.
+      document.dispatchEvent(new CustomEvent('selective.field.deep_link', {
+        detail: {
+          field: this.fullKey,
+          operation: evt.shiftKey ? 'toggle' : 'replace'
+        }
+      }));
+    }
+  }, {
+    key: "keyForLocale",
+    value: function keyForLocale(locale) {
+      // Default locale does not get tagged.
+      if (locale == this.defaultLocale || !locale || locale == undefined) {
+        return this.key;
+      }
+
+      return "".concat(this.key, "@").concat(locale);
+    }
+  }, {
+    key: "lock",
+    value: function lock() {
+      this._isLocked = true;
+    } // TODO: Remove? Directives?
+
+  }, {
+    key: "postRender",
+    value: function postRender(containerEl) {}
+  }, {
+    key: "render",
+    value: function render() {
+      // Trigger a render event.
+      document.dispatchEvent(new CustomEvent('selective.render'));
+    }
+  }, {
+    key: "renderField",
+    value: function renderField(selective, data) {
+      return Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject(), this.renderHeader(selective, data), this.renderLabel(selective, data), this.renderLocalization(selective, data), this.renderHelp(selective, data), this.renderFooter(selective, data));
+    }
+  }, {
+    key: "renderErrors",
+    value: function renderErrors(selective, data, locale, zoneKey) {
+      var errors = this.getErrorsForLocale(locale);
+
+      if (!errors) {
+        return '';
+      }
+
+      var zoneErrors = errors.getErrorsForZone(zoneKey);
+      var errorTypes = Object.keys(zoneErrors).sort();
+
+      if (!errorTypes.length) {
+        return '';
+      }
+
+      return Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject2(), Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_3__["repeat"])(errorTypes, function (type) {
+        return type;
+      }, function (type, index) {
+        return Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject3(), type, zoneErrors[type]);
+      }));
+    }
+  }, {
+    key: "renderFooter",
+    value: function renderFooter(selective, data) {
+      return '';
+    }
+  }, {
+    key: "renderHeader",
+    value: function renderHeader(selective, data) {
+      return '';
+    }
+  }, {
+    key: "renderHelp",
+    value: function renderHelp(selective, data) {
+      if (!this.config.help) {
+        return '';
+      }
+
+      return Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject4(), this.config.help);
+    }
+  }, {
+    key: "renderIconError",
+    value: function renderIconError(selective, data, locale) {
+      if (this.isValid) {
+        return '';
+      }
+
+      return Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject5());
+    }
+  }, {
+    key: "renderIconLink",
+    value: function renderIconLink(selective, data, locale) {
+      return Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject6(), this.handleDeepLink.bind(this));
+    }
+  }, {
+    key: "renderInput",
+    value: function renderInput(selective, data, locale) {
+      return 'Input not defined.';
+    }
+  }, {
+    key: "renderLabel",
+    value: function renderLabel(selective, data) {
+      if (!this.config.label) {
+        return '';
+      }
+
+      return Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject7(), this.getClassesForLabel(), this.renderIconLink(selective, data), this.renderIconError(selective, data), this.uid, this.config.label);
+    }
+  }, {
+    key: "renderLocalization",
+    value: function renderLocalization(selective, data) {
+      var _this2 = this;
+
+      if (this.ignoreLocalize || !selective.localize) {
+        return Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject8(), this.renderInput(selective, data));
+      } // Render the localization grid.
+
+
+      return Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject9(), Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_3__["repeat"])(this.locales, function (locale) {
+        return locale;
+      }, function (locale, index) {
+        return Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject10(), _this2.uid, locale, locale, locale == _this2.defaultLocale ? Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject11()) : '', _this2.renderInput(selective, data, locale));
+      }));
+    }
+  }, {
+    key: "renderWrapper",
+    value: function renderWrapper(selective, data) {
+      return Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject12(), this.classesField, this.fieldType, this.fullKey, this.renderField(selective, data));
+    }
+  }, {
+    key: "setErrorsForLocale",
+    value: function setErrorsForLocale(locale, value) {
+      var localeKey = this.keyForLocale(locale);
+      this.errors[localeKey] = value;
+    }
+  }, {
+    key: "setValueForLocale",
+    value: function setValueForLocale(locale, value) {
+      if (!locale || locale == undefined || locale == this.defaultLocale) {
+        this.value = value;
+      } else {
+        var localeKey = this.keyForLocale(locale);
+        this.values[localeKey] = value;
+      }
+
       this.render();
     }
-  }
+  }, {
+    key: "unlock",
+    value: function unlock() {
+      this._isLocked = false;
+    } // Use the data passed to render to update the original value.
+    // Also update the clean value when applicable.
 
-  valueForLocale(selective, locale) {
-    // Default locale is the normal value.
-    if (!locale || locale == this.defaultLocale) {
-      return this.value;
+  }, {
+    key: "updateOriginal",
+    value: function updateOriginal(selective, data) {
+      // Manual locking prevents the original value overwriting the value
+      // in special cases when it should not.
+      if (this._isLocked) {
+        return;
+      }
+
+      var newValue = data;
+
+      if (_typeof(data) === 'object' && data !== null) {
+        data = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_7__["autoDeepObject"])(data);
+        newValue = data.get(this.key);
+      }
+
+      var isClean = this.isClean;
+      this.isLocalized = selective.localize;
+      this.defaultLocale = selective.config.defaultLocale || 'en'; // Order the locales so that the first locale is always the default locale.
+
+      var sortedLocales = (selective.config.locales || [this.defaultLocale]).sort();
+      var newLocales = [this.defaultLocale];
+
+      var _iterator3 = _createForOfIteratorHelper(sortedLocales),
+          _step3;
+
+      try {
+        for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+          var _locale = _step3.value;
+
+          if (_locale != this.defaultLocale) {
+            newLocales.push(_locale);
+          }
+        }
+      } catch (err) {
+        _iterator3.e(err);
+      } finally {
+        _iterator3.f();
+      }
+
+      this.locales = newLocales; // Certain formats in the data may need to be cleaned up
+
+      newValue = this._cleanOriginalValue(newValue); // Copy the array to prevent shared array.
+
+      if (Array.isArray(newValue)) {
+        newValue = _toConsumableArray(newValue);
+      }
+
+      this.originalValue = newValue; // Only if the field is clean, update the value.
+
+      if (isClean) {
+        // Copy the array to prevent shared array.
+        if (Array.isArray(newValue)) {
+          newValue = _toConsumableArray(newValue);
+        }
+
+        this.value = newValue;
+
+        if (this.value == undefined) {
+          this.value = this.config.default;
+        }
+      } // Pull in localized values.
+
+
+      if (this.isLocalized) {
+        var newValues = {};
+
+        if (_typeof(data) === 'object' && data !== null) {
+          data = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_7__["autoDeepObject"])(data);
+
+          var _iterator4 = _createForOfIteratorHelper(this.locales),
+              _step4;
+
+          try {
+            for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+              var locale = _step4.value;
+
+              if (locale == this.defaultLocale) {
+                continue;
+              }
+
+              var localeKey = this.keyForLocale(locale);
+              newValues[localeKey] = this._cleanOriginalValue(data.get(localeKey));
+            }
+          } catch (err) {
+            _iterator4.e(err);
+          } finally {
+            _iterator4.f();
+          }
+        } // Only if the field is clean, update the value.
+
+
+        if (isClean) {
+          // Copy the values to prevent shared pointer.
+          this.values = deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, newValues);
+        }
+
+        this._originalValues = newValues;
+      }
+
+      if (isClean != this.isClean) {
+        // Clean state has changed. Rerender.
+        this.render();
+      }
     }
+  }, {
+    key: "valueForLocale",
+    value: function valueForLocale(selective, locale) {
+      // Default locale is the normal value.
+      if (!locale || locale == this.defaultLocale) {
+        return this.value;
+      }
 
-    return this.values[this.keyForLocale(locale)];
-  }
+      return this.values[this.keyForLocale(locale)];
+    }
+  }, {
+    key: "config",
+    get: function get() {
+      return this.getConfig();
+    }
+  }, {
+    key: "classesField",
+    get: function get() {
+      var classes = ['selective__field', "selective__field__type__".concat(this.fieldType)];
 
-}
+      if (this.config.classes) {
+        var _iterator5 = _createForOfIteratorHelper(this.config.classes),
+            _step5;
+
+        try {
+          for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
+            var className = _step5.value;
+            classes.push(className);
+          }
+        } catch (err) {
+          _iterator5.e(err);
+        } finally {
+          _iterator5.f();
+        }
+      }
+
+      if (this._useAutoFields) {
+        classes.push('selective__field--auto');
+      }
+
+      if (this.config.key && this.config.key.endsWith('@')) {
+        classes.push('selective__field--translatable');
+      }
+
+      if (this.config.isGuessed) {
+        classes.push('selective__field--guess');
+      }
+
+      if (!this.isClean) {
+        classes.push('selective__field--dirty');
+      }
+
+      if (!this.isValid) {
+        classes.push('selective__field--invalid');
+      }
+
+      if (this.isLinkedField) {
+        classes.push('selective__field--linked');
+      }
+
+      return classes.join(' ');
+    }
+  }, {
+    key: "fullKey",
+    get: function get() {
+      var parentKey = this.config.get('parentKey');
+
+      if (parentKey) {
+        return "".concat(parentKey, ".").concat(this.key);
+      }
+
+      return this.key;
+    }
+  }, {
+    key: "isClean",
+    get: function get() {
+      // When locked, the field is automatically considered dirty.
+      if (this._isLocked) {
+        return false;
+      }
+
+      if (this.isLocalized) {
+        if (json_stable_stringify__WEBPACK_IMPORTED_MODULE_1__(this.values) != json_stable_stringify__WEBPACK_IMPORTED_MODULE_1__(this._originalValues)) {
+          return false;
+        }
+      } // Handle complex value.
+
+
+      var isArray = _utility_dataType__WEBPACK_IMPORTED_MODULE_5__["default"].isArray(this.originalValue) || _utility_dataType__WEBPACK_IMPORTED_MODULE_5__["default"].isArray(this.value);
+      var isObject = _utility_dataType__WEBPACK_IMPORTED_MODULE_5__["default"].isObject(this.originalValue) || _utility_dataType__WEBPACK_IMPORTED_MODULE_5__["default"].isObject(this.value);
+
+      if (isArray || isObject) {
+        return json_stable_stringify__WEBPACK_IMPORTED_MODULE_1__(this.value) == json_stable_stringify__WEBPACK_IMPORTED_MODULE_1__(this.originalValue);
+      }
+
+      return this.originalValue == this.value;
+    }
+  }, {
+    key: "isLinkedField",
+    get: function get() {
+      // Is the field a linked field in the config.
+      var fullKey = this.fullKey;
+      var linkedFields = this.config.get('linkedFieldsFunc', function () {
+        return [];
+      })();
+
+      var _iterator6 = _createForOfIteratorHelper(linkedFields),
+          _step6;
+
+      try {
+        for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
+          var linkedField = _step6.value;
+
+          if (linkedField == fullKey) {
+            return true;
+          }
+        }
+      } catch (err) {
+        _iterator6.e(err);
+      } finally {
+        _iterator6.f();
+      }
+
+      return false;
+    }
+  }, {
+    key: "isValid",
+    get: function get() {
+      // TODO: Only want to revalidate once per render.
+      var hasErrors = false;
+      var locales = [];
+
+      if (this.ignoreLocalize || this.locales.length < 1) {
+        locales.push(null);
+      } else {
+        locales = locales.concat(this.locales);
+      } // Validate each locale separately.
+
+
+      var _iterator7 = _createForOfIteratorHelper(locales),
+          _step7;
+
+      try {
+        for (_iterator7.s(); !(_step7 = _iterator7.n()).done;) {
+          var locale = _step7.value;
+          var errors = new _validation_errors__WEBPACK_IMPORTED_MODULE_10__["default"]();
+          var isDefaultLocale = !locale || locale == this.defaultLocale;
+          var value = this.getValueForLocale(locale);
+
+          if (!this.zonesToValue) {
+            // Simple field, only one value/input to validate.
+            errors.validateRules(this._validationRules, value, locale, isDefaultLocale);
+          } else {
+            // Complex field type. There are multiple inputs, so we need to map the
+            // validation zone to the key of the value.
+            for (var _i = 0, _Object$keys = Object.keys(this.zonesToValue); _i < _Object$keys.length; _i++) {
+              var zoneKey = _Object$keys[_i];
+              var valueKey = this.zonesToValue[zoneKey];
+              var valueSub = value ? value[valueKey] : undefined;
+              errors.validateRules(this._validationRules, valueSub, locale, isDefaultLocale, zoneKey);
+            }
+          }
+
+          this.setErrorsForLocale(locale, errors);
+
+          if (errors.hasAnyErrors()) {
+            hasErrors = true;
+          }
+        }
+      } catch (err) {
+        _iterator7.e(err);
+      } finally {
+        _iterator7.f();
+      }
+
+      return !hasErrors;
+    }
+  }, {
+    key: "key",
+    get: function get() {
+      return this.config.key;
+    }
+  }, {
+    key: "localizedValues",
+    get: function get() {
+      var localizedValues = {};
+
+      for (var _i2 = 0, _Object$keys2 = Object.keys(this.values); _i2 < _Object$keys2.length; _i2++) {
+        var key = _Object$keys2[_i2];
+        localizedValues[key] = this.values[key];
+      } // Set after the localized values are updated.
+
+
+      localizedValues[this.key] = this.value;
+      return deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, this._originalValues, localizedValues);
+    }
+  }, {
+    key: "originalValue",
+    get: function get() {
+      return this._originalValue;
+    },
+    set: function set(value) {
+      this._originalValue = value;
+    }
+  }, {
+    key: "template",
+    get: function get() {
+      var _this3 = this;
+
+      return function (selective, data) {
+        return Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject13(), _this3.updateOriginal(selective, data), _this3.renderWrapper(selective, data));
+      };
+    }
+  }, {
+    key: "uid",
+    get: function get() {
+      return this.getUid();
+    }
+  }], [{
+    key: "initialize",
+    value: function initialize(containerEl) {// Pass.
+    }
+  }]);
+
+  return Field;
+}(Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_8__["default"], _mixin_uid__WEBPACK_IMPORTED_MODULE_9__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["Base"]));
+
+
 
 /***/ }),
 
@@ -1009,6 +1666,184 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _fields_fields__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../fields/fields */ "../../../selective-edit/js/selective/fields/fields.js");
 /* harmony import */ var _ui_sortable__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../ui/sortable */ "../../../selective-edit/js/selective/ui/sortable.js");
 /* harmony import */ var _field__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./field */ "../../../selective-edit/js/selective/field/field.js");
+function _templateObject14() {
+  var data = _taggedTemplateLiteral(["<div\n        class=\"selective__list__item__preview\"\n        data-item-uid=", "\n        data-locale=", "\n        @click=", ">\n      ", "\n    </div>"]);
+
+  _templateObject14 = function _templateObject14() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject13() {
+  var data = _taggedTemplateLiteral(["\n      <div class=\"selective__field__actions__wrapper\">\n        <div class=\"", "\">\n          ", "\n          <label>", "</label>\n        </div>\n        ", "\n      </div>"]);
+
+  _templateObject13 = function _templateObject13() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject12() {
+  var data = _taggedTemplateLiteral(["\n      <div class=\"selective__list__item selective__list__item--simple selective__sortable\"\n          draggable=\"true\"\n          data-index=", "\n          data-locale=", "\n          @dragenter=", "\n          @dragleave=", "\n          @dragover=", "\n          @dragstart=", "\n          @drop=", ">\n        <div class=\"selective__list__item__drag\">\n          <i class=\"material-icons\">drag_indicator</i>\n        </div>\n        ", "\n        <div\n            class=\"selective__list__item__delete\"\n            data-item-uid=", "\n            data-locale=", "\n            @click=", "\n            title=\"Delete item\">\n          <i class=\"material-icons\">delete</i>\n        </div>\n      </div>"]);
+
+  _templateObject12 = function _templateObject12() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject11() {
+  var data = _taggedTemplateLiteral(["\n      <div class=\"selective__list__item selective__sortable\"\n          draggable=\"true\"\n          data-index=", "\n          data-locale=", "\n          @dragenter=", "\n          @dragleave=", "\n          @dragover=", "\n          @dragstart=", "\n          @drop=", ">\n        <div class=\"selective__list__fields__label ", "\"\n            data-item-uid=", "\n            data-locale=", "\n            @click=", ">\n          ", "\n        </div>\n        ", "\n      </div>"]);
+
+  _templateObject11 = function _templateObject11() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject10() {
+  var data = _taggedTemplateLiteral(["\n      <div class=\"selective__list__item selective__list__item--empty\"\n          data-index=", "\n          data-locale=", ">\n        ", "\n      </div>"]);
+
+  _templateObject10 = function _templateObject10() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject9() {
+  var data = _taggedTemplateLiteral(["\n      <div class=\"selective__list__item selective__list__item--collapsed selective__sortable\"\n          draggable=\"true\"\n          data-index=", "\n          data-locale=", "\n          @dragenter=", "\n          @dragleave=", "\n          @dragover=", "\n          @dragstart=", "\n          @drop=", ">\n        <div class=\"selective__list__item__drag\"><i class=\"material-icons\">drag_indicator</i></div>\n        ", "\n        <div\n            class=\"selective__list__item__delete\"\n            data-item-uid=", "\n            data-locale=", "\n            @click=", "\n            title=\"Delete item\">\n          <i class=\"material-icons\">delete</i>\n        </div>\n      </div>"]);
+
+  _templateObject9 = function _templateObject9() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject8() {
+  var data = _taggedTemplateLiteral(["\n      <div class=\"selective__list\">\n        ", "\n        ", "\n      </div>\n      ", "\n      ", ""]);
+
+  _templateObject8 = function _templateObject8() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject7() {
+  var data = _taggedTemplateLiteral(["<div class=\"selective__actions\">\n      ", "\n    </div>"]);
+
+  _templateObject7 = function _templateObject7() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject6() {
+  var data = _taggedTemplateLiteral(["\n      <div\n          ?disabled=", "\n          class=\"selective__action selective__action__collapse\"\n          data-locale=", "\n          @click=", ">\n        <i class=\"material-icons\">unfold_less</i>\n      </div>"]);
+
+  _templateObject6 = function _templateObject6() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject5() {
+  var data = _taggedTemplateLiteral(["\n      <div\n          ?disabled=", "\n          class=\"selective__action selective__action__expand\"\n          data-locale=", "\n          @click=", ">\n        <i class=\"material-icons\">unfold_more</i>\n      </div>"]);
+
+  _templateObject5 = function _templateObject5() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject4() {
+  var data = _taggedTemplateLiteral(["<div class=\"selective__actions\">\n      <button\n          data-locale=", "\n          @click=", ">\n        Add\n      </button>\n    </div>"]);
+
+  _templateObject4 = function _templateObject4() {
+    return data;
+  };
+
+  return data;
+}
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _templateObject3() {
+  var data = _taggedTemplateLiteral(["<img src=\"", "\" class=\"selective__image__fingernail\">"]);
+
+  _templateObject3 = function _templateObject3() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject2() {
+  var data = _taggedTemplateLiteral(["<video playsinline disableremoteplayback muted autoplay loop>\n            <source src=\"", "\" />\n          </video>"]);
+
+  _templateObject2 = function _templateObject2() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["<img src=\"", "\" class=\"selective__image__fingernail\">"]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 /**
  * List fields for controlling the lists of fields.
  */
@@ -1025,677 +1860,865 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const COMMON_PREVIEW_KEYS = [// First match wins.
+var COMMON_PREVIEW_KEYS = [// First match wins.
 'title', 'label', 'subtitle', 'type', 'text', 'key', 'id', 'url', 'value', 'doc', 'partial'];
-const VIDEO_EXT = [// Video extensions.
+var VIDEO_EXT = [// Video extensions.
 'mp4', 'webm'];
-class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
-  constructor(config, globalConfig) {
-    super(config, globalConfig);
-    this.fieldType = 'list';
-    this.isLocalized = true;
-    this._listItems = {};
-    this._useAutoFields = false;
-    this._sortableUi = new _ui_sortable__WEBPACK_IMPORTED_MODULE_11__["SortableUI"]();
+var ListField = /*#__PURE__*/function (_Field) {
+  _inherits(ListField, _Field);
 
-    this._sortableUi.listeners.add('sort', this.handleSort.bind(this));
+  var _super = _createSuper(ListField);
+
+  function ListField(ruleTypes, config, globalConfig) {
+    var _this;
+
+    _classCallCheck(this, ListField);
+
+    _this = _super.call(this, ruleTypes, config, globalConfig);
+    _this.fieldType = 'list';
+    _this.isLocalized = true;
+    _this._listItems = {};
+    _this._useAutoFields = false;
+    _this._sortableUi = new _ui_sortable__WEBPACK_IMPORTED_MODULE_11__["SortableUI"]();
+
+    _this._sortableUi.listeners.add('sort', _this.handleSort.bind(_assertThisInitialized(_this)));
+
+    return _this;
   }
 
-  _createFields(fieldTypes, config) {
-    const FieldsCls = this.config.get('FieldsCls', _fields_fields__WEBPACK_IMPORTED_MODULE_10__["default"]);
-    return new FieldsCls(fieldTypes, config);
-  }
-
-  _createItems(selective, data, locale) {
-    const value = this.getValueForLocale(locale) || [];
-
-    let listItems = this._getListItemsForLocale(locale); // Null is used to make sure that the list is not just empty.
-    // Empty list --> deleted all items.
-
-
-    if (listItems != null || !value.length) {
-      return;
+  _createClass(ListField, [{
+    key: "_createFields",
+    value: function _createFields(fieldTypes, ruleTypes, config) {
+      var FieldsCls = this.config.get('FieldsCls', _fields_fields__WEBPACK_IMPORTED_MODULE_10__["default"]);
+      return new FieldsCls(fieldTypes, ruleTypes, config);
     }
+  }, {
+    key: "_createItems",
+    value: function _createItems(selective, data, locale) {
+      var value = this.getValueForLocale(locale) || [];
 
-    listItems = []; // Use the config to find the field configs.
+      var listItems = this._getListItemsForLocale(locale); // Null is used to make sure that the list is not just empty.
+      // Empty list --> deleted all items.
 
-    let fieldConfigs = this.config.get('fields', []);
-    this._useAutoFields = !fieldConfigs.length;
 
-    for (const itemData of value) {
-      const fields = this._createFields(selective.fieldTypes);
+      if (listItems != null || !value.length) {
+        return;
+      }
 
-      fields.updateOriginal(selective, itemData); // Auto guess the fields if they are not defined.
+      listItems = []; // Use the config to find the field configs.
 
-      if (this._useAutoFields) {
-        const AutoFieldsCls = this.config.get('AutoFieldsCls', _autoFields__WEBPACK_IMPORTED_MODULE_9__["default"]);
-        fieldConfigs = new AutoFieldsCls(itemData).config['fields'];
+      var fieldConfigs = this.config.get('fields', []);
+      this._useAutoFields = !fieldConfigs.length;
+
+      var _iterator = _createForOfIteratorHelper(value),
+          _step;
+
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var itemData = _step.value;
+
+          var fields = this._createFields(selective.fieldTypes, selective.ruleTypes);
+
+          fields.updateOriginal(selective, itemData); // Auto guess the fields if they are not defined.
+
+          if (this._useAutoFields) {
+            var AutoFieldsCls = this.config.get('AutoFieldsCls', _autoFields__WEBPACK_IMPORTED_MODULE_9__["default"]);
+            fieldConfigs = new AutoFieldsCls(itemData).config['fields'];
+          } // Create the fields based on the config.
+
+
+          var _iterator2 = _createForOfIteratorHelper(fieldConfigs || []),
+              _step2;
+
+          try {
+            for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+              var fieldConfig = _step2.value;
+              fieldConfig = Object(_utility_config__WEBPACK_IMPORTED_MODULE_6__["autoConfig"])(fieldConfig, this.globalConfig);
+              fieldConfig.set('parentKey', this.fullKey); // Mark the auto fields.
+
+              if (this._useAutoFields) {
+                fieldConfig.set('isGuessed', true);
+              }
+
+              fields.addField(fieldConfig, this.globalConfig);
+            } // When an is not expanded it does not get the value
+            // updated correctly so we need to manually call the data update.
+
+          } catch (err) {
+            _iterator2.e(err);
+          } finally {
+            _iterator2.f();
+          }
+
+          var _iterator3 = _createForOfIteratorHelper(fields.fields),
+              _step3;
+
+          try {
+            for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+              var field = _step3.value;
+              field.updateOriginal(selective, itemData || fields.defaultValue);
+            }
+          } catch (err) {
+            _iterator3.e(err);
+          } finally {
+            _iterator3.f();
+          }
+
+          listItems.push(new ListItem({
+            'fields': fieldConfigs
+          }, fields));
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+
+      this._setListItemsForLocale(locale, listItems); // Trigger a new render to make sure the expand/collapse buttons show.
+
+
+      if (listItems.length > 1 || !this.useSimpleField) {
+        this.render();
+      }
+    }
+  }, {
+    key: "_createPreviewTemplate",
+    value: function _createPreviewTemplate(url) {
+      if (url.startsWith('http') || url.startsWith('//')) {
+        var _iterator4 = _createForOfIteratorHelper(VIDEO_EXT),
+            _step4;
+
+        try {
+          for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+            var videoExt = _step4.value;
+
+            if (url.endsWith(".".concat(videoExt))) {
+              return Object(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject2(), url);
+            }
+          }
+        } catch (err) {
+          _iterator4.e(err);
+        } finally {
+          _iterator4.f();
+        }
+
+        return Object(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject(), url);
+      } else if (url.startsWith('/')) {
+        return Object(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject3(), url);
+      }
+
+      return url;
+    }
+  }, {
+    key: "_getListItemsForLocale",
+    value: function _getListItemsForLocale(locale) {
+      var localeKey = this.keyForLocale(locale);
+
+      if (!this._listItems[localeKey]) {
+        // Need to be able to tell when the current value is an empty array.
+        // This would happen when you delete all items in a list.
+        return null;
+      }
+
+      return _toConsumableArray(this._listItems[localeKey]);
+    }
+  }, {
+    key: "_guessPreviewForObject",
+    value: function _guessPreviewForObject(obj) {
+      var deepObj = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_8__["autoDeepObject"])(obj);
+      var previewValue = obj;
+
+      var _iterator5 = _createForOfIteratorHelper(COMMON_PREVIEW_KEYS),
+          _step5;
+
+      try {
+        for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
+          var key = _step5.value;
+          previewValue = deepObj.get(key);
+
+          if (!previewValue) {
+            // Also check for translation marked keys.
+            previewValue = deepObj.get("".concat(key, "@"));
+          }
+
+          if (previewValue) {
+            break;
+          }
+        } // If the matched preview is also an object try again.
+
+      } catch (err) {
+        _iterator5.e(err);
+      } finally {
+        _iterator5.f();
+      }
+
+      if (_typeof(previewValue) == 'object') {
+        return this._guessPreviewForObject(previewValue);
+      }
+
+      return previewValue;
+    }
+  }, {
+    key: "_setListItemsForLocale",
+    value: function _setListItemsForLocale(locale, listItems) {
+      var localeKey = this.keyForLocale(locale);
+      this._listItems[localeKey] = listItems;
+    }
+  }, {
+    key: "guessPreview",
+    value: function guessPreview(item, index, defaultPreview) {
+      var defaultPreviewField = this.config.get('preview_field');
+      var previewType = this.config.get('preview_type', 'text');
+      var previewField = item.config.preview_field;
+      var previewValue = item.fields.value;
+      var dataDeepObject = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_8__["autoDeepObject"])(previewValue);
+
+      if (previewField || defaultPreviewField) {
+        previewValue = dataDeepObject.get(previewField || defaultPreviewField);
+      } // Do not try to show preview for complex values.
+
+
+      if (_typeof(previewValue) == 'object') {
+        previewValue = null;
+      }
+
+      if (previewType == 'image' && previewValue) {
+        return this._createPreviewTemplate(previewValue);
+      }
+
+      if (previewValue || defaultPreview) {
+        return previewValue || defaultPreview;
+      }
+
+      previewValue = this._guessPreviewForObject(dataDeepObject);
+
+      if (previewValue) {
+        return previewValue;
+      }
+
+      return "{ Item ".concat(index + 1, " }");
+    }
+  }, {
+    key: "handleAddItem",
+    value: function handleAddItem(evt, selective) {
+      var locale = evt.target.dataset.locale;
+      var listItems = this._getListItemsForLocale(locale) || [];
+
+      var fields = this._createFields(selective.fieldTypes, selective.ruleTypes); // Use the field config for the list items to create the correct field types.
+
+
+      var fieldConfigs = this.config.get('fields', []); // If no field configs, use the last item config if availble.
+
+      if (!fieldConfigs.length && listItems.length > 0) {
+        fieldConfigs = listItems[listItems.length - 1].config.fields;
       } // Create the fields based on the config.
 
 
-      for (let fieldConfig of fieldConfigs || []) {
-        fieldConfig = Object(_utility_config__WEBPACK_IMPORTED_MODULE_6__["autoConfig"])(fieldConfig, this.globalConfig);
-        fieldConfig.set('parentKey', this.fullKey); // Mark the auto fields.
+      var _iterator6 = _createForOfIteratorHelper(fieldConfigs || []),
+          _step6;
 
-        if (this._useAutoFields) {
-          fieldConfig.set('isGuessed', true);
+      try {
+        for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
+          var fieldConfig = _step6.value;
+          fieldConfig = Object(_utility_config__WEBPACK_IMPORTED_MODULE_6__["autoConfig"])(fieldConfig, this.globalConfig);
+          fieldConfig.set('parentKey', this.fullKey); // Mark the auto fields.
+
+          if (this._useAutoFields) {
+            fieldConfig.set('isGuessed', true);
+          }
+
+          fields.addField(fieldConfig, this.globalConfig);
         }
-
-        fields.addField(fieldConfig, this.globalConfig);
-      } // When an is not expanded it does not get the value
-      // updated correctly so we need to manually call the data update.
-
-
-      for (const field of fields.fields) {
-        field.updateOriginal(selective, itemData || fields.defaultValue);
+      } catch (err) {
+        _iterator6.e(err);
+      } finally {
+        _iterator6.f();
       }
 
-      listItems.push(new ListItem({
+      fields.updateOriginal(selective, fields.defaultValue);
+      var listItem = new ListItem({
         'fields': fieldConfigs
-      }, fields));
-    }
+      }, fields);
+      listItem.isExpanded = true;
+      listItems.push(listItem);
 
-    this._setListItemsForLocale(locale, listItems); // Trigger a new render to make sure the expand/collapse buttons show.
+      this._setListItemsForLocale(locale, listItems); // TODO: Focus on the input after rendering.
 
 
-    if (listItems.length > 1 || !this.useSimpleField) {
       this.render();
     }
-  }
+  }, {
+    key: "handleCollapseAll",
+    value: function handleCollapseAll(evt) {
+      var locale = evt.target.dataset.locale;
+      var listItems = this._getListItemsForLocale(locale) || [];
 
-  _createPreviewTemplate(url) {
-    if (url.startsWith('http') || url.startsWith('//')) {
-      for (const videoExt of VIDEO_EXT) {
-        if (url.endsWith(`.${videoExt}`)) {
-          return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`<video playsinline disableremoteplayback muted autoplay loop>
-            <source src="${url}" />
-          </video>`;
+      var _iterator7 = _createForOfIteratorHelper(listItems),
+          _step7;
+
+      try {
+        for (_iterator7.s(); !(_step7 = _iterator7.n()).done;) {
+          var item = _step7.value;
+          item.isExpanded = false;
+        }
+      } catch (err) {
+        _iterator7.e(err);
+      } finally {
+        _iterator7.f();
+      }
+
+      this.render();
+    }
+  }, {
+    key: "handleCollapseItem",
+    value: function handleCollapseItem(evt) {
+      var uid = evt.target.dataset.itemUid;
+      var locale = evt.target.dataset.locale;
+      var listItems = this._getListItemsForLocale(locale) || [];
+
+      var _iterator8 = _createForOfIteratorHelper(listItems),
+          _step8;
+
+      try {
+        for (_iterator8.s(); !(_step8 = _iterator8.n()).done;) {
+          var item = _step8.value;
+
+          if (item.uid == uid) {
+            item.isExpanded = false;
+            break;
+          }
+        }
+      } catch (err) {
+        _iterator8.e(err);
+      } finally {
+        _iterator8.f();
+      }
+
+      this.render();
+    }
+  }, {
+    key: "handleDeleteItem",
+    value: function handleDeleteItem(evt) {
+      var _this2 = this;
+
+      var target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_7__["findParentByClassname"])(evt.target, 'selective__list__item__delete');
+      var uid = target.dataset.itemUid;
+      var locale = target.dataset.locale;
+      var listItems = this._getListItemsForLocale(locale) || [];
+      var deleteIndex = -1;
+
+      for (var index in listItems) {
+        if (listItems[index].uid == uid) {
+          deleteIndex = index;
+          break;
         }
       }
 
-      return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`<img src="${url}" class="selective__image__fingernail">`;
-    } else if (url.startsWith('/')) {
-      return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`<img src="${url}" class="selective__image__fingernail">`;
+      if (deleteIndex > -1) {
+        listItems.splice(deleteIndex, 1); // Lock the fields to prevent the values from being updated at the same
+        // time as the original value.
+
+        var downstreamItems = listItems.slice(deleteIndex);
+
+        var _iterator9 = _createForOfIteratorHelper(downstreamItems),
+            _step9;
+
+        try {
+          for (_iterator9.s(); !(_step9 = _iterator9.n()).done;) {
+            var listItem = _step9.value;
+            listItem.fields.lock();
+          }
+        } catch (err) {
+          _iterator9.e(err);
+        } finally {
+          _iterator9.f();
+        }
+
+        this.lock();
+
+        this._setListItemsForLocale(locale, listItems); // Unlock fields after rendering is complete to let the values be updated when clean.
+
+
+        document.addEventListener('selective.unlock', function () {
+          var _iterator10 = _createForOfIteratorHelper(downstreamItems),
+              _step10;
+
+          try {
+            for (_iterator10.s(); !(_step10 = _iterator10.n()).done;) {
+              var listItem = _step10.value;
+              listItem.fields.unlock();
+            }
+          } catch (err) {
+            _iterator10.e(err);
+          } finally {
+            _iterator10.f();
+          }
+
+          _this2.unlock();
+
+          _this2.render();
+        }, {
+          once: true
+        }); // Prevent the delete from bubbling.
+
+        evt.stopPropagation();
+        this.render();
+      }
     }
+  }, {
+    key: "handleExpandAll",
+    value: function handleExpandAll(evt) {
+      var locale = evt.target.dataset.locale;
+      var listItems = this._getListItemsForLocale(locale) || [];
 
-    return url;
-  }
+      var _iterator11 = _createForOfIteratorHelper(listItems),
+          _step11;
 
-  _getListItemsForLocale(locale) {
-    const localeKey = this.keyForLocale(locale);
-
-    if (!this._listItems[localeKey]) {
-      // Need to be able to tell when the current value is an empty array.
-      // This would happen when you delete all items in a list.
-      return null;
-    }
-
-    return [...this._listItems[localeKey]];
-  }
-
-  _guessPreviewForObject(obj) {
-    const deepObj = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_8__["autoDeepObject"])(obj);
-    let previewValue = obj;
-
-    for (const key of COMMON_PREVIEW_KEYS) {
-      previewValue = deepObj.get(key);
-
-      if (!previewValue) {
-        // Also check for translation marked keys.
-        previewValue = deepObj.get(`${key}@`);
+      try {
+        for (_iterator11.s(); !(_step11 = _iterator11.n()).done;) {
+          var item = _step11.value;
+          item.isExpanded = true;
+        }
+      } catch (err) {
+        _iterator11.e(err);
+      } finally {
+        _iterator11.f();
       }
 
-      if (previewValue) {
-        break;
+      this.render();
+    }
+  }, {
+    key: "handleExpandItem",
+    value: function handleExpandItem(evt) {
+      var target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_7__["findParentByClassname"])(evt.target, 'selective__list__item__preview'); // Alternative label.
+
+      if (!target) {
+        target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_7__["findParentByClassname"])(evt.target, 'selective__list__item__label');
       }
-    } // If the matched preview is also an object try again.
 
+      var uid = target.dataset.itemUid;
+      var locale = target.dataset.locale;
+      var listItems = this._getListItemsForLocale(locale) || [];
 
-    if (typeof previewValue == 'object') {
-      return this._guessPreviewForObject(previewValue);
+      var _iterator12 = _createForOfIteratorHelper(listItems),
+          _step12;
+
+      try {
+        for (_iterator12.s(); !(_step12 = _iterator12.n()).done;) {
+          var item = _step12.value;
+
+          if (item.uid == uid) {
+            item.isExpanded = true;
+            break;
+          }
+        }
+      } catch (err) {
+        _iterator12.e(err);
+      } finally {
+        _iterator12.f();
+      }
+
+      this.render();
     }
+  }, {
+    key: "handleSort",
+    value: function handleSort(startIndex, endIndex, dropTarget) {
+      var _this3 = this;
 
-    return previewValue;
-  }
+      // Find the locale from the drop target.
+      var target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_7__["findParentByClassname"])(dropTarget, 'selective__list__item');
+      var locale = target.dataset.locale; // Rework the arrays to have the items in the correct position.
 
-  _setListItemsForLocale(locale, listItems) {
-    const localeKey = this.keyForLocale(locale);
-    this._listItems[localeKey] = listItems;
-  }
+      var newListItems = [];
+      var oldListItems = this._getListItemsForLocale(locale) || [];
+      var maxIndex = Math.max(endIndex, startIndex);
+      var minIndex = Math.min(endIndex, startIndex); // Determine which direction to shift misplaced items.
 
-  get isClean() {
-    // When locked, the field is automatically considered dirty.
-    if (this._isLocked) {
-      return false;
+      var modifier = 1;
+
+      if (startIndex > endIndex) {
+        modifier = -1;
+      }
+
+      for (var i = 0; i < oldListItems.length; i++) {
+        if (i < minIndex || i > maxIndex) {
+          // Leave in the same order.
+          newListItems[i] = oldListItems[i];
+          newListItems[i].fields.lock();
+        } else if (i == endIndex) {
+          // This element is being moved to, place the moved value here.
+          newListItems[i] = oldListItems[startIndex]; // Lock the fields to prevent the values from being updated at the same
+          // time as the original value.
+
+          newListItems[i].fields.lock();
+        } else {
+          // Shift the old index using the modifier to determine direction.
+          newListItems[i] = oldListItems[i + modifier]; // Lock the fields to prevent the values from being updated at the same
+          // time as the original value.
+
+          newListItems[i].fields.lock();
+        }
+      }
+
+      this._setListItemsForLocale(locale, newListItems);
+
+      this.lock(); // Unlock fields after saving is complete to let the values be updated when clean.
+
+      document.addEventListener('selective.unlock', function () {
+        var _iterator13 = _createForOfIteratorHelper(newListItems),
+            _step13;
+
+        try {
+          for (_iterator13.s(); !(_step13 = _iterator13.n()).done;) {
+            var item = _step13.value;
+            item.fields.unlock();
+          }
+        } catch (err) {
+          _iterator13.e(err);
+        } finally {
+          _iterator13.f();
+        }
+
+        _this3.unlock();
+
+        _this3.render();
+      }, {
+        once: true
+      });
+      this.render();
+    } // TODO: Remove? Directives?
+
+  }, {
+    key: "postRender",
+    value: function postRender(containerEl) {
+      for (var _i = 0, _Object$keys = Object.keys(this._listItems); _i < _Object$keys.length; _i++) {
+        var localeKey = _Object$keys[_i];
+        var listItems = this._listItems[localeKey];
+
+        var _iterator14 = _createForOfIteratorHelper(listItems),
+            _step14;
+
+        try {
+          for (_iterator14.s(); !(_step14 = _iterator14.n()).done;) {
+            var listItem = _step14.value;
+            listItem.fields.postRender(containerEl);
+          }
+        } catch (err) {
+          _iterator14.e(err);
+        } finally {
+          _iterator14.f();
+        }
+      }
     }
+  }, {
+    key: "renderActionsFooter",
+    value: function renderActionsFooter(selective, data, locale) {
+      var _this4 = this;
 
-    for (const locale of this.locales) {
-      const originalValue = this.getOriginalValueForLocale(locale);
+      return Object(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject4(), locale || '', function (evt) {
+        _this4.handleAddItem(evt, selective);
+      });
+    }
+  }, {
+    key: "renderActionsHeader",
+    value: function renderActionsHeader(selective, data, locale) {
+      var isCollapsed = false;
+      var isExpanded = false;
+      var actions = []; // Determine if no actions should be shown.
 
-      const listItems = this._getListItemsForLocale(locale); // Check for a change in length.
+      var value = this.getValueForLocale(locale) || [];
+
+      if (!value.length) {
+        return '';
+      } // Check list items for specific conditions.
 
 
-      if (Array.isArray(listItems) && originalValue && originalValue.length != listItems.length) {
+      var listItems = this._getListItemsForLocale(locale) || [];
+      var areSimpleFields = true;
+      var areAllExpanded = true;
+      var areAllCollapsed = true;
+
+      var _iterator15 = _createForOfIteratorHelper(listItems),
+          _step15;
+
+      try {
+        for (_iterator15.s(); !(_step15 = _iterator15.n()).done;) {
+          var item = _step15.value;
+
+          if (!item.fields.isSimpleField || !this.useSimpleField) {
+            areSimpleFields = false;
+          }
+
+          if (!item.isExpanded) {
+            areAllExpanded = false;
+          }
+
+          if (item.isExpanded) {
+            areAllCollapsed = false;
+          }
+        }
+      } catch (err) {
+        _iterator15.e(err);
+      } finally {
+        _iterator15.f();
+      }
+
+      if (areSimpleFields) {
+        return '';
+      }
+
+      actions.push(Object(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject5(), areAllExpanded, locale || '', this.handleExpandAll.bind(this)));
+      actions.push(Object(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject6(), areAllCollapsed, locale || '', this.handleCollapseAll.bind(this)));
+      return Object(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject7(), actions);
+    }
+  }, {
+    key: "renderInput",
+    value: function renderInput(selective, data, locale) {
+      var _this5 = this;
+
+      this._createItems(selective, data, locale);
+
+      var items = this._getListItemsForLocale(locale) || [];
+      var origValue = this.getOriginalValueForLocale(locale) || [];
+      var origValueLen = origValue.length;
+      return Object(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject8(), Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__["repeat"])(items, function (item) {
+        return item.uid;
+      }, function (item, index) {
+        return _this5.renderItem(selective, index < origValueLen ? origValue[index] : item.fields.defaultValue, item, index, locale);
+      }), items.length < 1 ? this.renderItemEmpty(selective, data, 0, locale) : '', this.renderActionsFooter(selective, data, locale), this.renderErrors(selective, data, locale));
+    }
+  }, {
+    key: "renderItem",
+    value: function renderItem(selective, data, item, index, locale) {
+      if (item.fields.isSimpleField && this.useSimpleField) {
+        return this.renderItemSimple(selective, data, item, index, locale);
+      } else if (item.isExpanded) {
+        return this.renderItemExpanded(selective, data, item, index, locale);
+      }
+
+      return this.renderItemCollapsed(selective, data, item, index, locale);
+    }
+  }, {
+    key: "renderItemCollapsed",
+    value: function renderItemCollapsed(selective, data, item, index, locale) {
+      item.fields.updateOriginal(selective, data, true);
+      return Object(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject9(), index, locale || '', this._sortableUi.handleDragEnter.bind(this._sortableUi), this._sortableUi.handleDragLeave.bind(this._sortableUi), this._sortableUi.handleDragOver.bind(this._sortableUi), this._sortableUi.handleDragStart.bind(this._sortableUi), this._sortableUi.handleDrop.bind(this._sortableUi), this.renderPreview(selective, data, item, index, locale), item.uid, locale || '', this.handleDeleteItem.bind(this));
+    }
+  }, {
+    key: "renderItemEmpty",
+    value: function renderItemEmpty(selective, data, index, locale) {
+      return Object(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject10(), index, locale || '', this.config.get('emptyLabel', '{ Empty }'));
+    }
+  }, {
+    key: "renderItemExpanded",
+    value: function renderItemExpanded(selective, data, item, index, locale) {
+      return Object(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject11(), index, locale || '', this._sortableUi.handleDragEnter.bind(this._sortableUi), this._sortableUi.handleDragLeave.bind(this._sortableUi), this._sortableUi.handleDragOver.bind(this._sortableUi), this._sortableUi.handleDragStart.bind(this._sortableUi), this._sortableUi.handleDrop.bind(this._sortableUi), !item.fields.label ? 'selective__list__fields__label--empty' : '', item.uid, locale || '', this.handleCollapseItem.bind(this), item.fields.label, item.fields.template(selective, data));
+    }
+  }, {
+    key: "renderItemSimple",
+    value: function renderItemSimple(selective, data, item, index, locale) {
+      return Object(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject12(), index, locale || '', this._sortableUi.handleDragEnter.bind(this._sortableUi), this._sortableUi.handleDragLeave.bind(this._sortableUi), this._sortableUi.handleDragOver.bind(this._sortableUi), this._sortableUi.handleDragStart.bind(this._sortableUi), this._sortableUi.handleDrop.bind(this._sortableUi), item.fields.template(selective, data), item.uid, locale || '', this.handleDeleteItem.bind(this));
+    }
+  }, {
+    key: "renderLabel",
+    value: function renderLabel(selective, data) {
+      return Object(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject13(), this.getClassesForLabel(), this.renderIconError(selective, data), this.config.label, this.renderActionsHeader(selective, data));
+    }
+  }, {
+    key: "renderPreview",
+    value: function renderPreview(selective, data, item, index, locale) {
+      return Object(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject14(), item.uid, locale || '', this.handleExpandItem.bind(this), this.guessPreview(item, index));
+    }
+  }, {
+    key: "isClean",
+    get: function get() {
+      // When locked, the field is automatically considered dirty.
+      if (this._isLocked) {
         return false;
       }
 
-      for (const item of listItems || []) {
-        if (!item.fields.isClean) {
-          return false;
+      var _iterator16 = _createForOfIteratorHelper(this.locales),
+          _step16;
+
+      try {
+        for (_iterator16.s(); !(_step16 = _iterator16.n()).done;) {
+          var locale = _step16.value;
+          var originalValue = this.getOriginalValueForLocale(locale);
+
+          var listItems = this._getListItemsForLocale(locale); // Check for a change in length.
+
+
+          if (Array.isArray(listItems) && originalValue && originalValue.length != listItems.length) {
+            return false;
+          }
+
+          var _iterator17 = _createForOfIteratorHelper(listItems || []),
+              _step17;
+
+          try {
+            for (_iterator17.s(); !(_step17 = _iterator17.n()).done;) {
+              var item = _step17.value;
+
+              if (!item.fields.isClean) {
+                return false;
+              }
+            }
+          } catch (err) {
+            _iterator17.e(err);
+          } finally {
+            _iterator17.f();
+          }
         }
-      }
-    }
-
-    return true;
-  } // Use the simple field only when there is not a preview field.
-
-
-  get useSimpleField() {
-    return !Boolean(this.config.get('preview_field'));
-  }
-
-  get localizedValues() {
-    const localizedValues = {};
-
-    for (const key of Object.keys(this._listItems)) {
-      const value = [];
-
-      for (const item of this._listItems[key]) {
-        value.push(item.fields.value);
+      } catch (err) {
+        _iterator16.e(err);
+      } finally {
+        _iterator16.f();
       }
 
-      localizedValues[key] = value;
-    } // Set after the localized values are updated.
+      return true;
+    } // Use the simple field only when there is not a preview field.
 
-
-    localizedValues[this.key] = this.value;
-    return deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, this._originalValues, localizedValues);
-  }
-
-  get value() {
-    const listItems = this._getListItemsForLocale() || [];
-
-    if (!listItems.length) {
-      return this.originalValue;
+  }, {
+    key: "useSimpleField",
+    get: function get() {
+      return !Boolean(this.config.get('preview_field'));
     }
+  }, {
+    key: "localizedValues",
+    get: function get() {
+      var localizedValues = {};
 
-    const value = [];
+      for (var _i2 = 0, _Object$keys2 = Object.keys(this._listItems); _i2 < _Object$keys2.length; _i2++) {
+        var key = _Object$keys2[_i2];
+        var value = [];
 
-    for (const item of listItems) {
-      value.push(item.fields.value);
-    }
+        var _iterator18 = _createForOfIteratorHelper(this._listItems[key]),
+            _step18;
 
-    return value;
-  }
-
-  set value(value) {// no-op
-  }
-
-  guessPreview(item, index, defaultPreview) {
-    const defaultPreviewField = this.config.get('preview_field');
-    const previewType = this.config.get('preview_type', 'text');
-    const previewField = item.config.preview_field;
-    let previewValue = item.fields.value;
-    const dataDeepObject = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_8__["autoDeepObject"])(previewValue);
-
-    if (previewField || defaultPreviewField) {
-      previewValue = dataDeepObject.get(previewField || defaultPreviewField);
-    } // Do not try to show preview for complex values.
-
-
-    if (typeof previewValue == 'object') {
-      previewValue = null;
-    }
-
-    if (previewType == 'image' && previewValue) {
-      return this._createPreviewTemplate(previewValue);
-    }
-
-    if (previewValue || defaultPreview) {
-      return previewValue || defaultPreview;
-    }
-
-    previewValue = this._guessPreviewForObject(dataDeepObject);
-
-    if (previewValue) {
-      return previewValue;
-    }
-
-    return `{ Item ${index + 1} }`;
-  }
-
-  handleAddItem(evt, selective) {
-    const locale = evt.target.dataset.locale;
-    const listItems = this._getListItemsForLocale(locale) || [];
-
-    const fields = this._createFields(selective.fieldTypes); // Use the field config for the list items to create the correct field types.
-
-
-    let fieldConfigs = this.config.get('fields', []); // If no field configs, use the last item config if availble.
-
-    if (!fieldConfigs.length && listItems.length > 0) {
-      fieldConfigs = listItems[listItems.length - 1].config.fields;
-    } // Create the fields based on the config.
-
-
-    for (let fieldConfig of fieldConfigs || []) {
-      fieldConfig = Object(_utility_config__WEBPACK_IMPORTED_MODULE_6__["autoConfig"])(fieldConfig, this.globalConfig);
-      fieldConfig.set('parentKey', this.fullKey); // Mark the auto fields.
-
-      if (this._useAutoFields) {
-        fieldConfig.set('isGuessed', true);
-      }
-
-      fields.addField(fieldConfig, this.globalConfig);
-    }
-
-    fields.updateOriginal(selective, fields.defaultValue);
-    const listItem = new ListItem({
-      'fields': fieldConfigs
-    }, fields);
-    listItem.isExpanded = true;
-    listItems.push(listItem);
-
-    this._setListItemsForLocale(locale, listItems); // TODO: Focus on the input after rendering.
-
-
-    this.render();
-  }
-
-  handleCollapseAll(evt) {
-    const locale = evt.target.dataset.locale;
-    const listItems = this._getListItemsForLocale(locale) || [];
-
-    for (const item of listItems) {
-      item.isExpanded = false;
-    }
-
-    this.render();
-  }
-
-  handleCollapseItem(evt) {
-    const uid = evt.target.dataset.itemUid;
-    const locale = evt.target.dataset.locale;
-    const listItems = this._getListItemsForLocale(locale) || [];
-
-    for (const item of listItems) {
-      if (item.uid == uid) {
-        item.isExpanded = false;
-        break;
-      }
-    }
-
-    this.render();
-  }
-
-  handleDeleteItem(evt) {
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_7__["findParentByClassname"])(evt.target, 'selective__list__item__delete');
-    const uid = target.dataset.itemUid;
-    const locale = target.dataset.locale;
-    const listItems = this._getListItemsForLocale(locale) || [];
-    let deleteIndex = -1;
-
-    for (const index in listItems) {
-      if (listItems[index].uid == uid) {
-        deleteIndex = index;
-        break;
-      }
-    }
-
-    if (deleteIndex > -1) {
-      listItems.splice(deleteIndex, 1); // Lock the fields to prevent the values from being updated at the same
-      // time as the original value.
-
-      const downstreamItems = listItems.slice(deleteIndex);
-
-      for (const listItem of downstreamItems) {
-        listItem.fields.lock();
-      }
-
-      this.lock();
-
-      this._setListItemsForLocale(locale, listItems); // Unlock fields after rendering is complete to let the values be updated when clean.
-
-
-      document.addEventListener('selective.unlock', () => {
-        for (const listItem of downstreamItems) {
-          listItem.fields.unlock();
+        try {
+          for (_iterator18.s(); !(_step18 = _iterator18.n()).done;) {
+            var item = _step18.value;
+            value.push(item.fields.value);
+          }
+        } catch (err) {
+          _iterator18.e(err);
+        } finally {
+          _iterator18.f();
         }
 
-        this.unlock();
-        this.render();
-      }, {
-        once: true
-      }); // Prevent the delete from bubbling.
+        localizedValues[key] = value;
+      } // Set after the localized values are updated.
 
-      evt.stopPropagation();
-      this.render();
+
+      localizedValues[this.key] = this.value;
+      return deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, this._originalValues, localizedValues);
     }
-  }
+  }, {
+    key: "value",
+    get: function get() {
+      var listItems = this._getListItemsForLocale();
 
-  handleExpandAll(evt) {
-    const locale = evt.target.dataset.locale;
-    const listItems = this._getListItemsForLocale(locale) || [];
-
-    for (const item of listItems) {
-      item.isExpanded = true;
-    }
-
-    this.render();
-  }
-
-  handleExpandItem(evt) {
-    let target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_7__["findParentByClassname"])(evt.target, 'selective__list__item__preview'); // Alternative label.
-
-    if (!target) {
-      target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_7__["findParentByClassname"])(evt.target, 'selective__list__item__label');
-    }
-
-    const uid = target.dataset.itemUid;
-    const locale = target.dataset.locale;
-    const listItems = this._getListItemsForLocale(locale) || [];
-
-    for (const item of listItems) {
-      if (item.uid == uid) {
-        item.isExpanded = true;
-        break;
-      }
-    }
-
-    this.render();
-  }
-
-  handleSort(startIndex, endIndex, dropTarget) {
-    // Find the locale from the drop target.
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_7__["findParentByClassname"])(dropTarget, 'selective__list__item');
-    const locale = target.dataset.locale; // Rework the arrays to have the items in the correct position.
-
-    const newListItems = [];
-    const oldListItems = this._getListItemsForLocale(locale) || [];
-    const maxIndex = Math.max(endIndex, startIndex);
-    const minIndex = Math.min(endIndex, startIndex); // Determine which direction to shift misplaced items.
-
-    let modifier = 1;
-
-    if (startIndex > endIndex) {
-      modifier = -1;
-    }
-
-    for (let i = 0; i < oldListItems.length; i++) {
-      if (i < minIndex || i > maxIndex) {
-        // Leave in the same order.
-        newListItems[i] = oldListItems[i];
-        newListItems[i].fields.lock();
-      } else if (i == endIndex) {
-        // This element is being moved to, place the moved value here.
-        newListItems[i] = oldListItems[startIndex]; // Lock the fields to prevent the values from being updated at the same
-        // time as the original value.
-
-        newListItems[i].fields.lock();
-      } else {
-        // Shift the old index using the modifier to determine direction.
-        newListItems[i] = oldListItems[i + modifier]; // Lock the fields to prevent the values from being updated at the same
-        // time as the original value.
-
-        newListItems[i].fields.lock();
-      }
-    }
-
-    this._setListItemsForLocale(locale, newListItems);
-
-    this.lock(); // Unlock fields after saving is complete to let the values be updated when clean.
-
-    document.addEventListener('selective.unlock', () => {
-      for (const item of newListItems) {
-        item.fields.unlock();
+      if (listItems == null) {
+        return this.originalValue || [];
       }
 
-      this.unlock();
-      this.render();
-    }, {
-      once: true
-    });
-    this.render();
-  } // TODO: Remove? Directives?
+      var value = [];
 
+      var _iterator19 = _createForOfIteratorHelper(listItems),
+          _step19;
 
-  postRender(containerEl) {
-    for (const localeKey of Object.keys(this._listItems)) {
-      const listItems = this._listItems[localeKey];
-
-      for (const listItem of listItems) {
-        listItem.fields.postRender(containerEl);
-      }
-    }
-  }
-
-  renderActionsFooter(selective, data, locale) {
-    return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__actions">
-      <button
-          data-locale=${locale || ''}
-          @click=${evt => {
-      this.handleAddItem(evt, selective);
-    }}>
-        Add
-      </button>
-    </div>`;
-  }
-
-  renderActionsHeader(selective, data, locale) {
-    const isCollapsed = false;
-    const isExpanded = false;
-    const actions = []; // Determine if no actions should be shown.
-
-    const value = this.getValueForLocale(locale) || [];
-
-    if (!value.length) {
-      return '';
-    } // Check list items for specific conditions.
-
-
-    const listItems = this._getListItemsForLocale(locale) || [];
-    let areSimpleFields = true;
-    let areAllExpanded = true;
-    let areAllCollapsed = true;
-
-    for (const item of listItems) {
-      if (!item.fields.isSimpleField || !this.useSimpleField) {
-        areSimpleFields = false;
-      }
-
-      if (!item.isExpanded) {
-        areAllExpanded = false;
-      }
-
-      if (item.isExpanded) {
-        areAllCollapsed = false;
-      }
-    }
-
-    if (areSimpleFields) {
-      return '';
-    }
-
-    actions.push(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
-      <div
-          ?disabled=${areAllExpanded}
-          class="selective__action selective__action__expand"
-          data-locale=${locale || ''}
-          @click=${this.handleExpandAll.bind(this)}>
-        <i class="material-icons">unfold_more</i>
-      </div>`);
-    actions.push(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
-      <div
-          ?disabled=${areAllCollapsed}
-          class="selective__action selective__action__collapse"
-          data-locale=${locale || ''}
-          @click=${this.handleCollapseAll.bind(this)}>
-        <i class="material-icons">unfold_less</i>
-      </div>`);
-    return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__actions">
-      ${actions}
-    </div>`;
-  }
-
-  renderInput(selective, data, locale) {
-    this._createItems(selective, data, locale);
-
-    const items = this._getListItemsForLocale(locale) || [];
-    const origValue = this.getOriginalValueForLocale(locale) || [];
-    const origValueLen = origValue.length;
-    return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
-      <div class="selective__list">
-        ${Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__["repeat"])(items, item => item.uid, (item, index) => this.renderItem(selective, index < origValueLen ? origValue[index] : item.fields.defaultValue, item, index, locale))}
-        ${items.length < 1 ? this.renderItemEmpty(selective, data, 0, locale) : ''}
-      </div>
-      ${this.renderActionsFooter(selective, data, locale)}`;
-  }
-
-  renderItem(selective, data, item, index, locale) {
-    if (item.fields.isSimpleField && this.useSimpleField) {
-      return this.renderItemSimple(selective, data, item, index, locale);
-    } else if (item.isExpanded) {
-      return this.renderItemExpanded(selective, data, item, index, locale);
-    }
-
-    return this.renderItemCollapsed(selective, data, item, index, locale);
-  }
-
-  renderItemCollapsed(selective, data, item, index, locale) {
-    item.fields.updateOriginal(selective, data, true);
-    return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
-      <div class="selective__list__item selective__list__item--collapsed selective__sortable"
-          draggable="true"
-          data-index=${index}
-          data-locale=${locale || ''}
-          @dragenter=${this._sortableUi.handleDragEnter.bind(this._sortableUi)}
-          @dragleave=${this._sortableUi.handleDragLeave.bind(this._sortableUi)}
-          @dragover=${this._sortableUi.handleDragOver.bind(this._sortableUi)}
-          @dragstart=${this._sortableUi.handleDragStart.bind(this._sortableUi)}
-          @drop=${this._sortableUi.handleDrop.bind(this._sortableUi)}>
-        <div class="selective__list__item__drag"><i class="material-icons">drag_indicator</i></div>
-        ${this.renderPreview(selective, data, item, index, locale)}
-        <div
-            class="selective__list__item__delete"
-            data-item-uid=${item.uid}
-            data-locale=${locale || ''}
-            @click=${this.handleDeleteItem.bind(this)}
-            title="Delete item">
-          <i class="material-icons">delete</i>
-        </div>
-      </div>`;
-  }
-
-  renderItemEmpty(selective, data, index, locale) {
-    return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
-      <div class="selective__list__item selective__list__item--empty"
-          data-index=${index}
-          data-locale=${locale || ''}>
-        ${this.config.get('emptyLabel', '{ Empty }')}
-      </div>`;
-  }
-
-  renderItemExpanded(selective, data, item, index, locale) {
-    return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
-      <div class="selective__list__item selective__sortable"
-          draggable="true"
-          data-index=${index}
-          data-locale=${locale || ''}
-          @dragenter=${this._sortableUi.handleDragEnter.bind(this._sortableUi)}
-          @dragleave=${this._sortableUi.handleDragLeave.bind(this._sortableUi)}
-          @dragover=${this._sortableUi.handleDragOver.bind(this._sortableUi)}
-          @dragstart=${this._sortableUi.handleDragStart.bind(this._sortableUi)}
-          @drop=${this._sortableUi.handleDrop.bind(this._sortableUi)}>
-        <div class="selective__list__fields__label ${!item.fields.label ? 'selective__list__fields__label--empty' : ''}"
-            data-item-uid=${item.uid}
-            data-locale=${locale || ''}
-            @click=${this.handleCollapseItem.bind(this)}>
-          ${item.fields.label}
-        </div>
-        ${item.fields.template(selective, data)}
-      </div>`;
-  }
-
-  renderItemSimple(selective, data, item, index, locale) {
-    return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
-      <div class="selective__list__item selective__list__item--simple selective__sortable"
-          draggable="true"
-          data-index=${index}
-          data-locale=${locale || ''}
-          @dragenter=${this._sortableUi.handleDragEnter.bind(this._sortableUi)}
-          @dragleave=${this._sortableUi.handleDragLeave.bind(this._sortableUi)}
-          @dragover=${this._sortableUi.handleDragOver.bind(this._sortableUi)}
-          @dragstart=${this._sortableUi.handleDragStart.bind(this._sortableUi)}
-          @drop=${this._sortableUi.handleDrop.bind(this._sortableUi)}>
-        <div class="selective__list__item__drag">
-          <i class="material-icons">drag_indicator</i>
-        </div>
-        ${item.fields.template(selective, data)}
-        <div
-            class="selective__list__item__delete"
-            data-item-uid=${item.uid}
-            data-locale=${locale || ''}
-            @click=${this.handleDeleteItem.bind(this)}
-            title="Delete item">
-          <i class="material-icons">delete</i>
-        </div>
-      </div>`;
-  }
-
-  renderLabel(selective, data) {
-    return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
-      <div class="selective__field__actions__wrapper">
-        <div class="selective__field__label">
-          <label>${this.config.label}</label>
-        </div>
-        ${this.renderActionsHeader(selective, data)}
-      </div>`;
-  }
-
-  renderPreview(selective, data, item, index, locale) {
-    return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`<div
-        class="selective__list__item__preview"
-        data-item-uid=${item.uid}
-        data-locale=${locale || ''}
-        @click=${this.handleExpandItem.bind(this)}>
-      ${this.guessPreview(item, index)}
-    </div>`;
-  }
-
-}
-class ListItem extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_4__["default"], _mixin_uid__WEBPACK_IMPORTED_MODULE_5__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["Base"]) {
-  constructor(config, fields) {
-    super();
-    this.setConfig(config);
-    this.fields = fields;
-    this.isExpanded = this.isDefaultExpanded;
-  }
-
-  get config() {
-    return this.getConfig();
-  }
-
-  get isDefaultExpanded() {
-    // Check the fields in the list item to see if they match the linked fields.
-    for (const field of this.fields.fields) {
-      const fullKey = field.fullKey;
-      const linkedFields = field.config.get('linkedFieldsFunc', () => [])();
-
-      for (const linkedField of linkedFields) {
-        if (linkedField.startsWith(fullKey)) {
-          return true;
+      try {
+        for (_iterator19.s(); !(_step19 = _iterator19.n()).done;) {
+          var item = _step19.value;
+          value.push(item.fields.value);
         }
+      } catch (err) {
+        _iterator19.e(err);
+      } finally {
+        _iterator19.f();
       }
+
+      return value;
+    },
+    set: function set(value) {// no-op
     }
+  }]);
 
-    return false;
+  return ListField;
+}(_field__WEBPACK_IMPORTED_MODULE_12__["default"]);
+var ListItem = /*#__PURE__*/function (_compose) {
+  _inherits(ListItem, _compose);
+
+  var _super2 = _createSuper(ListItem);
+
+  function ListItem(config, fields) {
+    var _this6;
+
+    _classCallCheck(this, ListItem);
+
+    _this6 = _super2.call(this);
+
+    _this6.setConfig(config);
+
+    _this6.fields = fields;
+    _this6.isExpanded = _this6.isDefaultExpanded;
+    return _this6;
   }
 
-  get uid() {
-    return this.getUid();
-  }
+  _createClass(ListItem, [{
+    key: "config",
+    get: function get() {
+      return this.getConfig();
+    }
+  }, {
+    key: "isDefaultExpanded",
+    get: function get() {
+      // Check the fields in the list item to see if they match the linked fields.
+      var _iterator20 = _createForOfIteratorHelper(this.fields.fields),
+          _step20;
 
-}
+      try {
+        for (_iterator20.s(); !(_step20 = _iterator20.n()).done;) {
+          var field = _step20.value;
+          var fullKey = field.fullKey;
+          var linkedFields = field.config.get('linkedFieldsFunc', function () {
+            return [];
+          })();
+
+          var _iterator21 = _createForOfIteratorHelper(linkedFields),
+              _step21;
+
+          try {
+            for (_iterator21.s(); !(_step21 = _iterator21.n()).done;) {
+              var linkedField = _step21.value;
+
+              if (linkedField.startsWith(fullKey)) {
+                return true;
+              }
+            }
+          } catch (err) {
+            _iterator21.e(err);
+          } finally {
+            _iterator21.f();
+          }
+        }
+      } catch (err) {
+        _iterator20.e(err);
+      } finally {
+        _iterator20.f();
+      }
+
+      return false;
+    }
+  }, {
+    key: "uid",
+    get: function get() {
+      return this.getUid();
+    }
+  }]);
+
+  return ListItem;
+}(Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_4__["default"], _mixin_uid__WEBPACK_IMPORTED_MODULE_5__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["Base"]));
 
 /***/ }),
 
@@ -1719,6 +2742,80 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../autoFields */ "../../../selective-edit/js/selective/autoFields.js");
 /* harmony import */ var _fields_fields__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../fields/fields */ "../../../selective-edit/js/selective/fields/fields.js");
 /* harmony import */ var _field__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./field */ "../../../selective-edit/js/selective/field/field.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _templateObject4() {
+  var data = _taggedTemplateLiteral(["\n            <button\n                class=\"selective__variant__variant ", "\"\n                data-variant=\"", "\"\n                ?disabled=", "\n                @click=", ">\n              ", "\n            </button>\n          "]);
+
+  _templateObject4 = function _templateObject4() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject3() {
+  var data = _taggedTemplateLiteral(["\n      <div class=\"selective__variant__variants\">\n        <label>", ":</label>\n        ", "\n      </div>"]);
+
+  _templateObject3 = function _templateObject3() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject2() {
+  var data = _taggedTemplateLiteral(["\n      ", "\n      ", "\n      ", ""]);
+
+  _templateObject2 = function _templateObject2() {
+    return data;
+  };
+
+  return data;
+}
+
+function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
+
+function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["\n      <div\n          class=\"selective__field__label selective__field__label--action selective__field__label--strong\"\n          @click=", ">\n        <div class=\"selective__field__actions\">\n          <i class=\"material-icons\">\n            ", "\n          </i>\n          <label>", "</label>\n        </div>\n      </div>"]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 /**
  * Structure fields for controlling the flow of fields.
  */
@@ -1730,287 +2827,351 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class GroupField extends _field__WEBPACK_IMPORTED_MODULE_7__["default"] {
-  constructor(config, globalConfig) {
-    super(config, globalConfig);
-    this.fieldType = 'group';
-    this.ignoreLocalize = true;
-    this.fields = null;
-    this.isExpanded = false;
-    this._useAutoFields = false;
+var GroupField = /*#__PURE__*/function (_Field) {
+  _inherits(GroupField, _Field);
+
+  var _super = _createSuper(GroupField);
+
+  function GroupField(ruleTypes, config, globalConfig) {
+    var _this;
+
+    _classCallCheck(this, GroupField);
+
+    _this = _super.call(this, ruleTypes, config, globalConfig);
+    _this.fieldType = 'group';
+    _this.ignoreLocalize = true;
+    _this.fields = null;
+    _this.isExpanded = false;
+    _this._useAutoFields = false;
+    return _this;
   }
 
-  get isClean() {
-    // If there are no fields, nothing has changed.
-    if (!this.fields) {
-      return true;
-    }
+  _createClass(GroupField, [{
+    key: "_createFields",
+    value: function _createFields(selective, data) {
+      var FieldsCls = this.config.get('FieldsCls', _fields_fields__WEBPACK_IMPORTED_MODULE_6__["default"]);
+      var fields = new FieldsCls(selective.fieldTypes, selective.ruleTypes);
+      fields.updateOriginal(selective, this.originalValue);
+      var fieldConfigs = this.config.fields || [];
+      this._useAutoFields = fieldConfigs.length == 0;
 
-    for (const field of this.fields.fields) {
-      if (!field.isClean) {
-        return false;
+      if (this._useAutoFields) {
+        // Auto guess the fields if they are not defined.
+        var AutoFieldsCls = this.config.get('AutoFieldsCls', _autoFields__WEBPACK_IMPORTED_MODULE_5__["default"]);
+        fieldConfigs = new AutoFieldsCls(this.originalValue).config['fields'];
+      }
+
+      var _iterator = _createForOfIteratorHelper(fieldConfigs || []),
+          _step;
+
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var fieldConfig = _step.value;
+          fieldConfig = Object(_utility_config__WEBPACK_IMPORTED_MODULE_3__["autoConfig"])(fieldConfig, this.globalConfig);
+          fields.addField(fieldConfig, this.globalConfig);
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+
+      var _iterator2 = _createForOfIteratorHelper(fields.fields),
+          _step2;
+
+      try {
+        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+          var field = _step2.value;
+          field.updateOriginal(selective, this.originalValue);
+        }
+      } catch (err) {
+        _iterator2.e(err);
+      } finally {
+        _iterator2.f();
+      }
+
+      return fields;
+    }
+  }, {
+    key: "ensureFields",
+    value: function ensureFields(selective, data) {
+      if (!this.fields) {
+        this.fields = this._createFields(selective, data);
       }
     }
-
-    return true;
-  }
-
-  get value() {
-    if (!this.fields) {
-      return this.originalValue;
+  }, {
+    key: "handleExpandToggle",
+    value: function handleExpandToggle(evt) {
+      this.isExpanded = !this.isExpanded;
+      this.render();
     }
+  }, {
+    key: "renderInput",
+    value: function renderInput(selective, data, locale) {
+      if (!this.isExpanded) {
+        return '';
+      }
 
-    return deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, this.originalValue, this.fields.value);
-  }
-
-  set value(value) {// Ignore.
-  }
-
-  _createFields(selective, data) {
-    const FieldsCls = this.config.get('FieldsCls', _fields_fields__WEBPACK_IMPORTED_MODULE_6__["default"]);
-    const fields = new FieldsCls(selective.fieldTypes);
-    fields.updateOriginal(selective, this.originalValue);
-    let fieldConfigs = this.config.fields || [];
-    this._useAutoFields = fieldConfigs.length == 0;
-
-    if (this._useAutoFields) {
-      // Auto guess the fields if they are not defined.
-      const AutoFieldsCls = this.config.get('AutoFieldsCls', _autoFields__WEBPACK_IMPORTED_MODULE_5__["default"]);
-      fieldConfigs = new AutoFieldsCls(this.originalValue).config['fields'];
+      this.ensureFields(selective, data);
+      return this.fields.template(selective, this.originalValue);
     }
-
-    for (let fieldConfig of fieldConfigs || []) {
-      fieldConfig = Object(_utility_config__WEBPACK_IMPORTED_MODULE_3__["autoConfig"])(fieldConfig, this.globalConfig);
-      fields.addField(fieldConfig, this.globalConfig);
+  }, {
+    key: "renderLabel",
+    value: function renderLabel(selective, data) {
+      return Object(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject(), this.handleExpandToggle.bind(this), this.isExpanded ? 'expand_less' : 'expand_more', this.config.label || '(Group)');
     }
+  }, {
+    key: "isClean",
+    get: function get() {
+      // If there are no fields, nothing has changed.
+      if (!this.fields) {
+        return true;
+      }
 
-    for (const field of fields.fields) {
-      field.updateOriginal(selective, this.originalValue);
-    }
+      var _iterator3 = _createForOfIteratorHelper(this.fields.fields),
+          _step3;
 
-    return fields;
-  }
+      try {
+        for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+          var field = _step3.value;
 
-  ensureFields(selective, data) {
-    if (!this.fields) {
-      this.fields = this._createFields(selective, data);
-    }
-  }
+          if (!field.isClean) {
+            return false;
+          }
+        }
+      } catch (err) {
+        _iterator3.e(err);
+      } finally {
+        _iterator3.f();
+      }
 
-  handleExpandToggle(evt) {
-    this.isExpanded = !this.isExpanded;
-    this.render();
-  }
-
-  renderInput(selective, data, locale) {
-    if (!this.isExpanded) {
-      return '';
-    }
-
-    this.ensureFields(selective, data);
-    return this.fields.template(selective, this.originalValue);
-  }
-
-  renderLabel(selective, data) {
-    return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
-      <div
-          class="selective__field__label selective__field__label--action selective__field__label--strong"
-          @click=${this.handleExpandToggle.bind(this)}>
-        <div class="selective__field__actions">
-          <i class="material-icons">
-            ${this.isExpanded ? 'expand_less' : 'expand_more'}
-          </i>
-          <label>${this.config.label || '(Group)'}</label>
-        </div>
-      </div>`;
-  }
-
-}
-class VariantField extends _field__WEBPACK_IMPORTED_MODULE_7__["default"] {
-  constructor(config, globalConfig) {
-    super(config, globalConfig);
-    this.fieldType = 'variant';
-    this.ignoreLocalize = true;
-    this.variant = null;
-    this.fields = null;
-    this._useAutoFields = false;
-  }
-
-  get isClean() {
-    // Check for the clean data.
-    if (!this.isDataClean) {
-      return false;
-    } // Check for changes to the variant.
-
-
-    if (this.originalValue && this.originalValue._variant != this.variant) {
-      return false;
-    }
-
-    return true;
-  }
-
-  get isDataClean() {
-    // If there are no fields, nothing has changed.
-    if (!this.fields) {
       return true;
     }
+  }, {
+    key: "isValid",
+    get: function get() {
+      // If there are no fields, all is valid.
+      if (!this.fields) {
+        return true;
+      }
 
-    for (const field of this.fields.fields) {
-      if (!field.isClean) {
-        return false;
+      return this.fields.isValid;
+    }
+  }, {
+    key: "value",
+    get: function get() {
+      if (!this.fields) {
+        return this.originalValue;
+      }
+
+      return deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, this.originalValue, this.fields.value);
+    },
+    set: function set(value) {// Ignore.
+    }
+  }]);
+
+  return GroupField;
+}(_field__WEBPACK_IMPORTED_MODULE_7__["default"]);
+var VariantField = /*#__PURE__*/function (_Field2) {
+  _inherits(VariantField, _Field2);
+
+  var _super2 = _createSuper(VariantField);
+
+  function VariantField(ruleTypes, config, globalConfig) {
+    var _this2;
+
+    _classCallCheck(this, VariantField);
+
+    _this2 = _super2.call(this, ruleTypes, config, globalConfig);
+    _this2.fieldType = 'variant';
+    _this2.ignoreLocalize = true;
+    _this2.variant = null;
+    _this2.fields = null;
+    _this2._useAutoFields = false;
+    return _this2;
+  }
+
+  _createClass(VariantField, [{
+    key: "_createFields",
+    value: function _createFields(selective, data, variant) {
+      if (!variant) {
+        return null;
+      }
+
+      var FieldsCls = this.config.get('FieldsCls', _fields_fields__WEBPACK_IMPORTED_MODULE_6__["default"]);
+      var fields = new FieldsCls(selective.fieldTypes, selective.ruleTypes);
+      fields.updateOriginal(selective, this.originalValue);
+      var variantConfig = this.config.variants[variant] || {};
+      var fieldConfigs = variantConfig.fields || [];
+      this._useAutoFields = fieldConfigs.length == 0;
+
+      if (this._useAutoFields) {
+        // Auto guess the fields if they are not defined.
+        var AutoFieldsCls = this.config.get('AutoFieldsCls', _autoFields__WEBPACK_IMPORTED_MODULE_5__["default"]);
+        fieldConfigs = new AutoFieldsCls(this.originalValue).config['fields'];
+      }
+
+      var _iterator4 = _createForOfIteratorHelper(fieldConfigs || []),
+          _step4;
+
+      try {
+        for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+          var fieldConfig = _step4.value;
+          fieldConfig = Object(_utility_config__WEBPACK_IMPORTED_MODULE_3__["autoConfig"])(fieldConfig, this.globalConfig);
+          fields.addField(fieldConfig, this.globalConfig);
+        }
+      } catch (err) {
+        _iterator4.e(err);
+      } finally {
+        _iterator4.f();
+      }
+
+      var _iterator5 = _createForOfIteratorHelper(fields.fields),
+          _step5;
+
+      try {
+        for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
+          var field = _step5.value;
+          field.updateOriginal(selective, this.originalValue);
+        }
+      } catch (err) {
+        _iterator5.e(err);
+      } finally {
+        _iterator5.f();
+      }
+
+      return fields;
+    }
+  }, {
+    key: "ensureFields",
+    value: function ensureFields(selective, data) {
+      // Determine the type of variant if not initialized.
+      // Need to wait until the original value is initialized from data.
+      if (!this.variant && this.originalValue) {
+        this.variant = this.originalValue._variant || this.config.default;
+        this.fields = null;
+      }
+
+      if (!this.fields) {
+        this.fields = this._createFields(selective, data, this.variant);
       }
     }
+  }, {
+    key: "handleVariantClick",
+    value: function handleVariantClick(evt) {
+      var target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_4__["findParentByClassname"])(evt.target, 'selective__variant__variant');
+      var variant = target.dataset.variant;
 
-    return true;
-  }
+      if (variant == this.variant) {
+        return;
+      }
 
-  get value() {
-    if (!this.fields) {
-      return this.originalValue;
-    }
-
-    return deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, this.originalValue, this.fields.value, {
-      '_variant': this.variant
-    });
-  }
-
-  set value(value) {// Ignore.
-  }
-
-  _createFields(selective, data, variant) {
-    if (!variant) {
-      return null;
-    }
-
-    const FieldsCls = this.config.get('FieldsCls', _fields_fields__WEBPACK_IMPORTED_MODULE_6__["default"]);
-    const fields = new FieldsCls(selective.fieldTypes);
-    fields.updateOriginal(selective, this.originalValue);
-    const variantConfig = this.config.variants[variant] || {};
-    let fieldConfigs = variantConfig.fields || [];
-    this._useAutoFields = fieldConfigs.length == 0;
-
-    if (this._useAutoFields) {
-      // Auto guess the fields if they are not defined.
-      const AutoFieldsCls = this.config.get('AutoFieldsCls', _autoFields__WEBPACK_IMPORTED_MODULE_5__["default"]);
-      fieldConfigs = new AutoFieldsCls(this.originalValue).config['fields'];
-    }
-
-    for (let fieldConfig of fieldConfigs || []) {
-      fieldConfig = Object(_utility_config__WEBPACK_IMPORTED_MODULE_3__["autoConfig"])(fieldConfig, this.globalConfig);
-      fields.addField(fieldConfig, this.globalConfig);
-    }
-
-    for (const field of fields.fields) {
-      field.updateOriginal(selective, this.originalValue);
-    }
-
-    return fields;
-  }
-
-  ensureFields(selective, data) {
-    // Determine the type of variant if not initialized.
-    // Need to wait until the original value is initialized from data.
-    if (!this.variant && this.originalValue) {
-      this.variant = this.originalValue._variant || this.config.default;
+      this.variant = variant;
       this.fields = null;
+      this.render();
     }
+  }, {
+    key: "renderInput",
+    value: function renderInput(selective, data, locale) {
+      var fieldsOutput = '';
 
-    if (!this.fields) {
-      this.fields = this._createFields(selective, data, this.variant);
+      if (this.fields) {
+        fieldsOutput = this.fields.template(selective, this.originalValue);
+      }
+
+      return Object(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject2(), this.renderVariants(selective, data, locale), fieldsOutput, this.renderErrors(selective, data, locale));
     }
-  }
+  }, {
+    key: "renderVariants",
+    value: function renderVariants(selective, data, locale) {
+      var _this3 = this;
 
-  handleVariantClick(evt) {
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_4__["findParentByClassname"])(evt.target, 'selective__variant__variant');
-    const variant = target.dataset.variant;
-
-    if (variant == this.variant) {
-      return;
+      var variants = this.config.variants;
+      var variantKeys = Object.keys(variants).sort();
+      return Object(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject3(), this.config.variant_label || 'Variant', Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__["repeat"])(variantKeys, function (variantKey) {
+        return variantKey;
+      }, function (variantKey, index) {
+        return Object(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject4(), _this3.variant == variantKey ? 'selective__variant__variant--selected selective__button--primary' : '', variantKey, _this3.variant != variantKey && !_this3.isDataClean, _this3.handleVariantClick.bind(_this3), variants[variantKey].label || variantKey);
+      }));
     }
-
-    this.variant = variant;
-    this.fields = null;
-    this.render();
-  }
-
-  renderInput(selective, data, locale) {
-    this.ensureFields(selective, data);
-    let fieldsOutput = '';
-
-    if (this.fields) {
-      fieldsOutput = this.fields.template(selective, this.originalValue);
+  }, {
+    key: "renderWrapper",
+    value: function renderWrapper(selective, data) {
+      // Need to ensure the fields exists before we check for the clean status.
+      this.ensureFields(selective, data);
+      return _get(_getPrototypeOf(VariantField.prototype), "renderWrapper", this).call(this, selective, data);
     }
-
-    return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
-      ${this.renderVariants(selective, data, locale)}
-      ${fieldsOutput}`;
-  }
-
-  renderVariants(selective, data, locale) {
-    const variants = this.config.variants;
-    const variantKeys = Object.keys(variants).sort();
-    return lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
-      <div class="selective__variant__variants">
-        <label>${this.config.variant_label || 'Variant'}:</label>
-        ${Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__["repeat"])(variantKeys, variantKey => variantKey, (variantKey, index) => lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
-            <button
-                class="selective__variant__variant ${this.variant == variantKey ? 'selective__variant__variant--selected selective__button--primary' : ''}"
-                data-variant="${variantKey}"
-                ?disabled=${this.variant != variantKey && !this.isDataClean}
-                @click=${this.handleVariantClick.bind(this)}>
-              ${variants[variantKey].label || variantKey}
-            </button>
-          `)}
-      </div>`;
-  }
-
-}
-
-/***/ }),
-
-/***/ "../../../selective-edit/js/selective/fieldTypes.js":
-/*!**************************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/js/selective/fieldTypes.js ***!
-  \**************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return FieldTypes; });
-/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../mixin/config */ "../../../selective-edit/js/mixin/config.js");
-/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utility/compose */ "../../../selective-edit/js/utility/compose.js");
-/**
- * Fields types defined for editing.
- */
+  }, {
+    key: "isClean",
+    get: function get() {
+      // Check for the clean data.
+      if (!this.isDataClean) {
+        return false;
+      } // Check for changes to the variant.
 
 
-class FieldTypes extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_1__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_0__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_1__["Base"]) {
-  constructor(config) {
-    super();
-    this.fieldTypes = {};
-    this.setConfig(config);
-  }
+      if (this.originalValue && this.originalValue._variant != this.variant) {
+        return false;
+      }
 
-  addFieldType(key, FieldCls) {
-    this.fieldTypes[key] = FieldCls;
-  }
-
-  initialize(containerEl) {
-    for (const [key, value] of Object.entries(this.fieldTypes)) {
-      value.initialize(containerEl);
+      return true;
     }
-  }
+  }, {
+    key: "isValid",
+    get: function get() {
+      var superValid = _get(_getPrototypeOf(VariantField.prototype), "isValid", this); // If there are no fields, all is valid.
 
-  newField(type, ...args) {
-    if (type in this.fieldTypes) {
-      return new this.fieldTypes[type](...args);
-    } // TODO: Placeholder field.
 
-  }
+      if (!this.fields) {
+        return superValid;
+      }
 
-}
+      return this.fields.isValid && superValid;
+    }
+  }, {
+    key: "isDataClean",
+    get: function get() {
+      // If there are no fields, nothing has changed.
+      if (!this.fields) {
+        return true;
+      }
+
+      var _iterator6 = _createForOfIteratorHelper(this.fields.fields),
+          _step6;
+
+      try {
+        for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
+          var field = _step6.value;
+
+          if (!field.isClean) {
+            return false;
+          }
+        }
+      } catch (err) {
+        _iterator6.e(err);
+      } finally {
+        _iterator6.f();
+      }
+
+      return true;
+    }
+  }, {
+    key: "value",
+    get: function get() {
+      if (!this.fields) {
+        return this.originalValue;
+      }
+
+      return deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, this.originalValue, this.fields.value, {
+        '_variant': this.variant
+      });
+    },
+    set: function set(value) {// Ignore.
+    }
+  }]);
+
+  return VariantField;
+}(_field__WEBPACK_IMPORTED_MODULE_7__["default"]);
 
 /***/ }),
 
@@ -2033,6 +3194,66 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mixin_uid__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../mixin/uid */ "../../../selective-edit/js/mixin/uid.js");
 /* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../utility/config */ "../../../selective-edit/js/utility/config.js");
 /* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _templateObject3() {
+  var data = _taggedTemplateLiteral(["\n        ", "\n      "]);
+
+  _templateObject3 = function _templateObject3() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject2() {
+  var data = _taggedTemplateLiteral(["<div class=\"selective__fields\">\n      ", "\n      ", "\n    </div>"]);
+
+  _templateObject2 = function _templateObject2() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["\n        ", "\n        ", ""]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 /**
  * Base fields.
  */
@@ -2044,158 +3265,277 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class Fields extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_4__["default"], _mixin_uid__WEBPACK_IMPORTED_MODULE_5__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["Base"]) {
-  constructor(fieldTypes, config) {
-    super();
-    this._originalValue = undefined;
-    this._value = undefined;
-    this._isLocked = false;
-    this.fieldTypes = fieldTypes;
-    this.fields = [];
-    this.setConfig(config);
+
+var Fields = /*#__PURE__*/function (_compose) {
+  _inherits(Fields, _compose);
+
+  var _super = _createSuper(Fields);
+
+  function Fields(fieldTypes, ruleTypes, config) {
+    var _this;
+
+    _classCallCheck(this, Fields);
+
+    _this = _super.call(this);
+    _this._originalValue = undefined;
+    _this._value = undefined;
+    _this._isLocked = false;
+    _this.fieldTypes = fieldTypes;
+    _this.fields = [];
+    _this.ruleTypes = ruleTypes;
+
+    _this.setConfig(config);
+
+    return _this;
   }
 
-  get config() {
-    return this.getConfig();
-  } // Guess default value when there is not value defined for fields.
+  _createClass(Fields, [{
+    key: "addField",
+    value: function addField(fieldConfig, globalConfig) {
+      fieldConfig = Object(_utility_config__WEBPACK_IMPORTED_MODULE_6__["autoConfig"])(fieldConfig, globalConfig);
+      var newField = this.fieldTypes.newFromKey(fieldConfig.type, this.ruleTypes, fieldConfig, globalConfig); // TODO: Handle placeholders.
 
-
-  get defaultValue() {
-    let defaultValue = ''; // If there is multiple fields it should be an object.
-
-    if (this.fields.length > 1) {
-      defaultValue = {};
-    }
-
-    return defaultValue;
-  }
-
-  get isClean() {
-    for (const field of this.fields) {
-      if (!field.isClean) {
-        return false;
+      if (newField) {
+        this.fields.push(newField);
       }
     }
+  }, {
+    key: "lock",
+    value: function lock() {
+      this._isLocked = true; // Lock all the fields to prevent them from being updated.
 
-    return true;
-  }
+      var _iterator = _createForOfIteratorHelper(this.fields),
+          _step;
 
-  get isSimpleField() {
-    return this.fields.length == 1;
-  }
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var field = _step.value;
+          field.lock();
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+    } // TODO: look into directives.
 
-  get template() {
-    if (this.isSimpleField) {
-      return (selective, data) => lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
-        ${this.updateOriginal(selective, data)}
-        ${this.fields[0].template(selective, data)}`;
+  }, {
+    key: "postRender",
+    value: function postRender(containerEl) {
+      // Pass it along to the fields.
+      var _iterator2 = _createForOfIteratorHelper(this.fields),
+          _step2;
+
+      try {
+        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+          var field = _step2.value;
+          field.postRender(containerEl);
+        }
+      } catch (err) {
+        _iterator2.e(err);
+      } finally {
+        _iterator2.f();
+      }
     }
-
-    return (selective, data) => lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`<div class="selective__fields">
-      ${this.updateOriginal(selective, data)}
-      ${Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__["repeat"])(this.fields, field => field.uid, (field, index) => lit_html__WEBPACK_IMPORTED_MODULE_1__["html"]`
-        ${field.template(selective, data)}
-      `)}
-    </div>`;
-  }
-
-  get value() {
-    if (this.isSimpleField && !this.fields[0].key) {
-      return this.fields[0].value;
+  }, {
+    key: "reset",
+    value: function reset() {
+      this.fields = [];
     }
+  }, {
+    key: "unlock",
+    value: function unlock() {
+      this._isLocked = false; // Unlock all the fields to allow them to be updated.
 
-    const value = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_7__["autoDeepObject"])({});
-    const keySet = [];
+      var _iterator3 = _createForOfIteratorHelper(this.fields),
+          _step3;
 
-    for (const field of this.fields) {
-      if (!field.key) {
-        // When using field without a key it returns a subset of the data.
-        value.update(field.value);
-      } else {
-        if (field.isLocalized) {
-          // Mark that the field key was set.
-          keySet.push(field.key); // Localized fields return an object of keys and values.
+      try {
+        for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+          var field = _step3.value;
+          field.unlock();
+        }
+      } catch (err) {
+        _iterator3.e(err);
+      } finally {
+        _iterator3.f();
+      }
+    }
+  }, {
+    key: "updateOriginal",
+    value: function updateOriginal(selective, data, deep) {
+      // Manual locking prevents the original value overwriting the value
+      // in special cases when it should not.
+      if (this._isLocked) {
+        return;
+      }
 
-          value.update(field.localizedValues);
-        } else {
-          // If a field is reusing a key combine the existing values
-          // and the new values. New values will overwrite conflicting keys.
-          if (keySet.includes(field.key)) {
-            value.set(field.key, deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, value.get(field.key), field.value));
-            continue;
-          } // Mark that the field key was set.
+      this._originalValue = data ? data.obj ? data.obj : data : undefined;
 
+      if (deep) {
+        // Update all the fields since they may not get rendered.
+        // Ex: a collapsed list would not get the update.
+        var _iterator4 = _createForOfIteratorHelper(this.fields),
+            _step4;
 
-          keySet.push(field.key);
-          value.set(field.key, field.value);
+        try {
+          for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+            var field = _step4.value;
+            field.updateOriginal(selective, data);
+          }
+        } catch (err) {
+          _iterator4.e(err);
+        } finally {
+          _iterator4.f();
         }
       }
     }
+  }, {
+    key: "config",
+    get: function get() {
+      return this.getConfig();
+    } // Guess default value when there is not value defined for fields.
 
-    return deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, this._originalValue, value.obj);
-  }
+  }, {
+    key: "defaultValue",
+    get: function get() {
+      var defaultValue = ''; // If there is multiple fields it should be an object.
 
-  set value(value) {
-    // Setting value doesn't actually do anything.
-    console.warn('Set a value on the fields, that is a no-op.');
-  }
-
-  addField(fieldConfig, globalConfig) {
-    fieldConfig = Object(_utility_config__WEBPACK_IMPORTED_MODULE_6__["autoConfig"])(fieldConfig, globalConfig);
-    const newField = this.fieldTypes.newField(fieldConfig.type, fieldConfig, globalConfig); // TODO: Handle placeholders.
-
-    if (newField) {
-      this.fields.push(newField);
-    }
-  }
-
-  lock() {
-    this._isLocked = true; // Lock all the fields to prevent them from being updated.
-
-    for (const field of this.fields) {
-      field.lock();
-    }
-  } // TODO: look into directives.
-
-
-  postRender(containerEl) {
-    // Pass it along to the fields.
-    for (const field of this.fields) {
-      field.postRender(containerEl);
-    }
-  }
-
-  reset() {
-    this.fields = [];
-  }
-
-  unlock() {
-    this._isLocked = false; // Unlock all the fields to allow them to be updated.
-
-    for (const field of this.fields) {
-      field.unlock();
-    }
-  }
-
-  updateOriginal(selective, data, deep) {
-    // Manual locking prevents the original value overwriting the value
-    // in special cases when it should not.
-    if (this._isLocked) {
-      return;
-    }
-
-    this._originalValue = data ? data.obj ? data.obj : data : undefined;
-
-    if (deep) {
-      // Update all the fields since they may not get rendered.
-      // Ex: a collapsed list would not get the update.
-      for (const field of this.fields) {
-        field.updateOriginal(selective, data);
+      if (this.fields.length > 1) {
+        defaultValue = {};
       }
-    }
-  }
 
-}
+      return defaultValue;
+    }
+  }, {
+    key: "isClean",
+    get: function get() {
+      var _iterator5 = _createForOfIteratorHelper(this.fields),
+          _step5;
+
+      try {
+        for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
+          var field = _step5.value;
+
+          if (!field.isClean) {
+            return false;
+          }
+        }
+      } catch (err) {
+        _iterator5.e(err);
+      } finally {
+        _iterator5.f();
+      }
+
+      return true;
+    }
+  }, {
+    key: "isValid",
+    get: function get() {
+      var currentlyValid = true;
+
+      var _iterator6 = _createForOfIteratorHelper(this.fields),
+          _step6;
+
+      try {
+        for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
+          var field = _step6.value;
+
+          if (!field.isValid) {
+            // Does not return since we want to be able to mark all invalid fields.
+            currentlyValid = false;
+          }
+        }
+      } catch (err) {
+        _iterator6.e(err);
+      } finally {
+        _iterator6.f();
+      }
+
+      return currentlyValid;
+    }
+  }, {
+    key: "isSimpleField",
+    get: function get() {
+      return this.fields.length == 1;
+    }
+  }, {
+    key: "template",
+    get: function get() {
+      var _this2 = this;
+
+      if (this.isSimpleField) {
+        return function (selective, data) {
+          return Object(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject(), _this2.updateOriginal(selective, data), _this2.fields[0].template(selective, data));
+        };
+      }
+
+      return function (selective, data) {
+        return Object(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject2(), _this2.updateOriginal(selective, data), Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__["repeat"])(_this2.fields, function (field) {
+          return field.uid;
+        }, function (field, index) {
+          return Object(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject3(), field.template(selective, data));
+        }));
+      };
+    }
+  }, {
+    key: "value",
+    get: function get() {
+      if (this.isSimpleField && !this.fields[0].key) {
+        return this.fields[0].value;
+      }
+
+      var value = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_7__["autoDeepObject"])({});
+      var keySet = [];
+
+      var _iterator7 = _createForOfIteratorHelper(this.fields),
+          _step7;
+
+      try {
+        for (_iterator7.s(); !(_step7 = _iterator7.n()).done;) {
+          var field = _step7.value;
+
+          if (!field.key) {
+            // When using field without a key it returns a subset of the data.
+            value.update(field.value);
+          } else {
+            if (field.isLocalized) {
+              // Mark that the field key was set.
+              keySet.push(field.key); // Localized fields return an object of keys and values.
+
+              value.update(field.localizedValues);
+            } else {
+              // If a field is reusing a key combine the existing values
+              // and the new values. New values will overwrite conflicting keys.
+              if (keySet.includes(field.key)) {
+                value.set(field.key, deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, value.get(field.key), field.value));
+                continue;
+              } // Mark that the field key was set.
+
+
+              keySet.push(field.key);
+              value.set(field.key, field.value);
+            }
+          }
+        }
+      } catch (err) {
+        _iterator7.e(err);
+      } finally {
+        _iterator7.f();
+      }
+
+      return deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, this._originalValue, value.obj);
+    },
+    set: function set(value) {
+      // Setting value doesn't actually do anything.
+      console.warn('Set a value on the fields, that is a no-op.');
+    }
+  }]);
+
+  return Fields;
+}(Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_4__["default"], _mixin_uid__WEBPACK_IMPORTED_MODULE_5__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["Base"]));
+
+
 
 /***/ }),
 
@@ -2213,6 +3553,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lit-html/directives/repeat */ "../../../selective-edit/node_modules/lit-html/directives/repeat.js");
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/dom */ "../../../selective-edit/js/utility/dom.js");
 /* harmony import */ var _ui__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ui */ "../../../selective-edit/js/selective/ui/ui.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 /**
  * UI elements for the working with sortables.
  */
@@ -2220,107 +3582,126 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class SortableUI extends _ui__WEBPACK_IMPORTED_MODULE_3__["default"] {
-  constructor(config) {
-    super(config);
-    this._dragOriginElement = null;
+var SortableUI = /*#__PURE__*/function (_UI) {
+  _inherits(SortableUI, _UI);
+
+  var _super = _createSuper(SortableUI);
+
+  function SortableUI(config) {
+    var _this;
+
+    _classCallCheck(this, SortableUI);
+
+    _this = _super.call(this, config);
+    _this._dragOriginElement = null;
+    return _this;
   }
 
-  get transferType() {
-    return `selective/${this.getUid()}`;
-  }
+  _createClass(SortableUI, [{
+    key: "_dragTarget",
+    value: function _dragTarget(evt) {
+      var target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_2__["findParentDraggable"])(evt.target);
 
-  _dragTarget(evt) {
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_2__["findParentDraggable"])(evt.target);
+      if (!this._dragOriginElement || !target) {
+        return false;
+      }
 
-    if (!this._dragOriginElement || !target) {
-      return false;
+      if (evt.dataTransfer.types.includes(this.transferType)) {
+        evt.preventDefault();
+        evt.stopPropagation();
+        return target;
+      }
     }
-
-    if (evt.dataTransfer.types.includes(this.transferType)) {
-      evt.preventDefault();
+  }, {
+    key: "handleDragStart",
+    value: function handleDragStart(evt) {
       evt.stopPropagation();
-      return target;
+      var target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_2__["findParentDraggable"])(evt.target);
+      this._dragOriginElement = target;
+      evt.dataTransfer.effectAllowed = 'move';
+      evt.dataTransfer.setData('text/plain', evt.target.dataset.index); // Use a custom transfer type to contain drags just to this list.
+
+      evt.dataTransfer.setData(this.transferType, evt.target.dataset.index); // Allow for custom preview for dragging.
+
+      var previewEl = target.querySelector('.selective__sortable__preview');
+
+      if (previewEl) {
+        evt.dataTransfer.setDragImage(previewEl, 0, 0);
+      }
     }
-  }
+  }, {
+    key: "handleDragEnter",
+    value: function handleDragEnter(evt) {
+      var target = this._dragTarget(evt);
 
-  handleDragStart(evt) {
-    evt.stopPropagation();
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_2__["findParentDraggable"])(evt.target);
-    this._dragOriginElement = target;
-    evt.dataTransfer.effectAllowed = 'move';
-    evt.dataTransfer.setData('text/plain', evt.target.dataset.index); // Use a custom transfer type to contain drags just to this list.
+      if (!target) {
+        return;
+      } // Show that the element is hovering.
 
-    evt.dataTransfer.setData(this.transferType, evt.target.dataset.index); // Allow for custom preview for dragging.
 
-    const previewEl = target.querySelector('.selective__sortable__preview');
+      target.classList.add('selective__sortable--hover');
+      var currentIndex = parseInt(target.dataset.index);
+      var startIndex = parseInt(this._dragOriginElement.dataset.index); // Hovering over self, ignore.
 
-    if (previewEl) {
-      evt.dataTransfer.setDragImage(previewEl, 0, 0);
+      if (currentIndex == startIndex) {
+        return;
+      }
+
+      if (currentIndex < startIndex) {
+        target.classList.add('selective__sortable--above');
+      } else {
+        target.classList.add('selective__sortable--below');
+      }
     }
-  }
+  }, {
+    key: "handleDragLeave",
+    value: function handleDragLeave(evt) {
+      var target = this._dragTarget(evt);
 
-  handleDragEnter(evt) {
-    const target = this._dragTarget(evt);
-
-    if (!target) {
-      return;
-    } // Show that the element is hovering.
+      if (!target) {
+        return;
+      } //  Make sure that the event target comes from the main element.
 
 
-    target.classList.add('selective__sortable--hover');
-    const currentIndex = parseInt(target.dataset.index);
-    const startIndex = parseInt(this._dragOriginElement.dataset.index); // Hovering over self, ignore.
+      if (target !== evt.target) {
+        return;
+      } // No longer hovering.
 
-    if (currentIndex == startIndex) {
-      return;
+
+      target.classList.remove('selective__sortable--hover', 'selective__sortable--above', 'selective__sortable--below');
     }
-
-    if (currentIndex < startIndex) {
-      target.classList.add('selective__sortable--above');
-    } else {
-      target.classList.add('selective__sortable--below');
+  }, {
+    key: "handleDragOver",
+    value: function handleDragOver(evt) {
+      // Find the target and prevent the defaults.
+      this._dragTarget(evt);
     }
-  }
+  }, {
+    key: "handleDrop",
+    value: function handleDrop(evt) {
+      var target = this._dragTarget(evt);
 
-  handleDragLeave(evt) {
-    const target = this._dragTarget(evt);
+      if (!target) {
+        return;
+      }
 
-    if (!target) {
-      return;
-    } //  Make sure that the event target comes from the main element.
+      var currentIndex = parseInt(target.dataset.index);
+      var startIndex = parseInt(evt.dataTransfer.getData("text/plain")); // Reset the drag element.
 
+      this._dragOriginElement = null; // No longer hovering.
 
-    if (target !== evt.target) {
-      return;
-    } // No longer hovering.
-
-
-    target.classList.remove('selective__sortable--hover', 'selective__sortable--above', 'selective__sortable--below');
-  }
-
-  handleDragOver(evt) {
-    // Find the target and prevent the defaults.
-    this._dragTarget(evt);
-  }
-
-  handleDrop(evt) {
-    const target = this._dragTarget(evt);
-
-    if (!target) {
-      return;
+      target.classList.remove('selective__sortable--hover', 'selective__sortable--above', 'selective__sortable--below');
+      this.listeners.trigger('sort', startIndex, currentIndex, target);
     }
+  }, {
+    key: "transferType",
+    get: function get() {
+      return "selective/".concat(this.getUid());
+    }
+  }]);
 
-    const currentIndex = parseInt(target.dataset.index);
-    const startIndex = parseInt(evt.dataTransfer.getData("text/plain")); // Reset the drag element.
-
-    this._dragOriginElement = null; // No longer hovering.
-
-    target.classList.remove('selective__sortable--hover', 'selective__sortable--above', 'selective__sortable--below');
-    this.listeners.trigger('sort', startIndex, currentIndex, target);
-  }
-
-}
+  return SortableUI;
+}(_ui__WEBPACK_IMPORTED_MODULE_3__["default"]);
 
 /***/ }),
 
@@ -2338,6 +3719,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../mixin/config */ "../../../selective-edit/js/mixin/config.js");
 /* harmony import */ var _mixin_uid__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../mixin/uid */ "../../../selective-edit/js/mixin/uid.js");
 /* harmony import */ var _utility_listeners__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utility/listeners */ "../../../selective-edit/js/utility/listeners.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 /**
  * Base class for reusable UI elements.
  */
@@ -2345,27 +3748,787 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class UI extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_0__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_1__["default"], _mixin_uid__WEBPACK_IMPORTED_MODULE_2__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_0__["Base"]) {
-  constructor(config) {
-    super();
-    this.listeners = new _utility_listeners__WEBPACK_IMPORTED_MODULE_3__["default"]();
-    this.setConfig(config);
+
+var UI = /*#__PURE__*/function (_compose) {
+  _inherits(UI, _compose);
+
+  var _super = _createSuper(UI);
+
+  function UI(config) {
+    var _this;
+
+    _classCallCheck(this, UI);
+
+    _this = _super.call(this);
+    _this.listeners = new _utility_listeners__WEBPACK_IMPORTED_MODULE_3__["default"]();
+
+    _this.setConfig(config);
+
+    return _this;
   }
 
-  get config() {
-    return this.getConfig();
+  _createClass(UI, [{
+    key: "render",
+    value: function render() {
+      // Trigger a render event.
+      document.dispatchEvent(new CustomEvent('selective.render'));
+    }
+  }, {
+    key: "config",
+    get: function get() {
+      return this.getConfig();
+    }
+  }, {
+    key: "uid",
+    get: function get() {
+      return this.getUid();
+    }
+  }]);
+
+  return UI;
+}(Object(_utility_compose__WEBPACK_IMPORTED_MODULE_0__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_1__["default"], _mixin_uid__WEBPACK_IMPORTED_MODULE_2__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_0__["Base"]));
+
+
+
+/***/ }),
+
+/***/ "../../../selective-edit/js/selective/validation/errors.js":
+/*!*********************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/selective/validation/errors.js ***!
+  \*********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ValidationErrors; });
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+/**
+ * Validation errors for fields.
+ *
+ * 'Zone' based error tracking. Allows for complex fields that have different
+ * validation for different parts of the field.
+ */
+var DEFAULT_ZONE_KEY = '__default__';
+
+var ValidationErrors = /*#__PURE__*/function () {
+  function ValidationErrors() {
+    _classCallCheck(this, ValidationErrors);
+
+    this._zones = {};
   }
 
-  get uid() {
-    return this.getUid();
+  _createClass(ValidationErrors, [{
+    key: "addError",
+    value: function addError(type, message, zoneKey) {
+      var zone = this.getErrorsForZone(zoneKey);
+      zone[type] = message;
+    }
+  }, {
+    key: "getErrorsForZone",
+    value: function getErrorsForZone(zoneKey) {
+      zoneKey = zoneKey || DEFAULT_ZONE_KEY;
+
+      if (!this._zones[zoneKey]) {
+        this._zones[zoneKey] = {};
+      }
+
+      return this._zones[zoneKey];
+    }
+  }, {
+    key: "hasAnyErrors",
+    value: function hasAnyErrors() {
+      for (var _i = 0, _Object$keys = Object.keys(this._zones); _i < _Object$keys.length; _i++) {
+        var zoneKey = _Object$keys[_i];
+
+        if (Object.keys(this._zones[zoneKey]).length > 0) {
+          return true;
+        }
+      }
+
+      return false;
+    }
+  }, {
+    key: "hasErrors",
+    value: function hasErrors(zoneKey) {
+      var zone = this.getErrorsForZone(zoneKey);
+      return Object.keys(zone).length > 0;
+    }
+  }, {
+    key: "validateRules",
+    value: function validateRules(rules, value, locale, isDefaultLocale, zoneKey) {
+      var _iterator = _createForOfIteratorHelper(rules.getRulesForZone(zoneKey)),
+          _step;
+
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var rule = _step.value;
+
+          // Ignore rules that only apply to default locale when not default.
+          // For example, a required rule is usually only required in the default.
+          if (!isDefaultLocale && rule.appliesToOnlyDefaultLocale) {
+            continue;
+          } // Ignore rules that only apply to non-default locales when default.
+
+
+          if (isDefaultLocale && rule.appliesToOnlyNonDefaultLocale) {
+            continue;
+          } // Using the result from the validation allows the message to be different
+          // based on what went wrong with the validation.
+
+
+          var result = rule.validate(value, locale, isDefaultLocale);
+
+          if (result) {
+            this.addError(rule.type, result, zoneKey);
+          }
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+    }
+  }, {
+    key: "errors",
+    get: function get() {
+      return this.getErrorsForZone();
+    }
+  }]);
+
+  return ValidationErrors;
+}();
+
+
+
+/***/ }),
+
+/***/ "../../../selective-edit/js/selective/validation/rules.js":
+/*!********************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/selective/validation/rules.js ***!
+  \********************************************************************************/
+/*! exports provided: default, ValidationRule, LengthValidationRule, MatchValidationRule, PatternValidationRule, RangeValidationRule, RequiredValidationRule */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ValidationRules; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ValidationRule", function() { return ValidationRule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LengthValidationRule", function() { return LengthValidationRule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MatchValidationRule", function() { return MatchValidationRule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PatternValidationRule", function() { return PatternValidationRule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RangeValidationRule", function() { return RangeValidationRule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RequiredValidationRule", function() { return RequiredValidationRule; });
+/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../utility/compose */ "../../../selective-edit/js/utility/compose.js");
+/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../mixin/config */ "../../../selective-edit/js/mixin/config.js");
+/* harmony import */ var _utility_dataType__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/dataType */ "../../../selective-edit/js/utility/dataType.js");
+function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
+
+function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+/**
+ * Validation rules for fields.
+ */
+
+
+
+var DEFAULT_ZONE_KEY = '__default__';
+
+var ValidationRules = /*#__PURE__*/function (_compose) {
+  _inherits(ValidationRules, _compose);
+
+  var _super = _createSuper(ValidationRules);
+
+  function ValidationRules(config) {
+    var _this;
+
+    _classCallCheck(this, ValidationRules);
+
+    _this = _super.call(this);
+    _this._rules = {};
+
+    _this.setConfig(config);
+
+    return _this;
   }
 
-  render() {
-    // Trigger a render event.
-    document.dispatchEvent(new CustomEvent('selective.render'));
+  _createClass(ValidationRules, [{
+    key: "addRule",
+    value: function addRule(rule, zoneKey) {
+      var newRule = this.ruleTypes.newFromKey(rule['type'], rule);
+
+      if (!newRule) {
+        newRule = new UnknownValidationRule(rule);
+      }
+
+      var rules = this.getRulesForZone(zoneKey);
+      rules.push(newRule);
+    }
+  }, {
+    key: "addRules",
+    value: function addRules(rules, zoneKey) {
+      if (_utility_dataType__WEBPACK_IMPORTED_MODULE_2__["default"].isObject(rules)) {
+        for (var _i = 0, _Object$keys = Object.keys(rules); _i < _Object$keys.length; _i++) {
+          var _zoneKey = _Object$keys[_i];
+
+          var _iterator = _createForOfIteratorHelper(rules[_zoneKey]),
+              _step;
+
+          try {
+            for (_iterator.s(); !(_step = _iterator.n()).done;) {
+              var rule = _step.value;
+              this.addRule(rule, _zoneKey);
+            }
+          } catch (err) {
+            _iterator.e(err);
+          } finally {
+            _iterator.f();
+          }
+        }
+      } else {
+        var _iterator2 = _createForOfIteratorHelper(rules),
+            _step2;
+
+        try {
+          for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+            var _rule = _step2.value;
+            this.addRule(_rule, zoneKey);
+          }
+        } catch (err) {
+          _iterator2.e(err);
+        } finally {
+          _iterator2.f();
+        }
+      }
+    }
+  }, {
+    key: "getRulesForZone",
+    value: function getRulesForZone(zoneKey) {
+      zoneKey = zoneKey || DEFAULT_ZONE_KEY;
+
+      if (!this._rules[zoneKey]) {
+        this._rules[zoneKey] = [];
+      }
+
+      return this._rules[zoneKey];
+    }
+  }, {
+    key: "config",
+    get: function get() {
+      return this.getConfig();
+    }
+  }, {
+    key: "rules",
+    get: function get() {
+      return this._rules;
+    }
+  }, {
+    key: "ruleTypes",
+    get: function get() {
+      return this.config.ruleTypes;
+    }
+  }]);
+
+  return ValidationRules;
+}(Object(_utility_compose__WEBPACK_IMPORTED_MODULE_0__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_1__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_0__["Base"]));
+
+
+var ValidationRule = /*#__PURE__*/function (_compose2) {
+  _inherits(ValidationRule, _compose2);
+
+  var _super2 = _createSuper(ValidationRule);
+
+  function ValidationRule(config) {
+    var _this2;
+
+    _classCallCheck(this, ValidationRule);
+
+    _this2 = _super2.call(this);
+
+    _this2.setConfig(config);
+
+    return _this2;
   }
 
-}
+  _createClass(ValidationRule, [{
+    key: "validate",
+    value: function validate(value, locale, isDefaultLocale) {
+      console.error('Validation check not defined.');
+    }
+  }, {
+    key: "appliesToOnlyDefaultLocale",
+    get: function get() {
+      return this.config.onlyDefaultLocale || false;
+    }
+  }, {
+    key: "appliesToOnlyNonDefaultLocale",
+    get: function get() {
+      return this.config.onlyNonDefaultLocale || false;
+    }
+  }, {
+    key: "config",
+    get: function get() {
+      return this.getConfig();
+    }
+  }, {
+    key: "message",
+    get: function get() {
+      return this.config.message;
+    }
+  }, {
+    key: "type",
+    get: function get() {
+      return this.config.type;
+    }
+  }]);
+
+  return ValidationRule;
+}(Object(_utility_compose__WEBPACK_IMPORTED_MODULE_0__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_1__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_0__["Base"]));
+var LengthValidationRule = /*#__PURE__*/function (_ValidationRule) {
+  _inherits(LengthValidationRule, _ValidationRule);
+
+  var _super3 = _createSuper(LengthValidationRule);
+
+  function LengthValidationRule() {
+    _classCallCheck(this, LengthValidationRule);
+
+    return _super3.apply(this, arguments);
+  }
+
+  _createClass(LengthValidationRule, [{
+    key: "validate",
+    value: function validate(value, locale, isDefaultLocale) {
+      // Allow for empty fields. Use the required rule for making sure it exists.
+      if (!value) {
+        return null;
+      } // Do not count whitespace.
+
+
+      value = value.trim();
+      var configMax = this.config.max;
+      var configMin = this.config.min;
+
+      if (configMin && value.length < configMin.value) {
+        return configMin.message || this.message;
+      }
+
+      if (configMax && value.length > configMax.value) {
+        return configMax.message || this.message;
+      }
+
+      return null;
+    }
+  }, {
+    key: "message",
+    get: function get() {
+      return _get(_getPrototypeOf(LengthValidationRule.prototype), "message", this) || 'Value needs to have the correct length.';
+    }
+  }]);
+
+  return LengthValidationRule;
+}(ValidationRule);
+var MatchValidationRule = /*#__PURE__*/function (_ValidationRule2) {
+  _inherits(MatchValidationRule, _ValidationRule2);
+
+  var _super4 = _createSuper(MatchValidationRule);
+
+  function MatchValidationRule(config) {
+    var _this3;
+
+    _classCallCheck(this, MatchValidationRule);
+
+    _this3 = _super4.call(this, config);
+    _this3._patterns = {};
+    return _this3;
+  }
+
+  _createClass(MatchValidationRule, [{
+    key: "_testPattern",
+    value: function _testPattern(key, pattern, value) {
+      if (!this._patterns[key]) {
+        this._patterns[key] = new RegExp(pattern);
+      }
+
+      return this._patterns[key].test(value);
+    }
+  }, {
+    key: "validate",
+    value: function validate(value, locale, isDefaultLocale) {
+      // Allow for empty fields. Use the required rule for making sure it exists.
+      if (!value) {
+        return null;
+      } // Handle the allowed matching.
+
+
+      var matchConfig = this.config.allowed;
+
+      if (matchConfig) {
+        if (matchConfig.pattern) {
+          if (!this._testPattern('allowed', matchConfig.pattern, value)) {
+            return matchConfig.message || this.message;
+          }
+        }
+
+        if (matchConfig.values) {
+          if (!matchConfig.values.includes(value)) {
+            return matchConfig.message || this.message;
+          }
+        }
+      } // Handle the excluded matching.
+
+
+      matchConfig = this.config.excluded;
+
+      if (matchConfig) {
+        if (matchConfig.pattern) {
+          if (this._testPattern('excluded', matchConfig.pattern, value)) {
+            return matchConfig.message || this.message;
+          }
+        }
+
+        if (matchConfig.values) {
+          if (matchConfig.values.includes(value)) {
+            return matchConfig.message || this.message;
+          }
+        }
+      }
+
+      return null;
+    }
+  }, {
+    key: "message",
+    get: function get() {
+      return _get(_getPrototypeOf(MatchValidationRule.prototype), "message", this) || "Value needs to match the validation rule.";
+    }
+  }]);
+
+  return MatchValidationRule;
+}(ValidationRule);
+var PatternValidationRule = /*#__PURE__*/function (_ValidationRule3) {
+  _inherits(PatternValidationRule, _ValidationRule3);
+
+  var _super5 = _createSuper(PatternValidationRule);
+
+  function PatternValidationRule() {
+    _classCallCheck(this, PatternValidationRule);
+
+    return _super5.apply(this, arguments);
+  }
+
+  _createClass(PatternValidationRule, [{
+    key: "validate",
+    value: function validate(value, locale, isDefaultLocale) {
+      // Allow for empty fields. Use the required rule for making sure it exists.
+      if (!value) {
+        return null;
+      } // Only need to compile the pattern once.
+
+
+      if (!this.pattern) {
+        this.pattern = new RegExp(this.config.pattern);
+      }
+
+      if (!this.pattern.test(value)) {
+        return this.message;
+      }
+
+      return null;
+    }
+  }, {
+    key: "message",
+    get: function get() {
+      return _get(_getPrototypeOf(PatternValidationRule.prototype), "message", this) || "Value needs to match the pattern: ".concat(this.config.pattern);
+    }
+  }]);
+
+  return PatternValidationRule;
+}(ValidationRule);
+var RangeValidationRule = /*#__PURE__*/function (_ValidationRule4) {
+  _inherits(RangeValidationRule, _ValidationRule4);
+
+  var _super6 = _createSuper(RangeValidationRule);
+
+  function RangeValidationRule() {
+    _classCallCheck(this, RangeValidationRule);
+
+    return _super6.apply(this, arguments);
+  }
+
+  _createClass(RangeValidationRule, [{
+    key: "validate",
+    value: function validate(value, locale, isDefaultLocale) {
+      // Allow for empty fields. Use the required rule for making sure it exists.
+      if (!value) {
+        return null;
+      } // Do not count whitespace.
+
+
+      value = parseFloat(value);
+
+      if (isNaN(value)) {
+        return this.message;
+      }
+
+      var configMax = this.config.max;
+      var configMin = this.config.min;
+
+      if (configMin && value < configMin.value) {
+        return configMin.message || this.message;
+      }
+
+      if (configMax && value > configMax.value) {
+        return configMax.message || this.message;
+      }
+
+      return null;
+    }
+  }, {
+    key: "message",
+    get: function get() {
+      return _get(_getPrototypeOf(RangeValidationRule.prototype), "message", this) || 'Value needs to be a number in range.';
+    }
+  }]);
+
+  return RangeValidationRule;
+}(ValidationRule);
+var RequiredValidationRule = /*#__PURE__*/function (_ValidationRule5) {
+  _inherits(RequiredValidationRule, _ValidationRule5);
+
+  var _super7 = _createSuper(RequiredValidationRule);
+
+  function RequiredValidationRule() {
+    _classCallCheck(this, RequiredValidationRule);
+
+    return _super7.apply(this, arguments);
+  }
+
+  _createClass(RequiredValidationRule, [{
+    key: "validate",
+    value: function validate(value, locale, isDefaultLocale) {
+      if (!value) {
+        return this.message;
+      } // Handle required array values.
+
+
+      if (_utility_dataType__WEBPACK_IMPORTED_MODULE_2__["default"].isArray(value)) {
+        if (value.length < 1) {
+          return this.message;
+        }
+      } // Require that it be more than just whitespace.
+
+
+      try {
+        value = value.trim();
+
+        if (!value.length) {
+          return this.message;
+        }
+      } catch (e) {
+        if (e instanceof TypeError) {// Value type doesn't have a trim or length.
+        } else {
+          throw e;
+        }
+      } // Quill editor blank is not a blank string.
+
+
+      if (value == '<p><br></p>') {
+        return this.message;
+      }
+
+      return null;
+    }
+  }, {
+    key: "appliesToOnlyDefaultLocale",
+    get: function get() {
+      var configValue = this.config.onlyDefaultLocale;
+
+      if (configValue == undefined) {
+        return true;
+      }
+
+      return configValue;
+    }
+  }, {
+    key: "message",
+    get: function get() {
+      return _get(_getPrototypeOf(RequiredValidationRule.prototype), "message", this) || 'Value is required. Cannot be empty.';
+    }
+  }]);
+
+  return RequiredValidationRule;
+}(ValidationRule);
+
+var UnknownValidationRule = /*#__PURE__*/function (_ValidationRule6) {
+  _inherits(UnknownValidationRule, _ValidationRule6);
+
+  var _super8 = _createSuper(UnknownValidationRule);
+
+  function UnknownValidationRule(config) {
+    var _this4;
+
+    _classCallCheck(this, UnknownValidationRule);
+
+    _this4 = _super8.call(this, config);
+    console.warn("Validation type '".concat(_this4.type, "' is not recognized."));
+    return _this4;
+  }
+
+  _createClass(UnknownValidationRule, [{
+    key: "validate",
+    value: function validate(value, locale, isDefaultLocale) {
+      return null;
+    }
+  }]);
+
+  return UnknownValidationRule;
+}(ValidationRule);
+
+/***/ }),
+
+/***/ "../../../selective-edit/js/utility/classes.js":
+/*!*********************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/utility/classes.js ***!
+  \*********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ClassManager; });
+function _construct(Parent, args, Class) { if (_isNativeReflectConstruct()) { _construct = Reflect.construct; } else { _construct = function _construct(Parent, args, Class) { var a = [null]; a.push.apply(a, args); var Constructor = Function.bind.apply(Parent, a); var instance = new Constructor(); if (Class) _setPrototypeOf(instance, Class.prototype); return instance; }; } return _construct.apply(null, arguments); }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+/**
+ * Generic key value manager for storing classes.
+ */
+var ClassManager = /*#__PURE__*/function () {
+  function ClassManager(DefaultCls) {
+    _classCallCheck(this, ClassManager);
+
+    this.DefaultCls = DefaultCls || null;
+    this.classes = {};
+  }
+
+  _createClass(ClassManager, [{
+    key: "forEachFunc",
+    value: function forEachFunc(functionName) {
+      for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        args[_key - 1] = arguments[_key];
+      }
+
+      for (var _i = 0, _Object$entries = Object.entries(this.classes); _i < _Object$entries.length; _i++) {
+        var _Object$entries$_i = _slicedToArray(_Object$entries[_i], 2),
+            key = _Object$entries$_i[0],
+            value = _Object$entries$_i[1];
+
+        value[functionName].apply(value, args);
+      }
+    }
+  }, {
+    key: "getByKey",
+    value: function getByKey(key) {
+      if (this.classes[key]) {
+        return this.classes[key];
+      }
+
+      return null;
+    }
+  }, {
+    key: "newFromKey",
+    value: function newFromKey(key) {
+      for (var _len2 = arguments.length, args = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+        args[_key2 - 1] = arguments[_key2];
+      }
+
+      if (this.classes[key]) {
+        return _construct(this.classes[key], args);
+      }
+
+      if (this.DefaultCls) {
+        return _construct(this.DefaultCls, args);
+      }
+
+      return null;
+    }
+  }, {
+    key: "setClass",
+    value: function setClass(key, TypeCls) {
+      this.classes[key] = TypeCls;
+    }
+  }, {
+    key: "setClasses",
+    value: function setClasses(classes) {
+      for (var _i2 = 0, _Object$keys = Object.keys(classes); _i2 < _Object$keys.length; _i2++) {
+        var key = _Object$keys[_i2];
+        this.setClass(key, classes[key]);
+      }
+    }
+  }]);
+
+  return ClassManager;
+}();
+
+
 
 /***/ }),
 
@@ -2380,17 +4543,28 @@ class UI extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_0__["compose"]
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Base", function() { return Base; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "compose", function() { return compose; });
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 /**
  * Compose multiple mixins into an easier syntax.
  *
  * Adapted from lodash flow.
  */
-function compose(...mixins) {
-  const length = mixins.length;
+function compose() {
+  for (var _len = arguments.length, mixins = new Array(_len), _key = 0; _key < _len; _key++) {
+    mixins[_key] = arguments[_key];
+  }
+
+  var length = mixins.length;
   mixins = mixins.reverse();
-  return function (...args) {
-    let index = 0;
-    let result = length ? mixins[index].apply(this, args) : args[0];
+  return function () {
+    var index = 0;
+
+    for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+      args[_key2] = arguments[_key2];
+    }
+
+    var result = length ? mixins[index].apply(this, args) : args[0];
 
     while (++index < length) {
       result = mixins[index].call(this, result);
@@ -2400,7 +4574,9 @@ function compose(...mixins) {
   };
 }
 
-class Base {}
+var Base = function Base() {
+  _classCallCheck(this, Base);
+};
 
 
 
@@ -2417,34 +4593,50 @@ class Base {}
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Config; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "autoConfig", function() { return autoConfig; });
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 /**
  * Utility for working with config.
  */
-class Config {
-  constructor(config, defaultValues) {
+var Config = /*#__PURE__*/function () {
+  function Config(config, defaultValues) {
+    _classCallCheck(this, Config);
+
     this._defaultValues = defaultValues || {};
     this._config = Object.assign({}, this._defaultValues, config || {}); // Allow for direct access to config values.
 
-    for (const key of Object.keys(this._config)) {
+    for (var _i = 0, _Object$keys = Object.keys(this._config); _i < _Object$keys.length; _i++) {
+      var key = _Object$keys[_i];
       this[key] = this._config[key];
     }
   }
 
-  get(key, defaultValue) {
-    if (typeof this._config[key] == 'undefined') {
-      return defaultValue;
+  _createClass(Config, [{
+    key: "get",
+    value: function get(key, defaultValue) {
+      if (typeof this._config[key] == 'undefined') {
+        return defaultValue;
+      }
+
+      return this._config[key];
     }
+  }, {
+    key: "set",
+    value: function set(key, value) {
+      this._config[key] = value;
+      return this[key] = value;
+    }
+  }]);
 
-    return this._config[key];
-  }
+  return Config;
+}();
 
-  set(key, value) {
-    this._config[key] = value;
-    return this[key] = value;
-  }
 
-}
-const autoConfig = (value, defaultValues) => {
+var autoConfig = function autoConfig(value, defaultValues) {
   if (value instanceof Config) {
     return value;
   }
@@ -2464,59 +4656,87 @@ const autoConfig = (value, defaultValues) => {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return DataType; });
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 /**
  * Utility for determining the type of a data value.
  */
-class DataType {
-  static isArray(value) {
-    if (Array.isArray) {
-      return Array.isArray(value);
+var DataType = /*#__PURE__*/function () {
+  function DataType() {
+    _classCallCheck(this, DataType);
+  }
+
+  _createClass(DataType, null, [{
+    key: "isArray",
+    value: function isArray(value) {
+      if (Array.isArray) {
+        return Array.isArray(value);
+      }
+
+      return value && _typeof(value) === 'object' && value.constructor === Array;
     }
+  }, {
+    key: "isBoolean",
+    value: function isBoolean(value) {
+      return typeof value === 'boolean';
+    }
+  }, {
+    key: "isDate",
+    value: function isDate(value) {
+      return value instanceof Date;
+    }
+  }, {
+    key: "isFunction",
+    value: function isFunction(value) {
+      return typeof value === 'function';
+    }
+  }, {
+    key: "isNumber",
+    value: function isNumber(value) {
+      return typeof value === 'number' && isFinite(value);
+    }
+  }, {
+    key: "isNull",
+    value: function isNull(value) {
+      return value === null;
+    }
+  }, {
+    key: "isObject",
+    value: function isObject(value) {
+      return value && _typeof(value) === 'object' && value.constructor === Object;
+    }
+  }, {
+    key: "isRegExp",
+    value: function isRegExp(value) {
+      return value && _typeof(value) === 'object' && value.constructor === RegExp;
+    }
+  }, {
+    key: "isString",
+    value: function isString(value) {
+      return typeof value === 'string' || value instanceof String;
+    }
+  }, {
+    key: "isSymbol",
+    value: function isSymbol(value) {
+      return _typeof(value) === 'symbol';
+    }
+  }, {
+    key: "isUndefined",
+    value: function isUndefined(value) {
+      return typeof value === 'undefined';
+    }
+  }]);
 
-    return value && typeof value === 'object' && value.constructor === Array;
-  }
+  return DataType;
+}();
 
-  static isBoolean(value) {
-    return typeof value === 'boolean';
-  }
 
-  static isDate(value) {
-    return value instanceof Date;
-  }
-
-  static isFunction(value) {
-    return typeof value === 'function';
-  }
-
-  static isNumber(value) {
-    return typeof value === 'number' && isFinite(value);
-  }
-
-  static isNull(value) {
-    return value === null;
-  }
-
-  static isObject(value) {
-    return value && typeof value === 'object' && value.constructor === Object;
-  }
-
-  static isRegExp(value) {
-    return value && typeof value === 'object' && value.constructor === RegExp;
-  }
-
-  static isString(value) {
-    return typeof value === 'string' || value instanceof String;
-  }
-
-  static isSymbol(value) {
-    return typeof value === 'symbol';
-  }
-
-  static isUndefined(value) {
-    return typeof value === 'undefined';
-  }
-
-}
 
 /***/ }),
 
@@ -2531,77 +4751,111 @@ class DataType {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return DeepObject; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "autoDeepObject", function() { return autoDeepObject; });
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 /**
  * Utility for working with deep object references.
  *
  * Example: obj.get('somthing.sub.key') would deeply reference the object.
  */
-class DeepObject {
-  constructor(obj) {
+var DeepObject = /*#__PURE__*/function () {
+  function DeepObject(obj) {
+    _classCallCheck(this, DeepObject);
+
     this.obj = obj || {};
   }
 
-  get(key) {
-    let root = this.obj;
+  _createClass(DeepObject, [{
+    key: "get",
+    value: function get(key) {
+      var root = this.obj;
 
-    if (!key) {
+      if (!key) {
+        return root;
+      }
+
+      var _iterator = _createForOfIteratorHelper(key.split('.')),
+          _step;
+
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var part = _step.value;
+
+          if (!root) {
+            return undefined;
+          }
+
+          if (!part in root) {
+            return undefined;
+          }
+
+          root = root[part];
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+
       return root;
     }
-
-    for (const part of key.split('.')) {
-      if (!root) {
-        return undefined;
+  }, {
+    key: "set",
+    value: function set(key, value) {
+      if (!key) {
+        this.obj = value;
+        return;
       }
 
-      if (!part in root) {
-        return undefined;
+      var root = this.obj;
+      var parts = key.split('.');
+
+      for (var i = 0; i < parts.length - 1; i++) {
+        var part = parts[i];
+
+        if (!(part in root)) {
+          root[part] = {};
+        }
+
+        root = root[part];
       }
 
-      root = root[part];
+      root[parts[parts.length - 1]] = value;
     }
-
-    return root;
-  }
-
-  set(key, value) {
-    if (!key) {
-      this.obj = value;
-      return;
-    }
-
-    let root = this.obj;
-    const parts = key.split('.');
-
-    for (let i = 0; i < parts.length - 1; i++) {
-      const part = parts[i];
-
-      if (!(part in root)) {
-        root[part] = {};
+  }, {
+    key: "update",
+    value: function update(value) {
+      if (!value) {
+        return;
       }
 
-      root = root[part];
+      for (var _i = 0, _Object$keys = Object.keys(value); _i < _Object$keys.length; _i++) {
+        var key = _Object$keys[_i];
+        this.set(key, value[key]);
+      }
     }
+  }]);
 
-    root[parts[parts.length - 1]] = value;
-  }
+  return DeepObject;
+}();
 
-  update(value) {
-    if (!value) {
-      return;
-    }
 
-    for (const key of Object.keys(value)) {
-      this.set(key, value[key]);
-    }
-  }
-
-}
-const autoDeepObject = value => {
+var autoDeepObject = function autoDeepObject(value) {
   if (value === undefined) {
     return value;
   }
 
-  let has_get = false;
+  var has_get = false;
 
   if (value.get && typeof value.get === 'function') {
     has_get = true;
@@ -2631,7 +4885,7 @@ __webpack_require__.r(__webpack_exports__);
 /**
  *  DOM helper functions.
  */
-const findParentByClassname = (element, classname) => {
+var findParentByClassname = function findParentByClassname(element, classname) {
   while (element && !element.classList.contains(classname)) {
     element = element.parentElement;
   }
@@ -2639,9 +4893,9 @@ const findParentByClassname = (element, classname) => {
   return element;
 };
 
-const findParentDraggable = target => {
+var findParentDraggable = function findParentDraggable(target) {
   // Use the event target to traverse until the draggable element is found.
-  let isDraggable = false;
+  var isDraggable = false;
 
   while (target && !isDraggable) {
     isDraggable = target.getAttribute('draggable') == 'true';
@@ -2668,34 +4922,70 @@ const findParentDraggable = target => {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Listeners; });
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 /**
  * Utility class for allowing a class to bind listeners and trigger callbacks.
  */
-class Listeners {
-  constructor() {
+var Listeners = /*#__PURE__*/function () {
+  function Listeners() {
+    _classCallCheck(this, Listeners);
+
     this._listeners = {};
   }
 
-  add(eventName, callback) {
-    const listeners = this.listenersForEvent(eventName);
-    listeners.push(callback);
-  }
-
-  listenersForEvent(eventName) {
-    if (!this._listeners[eventName]) {
-      this._listeners[eventName] = [];
+  _createClass(Listeners, [{
+    key: "add",
+    value: function add(eventName, callback) {
+      var listeners = this.listenersForEvent(eventName);
+      listeners.push(callback);
     }
+  }, {
+    key: "listenersForEvent",
+    value: function listenersForEvent(eventName) {
+      if (!this._listeners[eventName]) {
+        this._listeners[eventName] = [];
+      }
 
-    return this._listeners[eventName];
-  }
-
-  trigger(eventName, ...data) {
-    for (const listener of this.listenersForEvent(eventName)) {
-      listener(...data);
+      return this._listeners[eventName];
     }
-  }
+  }, {
+    key: "trigger",
+    value: function trigger(eventName) {
+      for (var _len = arguments.length, data = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        data[_key - 1] = arguments[_key];
+      }
 
-}
+      var _iterator = _createForOfIteratorHelper(this.listenersForEvent(eventName)),
+          _step;
+
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var listener = _step.value;
+          listener.apply(void 0, data);
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+    }
+  }]);
+
+  return Listeners;
+}();
+
+
 
 /***/ }),
 
@@ -2711,12 +5001,12 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * UUID Generator for JS.
  */
-const generateUUID = () => {
-  let array = new Uint32Array(8);
+var generateUUID = function generateUUID() {
+  var array = new Uint32Array(8);
   window.crypto.getRandomValues(array);
-  let str = '';
+  var str = '';
 
-  for (let i = 0; i < array.length; i++) {
+  for (var i = 0; i < array.length; i++) {
     str += (i < 2 || i > 5 ? '' : '-') + array[i].toString(16).slice(-4);
   }
 
@@ -97765,89 +100055,136 @@ window.Editor = _editor_editor__WEBPACK_IMPORTED_MODULE_0__["default"];
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return EditorAutoFields; });
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
+
+function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 /**
  * Automatically guess the field configuration from data.
  */
 
-const MEDIA_REGEX = /\.(jp[e]?g|png|svg|webp|gif|avif)$/i;
-const GOOGLE_MEDIA_REGEX = /(\.googleusercontent.com|storage.googleapis.com)\//i;
-class EditorAutoFields extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["AutoFields"] {
-  _deepGuessObject(data, keyBase) {
-    // Handle the `!g.*` constructors.
-    if (this._isConstructor(data)) {
-      const fullKey = keyBase.join('.');
-      return [this._fieldConfig(fullKey, data)];
-    }
+var MEDIA_REGEX = /\.(jp[e]?g|png|svg|webp|gif|avif)$/i;
+var GOOGLE_MEDIA_REGEX = /(\.googleusercontent.com|storage.googleapis.com)\//i;
 
-    return super._deepGuessObject(data, keyBase);
+var EditorAutoFields = /*#__PURE__*/function (_AutoFields) {
+  _inherits(EditorAutoFields, _AutoFields);
+
+  var _super = _createSuper(EditorAutoFields);
+
+  function EditorAutoFields() {
+    _classCallCheck(this, EditorAutoFields);
+
+    return _super.apply(this, arguments);
   }
 
-  _isConstructor(data) {
-    return data['tag'] && data['value'] && data['tag'].startsWith('!g.');
-  }
-  /**
-   * From a key guess the label of the field.
-   */
-
-
-  labelFromKey(key) {
-    let label = super.labelFromKey(key); // Strip off translation @.
-
-    label = label.replace(/@$/, '');
-    return label;
-  }
-  /**
-   * From a value, guess the type of field.
-   */
-
-
-  typeFromValue(value, key) {
-    if (this.DataType.isArray(value)) {
-      if (key == 'partials') {
-        return 'partials';
+  _createClass(EditorAutoFields, [{
+    key: "_deepGuessObject",
+    value: function _deepGuessObject(data, keyBase) {
+      // Handle the `!g.*` constructors.
+      if (this._isConstructor(data)) {
+        var fullKey = keyBase.join('.');
+        return [this._fieldConfig(fullKey, data)];
       }
+
+      return _get(_getPrototypeOf(EditorAutoFields.prototype), "_deepGuessObject", this).call(this, data, keyBase);
     }
+  }, {
+    key: "_isConstructor",
+    value: function _isConstructor(data) {
+      return data['tag'] && data['value'] && data['tag'].startsWith('!g.');
+    }
+    /**
+     * From a key guess the label of the field.
+     */
 
-    if (this.DataType.isObject(value)) {
-      if (this._isConstructor(value)) {
-        switch (value['tag']) {
-          case '!g.doc':
-            return 'document';
-            break;
+  }, {
+    key: "labelFromKey",
+    value: function labelFromKey(key) {
+      var label = _get(_getPrototypeOf(EditorAutoFields.prototype), "labelFromKey", this).call(this, key); // Strip off translation @.
 
-          case '!g.static':
-            return 'static';
-            break;
 
-          case '!g.string':
-            return 'string';
-            break;
+      label = label.replace(/@$/, '');
+      return label;
+    }
+    /**
+     * From a value, guess the type of field.
+     */
 
-          case '!g.yaml':
-            return 'yaml';
-            break;
+  }, {
+    key: "typeFromValue",
+    value: function typeFromValue(value, key) {
+      if (this.DataType.isArray(value)) {
+        if (key == 'partials') {
+          return 'partials';
         }
       }
-    }
 
-    if (typeof value == 'boolean') {
-      return 'checkbox';
-    }
+      if (this.DataType.isObject(value)) {
+        if (this._isConstructor(value)) {
+          switch (value['tag']) {
+            case '!g.doc':
+              return 'document';
+              break;
 
-    if (value && typeof value == 'string') {
-      if (value.match(GOOGLE_MEDIA_REGEX)) {
-        return 'google_media';
+            case '!g.static':
+              return 'static';
+              break;
+
+            case '!g.string':
+              return 'string';
+              break;
+
+            case '!g.yaml':
+              return 'yaml';
+              break;
+          }
+        }
       }
 
-      if (value.startsWith('/') && value.match(MEDIA_REGEX)) {
-        return 'media';
+      if (typeof value == 'boolean') {
+        return 'checkbox';
       }
+
+      if (value && typeof value == 'string') {
+        if (value.match(GOOGLE_MEDIA_REGEX)) {
+          return 'google_media';
+        }
+
+        if (value.startsWith('/') && value.match(MEDIA_REGEX)) {
+          return 'media';
+        }
+      }
+
+      return _get(_getPrototypeOf(EditorAutoFields.prototype), "typeFromValue", this).call(this, value, key);
     }
+  }]);
 
-    return super.typeFromValue(value, key);
-  }
+  return EditorAutoFields;
+}(selective_edit__WEBPACK_IMPORTED_MODULE_0__["AutoFields"]);
 
-}
+
 
 /***/ }),
 
@@ -97862,12 +100199,21 @@ class EditorAutoFields extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Auto
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Document; });
 /* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utility/deepObject */ "./source/utility/deepObject.js");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 /**
  * Document for the editor.
  */
 
-class Document {
-  constructor(podPath, frontMatter, rawFrontMatter, servingPaths, defaultLocale, locales, content, hash) {
+
+var Document = /*#__PURE__*/function () {
+  function Document(podPath, frontMatter, rawFrontMatter, servingPaths, defaultLocale, locales, content, hash) {
+    _classCallCheck(this, Document);
+
     this.podPath = podPath;
     this.frontMatter = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_0__["autoDeepObject"])(frontMatter);
     this.rawFrontMatter = rawFrontMatter;
@@ -97881,42 +100227,52 @@ class Document {
     this.hash = hash;
   }
 
-  get data() {
-    // Format the data for selective editor.
-    const data = {};
-
-    for (const key of Object.keys(this.frontMatter.obj)) {
-      data[key] = this.frontMatter.obj[key];
+  _createClass(Document, [{
+    key: "update",
+    value: function update(podPath, frontMatter, rawFrontMatter, servingPaths, defaultLocale, locales, content, hash) {
+      this.podPath = podPath;
+      this.frontMatter = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_0__["autoDeepObject"])(frontMatter);
+      this._rawFrontMatter = rawFrontMatter;
+      this.rawFrontMatter = rawFrontMatter;
+      this.servingPaths = servingPaths;
+      this.defaultLocale = defaultLocale || 'en';
+      this.locale = this.defaultLocale;
+      this.locales = locales || [this.defaultLocale];
+      this._content = content;
+      this.content = content;
+      this.hash = hash;
     }
+  }, {
+    key: "data",
+    get: function get() {
+      // Format the data for selective editor.
+      var data = {};
 
-    data['__content__'] = this.content;
-    return data;
-  }
+      for (var _i = 0, _Object$keys = Object.keys(this.frontMatter.obj); _i < _Object$keys.length; _i++) {
+        var key = _Object$keys[_i];
+        data[key] = this.frontMatter.obj[key];
+      }
 
-  get isClean() {
-    // If the raw front matter changes it is not clean.
-    return this.rawFrontMatter == this._rawFrontMatter && this.content == this._content;
-  }
+      data['__content__'] = this.content;
+      return data;
+    }
+  }, {
+    key: "isClean",
+    get: function get() {
+      // If the raw front matter changes it is not clean.
+      return this.rawFrontMatter == this._rawFrontMatter && this.content == this._content;
+    }
+  }, {
+    key: "servingPath",
+    get: function get() {
+      return this.servingPaths[this.defaultLocale];
+    }
+  }]);
 
-  get servingPath() {
-    return this.servingPaths[this.defaultLocale];
-  }
+  return Document;
+}();
 
-  update(podPath, frontMatter, rawFrontMatter, servingPaths, defaultLocale, locales, content, hash) {
-    this.podPath = podPath;
-    this.frontMatter = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_0__["autoDeepObject"])(frontMatter);
-    this._rawFrontMatter = rawFrontMatter;
-    this.rawFrontMatter = rawFrontMatter;
-    this.servingPaths = servingPaths;
-    this.defaultLocale = defaultLocale || 'en';
-    this.locale = this.defaultLocale;
-    this.locales = locales || [this.defaultLocale];
-    this._content = content;
-    this.content = content;
-    this.hash = hash;
-  }
 
-}
 
 /***/ }),
 
@@ -97950,11 +100306,254 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _menu_menu__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./menu/menu */ "./source/editor/menu/menu.js");
 /* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./autoFields */ "./source/editor/autoFields.js");
 /* harmony import */ var _field__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./field */ "./source/editor/field.js");
-/* harmony import */ var _zoomIframe__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./zoomIframe */ "./source/editor/zoomIframe.js");
-/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../utility/dom */ "./source/utility/dom.js");
-/* harmony import */ var _utility_repo__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../utility/repo */ "./source/utility/repo.js");
-/* harmony import */ var _utility_storage__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../utility/storage */ "./source/utility/storage.js");
-/* harmony import */ var _utility_settings__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../utility/settings */ "./source/utility/settings.js");
+/* harmony import */ var _validation__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./validation */ "./source/editor/validation.js");
+/* harmony import */ var _zoomIframe__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./zoomIframe */ "./source/editor/zoomIframe.js");
+/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../utility/dom */ "./source/utility/dom.js");
+/* harmony import */ var _utility_repo__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../utility/repo */ "./source/utility/repo.js");
+/* harmony import */ var _utility_storage__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../utility/storage */ "./source/utility/storage.js");
+/* harmony import */ var _utility_settings__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ../utility/settings */ "./source/utility/settings.js");
+function _templateObject22() {
+  var data = _taggedTemplateLiteral(["\n      ", "\n      <div class=\"editor__card editor__field_list\">\n        <div class=\"editor__card__title\">\n          Content\n        </div>\n        <div class=\"editor__selective\">\n          ", "\n        </div>\n      </div>\n      <div class=\"editor__dev_tools\">\n        <div>Developer tools:</div>\n        <div class=\"editor__dev_tools__icons\">\n          <i\n              class=\"editor__dev_tools__icon ", " material-icons\"\n              @click=", "\n              title=\"Highlight auto fields\">\n            assistant\n          </i>\n          <i\n              class=\"editor__dev_tools__icon ", " material-icons\"\n              @click=", "\n              title=\"Deep link to fields\">\n            link\n          </i>\n          <i\n              class=\"editor__dev_tools__icon ", " material-icons\"\n              @click=", "\n              title=\"Highlight dirty fields\">\n            change_history\n          </i>\n        </div>\n      </div>"]);
+
+  _templateObject22 = function _templateObject22() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject21() {
+  var data = _taggedTemplateLiteral(["\n              <div\n                  class=\"editor__history__commits__commit\">\n                <i\n                    class=\"material-icons icon\"\n                    title=\"\">\n                  notes\n                </i>\n                <div class=\"editor__history__commits__commit__meta\">\n                  <div class=\"editor__history__commits__commit__info\">\n                    <a href=\"", "\" class=\"editor__history__commits__commit__hash\">", "</a>\n                    &nbsp;by&nbsp;<a href=\"mailto:", "\">", "</a>\n                    <span class=\"editor__history__commits__commit__time\" title=\"", "\">\n                      &nbsp;(", ")\n                    </span>\n                  </div>\n                  <div class=\"editor__history__commits__commit__message\">\n                    ", "\n                  </div>\n                </div>\n              </div>\n            "]);
+
+  _templateObject21 = function _templateObject21() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject20() {
+  var data = _taggedTemplateLiteral(["\n        <div class=\"editor__card\">\n          <div class=\"editor__card__title\">\n            Current Workspace\n          </div>\n          <div class=\"editor__history__workspace\">\n            <i\n                class=\"material-icons icon\"\n                title=\"\">\n              dashboard\n            </i>\n            <div class=\"editor__workspace__branch__label\">\n              ", "\n            </div>\n          </div>\n        </div>\n        <div class=\"editor__card\">\n          <div class=\"editor__card__title\">\n            Change History\n          </div>\n          <div class=\"editor__history__commits\">\n            ", "\n          </div>\n        </div>"]);
+
+  _templateObject20 = function _templateObject20() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject19() {
+  var data = _taggedTemplateLiteral(["<div class=\"editor__loading editor__loading--small\" title=\"Loading...\"></div>"]);
+
+  _templateObject19 = function _templateObject19() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject18() {
+  var data = _taggedTemplateLiteral(["\n        <div class=\"editor__card\">\n          <div class=\"editor__card__title\">\n            Source\n          </div>\n          <div class=\"editor__source\">\n            <div class=\"editor__source__section\">\n              <div class=\"editor__source__title\">Front Matter</div>\n              <textarea class=\"editor__source__frontmatter\" @input=", ">", "</textarea>\n            </div>\n            ", "\n          </div>\n        </div>"]);
+
+  _templateObject18 = function _templateObject18() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject17() {
+  var data = _taggedTemplateLiteral(["\n          <div class=\"editor__source__section\">\n            <div class=\"editor__source__title\">Content</div>\n            <textarea class=\"editor__source__content\" @input=", ">", "</textarea>\n          </div>"]);
+
+  _templateObject17 = function _templateObject17() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject16() {
+  var data = _taggedTemplateLiteral(["\n      <div class=\"editor__card\">\n        <div class=\"editor__card__title\">\n          Workspace\n        </div>\n        <div class=\"editor__workspace\">\n          ", "\n        </div>\n      </div>"]);
+
+  _templateObject16 = function _templateObject16() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject15() {
+  var data = _taggedTemplateLiteral(["\n        <div\n            class=\"editor__workspace__url\"\n            data-locale=\"", "\">\n          <a href=\"", "\">", "</a>\n          ", "\n        </div>"]);
+
+  _templateObject15 = function _templateObject15() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject14() {
+  var data = _taggedTemplateLiteral(["<span class=\"editor__workspace__locale\">", "</span>"]);
+
+  _templateObject14 = function _templateObject14() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject13() {
+  var data = _taggedTemplateLiteral(["\n          <div\n              class=\"editor__workspace__url\"\n              data-locale=\"", "\">\n            <a href=\"", "\">", "</a>\n            ", "\n          </div>"]);
+
+  _templateObject13 = function _templateObject13() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject12() {
+  var data = _taggedTemplateLiteral(["\n        ", ""]);
+
+  _templateObject12 = function _templateObject12() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject11() {
+  var data = _taggedTemplateLiteral(["\n          <a\n              class=\"editor__workspace__url__more\"\n              @click=", "\n              href=\"#\">\n            +", "\n          </a>"]);
+
+  _templateObject11 = function _templateObject11() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject10() {
+  var data = _taggedTemplateLiteral(["\n          <a\n              class=\"editor__workspace__url__more\"\n              @click=", "\n              href=\"#\">\n            (show less)\n          </a>"]);
+
+  _templateObject10 = function _templateObject10() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject9() {
+  var data = _taggedTemplateLiteral(["<div class=\"editor__preview\">\n      <div class=\"editor__preview__header\">\n        <div class=\"editor__preview__header__icons\">\n          <i class=\"material-icons\" @click=", " title=\"Fullscreen\">", "</i>\n          ", "\n        </div>\n        <div class=\"editor__preview__header__label\">\n          Preview\n        </div>\n        <div class=\"editor__preview__header__icons\">\n          ", "\n          <i class=\"material-icons\" @click=", " title=\"Toggle device view\">devices</i>\n          <i class=\"material-icons editor--device-only\" @click=", " title=\"Rotate device view\">screen_rotation</i>\n          <i class=\"material-icons\" @click=", " title=\"Preview in new window\">open_in_new</i>\n        </div>\n      </div>\n      <div class=\"editor__preview__frame\">\n        <iframe src=\"", "\" @load=", "></iframe>\n      </div>\n    </div>"]);
+
+  _templateObject9 = function _templateObject9() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject8() {
+  var data = _taggedTemplateLiteral(["\n            <option\n                data-locale=\"", "\"\n                ?selected=", ">\n              ", "\n            </option>"]);
+
+  _templateObject8 = function _templateObject8() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject7() {
+  var data = _taggedTemplateLiteral(["\n        <i class=\"material-icons\" @click=", " title=\"Localize content\">translate</i>\n        <select class=\"editor__locales\" @change=", ">\n          <option\n              data-locale=\"", "\"\n              ?selected=", ">\n            ", "\n          </option>\n          ", "\n        </select>"]);
+
+  _templateObject7 = function _templateObject7() {
+    return data;
+  };
+
+  return data;
+}
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _templateObject6() {
+  var data = _taggedTemplateLiteral(["\n          <div\n              class=\"editor__preview__size ", "\"\n              data-device=\"", "\"\n              @click=", ">\n            ", "\n            <span class=\"editor__preview__size__dimension\">\n              (", ")\n            </span>\n          </div>"]);
+
+  _templateObject6 = function _templateObject6() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject5() {
+  var data = _taggedTemplateLiteral(["<div class=\"editor__preview__sizes\">\n        ", "\n      </div>"]);
+
+  _templateObject5 = function _templateObject5() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject4() {
+  var data = _taggedTemplateLiteral(["<div class=\"editor__actions\">\n                    <span\n                        class=\"editor__invalid\">\n                      <i class=\"material-icons\">error</i>\n                    </span>\n                  </div>"]);
+
+  _templateObject4 = function _templateObject4() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject3() {
+  var data = _taggedTemplateLiteral(["<i class=\"material-icons\" @click=", " title=\"Fullscreen\">", "</i>"]);
+
+  _templateObject3 = function _templateObject3() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject2() {
+  var data = _taggedTemplateLiteral(["<div class=\"editor__edit\">\n      <div class=\"editor__edit__header\">\n        <div class=\"editor__edit__header__section\">\n          <div class=\"editor__edit__header__label\">\n            Page:\n          </div>\n          <div class=\"editor__edit__header__title\">\n            ", "\n          </div>\n        </div>\n        <div class=\"editor__edit__header__section\">\n          <div class=\"editor__edit__header__pod_path\">\n            ", "\n          </div>\n          ", "\n        </div>\n      </div>\n      <div class=\"editor__cards\">\n        <div class=\"editor__card editor__menu\">\n            <div class=\"editor__actions\">\n              <button class=\"editor__style__fields editor__button editor__button--secondary ", "\" @click=", " ?disabled=", ">Fields</button>\n              <button class=\"editor__style__raw editor__button editor__button--secondary ", "\" @click=", " ?disabled=", ">Source</button>\n              <button class=\"editor__style__raw editor__button editor__button--secondary ", "\" @click=", " ?disabled=", ">History</button>\n            </div>\n            <div class=\"editor__actions\">\n              ", "\n              <button\n                  ?disabled=", "\n                  class=\"editor__save editor__button editor__button--primary ", "\"\n                  @click=", ">\n                ", "\n              </button>\n            </div>\n        </div>\n        ", "\n      </div>\n    </div>"]);
+
+  _templateObject2 = function _templateObject2() {
+    return data;
+  };
+
+  return data;
+}
+
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["<div class=\"editor ", "\">\n      ", "\n      <div class=\"editor__frame\">\n        ", "\n        ", "\n      </div>\n    </div>"]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 /**
  * Content editor.
  */
@@ -97978,27 +100577,29 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const CONTENT_KEY = '__content__';
-const CODEMIRROR_OPTIONS = {
+
+var CONTENT_KEY = '__content__';
+var CODEMIRROR_OPTIONS = {
   lineNumbers: true,
   tabSize: 2,
   theme: 'elegant'
 };
-class Editor {
-  constructor(containerEl, config) {
+
+var Editor = /*#__PURE__*/function () {
+  function Editor(containerEl, config) {
+    var _this = this;
+
+    _classCallCheck(this, Editor);
+
     this.containerEl = containerEl;
     this.config = new _utility_config__WEBPACK_IMPORTED_MODULE_7__["default"](config || {});
 
-    this.template = (editor, selective) => selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`<div class="editor ${editor.stylesEditor}">
-      ${this.menu.template(editor)}
-      <div class="editor__frame">
-        ${this.podPath ? editor.renderEditor(editor, selective) : ''}
-        ${this.podPath && this.document && this.document.servingPath ? editor.renderPreview(editor, selective) : ''}
-      </div>
-    </div>`;
+    this.template = function (editor, selective) {
+      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject(), editor.stylesEditor, _this.menu.template(editor), _this.podPath ? editor.renderEditor(editor, selective) : '', _this.podPath && _this.document && _this.document.servingPath ? editor.renderPreview(editor, selective) : '');
+    };
 
-    this.storage = new _utility_storage__WEBPACK_IMPORTED_MODULE_17__["default"](this.isTesting);
-    const EditorApiCls = this.config.get('EditorApiCls', _editorApi__WEBPACK_IMPORTED_MODULE_10__["default"]);
+    this.storage = new _utility_storage__WEBPACK_IMPORTED_MODULE_18__["default"](this.isTesting);
+    var EditorApiCls = this.config.get('EditorApiCls', _editorApi__WEBPACK_IMPORTED_MODULE_10__["default"]);
     this.api = new EditorApiCls();
     this.listeners = new _utility_listeners__WEBPACK_IMPORTED_MODULE_8__["default"]();
     this.menu = new _menu_menu__WEBPACK_IMPORTED_MODULE_11__["default"]({
@@ -98031,16 +100632,16 @@ class Editor {
     this._defaultDevice = 'desktop';
     this._device = this.storage.getItem('selective.device') || this._defaultDevice; // Persistent settings in local storage.
 
-    this.settingDeviceRotated = new _utility_settings__WEBPACK_IMPORTED_MODULE_18__["SettingToggle"](false, this.storage, 'selective.device.rotated');
-    this.settingDeviceView = new _utility_settings__WEBPACK_IMPORTED_MODULE_18__["SettingToggle"](false, this.storage, 'selective.device.view');
-    this.settingFullScreenEditor = new _utility_settings__WEBPACK_IMPORTED_MODULE_18__["SettingToggle"](false, this.storage, 'selective.fullScreenEditor');
-    this.settingFullScreenPreview = new _utility_settings__WEBPACK_IMPORTED_MODULE_18__["SettingToggle"](false, this.storage, 'selective.fullScreenPreview');
-    this.settingHighlightDirty = new _utility_settings__WEBPACK_IMPORTED_MODULE_18__["SettingToggle"](false, this.storage, 'selective.highlight.dirty');
-    this.settingHighlightGuess = new _utility_settings__WEBPACK_IMPORTED_MODULE_18__["SettingToggle"](false, this.storage, 'selective.highlight.guess');
-    this.settingHighlightLinked = new _utility_settings__WEBPACK_IMPORTED_MODULE_18__["SettingToggle"](false, this.storage, 'selective.highlight.linked');
-    this.settingLocalize = new _utility_settings__WEBPACK_IMPORTED_MODULE_18__["SettingToggle"](false, this.storage, 'selective.localize');
-    this.settingLocalizeUrls = new _utility_settings__WEBPACK_IMPORTED_MODULE_18__["SettingToggle"](false, this.storage, 'selective.localize.urls');
-    this.settingEditorPane = new _utility_settings__WEBPACK_IMPORTED_MODULE_18__["SettingSet"](['fields', 'source', 'history'], 'fields', this.storage, 'selective.editor.pane');
+    this.settingDeviceRotated = new _utility_settings__WEBPACK_IMPORTED_MODULE_19__["SettingToggle"](false, this.storage, 'selective.device.rotated');
+    this.settingDeviceView = new _utility_settings__WEBPACK_IMPORTED_MODULE_19__["SettingToggle"](false, this.storage, 'selective.device.view');
+    this.settingFullScreenEditor = new _utility_settings__WEBPACK_IMPORTED_MODULE_19__["SettingToggle"](false, this.storage, 'selective.fullScreenEditor');
+    this.settingFullScreenPreview = new _utility_settings__WEBPACK_IMPORTED_MODULE_19__["SettingToggle"](false, this.storage, 'selective.fullScreenPreview');
+    this.settingHighlightDirty = new _utility_settings__WEBPACK_IMPORTED_MODULE_19__["SettingToggle"](false, this.storage, 'selective.highlight.dirty');
+    this.settingHighlightGuess = new _utility_settings__WEBPACK_IMPORTED_MODULE_19__["SettingToggle"](false, this.storage, 'selective.highlight.guess');
+    this.settingHighlightLinked = new _utility_settings__WEBPACK_IMPORTED_MODULE_19__["SettingToggle"](false, this.storage, 'selective.highlight.linked');
+    this.settingLocalize = new _utility_settings__WEBPACK_IMPORTED_MODULE_19__["SettingToggle"](false, this.storage, 'selective.localize');
+    this.settingLocalizeUrls = new _utility_settings__WEBPACK_IMPORTED_MODULE_19__["SettingToggle"](false, this.storage, 'selective.localize.urls');
+    this.settingEditorPane = new _utility_settings__WEBPACK_IMPORTED_MODULE_19__["SettingSet"](['fields', 'source', 'history'], 'fields', this.storage, 'selective.editor.pane');
     this.settingLocale = null;
     this._isFullMarkdownEditor = false;
     this._hasLoadedFields = false;
@@ -98061,12 +100662,11 @@ class Editor {
 
     this.selective.editor = this; // Load the selective editor preference for localize.
 
-    this.selective.localize = this.settingLocalize.on; // Add the editor extension default field types.
+    this.selective.localize = this.settingLocalize.on; // Add the editor default field types.
 
-    for (const key of Object.keys(_field__WEBPACK_IMPORTED_MODULE_13__["defaultFields"])) {
-      this.selective.addFieldType(key, _field__WEBPACK_IMPORTED_MODULE_13__["defaultFields"][key]);
-    }
+    this.selective.addFieldTypes(_field__WEBPACK_IMPORTED_MODULE_13__["defaultFields"]); // Add the editor default validation types.
 
+    this.selective.addRuleTypes(_validation__WEBPACK_IMPORTED_MODULE_14__["defaultValidationRules"]);
     this.bindEvents();
     this.bindKeyboard();
 
@@ -98079,1164 +100679,1172 @@ class Editor {
 
   }
 
-  get device() {
-    return this._device;
-  }
-
-  get autosave() {
-    // Always autosave for now.
-    return true;
-  }
-
-  get isClean() {
-    if (!this.document) {
-      return true;
-    }
-
-    return this.document.isClean && this.selective.isClean;
-  }
-
-  get isMissingDoc() {
-    return !this.document;
-  }
-
-  get isTesting() {
-    return this.config.get('testing', false);
-  }
-
-  get linkedFields() {
-    const fieldRaw = this.urlParams.get('field');
-
-    if (!fieldRaw) {
-      return [];
-    }
-
-    return fieldRaw.split(',');
-  }
-
-  get podPath() {
-    return this._podPath;
-  }
-
-  get previewUrl() {
-    const params = '?editor=true';
-    return `${this.servingPath}${params}`;
-  }
-
-  get servingPath() {
-    if (!this.document) {
-      return '';
-    } // Localize preview pages when a locale is selected.
-
-
-    if (this.settingLocalize.on && this.settingLocale) {
-      const localizedServingPath = this.document.servingPaths[this.settingLocale.value];
-
-      if (localizedServingPath) {
-        return localizedServingPath;
-      }
-    }
-
-    return this.document.servingPath;
-  }
-
-  get stylesEditor() {
-    const styles = [];
-
-    if (this.settingDeviceView.on) {
-      styles.push('editor--device'); // Only allow the rotated when in device view.
-
-      if (this.settingDeviceRotated.on) {
-        styles.push('editor--rotated');
-      }
-    }
-
-    if (this.settingEditorPane.is('fields')) {
-      styles.push('editor--fields');
-    }
-
-    if (this.settingEditorPane.is('history')) {
-      styles.push('editor--history');
-    }
-
-    if (this.settingEditorPane.is('source')) {
-      styles.push('editor--source');
-    }
-
-    if (this.settingFullScreenEditor.on || !this.servingPath) {
-      styles.push('editor--fullscreen-editor');
-    }
-
-    if (this.settingFullScreenPreview.on) {
-      styles.push('editor--fullscreen-preview');
-    }
-
-    if (this._isFullMarkdownEditor) {
-      styles.push('editor--markdown');
-    }
-
-    if (this.settingHighlightGuess.on) {
-      styles.push('editor--highlight-guess');
-    }
-
-    if (this.settingHighlightDirty.on) {
-      styles.push('editor--highlight-dirty');
-    }
-
-    if (this.settingHighlightLinked.on) {
-      styles.push('editor--highlight-linked');
-    }
-
-    return styles.join(' ');
-  }
-
-  get templatePane() {
-    if (this.settingEditorPane.is('source')) {
-      const contentHtml = this.document.content != '' ? selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`
-          <div class="editor__source__section">
-            <div class="editor__source__title">Content</div>
-            <textarea class="editor__source__content" @input=${this.handleRawContent.bind(this)}>${this.document.content}</textarea>
-          </div>` : '';
-      return selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`
-        <div class="editor__card">
-          <div class="editor__card__title">
-            Source
-          </div>
-          <div class="editor__source">
-            <div class="editor__source__section">
-              <div class="editor__source__title">Front Matter</div>
-              <textarea class="editor__source__frontmatter" @input=${this.handleRawInput.bind(this)}>${this.document.rawFrontMatter}</textarea>
-            </div>
-            ${contentHtml}
-          </div>
-        </div>`;
-    }
-
-    if (this.settingEditorPane.is('history')) {
-      if (!this.repo) {
-        return selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`<div class="editor__loading editor__loading--small" title="Loading..."></div>`;
-      }
-
-      return selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`
-        <div class="editor__card">
-          <div class="editor__card__title">
-            Current Workspace
-          </div>
-          <div class="editor__history__workspace">
-            <i
-                class="material-icons icon"
-                title="">
-              dashboard
-            </i>
-            <div class="editor__workspace__branch__label">
-              ${this.repo.branch}
-            </div>
-          </div>
-        </div>
-        <div class="editor__card">
-          <div class="editor__card__title">
-            Change History
-          </div>
-          <div class="editor__history__commits">
-            ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["repeat"])(this.repo.commits, commit => commit.sha, (commit, index) => selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`
-              <div
-                  class="editor__history__commits__commit">
-                <i
-                    class="material-icons icon"
-                    title="">
-                  notes
-                </i>
-                <div class="editor__history__commits__commit__meta">
-                  <div class="editor__history__commits__commit__info">
-                    <a href="${this.repo.webUrlForCommit(commit.sha)}" class="editor__history__commits__commit__hash">${commit.sha.slice(0, 5)}</a>
-                    &nbsp;by&nbsp;<a href="mailto:${commit.author.email}">${commit.author.name}</a>
-                    <span class="editor__history__commits__commit__time" title="${moment__WEBPACK_IMPORTED_MODULE_4___default()(commit.commit_date + 'Z', moment__WEBPACK_IMPORTED_MODULE_4___default.a.ISO_8601).format('D MMM YYYY, h:mm:ss a')}">
-                      &nbsp;(${moment__WEBPACK_IMPORTED_MODULE_4___default()(commit.commit_date + 'Z', moment__WEBPACK_IMPORTED_MODULE_4___default.a.ISO_8601).fromNow()})
-                    </span>
-                  </div>
-                  <div class="editor__history__commits__commit__message">
-                    ${commit.message}
-                  </div>
-                </div>
-              </div>
-            `)}
-          </div>
-        </div>`;
-    }
-
-    return selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`
-      ${this.renderWorkspace(this, this.selective)}
-      <div class="editor__card editor__field_list">
-        <div class="editor__card__title">
-          Content
-        </div>
-        <div class="editor__selective">
-          ${this.selective.template(this.selective, this.selective.data)}
-        </div>
-      </div>
-      <div class="editor__dev_tools">
-        <div>Developer tools:</div>
-        <div class="editor__dev_tools__icons">
-          <i
-              class="editor__dev_tools__icon ${this.settingHighlightGuess.on ? 'editor__dev_tools__icon--selected' : ''} material-icons"
-              @click=${this.handleHighlightGuess.bind(this)}
-              title="Highlight auto fields">
-            assistant
-          </i>
-          <i
-              class="editor__dev_tools__icon ${this.settingHighlightLinked.on ? 'editor__dev_tools__icon--selected' : ''} material-icons"
-              @click=${this.handleHighlightLinked.bind(this)}
-              title="Deep link to fields">
-            link
-          </i>
-          <i
-              class="editor__dev_tools__icon ${this.settingHighlightDirty.on ? 'editor__dev_tools__icon--selected' : ''} material-icons"
-              @click=${this.handleHighlightDirty.bind(this)}
-              title="Highlight dirty fields">
-            change_history
-          </i>
-        </div>
-      </div>`;
-  }
-
-  set device(value) {
-    this._device = value;
-    this.storage.setItem('selective.device', this._device);
-  }
-
-  set podPath(value) {
-    this._podPath = value.trim();
-    this.listeners.trigger('podPath', this._podPath);
-  }
-
-  _sizeLabel(device, rotate) {
-    if (device.width && device.height) {
-      if (rotate) {
-        return `${device.height} x ${device.width}`;
-      }
-
-      return `${device.width} x ${device.height}`;
-    }
-
-    return device.width || device.height;
-  }
-
-  adjustIframeSize() {
-    const iframeContainerEl = this.containerEl.querySelector('.editor__preview__frame');
-    const iframeEl = this.containerEl.querySelector('.editor__preview iframe');
-    Object(_zoomIframe__WEBPACK_IMPORTED_MODULE_14__["zoomIframe"])(iframeContainerEl, iframeEl, this.settingDeviceView.on, this.settingDeviceRotated.on, this.devices[this.device], 'editor__preview__frame--contained');
-  }
-
-  bindEvents() {
-    // Rerender when window resizes.
-    window.addEventListener('resize', evt => {
-      this.render();
-    }); // Allow triggering a re-render.
-
-    document.addEventListener('selective.render', evt => {
-      const forceReload = evt.detail && evt.detail['force'] == true;
-      this.render(forceReload);
-    }); // Allow copying files.
-
-    document.addEventListener('selective.path.copy', evt => {
-      const podPath = evt.detail['path'];
-      const parts = podPath.split('/');
-      const fileName = parts.pop();
-      const fileNameParts = fileName.split('.');
-      const fileNameExt = fileNameParts.pop();
-      const fileNameBase = fileNameParts.join('.');
-      const newFileNameBase = window.prompt(`Enter the new file name for the duplicate of ${fileNameBase}`, fileNameBase);
-      parts.push([newFileNameBase, fileNameExt].join('.'));
-      const newPodPath = parts.join('/');
-      this.api.copyFile(podPath, newPodPath).then(() => {
-        if (this._podPaths) {
-          this.loadPodPaths(true);
+  _createClass(Editor, [{
+    key: "_sizeLabel",
+    value: function _sizeLabel(device, rotate) {
+      if (device.width && device.height) {
+        if (rotate) {
+          return "".concat(device.height, " x ").concat(device.width);
         }
-      }).catch(error => {
-        console.error(error);
-      });
-    }); // Allow deleting files.
 
-    document.addEventListener('selective.path.delete', evt => {
-      const podPath = evt.detail['path'];
-      this.api.deleteFile(podPath).then(() => {
-        if (this._podPaths) {
-          this.loadPodPaths(true);
-        }
-      }).catch(error => {
-        console.error(error);
-      });
-    }); // Allow new files from templates.
+        return "".concat(device.width, " x ").concat(device.height);
+      }
 
-    document.addEventListener('selective.path.template', evt => {
-      const collectionPath = evt.detail['collectionPath'];
-      const fileName = evt.detail['fileName'];
-      const template = evt.detail['template'];
-      this.api.templateFile(collectionPath, template, fileName).then(() => {
-        if (this._podPaths) {
-          this.loadPodPaths(true);
-        }
-      }).catch(error => {
-        console.error(error);
-      });
-    }); // Allow triggering a new pod path to load.
+      return device.width || device.height;
+    }
+  }, {
+    key: "adjustIframeSize",
+    value: function adjustIframeSize() {
+      var iframeContainerEl = this.containerEl.querySelector('.editor__preview__frame');
+      var iframeEl = this.containerEl.querySelector('.editor__preview iframe');
+      Object(_zoomIframe__WEBPACK_IMPORTED_MODULE_15__["zoomIframe"])(iframeContainerEl, iframeEl, this.settingDeviceView.on, this.settingDeviceRotated.on, this.devices[this.device], 'editor__preview__frame--contained');
+    }
+  }, {
+    key: "bindEvents",
+    value: function bindEvents() {
+      var _this2 = this;
 
-    document.addEventListener('selective.path.update', evt => {
-      const podPath = evt.detail['path'];
-      this.podPath = podPath;
-      this.load(podPath);
-    }); // Watch for the deep link event.
+      // Rerender when window resizes.
+      window.addEventListener('resize', function (evt) {
+        _this2.render();
+      }); // Allow triggering a re-render.
 
-    document.addEventListener('selective.field.deep_link', evt => {
-      const linkedField = evt.detail.field;
-      const operation = evt.detail.operation;
+      document.addEventListener('selective.render', function (evt) {
+        var forceReload = evt.detail && evt.detail['force'] == true;
 
-      if (operation == 'toggle') {
-        // Allow for linking to multiple fields at once.
-        let newField = (this.urlParams.get('field') || '').split(',');
+        _this2.render(forceReload);
+      }); // Allow copying files.
 
-        if (newField.includes(linkedField)) {
-          // Remove existing item.
-          newField = newField.filter(item => item !== linkedField);
+      document.addEventListener('selective.path.copy', function (evt) {
+        var podPath = evt.detail['podPath'];
+        var newPodPath = evt.detail['newPodPath'];
+
+        _this2.api.copyFile(podPath, newPodPath).then(function (response) {
+          if (_this2._podPaths) {
+            _this2.loadPodPaths(true);
+          }
+
+          _this2.listeners.trigger('copy.response', response);
+        }).catch(function (error) {
+          console.error(error);
+        });
+      }); // Allow deleting files.
+
+      document.addEventListener('selective.path.delete', function (evt) {
+        var podPath = evt.detail['path'];
+
+        _this2.api.deleteFile(podPath).then(function () {
+          if (_this2._podPaths) {
+            _this2.loadPodPaths(true);
+          }
+        }).catch(function (error) {
+          console.error(error);
+        });
+      }); // Allow new files from templates.
+
+      document.addEventListener('selective.path.template', function (evt) {
+        var collectionPath = evt.detail['collectionPath'];
+        var fileName = evt.detail['fileName'];
+        var template = evt.detail['template'];
+
+        _this2.api.templateFile(collectionPath, template, fileName).then(function () {
+          if (_this2._podPaths) {
+            _this2.loadPodPaths(true);
+          }
+        }).catch(function (error) {
+          console.error(error);
+        });
+      }); // Allow triggering a new pod path to load.
+
+      document.addEventListener('selective.path.update', function (evt) {
+        var podPath = evt.detail['path'];
+        _this2.podPath = podPath;
+
+        _this2.load(podPath);
+      }); // Watch for the deep link event.
+
+      document.addEventListener('selective.field.deep_link', function (evt) {
+        var linkedField = evt.detail.field;
+        var operation = evt.detail.operation;
+
+        if (operation == 'toggle') {
+          // Allow for linking to multiple fields at once.
+          var newField = (_this2.urlParams.get('field') || '').split(',');
+
+          if (newField.includes(linkedField)) {
+            // Remove existing item.
+            newField = newField.filter(function (item) {
+              return item !== linkedField;
+            });
+          } else {
+            // Add as new item.
+            newField.push(linkedField);
+          }
+
+          newField.sort();
+
+          _this2.urlParams.set('field', newField.join(','));
         } else {
-          // Add as new item.
-          newField.push(linkedField);
+          _this2.urlParams.set('field', linkedField);
         }
 
-        newField.sort();
-        this.urlParams.set('field', newField.join(','));
-      } else {
-        this.urlParams.set('field', linkedField);
-      }
+        _this2.pushState(_this2.document.podPath, _this2.urlParams.toString());
 
-      this.pushState(this.document.podPath, this.urlParams.toString());
+        _this2.render();
+      }); // Check for navigated iframe when the routes load.
+
+      this.listeners.add('load.routes', this.verifyPreviewIframe.bind(this)); // Watch for the history popstate.
+
+      window.addEventListener('popstate', this.handlePopState.bind(this)); // Message when there are pending changes.
+
+      window.addEventListener('beforeunload', function (evt) {
+        if (!_this2.isClean) {
+          evt.preventDefault();
+          evt.returnValue = ''; // Chrome requires returnValue to be set.
+        }
+      });
+    }
+  }, {
+    key: "bindKeyboard",
+    value: function bindKeyboard() {
+      var _this3 = this;
+
+      window.addEventListener('keydown', function (event) {
+        // Save when using Ctrl+s or Command+s.
+        if ((event.ctrlKey || event.metaKey) && event.key == 's') {
+          event.preventDefault();
+
+          _this3.save();
+
+          return false;
+        }
+
+        return true;
+      });
+    } // When editing the pod path wait until the user stops typing before loading.
+
+  }, {
+    key: "delayPodPath",
+    value: function delayPodPath() {
+      var _this4 = this;
+
+      this._lastPodPathUpdate = Date.now();
+      setTimeout(function () {
+        if (Date.now() - _this4._lastPodPathUpdate < 900) {
+          return;
+        }
+
+        _this4._lastPodPathUpdate = Date.now();
+
+        _this4.load(_this4.podPath);
+      }, 1000);
+    }
+  }, {
+    key: "documentFromResponse",
+    value: function documentFromResponse(response) {
+      this.document = new _document__WEBPACK_IMPORTED_MODULE_9__["default"](response['pod_path'], response['front_matter'], response['raw_front_matter'], response['serving_paths'], response['default_locale'], response['locales'], response['content'], response['hash']);
+      this.settingLocale = new _utility_settings__WEBPACK_IMPORTED_MODULE_19__["SettingSet"](this.document.locales, this.document.defaultLocale, this.storage, 'selective.editor.locale');
+    }
+  }, {
+    key: "handleDeviceRotateClick",
+    value: function handleDeviceRotateClick(evt) {
+      this.settingDeviceRotated.toggle();
       this.render();
-    }); // Check for navigated iframe when the routes load.
+    }
+  }, {
+    key: "handleDeviceSwitchClick",
+    value: function handleDeviceSwitchClick(evt) {
+      var target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_16__["findParentByClassname"])(evt.target, 'editor__preview__size');
+      this.device = target.dataset.device;
+      this.render();
+    }
+  }, {
+    key: "handleDeviceToggleClick",
+    value: function handleDeviceToggleClick(evt) {
+      this.settingDeviceView.toggle();
+      this.render();
+    }
+  }, {
+    key: "handleFieldsClick",
+    value: function handleFieldsClick(evt) {
+      this.settingEditorPane.value = 'fields'; // Need to remove the code mirror for source since it no longer exists.
 
-    this.listeners.add('load.routes', this.verifyPreviewIframe.bind(this)); // Watch for the history popstate.
+      delete this._codeMirrors['source'];
+      delete this._codeMirrors['content']; // Handle the case that the field information has not been loaded yet.
 
-    window.addEventListener('popstate', this.handlePopState.bind(this)); // Message when there are pending changes.
-
-    window.addEventListener('beforeunload', evt => {
-      if (!this.isClean) {
-        evt.preventDefault();
-        evt.returnValue = ''; // Chrome requires returnValue to be set.
+      if (!this._hasLoadedFields) {
+        this.load(this.podPath);
       }
-    });
-  }
 
-  bindKeyboard() {
-    window.addEventListener('keydown', event => {
-      // Save when using Ctrl+s or Command+s.
-      if ((event.ctrlKey || event.metaKey) && event.key == 's') {
-        event.preventDefault();
-        this.save();
-        return false;
+      this.render();
+    }
+  }, {
+    key: "handleFullScreenEditorClick",
+    value: function handleFullScreenEditorClick(evt) {
+      this.settingFullScreenEditor.toggle();
+      this.render();
+    }
+  }, {
+    key: "handleFullScreenPreviewClick",
+    value: function handleFullScreenPreviewClick(evt) {
+      this.settingFullScreenPreview.toggle();
+      this.render();
+    }
+  }, {
+    key: "handleHighlightDirty",
+    value: function handleHighlightDirty(evt) {
+      this.settingHighlightDirty.toggle();
+      this.render();
+    }
+  }, {
+    key: "handleHighlightGuess",
+    value: function handleHighlightGuess(evt) {
+      this.settingHighlightGuess.toggle();
+      this.render();
+    }
+  }, {
+    key: "handleHighlightLinked",
+    value: function handleHighlightLinked(evt) {
+      this.settingHighlightLinked.toggle();
+      this.render();
+    }
+  }, {
+    key: "handleLoadFieldsResponse",
+    value: function handleLoadFieldsResponse(response) {
+      var _this5 = this;
+
+      this._hasLoadedFields = true;
+      this._isFullMarkdownEditor = false;
+      this.settingEditorPane.value = 'fields';
+      this.documentFromResponse(response);
+      this.pushState(this.document.podPath); // Set the data from the document front matter.
+
+      this.selective.data = this.document.data;
+      this.selective.config.set('defaultLocale', this.document.defaultLocale);
+      this.updateSelectiveLocalization();
+      this.selective.fields.reset(); // Load the field configuration from the response.
+
+      var fieldConfigs = response['editor']['fields'] || []; // If no fields defined, guess.
+
+      if (!fieldConfigs.length) {
+        var guessedFields = this.selective.guessFields();
+        fieldConfigs = guessedFields['fields'] || []; // Remove the content.
+
+        var contentConfigIndex = null;
+
+        for (var i = 0; i < fieldConfigs.length; i++) {
+          if (fieldConfigs[i].key == CONTENT_KEY) {
+            contentConfigIndex = i;
+            break;
+          }
+        }
+
+        if (contentConfigIndex) {
+          fieldConfigs.splice(contentConfigIndex, 1);
+        }
+
+        var _iterator = _createForOfIteratorHelper(fieldConfigs),
+            _step;
+
+        try {
+          for (_iterator.s(); !(_step = _iterator.n()).done;) {
+            var fieldConfig = _step.value;
+            fieldConfig.isGuessed = true;
+          }
+        } catch (err) {
+          _iterator.e(err);
+        } finally {
+          _iterator.f();
+        }
       }
 
-      return true;
-    });
-  } // When editing the pod path wait until the user stops typing before loading.
+      var _iterator2 = _createForOfIteratorHelper(fieldConfigs),
+          _step2;
 
+      try {
+        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+          var _fieldConfig = _step2.value;
+          this.selective.addField(_fieldConfig, {
+            api: this.api,
+            linkedFieldsFunc: function linkedFieldsFunc() {
+              return _this5.linkedFields;
+            },
+            AutoFieldsCls: _autoFields__WEBPACK_IMPORTED_MODULE_12__["default"]
+          });
+        } // Add the ability to edit the document body.
 
-  delayPodPath() {
-    this._lastPodPathUpdate = Date.now();
-    setTimeout(() => {
-      if (Date.now() - this._lastPodPathUpdate < 900) {
+      } catch (err) {
+        _iterator2.e(err);
+      } finally {
+        _iterator2.f();
+      }
+
+      if (response['content']) {
+        var contentType = 'textarea';
+
+        if (this.document.podPath.endsWith('.md')) {
+          contentType = 'markdown';
+          this._isFullMarkdownEditor = true;
+        } else if (this.document.podPath.endsWith('.html')) {
+          contentType = 'html';
+          this._isFullMarkdownEditor = true;
+        }
+
+        this.selective.addField({
+          classes: ['selective__field__type__html--content'],
+          type: contentType,
+          key: CONTENT_KEY,
+          label: 'Content'
+        }, {
+          api: this.api,
+          linkedFieldsFunc: function linkedFieldsFunc() {
+            return _this5.linkedFields;
+          },
+          AutoFieldsCls: _autoFields__WEBPACK_IMPORTED_MODULE_12__["default"]
+        });
+      }
+
+      this.scrollToLinkedField(); // On load watch for selected fields.
+
+      this.render();
+    }
+  }, {
+    key: "handleLoadHistoryResponse",
+    value: function handleLoadHistoryResponse(response) {
+      this._isFullMarkdownEditor = false;
+      this.settingEditorPane.value = 'history';
+      this.documentFromResponse(response);
+      this.pushState(this.document.podPath);
+      this.render();
+    }
+  }, {
+    key: "handleHistoryClick",
+    value: function handleHistoryClick(evt) {
+      this.settingEditorPane.value = 'history';
+      this.render();
+    }
+  }, {
+    key: "handleLoadPod",
+    value: function handleLoadPod(response) {
+      this._pod = response['pod'];
+      this.listeners.trigger('load.pod', {
+        pod: this._pod
+      });
+    }
+  }, {
+    key: "handleLoadPodPaths",
+    value: function handleLoadPodPaths(response) {
+      this._podPaths = response['pod_paths'];
+      this.listeners.trigger('load.podPaths', {
+        pod_paths: this._podPaths
+      });
+    }
+  }, {
+    key: "handleLoadRoutes",
+    value: function handleLoadRoutes(response) {
+      this._routes = response['routes'];
+      this.listeners.trigger('load.routes', {
+        routes: this._routes
+      });
+    }
+  }, {
+    key: "handleLoadRepo",
+    value: function handleLoadRepo(response) {
+      var repo = response['repo'];
+      this.repo = new _utility_repo__WEBPACK_IMPORTED_MODULE_17__["default"](repo.branch, repo.branches, repo.commits, repo.remote_url, repo.revision, repo.web_url);
+      this.listeners.trigger('load.repo', {
+        repo: this.repo
+      });
+    }
+  }, {
+    key: "handleLoadTemplates",
+    value: function handleLoadTemplates(response) {
+      var _this6 = this;
+
+      this._templates = response['templates'];
+      this.listeners.trigger('load.templates', {
+        templates: this._templates
+      }); // Check for missing screenshots.
+
+      var _loop = function _loop() {
+        var collectionPath = _Object$keys[_i];
+        var template = _this6._templates[collectionPath];
+
+        var _loop2 = function _loop2() {
+          var key = _Object$keys2[_i2];
+          var templateMeta = template[key];
+          var screenshots = templateMeta.screenshots; // Missing template screenshot. Request it.
+
+          if (!Object.keys(screenshots).length) {
+            _this6.api.screenshotTemplate(collectionPath, key).then(function (response) {
+              for (var _i3 = 0, _Object$keys3 = Object.keys(response); _i3 < _Object$keys3.length; _i3++) {
+                var responseCollection = _Object$keys3[_i3];
+                templateMeta.screenshots = response[collectionPath + '/'][key];
+
+                _this6.listeners.trigger('load.templates', {
+                  templates: _this6._templates
+                });
+              }
+            });
+          }
+        };
+
+        for (var _i2 = 0, _Object$keys2 = Object.keys(template); _i2 < _Object$keys2.length; _i2++) {
+          _loop2();
+        }
+      };
+
+      for (var _i = 0, _Object$keys = Object.keys(this._templates); _i < _Object$keys.length; _i++) {
+        _loop();
+      }
+    }
+  }, {
+    key: "handleLoadSourceResponse",
+    value: function handleLoadSourceResponse(response) {
+      this.settingEditorPane.value = 'source';
+      this.documentFromResponse(response);
+      this.pushState(this.document.podPath);
+      this.render();
+    }
+  }, {
+    key: "handleLoadStrings",
+    value: function handleLoadStrings(response) {
+      this._strings = response['strings'];
+      this.listeners.trigger('load.strings', {
+        strings: this._strings
+      });
+    }
+  }, {
+    key: "handleLocalize",
+    value: function handleLocalize(evt) {
+      this.settingLocalize.toggle();
+      this.selective.localize = this.settingLocalize.on;
+      this.render();
+    }
+  }, {
+    key: "handleLocalizeSelect",
+    value: function handleLocalizeSelect(evt) {
+      this.settingLocalize.value = true;
+      this.selective.localize = this.settingLocalize.on;
+      this.settingLocale.value = evt.target.value;
+      this.updateSelectiveLocalization();
+      this.render();
+    }
+  }, {
+    key: "handleLocalizeUrlsClick",
+    value: function handleLocalizeUrlsClick(evt) {
+      evt.preventDefault();
+      this.settingLocalizeUrls.toggle();
+      this.render();
+    }
+  }, {
+    key: "handleOpenInNew",
+    value: function handleOpenInNew(evt) {
+      window.open(this.previewUrl, '_blank');
+    }
+  }, {
+    key: "handlePodPathChange",
+    value: function handlePodPathChange(evt) {
+      this.load(evt.target.value);
+    }
+  }, {
+    key: "handlePodPathInput",
+    value: function handlePodPathInput(evt) {
+      this.delayPodPath(evt.target.value);
+    }
+  }, {
+    key: "handlePopState",
+    value: function handlePopState(evt) {
+      if (evt.state && evt.state.podPath) {
+        this.podPath = evt.state.podPath;
+        this.urlParams = new URLSearchParams(window.location.search);
+        this.load(this.podPath);
+      } else {
+        // Handle when there was no document loaded. (ex: main editor url)
+        this.unload();
+      }
+    }
+  }, {
+    key: "handlePreviewIframeNavigation",
+    value: function handlePreviewIframeNavigation(evt) {
+      var newLocation = evt.target.contentWindow.location;
+
+      if (window.location.host != newLocation.host) {
+        // Navigated away from the current site, ignore them.
         return;
       }
 
-      this._lastPodPathUpdate = Date.now();
-      this.load(this.podPath);
-    }, 1000);
-  }
+      var newPath = newLocation.pathname;
 
-  documentFromResponse(response) {
-    this.document = new _document__WEBPACK_IMPORTED_MODULE_9__["default"](response['pod_path'], response['front_matter'], response['raw_front_matter'], response['serving_paths'], response['default_locale'], response['locales'], response['content'], response['hash']);
-    this.settingLocale = new _utility_settings__WEBPACK_IMPORTED_MODULE_18__["SettingSet"](this.document.locales, this.document.defaultLocale, this.storage, 'selective.editor.locale');
-  }
+      if (newPath == this.servingPath) {
+        // Check if the user navigated to the same page.
+        return;
+      } // Mark the path as the latest path to check once the routes have loaded.
+      // This allows the user to navigate a couple of times while the code is
+      // waiting for the routes info to load and only update to the latest path.
 
-  handleDeviceRotateClick(evt) {
-    this.settingDeviceRotated.toggle();
-    this.render();
-  }
 
-  handleDeviceSwitchClick(evt) {
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_15__["findParentByClassname"])(evt.target, 'editor__preview__size');
-    this.device = target.dataset.device;
-    this.render();
-  }
+      this._unverifiedServingPath = newPath; // User has navigated to a new page on the same host.
+      // If there is a document that has the same serving path switch the editor.
 
-  handleDeviceToggleClick(evt) {
-    this.settingDeviceView.toggle();
-    this.render();
-  }
+      this.verifyPreviewIframe(); // Load the routes info if it has not loaded already.
+      // The verify method is already bound to the loaded routes listener.
 
-  handleFieldsClick(evt) {
-    this.settingEditorPane.value = 'fields'; // Need to remove the code mirror for source since it no longer exists.
-
-    delete this._codeMirrors['source'];
-    delete this._codeMirrors['content']; // Handle the case that the field information has not been loaded yet.
-
-    if (!this._hasLoadedFields) {
-      this.load(this.podPath);
+      this.loadRoutes();
     }
+  }, {
+    key: "handleRawContent",
+    value: function handleRawContent(evt) {
+      this.document.content = evt.target.value;
+    }
+  }, {
+    key: "handleRawInput",
+    value: function handleRawInput(evt) {
+      this.document.rawFrontMatter = evt.target.value;
+    }
+  }, {
+    key: "handleSaveError",
+    value: function handleSaveError(err) {
+      this._isSaving = false;
+      this.listeners.trigger('save.error', err);
+      this.render();
+    }
+  }, {
+    key: "handleSaveResponse",
+    value: function handleSaveResponse(response, isAutosave) {
+      this.updateDocumentFromResponse(response);
+      this.selective.data = this.document.data;
+      this._isSaving = false;
+      this.listeners.trigger('save.response', response, isAutosave); // Unlock any locked fields to allow the new data to update.
+      // Ex: list sorting or deleting locks fields.
 
-    this.render();
-  }
-
-  handleFullScreenEditorClick(evt) {
-    this.settingFullScreenEditor.toggle();
-    this.render();
-  }
-
-  handleFullScreenPreviewClick(evt) {
-    this.settingFullScreenPreview.toggle();
-    this.render();
-  }
-
-  handleHighlightDirty(evt) {
-    this.settingHighlightDirty.toggle();
-    this.render();
-  }
-
-  handleHighlightGuess(evt) {
-    this.settingHighlightGuess.toggle();
-    this.render();
-  }
-
-  handleHighlightLinked(evt) {
-    this.settingHighlightLinked.toggle();
-    this.render();
-  }
-
-  handleLoadFieldsResponse(response) {
-    this._hasLoadedFields = true;
-    this._isFullMarkdownEditor = false;
-    this.settingEditorPane.value = 'fields';
-    this.documentFromResponse(response);
-    this.pushState(this.document.podPath); // Set the data from the document front matter.
-
-    this.selective.data = this.document.data;
-    this.selective.config.set('defaultLocale', this.document.defaultLocale);
-    this.updateSelectiveLocalization();
-    this.selective.fields.reset(); // Load the field configuration from the response.
-
-    let fieldConfigs = response['editor']['fields'] || []; // If no fields defined, guess.
-
-    if (!fieldConfigs.length) {
-      const guessedFields = this.selective.guessFields();
-      fieldConfigs = guessedFields['fields'] || []; // Remove the content.
-
-      let contentConfigIndex = null;
-
-      for (let i = 0; i < fieldConfigs.length; i++) {
-        if (fieldConfigs[i].key == CONTENT_KEY) {
-          contentConfigIndex = i;
-          break;
-        }
-      }
-
-      if (contentConfigIndex) {
-        fieldConfigs.splice(contentConfigIndex, 1);
-      }
-
-      for (const fieldConfig of fieldConfigs) {
-        fieldConfig.isGuessed = true;
+      document.dispatchEvent(new CustomEvent('selective.unlock'));
+      this.render(true);
+    }
+  }, {
+    key: "handleSourceClick",
+    value: function handleSourceClick(evt) {
+      // TODO: Add ability to switch while there are unsaved changes.
+      // if (!this.settingEditorPane.is('source') && !this.isClean) {
+      //   const newFrontMatter = this.selective.value
+      //   const content = newFrontMatter[CONTENT_KEY]
+      //   delete newFrontMatter[CONTENT_KEY]
+      //   this.document.rawFrontMatter = dump(newFrontMatter)
+      //   this.document.content = content
+      // }
+      this.settingEditorPane.value = 'source';
+      this.render();
+    }
+  }, {
+    key: "load",
+    value: function load(podPath) {
+      if (this.settingEditorPane.is('source')) {
+        this.loadSource(podPath);
+      } else if (this.settingEditorPane.is('history')) {
+        this.loadRepo();
+        this.loadHistory(podPath);
+      } else {
+        this.loadFields(podPath);
       }
     }
-
-    for (const fieldConfig of fieldConfigs) {
-      this.selective.addField(fieldConfig, {
-        api: this.api,
-        linkedFieldsFunc: () => this.linkedFields,
-        AutoFieldsCls: _autoFields__WEBPACK_IMPORTED_MODULE_12__["default"]
-      });
-    } // Add the ability to edit the document body.
-
-
-    if (response['content']) {
-      let contentType = 'textarea';
-
-      if (this.document.podPath.endsWith('.md')) {
-        contentType = 'markdown';
-        this._isFullMarkdownEditor = true;
-      } else if (this.document.podPath.endsWith('.html')) {
-        contentType = 'html';
-        this._isFullMarkdownEditor = true;
+  }, {
+    key: "loadFields",
+    value: function loadFields(podPath) {
+      this.api.getDocument(podPath).then(this.handleLoadFieldsResponse.bind(this));
+    }
+  }, {
+    key: "loadHistory",
+    value: function loadHistory(podPath) {
+      this.api.getDocument(podPath).then(this.handleLoadHistoryResponse.bind(this));
+    }
+  }, {
+    key: "loadPod",
+    value: function loadPod(force) {
+      if (!force && this._isLoading['pod']) {
+        // Already loading, do not re-request.
+        return;
       }
 
-      this.selective.addField({
-        classes: ['selective__field__type__html--content'],
-        type: contentType,
-        key: CONTENT_KEY,
-        label: 'Content'
-      }, {
-        api: this.api,
-        linkedFieldsFunc: () => this.linkedFields,
-        AutoFieldsCls: _autoFields__WEBPACK_IMPORTED_MODULE_12__["default"]
-      });
+      this._isLoading['pod'] = true;
+      this.api.getPod().then(this.handleLoadPod.bind(this));
     }
+  }, {
+    key: "loadPodPaths",
+    value: function loadPodPaths(force) {
+      if (!force && this._isLoading['podPaths']) {
+        // Already loading, do not re-request.
+        return;
+      }
 
-    this.scrollToLinkedField(); // On load watch for selected fields.
+      this._isLoading['podPaths'] = true;
+      this.api.getPodPaths().then(this.handleLoadPodPaths.bind(this));
+    }
+  }, {
+    key: "loadRepo",
+    value: function loadRepo(force) {
+      if (!force && this._isLoading['repo']) {
+        // Already loading, do not re-request.
+        return;
+      }
 
-    this.render();
-  }
+      this._isLoading['repo'] = true;
+      this.api.getRepo().then(this.handleLoadRepo.bind(this));
+    }
+  }, {
+    key: "loadRoutes",
+    value: function loadRoutes(force) {
+      if (!force && this._isLoading['routes']) {
+        // Already loading, do not re-request.
+        return;
+      }
 
-  handleLoadHistoryResponse(response) {
-    this._isFullMarkdownEditor = false;
-    this.settingEditorPane.value = 'history';
-    this.documentFromResponse(response);
-    this.pushState(this.document.podPath);
-    this.render();
-  }
+      this._isLoading['routes'] = true;
+      this.api.getRoutes().then(this.handleLoadRoutes.bind(this));
+    }
+  }, {
+    key: "loadSource",
+    value: function loadSource(podPath) {
+      this.api.getDocument(podPath).then(this.handleLoadSourceResponse.bind(this));
+    }
+  }, {
+    key: "loadStrings",
+    value: function loadStrings(force) {
+      if (!force && this._isLoading['strings']) {
+        // Already loading, do not re-request.
+        return;
+      }
 
-  handleHistoryClick(evt) {
-    this.settingEditorPane.value = 'history';
-    this.render();
-  }
+      this._isLoading['strings'] = true;
+      this.api.getStrings().then(this.handleLoadStrings.bind(this));
+    }
+  }, {
+    key: "loadTemplates",
+    value: function loadTemplates(force) {
+      if (!force && this._isLoading['templates']) {
+        // Already loading, do not re-request.
+        return;
+      }
 
-  handleLoadPod(response) {
-    this._pod = response['pod'];
-    this.listeners.trigger('load.pod', {
-      pod: this._pod
-    });
-  }
+      this._isLoading['templates'] = true;
+      this.api.getTemplates().then(this.handleLoadTemplates.bind(this));
+    }
+  }, {
+    key: "pushState",
+    value: function pushState(podPath, paramString) {
+      // Update the url if the document loaded is a different pod path.
+      var basePath = this.config.get('base', '/_grow/editor');
+      var origPath = window.location.pathname;
+      var newPath = "".concat(basePath).concat(podPath).concat(paramString ? "?".concat(paramString) : '');
 
-  handleLoadPodPaths(response) {
-    this._podPaths = response['pod_paths'];
-    this.listeners.trigger('load.podPaths', {
-      pod_paths: this._podPaths
-    });
-  }
-
-  handleLoadRoutes(response) {
-    this._routes = response['routes'];
-    this.listeners.trigger('load.routes', {
-      routes: this._routes
-    });
-  }
-
-  handleLoadRepo(response) {
-    const repo = response['repo'];
-    this.repo = new _utility_repo__WEBPACK_IMPORTED_MODULE_16__["default"](repo.branch, repo.branches, repo.commits, repo.remote_url, repo.revision, repo.web_url);
-    this.listeners.trigger('load.repo', {
-      repo: this.repo
-    });
-  }
-
-  handleLoadTemplates(response) {
-    this._templates = response['templates'];
-    this.listeners.trigger('load.templates', {
-      templates: this._templates
-    }); // Check for missing screenshots.
-
-    for (const collectionPath of Object.keys(this._templates)) {
-      const template = this._templates[collectionPath];
-
-      for (const key of Object.keys(template)) {
-        const templateMeta = template[key];
-        const screenshots = templateMeta.screenshots; // Missing template screenshot. Request it.
-
-        if (!Object.keys(screenshots).length) {
-          this.api.screenshotTemplate(collectionPath, key).then(response => {
-            for (const responseCollection of Object.keys(response)) {
-              templateMeta.screenshots = response[collectionPath + '/'][key];
-              this.listeners.trigger('load.templates', {
-                templates: this._templates
-              });
-            }
-          });
-        }
+      if (origPath != newPath && !this.testing) {
+        history.pushState({
+          'podPath': podPath,
+          'paramString': paramString
+        }, '', newPath);
       }
     }
-  }
+  }, {
+    key: "render",
+    value: function render(force) {
+      var _this7 = this;
 
-  handleLoadSourceResponse(response) {
-    this.settingEditorPane.value = 'source';
-    this.documentFromResponse(response);
-    this.pushState(this.document.podPath);
-    this.render();
-  }
+      // Render only one at a time.
+      if (this._isRendering) {
+        this._pendingRender = {
+          force: this._pendingRender.force ? this._pendingRender.force || force : force
+        };
+        return;
+      }
 
-  handleLoadStrings(response) {
-    this._strings = response['strings'];
-    this.listeners.trigger('load.strings', {
-      strings: this._strings
-    });
-  }
+      this._isRendering = true;
+      var isClean = this.isClean;
 
-  handleLocalize(evt) {
-    this.settingLocalize.toggle();
-    this.selective.localize = this.settingLocalize.on;
-    this.render();
-  }
-
-  handleLocalizeSelect(evt) {
-    this.settingLocalize.value = true;
-    this.selective.localize = this.settingLocalize.on;
-    this.settingLocale.value = evt.target.value;
-    this.updateSelectiveLocalization();
-    this.render();
-  }
-
-  handleLocalizeUrlsClick(evt) {
-    evt.preventDefault();
-    this.settingLocalizeUrls.toggle();
-    this.render();
-  }
-
-  handleOpenInNew(evt) {
-    window.open(this.previewUrl, '_blank');
-  }
-
-  handlePodPathChange(evt) {
-    this.load(evt.target.value);
-  }
-
-  handlePodPathInput(evt) {
-    this.delayPodPath(evt.target.value);
-  }
-
-  handlePopState(evt) {
-    if (evt.state && evt.state.podPath) {
-      this.podPath = evt.state.podPath;
-      this.urlParams = new URLSearchParams(window.location.search);
-      this.load(this.podPath);
-    } else {
-      // Handle when there was no document loaded. (ex: main editor url)
-      this.unload();
-    }
-  }
-
-  handlePreviewIframeNavigation(evt) {
-    const newLocation = evt.target.contentWindow.location;
-
-    if (window.location.host != newLocation.host) {
-      // Navigated away from the current site, ignore them.
-      return;
-    }
-
-    const newPath = newLocation.pathname;
-
-    if (newPath == this.servingPath) {
-      // Check if the user navigated to the same page.
-      return;
-    } // Mark the path as the latest path to check once the routes have loaded.
-    // This allows the user to navigate a couple of times while the code is
-    // waiting for the routes info to load and only update to the latest path.
+      Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["render"])(this.template(this, this.selective), this.containerEl); // Check for clean changes not caught.
 
 
-    this._unverifiedServingPath = newPath; // User has navigated to a new page on the same host.
-    // If there is a document that has the same serving path switch the editor.
-
-    this.verifyPreviewIframe(); // Load the routes info if it has not loaded already.
-    // The verify method is already bound to the loaded routes listener.
-
-    this.loadRoutes();
-  }
-
-  handleRawContent(evt) {
-    this.document.content = evt.target.value;
-  }
-
-  handleRawInput(evt) {
-    this.document.rawFrontMatter = evt.target.value;
-  }
-
-  handleSaveError(err) {
-    this._isSaving = false;
-    this.listeners.trigger('save.error', err);
-    this.render();
-  }
-
-  handleSaveResponse(response, isAutosave) {
-    this.updateDocumentFromResponse(response);
-    this.selective.data = this.document.data;
-    this._isSaving = false;
-    this.listeners.trigger('save.response', response, isAutosave); // Unlock any locked fields to allow the new data to update.
-    // Ex: list sorting or deleting locks fields.
-
-    document.dispatchEvent(new CustomEvent('selective.unlock'));
-    this.render(true);
-  }
-
-  handleSourceClick(evt) {
-    // TODO: Add ability to switch while there are unsaved changes.
-    // if (!this.settingEditorPane.is('source') && !this.isClean) {
-    //   const newFrontMatter = this.selective.value
-    //   const content = newFrontMatter[CONTENT_KEY]
-    //   delete newFrontMatter[CONTENT_KEY]
-    //   this.document.rawFrontMatter = dump(newFrontMatter)
-    //   this.document.content = content
-    // }
-    this.settingEditorPane.value = 'source';
-    this.render();
-  }
-
-  load(podPath) {
-    if (this.settingEditorPane.is('source')) {
-      this.loadSource(podPath);
-    } else if (this.settingEditorPane.is('history')) {
-      this.loadRepo();
-      this.loadHistory(podPath);
-    } else {
-      this.loadFields(podPath);
-    }
-  }
-
-  loadFields(podPath) {
-    this.api.getDocument(podPath).then(this.handleLoadFieldsResponse.bind(this));
-  }
-
-  loadHistory(podPath) {
-    this.api.getDocument(podPath).then(this.handleLoadHistoryResponse.bind(this));
-  }
-
-  loadPod(force) {
-    if (!force && this._isLoading['pod']) {
-      // Already loading, do not re-request.
-      return;
-    }
-
-    this._isLoading['pod'] = true;
-    this.api.getPod().then(this.handleLoadPod.bind(this));
-  }
-
-  loadPodPaths(force) {
-    if (!force && this._isLoading['podPaths']) {
-      // Already loading, do not re-request.
-      return;
-    }
-
-    this._isLoading['podPaths'] = true;
-    this.api.getPodPaths().then(this.handleLoadPodPaths.bind(this));
-  }
-
-  loadRepo(force) {
-    if (!force && this._isLoading['repo']) {
-      // Already loading, do not re-request.
-      return;
-    }
-
-    this._isLoading['repo'] = true;
-    this.api.getRepo().then(this.handleLoadRepo.bind(this));
-  }
-
-  loadRoutes(force) {
-    if (!force && this._isLoading['routes']) {
-      // Already loading, do not re-request.
-      return;
-    }
-
-    this._isLoading['routes'] = true;
-    this.api.getRoutes().then(this.handleLoadRoutes.bind(this));
-  }
-
-  loadSource(podPath) {
-    this.api.getDocument(podPath).then(this.handleLoadSourceResponse.bind(this));
-  }
-
-  loadStrings(force) {
-    if (!force && this._isLoading['strings']) {
-      // Already loading, do not re-request.
-      return;
-    }
-
-    this._isLoading['strings'] = true;
-    this.api.getStrings().then(this.handleLoadStrings.bind(this));
-  }
-
-  loadTemplates(force) {
-    if (!force && this._isLoading['templates']) {
-      // Already loading, do not re-request.
-      return;
-    }
-
-    this._isLoading['templates'] = true;
-    this.api.getTemplates().then(this.handleLoadTemplates.bind(this));
-  }
-
-  pushState(podPath, paramString) {
-    // Update the url if the document loaded is a different pod path.
-    const basePath = this.config.get('base', '/_grow/editor');
-    const origPath = window.location.pathname;
-    const newPath = `${basePath}${podPath}${paramString ? `?${paramString}` : ''}`;
-
-    if (origPath != newPath && !this.testing) {
-      history.pushState({
-        'podPath': podPath,
-        'paramString': paramString
-      }, '', newPath);
-    }
-  }
-
-  render(force) {
-    // Render only one at a time.
-    if (this._isRendering) {
-      this._pendingRender = {
-        force: this._pendingRender.force ? this._pendingRender.force || force : force
-      };
-      return;
-    }
-
-    this._isRendering = true;
-    const isClean = this.isClean;
-    Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["render"])(this.template(this, this.selective), this.containerEl); // Check for clean changes not caught.
-
-    if (this.isClean != isClean) {
-      this._isRendering = false;
-      this.render(force);
-      return;
-    } // Adjust the iframe size.
+      if (this.isClean != isClean) {
+        this._isRendering = false;
+        this.render(force);
+        return;
+      } // Adjust the iframe size.
 
 
-    this.adjustIframeSize(); // Make the code editor if editing raw.
+      this.adjustIframeSize(); // Make the code editor if editing raw.
 
-    if (this.settingEditorPane.is('source') && !this._codeMirrors['source']) {
-      const frontmatterTextarea = this.containerEl.querySelector('.editor__source textarea.editor__source__frontmatter');
-      this._codeMirrors['source'] = codemirror_lib_codemirror_js__WEBPACK_IMPORTED_MODULE_0___default.a.fromTextArea(frontmatterTextarea, Object.assign({}, CODEMIRROR_OPTIONS, {
-        mode: 'yaml'
-      }));
-
-      this._codeMirrors['source'].on('change', cMirror => {
-        this.document.rawFrontMatter = cMirror.getValue();
-        this.render();
-      });
-    }
-
-    if (this.settingEditorPane.is('source') && !this._codeMirrors['content']) {
-      const contentTextarea = this.containerEl.querySelector('.editor__source textarea.editor__source__content');
-
-      if (contentTextarea) {
-        this._codeMirrors['content'] = codemirror_lib_codemirror_js__WEBPACK_IMPORTED_MODULE_0___default.a.fromTextArea(contentTextarea, Object.assign({}, CODEMIRROR_OPTIONS, {
-          mode: this.podPath.endsWith('.html') ? 'htmlmixed' : 'markdown'
+      if (this.settingEditorPane.is('source') && !this._codeMirrors['source']) {
+        var frontmatterTextarea = this.containerEl.querySelector('.editor__source textarea.editor__source__frontmatter');
+        this._codeMirrors['source'] = codemirror_lib_codemirror_js__WEBPACK_IMPORTED_MODULE_0___default.a.fromTextArea(frontmatterTextarea, Object.assign({}, CODEMIRROR_OPTIONS, {
+          mode: 'yaml'
         }));
 
-        this._codeMirrors['content'].on('change', cMirror => {
-          this.document.content = cMirror.getValue();
-          this.render();
+        this._codeMirrors['source'].on('change', function (cMirror) {
+          _this7.document.rawFrontMatter = cMirror.getValue();
+
+          _this7.render();
         });
       }
-    } // Allow selective to run its post render process.
+
+      if (this.settingEditorPane.is('source') && !this._codeMirrors['content']) {
+        var contentTextarea = this.containerEl.querySelector('.editor__source textarea.editor__source__content');
+
+        if (contentTextarea) {
+          this._codeMirrors['content'] = codemirror_lib_codemirror_js__WEBPACK_IMPORTED_MODULE_0___default.a.fromTextArea(contentTextarea, Object.assign({}, CODEMIRROR_OPTIONS, {
+            mode: this.podPath.endsWith('.html') ? 'htmlmixed' : 'markdown'
+          }));
+
+          this._codeMirrors['content'].on('change', function (cMirror) {
+            _this7.document.content = cMirror.getValue();
+
+            _this7.render();
+          });
+        }
+      } // Allow selective to run its post render process.
 
 
-    this.selective.postRender(this.containerEl);
+      this.selective.postRender(this.containerEl);
 
-    if (force === true) {
-      // Force a reload when neccesary.
-      // Test for iframe first, as it may be hidden.
-      const iframe = this.containerEl.querySelector('iframe');
-      iframe && iframe.contentWindow.location.reload(true);
-    } // Mark as done rendering.
+      if (force === true) {
+        // Force a reload when neccesary.
+        // Test for iframe first, as it may be hidden.
+        var iframe = this.containerEl.querySelector('iframe');
+        iframe && iframe.contentWindow.location.reload(true);
+      } // Mark as done rendering.
 
 
-    this._isRendering = false;
-    document.dispatchEvent(new CustomEvent('selective.render.complete')); // If there were other requests to render, render them.
+      this._isRendering = false;
+      document.dispatchEvent(new CustomEvent('selective.render.complete')); // If there were other requests to render, render them.
 
-    if (this._pendingRender) {
-      const pendingRender = this._pendingRender;
-      this._pendingRender = false;
-      this.render(pendingRender);
+      if (this._pendingRender) {
+        var pendingRender = this._pendingRender;
+        this._pendingRender = false;
+        this.render(pendingRender);
+      }
     }
-  }
-
-  renderEditor(editor, selective) {
-    if (!editor.document || editor.settingFullScreenPreview.on) {
-      return '';
-    }
-
-    return selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`<div class="editor__edit">
-      <div class="editor__edit__header">
-        <div class="editor__edit__header__section">
-          <div class="editor__edit__header__label">
-            Page:
-          </div>
-          <div class="editor__edit__header__title">
-            ${editor.document.data['$title'] || editor.document.data['$title@']}
-          </div>
-        </div>
-        <div class="editor__edit__header__section">
-          <div class="editor__edit__header__pod_path">
-            ${editor.podPath}
-          </div>
-          ${this.servingPath ? selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`<i class="material-icons" @click=${editor.handleFullScreenEditorClick.bind(editor)} title="Fullscreen">${editor.settingFullScreenEditor.on || !this.servingPath ? 'fullscreen_exit' : 'fullscreen'}</i>` : ''}
-        </div>
-      </div>
-      <div class="editor__cards">
-        <div class="editor__card editor__menu">
-            <div class="editor__actions">
-              <button class="editor__style__fields editor__button editor__button--secondary ${this.settingEditorPane.is('fields') ? 'editor__button--selected' : ''}" @click=${editor.handleFieldsClick.bind(editor)} ?disabled=${!editor.isClean}>Fields</button>
-              <button class="editor__style__raw editor__button editor__button--secondary ${this.settingEditorPane.is('source') ? 'editor__button--selected' : ''}" @click=${editor.handleSourceClick.bind(editor)} ?disabled=${!editor.isClean}>Source</button>
-              <button class="editor__style__raw editor__button editor__button--secondary ${this.settingEditorPane.is('history') ? 'editor__button--selected' : ''}" @click=${editor.handleHistoryClick.bind(editor)} ?disabled=${!editor.isClean}>History</button>
-            </div>
-            <button
-                ?disabled=${editor._isSaving || editor.isClean}
-                class="editor__save editor__button editor__button--primary ${editor._isSaving ? 'editor__save--saving' : ''}"
-                @click=${editor.save.bind(editor)}>
-              ${editor.isClean ? 'No changes' : editor._isSaving ? 'Saving...' : 'Save'}
-            </button>
-        </div>
-        ${editor.templatePane}
-      </div>
-    </div>`;
-  }
-
-  renderPreview(editor, selective) {
-    if (this.settingFullScreenEditor.on || !this.servingPath) {
-      return '';
-    }
-
-    let previewSizes = '';
-
-    if (editor.settingDeviceView.on) {
-      previewSizes = selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`<div class="editor__preview__sizes">
-        ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["repeat"])(Object.entries(this.devices), device => device[0], (device, index) => selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`
-          <div
-              class="editor__preview__size ${editor.device == device[0] ? 'editor__preview__size--selected' : ''}"
-              data-device="${device[0]}"
-              @click=${editor.handleDeviceSwitchClick.bind(editor)}>
-            ${device[1].label}
-            <span class="editor__preview__size__dimension">
-              (${editor._sizeLabel(device[1], editor.settingDeviceRotated.on)})
-            </span>
-          </div>`)}
-      </div>`;
-    }
-
-    let localize = '';
-
-    if (editor.document.locales.length > 1) {
-      const locales = [...editor.document.locales].sort();
-      const defaultLocaleIndex = locales.indexOf(this.document.defaultLocale);
-
-      if (defaultLocaleIndex) {
-        locales.splice(defaultLocaleIndex, 1);
+  }, {
+    key: "renderEditor",
+    value: function renderEditor(editor, selective) {
+      if (!editor.document || editor.settingFullScreenPreview.on) {
+        return '';
       }
 
-      localize = selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`
-        <i class="material-icons" @click=${editor.handleLocalize.bind(editor)} title="Localize content">translate</i>
-        <select class="editor__locales" @change=${editor.handleLocalizeSelect.bind(editor)}>
-          <option
-              data-locale="${this.document.defaultLocale}"
-              ?selected=${this.settingLocale.value == this.document.defaultLocale}>
-            ${this.document.defaultLocale}
-          </option>
-          ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["repeat"])(locales, locale => locale, (locale, index) => selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`
-            <option
-                data-locale="${locale}"
-                ?selected=${this.settingLocale.value == locale}>
-              ${locale}
-            </option>`)}
-        </select>`;
+      var isValid = editor.isValid;
+      var saveStatusLabel = 'Save';
+      var saveDisabled = false;
+      var saveClasses = [];
+
+      if (editor.isClean) {
+        saveStatusLabel = 'No changes';
+        saveDisabled = true;
+      }
+
+      if (!isValid) {
+        saveClasses.push('editor__button--invalid');
+        saveStatusLabel = 'Invalid values';
+        saveDisabled = true;
+      }
+
+      if (editor._isSaving) {
+        saveClasses.push('editor__button--processing');
+        saveStatusLabel = 'Saving...';
+        saveDisabled = true;
+      }
+
+      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject2(), editor.document.data['$title'] || editor.document.data['$title@'], editor.podPath, this.servingPath ? Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject3(), editor.handleFullScreenEditorClick.bind(editor), editor.settingFullScreenEditor.on || !this.servingPath ? 'fullscreen_exit' : 'fullscreen') : '', this.settingEditorPane.is('fields') ? 'editor__button--selected' : '', editor.handleFieldsClick.bind(editor), !editor.isClean, this.settingEditorPane.is('source') ? 'editor__button--selected' : '', editor.handleSourceClick.bind(editor), !editor.isClean, this.settingEditorPane.is('history') ? 'editor__button--selected' : '', editor.handleHistoryClick.bind(editor), !editor.isClean, isValid ? '' : Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject4()), saveDisabled, saveClasses.join(' '), editor.save.bind(editor), saveStatusLabel, editor.templatePane);
     }
+  }, {
+    key: "renderPreview",
+    value: function renderPreview(editor, selective) {
+      var _this8 = this;
 
-    return selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`<div class="editor__preview">
-      <div class="editor__preview__header">
-        <div class="editor__preview__header__icons">
-          <i class="material-icons" @click=${editor.handleFullScreenPreviewClick.bind(editor)} title="Fullscreen">${editor.settingFullScreenPreview.on ? 'fullscreen_exit' : 'fullscreen'}</i>
-          ${localize}
-        </div>
-        <div class="editor__preview__header__label">
-          Preview
-        </div>
-        <div class="editor__preview__header__icons">
-          ${previewSizes}
-          <i class="material-icons" @click=${editor.handleDeviceToggleClick.bind(editor)} title="Toggle device view">devices</i>
-          <i class="material-icons editor--device-only" @click=${editor.handleDeviceRotateClick.bind(editor)} title="Rotate device view">screen_rotation</i>
-          <i class="material-icons" @click=${editor.handleOpenInNew.bind(editor)} title="Preview in new window">open_in_new</i>
-        </div>
-      </div>
-      <div class="editor__preview__frame">
-        <iframe src="${editor.previewUrl}" @load=${editor.handlePreviewIframeNavigation.bind(editor)}></iframe>
-      </div>
-    </div>`;
-  }
+      if (this.settingFullScreenEditor.on || !this.servingPath) {
+        return '';
+      }
 
-  renderWorkspace(editor, selective) {
-    const locales = Object.keys(editor.document.servingPaths);
+      var previewSizes = '';
 
-    if (!locales.length) {
-      return '';
+      if (editor.settingDeviceView.on) {
+        previewSizes = Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject5(), Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["repeat"])(Object.entries(this.devices), function (device) {
+          return device[0];
+        }, function (device, index) {
+          return Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject6(), editor.device == device[0] ? 'editor__preview__size--selected' : '', device[0], editor.handleDeviceSwitchClick.bind(editor), device[1].label, editor._sizeLabel(device[1], editor.settingDeviceRotated.on));
+        }));
+      }
+
+      var localize = '';
+
+      if (editor.document.locales.length > 1) {
+        var locales = _toConsumableArray(editor.document.locales).sort();
+
+        var defaultLocaleIndex = locales.indexOf(this.document.defaultLocale);
+
+        if (defaultLocaleIndex) {
+          locales.splice(defaultLocaleIndex, 1);
+        }
+
+        localize = Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject7(), editor.handleLocalize.bind(editor), editor.handleLocalizeSelect.bind(editor), this.document.defaultLocale, this.settingLocale.value == this.document.defaultLocale, this.document.defaultLocale, Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["repeat"])(locales, function (locale) {
+          return locale;
+        }, function (locale, index) {
+          return Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject8(), locale, _this8.settingLocale.value == locale, locale);
+        }));
+      }
+
+      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject9(), editor.handleFullScreenPreviewClick.bind(editor), editor.settingFullScreenPreview.on ? 'fullscreen_exit' : 'fullscreen', localize, previewSizes, editor.handleDeviceToggleClick.bind(editor), editor.handleDeviceRotateClick.bind(editor), editor.handleOpenInNew.bind(editor), editor.previewUrl, editor.handlePreviewIframeNavigation.bind(editor));
     }
+  }, {
+    key: "renderWorkspace",
+    value: function renderWorkspace(editor, selective) {
+      var _this9 = this;
 
-    let urlList = '';
-    let moreLocales = '';
+      var locales = Object.keys(editor.document.servingPaths);
 
-    if (locales.length > 1) {
+      if (!locales.length) {
+        return '';
+      }
+
+      var urlList = '';
+      var moreLocales = '';
+
+      if (locales.length > 1) {
+        if (this.settingLocalizeUrls.on) {
+          moreLocales = Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject10(), editor.handleLocalizeUrlsClick.bind(this));
+        } else {
+          moreLocales = Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject11(), editor.handleLocalizeUrlsClick.bind(this), locales.length - 1);
+        }
+      }
+
       if (this.settingLocalizeUrls.on) {
-        moreLocales = selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`
-          <a
-              class="editor__workspace__url__more"
-              @click=${editor.handleLocalizeUrlsClick.bind(this)}
-              href="#">
-            (show less)
-          </a>`;
+        urlList = Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject12(), Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["repeat"])(Object.entries(editor.document.servingPaths), function (path) {
+          return path[0];
+        }, function (path, index) {
+          return Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject13(), path[0], path[1], path[1], _this9.document.defaultLocale == path[0] ? moreLocales : Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject14(), path[0]));
+        }));
       } else {
-        moreLocales = selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`
-          <a
-              class="editor__workspace__url__more"
-              @click=${editor.handleLocalizeUrlsClick.bind(this)}
-              href="#">
-            +${locales.length - 1}
-          </a>`;
+        var defaultLocale = editor.document.defaultLocale;
+        var localeUrl = editor.document.servingPaths[defaultLocale];
+        urlList = Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject15(), defaultLocale, localeUrl, localeUrl, moreLocales);
       }
+
+      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject16(), urlList);
     }
+  }, {
+    key: "save",
+    value: function save(force, isAutosave) {
+      var _this10 = this;
 
-    if (this.settingLocalizeUrls.on) {
-      urlList = selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`
-        ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["repeat"])(Object.entries(editor.document.servingPaths), path => path[0], (path, index) => selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`
-          <div
-              class="editor__workspace__url"
-              data-locale="${path[0]}">
-            <a href="${path[1]}">${path[1]}</a>
-            ${this.document.defaultLocale == path[0] ? moreLocales : selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`<span class="editor__workspace__locale">${path[0]}</span>`}
-          </div>`)}`;
-    } else {
-      const defaultLocale = editor.document.defaultLocale;
-      const localeUrl = editor.document.servingPaths[defaultLocale];
-      urlList = selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`
-        <div
-            class="editor__workspace__url"
-            data-locale="${defaultLocale}">
-          <a href="${localeUrl}">${localeUrl}</a>
-          ${moreLocales}
-        </div>`;
-    }
-
-    return selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"]`
-      <div class="editor__card">
-        <div class="editor__card__title">
-          Workspace
-        </div>
-        <div class="editor__workspace">
-          ${urlList}
-        </div>
-      </div>`;
-  }
-
-  save(force, isAutosave) {
-    if (!force && this.isClean) {
-      // Already saved with no new changes.
-      return;
-    }
-
-    this._isSaving = true;
-    this.render();
-    this.listeners.trigger('save.start', {
-      editorPane: this.settingEditorPane.value
-    }); // Pull the latest document content before saving.
-
-    this.api.getDocument(this.podPath).then(response => {
-      if (this.settingEditorPane.is('source')) {
-        if (response.hash != this.document.hash) {
-          this.listeners.trigger('save.error', 'Content has changed remotely.');
-          return;
-        }
-
-        const result = this.api.saveDocumentSource(this.podPath, this.document.rawFrontMatter);
-        result.then(response => this.handleSaveResponse(response, isAutosave));
-        result.catch(err => this.handleSaveError(err));
-      } else {
-        this.updateDocumentFromResponse(response); // Updating the selective data keeps any 'dirty' field values.
-        // Rendering allows all the original values to be updated.
-
-        this.selective.data = this.document.data;
-        this.render();
-        const newFrontMatter = this.selective.value;
-        const content = newFrontMatter[CONTENT_KEY];
-        delete newFrontMatter[CONTENT_KEY];
-        const result = this.api.saveDocumentFields(this.podPath, newFrontMatter, this.document.locale, content);
-        result.then(response => this.handleSaveResponse(response, isAutosave));
-        result.catch(err => this.handleSaveError(err));
+      if (!force && this.isClean) {
+        // Already saved with no new changes.
+        return;
       }
-    });
-  }
 
-  scrollToLinkedField() {
-    if (!this.linkedFields.length) {
-      return;
-    }
+      this._isSaving = true;
+      this.render();
+      this.listeners.trigger('save.start', {
+        editorPane: this.settingEditorPane.value
+      }); // Pull the latest document content before saving.
 
-    let searchCount = 0;
+      this.api.getDocument(this.podPath).then(function (response) {
+        if (_this10.settingEditorPane.is('source')) {
+          if (response.hash != _this10.document.hash) {
+            _this10.listeners.trigger('save.error', 'Content has changed remotely.');
 
-    const searchForLinkedField = () => {
-      document.addEventListener('selective.render.complete', evt => {
-        const selectedFields = this.containerEl.querySelectorAll('.selective__field--linked');
-
-        if (!selectedFields.length) {
-          if (searchCount > 20) {
-            // Probably doesn't exist, so stop watching for it.
             return;
-          } // Try again next render.
+          }
+
+          var result = _this10.api.saveDocumentSource(_this10.podPath, _this10.document.rawFrontMatter);
+
+          result.then(function (response) {
+            return _this10.handleSaveResponse(response, isAutosave);
+          });
+          result.catch(function (err) {
+            return _this10.handleSaveError(err);
+          });
+        } else {
+          _this10.updateDocumentFromResponse(response); // Updating the selective data keeps any 'dirty' field values.
+          // Rendering allows all the original values to be updated.
 
 
-          searchCount++;
-          searchForLinkedField();
-          return;
+          _this10.selective.data = _this10.document.data;
+
+          _this10.render();
+
+          var newFrontMatter = _this10.selective.value;
+          var content = newFrontMatter[CONTENT_KEY];
+          delete newFrontMatter[CONTENT_KEY];
+
+          var _result = _this10.api.saveDocumentFields(_this10.podPath, newFrontMatter, _this10.document.locale, content);
+
+          _result.then(function (response) {
+            return _this10.handleSaveResponse(response, isAutosave);
+          });
+
+          _result.catch(function (err) {
+            return _this10.handleSaveError(err);
+          });
+        }
+      });
+    }
+  }, {
+    key: "scrollToLinkedField",
+    value: function scrollToLinkedField() {
+      var _this11 = this;
+
+      if (!this.linkedFields.length) {
+        return;
+      }
+
+      var searchCount = 0;
+
+      var searchForLinkedField = function searchForLinkedField() {
+        document.addEventListener('selective.render.complete', function (evt) {
+          var selectedFields = _this11.containerEl.querySelectorAll('.selective__field--linked');
+
+          if (!selectedFields.length) {
+            if (searchCount > 20) {
+              // Probably doesn't exist, so stop watching for it.
+              return;
+            } // Try again next render.
+
+
+            searchCount++;
+            searchForLinkedField();
+            return;
+          }
+
+          selectedFields[0].scrollIntoView({
+            behavior: 'smooth',
+            // block: 'start', // Does not work correctly with sticky menu.
+            block: 'center'
+          });
+        }, {
+          once: true
+        });
+      };
+
+      searchForLinkedField();
+    }
+  }, {
+    key: "startAutosave",
+    value: function startAutosave() {
+      var _this12 = this;
+
+      if (this.autosaveID) {
+        window.clearInterval(this.autosaveID);
+      }
+
+      this.autosaveID = window.setInterval(function () {
+        _this12.save(false, true);
+      }, this.config.get('autosaveInterval', 2000));
+    }
+  }, {
+    key: "stopAutosave",
+    value: function stopAutosave() {
+      if (this.autosaveID) {
+        window.clearInterval(this.autosaveID);
+      }
+    }
+  }, {
+    key: "unload",
+    value: function unload() {
+      this.podPath = '';
+      this.document = null;
+      this.render();
+    }
+  }, {
+    key: "updateDocumentFromResponse",
+    value: function updateDocumentFromResponse(response) {
+      this.document.update(response['pod_path'], response['front_matter'], response['raw_front_matter'], response['serving_paths'], response['default_locale'], response['locales'], response['content'], response['hash']);
+    }
+  }, {
+    key: "updateSelectiveLocalization",
+    value: function updateSelectiveLocalization() {
+      // Determine the locales from the default and selected locale or from document.
+      if (this.settingLocale && this.settingLocale.value != this.document.defaultLocale) {
+        this.selective.config.set('locales', [this.document.defaultLocale, this.settingLocale.value]);
+      } else {
+        this.selective.config.set('locales', this.document ? this.document.locales : []);
+      }
+    }
+  }, {
+    key: "verifyPreviewIframe",
+    value: function verifyPreviewIframe() {
+      if (!this._unverifiedServingPath || !this._routes) {
+        return;
+      }
+
+      if (this._unverifiedServingPath in this._routes) {
+        var match = this._routes[this._unverifiedServingPath];
+        this.podPath = match['pod_path'];
+        this.load(this.podPath);
+      }
+    }
+  }, {
+    key: "device",
+    get: function get() {
+      return this._device;
+    },
+    set: function set(value) {
+      this._device = value;
+      this.storage.setItem('selective.device', this._device);
+    }
+  }, {
+    key: "autosave",
+    get: function get() {
+      // Always autosave for now.
+      return true;
+    }
+  }, {
+    key: "isClean",
+    get: function get() {
+      if (!this.document) {
+        return true;
+      }
+
+      return this.document.isClean && this.selective.isClean;
+    }
+  }, {
+    key: "isMissingDoc",
+    get: function get() {
+      return !this.document;
+    }
+  }, {
+    key: "isTesting",
+    get: function get() {
+      return this.config.get('testing', false);
+    }
+  }, {
+    key: "isValid",
+    get: function get() {
+      if (!this.document) {
+        return true;
+      }
+
+      return this.selective.isValid;
+    }
+  }, {
+    key: "linkedFields",
+    get: function get() {
+      var fieldRaw = this.urlParams.get('field');
+
+      if (!fieldRaw) {
+        return [];
+      }
+
+      return fieldRaw.split(',');
+    }
+  }, {
+    key: "podPath",
+    get: function get() {
+      return this._podPath;
+    },
+    set: function set(value) {
+      this._podPath = value.trim();
+      this.listeners.trigger('podPath', this._podPath);
+    }
+  }, {
+    key: "previewUrl",
+    get: function get() {
+      var params = '?editor=true';
+      return "".concat(this.servingPath).concat(params);
+    }
+  }, {
+    key: "servingPath",
+    get: function get() {
+      if (!this.document) {
+        return '';
+      } // Localize preview pages when a locale is selected.
+
+
+      if (this.settingLocalize.on && this.settingLocale) {
+        var localizedServingPath = this.document.servingPaths[this.settingLocale.value];
+
+        if (localizedServingPath) {
+          return localizedServingPath;
+        }
+      }
+
+      return this.document.servingPath;
+    }
+  }, {
+    key: "stylesEditor",
+    get: function get() {
+      var styles = [];
+
+      if (this.settingDeviceView.on) {
+        styles.push('editor--device'); // Only allow the rotated when in device view.
+
+        if (this.settingDeviceRotated.on) {
+          styles.push('editor--rotated');
+        }
+      }
+
+      if (this.settingEditorPane.is('fields')) {
+        styles.push('editor--fields');
+      }
+
+      if (this.settingEditorPane.is('history')) {
+        styles.push('editor--history');
+      }
+
+      if (this.settingEditorPane.is('source')) {
+        styles.push('editor--source');
+      }
+
+      if (this.settingFullScreenEditor.on || !this.servingPath) {
+        styles.push('editor--fullscreen-editor');
+      }
+
+      if (this.settingFullScreenPreview.on) {
+        styles.push('editor--fullscreen-preview');
+      }
+
+      if (this._isFullMarkdownEditor) {
+        styles.push('editor--markdown');
+      }
+
+      if (this.settingHighlightGuess.on) {
+        styles.push('editor--highlight-guess');
+      }
+
+      if (this.settingHighlightDirty.on) {
+        styles.push('editor--highlight-dirty');
+      }
+
+      if (this.settingHighlightLinked.on) {
+        styles.push('editor--highlight-linked');
+      }
+
+      return styles.join(' ');
+    }
+  }, {
+    key: "templatePane",
+    get: function get() {
+      var _this13 = this;
+
+      if (this.settingEditorPane.is('source')) {
+        var contentHtml = this.document.content != '' ? Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject17(), this.handleRawContent.bind(this), this.document.content) : '';
+        return Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject18(), this.handleRawInput.bind(this), this.document.rawFrontMatter, contentHtml);
+      }
+
+      if (this.settingEditorPane.is('history')) {
+        if (!this.repo) {
+          return Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject19());
         }
 
-        selectedFields[0].scrollIntoView({
-          behavior: 'smooth',
-          // block: 'start', // Does not work correctly with sticky menu.
-          block: 'center'
-        });
-      }, {
-        once: true
-      });
-    };
+        return Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject20(), this.repo.branch, Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["repeat"])(this.repo.commits, function (commit) {
+          return commit.sha;
+        }, function (commit, index) {
+          return Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject21(), _this13.repo.webUrlForCommit(commit.sha), commit.sha.slice(0, 5), commit.author.email, commit.author.name, moment__WEBPACK_IMPORTED_MODULE_4___default()(commit.commit_date + 'Z', moment__WEBPACK_IMPORTED_MODULE_4___default.a.ISO_8601).format('D MMM YYYY, h:mm:ss a'), moment__WEBPACK_IMPORTED_MODULE_4___default()(commit.commit_date + 'Z', moment__WEBPACK_IMPORTED_MODULE_4___default.a.ISO_8601).fromNow(), commit.message);
+        }));
+      }
 
-    searchForLinkedField();
-  }
-
-  startAutosave() {
-    if (this.autosaveID) {
-      window.clearInterval(this.autosaveID);
+      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject22(), this.renderWorkspace(this, this.selective), this.selective.template(this.selective, this.selective.data), this.settingHighlightGuess.on ? 'editor__dev_tools__icon--selected' : '', this.handleHighlightGuess.bind(this), this.settingHighlightLinked.on ? 'editor__dev_tools__icon--selected' : '', this.handleHighlightLinked.bind(this), this.settingHighlightDirty.on ? 'editor__dev_tools__icon--selected' : '', this.handleHighlightDirty.bind(this));
     }
+  }]);
 
-    this.autosaveID = window.setInterval(() => {
-      this.save(false, true);
-    }, this.config.get('autosaveInterval', 2000));
-  }
+  return Editor;
+}();
 
-  stopAutosave() {
-    if (this.autosaveID) {
-      window.clearInterval(this.autosaveID);
-    }
-  }
 
-  unload() {
-    this.podPath = '';
-    this.document = null;
-    this.render();
-  }
-
-  updateDocumentFromResponse(response) {
-    this.document.update(response['pod_path'], response['front_matter'], response['raw_front_matter'], response['serving_paths'], response['default_locale'], response['locales'], response['content'], response['hash']);
-  }
-
-  updateSelectiveLocalization() {
-    // Determine the locales from the default and selected locale or from document.
-    if (this.settingLocale && this.settingLocale.value != this.document.defaultLocale) {
-      this.selective.config.set('locales', [this.document.defaultLocale, this.settingLocale.value]);
-    } else {
-      this.selective.config.set('locales', this.document ? this.document.locales : []);
-    }
-  }
-
-  verifyPreviewIframe() {
-    if (!this._unverifiedServingPath || !this._routes) {
-      return;
-    }
-
-    if (this._unverifiedServingPath in this._routes) {
-      const match = this._routes[this._unverifiedServingPath];
-      this.podPath = match['pod_path'];
-      this.load(this.podPath);
-    }
-  }
-
-}
 
 /***/ }),
 
@@ -99252,245 +101860,298 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return EditorApi; });
 /* harmony import */ var _utility_api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utility/api */ "./source/utility/api.js");
 /* harmony import */ var _utility_defer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utility/defer */ "./source/utility/defer.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 /**
  * Utility for working with apis.
  */
 
 
-class EditorApi extends _utility_api__WEBPACK_IMPORTED_MODULE_0__["default"] {
-  constructor(config) {
-    super(config);
+
+var EditorApi = /*#__PURE__*/function (_Api) {
+  _inherits(EditorApi, _Api);
+
+  var _super = _createSuper(EditorApi);
+
+  function EditorApi(config) {
+    _classCallCheck(this, EditorApi);
+
+    return _super.call(this, config);
   }
 
-  copyFile(podPath, newPodPath) {
-    const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
-    this.request.get(this.apiPath('content/copy')).query({
-      'pod_path': podPath,
-      'new_pod_path': newPodPath
-    }).then(res => {
-      result.resolve(res.body);
-    }).catch(err => {
-      result.reject(err);
-    });
-    return result.promise;
-  }
+  _createClass(EditorApi, [{
+    key: "copyFile",
+    value: function copyFile(podPath, newPodPath) {
+      var result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
+      this.request.get(this.apiPath('content/copy')).query({
+        'pod_path': podPath,
+        'new_pod_path': newPodPath
+      }).then(function (res) {
+        result.resolve(res.body);
+      }).catch(function (err) {
+        result.reject(err);
+      });
+      return result.promise;
+    }
+  }, {
+    key: "deleteFile",
+    value: function deleteFile(podPath) {
+      var result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
+      this.request.get(this.apiPath('content/delete')).query({
+        'pod_path': podPath
+      }).then(function (res) {
+        result.resolve(res.body);
+      }).catch(function (err) {
+        result.reject(err);
+      });
+      return result.promise;
+    }
+  }, {
+    key: "getDocument",
+    value: function getDocument(podPath) {
+      var result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
+      this.request.get(this.apiPath('content')).query({
+        'pod_path': podPath
+      }).then(function (res) {
+        result.resolve(res.body);
+      }).catch(function (err) {
+        result.reject(err);
+      });
+      return result.promise;
+    }
+  }, {
+    key: "getExtensionConfig",
+    value: function getExtensionConfig(extension_path) {
+      var result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
+      this.request.get(this.apiPath('extension/config')).query({
+        'extension_path': extension_path
+      }).then(function (res) {
+        result.resolve(res.body);
+      }).catch(function (err) {
+        result.reject(err);
+      });
+      return result.promise;
+    }
+  }, {
+    key: "getRoutes",
+    value: function getRoutes() {
+      var result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
+      this.request.get(this.apiPath('routes')).then(function (res) {
+        result.resolve(res.body);
+      }).catch(function (err) {
+        result.reject(err);
+      });
+      return result.promise;
+    }
+  }, {
+    key: "getPartials",
+    value: function getPartials() {
+      var result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
+      this.request.get(this.apiPath('partials')).then(function (res) {
+        result.resolve(res.body);
+      }).catch(function (err) {
+        result.reject(err);
+      });
+      return result.promise;
+    }
+  }, {
+    key: "getPod",
+    value: function getPod() {
+      var result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
+      this.request.get(this.apiPath('pod')).then(function (res) {
+        result.resolve(res.body);
+      }).catch(function (err) {
+        result.reject(err);
+      });
+      return result.promise;
+    }
+  }, {
+    key: "getPodPaths",
+    value: function getPodPaths() {
+      var result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
+      this.request.get(this.apiPath('pod_paths')).then(function (res) {
+        result.resolve(res.body);
+      }).catch(function (err) {
+        result.reject(err);
+      });
+      return result.promise;
+    }
+  }, {
+    key: "getRepo",
+    value: function getRepo() {
+      var result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
+      this.request.get(this.apiPath('repo')).then(function (res) {
+        result.resolve(res.body);
+      }).catch(function (err) {
+        result.reject(err);
+      });
+      return result.promise;
+    }
+  }, {
+    key: "getStaticServingPath",
+    value: function getStaticServingPath(podPath) {
+      var result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
+      this.request.get(this.apiPath('static_serving_path')).query({
+        'pod_path': podPath
+      }).then(function (res) {
+        result.resolve(res.body);
+      }).catch(function (err) {
+        result.reject(err);
+      });
+      return result.promise;
+    }
+  }, {
+    key: "getStrings",
+    value: function getStrings() {
+      var result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
+      this.request.get(this.apiPath('strings')).then(function (res) {
+        result.resolve(res.body);
+      }).catch(function (err) {
+        result.reject(err);
+      });
+      return result.promise;
+    }
+  }, {
+    key: "getTemplates",
+    value: function getTemplates() {
+      var result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
+      this.request.get(this.apiPath('templates')).then(function (res) {
+        result.resolve(res.body);
+      }).catch(function (err) {
+        result.reject(err);
+      });
+      return result.promise;
+    }
+  }, {
+    key: "saveDocumentFields",
+    value: function saveDocumentFields(podPath, frontMatter, locale, content) {
+      var result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
+      var saveRequest = {
+        'pod_path': podPath,
+        'front_matter': JSON.stringify(frontMatter),
+        'locale': locale,
+        'content': content
+      };
+      this.request.post(this.apiPath('content')).type('form').send(saveRequest).then(function (res) {
+        result.resolve(res.body);
+      }).catch(function (err) {
+        result.reject(err);
+      });
+      return result.promise;
+    }
+  }, {
+    key: "saveDocumentSource",
+    value: function saveDocumentSource(podPath, rawFrontMatter) {
+      var result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
+      var saveRequest = {
+        'pod_path': podPath,
+        'raw_front_matter': rawFrontMatter
+      };
+      this.request.post(this.apiPath('content')).type('form').send(saveRequest).then(function (res) {
+        result.resolve(res.body);
+      }).catch(function (err) {
+        result.reject(err);
+      });
+      return result.promise;
+    } // TODO: Move to the google image extension.
 
-  deleteFile(podPath) {
-    const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
-    this.request.get(this.apiPath('content/delete')).query({
-      'pod_path': podPath
-    }).then(res => {
-      result.resolve(res.body);
-    }).catch(err => {
-      result.reject(err);
-    });
-    return result.promise;
-  }
+  }, {
+    key: "saveGoogleImage",
+    value: function saveGoogleImage(imageFile, uploadUrl, bucket) {
+      var result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
+      var formData = new FormData();
+      formData.append('file', imageFile);
+      formData.append('bucket', bucket || '');
+      this.request.post(uploadUrl).send(formData).then(function (res) {
+        result.resolve(res.body);
+      }).catch(function (err) {
+        result.reject(err);
+      });
+      return result.promise;
+    }
+  }, {
+    key: "saveImage",
+    value: function saveImage(imageFile, destination) {
+      var result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
+      var formData = new FormData();
+      formData.append('file', imageFile);
+      formData.append('destination', destination);
+      this.request.post(this.apiPath('image')).send(formData).then(function (res) {
+        result.resolve(res.body);
+      }).catch(function (err) {
+        result.reject(err);
+      });
+      return result.promise;
+    }
+  }, {
+    key: "screenshotPartial",
+    value: function screenshotPartial(partial, key) {
+      var result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
+      this.request.get(this.apiPath('screenshot/partial')).query({
+        'partial': partial,
+        'key': key
+      }).then(function (res) {
+        result.resolve(res.body);
+      }).catch(function (err) {
+        result.reject(err);
+      });
+      return result.promise;
+    }
+  }, {
+    key: "screenshotTemplate",
+    value: function screenshotTemplate(collectionPath, key) {
+      var result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
+      this.request.get(this.apiPath('screenshot/template')).query({
+        'collection_path': collectionPath,
+        'key': key
+      }).then(function (res) {
+        result.resolve(res.body);
+      }).catch(function (err) {
+        result.reject(err);
+      });
+      return result.promise;
+    }
+  }, {
+    key: "templateFile",
+    value: function templateFile(collectionPath, key, fileName) {
+      var result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
+      this.request.get(this.apiPath('content/template')).query({
+        'collection_path': collectionPath,
+        'file_name': fileName,
+        'key': key
+      }).then(function (res) {
+        result.resolve(res.body);
+      }).catch(function (err) {
+        result.reject(err);
+      });
+      return result.promise;
+    }
+  }]);
 
-  getDocument(podPath) {
-    const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
-    this.request.get(this.apiPath('content')).query({
-      'pod_path': podPath
-    }).then(res => {
-      result.resolve(res.body);
-    }).catch(err => {
-      result.reject(err);
-    });
-    return result.promise;
-  }
-
-  getExtensionConfig(extension_path) {
-    const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
-    this.request.get(this.apiPath('extension/config')).query({
-      'extension_path': extension_path
-    }).then(res => {
-      result.resolve(res.body);
-    }).catch(err => {
-      result.reject(err);
-    });
-    return result.promise;
-  }
-
-  getRoutes() {
-    const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
-    this.request.get(this.apiPath('routes')).then(res => {
-      result.resolve(res.body);
-    }).catch(err => {
-      result.reject(err);
-    });
-    return result.promise;
-  }
-
-  getPartials() {
-    const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
-    this.request.get(this.apiPath('partials')).then(res => {
-      result.resolve(res.body);
-    }).catch(err => {
-      result.reject(err);
-    });
-    return result.promise;
-  }
-
-  getPod() {
-    const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
-    this.request.get(this.apiPath('pod')).then(res => {
-      result.resolve(res.body);
-    }).catch(err => {
-      result.reject(err);
-    });
-    return result.promise;
-  }
-
-  getPodPaths() {
-    const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
-    this.request.get(this.apiPath('pod_paths')).then(res => {
-      result.resolve(res.body);
-    }).catch(err => {
-      result.reject(err);
-    });
-    return result.promise;
-  }
-
-  getRepo() {
-    const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
-    this.request.get(this.apiPath('repo')).then(res => {
-      result.resolve(res.body);
-    }).catch(err => {
-      result.reject(err);
-    });
-    return result.promise;
-  }
-
-  getStaticServingPath(podPath) {
-    const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
-    this.request.get(this.apiPath('static_serving_path')).query({
-      'pod_path': podPath
-    }).then(res => {
-      result.resolve(res.body);
-    }).catch(err => {
-      result.reject(err);
-    });
-    return result.promise;
-  }
-
-  getStrings() {
-    const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
-    this.request.get(this.apiPath('strings')).then(res => {
-      result.resolve(res.body);
-    }).catch(err => {
-      result.reject(err);
-    });
-    return result.promise;
-  }
-
-  getTemplates() {
-    const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
-    this.request.get(this.apiPath('templates')).then(res => {
-      result.resolve(res.body);
-    }).catch(err => {
-      result.reject(err);
-    });
-    return result.promise;
-  }
-
-  saveDocumentFields(podPath, frontMatter, locale, content) {
-    const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
-    const saveRequest = {
-      'pod_path': podPath,
-      'front_matter': JSON.stringify(frontMatter),
-      'locale': locale,
-      'content': content
-    };
-    this.request.post(this.apiPath('content')).type('form').send(saveRequest).then(res => {
-      result.resolve(res.body);
-    }).catch(err => {
-      result.reject(err);
-    });
-    return result.promise;
-  }
-
-  saveDocumentSource(podPath, rawFrontMatter) {
-    const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
-    const saveRequest = {
-      'pod_path': podPath,
-      'raw_front_matter': rawFrontMatter
-    };
-    this.request.post(this.apiPath('content')).type('form').send(saveRequest).then(res => {
-      result.resolve(res.body);
-    }).catch(err => {
-      result.reject(err);
-    });
-    return result.promise;
-  } // TODO: Move to the google image extension.
+  return EditorApi;
+}(_utility_api__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 
-  saveGoogleImage(imageFile, uploadUrl, bucket) {
-    const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
-    const formData = new FormData();
-    formData.append('file', imageFile);
-    formData.append('bucket', bucket || '');
-    this.request.post(uploadUrl).send(formData).then(res => {
-      result.resolve(res.body);
-    }).catch(err => {
-      result.reject(err);
-    });
-    return result.promise;
-  }
-
-  saveImage(imageFile, destination) {
-    const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
-    const formData = new FormData();
-    formData.append('file', imageFile);
-    formData.append('destination', destination);
-    this.request.post(this.apiPath('image')).send(formData).then(res => {
-      result.resolve(res.body);
-    }).catch(err => {
-      result.reject(err);
-    });
-    return result.promise;
-  }
-
-  screenshotPartial(partial, key) {
-    const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
-    this.request.get(this.apiPath('screenshot/partial')).query({
-      'partial': partial,
-      'key': key
-    }).then(res => {
-      result.resolve(res.body);
-    }).catch(err => {
-      result.reject(err);
-    });
-    return result.promise;
-  }
-
-  screenshotTemplate(collectionPath, key) {
-    const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
-    this.request.get(this.apiPath('screenshot/template')).query({
-      'collection_path': collectionPath,
-      'key': key
-    }).then(res => {
-      result.resolve(res.body);
-    }).catch(err => {
-      result.reject(err);
-    });
-    return result.promise;
-  }
-
-  templateFile(collectionPath, key, fileName) {
-    const result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
-    this.request.get(this.apiPath('content/template')).query({
-      'collection_path': collectionPath,
-      'file_name': fileName,
-      'key': key
-    }).then(res => {
-      result.resolve(res.body);
-    }).catch(err => {
-      result.reject(err);
-    });
-    return result.promise;
-  }
-
-}
 
 /***/ }),
 
@@ -99521,7 +102182,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const defaultFields = {
+var defaultFields = {
   'checkbox': _field_standard__WEBPACK_IMPORTED_MODULE_6__["CheckboxField"],
   'date': _field_standard__WEBPACK_IMPORTED_MODULE_6__["DateField"],
   'datetime': _field_standard__WEBPACK_IMPORTED_MODULE_6__["DateTimeField"],
@@ -99566,6 +102227,64 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utility_dataType__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/dataType */ "./source/utility/dataType.js");
 /* harmony import */ var _ui_file__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../ui/file */ "./source/editor/ui/file.js");
 /* harmony import */ var _ui_string__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../ui/string */ "./source/editor/ui/string.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _templateObject3() {
+  var data = _taggedTemplateLiteral(["\n          <div\n              class=\"selective__field__constructor__preview\">\n            <i class=\"material-icons\">input</i>\n            <div class=\"selective__field__constructor__preview__value\">\n              ", "\n            </div>\n          </div>\n          ", ""]);
+
+  _templateObject3 = function _templateObject3() {
+    return data;
+  };
+
+  return data;
+}
+
+function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
+
+function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+
+function _templateObject2() {
+  var data = _taggedTemplateLiteral(["\n      <div class=\"selective__field__constructor__input\">\n        <input\n          class=\"", "\"\n          id=\"", "", "\"\n          placeholder=", "\n          data-locale=", "\n          @input=", "\n          value=", " />\n        <i\n            class=", "\n            title=\"Select pod path\"\n            data-locale=", "\n            @click=", ">\n          list_alt\n        </i>\n      </div>\n      ", "\n      ", "\n      ", ""]);
+
+  _templateObject2 = function _templateObject2() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["\n      <input\n        class=\"", "\"\n        id=\"", "", "\"\n        placeholder=", "\n        data-locale=", "\n        @input=", "\n        value=", " />\n      ", ""]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 /**
  * Constructor field types for the editor extension.
  */
@@ -99574,203 +102293,259 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class ConstructorField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig);
-    this.fieldType = 'constructor';
-    this.tag = '!g.*';
+var ConstructorField = /*#__PURE__*/function (_Field) {
+  _inherits(ConstructorField, _Field);
+
+  var _super = _createSuper(ConstructorField);
+
+  function ConstructorField(ruleTypes, config, extendedConfig) {
+    var _this;
+
+    _classCallCheck(this, ConstructorField);
+
+    _this = _super.call(this, ruleTypes, config, extendedConfig);
+    _this.fieldType = 'constructor';
+    _this.tag = '!g.*'; // Workaround to validat the `.value` of the data.
+
+    _this.zonesToValue = {};
+    _this.zonesToValue[_this.ruleTypes.DEFAULT_ZONE_KEY] = 'value';
+    return _this;
   }
 
-  handleInput(evt) {
-    const locale = evt.target.dataset.locale; // Constructors are represented as objects in json.
+  _createClass(ConstructorField, [{
+    key: "handleInput",
+    value: function handleInput(evt) {
+      var locale = evt.target.dataset.locale;
+      var value = evt.target.value;
 
-    const value = {
-      'value': evt.target.value,
-      'tag': this.tag
-    };
-    this.setValueForLocale(locale, value);
-  }
-
-  renderInput(selective, data, locale) {
-    const value = this.getValueForLocale(locale) || {};
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <input
-        id="${this.uid}${locale}"
-        placeholder=${this.config.placeholder || ''}
-        data-locale=${locale || ''}
-        @input=${this.handleInput.bind(this)}
-        value=${value.value || ''} />`;
-  }
-
-}
-class ConstructorFileField extends ConstructorField {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig);
-    this._fileListUi = {};
-    this._fileListCls = _ui_file__WEBPACK_IMPORTED_MODULE_3__["FileListUI"];
-    this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["createWhiteBlackFilter"])( // Whitelist.
-    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(this.config.get('whitelist')), // Blacklist.
-    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(this.config.get('blacklist')));
-  }
-
-  classesFileIcon(value, fileListUi) {
-    const classes = ['material-icons', 'selective__field__constructor__file_icon'];
-
-    if (fileListUi.showFileList) {
-      classes.push('selective__field__constructor__file_icon--checked');
-    }
-
-    return classes.join(' ');
-  }
-
-  fileListUiForLocale(locale) {
-    const localeKey = this.keyForLocale(locale);
-
-    if (!this._fileListUi[localeKey]) {
-      this._fileListUi[localeKey] = new this._fileListCls({
-        'filterFunc': this.filterFunc
-      }); // Bind the pod path listener event for the UI.
-
-      this._fileListUi[localeKey].listeners.add('podPath', this.handlePodPath.bind(this));
-    }
-
-    return this._fileListUi[localeKey];
-  }
-
-  handleFilesToggleClick(evt) {
-    const locale = evt.target.dataset.locale;
-    this.fileListUiForLocale(locale).toggle();
-  }
-
-  handlePodPath(podPath, locale) {
-    const value = {
-      tag: this.tag,
-      value: podPath
-    };
-    this.setValueForLocale(locale, value);
-  }
-
-  renderInput(selective, data, locale) {
-    const value = this.getValueForLocale(locale) || {};
-    const fileListUi = this.fileListUiForLocale(locale);
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <div class="selective__field__constructor__input">
-        <input
-          id="${this.uid}${locale}"
-          placeholder=${this.config.placeholder || ''}
-          data-locale=${locale || ''}
-          @input=${this.handleInput.bind(this)}
-          value=${value.value || (_utility_dataType__WEBPACK_IMPORTED_MODULE_2__["default"].isObject(value) ? '' : value) || ''} />
-        <i
-            class=${this.classesFileIcon(value, fileListUi)}
-            title="Select pod path"
-            data-locale=${locale || ''}
-            @click=${this.handleFilesToggleClick.bind(this)}>
-          list_alt
-        </i>
-      </div>
-      ${this.renderMeta(selective, data, locale, value)}
-      ${fileListUi.renderFileList(selective, data, locale)}`;
-  }
-
-  renderMeta(selective, data, locale, value) {
-    return '';
-  }
-
-}
-class DocumentField extends ConstructorFileField {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig);
-    this.fieldType = 'document';
-    this.tag = '!g.doc';
-    this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["createWhiteBlackFilter"])( // Whitelist.
-    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(this.config.get('whitelist'), [/^\/content\//]), // Blacklist.
-    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(this.config.get('blacklist')));
-  }
-
-}
-class StaticField extends ConstructorFileField {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig);
-    this.fieldType = 'static';
-    this.tag = '!g.static';
-    this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["createWhiteBlackFilter"])( // Whitelist.
-    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(this.config.get('whitelist'), [/^.*\.(png|svg|jpg|jpeg|gif|avif)$/, /^\/source\/static\//, /^\/static\//]), // Blacklist.
-    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(this.config.get('blacklist')));
-  }
-
-}
-class StringField extends ConstructorFileField {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig);
-    this.fieldType = 'string';
-    this.tag = '!g.string';
-    this._fileListUi = {};
-    this._fileListCls = _ui_string__WEBPACK_IMPORTED_MODULE_4__["StringListUI"];
-    this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["createWhiteBlackFilter"])( // Whitelist.
-    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(this.config.get('whitelist')), // Blacklist.
-    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(this.config.get('blacklist')));
-  }
-
-  handleInput(evt) {
-    const locale = evt.target.dataset.locale;
-    const fileListUi = this.fileListUiForLocale(locale);
-    const inputValue = evt.target.value;
-    let value = inputValue; // Constructors are represented as objects in json.
-    // Let it be a normal string if there is not matching string.
-
-    if (fileListUi.isValueValidReference(inputValue)) {
-      console.log('inputValue is valid reference.', inputValue);
-      value = {
-        'value': value,
-        'tag': this.tag
-      };
-    }
-
-    this.setValueForLocale(locale, value);
-  }
-
-  renderInput(selective, data, locale) {
-    // Need to load the strings to validate the value.
-    // Editor ensures it only loads once.
-    selective.editor.loadStrings();
-    return super.renderInput(selective, data, locale);
-  }
-
-  renderMeta(selective, data, locale, value) {
-    // If the value of the field is a string reference show a preview of the
-    // string value.
-    if (_utility_dataType__WEBPACK_IMPORTED_MODULE_2__["default"].isObject(value)) {
-      const fileListUi = this.fileListUiForLocale(locale);
-      const metaValue = fileListUi.valueFromReference(value.value);
-
-      if (metaValue) {
-        return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-          <div
-              class="selective__field__constructor__preview">
-            <i class="material-icons">input</i>
-            <div class="selective__field__constructor__preview__value">
-              ${metaValue}
-            </div>
-          </div>`;
+      if (value.trim() == '') {
+        value = null;
+      } else {
+        // Constructors are represented as objects in json.
+        value = {
+          'value': evt.target.value,
+          'tag': this.tag
+        };
       }
+
+      this.setValueForLocale(locale, value);
     }
+  }, {
+    key: "renderInput",
+    value: function renderInput(selective, data, locale) {
+      var value = this.getValueForLocale(locale) || {};
+      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject(), this.getClassesForInput(locale), this.uid, locale, this.config.placeholder || '', locale || '', this.handleInput.bind(this), value.value || '', this.renderErrors(selective, data, locale));
+    }
+  }]);
 
-    return '';
+  return ConstructorField;
+}(selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"]);
+var ConstructorFileField = /*#__PURE__*/function (_ConstructorField) {
+  _inherits(ConstructorFileField, _ConstructorField);
+
+  var _super2 = _createSuper(ConstructorFileField);
+
+  function ConstructorFileField(ruleTypes, config, extendedConfig) {
+    var _this2;
+
+    _classCallCheck(this, ConstructorFileField);
+
+    _this2 = _super2.call(this, ruleTypes, config, extendedConfig);
+    _this2._fileListUi = {};
+    _this2._fileListCls = _ui_file__WEBPACK_IMPORTED_MODULE_3__["FileListUI"];
+    _this2.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["createWhiteBlackFilter"])( // Whitelist.
+    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(_this2.config.get('whitelist')), // Blacklist.
+    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(_this2.config.get('blacklist')));
+    return _this2;
   }
 
-}
-class YamlField extends ConstructorFileField {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig);
-    this.fieldType = 'yaml';
-    this.tag = '!g.yaml';
-    this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["createWhiteBlackFilter"])( // Whitelist.
-    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(this.config.get('whitelist'), [/^\/content\/.*\.yaml$/, /^\/data\/.*\.yaml$/]), // Blacklist.
-    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(this.config.get('blacklist')));
+  _createClass(ConstructorFileField, [{
+    key: "classesFileIcon",
+    value: function classesFileIcon(value, fileListUi) {
+      var classes = ['material-icons', 'selective__field__constructor__file_icon'];
+
+      if (fileListUi.showFileList) {
+        classes.push('selective__field__constructor__file_icon--checked');
+      }
+
+      return classes.join(' ');
+    }
+  }, {
+    key: "fileListUiForLocale",
+    value: function fileListUiForLocale(locale) {
+      var localeKey = this.keyForLocale(locale);
+
+      if (!this._fileListUi[localeKey]) {
+        this._fileListUi[localeKey] = new this._fileListCls({
+          'filterFunc': this.filterFunc
+        }); // Bind the pod path listener event for the UI.
+
+        this._fileListUi[localeKey].listeners.add('podPath', this.handlePodPath.bind(this));
+      }
+
+      return this._fileListUi[localeKey];
+    }
+  }, {
+    key: "handleFilesToggleClick",
+    value: function handleFilesToggleClick(evt) {
+      var locale = evt.target.dataset.locale;
+      this.fileListUiForLocale(locale).toggle();
+    }
+  }, {
+    key: "handlePodPath",
+    value: function handlePodPath(podPath, locale) {
+      var value = {
+        tag: this.tag,
+        value: podPath
+      };
+      this.setValueForLocale(locale, value);
+    }
+  }, {
+    key: "renderInput",
+    value: function renderInput(selective, data, locale) {
+      var value = this.getValueForLocale(locale) || {};
+      var fileListUi = this.fileListUiForLocale(locale);
+      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject2(), this.getClassesForInput(locale), this.uid, locale, this.config.placeholder || '', locale || '', this.handleInput.bind(this), value.value || (_utility_dataType__WEBPACK_IMPORTED_MODULE_2__["default"].isObject(value) ? '' : value) || '', this.classesFileIcon(value, fileListUi), locale || '', this.handleFilesToggleClick.bind(this), this.renderMeta(selective, data, locale, value), fileListUi.renderFileList(selective, data, locale), this.renderErrors(selective, data, locale));
+    }
+  }, {
+    key: "renderMeta",
+    value: function renderMeta(selective, data, locale, value) {
+      return '';
+    }
+  }]);
+
+  return ConstructorFileField;
+}(ConstructorField);
+var DocumentField = /*#__PURE__*/function (_ConstructorFileField) {
+  _inherits(DocumentField, _ConstructorFileField);
+
+  var _super3 = _createSuper(DocumentField);
+
+  function DocumentField(ruleTypes, config, extendedConfig) {
+    var _this3;
+
+    _classCallCheck(this, DocumentField);
+
+    _this3 = _super3.call(this, ruleTypes, config, extendedConfig);
+    _this3.fieldType = 'document';
+    _this3.tag = '!g.doc';
+    _this3.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["createWhiteBlackFilter"])( // Whitelist.
+    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(_this3.config.get('whitelist'), [/^\/content\//]), // Blacklist.
+    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(_this3.config.get('blacklist')));
+    return _this3;
   }
 
-}
+  return DocumentField;
+}(ConstructorFileField);
+var StaticField = /*#__PURE__*/function (_ConstructorFileField2) {
+  _inherits(StaticField, _ConstructorFileField2);
+
+  var _super4 = _createSuper(StaticField);
+
+  function StaticField(ruleTypes, config, extendedConfig) {
+    var _this4;
+
+    _classCallCheck(this, StaticField);
+
+    _this4 = _super4.call(this, ruleTypes, config, extendedConfig);
+    _this4.fieldType = 'static';
+    _this4.tag = '!g.static';
+    _this4.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["createWhiteBlackFilter"])( // Whitelist.
+    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(_this4.config.get('whitelist'), [/^.*\.(png|svg|jpg|jpeg|gif|avif)$/, /^\/source\/static\//, /^\/static\//]), // Blacklist.
+    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(_this4.config.get('blacklist')));
+    return _this4;
+  }
+
+  return StaticField;
+}(ConstructorFileField);
+var StringField = /*#__PURE__*/function (_ConstructorFileField3) {
+  _inherits(StringField, _ConstructorFileField3);
+
+  var _super5 = _createSuper(StringField);
+
+  function StringField(ruleTypes, config, extendedConfig) {
+    var _this5;
+
+    _classCallCheck(this, StringField);
+
+    _this5 = _super5.call(this, ruleTypes, config, extendedConfig);
+    _this5.fieldType = 'string';
+    _this5.tag = '!g.string';
+    _this5._fileListUi = {};
+    _this5._fileListCls = _ui_string__WEBPACK_IMPORTED_MODULE_4__["StringListUI"];
+    _this5.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["createWhiteBlackFilter"])( // Whitelist.
+    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(_this5.config.get('whitelist')), // Blacklist.
+    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(_this5.config.get('blacklist')));
+    return _this5;
+  }
+
+  _createClass(StringField, [{
+    key: "handleInput",
+    value: function handleInput(evt) {
+      var locale = evt.target.dataset.locale;
+      var fileListUi = this.fileListUiForLocale(locale);
+      var inputValue = evt.target.value;
+      var value = inputValue; // Constructors are represented as objects in json.
+      // Let it be a normal string if there is not matching string.
+
+      if (fileListUi.isValueValidReference(inputValue)) {
+        value = {
+          'value': value,
+          'tag': this.tag
+        };
+      }
+
+      this.setValueForLocale(locale, value);
+    }
+  }, {
+    key: "renderInput",
+    value: function renderInput(selective, data, locale) {
+      // Need to load the strings to validate the value.
+      // Editor ensures it only loads once.
+      selective.editor.loadStrings();
+      return _get(_getPrototypeOf(StringField.prototype), "renderInput", this).call(this, selective, data, locale);
+    }
+  }, {
+    key: "renderMeta",
+    value: function renderMeta(selective, data, locale, value) {
+      // If the value of the field is a string reference show a preview of the
+      // string value.
+      if (_utility_dataType__WEBPACK_IMPORTED_MODULE_2__["default"].isObject(value)) {
+        var fileListUi = this.fileListUiForLocale(locale);
+        var metaValue = fileListUi.valueFromReference(value.value);
+
+        if (metaValue) {
+          return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject3(), metaValue, this.renderErrors(selective, data, locale));
+        }
+      }
+
+      return '';
+    }
+  }]);
+
+  return StringField;
+}(ConstructorFileField);
+var YamlField = /*#__PURE__*/function (_ConstructorFileField4) {
+  _inherits(YamlField, _ConstructorFileField4);
+
+  var _super6 = _createSuper(YamlField);
+
+  function YamlField(ruleTypes, config, extendedConfig) {
+    var _this6;
+
+    _classCallCheck(this, YamlField);
+
+    _this6 = _super6.call(this, ruleTypes, config, extendedConfig);
+    _this6.fieldType = 'yaml';
+    _this6.tag = '!g.yaml';
+    _this6.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["createWhiteBlackFilter"])( // Whitelist.
+    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(_this6.config.get('whitelist'), [/^\/content\/.*\.yaml$/, /^\/data\/.*\.yaml$/]), // Blacklist.
+    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_1__["regexList"])(_this6.config.get('blacklist')));
+    return _this6;
+  }
+
+  return YamlField;
+}(ConstructorFileField);
 
 /***/ }),
 
@@ -99790,6 +102565,126 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
 /* harmony import */ var _utility_filter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/filter */ "./source/utility/filter.js");
 /* harmony import */ var _ui_file__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../ui/file */ "./source/editor/ui/file.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _templateObject9() {
+  var data = _taggedTemplateLiteral(["\n      <div\n          class=\"selective__field__image_file__wrapper\"\n          @drop=", "\n          @dragenter=", "\n          @dragleave=", "\n          @dragover=", "\n          data-locale=", ">\n        <div class=\"selective__field__image_file__input\">\n          <input\n            class=\"", "\"\n            id=\"", "", "\"\n            placeholder=", "\n            data-locale=", "\n            @input=", "\n            value=", " />\n          <i\n              class=\"material-icons selective__field__image_file__file_input_icon\"\n              title=\"Upload file\"\n              data-locale=", "\n              @click=", ">\n            attachment\n          </i>\n          <i\n              class=\"material-icons selective__field__image_file__file_icon\"\n              title=\"Select pod path\"\n              data-locale=", "\n              @click=", ">\n            list_alt\n          </i>\n        </div>\n        ", "\n        ", "\n        ", "\n        ", "\n      </div>"]);
+
+  _templateObject9 = function _templateObject9() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject8() {
+  var data = _taggedTemplateLiteral(["<video\n            data-serving-path=", "\n            @loadeddata=", "\n            playsinline disableremoteplayback muted autoplay loop>\n          <source src=\"", "\" />\n        </video>"]);
+
+  _templateObject8 = function _templateObject8() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject7() {
+  var data = _taggedTemplateLiteral(["<img\n      data-serving-path=", "\n      @load=", "\n      src=\"", "\" />"]);
+
+  _templateObject7 = function _templateObject7() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject6() {
+  var data = _taggedTemplateLiteral(["\n      <div id=\"", "", "-preview\" class=\"selective__image__preview\">\n        <div class=\"selective__image__preview__image\">\n          ", "\n        </div>\n        <div class=\"selective__image__preview__meta\">\n          ", "\n        </div>\n      </div>"]);
+
+  _templateObject6 = function _templateObject6() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject5() {
+  var data = _taggedTemplateLiteral(["\n        <div id=\"", "", "-preview\" class=\"selective__image__preview\">\n          <div class=\"editor__loading editor__loading--small editor__loading--pad\"></div>\n        </div>"]);
+
+  _templateObject5 = function _templateObject5() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject4() {
+  var data = _taggedTemplateLiteral(["\n      <div\n          class=\"selective__field__image_file__wrapper\"\n          @drop=", "\n          @dragenter=", "\n          @dragleave=", "\n          @dragover=", "\n          data-locale=", ">\n        <div class=\"selective__field__image_file__input\">\n          <input\n            class=\"", "\"\n            id=\"", "", "\"\n            placeholder=", "\n            data-locale=", "\n            ?disabled=", "\n            @input=", "\n            value=", " />\n          <i\n              class=\"material-icons selective__field__image_file__file_input_icon\"\n              title=\"Upload file\"\n              data-locale=", "\n              @click=", ">\n            attachment\n          </i>\n        </div>\n        ", "\n        ", "\n        ", "\n      </div>"]);
+
+  _templateObject4 = function _templateObject4() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject3() {
+  var data = _taggedTemplateLiteral(["\n      <div class=\"selective__image__preview__meta__ratio\">\n        <span class=\"selective__image__preview__meta__label\">Ratio:</span>\n        <span class=\"selective__image__preview__meta__value\">", ":", "</span>\n      </div>"]);
+
+  _templateObject3 = function _templateObject3() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject2() {
+  var data = _taggedTemplateLiteral(["\n      <div class=\"selective__image__preview__meta__size\">\n        <span class=\"selective__image__preview__meta__label\">Size:</span>\n        <span class=\"selective__image__preview__meta__value\">", "x", "</span>\n      </div>"]);
+
+  _templateObject2 = function _templateObject2() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["\n      <div class=\"selective__image__file\">\n        <input\n          type=\"file\"\n          id=\"", "", "-file\"\n          data-locale=", "\n          ?disabled=", "\n          @input=", " />\n      </div>"]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 /**
  * Image field types for the editor extension.
  */
@@ -99797,8 +102692,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const VALID_MIME_TYPES = ['image/jpeg', 'image/png', 'image/svg+xml', 'image/webp', 'image/gif', 'image/avif'];
-const MIME_TO_TYPE = {
+var VALID_MIME_TYPES = ['image/jpeg', 'image/png', 'image/svg+xml', 'image/webp', 'image/gif', 'image/avif'];
+var MIME_TO_TYPE = {
   'image/jpeg': 'jpg',
   'image/png': 'png',
   'image/svg+xml': 'svg',
@@ -99806,432 +102701,434 @@ const MIME_TO_TYPE = {
   'image/gif': 'gif',
   'image/avif': 'avif'
 };
-const IMAGE_HOVER_CLASS = 'selective__image--hover';
-const FILE_EXT_REGEX = /\.[0-9a-z]{1,5}$/i;
-const VIDEO_EXT = [// Video extensions.
+var IMAGE_HOVER_CLASS = 'selective__image--hover';
+var FILE_EXT_REGEX = /\.[0-9a-z]{1,5}$/i;
+var VIDEO_EXT = [// Video extensions.
 'mp4', 'webm'];
 
-const fractReduce = (numerator, denominator) => {
+var fractReduce = function fractReduce(numerator, denominator) {
   // Reduce a fraction by finding the Greatest Common Divisor and dividing by it.
-  const gcd = (a, b) => {
+  var gcd = function gcd(a, b) {
     return b ? gcd(b, a % b) : a;
   };
 
-  const fracGcd = gcd(numerator, denominator);
+  var fracGcd = gcd(numerator, denominator);
   return [numerator / fracGcd, denominator / fracGcd];
 };
 
-class ImageField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig);
-    this.fieldType = 'image';
-    this._metas = {};
-    this._showFileInput = {};
-    this._isLoading = {};
+var ImageField = /*#__PURE__*/function (_Field) {
+  _inherits(ImageField, _Field);
+
+  var _super = _createSuper(ImageField);
+
+  function ImageField(ruleTypes, config, extendedConfig) {
+    var _this;
+
+    _classCallCheck(this, ImageField);
+
+    _this = _super.call(this, ruleTypes, config, extendedConfig);
+    _this.fieldType = 'image';
+    _this._metas = {};
+    _this._showFileInput = {};
+    _this._isLoading = {};
+    return _this;
   }
 
-  _targetForDrop(evt) {
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, `selective__field__image_file__wrapper`);
+  _createClass(ImageField, [{
+    key: "_targetForDrop",
+    value: function _targetForDrop(evt) {
+      var target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, "selective__field__image_file__wrapper");
 
-    if (!target) {
-      return false;
-    }
+      if (!target) {
+        return false;
+      }
 
-    if (evt.dataTransfer.types.includes('Files')) {
-      evt.preventDefault();
-      evt.stopPropagation();
-      return target;
-    }
-  }
-
-  delayedFocus(locale) {
-    // Wait for the render then focus on the file input.
-    document.addEventListener('selective.render.complete', () => {
-      document.getElementById(`${this.uid}${locale || ''}-file`).click();
-    }, {
-      once: true
-    });
-  }
-
-  getServingPath(value, locale) {
-    return value;
-  }
-
-  handleDragDrop(evt) {
-    const target = this._targetForDrop(evt);
-
-    target.classList.remove(IMAGE_HOVER_CLASS);
-    const files = evt.dataTransfer.files;
-    const validFiles = [];
-
-    for (const file of files) {
-      if (VALID_MIME_TYPES.includes(file.type)) {
-        validFiles.push(file);
+      if (evt.dataTransfer.types.includes('Files')) {
+        evt.preventDefault();
+        evt.stopPropagation();
+        return target;
       }
     }
+  }, {
+    key: "delayedFocus",
+    value: function delayedFocus(locale) {
+      var _this2 = this;
 
-    if (validFiles.length < 1) {
-      return;
+      // Wait for the render then focus on the file input.
+      document.addEventListener('selective.render.complete', function () {
+        document.getElementById("".concat(_this2.uid).concat(locale || '', "-file")).click();
+      }, {
+        once: true
+      });
     }
+  }, {
+    key: "getServingPath",
+    value: function getServingPath(value, locale) {
+      return value;
+    }
+  }, {
+    key: "handleDragDrop",
+    value: function handleDragDrop(evt) {
+      var target = this._targetForDrop(evt);
 
-    const locale = target.dataset.locale; // There can be only one.
-
-    this.uploadFile(validFiles[0], locale);
-  }
-
-  handleDragEnter(evt) {
-    const target = this._targetForDrop(evt);
-
-    target.classList.add(IMAGE_HOVER_CLASS);
-  }
-
-  handleDragLeave(evt) {
-    const target = this._targetForDrop(evt); // Only remove the hover class when the event comes from the actual target.
-    // Otherwise it is crazy to get the class due to bubbling.
-
-
-    if (evt.target === target) {
       target.classList.remove(IMAGE_HOVER_CLASS);
+      var files = evt.dataTransfer.files;
+      var validFiles = [];
+
+      var _iterator = _createForOfIteratorHelper(files),
+          _step;
+
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var file = _step.value;
+
+          if (VALID_MIME_TYPES.includes(file.type)) {
+            validFiles.push(file);
+          }
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+
+      if (validFiles.length < 1) {
+        return;
+      }
+
+      var locale = target.dataset.locale; // There can be only one.
+
+      this.uploadFile(validFiles[0], locale);
     }
-  }
+  }, {
+    key: "handleDragEnter",
+    value: function handleDragEnter(evt) {
+      var target = this._targetForDrop(evt);
 
-  handleDragOver(evt) {
-    this._targetForDrop(evt);
-  }
-
-  handleFileInput(evt) {
-    if (!this.api) {
-      console.error('Missing api for image field.');
-      return;
+      target.classList.add(IMAGE_HOVER_CLASS);
     }
+  }, {
+    key: "handleDragLeave",
+    value: function handleDragLeave(evt) {
+      var target = this._targetForDrop(evt); // Only remove the hover class when the event comes from the actual target.
+      // Otherwise it is crazy to get the class due to bubbling.
 
-    const locale = evt.target.dataset.locale;
-    const localeKey = this.keyForLocale(locale);
-    this.uploadFile(evt.target.files[0], locale);
-    this._isLoading[localeKey] = true;
-    this.render();
-  }
 
-  handleFileInputToggleClick(evt) {
-    const locale = evt.target.dataset.locale;
-    const localeKey = this.keyForLocale(locale);
-    this._showFileInput[localeKey] = !(this._showFileInput[localeKey] || false);
-
-    if (this._showFileInput[localeKey]) {
-      this.delayedFocus(locale);
-    }
-
-    this.render();
-  }
-
-  handleImageLoad(evt) {
-    this._metas[evt.target.dataset.servingPath] = {
-      height: evt.target.naturalHeight,
-      width: evt.target.naturalWidth
-    };
-    this.render();
-  }
-
-  handleVideoLoad(evt) {
-    this._metas[evt.target.dataset.servingPath] = {
-      height: evt.target.videoHeight,
-      width: evt.target.videoWidth
-    };
-    this.render();
-  }
-
-  renderFileInput(selective, data, locale) {
-    const localeKey = this.keyForLocale(locale);
-
-    if (!this._showFileInput[localeKey]) {
-      return '';
-    }
-
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <div class="selective__image__file">
-        <input
-          type="file"
-          id="${this.uid}${locale || ''}-file"
-          data-locale=${locale || ''}
-          ?disabled=${this._isLoading[localeKey]}
-          @input=${this.handleFileInput.bind(this)} />
-      </div>`;
-  }
-
-  renderImageMeta(selective, data, locale) {
-    const imageMeta = [];
-    const value = this.getValueForLocale(locale) || '';
-    const servingPath = this.getServingPath(value, locale);
-    const meta = this._metas[servingPath];
-
-    if (!meta) {
-      return '';
-    }
-
-    imageMeta.push(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <div class="selective__image__preview__meta__size">
-        <span class="selective__image__preview__meta__label">Size:</span>
-        <span class="selective__image__preview__meta__value">${meta.width}x${meta.height}</span>
-      </div>`);
-    const ratio = fractReduce(meta.width, meta.height);
-    imageMeta.push(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <div class="selective__image__preview__meta__ratio">
-        <span class="selective__image__preview__meta__label">Ratio:</span>
-        <span class="selective__image__preview__meta__value">${ratio[0]}:${ratio[1]}</span>
-      </div>`);
-    return imageMeta;
-  }
-
-  renderInput(selective, data, locale) {
-    const value = this.getValueForLocale(locale) || '';
-    const localeKey = this.keyForLocale(locale);
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <div
-          class="selective__field__image_file__wrapper"
-          @drop=${this.handleDragDrop.bind(this)}
-          @dragenter=${this.handleDragEnter.bind(this)}
-          @dragleave=${this.handleDragLeave.bind(this)}
-          @dragover=${this.handleDragOver.bind(this)}
-          data-locale=${locale || ''}>
-        <div class="selective__field__image_file__input">
-          <input
-            id="${this.uid}${locale}"
-            placeholder=${this.config.placeholder || ''}
-            data-locale=${locale || ''}
-            ?disabled=${this._isLoading[localeKey]}
-            @input=${this.handleInput.bind(this)}
-            value=${value || ''} />
-          <i
-              class="material-icons selective__field__image_file__file_input_icon"
-              title="Upload file"
-              data-locale=${locale || ''}
-              @click=${this.handleFileInputToggleClick.bind(this)}>
-            attachment
-          </i>
-        </div>
-        ${this.renderFileInput(selective, data, locale)}
-        ${this.renderPreview(selective, data, locale)}
-      </div>`;
-  }
-
-  renderPreview(selective, data, locale) {
-    const value = this.getValueForLocale(locale) || '';
-    const localeKey = this.keyForLocale(locale);
-    const servingPath = this.getServingPath(value, locale);
-
-    if (this._isLoading[localeKey]) {
-      return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-        <div id="${this.uid}${locale}-preview" class="selective__image__preview">
-          <div class="editor__loading editor__loading--small editor__loading--pad"></div>
-        </div>`;
-    }
-
-    if (!servingPath || servingPath == '') {
-      return '';
-    }
-
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <div id="${this.uid}${locale}-preview" class="selective__image__preview">
-        <div class="selective__image__preview__image">
-          ${this.renderPreviewMedia(selective, data, locale, servingPath)}
-        </div>
-        <div class="selective__image__preview__meta">
-          ${this.renderImageMeta(selective, data, locale)}
-        </div>
-      </div>`;
-  }
-
-  renderPreviewMedia(selective, data, locale, servingPath) {
-    for (const videoExt of VIDEO_EXT) {
-      if (servingPath.endsWith(`.${videoExt}`)) {
-        return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<video
-            data-serving-path=${servingPath}
-            @loadeddata=${this.handleVideoLoad.bind(this)}
-            playsinline disableremoteplayback muted autoplay loop>
-          <source src="${servingPath}" />
-        </video>`;
+      if (evt.target === target) {
+        target.classList.remove(IMAGE_HOVER_CLASS);
       }
     }
+  }, {
+    key: "handleDragOver",
+    value: function handleDragOver(evt) {
+      this._targetForDrop(evt);
+    }
+  }, {
+    key: "handleFileInput",
+    value: function handleFileInput(evt) {
+      if (!this.api) {
+        console.error('Missing api for image field.');
+        return;
+      }
 
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<img
-      data-serving-path=${servingPath}
-      @load=${this.handleImageLoad.bind(this)}
-      src="${servingPath}" />`;
-  }
-
-  uploadFile(file, locale) {
-    const destination = this.config.get('destination', '/static/img/upload');
-    const localeKey = this.keyForLocale(locale);
-    this.api.saveImage(file, destination).then(result => {
-      this._showFileInput[localeKey] = false;
-      this._isLoading[localeKey] = false;
-      this.setValueForLocale(locale, result['pod_path']);
-    }).catch(err => {
-      console.error(err);
-      this._errors['upload'] = err;
+      var locale = evt.target.dataset.locale;
+      var localeKey = this.keyForLocale(locale);
+      this.uploadFile(evt.target.files[0], locale);
+      this._isLoading[localeKey] = true;
       this.render();
-    });
-  }
+    }
+  }, {
+    key: "handleFileInputToggleClick",
+    value: function handleFileInputToggleClick(evt) {
+      var locale = evt.target.dataset.locale;
+      var localeKey = this.keyForLocale(locale);
+      this._showFileInput[localeKey] = !(this._showFileInput[localeKey] || false);
 
-}
-class ImageFileField extends ImageField {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig);
-    this.fieldType = 'image_file';
-    this._fileListUi = {};
-    this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createWhiteBlackFilter"])(Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["regexList"])(this.config.get('whitelist'), [/^\/static\/.*\.(jp[e]?g|png|svg|webp)$/]), // Whitelist.
-    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["regexList"])(this.config.get('blacklist')) // Blacklist.
+      if (this._showFileInput[localeKey]) {
+        this.delayedFocus(locale);
+      }
+
+      this.render();
+    }
+  }, {
+    key: "handleImageLoad",
+    value: function handleImageLoad(evt) {
+      this._metas[evt.target.dataset.servingPath] = {
+        height: evt.target.naturalHeight,
+        width: evt.target.naturalWidth
+      };
+      this.render();
+    }
+  }, {
+    key: "handleVideoLoad",
+    value: function handleVideoLoad(evt) {
+      this._metas[evt.target.dataset.servingPath] = {
+        height: evt.target.videoHeight,
+        width: evt.target.videoWidth
+      };
+      this.render();
+    }
+  }, {
+    key: "renderFileInput",
+    value: function renderFileInput(selective, data, locale) {
+      var localeKey = this.keyForLocale(locale);
+
+      if (!this._showFileInput[localeKey]) {
+        return '';
+      }
+
+      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject(), this.uid, locale || '', locale || '', this._isLoading[localeKey], this.handleFileInput.bind(this));
+    }
+  }, {
+    key: "renderImageMeta",
+    value: function renderImageMeta(selective, data, locale) {
+      var imageMeta = [];
+      var value = this.getValueForLocale(locale) || '';
+      var servingPath = this.getServingPath(value, locale);
+      var meta = this._metas[servingPath];
+
+      if (!meta) {
+        return '';
+      }
+
+      imageMeta.push(Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject2(), meta.width, meta.height));
+      var ratio = fractReduce(meta.width, meta.height);
+      imageMeta.push(Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject3(), ratio[0], ratio[1]));
+      return imageMeta;
+    }
+  }, {
+    key: "renderInput",
+    value: function renderInput(selective, data, locale) {
+      var value = this.getValueForLocale(locale) || '';
+      var localeKey = this.keyForLocale(locale);
+      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject4(), this.handleDragDrop.bind(this), this.handleDragEnter.bind(this), this.handleDragLeave.bind(this), this.handleDragOver.bind(this), locale || '', this.getClassesForInput(locale), this.uid, locale, this.config.placeholder || '', locale || '', this._isLoading[localeKey], this.handleInput.bind(this), value || '', locale || '', this.handleFileInputToggleClick.bind(this), this.renderFileInput(selective, data, locale), this.renderPreview(selective, data, locale), this.renderErrors(selective, data, locale));
+    }
+  }, {
+    key: "renderPreview",
+    value: function renderPreview(selective, data, locale) {
+      var value = this.getValueForLocale(locale) || '';
+      var localeKey = this.keyForLocale(locale);
+      var servingPath = this.getServingPath(value, locale);
+
+      if (this._isLoading[localeKey]) {
+        return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject5(), this.uid, locale);
+      }
+
+      if (!servingPath || servingPath == '') {
+        return '';
+      }
+
+      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject6(), this.uid, locale, this.renderPreviewMedia(selective, data, locale, servingPath), this.renderImageMeta(selective, data, locale));
+    }
+  }, {
+    key: "renderPreviewMedia",
+    value: function renderPreviewMedia(selective, data, locale, servingPath) {
+      var _iterator2 = _createForOfIteratorHelper(VIDEO_EXT),
+          _step2;
+
+      try {
+        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+          var videoExt = _step2.value;
+
+          if (servingPath.endsWith(".".concat(videoExt))) {
+            return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject8(), servingPath, this.handleVideoLoad.bind(this), servingPath);
+          }
+        }
+      } catch (err) {
+        _iterator2.e(err);
+      } finally {
+        _iterator2.f();
+      }
+
+      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject7(), servingPath, this.handleImageLoad.bind(this), servingPath);
+    }
+  }, {
+    key: "uploadFile",
+    value: function uploadFile(file, locale) {
+      var _this3 = this;
+
+      var destination = this.config.get('destination', '/static/img/upload');
+      var localeKey = this.keyForLocale(locale);
+      this.api.saveImage(file, destination).then(function (result) {
+        _this3._showFileInput[localeKey] = false;
+        _this3._isLoading[localeKey] = false;
+
+        _this3.setValueForLocale(locale, result['pod_path']);
+      }).catch(function (err) {
+        console.error(err);
+        _this3._errors['upload'] = err;
+
+        _this3.render();
+      });
+    }
+  }]);
+
+  return ImageField;
+}(selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"]);
+var ImageFileField = /*#__PURE__*/function (_ImageField) {
+  _inherits(ImageFileField, _ImageField);
+
+  var _super2 = _createSuper(ImageFileField);
+
+  function ImageFileField(config, extendedConfig) {
+    var _this4;
+
+    _classCallCheck(this, ImageFileField);
+
+    _this4 = _super2.call(this, config, extendedConfig);
+    _this4.fieldType = 'image_file';
+    _this4._fileListUi = {};
+    _this4.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createWhiteBlackFilter"])(Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["regexList"])(_this4.config.get('whitelist'), [/^\/static\/.*\.(jp[e]?g|png|svg|webp)$/]), // Whitelist.
+    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["regexList"])(_this4.config.get('blacklist')) // Blacklist.
     ); // Use the API to get serving paths for local images.
 
-    this.api = this.config.get('api');
-    this._servingPaths = {};
-    this._servingPathsLoading = {};
+    _this4.api = _this4.config.get('api');
+    _this4._servingPaths = {};
+    _this4._servingPathsLoading = {};
+    return _this4;
   }
 
-  fileListUiForLocale(locale) {
-    const localeKey = this.keyForLocale(locale);
+  _createClass(ImageFileField, [{
+    key: "fileListUiForLocale",
+    value: function fileListUiForLocale(locale) {
+      var localeKey = this.keyForLocale(locale);
 
-    if (!this._fileListUi[localeKey]) {
-      this._fileListUi[localeKey] = new _ui_file__WEBPACK_IMPORTED_MODULE_3__["FileListUI"]({
-        'filterFunc': this.filterFunc
-      }); // Bind the pod path listener event for the UI.
+      if (!this._fileListUi[localeKey]) {
+        this._fileListUi[localeKey] = new _ui_file__WEBPACK_IMPORTED_MODULE_3__["FileListUI"]({
+          'filterFunc': this.filterFunc
+        }); // Bind the pod path listener event for the UI.
 
-      this._fileListUi[localeKey].listeners.add('podPath', this.handlePodPath.bind(this));
+        this._fileListUi[localeKey].listeners.add('podPath', this.handlePodPath.bind(this));
+      }
+
+      return this._fileListUi[localeKey];
     }
+  }, {
+    key: "getServingPath",
+    value: function getServingPath(value, locale) {
+      if (!value || value == '') {
+        return;
+      }
 
-    return this._fileListUi[localeKey];
-  }
+      if (this._servingPaths[value]) {
+        return this._servingPaths[value];
+      }
 
-  getServingPath(value, locale) {
-    if (!value || value == '') {
-      return;
+      if (this._servingPathsLoading[value]) {
+        return '';
+      } // Mark that the request has started to prevent duplicate requests.
+
+
+      this._servingPathsLoading[value] = true; // Have not loaded the serving url yet. Load it in.
+
+      this.api.getStaticServingPath(value).then(this.handleServingPathResponse.bind(this));
     }
-
-    if (this._servingPaths[value]) {
-      return this._servingPaths[value];
+  }, {
+    key: "handleFilesToggleClick",
+    value: function handleFilesToggleClick(evt) {
+      var locale = evt.target.dataset.locale;
+      this.fileListUiForLocale(locale).toggle();
     }
+  }, {
+    key: "handlePodPath",
+    value: function handlePodPath(podPath, locale) {
+      var value = podPath;
+      this.setValueForLocale(locale, value);
+    }
+  }, {
+    key: "handleServingPathResponse",
+    value: function handleServingPathResponse(response) {
+      this._servingPaths[response.pod_path] = response.serving_url;
+      this.render();
+    }
+  }, {
+    key: "renderInput",
+    value: function renderInput(selective, data, locale) {
+      var value = this.getValueForLocale(locale) || '';
+      var fileListUi = this.fileListUiForLocale(locale);
+      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject9(), this.handleDragDrop.bind(this), this.handleDragEnter.bind(this), this.handleDragLeave.bind(this), this.handleDragOver.bind(this), locale || '', this.getClassesForInput(locale), this.uid, locale, this.config.placeholder || '', locale || '', this.handleInput.bind(this), value || '', locale || '', this.handleFileInputToggleClick.bind(this), locale || '', this.handleFilesToggleClick.bind(this), fileListUi.renderFileList(selective, data, locale), this.renderFileInput(selective, data, locale), this.renderPreview(selective, data, locale), this.renderErrors(selective, data, locale));
+    }
+  }]);
 
-    if (this._servingPathsLoading[value]) {
-      return '';
-    } // Mark that the request has started to prevent duplicate requests.
+  return ImageFileField;
+}(ImageField); // TODO: Move into the google image extension.
 
+var GoogleImageField = /*#__PURE__*/function (_ImageField2) {
+  _inherits(GoogleImageField, _ImageField2);
 
-    this._servingPathsLoading[value] = true; // Have not loaded the serving url yet. Load it in.
+  var _super3 = _createSuper(GoogleImageField);
 
-    this.api.getStaticServingPath(value).then(this.handleServingPathResponse.bind(this));
-  }
+  function GoogleImageField(ruleTypes, config, extendedConfig) {
+    var _this5;
 
-  handleFilesToggleClick(evt) {
-    const locale = evt.target.dataset.locale;
-    this.fileListUiForLocale(locale).toggle();
-  }
+    _classCallCheck(this, GoogleImageField);
 
-  handlePodPath(podPath, locale) {
-    const value = podPath;
-    this.setValueForLocale(locale, value);
-  }
-
-  handleServingPathResponse(response) {
-    this._servingPaths[response.pod_path] = response.serving_url;
-    this.render();
-  }
-
-  renderInput(selective, data, locale) {
-    const value = this.getValueForLocale(locale) || '';
-    const fileListUi = this.fileListUiForLocale(locale);
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <div
-          class="selective__field__image_file__wrapper"
-          @drop=${this.handleDragDrop.bind(this)}
-          @dragenter=${this.handleDragEnter.bind(this)}
-          @dragleave=${this.handleDragLeave.bind(this)}
-          @dragover=${this.handleDragOver.bind(this)}
-          data-locale=${locale || ''}>
-        <div class="selective__field__image_file__input">
-          <input
-            id="${this.uid}${locale}"
-            placeholder=${this.config.placeholder || ''}
-            data-locale=${locale || ''}
-            @input=${this.handleInput.bind(this)}
-            value=${value || ''} />
-          <i
-              class="material-icons selective__field__image_file__file_input_icon"
-              title="Upload file"
-              data-locale=${locale || ''}
-              @click=${this.handleFileInputToggleClick.bind(this)}>
-            attachment
-          </i>
-          <i
-              class="material-icons selective__field__image_file__file_icon"
-              title="Select pod path"
-              data-locale=${locale || ''}
-              @click=${this.handleFilesToggleClick.bind(this)}>
-            list_alt
-          </i>
-        </div>
-        ${fileListUi.renderFileList(selective, data, locale)}
-        ${this.renderFileInput(selective, data, locale)}
-        ${this.renderPreview(selective, data, locale)}
-      </div>`;
-  }
-
-} // TODO: Move into the google image extension.
-
-class GoogleImageField extends ImageField {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig);
-    this.fieldType = 'google_image';
-    this.api = this.config.get('api'); // TODO: Change to use the API after the extension is updated to the new
+    _this5 = _super3.call(this, ruleTypes, config, extendedConfig);
+    _this5.fieldType = 'google_image';
+    _this5.api = _this5.config.get('api'); // TODO: Change to use the API after the extension is updated to the new
     // Extension style.
     // this._extension_config_promise = this.api.getExtensionConfig(
     //   'extensions.google_cloud_images.GoogleCloudImageExtension')
 
-    this._extension_config_promise = this.api.getExtensionConfig('extensions.editor.EditorExtension');
+    _this5._extension_config_promise = _this5.api.getExtensionConfig('extensions.editor.EditorExtension');
+    return _this5;
   }
 
-  getServingPath(value, locale) {
-    if (FILE_EXT_REGEX.test(value)) {
-      return value;
-    } // Add original size to the image so that we can get the full image specs.
+  _createClass(GoogleImageField, [{
+    key: "getServingPath",
+    value: function getServingPath(value, locale) {
+      if (FILE_EXT_REGEX.test(value)) {
+        return value;
+      } // Add original size to the image so that we can get the full image specs.
 
 
-    if (value.includes('googleusercontent') && !value.includes('=')) {
-      return `${value}=s0`;
-    }
-
-    return value;
-  }
-
-  uploadFile(file, locale) {
-    const localeKey = this.keyForLocale(locale); // Wait for the url promise to return.
-
-    this._extension_config_promise.then(result => {
-      const uploadUrl = result['googleImageUploadUrl'];
-      const bucket = result['googleImageBucket'];
-
-      if (!uploadUrl) {
-        console.error('Unable to retrieve the upload url.');
-        this._errors['uploadUrl'] = 'Unable to retrieve the upload url setting.';
-        this.render();
-        return;
+      if (value.includes('googleusercontent') && !value.includes('=')) {
+        return "".concat(value, "=s0");
       }
 
-      this.api.saveGoogleImage(file, uploadUrl, bucket).then(result => {
-        this._showFileInput[localeKey] = false;
-        this._isLoading[localeKey] = false;
-        this.setValueForLocale(locale, result['url']);
-        this.render();
-      }).catch(err => {
-        console.error(err);
-        this._errors['upload'] = err;
-        this._showFileInput[localeKey] = false;
-        this._isLoading[localeKey] = false;
-        this.render();
-      });
-    });
-  }
+      return value;
+    }
+  }, {
+    key: "uploadFile",
+    value: function uploadFile(file, locale) {
+      var _this6 = this;
 
-}
+      var localeKey = this.keyForLocale(locale); // Wait for the url promise to return.
+
+      this._extension_config_promise.then(function (result) {
+        var uploadUrl = result['googleImageUploadUrl'];
+        var bucket = result['googleImageBucket'];
+
+        if (!uploadUrl) {
+          console.error('Unable to retrieve the upload url.');
+          _this6._errors['uploadUrl'] = 'Unable to retrieve the upload url setting.';
+
+          _this6.render();
+
+          return;
+        }
+
+        _this6.api.saveGoogleImage(file, uploadUrl, bucket).then(function (result) {
+          _this6._showFileInput[localeKey] = false;
+          _this6._isLoading[localeKey] = false;
+
+          _this6.setValueForLocale(locale, result['url']);
+
+          _this6.render();
+        }).catch(function (err) {
+          console.error(err);
+          _this6._errors['upload'] = err;
+          _this6._showFileInput[localeKey] = false;
+          _this6._isLoading[localeKey] = false;
+
+          _this6.render();
+        });
+      });
+    }
+  }]);
+
+  return GoogleImageField;
+}(ImageField);
 
 /***/ }),
 
@@ -100248,6 +103145,54 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
 /* harmony import */ var _parts_modal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../parts/modal */ "./source/editor/parts/modal.js");
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _templateObject2() {
+  var data = _taggedTemplateLiteral(["\n      ", "\n      ", ""]);
+
+  _templateObject2 = function _templateObject2() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["Are you sure you want to delete <strong>", "</strong>?"]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
+
+function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 /**
  * Customized list field.
  */
@@ -100255,49 +103200,66 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class EditorListField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListField"] {
-  // Add the confirmation for delete to the list field.
-  handleDeleteItem(evt) {
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_2__["findParentByClassname"])(evt.target, 'selective__list__item__delete');
-    const uid = target.dataset.itemUid;
-    const locale = target.dataset.locale;
-    const listItems = this._getListItemsForLocale(locale) || [];
-    let deleteIndex = -1;
+var EditorListField = /*#__PURE__*/function (_ListField) {
+  _inherits(EditorListField, _ListField);
 
-    for (const index in listItems) {
-      if (listItems[index].uid == uid) {
-        deleteIndex = index;
-        break;
+  var _super = _createSuper(EditorListField);
+
+  function EditorListField() {
+    _classCallCheck(this, EditorListField);
+
+    return _super.apply(this, arguments);
+  }
+
+  _createClass(EditorListField, [{
+    key: "handleDeleteItem",
+    // Add the confirmation for delete to the list field.
+    value: function handleDeleteItem(evt) {
+      var _this = this;
+
+      var target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_2__["findParentByClassname"])(evt.target, 'selective__list__item__delete');
+      var uid = target.dataset.itemUid;
+      var locale = target.dataset.locale;
+      var listItems = this._getListItemsForLocale(locale) || [];
+      var deleteIndex = -1;
+
+      for (var index in listItems) {
+        if (listItems[index].uid == uid) {
+          deleteIndex = index;
+          break;
+        }
       }
+
+      if (deleteIndex < 0) {
+        return;
+      }
+
+      this.confirmDelete = new _parts_modal__WEBPACK_IMPORTED_MODULE_1__["ConfirmWindow"]('Delete item', 'Delete item');
+
+      this.confirmDelete.contentRenderFunc = function () {
+        var preview = _this.guessPreview(listItems[deleteIndex], deleteIndex);
+
+        return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject(), preview);
+      };
+
+      this.confirmDelete.promise.then(function () {
+        _get(_getPrototypeOf(EditorListField.prototype), "handleDeleteItem", _this).call(_this, evt);
+
+        _this.confirmDelete.close();
+      }).catch(function () {
+        _this.confirmDelete.close();
+      });
+      this.confirmDelete.open();
     }
-
-    if (deleteIndex < 0) {
-      return;
+  }, {
+    key: "renderFooter",
+    value: function renderFooter(selective, data) {
+      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject2(), _get(_getPrototypeOf(EditorListField.prototype), "renderFooter", this).call(this, selective, data), this.confirmDelete ? this.confirmDelete.template : '');
     }
+  }]);
 
-    this.confirmDelete = new _parts_modal__WEBPACK_IMPORTED_MODULE_1__["ConfirmWindow"]('Delete item', 'Delete item');
-
-    this.confirmDelete.contentRenderFunc = () => {
-      const preview = this.guessPreview(listItems[deleteIndex], deleteIndex);
-      return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`Are you sure you want to delete <strong>${preview}</strong>?`;
-    };
-
-    this.confirmDelete.promise.then(() => {
-      super.handleDeleteItem(evt);
-      this.confirmDelete.close();
-    }).catch(() => {
-      this.confirmDelete.close();
-    });
-    this.confirmDelete.open();
-  }
-
-  renderFooter(selective, data) {
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      ${super.renderFooter(selective, data)}
-      ${this.confirmDelete ? this.confirmDelete.template : ''}`;
-  }
-
-}
+  return EditorListField;
+}(selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListField"]);
 
 /***/ }),
 
@@ -100319,6 +103281,160 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
 /* harmony import */ var _utility_filter__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utility/filter */ "./source/utility/filter.js");
 /* harmony import */ var _ui_file__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../ui/file */ "./source/editor/ui/file.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _templateObject12() {
+  var data = _taggedTemplateLiteral(["\n      <div class=\"", "  selective__field__label--secondary\">\n        Media url\n      </div>"]);
+
+  _templateObject12 = function _templateObject12() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject11() {
+  var data = _taggedTemplateLiteral(["\n      <div\n          class=\"selective__field__media_file__wrapper\"\n          @drop=", "\n          @dragenter=", "\n          @dragleave=", "\n          @dragover=", "\n          data-locale=", ">\n        ", "\n        <div class=\"selective__field__media_file__input\">\n          <input\n            class=\"", "\"\n            id=\"", "", "\"\n            placeholder=", "\n            data-locale=", "\n            @input=", "\n            value=", " />\n          <i\n              class=\"material-icons selective__field__media_file__file_input_icon\"\n              title=\"Upload file\"\n              data-locale=", "\n              @click=", ">\n            publish\n          </i>\n          <i\n              class=\"material-icons selective__field__media_file__file_icon\"\n              title=\"Select pod path\"\n              data-locale=", "\n              @click=", ">\n            list_alt\n          </i>\n        </div>\n        ", "\n        ", "\n        ", "\n        ", "\n        ", "\n        ", "\n        ", "\n      </div>"]);
+
+  _templateObject11 = function _templateObject11() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject10() {
+  var data = _taggedTemplateLiteral(["<img\n      data-locale=", "\n      data-serving-path=", "\n      @load=", "\n      src=\"", "\" />"]);
+
+  _templateObject10 = function _templateObject10() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject9() {
+  var data = _taggedTemplateLiteral(["<video\n            data-locale=", "\n            data-serving-path=", "\n            @loadeddata=", "\n            playsinline disableremoteplayback muted autoplay loop>\n          <source src=\"", "\" />\n        </video>"]);
+
+  _templateObject9 = function _templateObject9() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject8() {
+  var data = _taggedTemplateLiteral(["\n      <div id=\"", "", "-preview\" class=\"selective__media__preview\">\n        <div class=\"selective__media__preview__media\">\n          ", "\n        </div>\n        <div class=\"selective__media__preview__meta\">\n          ", "\n        </div>\n      </div>"]);
+
+  _templateObject8 = function _templateObject8() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject7() {
+  var data = _taggedTemplateLiteral(["\n        <div id=\"", "", "-preview\" class=\"selective__media__preview\">\n          <div class=\"editor__loading editor__loading--small editor__loading--pad\"></div>\n        </div>"]);
+
+  _templateObject7 = function _templateObject7() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject6() {
+  var data = _taggedTemplateLiteral(["\n      <div class=\"", "  selective__field__label--secondary\">\n        Media path\n      </div>"]);
+
+  _templateObject6 = function _templateObject6() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject5() {
+  var data = _taggedTemplateLiteral(["\n      <div\n          class=\"selective__field__media_file__wrapper\"\n          @drop=", "\n          @dragenter=", "\n          @dragleave=", "\n          @dragover=", "\n          data-locale=", ">\n        ", "\n        <div class=\"selective__field__media_file__input\">\n          <input\n            class=\"", "\"\n            id=\"", "", "\"\n            placeholder=", "\n            data-locale=", "\n            ?disabled=", "\n            @input=", "\n            value=", " />\n          <i\n              class=\"material-icons selective__field__media_file__file_input_icon\"\n              title=\"Upload file\"\n              data-locale=", "\n              @click=", ">\n            publish\n          </i>\n        </div>\n        ", "\n        ", "\n        ", "\n        ", "\n        ", "\n        ", "\n      </div>"]);
+
+  _templateObject5 = function _templateObject5() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject4() {
+  var data = _taggedTemplateLiteral(["\n      <div class=\"selective__media__preview__meta__ratio\">\n        <span class=\"selective__media__preview__meta__label\">Ratio:</span>\n        <span class=\"selective__media__preview__meta__value\">", ":", "</span>\n      </div>"]);
+
+  _templateObject4 = function _templateObject4() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject3() {
+  var data = _taggedTemplateLiteral(["\n      <div class=\"selective__media__preview__meta__size\">\n        <span class=\"selective__media__preview__meta__label\">Size:</span>\n        <span class=\"selective__media__preview__meta__value\">", "x", "</span>\n      </div>"]);
+
+  _templateObject3 = function _templateObject3() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject2() {
+  var data = _taggedTemplateLiteral(["\n      <div class=\"selective__media__label\">\n        <div class=\"", "  selective__field__label--secondary\">\n          Accessibility Label\n        </div>\n        <input\n          class=\"", "\"\n          type=\"text\"\n          placeholder=\"Accessibility Label\"\n          id=\"", "", "-label\"\n          data-locale=", "\n          @input=", "\n          value=", " />\n      </div>"]);
+
+  _templateObject2 = function _templateObject2() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["\n      <div class=\"selective__media__file\">\n        <input\n          type=\"file\"\n          id=\"", "", "-file\"\n          data-locale=", "\n          ?disabled=", "\n          @input=", " />\n      </div>"]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
+
+function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 /**
  * Media field types for the editor extension.
  */
@@ -100327,9 +103443,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const VALID_IMAGE_MIME_TYPES = ['image/avif', 'image/gif', 'image/jpeg', 'image/png', 'image/svg+xml', 'image/webp'];
-const VALID_VIDEO_MIME_TYPES = ['image/mp4', 'image/mov', 'image/webm'];
-const MIME_TYPE_TO_EXT = {
+var VALID_IMAGE_MIME_TYPES = ['image/avif', 'image/gif', 'image/jpeg', 'image/png', 'image/svg+xml', 'image/webp'];
+var VALID_VIDEO_MIME_TYPES = ['image/mp4', 'image/mov', 'image/webm'];
+var MIME_TYPE_TO_EXT = {
   'image/avif': 'avif',
   'image/gif': 'gif',
   'image/jpeg': 'jpg',
@@ -100340,7 +103456,7 @@ const MIME_TYPE_TO_EXT = {
   'image/webm': 'webm',
   'image/webp': 'webp'
 };
-const EXT_TO_MIME_TYPE = {
+var EXT_TO_MIME_TYPE = {
   'avif': 'image/avif',
   'gif': 'image/gif',
   'jpeg': 'image/jpg',
@@ -100352,600 +103468,593 @@ const EXT_TO_MIME_TYPE = {
   'webm': 'image/webm',
   'webp': 'image/webp'
 };
-const MEDIA_HOVER_CLASS = 'selective__media--hover';
-const FILE_EXT_REGEX = /\.[0-9a-z]{1,5}$/i;
-const ABSOLUTE_URL_REGEX = /^(\/\/|http(s)?:)/i;
-const SUB_FIELDS_KEY = 'extra';
-const LABEL_KEY = 'label@';
+var MEDIA_HOVER_CLASS = 'selective__media--hover';
+var FILE_EXT_REGEX = /\.[0-9a-z]{1,5}$/i;
+var ABSOLUTE_URL_REGEX = /^(\/\/|http(s)?:)/i;
+var SUB_FIELDS_KEY = 'extra';
+var LABEL_KEY = 'label@';
 
-const fractReduce = (numerator, denominator) => {
+var fractReduce = function fractReduce(numerator, denominator) {
   // Reduce a fraction by finding the Greatest Common Divisor and dividing by it.
-  const gcd = (a, b) => {
+  var gcd = function gcd(a, b) {
     return b ? gcd(b, a % b) : a;
   };
 
-  const fracGcd = gcd(numerator, denominator);
+  var fracGcd = gcd(numerator, denominator);
   return [numerator / fracGcd, denominator / fracGcd];
 };
 
-class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig);
-    this.fieldType = 'media';
-    this._metas = {};
-    this._subFields = {};
-    this._showFileInput = {};
-    this._isLoading = {};
-    this._originalValue = {};
-    this._value = {};
+var MediaField = /*#__PURE__*/function (_Field) {
+  _inherits(MediaField, _Field);
+
+  var _super = _createSuper(MediaField);
+
+  function MediaField(ruleTypes, config, extendedConfig) {
+    var _this;
+
+    _classCallCheck(this, MediaField);
+
+    _this = _super.call(this, ruleTypes, config, extendedConfig);
+    _this.fieldType = 'media';
+    _this._metas = {};
+    _this._subFields = {};
+    _this._showFileInput = {};
+    _this._isLoading = {};
+    _this._originalValue = {};
+    _this._value = {};
+    _this.zonesToValue = {
+      'url': 'url',
+      'label': LABEL_KEY
+    };
+    return _this;
   }
 
-  _targetForDrop(evt) {
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_2__["findParentByClassname"])(evt.target, `selective__field__media_file__wrapper`);
+  _createClass(MediaField, [{
+    key: "_targetForDrop",
+    value: function _targetForDrop(evt) {
+      var target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_2__["findParentByClassname"])(evt.target, "selective__field__media_file__wrapper");
 
-    if (!target) {
-      return false;
-    }
-
-    if (evt.dataTransfer.types.includes('Files')) {
-      evt.preventDefault();
-      evt.stopPropagation();
-      return target;
-    }
-  }
-
-  get isClean() {
-    if (!super.isClean) {
-      return false;
-    } // Check the sub fields to see if they are clean.
-
-
-    for (const localeKey of Object.keys(this._subFields)) {
-      if (!this._subFields[localeKey].isClean) {
+      if (!target) {
         return false;
       }
-    }
 
-    return true;
-  }
-
-  get value() {
-    let subFieldValue = {};
-    const localeKey = this.keyForLocale();
-
-    if (this._subFields[localeKey]) {
-      subFieldValue[SUB_FIELDS_KEY] = this._subFields[localeKey].value;
-    }
-
-    return deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, this._value, subFieldValue);
-  }
-
-  set value(value) {
-    this._value = value;
-  }
-
-  delayedFocus(locale) {
-    // Wait for the render then focus on the file input.
-    document.addEventListener('selective.render.complete', () => {
-      document.getElementById(`${this.uid}${locale || ''}-file`).click();
-    }, {
-      once: true
-    });
-  }
-
-  getServingPath(value, locale) {
-    if (!value || value == '') {
-      return;
-    }
-
-    return value;
-  }
-
-  getValueForLocale(locale) {
-    let subFieldValue = {};
-    const localeKey = this.keyForLocale(locale);
-
-    if (this._subFields[localeKey]) {
-      subFieldValue[SUB_FIELDS_KEY] = this._subFields[localeKey].value;
-    }
-
-    return deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, super.getValueForLocale(locale), subFieldValue);
-  }
-
-  handleDragDrop(evt) {
-    const target = this._targetForDrop(evt);
-
-    target.classList.remove(MEDIA_HOVER_CLASS);
-    const files = evt.dataTransfer.files;
-    const validFiles = [];
-
-    for (const file of files) {
-      if (VALID_MIME_TYPES.includes(file.type)) {
-        validFiles.push(file);
+      if (evt.dataTransfer.types.includes('Files')) {
+        evt.preventDefault();
+        evt.stopPropagation();
+        return target;
       }
     }
+  }, {
+    key: "delayedFocus",
+    value: function delayedFocus(locale) {
+      var _this2 = this;
 
-    if (validFiles.length < 1) {
-      return;
+      // Wait for the render then focus on the file input.
+      document.addEventListener('selective.render.complete', function () {
+        document.getElementById("".concat(_this2.uid).concat(locale || '', "-file")).click();
+      }, {
+        once: true
+      });
     }
-
-    const locale = target.dataset.locale; // There can be only one.
-
-    this.uploadFile(validFiles[0], locale);
-  }
-
-  handleDragEnter(evt) {
-    const target = this._targetForDrop(evt);
-
-    target.classList.add(MEDIA_HOVER_CLASS);
-  }
-
-  handleDragLeave(evt) {
-    const target = this._targetForDrop(evt); // Only remove the hover class when the event comes from the actual target.
-    // Otherwise it is crazy to get the class due to bubbling.
-
-
-    if (evt.target === target) {
-      target.classList.remove(MEDIA_HOVER_CLASS);
-    }
-  }
-
-  handleDragOver(evt) {
-    this._targetForDrop(evt);
-  }
-
-  handleFileInput(evt) {
-    if (!this.api) {
-      console.error('Missing api for media field.');
-      return;
-    }
-
-    const locale = evt.target.dataset.locale;
-    const localeKey = this.keyForLocale(locale);
-    this.uploadFile(evt.target.files[0], locale);
-    this._isLoading[localeKey] = true;
-    this.render();
-  }
-
-  handleFileInputToggleClick(evt) {
-    const locale = evt.target.dataset.locale;
-    const localeKey = this.keyForLocale(locale);
-    this._showFileInput[localeKey] = !(this._showFileInput[localeKey] || false);
-
-    if (this._showFileInput[localeKey]) {
-      this.delayedFocus(locale);
-    }
-
-    this.render();
-  }
-
-  handleInput(evt) {
-    const url = evt.target.value;
-    const locale = evt.target.dataset.locale;
-    const value = this.getValueForLocale(locale) || {};
-    this.setValueForLocale(locale, deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, value, {
-      'url': url
-    }));
-    this.render();
-  }
-
-  handleLabelInput(evt) {
-    const label = evt.target.value;
-    const locale = evt.target.dataset.locale;
-    const value = this.getValueForLocale(locale) || {};
-    const labelValue = {};
-    labelValue[LABEL_KEY] = label;
-    this.setValueForLocale(locale, deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, value, labelValue));
-    this.render();
-  }
-
-  handleMediaLoad(evt) {
-    const meta = {
-      height: evt.target.naturalHeight,
-      width: evt.target.naturalWidth
-    }; // Copy the meta information into the value.
-
-    const locale = evt.target.dataset.locale;
-    const value = this.getValueForLocale(locale) || {};
-    this.setValueForLocale(locale, deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, value, {
-      '_meta': meta
-    }));
-    this._metas[evt.target.dataset.servingPath] = meta;
-    this.render();
-  }
-
-  handleVideoLoad(evt) {
-    const meta = {
-      height: evt.target.videoHeight,
-      width: evt.target.videoWidth
-    }; // Copy the meta information into the value.
-
-    const locale = evt.target.dataset.locale;
-    const value = this.getValueForLocale(locale) || {};
-    this.setValueForLocale(locale, deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, value, {
-      '_meta': meta
-    }));
-    this._metas[evt.target.dataset.servingPath] = meta;
-    this.render();
-  }
-
-  renderFileInput(selective, data, locale) {
-    const localeKey = this.keyForLocale(locale);
-
-    if (!this._showFileInput[localeKey]) {
-      return '';
-    }
-
-    return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
-      <div class="selective__media__file">
-        <input
-          type="file"
-          id="${this.uid}${locale || ''}-file"
-          data-locale=${locale || ''}
-          ?disabled=${this._isLoading[localeKey]}
-          @input=${this.handleFileInput.bind(this)} />
-      </div>`;
-  }
-
-  renderLabelInput(selective, data, locale) {
-    const value = this.getValueForLocale(locale) || {};
-    const localeKey = this.keyForLocale(locale);
-    const label = value[LABEL_KEY] || '';
-    return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
-      <div class="selective__media__label">
-        <div class="selective__field__label selective__field__label--secondary">
-          Accessibility Label
-        </div>
-        <input
-          type="text"
-          placeholder="Accessibility Label"
-          id="${this.uid}${locale || ''}-label"
-          data-locale=${locale || ''}
-          @input=${this.handleLabelInput.bind(this)}
-          value=${label} />
-      </div>`;
-  }
-
-  renderMediaMeta(selective, data, locale) {
-    const mediaMeta = [];
-    const value = this.getValueForLocale(locale) || {};
-    const url = value.url || '';
-    const servingPath = this.getServingPath(url, locale);
-    const meta = this._metas[servingPath];
-
-    if (!meta) {
-      return '';
-    }
-
-    mediaMeta.push(selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
-      <div class="selective__media__preview__meta__size">
-        <span class="selective__media__preview__meta__label">Size:</span>
-        <span class="selective__media__preview__meta__value">${meta.width}x${meta.height}</span>
-      </div>`);
-    const ratio = fractReduce(meta.width, meta.height);
-    mediaMeta.push(selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
-      <div class="selective__media__preview__meta__ratio">
-        <span class="selective__media__preview__meta__label">Ratio:</span>
-        <span class="selective__media__preview__meta__value">${ratio[0]}:${ratio[1]}</span>
-      </div>`);
-    return mediaMeta;
-  }
-
-  renderInput(selective, data, locale) {
-    const localeKey = this.keyForLocale(locale);
-    const value = this.getValueForLocale(locale) || {};
-    const url = value.url || '';
-    return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
-      <div
-          class="selective__field__media_file__wrapper"
-          @drop=${this.handleDragDrop.bind(this)}
-          @dragenter=${this.handleDragEnter.bind(this)}
-          @dragleave=${this.handleDragLeave.bind(this)}
-          @dragover=${this.handleDragOver.bind(this)}
-          data-locale=${locale || ''}>
-        <div class="selective__field__label selective__field__label--secondary">
-          Media url
-        </div>
-        <div class="selective__field__media_file__input">
-          <input
-            id="${this.uid}${locale || ''}"
-            placeholder=${this.config.placeholder || ''}
-            data-locale=${locale || ''}
-            ?disabled=${this._isLoading[localeKey]}
-            @input=${this.handleInput.bind(this)}
-            value=${url} />
-          <i
-              class="material-icons selective__field__media_file__file_input_icon"
-              title="Upload file"
-              data-locale=${locale || ''}
-              @click=${this.handleFileInputToggleClick.bind(this)}>
-            publish
-          </i>
-        </div>
-        ${this.renderFileInput(selective, data, locale)}
-        ${this.renderPreview(selective, data, locale)}
-        ${this.renderLabelInput(selective, data, locale)}
-        ${this.renderSubFields(selective, data, locale)}
-      </div>`;
-  }
-
-  renderPreview(selective, data, locale) {
-    const value = this.getValueForLocale(locale) || {};
-    const url = value.url || '';
-    const localeKey = this.keyForLocale(locale);
-    const servingPath = this.getServingPath(url, locale);
-
-    if (this._isLoading[localeKey]) {
-      return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
-        <div id="${this.uid}${locale || ''}-preview" class="selective__media__preview">
-          <div class="editor__loading editor__loading--small editor__loading--pad"></div>
-        </div>`;
-    }
-
-    if (!servingPath || servingPath == '') {
-      return '';
-    }
-
-    return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
-      <div id="${this.uid}${locale || ''}-preview" class="selective__media__preview">
-        <div class="selective__media__preview__media">
-          ${this.renderPreviewMedia(selective, data, locale, servingPath)}
-        </div>
-        <div class="selective__media__preview__meta">
-          ${this.renderMediaMeta(selective, data, locale)}
-        </div>
-      </div>`;
-  }
-
-  renderPreviewMedia(selective, data, locale, servingPath) {
-    for (const fileExt of Object.keys(EXT_TO_MIME_TYPE)) {
-      const isVideoFile = VALID_VIDEO_MIME_TYPES.includes(fileExt);
-
-      if (isVideoFile && servingPath.endsWith(`.${fileExt}`)) {
-        return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<video
-            data-locale=${locale || ''}
-            data-serving-path=${servingPath}
-            @loadeddata=${this.handleVideoLoad.bind(this)}
-            playsinline disableremoteplayback muted autoplay loop>
-          <source src="${servingPath}" />
-        </video>`;
+  }, {
+    key: "getServingPath",
+    value: function getServingPath(value, locale) {
+      if (!value || value == '') {
+        return;
       }
-    }
 
-    return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`<img
-      data-locale=${locale || ''}
-      data-serving-path=${servingPath}
-      @load=${this.handleMediaLoad.bind(this)}
-      src="${servingPath}" />`;
-  }
-
-  renderSubFields(selective, data, locale) {
-    if (!this.config.fields) {
-      return '';
-    }
-
-    const localeKey = this.keyForLocale(locale);
-
-    if (!this._subFields[localeKey]) {
-      // Create the subfield's group using the fields config.
-      const groupFieldConfig = {
-        'key': SUB_FIELDS_KEY,
-        'fields': this.config.fields
-      };
-      groupFieldConfig[LABEL_KEY] = this.config.extraLabel || 'Extra';
-      this._subFields[localeKey] = new selective_edit__WEBPACK_IMPORTED_MODULE_1__["GroupField"](groupFieldConfig);
-    }
-
-    return this._subFields[localeKey].template(selective, this.originalValue, locale);
-  }
-
-  uploadFile(file, locale) {
-    const destination = this.config.get('destination', '/static/img/upload');
-    const localeKey = this.keyForLocale(locale);
-    this.api.saveImage(file, destination).then(result => {
-      this._showFileInput[localeKey] = false;
-      this._isLoading[localeKey] = false;
-      const value = this.getValueForLocale(locale) || {};
-      this.setValueForLocale(locale, deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, value, {
-        'url': result['pod_path']
-      }));
-    }).catch(err => {
-      console.error(err);
-      this._errors['upload'] = err;
-      this.render();
-    });
-  }
-
-}
-class MediaFileField extends MediaField {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig);
-    this.fieldType = 'media_file';
-    this._fileListUi = {};
-    this.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_3__["createWhiteBlackFilter"])(Object(_utility_filter__WEBPACK_IMPORTED_MODULE_3__["regexList"])(this.config.get('whitelist'), [/^\/static\/.*\.(jp[e]?g|png|svg|webp)$/]), // Whitelist.
-    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_3__["regexList"])(this.config.get('blacklist')) // Blacklist.
-    ); // Use the API to get serving paths for local medias.
-
-    this.api = this.config.get('api');
-    this._servingPaths = {};
-    this._servingPathsLoading = {};
-  }
-
-  fileListUiForLocale(locale) {
-    const localeKey = this.keyForLocale(locale);
-
-    if (!this._fileListUi[localeKey]) {
-      this._fileListUi[localeKey] = new _ui_file__WEBPACK_IMPORTED_MODULE_4__["FileListUI"]({
-        'filterFunc': this.filterFunc
-      }); // Bind the pod path listener event for the UI.
-
-      this._fileListUi[localeKey].listeners.add('podPath', this.handlePodPath.bind(this));
-    }
-
-    return this._fileListUi[localeKey];
-  }
-
-  getServingPath(value, locale) {
-    if (!value || value == '') {
-      return;
-    }
-
-    if (ABSOLUTE_URL_REGEX.test(value)) {
       return value;
     }
+  }, {
+    key: "getValueForLocale",
+    value: function getValueForLocale(locale) {
+      var subFieldValue = {};
+      var localeKey = this.keyForLocale(locale);
 
-    if (this._servingPaths[value]) {
-      return this._servingPaths[value];
+      if (this._subFields[localeKey]) {
+        subFieldValue[SUB_FIELDS_KEY] = this._subFields[localeKey].value;
+      }
+
+      return deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, _get(_getPrototypeOf(MediaField.prototype), "getValueForLocale", this).call(this, locale), subFieldValue);
     }
+  }, {
+    key: "handleDragDrop",
+    value: function handleDragDrop(evt) {
+      var target = this._targetForDrop(evt);
 
-    if (this._servingPathsLoading[value]) {
-      return;
-    } // Mark that the request has started to prevent duplicate requests.
+      target.classList.remove(MEDIA_HOVER_CLASS);
+      var files = evt.dataTransfer.files;
+      var validFiles = [];
+
+      var _iterator = _createForOfIteratorHelper(files),
+          _step;
+
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var file = _step.value;
+
+          if (VALID_MIME_TYPES.includes(file.type)) {
+            validFiles.push(file);
+          }
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+
+      if (validFiles.length < 1) {
+        return;
+      }
+
+      var locale = target.dataset.locale; // There can be only one.
+
+      this.uploadFile(validFiles[0], locale);
+    }
+  }, {
+    key: "handleDragEnter",
+    value: function handleDragEnter(evt) {
+      var target = this._targetForDrop(evt);
+
+      target.classList.add(MEDIA_HOVER_CLASS);
+    }
+  }, {
+    key: "handleDragLeave",
+    value: function handleDragLeave(evt) {
+      var target = this._targetForDrop(evt); // Only remove the hover class when the event comes from the actual target.
+      // Otherwise it is crazy to get the class due to bubbling.
 
 
-    this._servingPathsLoading[value] = true; // Have not loaded the serving url yet. Load it in.
+      if (evt.target === target) {
+        target.classList.remove(MEDIA_HOVER_CLASS);
+      }
+    }
+  }, {
+    key: "handleDragOver",
+    value: function handleDragOver(evt) {
+      this._targetForDrop(evt);
+    }
+  }, {
+    key: "handleFileInput",
+    value: function handleFileInput(evt) {
+      if (!this.api) {
+        console.error('Missing api for media field.');
+        return;
+      }
 
-    this.api.getStaticServingPath(value).then(this.handleServingPathResponse.bind(this));
+      var locale = evt.target.dataset.locale;
+      var localeKey = this.keyForLocale(locale);
+      this.uploadFile(evt.target.files[0], locale);
+      this._isLoading[localeKey] = true;
+      this.render();
+    }
+  }, {
+    key: "handleFileInputToggleClick",
+    value: function handleFileInputToggleClick(evt) {
+      var locale = evt.target.dataset.locale;
+      var localeKey = this.keyForLocale(locale);
+      this._showFileInput[localeKey] = !(this._showFileInput[localeKey] || false);
+
+      if (this._showFileInput[localeKey]) {
+        this.delayedFocus(locale);
+      }
+
+      this.render();
+    }
+  }, {
+    key: "handleInput",
+    value: function handleInput(evt) {
+      var url = evt.target.value;
+      var locale = evt.target.dataset.locale;
+      var value = this.getValueForLocale(locale) || {};
+      this.setValueForLocale(locale, deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, value, {
+        'url': url
+      }));
+      this.render();
+    }
+  }, {
+    key: "handleLabelInput",
+    value: function handleLabelInput(evt) {
+      var label = evt.target.value;
+      var locale = evt.target.dataset.locale;
+      var value = this.getValueForLocale(locale) || {};
+      var labelValue = {};
+      labelValue[LABEL_KEY] = label;
+      this.setValueForLocale(locale, deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, value, labelValue));
+      this.render();
+    }
+  }, {
+    key: "handleMediaLoad",
+    value: function handleMediaLoad(evt) {
+      var meta = {
+        height: evt.target.naturalHeight,
+        width: evt.target.naturalWidth
+      }; // Copy the meta information into the value.
+
+      var locale = evt.target.dataset.locale;
+      var value = this.getValueForLocale(locale) || {};
+      this.setValueForLocale(locale, deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, value, {
+        '_meta': meta
+      }));
+      this._metas[evt.target.dataset.servingPath] = meta;
+      this.render();
+    }
+  }, {
+    key: "handleVideoLoad",
+    value: function handleVideoLoad(evt) {
+      var meta = {
+        height: evt.target.videoHeight,
+        width: evt.target.videoWidth
+      }; // Copy the meta information into the value.
+
+      var locale = evt.target.dataset.locale;
+      var value = this.getValueForLocale(locale) || {};
+      this.setValueForLocale(locale, deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, value, {
+        '_meta': meta
+      }));
+      this._metas[evt.target.dataset.servingPath] = meta;
+      this.render();
+    }
+  }, {
+    key: "renderFileInput",
+    value: function renderFileInput(selective, data, locale) {
+      var localeKey = this.keyForLocale(locale);
+
+      if (!this._showFileInput[localeKey]) {
+        return '';
+      }
+
+      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject(), this.uid, locale || '', locale || '', this._isLoading[localeKey], this.handleFileInput.bind(this));
+    }
+  }, {
+    key: "renderLabelInput",
+    value: function renderLabelInput(selective, data, locale) {
+      var value = this.getValueForLocale(locale) || {};
+      var localeKey = this.keyForLocale(locale);
+      var label = value[LABEL_KEY] || '';
+      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject2(), this.getClassesForLabel(locale, 'label'), this.getClassesForInput(locale, 'label'), this.uid, locale || '', locale || '', this.handleLabelInput.bind(this), label);
+    }
+  }, {
+    key: "renderMediaMeta",
+    value: function renderMediaMeta(selective, data, locale) {
+      var mediaMeta = [];
+      var value = this.getValueForLocale(locale) || {};
+      var url = value.url || '';
+      var servingPath = this.getServingPath(url, locale);
+      var meta = this._metas[servingPath];
+
+      if (!meta) {
+        return '';
+      }
+
+      mediaMeta.push(Object(selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject3(), meta.width, meta.height));
+      var ratio = fractReduce(meta.width, meta.height);
+      mediaMeta.push(Object(selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject4(), ratio[0], ratio[1]));
+      return mediaMeta;
+    }
+  }, {
+    key: "renderInput",
+    value: function renderInput(selective, data, locale) {
+      var localeKey = this.keyForLocale(locale);
+      var value = this.getValueForLocale(locale) || {};
+      var url = value.url || '';
+      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject5(), this.handleDragDrop.bind(this), this.handleDragEnter.bind(this), this.handleDragLeave.bind(this), this.handleDragOver.bind(this), locale || '', this.renderInputLabel(selective, data, locale), this.getClassesForInput(locale, 'url'), this.uid, locale || '', this.config.placeholder || '', locale || '', this._isLoading[localeKey], this.handleInput.bind(this), url, locale || '', this.handleFileInputToggleClick.bind(this), this.renderFileInput(selective, data, locale), this.renderErrors(selective, data, locale, 'url'), this.renderPreview(selective, data, locale), this.renderLabelInput(selective, data, locale), this.renderErrors(selective, data, locale, 'label'), this.renderSubFields(selective, data, locale));
+    }
+  }, {
+    key: "renderInputLabel",
+    value: function renderInputLabel(selective, data, locale) {
+      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject6(), this.getClassesForLabel(locale, 'url'));
+    }
+  }, {
+    key: "renderPreview",
+    value: function renderPreview(selective, data, locale) {
+      var value = this.getValueForLocale(locale) || {};
+      var url = value.url || '';
+      var localeKey = this.keyForLocale(locale);
+      var servingPath = this.getServingPath(url, locale);
+
+      if (this._isLoading[localeKey]) {
+        return Object(selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject7(), this.uid, locale || '');
+      }
+
+      if (!servingPath || servingPath == '') {
+        return '';
+      }
+
+      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject8(), this.uid, locale || '', this.renderPreviewMedia(selective, data, locale, servingPath), this.renderMediaMeta(selective, data, locale));
+    }
+  }, {
+    key: "renderPreviewMedia",
+    value: function renderPreviewMedia(selective, data, locale, servingPath) {
+      for (var _i = 0, _Object$keys = Object.keys(EXT_TO_MIME_TYPE); _i < _Object$keys.length; _i++) {
+        var fileExt = _Object$keys[_i];
+        var isVideoFile = VALID_VIDEO_MIME_TYPES.includes(fileExt);
+
+        if (isVideoFile && servingPath.endsWith(".".concat(fileExt))) {
+          return Object(selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject9(), locale || '', servingPath, this.handleVideoLoad.bind(this), servingPath);
+        }
+      }
+
+      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject10(), locale || '', servingPath, this.handleMediaLoad.bind(this), servingPath);
+    }
+  }, {
+    key: "renderSubFields",
+    value: function renderSubFields(selective, data, locale) {
+      if (!this.config.fields) {
+        return '';
+      }
+
+      var localeKey = this.keyForLocale(locale);
+
+      if (!this._subFields[localeKey]) {
+        // Create the subfield's group using the fields config.
+        var groupFieldConfig = {
+          'key': SUB_FIELDS_KEY,
+          'label': this.config.extraLabel || 'Extra',
+          'fields': this.config.fields
+        };
+        this._subFields[localeKey] = new selective_edit__WEBPACK_IMPORTED_MODULE_1__["GroupField"](this.ruleTypes, groupFieldConfig, this.globalConfig);
+      }
+
+      return this._subFields[localeKey].template(selective, this.originalValue, locale);
+    }
+  }, {
+    key: "uploadFile",
+    value: function uploadFile(file, locale) {
+      var _this3 = this;
+
+      var destination = this.config.get('destination', '/static/img/upload');
+      var localeKey = this.keyForLocale(locale);
+      this.api.saveImage(file, destination).then(function (result) {
+        _this3._showFileInput[localeKey] = false;
+        _this3._isLoading[localeKey] = false;
+        var value = _this3.getValueForLocale(locale) || {};
+
+        _this3.setValueForLocale(locale, deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, value, {
+          'url': result['pod_path']
+        }));
+      }).catch(function (err) {
+        console.error(err);
+        _this3._errors['upload'] = err;
+
+        _this3.render();
+      });
+    }
+  }, {
+    key: "isClean",
+    get: function get() {
+      if (!_get(_getPrototypeOf(MediaField.prototype), "isClean", this)) {
+        return false;
+      } // Check the sub fields to see if they are clean.
+
+
+      for (var _i2 = 0, _Object$keys2 = Object.keys(this._subFields); _i2 < _Object$keys2.length; _i2++) {
+        var localeKey = _Object$keys2[_i2];
+
+        if (!this._subFields[localeKey].isClean) {
+          return false;
+        }
+      }
+
+      return true;
+    }
+  }, {
+    key: "isValid",
+    get: function get() {
+      var extraIsValid = true; // Check the sub fields to see if they are clean.
+
+      for (var _i3 = 0, _Object$keys3 = Object.keys(this._subFields); _i3 < _Object$keys3.length; _i3++) {
+        var localeKey = _Object$keys3[_i3];
+
+        if (!this._subFields[localeKey].isValid) {
+          extraIsValid = false;
+        }
+      }
+
+      return _get(_getPrototypeOf(MediaField.prototype), "isValid", this) && extraIsValid;
+    }
+  }, {
+    key: "value",
+    get: function get() {
+      var subFieldValue = {};
+      var localeKey = this.keyForLocale();
+
+      if (this._subFields[localeKey]) {
+        subFieldValue[SUB_FIELDS_KEY] = this._subFields[localeKey].value;
+      }
+
+      return deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, this._value, subFieldValue);
+    },
+    set: function set(value) {
+      this._value = value;
+    }
+  }]);
+
+  return MediaField;
+}(selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"]);
+var MediaFileField = /*#__PURE__*/function (_MediaField) {
+  _inherits(MediaFileField, _MediaField);
+
+  var _super2 = _createSuper(MediaFileField);
+
+  function MediaFileField(ruleTypes, config, extendedConfig) {
+    var _this4;
+
+    _classCallCheck(this, MediaFileField);
+
+    _this4 = _super2.call(this, ruleTypes, config, extendedConfig);
+    _this4.fieldType = 'media_file';
+    _this4._fileListUi = {};
+    _this4.filterFunc = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_3__["createWhiteBlackFilter"])(Object(_utility_filter__WEBPACK_IMPORTED_MODULE_3__["regexList"])(_this4.config.get('whitelist'), [/^\/static\/.*\.(jp[e]?g|png|svg|webp)$/]), // Whitelist.
+    Object(_utility_filter__WEBPACK_IMPORTED_MODULE_3__["regexList"])(_this4.config.get('blacklist')) // Blacklist.
+    ); // Use the API to get serving paths for local medias.
+
+    _this4.api = _this4.config.get('api');
+    _this4._servingPaths = {};
+    _this4._servingPathsLoading = {};
+    return _this4;
   }
 
-  handleFilesToggleClick(evt) {
-    const locale = evt.target.dataset.locale;
-    this.fileListUiForLocale(locale).toggle();
-  }
+  _createClass(MediaFileField, [{
+    key: "fileListUiForLocale",
+    value: function fileListUiForLocale(locale) {
+      var localeKey = this.keyForLocale(locale);
 
-  handlePodPath(podPath, locale) {
-    const value = this.getValueForLocale(locale) || {};
-    this.setValueForLocale(locale, deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, value, {
-      url: podPath
-    }));
-  }
+      if (!this._fileListUi[localeKey]) {
+        this._fileListUi[localeKey] = new _ui_file__WEBPACK_IMPORTED_MODULE_4__["FileListUI"]({
+          'filterFunc': this.filterFunc
+        }); // Bind the pod path listener event for the UI.
 
-  handleServingPathResponse(response) {
-    this._servingPaths[response.pod_path] = response.serving_url;
-    this.render();
-  }
+        this._fileListUi[localeKey].listeners.add('podPath', this.handlePodPath.bind(this));
+      }
 
-  renderInput(selective, data, locale) {
-    const value = this.getValueForLocale(locale) || {};
-    const url = value.url || '';
-    const fileListUi = this.fileListUiForLocale(locale);
-    return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
-      <div
-          class="selective__field__media_file__wrapper"
-          @drop=${this.handleDragDrop.bind(this)}
-          @dragenter=${this.handleDragEnter.bind(this)}
-          @dragleave=${this.handleDragLeave.bind(this)}
-          @dragover=${this.handleDragOver.bind(this)}
-          data-locale=${locale || ''}>
-        ${this.renderInputLabel(selective, data, locale)}
-        <div class="selective__field__media_file__input">
-          <input
-            id="${this.uid}${locale || ''}"
-            placeholder=${this.config.placeholder || ''}
-            data-locale=${locale || ''}
-            @input=${this.handleInput.bind(this)}
-            value=${url || ''} />
-          <i
-              class="material-icons selective__field__media_file__file_input_icon"
-              title="Upload file"
-              data-locale=${locale || ''}
-              @click=${this.handleFileInputToggleClick.bind(this)}>
-            publish
-          </i>
-          <i
-              class="material-icons selective__field__media_file__file_icon"
-              title="Select pod path"
-              data-locale=${locale || ''}
-              @click=${this.handleFilesToggleClick.bind(this)}>
-            list_alt
-          </i>
-        </div>
-        ${fileListUi.renderFileList(selective, data, locale)}
-        ${this.renderFileInput(selective, data, locale)}
-        ${this.renderPreview(selective, data, locale)}
-        ${this.renderLabelInput(selective, data, locale)}
-        ${this.renderSubFields(selective, data, locale)}
-      </div>`;
-  }
+      return this._fileListUi[localeKey];
+    }
+  }, {
+    key: "getServingPath",
+    value: function getServingPath(value, locale) {
+      if (!value || value == '') {
+        return;
+      }
 
-  renderInputLabel(selective, data, locale) {
-    return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
-      <div class="selective__field__label selective__field__label--secondary">
-        Media path
-      </div>`;
-  }
+      if (ABSOLUTE_URL_REGEX.test(value)) {
+        return value;
+      }
 
-} // TODO: Move into the google media extension.
+      if (this._servingPaths[value]) {
+        return this._servingPaths[value];
+      }
 
-class GoogleMediaField extends MediaField {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig);
-    this.fieldType = 'google_media';
-    this.api = this.config.get('api'); // TODO: Change to use the API after the extension is updated to the new
+      if (this._servingPathsLoading[value]) {
+        return;
+      } // Mark that the request has started to prevent duplicate requests.
+
+
+      this._servingPathsLoading[value] = true; // Have not loaded the serving url yet. Load it in.
+
+      this.api.getStaticServingPath(value).then(this.handleServingPathResponse.bind(this));
+    }
+  }, {
+    key: "handleFilesToggleClick",
+    value: function handleFilesToggleClick(evt) {
+      var locale = evt.target.dataset.locale;
+      this.fileListUiForLocale(locale).toggle();
+    }
+  }, {
+    key: "handlePodPath",
+    value: function handlePodPath(podPath, locale) {
+      var value = this.getValueForLocale(locale) || {};
+      this.setValueForLocale(locale, deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, value, {
+        url: podPath
+      }));
+    }
+  }, {
+    key: "handleServingPathResponse",
+    value: function handleServingPathResponse(response) {
+      this._servingPaths[response.pod_path] = response.serving_url;
+      this.render();
+    }
+  }, {
+    key: "renderInput",
+    value: function renderInput(selective, data, locale) {
+      var value = this.getValueForLocale(locale) || {};
+      var url = value.url || '';
+      var fileListUi = this.fileListUiForLocale(locale);
+      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject11(), this.handleDragDrop.bind(this), this.handleDragEnter.bind(this), this.handleDragLeave.bind(this), this.handleDragOver.bind(this), locale || '', this.renderInputLabel(selective, data, locale), this.getClassesForInput(locale, 'url'), this.uid, locale || '', this.config.placeholder || '', locale || '', this.handleInput.bind(this), url || '', locale || '', this.handleFileInputToggleClick.bind(this), locale || '', this.handleFilesToggleClick.bind(this), fileListUi.renderFileList(selective, data, locale), this.renderFileInput(selective, data, locale), this.renderErrors(selective, data, locale, 'url'), this.renderPreview(selective, data, locale), this.renderLabelInput(selective, data, locale), this.renderErrors(selective, data, locale, 'label'), this.renderSubFields(selective, data, locale));
+    }
+  }]);
+
+  return MediaFileField;
+}(MediaField); // TODO: Move into the google media extension.
+
+var GoogleMediaField = /*#__PURE__*/function (_MediaField2) {
+  _inherits(GoogleMediaField, _MediaField2);
+
+  var _super3 = _createSuper(GoogleMediaField);
+
+  function GoogleMediaField(config, extendedConfig) {
+    var _this5;
+
+    _classCallCheck(this, GoogleMediaField);
+
+    _this5 = _super3.call(this, config, extendedConfig);
+    _this5.fieldType = 'google_media';
+    _this5.api = _this5.config.get('api'); // TODO: Change to use the API after the extension is updated to the new
     // Extension style.
     // this._extension_config_promise = this.api.getExtensionConfig(
     //   'extensions.google_cloud_medias.GoogleCloudImageExtension')
 
-    this._extension_config_promise = this.api.getExtensionConfig('extensions.editor.EditorExtension');
+    _this5._extension_config_promise = _this5.api.getExtensionConfig('extensions.editor.EditorExtension');
+    return _this5;
   }
 
-  getServingPath(value, locale) {
-    if (!value || value == '') {
-      return;
-    }
-
-    if (FILE_EXT_REGEX.test(value)) {
-      return value;
-    } // Add original size to the media so that we can get the full media specs.
-
-
-    if (value.includes('googleusercontent') && !value.includes('=')) {
-      return `${value}=s0`;
-    }
-
-    return value;
-  }
-
-  renderInputLabel(selective, data, locale) {
-    return selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"]`
-      <div class="selective__field__label selective__field__label--secondary">
-        Media url
-      </div>`;
-  }
-
-  uploadFile(file, locale) {
-    const localeKey = this.keyForLocale(locale); // Wait for the url promise to return.
-
-    this._extension_config_promise.then(result => {
-      const uploadUrl = result['googleImageUploadUrl'];
-      const bucket = result['googleImageBucket'];
-
-      if (!uploadUrl) {
-        console.error('Unable to retrieve the upload url.');
-        this._errors['uploadUrl'] = 'Unable to retrieve the upload url setting.';
-        this.render();
+  _createClass(GoogleMediaField, [{
+    key: "getServingPath",
+    value: function getServingPath(value, locale) {
+      if (!value || value == '') {
         return;
       }
 
-      this.api.saveGoogleImage(file, uploadUrl, bucket).then(result => {
-        this._showFileInput[localeKey] = false;
-        this._isLoading[localeKey] = false;
-        const value = this.getValueForLocale(locale) || {};
-        this.setValueForLocale(locale, deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, value, {
-          'url': result['url']
-        }));
-        this.render();
-      }).catch(err => {
-        console.error(err);
-        this._errors['upload'] = err;
-        this._showFileInput[localeKey] = false;
-        this._isLoading[localeKey] = false;
-        this.render();
-      });
-    });
-  }
+      if (FILE_EXT_REGEX.test(value)) {
+        return value;
+      } // Add original size to the media so that we can get the full media specs.
 
-}
+
+      if (value.includes('googleusercontent') && !value.includes('=')) {
+        return "".concat(value, "=s0");
+      }
+
+      return value;
+    }
+  }, {
+    key: "renderInputLabel",
+    value: function renderInputLabel(selective, data, locale) {
+      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject12(), this.getClassesForLabel(locale, 'url'));
+    }
+  }, {
+    key: "uploadFile",
+    value: function uploadFile(file, locale) {
+      var _this6 = this;
+
+      var localeKey = this.keyForLocale(locale); // Wait for the url promise to return.
+
+      this._extension_config_promise.then(function (result) {
+        var uploadUrl = result['googleImageUploadUrl'];
+        var bucket = result['googleImageBucket'];
+
+        if (!uploadUrl) {
+          console.error('Unable to retrieve the upload url.');
+          _this6._errors['uploadUrl'] = 'Unable to retrieve the upload url setting.';
+
+          _this6.render();
+
+          return;
+        }
+
+        _this6.api.saveGoogleImage(file, uploadUrl, bucket).then(function (result) {
+          _this6._showFileInput[localeKey] = false;
+          _this6._isLoading[localeKey] = false;
+          var value = _this6.getValueForLocale(locale) || {};
+
+          _this6.setValueForLocale(locale, deep_extend__WEBPACK_IMPORTED_MODULE_0__({}, value, {
+            'url': result['url']
+          }));
+
+          _this6.render();
+        }).catch(function (err) {
+          console.error(err);
+          _this6._errors['upload'] = err;
+          _this6._showFileInput[localeKey] = false;
+          _this6._isLoading[localeKey] = false;
+
+          _this6.render();
+        });
+      });
+    }
+  }]);
+
+  return GoogleMediaField;
+}(MediaField);
 
 /***/ }),
 
@@ -100964,6 +104073,126 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _fields_fields__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../fields/fields */ "./source/editor/fields/fields.js");
 /* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../autoFields */ "./source/editor/autoFields.js");
 /* harmony import */ var _parts_modal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../parts/modal */ "./source/editor/parts/modal.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _templateObject9() {
+  var data = _taggedTemplateLiteral(["\n        <div\n            class=\"selective__list__item__preview\"\n            data-item-uid=", "\n            data-locale=", "\n            @click=", ">\n          ", "\n        </div>"]);
+
+  _templateObject9 = function _templateObject9() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject8() {
+  var data = _taggedTemplateLiteral(["<div\n        class=\"selective__list__item__label\"\n        data-item-uid=", "\n        data-locale=", "\n        @click=", ">\n      ", "\n    </div>"]);
+
+  _templateObject8 = function _templateObject8() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject7() {
+  var data = _taggedTemplateLiteral(["\n      ", "\n      <div class=\"selective__actions\">\n        <button\n            class=\"selective__button selective__actions__add\"\n            @click=", ">\n          ", "\n        </button>\n      </div>"]);
+
+  _templateObject7 = function _templateObject7() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject6() {
+  var data = _taggedTemplateLiteral(["<p>", "</p>"]);
+
+  _templateObject6 = function _templateObject6() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject5() {
+  var data = _taggedTemplateLiteral(["\n              <div\n                  class=\"selective__partials__gallery__item\"\n                  data-partial-key=", "\n                  @click=", ">\n                <div class=\"selective__partials__gallery__details\">\n                  <h3>", "</h3>\n                  ", "\n                </div>\n                ", "\n              </div>"]);
+
+  _templateObject5 = function _templateObject5() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject4() {
+  var data = _taggedTemplateLiteral(["\n          <div class=\"selective__partials__gallery\">\n            ", "\n          </div>"]);
+
+  _templateObject4 = function _templateObject4() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject3() {
+  var data = _taggedTemplateLiteral(["\n                <img src=\"", "\">\n              "]);
+
+  _templateObject3 = function _templateObject3() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject2() {
+  var data = _taggedTemplateLiteral(["\n              ", "\n            "]);
+
+  _templateObject2 = function _templateObject2() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["\n          <div class=\"selective__partials__gallery__preview\">\n            ", "\n          </div>"]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 /**
  * Partials field types for the editor extension.
  */
@@ -100972,280 +104201,350 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListField"] {
-  constructor(config, globalConfig) {
-    super(config, globalConfig);
-    this.fieldType = 'partials';
-    this.partialTypes = null;
-    this.api = this.config.get('api');
-    this.api.getPartials().then(this.handleLoadPartialsResponse.bind(this));
-    this.modalWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_4__["default"](this.config.addLabel || 'Add partial');
+var PartialsField = /*#__PURE__*/function (_ListField) {
+  _inherits(PartialsField, _ListField);
+
+  var _super = _createSuper(PartialsField);
+
+  function PartialsField(config, globalConfig) {
+    var _this;
+
+    _classCallCheck(this, PartialsField);
+
+    _this = _super.call(this, config, globalConfig);
+    _this.fieldType = 'partials';
+    _this.partialTypes = null;
+    _this.api = _this.config.get('api');
+
+    _this.api.getPartials().then(_this.handleLoadPartialsResponse.bind(_assertThisInitialized(_this)));
+
+    _this.modalWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_4__["default"](_this.config.addLabel || 'Add partial');
+    return _this;
   }
 
-  _createFields(fieldTypes, config, partialKey) {
-    return new _fields_fields__WEBPACK_IMPORTED_MODULE_2__["default"](fieldTypes, config, partialKey);
-  }
-
-  get fullKey() {
-    const parentKey = this.config.get('parentKey');
-
-    if (parentKey) {
-      return `${parentKey}.${this.key}`;
+  _createClass(PartialsField, [{
+    key: "_createFields",
+    value: function _createFields(fieldTypes, config, partialKey) {
+      return new _fields_fields__WEBPACK_IMPORTED_MODULE_2__["default"](fieldTypes, config, partialKey);
     }
+  }, {
+    key: "getPartialConfig",
+    value: function getPartialConfig(partialKey) {
+      if (!this.partialTypes) {
+        return {};
+      }
 
-    return this.key;
-  }
-
-  getPartialConfig(partialKey) {
-    if (!this.partialTypes) {
-      return {};
+      return this.partialTypes[partialKey] || {};
     }
+  }, {
+    key: "handleLoadPartialsResponse",
+    value: function handleLoadPartialsResponse(response) {
+      var _this2 = this;
 
-    return this.partialTypes[partialKey] || {};
-  }
+      var partialTypes = {}; // Sorted objects for the partials.
 
-  handleLoadPartialsResponse(response) {
-    const partialTypes = {}; // Sorted objects for the partials.
+      var partialKeys = Object.keys(response['partials']).sort();
 
-    const partialKeys = Object.keys(response['partials']).sort();
+      var _iterator = _createForOfIteratorHelper(partialKeys),
+          _step;
 
-    for (const key of partialKeys) {
-      const newPartial = response['partials'][key];
-      newPartial['key'] = key;
-      partialTypes[key] = newPartial;
-    }
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var key = _step.value;
+          var newPartial = response['partials'][key];
+          newPartial['key'] = key;
+          partialTypes[key] = newPartial;
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
 
-    this.partialTypes = partialTypes;
-    this.render(); // Check for missing screenshots.
+      this.partialTypes = partialTypes;
+      this.render(); // Check for missing screenshots.
 
-    for (const partialKey of Object.keys(this.partialTypes)) {
-      const partial = this.partialTypes[partialKey];
+      var _loop = function _loop() {
+        var partialKey = _Object$keys[_i];
+        var partial = _this2.partialTypes[partialKey];
 
-      if (partial.examples) {
-        for (const exampleKey of Object.keys(partial.examples)) {
-          const screenshots = partial.screenshots[exampleKey] || {}; // Missing screenshot. Request it.
+        if (partial.examples) {
+          var _loop2 = function _loop2() {
+            var exampleKey = _Object$keys2[_i2];
+            var screenshots = partial.screenshots[exampleKey] || {}; // Missing screenshot. Request it.
 
-          if (!Object.keys(screenshots).length) {
-            this.api.screenshotPartial(partialKey, exampleKey).then(response => {
-              if (!this.partialTypes[partialKey].screenshots) {
-                this.partialTypes[partialKey].screenshots = {};
-              }
+            if (!Object.keys(screenshots).length) {
+              _this2.api.screenshotPartial(partialKey, exampleKey).then(function (response) {
+                if (!_this2.partialTypes[partialKey].screenshots) {
+                  _this2.partialTypes[partialKey].screenshots = {};
+                }
 
-              this.partialTypes[partialKey].screenshots[exampleKey] = response[partialKey][exampleKey];
-              this.render();
-            });
+                _this2.partialTypes[partialKey].screenshots[exampleKey] = response[partialKey][exampleKey];
+
+                _this2.render();
+              });
+            }
+          };
+
+          for (var _i2 = 0, _Object$keys2 = Object.keys(partial.examples); _i2 < _Object$keys2.length; _i2++) {
+            _loop2();
           }
         }
+      };
+
+      for (var _i = 0, _Object$keys = Object.keys(this.partialTypes); _i < _Object$keys.length; _i++) {
+        _loop();
       }
     }
-  }
+  }, {
+    key: "_createItems",
+    value: function _createItems(selective, data, locale) {
+      var value = this.getValueForLocale(locale) || [];
+      var localeKey = this.keyForLocale(locale);
 
-  _createItems(selective, data, locale) {
-    const value = this.getValueForLocale(locale) || [];
-    const localeKey = this.keyForLocale(locale);
+      var listItems = this._getListItemsForLocale(locale);
 
-    let listItems = this._getListItemsForLocale(locale);
+      if (listItems != null || !value.length || !this.partialTypes) {
+        return;
+      }
 
-    if (listItems != null || !value.length || !this.partialTypes) {
-      return;
+      listItems = [];
+      var AutoFieldsCls = this.config.get('AutoFieldsCls', _autoFields__WEBPACK_IMPORTED_MODULE_3__["default"]);
+      var ListItemCls = this.config.get('ListItemCls', selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListItem"]);
+
+      var _iterator2 = _createForOfIteratorHelper(value),
+          _step2;
+
+      try {
+        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+          var itemData = _step2.value;
+          var partialKey = itemData.partial;
+          var partialConfig = this.getPartialConfig(partialKey);
+
+          var fields = this._createFields(selective.fieldTypes, {}, partialKey);
+
+          fields.label = partialConfig.label || partialKey;
+          fields.updateOriginal(selective, itemData); // Use the partial key to find the field configs.
+
+          var fieldConfigs = partialConfig.fields || [];
+          this._useAutoFields = !fieldConfigs.length; // Auto guess the fields if they are not defined.
+
+          if (this._useAutoFields) {
+            fieldConfigs = new AutoFieldsCls(itemData).config['fields'];
+          } // Create the fields based on the config.
+
+
+          var _iterator3 = _createForOfIteratorHelper(fieldConfigs || []),
+              _step3;
+
+          try {
+            for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+              var fieldConfig = _step3.value;
+              fieldConfig = Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["autoConfig"])(fieldConfig, this.globalConfig); // Add the partial key as part of the parent key.
+
+              fieldConfig.set('parentKey', "".concat(this.fullKey, ".").concat(partialKey)); // Mark the auto fields.
+
+              if (this._useAutoFields) {
+                fieldConfig.set('isGuessed', true);
+              }
+
+              fields.addField(fieldConfig, this.globalConfig);
+            } // When an is not expanded it does not get the value
+            // updated correctly so we need to manually call the data update.
+
+          } catch (err) {
+            _iterator3.e(err);
+          } finally {
+            _iterator3.f();
+          }
+
+          var _iterator4 = _createForOfIteratorHelper(fields.fields),
+              _step4;
+
+          try {
+            for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+              var field = _step4.value;
+              field.updateOriginal(selective, itemData || fields.defaultValue);
+            }
+          } catch (err) {
+            _iterator4.e(err);
+          } finally {
+            _iterator4.f();
+          }
+
+          listItems.push(new ListItemCls(partialConfig, fields));
+        }
+      } catch (err) {
+        _iterator2.e(err);
+      } finally {
+        _iterator2.f();
+      }
+
+      this._setListItemsForLocale(locale, listItems); // Trigger a new render to make sure the expand/collapse buttons show.
+
+
+      if (listItems.length > 1) {
+        this.render();
+      }
     }
+  }, {
+    key: "handleAddItem",
+    value: function handleAddItem(evt, selective) {
+      this.modalWindow.close();
+      var target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, "selective__partials__gallery__item");
+      var partialKey = target.dataset.partialKey;
 
-    listItems = [];
-    const AutoFieldsCls = this.config.get('AutoFieldsCls', _autoFields__WEBPACK_IMPORTED_MODULE_3__["default"]);
-    const ListItemCls = this.config.get('ListItemCls', selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListItem"]);
+      if (!partialKey) {
+        return;
+      }
 
-    for (const itemData of value) {
-      const partialKey = itemData.partial;
-      const partialConfig = this.getPartialConfig(partialKey);
+      var partialConfig = this.getPartialConfig(partialKey);
+      var locale = evt.target.dataset.locale;
+      var listItems = this._getListItemsForLocale(locale) || [];
 
-      const fields = this._createFields(selective.fieldTypes, {}, partialKey);
+      var fields = this._createFields(selective.fieldTypes, {}, partialKey);
 
-      fields.label = partialConfig.label || partialKey;
-      fields.updateOriginal(selective, itemData); // Use the partial key to find the field configs.
+      fields.label = partialConfig.label || partialKey; // Use the field config for the list items to create the correct field types.
 
-      let fieldConfigs = partialConfig.fields || [];
-      this._useAutoFields = !fieldConfigs.length; // Auto guess the fields if they are not defined.
+      var fieldConfigs = partialConfig.fields || []; // If no field configs, use the last item config if availble.
 
-      if (this._useAutoFields) {
-        fieldConfigs = new AutoFieldsCls(itemData).config['fields'];
+      if (!fieldConfigs.length && listItems.length > 0) {
+        fieldConfigs = listItems[listItems.length - 1].config.fields;
       } // Create the fields based on the config.
 
 
-      for (let fieldConfig of fieldConfigs || []) {
-        fieldConfig = Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["autoConfig"])(fieldConfig, this.globalConfig); // Add the partial key as part of the parent key.
+      var _iterator5 = _createForOfIteratorHelper(fieldConfigs || []),
+          _step5;
 
-        fieldConfig.set('parentKey', `${this.fullKey}.${partialKey}`); // Mark the auto fields.
+      try {
+        for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
+          var fieldConfig = _step5.value;
+          fieldConfig = Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["autoConfig"])(fieldConfig, this.globalConfig); // Add the partial key as part of the parent key.
 
-        if (this._useAutoFields) {
-          fieldConfig.set('isGuessed', true);
+          fieldConfig.set('parentKey', "".concat(this.fullKey, ".").concat(partialKey)); // Mark the auto fields.
+
+          if (this._useAutoFields) {
+            fieldConfig.set('isGuessed', true);
+          }
+
+          fields.addField(fieldConfig, this.globalConfig);
         }
-
-        fields.addField(fieldConfig, this.globalConfig);
-      } // When an is not expanded it does not get the value
-      // updated correctly so we need to manually call the data update.
-
-
-      for (const field of fields.fields) {
-        field.updateOriginal(selective, itemData || fields.defaultValue);
+      } catch (err) {
+        _iterator5.e(err);
+      } finally {
+        _iterator5.f();
       }
 
-      listItems.push(new ListItemCls(partialConfig, fields));
-    }
+      fields.updateOriginal(selective, fields.defaultValue);
+      var listItem = new selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListItem"](partialConfig, fields);
+      listItem.isExpanded = true;
+      listItems.push(listItem);
 
-    this._setListItemsForLocale(locale, listItems); // Trigger a new render to make sure the expand/collapse buttons show.
+      this._setListItemsForLocale(locale, listItems);
 
-
-    if (listItems.length > 1) {
       this.render();
     }
-  }
-
-  handleAddItem(evt, selective) {
-    this.modalWindow.close();
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, `selective__partials__gallery__item`);
-    const partialKey = target.dataset.partialKey;
-
-    if (!partialKey) {
-      return;
+  }, {
+    key: "handleTogglePartialList",
+    value: function handleTogglePartialList() {
+      this.modalWindow.toggle();
     }
+  }, {
+    key: "renderActionsFooter",
+    value: function renderActionsFooter(selective, data, locale) {
+      var _this3 = this;
 
-    const partialConfig = this.getPartialConfig(partialKey);
-    const locale = evt.target.dataset.locale;
-    const listItems = this._getListItemsForLocale(locale) || [];
-
-    const fields = this._createFields(selective.fieldTypes, {}, partialKey);
-
-    fields.label = partialConfig.label || partialKey; // Use the field config for the list items to create the correct field types.
-
-    let fieldConfigs = partialConfig.fields || []; // If no field configs, use the last item config if availble.
-
-    if (!fieldConfigs.length && listItems.length > 0) {
-      fieldConfigs = listItems[listItems.length - 1].config.fields;
-    } // Create the fields based on the config.
-
-
-    for (let fieldConfig of fieldConfigs || []) {
-      fieldConfig = Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["autoConfig"])(fieldConfig, this.globalConfig); // Add the partial key as part of the parent key.
-
-      fieldConfig.set('parentKey', `${this.fullKey}.${partialKey}`); // Mark the auto fields.
-
-      if (this._useAutoFields) {
-        fieldConfig.set('isGuessed', true);
+      if (!this.partialTypes) {
+        return '';
       }
 
-      fields.addField(fieldConfig, this.globalConfig);
-    }
+      if (!this.modalWindow.isOpen) {
+        var renderScreenshots = function renderScreenshots(screenshots) {
+          var screenshotKeys = Object.keys(screenshots).sort();
 
-    fields.updateOriginal(selective, fields.defaultValue);
-    const listItem = new selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListItem"](partialConfig, fields);
-    listItem.isExpanded = true;
-    listItems.push(listItem);
+          if (!screenshotKeys) {
+            return '';
+          }
 
-    this._setListItemsForLocale(locale, listItems);
+          return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject(), Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(screenshotKeys, function (key) {
+            return key;
+          }, function (key, index) {
+            return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject2(), Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(Object.keys(screenshots[key]), function (resolutionKey) {
+              return "".concat(key, "-").concat(resolutionKey);
+            }, function (resolutionKey, index) {
+              return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject3(), screenshots[key][resolutionKey].serving_url);
+            }));
+          }));
+        }; // Sort the partials by the label, not the key.
 
-    this.render();
-  }
 
-  handleTogglePartialList() {
-    this.modalWindow.toggle();
-  }
+        var partialLabelToKey = {};
 
-  renderActionsFooter(selective, data, locale) {
-    if (!this.partialTypes) {
-      return '';
-    }
-
-    if (!this.modalWindow.isOpen) {
-      const renderScreenshots = screenshots => {
-        const screenshotKeys = Object.keys(screenshots).sort();
-
-        if (!screenshotKeys) {
-          return '';
+        for (var _i3 = 0, _Object$keys3 = Object.keys(this.partialTypes); _i3 < _Object$keys3.length; _i3++) {
+          var key = _Object$keys3[_i3];
+          // Make the sort case insensitive.
+          var partialLabel = (this.partialTypes[key].label || this.partialTypes[key].key).toLowerCase();
+          partialLabelToKey[partialLabel] = key;
         }
 
-        return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-          <div class="selective__partials__gallery__preview">
-            ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(screenshotKeys, key => key, (key, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-              ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(Object.keys(screenshots[key]), resolutionKey => `${key}-${resolutionKey}`, (resolutionKey, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-                <img src="${screenshots[key][resolutionKey].serving_url}">
-              `)}
-            `)}
-          </div>`;
-      }; // Sort the partials by the label, not the key.
+        var sortedPartialKeys = [];
 
+        var _iterator6 = _createForOfIteratorHelper(Object.keys(partialLabelToKey).sort()),
+            _step6;
 
-      const partialLabelToKey = {};
+        try {
+          for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
+            var label = _step6.value;
+            sortedPartialKeys.push(partialLabelToKey[label]);
+          }
+        } catch (err) {
+          _iterator6.e(err);
+        } finally {
+          _iterator6.f();
+        }
 
-      for (const key of Object.keys(this.partialTypes)) {
-        // Make the sort case insensitive.
-        const partialLabel = (this.partialTypes[key].label || this.partialTypes[key].key).toLowerCase();
-        partialLabelToKey[partialLabel] = key;
+        this.modalWindow.contentRenderFunc = function () {
+          return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject4(), Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(sortedPartialKeys, function (key) {
+            return key;
+          }, function (key, index) {
+            return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject5(), _this3.partialTypes[key].key, function (evt) {
+              _this3.handleAddItem(evt, selective);
+            }, _this3.partialTypes[key].label || _this3.partialTypes[key].key, _this3.partialTypes[key].description ? Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject6(), _this3.partialTypes[key].description) : '', renderScreenshots(_this3.partialTypes[key].screenshots));
+          }));
+        };
       }
 
-      const sortedPartialKeys = [];
+      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject7(), this.modalWindow.template, this.handleTogglePartialList.bind(this), this.config.addLabel || 'Add partial');
+    }
+  }, {
+    key: "renderPreview",
+    value: function renderPreview(selective, data, item, index, locale) {
+      var parts = [];
+      var partialLabel = item.config.label || item.config.key || 'Partial';
+      var previewLabel = this.guessPreview(item, index, ' ').trim();
+      parts.push(Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject8(), item.uid, locale || '', this.handleExpandItem.bind(this), partialLabel));
 
-      for (const label of Object.keys(partialLabelToKey).sort()) {
-        sortedPartialKeys.push(partialLabelToKey[label]);
+      if (previewLabel) {
+        parts.push(Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject9(), item.uid, locale || '', this.handleExpandItem.bind(this), previewLabel));
       }
 
-      this.modalWindow.contentRenderFunc = () => {
-        return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-          <div class="selective__partials__gallery">
-            ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(sortedPartialKeys, key => key, (key, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-              <div
-                  class="selective__partials__gallery__item"
-                  data-partial-key=${this.partialTypes[key].key}
-                  @click=${evt => {
-          this.handleAddItem(evt, selective);
-        }}>
-                <div class="selective__partials__gallery__details">
-                  <h3>${this.partialTypes[key].label || this.partialTypes[key].key}</h3>
-                  ${this.partialTypes[key].description ? selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<p>${this.partialTypes[key].description}</p>` : ''}
-                </div>
-                ${renderScreenshots(this.partialTypes[key].screenshots)}
-              </div>`)}
-          </div>`;
-      };
+      return parts;
     }
+  }, {
+    key: "fullKey",
+    get: function get() {
+      var parentKey = this.config.get('parentKey');
 
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      ${this.modalWindow.template}
-      <div class="selective__actions">
-        <button
-            class="selective__button selective__actions__add"
-            @click=${this.handleTogglePartialList.bind(this)}>
-          ${this.config.addLabel || 'Add partial'}
-        </button>
-      </div>`;
-  }
+      if (parentKey) {
+        return "".concat(parentKey, ".").concat(this.key);
+      }
 
-  renderPreview(selective, data, item, index, locale) {
-    const parts = [];
-    const partialLabel = item.config.label || item.config.key || 'Partial';
-    const previewLabel = this.guessPreview(item, index, ' ').trim();
-    parts.push(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div
-        class="selective__list__item__label"
-        data-item-uid=${item.uid}
-        data-locale=${locale || ''}
-        @click=${this.handleExpandItem.bind(this)}>
-      ${partialLabel}
-    </div>`);
-
-    if (previewLabel) {
-      parts.push(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-        <div
-            class="selective__list__item__preview"
-            data-item-uid=${item.uid}
-            data-locale=${locale || ''}
-            @click=${this.handleExpandItem.bind(this)}>
-          ${previewLabel}
-        </div>`);
+      return this.key;
     }
+  }]);
 
-    return parts;
-  }
-
-}
+  return PartialsField;
+}(selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListField"]);
 
 /***/ }),
 
@@ -101273,6 +104572,144 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _tui_editor_externalLink__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../tui-editor/externalLink */ "./source/editor/tui-editor/externalLink.js");
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
 /* harmony import */ var _quill_image_upload__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../quill/image-upload */ "./source/editor/quill/image-upload.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _templateObject10() {
+  var data = _taggedTemplateLiteral(["\n      <textarea\n        class=\"", "\"\n        id=\"", "", "\"\n        rows=", "\n        placeholder=", "\n        data-locale=", "\n        @input=", ">", "</textarea>\n      ", ""]);
+
+  _templateObject10 = function _templateObject10() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject9() {
+  var data = _taggedTemplateLiteral(["\n      <input\n        class=\"", "\"\n        id=\"", "", "\"\n        placeholder=", "\n        data-locale=", "\n        @input=", "\n        value=", " />\n      ", ""]);
+
+  _templateObject9 = function _templateObject9() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject8() {
+  var data = _taggedTemplateLiteral(["\n        <textarea\n          class=\"", "\"\n          id=\"", "", "\"\n          rows=", "\n          placeholder=", "\n          data-locale=", "\n          @input=", ">", "</textarea>\n        ", ""]);
+
+  _templateObject8 = function _templateObject8() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject7() {
+  var data = _taggedTemplateLiteral(["\n          <div\n              class=\"selective__field__select__option ", "\"\n              data-locale=", "\n              data-value=", "\n              @click=", ">\n            <i class=\"material-icons\">\n              ", "\n            </i>\n            <div>\n              ", "\n            </div>\n          </div>\n        "]);
+
+  _templateObject7 = function _templateObject7() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject6() {
+  var data = _taggedTemplateLiteral(["\n      <div\n        class=\"", " selective__field__select__options\">\n        ", "\n      </div>\n      ", ""]);
+
+  _templateObject6 = function _templateObject6() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject5() {
+  var data = _taggedTemplateLiteral(["\n      <div\n          class=\"", "\"\n          id=\"", "", "\"\n          data-locale=", "></div>\n      ", ""]);
+
+  _templateObject5 = function _templateObject5() {
+    return data;
+  };
+
+  return data;
+}
+
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _templateObject4() {
+  var data = _taggedTemplateLiteral(["\n      <div\n          class=\"", "\"\n          id=\"", "", "\"\n          data-locale=", ">", "</div>\n      ", ""]);
+
+  _templateObject4 = function _templateObject4() {
+    return data;
+  };
+
+  return data;
+}
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _templateObject3() {
+  var data = _taggedTemplateLiteral(["\n      <input\n        class=\"", "\"\n        id=\"", "", "\"\n        type=\"datetime-local\"\n        placeholder=", "\n        data-locale=", "\n        @input=", "\n        value=", " />\n      ", ""]);
+
+  _templateObject3 = function _templateObject3() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject2() {
+  var data = _taggedTemplateLiteral(["\n      <input\n        class=\"", "\"\n        id=\"", "", "\"\n        type=\"date\"\n        placeholder=", "\n        data-locale=", "\n        @input=", "\n        value=", " />\n      ", ""]);
+
+  _templateObject2 = function _templateObject2() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["\n      <div\n          class=\"", "\"\n          data-locale=", "\n          @click=", ">\n        <div class=\"selective__field__label\">\n          ", "\n        </div>\n        <i class=\"material-icons\">\n          ", "\n        </i>\n      </div>\n      ", ""]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
+
+function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 /**
  * Standard field types for the editor extension.
  */
@@ -101282,427 +104719,611 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class CheckboxField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig);
-    this.fieldType = 'checkbox';
+var CheckboxField = /*#__PURE__*/function (_Field) {
+  _inherits(CheckboxField, _Field);
+
+  var _super = _createSuper(CheckboxField);
+
+  function CheckboxField(ruleTypes, config, extendedConfig) {
+    var _this;
+
+    _classCallCheck(this, CheckboxField);
+
+    _this = _super.call(this, ruleTypes, config, extendedConfig);
+    _this.fieldType = 'checkbox';
+    return _this;
   }
 
-  classesInput(value) {
-    const classes = ['selective__field__input__option'];
+  _createClass(CheckboxField, [{
+    key: "getClassesForInput",
+    value: function getClassesForInput(locale, zoneKey) {
+      var classes = _get(_getPrototypeOf(CheckboxField.prototype), "getClassesForInput", this).call(this, locale, zoneKey).split(' ');
 
-    if (value) {
-      classes.push('selective__field__input__option--selected');
+      var value = this.getValueForLocale(locale) || false;
+      classes.push('selective__field__input__option');
+
+      if (value) {
+        classes.push('selective__field__input__option--selected');
+      }
+
+      return classes.join(' ');
     }
+  }, {
+    key: "handleInput",
+    value: function handleInput(evt) {
+      var target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_4__["findParentByClassname"])(evt.target, 'selective__field__input__option');
+      var locale = target.dataset.locale;
+      var value = !(this.getValueForLocale(locale) || false);
+      this.setValueForLocale(locale, value);
+    }
+  }, {
+    key: "renderInput",
+    value: function renderInput(selective, data, locale) {
+      var value = this.getValueForLocale(locale) || false;
+      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject(), this.getClassesForInput(locale), locale || '', this.handleInput.bind(this), this.config.label, value ? 'check_box' : 'check_box_outline_blank', this.renderErrors(selective, data));
+    } // Label is shown by the individual input.
 
-    return classes.join(' ');
+  }, {
+    key: "renderLabel",
+    value: function renderLabel(selective, data) {
+      return '';
+    }
+  }]);
+
+  return CheckboxField;
+}(selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"]);
+var DateField = /*#__PURE__*/function (_Field2) {
+  _inherits(DateField, _Field2);
+
+  var _super2 = _createSuper(DateField);
+
+  function DateField(ruleTypes, config, extendedConfig) {
+    var _this2;
+
+    _classCallCheck(this, DateField);
+
+    _this2 = _super2.call(this, ruleTypes, config, extendedConfig);
+    _this2.fieldType = 'date';
+    return _this2;
   }
 
-  handleInput(evt) {
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_4__["findParentByClassname"])(evt.target, 'selective__field__input__option');
-    const locale = target.dataset.locale;
-    const value = !(this.getValueForLocale(locale) || false);
-    this.setValueForLocale(locale, value);
-  }
+  _createClass(DateField, [{
+    key: "renderInput",
+    value: function renderInput(selective, data, locale) {
+      var value = this.getValueForLocale(locale) || '';
+      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject2(), this.getClassesForInput(locale), this.uid, locale || '', this.config.placeholder || '', locale || '', this.handleInput.bind(this), value, this.renderErrors(selective, data));
+    }
+  }]);
 
-  renderInput(selective, data, locale) {
-    const value = this.getValueForLocale(locale) || false;
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <div
-          class=${this.classesInput(value)}
-          data-locale=${locale || ''}
-          @click=${this.handleInput.bind(this)}>
-        <div class="selective__field__label">
-          ${this.config.label}
-        </div>
-        <i class="material-icons">
-          ${value ? 'check_box' : 'check_box_outline_blank'}
-        </i>
-      </div>`;
-  } // Label is shown by the individual input.
+  return DateField;
+}(selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"]);
+var DateTimeField = /*#__PURE__*/function (_Field3) {
+  _inherits(DateTimeField, _Field3);
 
+  var _super3 = _createSuper(DateTimeField);
 
-  renderLabel(selective, data) {
-    return '';
-  }
+  function DateTimeField(ruleTypes, config, extendedConfig) {
+    var _this3;
 
-}
-class DateField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig);
-    this.fieldType = 'date';
-  }
+    _classCallCheck(this, DateTimeField);
 
-  renderInput(selective, data, locale) {
-    const value = this.getValueForLocale(locale) || '';
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <input
-        id="${this.uid}${locale || ''}"
-        type="date"
-        placeholder=${this.config.placeholder || ''}
-        data-locale=${locale || ''}
-        @input=${this.handleInput.bind(this)}
-        value=${value} />`;
-  }
-
-}
-class DateTimeField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig);
-    this.fieldType = 'datetime';
+    _this3 = _super3.call(this, ruleTypes, config, extendedConfig);
+    _this3.fieldType = 'datetime';
+    return _this3;
   } // Original values may contain seconds which the datetime ignores.
 
 
-  _cleanOriginalValue(value) {
-    if (value && value.length > 16) {
-      value = value.slice(0, 16);
+  _createClass(DateTimeField, [{
+    key: "_cleanOriginalValue",
+    value: function _cleanOriginalValue(value) {
+      if (value && value.length > 16) {
+        value = value.slice(0, 16);
+      }
+
+      return value;
     }
+  }, {
+    key: "renderInput",
+    value: function renderInput(selective, data, locale) {
+      var value = this.getValueForLocale(locale) || '';
+      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject3(), this.getClassesForInput(locale), this.uid, locale || '', this.config.placeholder || '', locale || '', this.handleInput.bind(this), value, this.renderErrors(selective, data));
+    }
+  }]);
 
-    return value;
-  }
+  return DateTimeField;
+}(selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"]);
+var HtmlField = /*#__PURE__*/function (_Field4) {
+  _inherits(HtmlField, _Field4);
 
-  renderInput(selective, data, locale) {
-    const value = this.getValueForLocale(locale) || '';
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <input
-        id="${this.uid}${locale || ''}"
-        type="datetime-local"
-        placeholder=${this.config.placeholder || ''}
-        data-locale=${locale || ''}
-        @input=${this.handleInput.bind(this)}
-        value=${value} />`;
-  }
+  var _super4 = _createSuper(HtmlField);
 
-}
-class HtmlField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig);
-    this.fieldType = 'html';
-    this.api = this.config.get('api');
+  function HtmlField(ruleTypes, config, extendedConfig) {
+    var _this4;
 
-    if (!this.api) {
+    _classCallCheck(this, HtmlField);
+
+    _this4 = _super4.call(this, ruleTypes, config, extendedConfig);
+    _this4.fieldType = 'html';
+    _this4.api = _this4.config.get('api');
+
+    if (!_this4.api) {
       console.error('Missing api for image upload.');
     }
 
-    this.imageUploader = null; // TODO: Change to use the google image after the extension is updated to the new
+    _this4.imageUploader = null; // TODO: Change to use the google image after the extension is updated to the new
     // Extension style.
     // this._extension_config_promise = this.api.getExtensionConfig(
     //   'extensions.google_cloud_images.GoogleCloudImageExtension')
 
-    this._extension_config_promise = this.api.getExtensionConfig('extensions.editor.EditorExtension');
+    _this4._extension_config_promise = _this4.api.getExtensionConfig('extensions.editor.EditorExtension');
 
-    this._extension_config_promise.then(extension_config => {
+    _this4._extension_config_promise.then(function (extension_config) {
       if (extension_config['googleImageUploadUrl']) {
-        const uploadUrl = extension_config['googleImageUploadUrl'];
-        const bucket = extension_config['googleImageBucket'];
-        this.imageUploader = new _quill_image_upload__WEBPACK_IMPORTED_MODULE_5__["default"](async imageBlob => {
-          const result = await this.api.saveGoogleImage(imageBlob, uploadUrl, bucket);
-          return result['url'];
-        });
+        var uploadUrl = extension_config['googleImageUploadUrl'];
+        var bucket = extension_config['googleImageBucket'];
+        _this4.imageUploader = new _quill_image_upload__WEBPACK_IMPORTED_MODULE_5__["default"]( /*#__PURE__*/function () {
+          var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(imageBlob) {
+            var result;
+            return regeneratorRuntime.wrap(function _callee$(_context) {
+              while (1) {
+                switch (_context.prev = _context.next) {
+                  case 0:
+                    _context.next = 2;
+                    return _this4.api.saveGoogleImage(imageBlob, uploadUrl, bucket);
+
+                  case 2:
+                    result = _context.sent;
+                    return _context.abrupt("return", result['url']);
+
+                  case 4:
+                  case "end":
+                    return _context.stop();
+                }
+              }
+            }, _callee);
+          }));
+
+          return function (_x) {
+            return _ref.apply(this, arguments);
+          };
+        }());
       } else {
-        const destination = this.config.get('destination', '/static/img/upload');
-        this.imageUploader = new _quill_image_upload__WEBPACK_IMPORTED_MODULE_5__["default"](async imageBlob => {
-          const result = await this.api.saveImage(imageBlob, destination);
-          return result['serving_url'];
-        });
+        var destination = _this4.config.get('destination', '/static/img/upload');
+
+        _this4.imageUploader = new _quill_image_upload__WEBPACK_IMPORTED_MODULE_5__["default"]( /*#__PURE__*/function () {
+          var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(imageBlob) {
+            var result;
+            return regeneratorRuntime.wrap(function _callee2$(_context2) {
+              while (1) {
+                switch (_context2.prev = _context2.next) {
+                  case 0:
+                    _context2.next = 2;
+                    return _this4.api.saveImage(imageBlob, destination);
+
+                  case 2:
+                    result = _context2.sent;
+                    return _context2.abrupt("return", result['serving_url']);
+
+                  case 4:
+                  case "end":
+                    return _context2.stop();
+                }
+              }
+            }, _callee2);
+          }));
+
+          return function (_x2) {
+            return _ref2.apply(this, arguments);
+          };
+        }());
       }
     });
+
+    return _this4;
   } // Original values may extra blank space.
 
 
-  _cleanOriginalValue(value) {
-    if (value) {
-      value = value.trim();
-    }
-
-    return value;
-  }
-
-  imageUpload(element) {
-    const base64Str = element.getAttribute('src');
-    return this.imageUploader.uploadBase64(base64Str);
-  }
-
-  renderInput(selective, data, locale) {
-    const value = this.getValueForLocale(locale) || '';
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <div
-          id="${this.uid}${locale || ''}"
-          class="selective__html html_editor"
-          data-locale=${locale || ''}>${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["unsafeHTML"])(value)}</div>`;
-  }
-
-  postRender(containerEl) {
-    const fieldInstances = containerEl.querySelectorAll('.selective__field__type__html');
-
-    for (const fieldInstance of fieldInstances) {
-      const editorEls = fieldInstance.querySelectorAll('.html_editor');
-
-      for (const editorEl of editorEls) {
-        const locale = editorEl.dataset.locale; // Skip if the editor element does not match the current field instance.
-
-        if (editorEl.id != `${this.uid}${locale || ''}`) {
-          continue;
-        }
-
-        const value = this.getValueForLocale(locale) || '';
-
-        if (!editorEl.editor) {
-          editorEl.editor = new quill_quill__WEBPACK_IMPORTED_MODULE_1__["default"](editorEl, {
-            modules: {
-              toolbar: [[{
-                'header': [1, 2, 3, 4, 5, 6, false]
-              }], ['bold', 'italic', 'underline', 'strike'], ['blockquote', 'code-block'], [{
-                'list': 'ordered'
-              }, {
-                'list': 'bullet'
-              }], [{
-                'indent': '-1'
-              }, {
-                'indent': '+1'
-              }], ['link', 'image', 'video'], ['clean']]
-            },
-            theme: 'snow'
-          });
-          editorEl.editor.on('text-change', () => {
-            const pendingImgs = Array.from(editorEl.editor.root.querySelectorAll('img[src^="data:"]:not(.selective__image__uploading)'));
-
-            for (const pendingImg of pendingImgs) {
-              pendingImg.classList.add("selective__image__uploading"); // Make sure that the extension has loaded before uploading
-              // to make sure it is uploading to the correct place.
-
-              this._extension_config_promise.then(() => {
-                this.imageUpload(pendingImg).then(url => {
-                  pendingImg.setAttribute("src", url);
-                  pendingImg.classList.remove("selective__image__uploading");
-                });
-              });
-            }
-
-            this.setValueForLocale(locale, editorEl.editor.root.innerHTML);
-          });
-        }
+  _createClass(HtmlField, [{
+    key: "_cleanOriginalValue",
+    value: function _cleanOriginalValue(value) {
+      if (value) {
+        value = value.trim();
       }
+
+      return value;
     }
-  }
+  }, {
+    key: "getClassesForInput",
+    value: function getClassesForInput(locale, zoneKey) {
+      var classes = _get(_getPrototypeOf(HtmlField.prototype), "getClassesForInput", this).call(this, locale, zoneKey).split(' ');
 
-}
-class MarkdownField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig);
-    this.fieldType = 'markdown';
-  }
+      classes.push('selective__html');
+      classes.push('html_editor');
+      return classes.join(' ');
+    }
+  }, {
+    key: "imageUpload",
+    value: function imageUpload(element) {
+      var base64Str = element.getAttribute('src');
+      return this.imageUploader.uploadBase64(base64Str);
+    }
+  }, {
+    key: "renderInput",
+    value: function renderInput(selective, data, locale) {
+      var value = this.getValueForLocale(locale) || '';
+      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject4(), this.getClassesForInput(locale), this.uid, locale || '', locale || '', Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["unsafeHTML"])(value), this.renderErrors(selective, data));
+    }
+  }, {
+    key: "postRender",
+    value: function postRender(containerEl) {
+      var _this5 = this;
 
-  renderInput(selective, data, locale) {
-    const value = this.getValueForLocale(locale) || '';
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <div
-          id="${this.uid}${locale || ''}"
-          class="selective__markdown markdown_editor"
-          data-locale=${locale || ''}></div>`;
-  }
+      var fieldInstances = containerEl.querySelectorAll('.selective__field__type__html');
 
-  postRender(containerEl) {
-    const fieldInstances = containerEl.querySelectorAll('.selective__field__type__markdown');
+      var _iterator = _createForOfIteratorHelper(fieldInstances),
+          _step;
 
-    for (const fieldInstance of fieldInstances) {
-      const editorEls = fieldInstance.querySelectorAll('.markdown_editor');
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var fieldInstance = _step.value;
+          var editorEls = fieldInstance.querySelectorAll('.html_editor');
 
-      for (const editorEl of editorEls) {
-        const locale = editorEl.dataset.locale; // Skip if the editor element does not match the current field instance.
+          var _iterator2 = _createForOfIteratorHelper(editorEls),
+              _step2;
 
-        if (editorEl.id != `${this.uid}${locale || ''}`) {
-          continue;
-        }
+          try {
+            var _loop = function _loop() {
+              var editorEl = _step2.value;
+              var locale = editorEl.dataset.locale; // Skip if the editor element does not match the current field instance.
 
-        const value = this.getValueForLocale(locale) || '';
-
-        if (!editorEl.editor) {
-          editorEl.editor = new _toast_ui_editor__WEBPACK_IMPORTED_MODULE_2___default.a({
-            el: editorEl,
-            initialValue: value,
-            initialEditType: 'markdown',
-            previewStyle: 'horizontal',
-            usageStatistics: false,
-            events: {
-              change: () => {
-                this.setValueForLocale(locale, editorEl.editor.getMarkdown().trim());
+              if (editorEl.id != "".concat(_this5.uid).concat(locale || '')) {
+                return "continue";
               }
-            },
-            hideModeSwitch: true,
-            placeholder: this.config.placeholder || ''
-          });
-        } else if (this.isClean) {// editorEl.editor.setMarkdown(value || '')
+
+              var value = _this5.getValueForLocale(locale) || '';
+
+              if (!editorEl.editor) {
+                editorEl.editor = new quill_quill__WEBPACK_IMPORTED_MODULE_1__["default"](editorEl, {
+                  modules: {
+                    toolbar: [[{
+                      'header': [1, 2, 3, 4, 5, 6, false]
+                    }], ['bold', 'italic', 'underline', 'strike'], ['blockquote', 'code-block'], [{
+                      'list': 'ordered'
+                    }, {
+                      'list': 'bullet'
+                    }], [{
+                      'indent': '-1'
+                    }, {
+                      'indent': '+1'
+                    }], ['link', 'image', 'video'], ['clean']]
+                  },
+                  theme: 'snow'
+                });
+                editorEl.editor.on('text-change', function () {
+                  var pendingImgs = Array.from(editorEl.editor.root.querySelectorAll('img[src^="data:"]:not(.selective__image__uploading)'));
+
+                  var _loop2 = function _loop2() {
+                    var pendingImg = _pendingImgs[_i];
+                    pendingImg.classList.add("selective__image__uploading"); // Make sure that the extension has loaded before uploading
+                    // to make sure it is uploading to the correct place.
+
+                    _this5._extension_config_promise.then(function () {
+                      _this5.imageUpload(pendingImg).then(function (url) {
+                        pendingImg.setAttribute("src", url);
+                        pendingImg.classList.remove("selective__image__uploading");
+                      });
+                    });
+                  };
+
+                  for (var _i = 0, _pendingImgs = pendingImgs; _i < _pendingImgs.length; _i++) {
+                    _loop2();
+                  }
+
+                  _this5.setValueForLocale(locale, editorEl.editor.root.innerHTML);
+                });
+              }
+            };
+
+            for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+              var _ret = _loop();
+
+              if (_ret === "continue") continue;
+            }
+          } catch (err) {
+            _iterator2.e(err);
+          } finally {
+            _iterator2.f();
+          }
         }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
       }
     }
+  }]);
+
+  return HtmlField;
+}(selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"]);
+var MarkdownField = /*#__PURE__*/function (_Field5) {
+  _inherits(MarkdownField, _Field5);
+
+  var _super5 = _createSuper(MarkdownField);
+
+  function MarkdownField(ruleTypes, config, extendedConfig) {
+    var _this6;
+
+    _classCallCheck(this, MarkdownField);
+
+    _this6 = _super5.call(this, ruleTypes, config, extendedConfig);
+    _this6.fieldType = 'markdown';
+    return _this6;
   }
 
-}
-class SelectField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig);
-    this.fieldType = 'select';
-    this.threshold = this.config.threshold || 12; // [0]: Unselected
+  _createClass(MarkdownField, [{
+    key: "getClassesForInput",
+    value: function getClassesForInput(locale, zoneKey) {
+      var classes = _get(_getPrototypeOf(MarkdownField.prototype), "getClassesForInput", this).call(this, locale, zoneKey).split(' ');
+
+      classes.push('selective__markdown');
+      classes.push('markdown_editor');
+      return classes.join(' ');
+    }
+  }, {
+    key: "renderInput",
+    value: function renderInput(selective, data, locale) {
+      var value = this.getValueForLocale(locale) || '';
+      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject5(), this.getClassesForInput(locale), this.uid, locale || '', locale || '', this.renderErrors(selective, data));
+    }
+  }, {
+    key: "postRender",
+    value: function postRender(containerEl) {
+      var _this7 = this;
+
+      var fieldInstances = containerEl.querySelectorAll('.selective__field__type__markdown');
+
+      var _iterator3 = _createForOfIteratorHelper(fieldInstances),
+          _step3;
+
+      try {
+        for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+          var fieldInstance = _step3.value;
+          var editorEls = fieldInstance.querySelectorAll('.markdown_editor');
+
+          var _iterator4 = _createForOfIteratorHelper(editorEls),
+              _step4;
+
+          try {
+            var _loop3 = function _loop3() {
+              var editorEl = _step4.value;
+              var locale = editorEl.dataset.locale; // Skip if the editor element does not match the current field instance.
+
+              if (editorEl.id != "".concat(_this7.uid).concat(locale || '')) {
+                return "continue";
+              }
+
+              var value = _this7.getValueForLocale(locale) || '';
+
+              if (!editorEl.editor) {
+                editorEl.editor = new _toast_ui_editor__WEBPACK_IMPORTED_MODULE_2___default.a({
+                  el: editorEl,
+                  initialValue: value,
+                  initialEditType: 'markdown',
+                  previewStyle: 'horizontal',
+                  usageStatistics: false,
+                  events: {
+                    change: function change() {
+                      _this7.setValueForLocale(locale, editorEl.editor.getMarkdown().trim());
+                    }
+                  },
+                  hideModeSwitch: true,
+                  placeholder: _this7.config.placeholder || ''
+                });
+              } else if (_this7.isClean) {// editorEl.editor.setMarkdown(value || '')
+              }
+            };
+
+            for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+              var _ret2 = _loop3();
+
+              if (_ret2 === "continue") continue;
+            }
+          } catch (err) {
+            _iterator4.e(err);
+          } finally {
+            _iterator4.f();
+          }
+        }
+      } catch (err) {
+        _iterator3.e(err);
+      } finally {
+        _iterator3.f();
+      }
+    }
+  }]);
+
+  return MarkdownField;
+}(selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"]);
+var SelectField = /*#__PURE__*/function (_Field6) {
+  _inherits(SelectField, _Field6);
+
+  var _super6 = _createSuper(SelectField);
+
+  function SelectField(ruleTypes, config, extendedConfig) {
+    var _this8;
+
+    _classCallCheck(this, SelectField);
+
+    _this8 = _super6.call(this, ruleTypes, config, extendedConfig);
+    _this8.fieldType = 'select';
+    _this8.threshold = _this8.config.threshold || 12; // [0]: Unselected
     // [1]: Selected
 
-    this.icons = this.config.multi ? ['check_box_outline_blank', 'check_box'] : ['radio_button_unchecked', 'radio_button_checked'];
+    _this8.icons = _this8.config.multi ? ['check_box_outline_blank', 'check_box'] : ['radio_button_unchecked', 'radio_button_checked'];
+    return _this8;
   }
 
-  _cleanOriginalValue(value) {
-    // Original values need to be sorted when doing multi.
-    if (this.config.multi) {
-      value = value || []; // Convert multi to be an array if it was not before.
-
-      if (!Array.isArray(value)) {
-        value = [value];
-      }
-
-      value.sort();
-      return value;
-    } // Convert from an array if it was before.
-
-
-    if (Array.isArray(value)) {
-      // Use the first value of the existing array.
-      value = value[0];
-    }
-
-    return value;
-  }
-
-  handleInput(evt) {
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_4__["findParentByClassname"])(evt.target, 'selective__field__select__option');
-    const locale = target.dataset.locale;
-    let value = target.dataset.value;
-
-    if (this.config.multi) {
-      let existingValue = this.getValueForLocale(locale) || [];
-
-      if (existingValue.includes(value)) {
-        existingValue = existingValue.filter(item => item !== value);
-      } else {
-        existingValue.push(value);
-      }
-
-      existingValue.sort(); // Save the updated value array.
-
-      value = existingValue;
-    }
-
-    this.setValueForLocale(locale, value);
-  }
-
-  renderInput(selective, data, locale) {
-    const value = this.getValueForLocale(locale) || '';
-    const options = this.config.options;
-
-    const isOptionSelected = optionValue => {
+  _createClass(SelectField, [{
+    key: "_cleanOriginalValue",
+    value: function _cleanOriginalValue(value) {
+      // Original values need to be sorted when doing multi.
       if (this.config.multi) {
-        return value.includes(optionValue);
+        value = value || []; // Convert multi to be an array if it was not before.
+
+        if (!Array.isArray(value)) {
+          value = [value];
+        }
+
+        value.sort();
+        return value;
+      } // Convert from an array if it was before.
+
+
+      if (Array.isArray(value)) {
+        // Use the first value of the existing array.
+        value = value[0];
       }
 
-      return value == optionValue;
-    };
-
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <div class="selective__field__select__options">
-        ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(options, option => option.value, (option, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-          <div
-              class="selective__field__select__option ${isOptionSelected(option.value) ? 'selective__field__select__option--checked' : ''}"
-              data-locale=${locale || ''}
-              data-value=${option.value || ''}
-              @click=${this.handleInput.bind(this)}>
-            <i class="material-icons">
-              ${isOptionSelected(option.value) ? this.icons[1] : this.icons[0]}
-            </i>
-            <div>
-              ${option.label || '(None)'}
-            </div>
-          </div>
-        `)}
-      </div>`;
-  }
-
-}
-class TextField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig);
-    this.fieldType = 'text'; // When the text field is too long, convert input to a textarea.
-
-    this.threshold = this.config.threshold || 75;
-    this._switched = {};
-  }
-
-  handleInput(evt) {
-    // Check if the threshold has been reached.
-    const target = evt.target;
-    const locale = target.dataset.locale;
-    const isInput = target.tagName.toLowerCase() == 'input';
-    const isOverThreshold = target.value.length > this.threshold;
-    const hasSwitched = this._switched[locale];
-
-    if (isInput && isOverThreshold && !hasSwitched) {
-      const id = target.id;
-      const position = target.selectionStart; // Trigger auto focus after a delay for rendering.
-
-      document.addEventListener('selective.render.complete', () => {
-        Object(_utility_dom__WEBPACK_IMPORTED_MODULE_4__["inputFocusAtPosition"])(id, position);
-      }, {
-        once: true
-      });
-    } // Handle input after the check is complete for length.
-    // Prevents the re-render before the check is done.
-
-
-    super.handleInput(evt);
-  }
-
-  renderInput(selective, data, locale) {
-    const value = this.getValueForLocale(locale) || '';
-
-    if (value.length > this.threshold) {
-      this._switched[locale] = true;
+      return value;
     }
+  }, {
+    key: "handleInput",
+    value: function handleInput(evt) {
+      var target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_4__["findParentByClassname"])(evt.target, 'selective__field__select__option');
+      var locale = target.dataset.locale;
+      var value = target.dataset.value;
 
-    if (this._switched[locale]) {
-      return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-        <textarea
-          id="${this.uid}${locale || ''}"
-          rows=${this.config.rows || 6}
-          placeholder=${this.config.placeholder || ''}
-          data-locale=${locale || ''}
-          @input=${this.handleInput.bind(this)}>${value}</textarea>`;
+      if (this.config.multi) {
+        var existingValue = this.getValueForLocale(locale) || [];
+
+        if (existingValue.includes(value)) {
+          existingValue = existingValue.filter(function (item) {
+            return item !== value;
+          });
+        } else {
+          existingValue.push(value);
+        }
+
+        existingValue.sort(); // Save the updated value array.
+
+        value = existingValue;
+      }
+
+      this.setValueForLocale(locale, value);
     }
+  }, {
+    key: "renderInput",
+    value: function renderInput(selective, data, locale) {
+      var _this9 = this;
 
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <input
-        id="${this.uid}${locale || ''}"
-        placeholder=${this.config.placeholder || ''}
-        data-locale=${locale || ''}
-        @input=${this.handleInput.bind(this)}
-        value=${value} />`;
+      var value = this.getValueForLocale(locale) || '';
+      var options = this.config.options;
+
+      var isOptionSelected = function isOptionSelected(optionValue) {
+        if (_this9.config.multi) {
+          return value.includes(optionValue);
+        }
+
+        return value == optionValue;
+      };
+
+      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject6(), this.getClassesForInput(locale), Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(options, function (option) {
+        return option.value;
+      }, function (option, index) {
+        return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject7(), isOptionSelected(option.value) ? 'selective__field__select__option--checked' : '', locale || '', option.value || '', _this9.handleInput.bind(_this9), isOptionSelected(option.value) ? _this9.icons[1] : _this9.icons[0], option.label || '(None)');
+      }), this.renderErrors(selective, data));
+    }
+  }]);
+
+  return SelectField;
+}(selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"]);
+var TextField = /*#__PURE__*/function (_Field7) {
+  _inherits(TextField, _Field7);
+
+  var _super7 = _createSuper(TextField);
+
+  function TextField(ruleTypes, config, extendedConfig) {
+    var _this10;
+
+    _classCallCheck(this, TextField);
+
+    _this10 = _super7.call(this, ruleTypes, config, extendedConfig);
+    _this10.fieldType = 'text'; // When the text field is too long, convert input to a textarea.
+
+    _this10.threshold = _this10.config.threshold || 75;
+    _this10._switched = {};
+    return _this10;
   }
 
-}
-class TextareaField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig);
-    this.fieldType = 'textarea';
+  _createClass(TextField, [{
+    key: "handleInput",
+    value: function handleInput(evt) {
+      // Check if the threshold has been reached.
+      var target = evt.target;
+      var locale = target.dataset.locale;
+      var isInput = target.tagName.toLowerCase() == 'input';
+      var isOverThreshold = target.value.length > this.threshold;
+      var hasSwitched = this._switched[locale];
+
+      if (isInput && isOverThreshold && !hasSwitched) {
+        var id = target.id;
+        var position = target.selectionStart; // Trigger auto focus after a delay for rendering.
+
+        document.addEventListener('selective.render.complete', function () {
+          Object(_utility_dom__WEBPACK_IMPORTED_MODULE_4__["inputFocusAtPosition"])(id, position);
+        }, {
+          once: true
+        });
+      } // Handle input after the check is complete for length.
+      // Prevents the re-render before the check is done.
+
+
+      _get(_getPrototypeOf(TextField.prototype), "handleInput", this).call(this, evt);
+    }
+  }, {
+    key: "renderInput",
+    value: function renderInput(selective, data, locale) {
+      var value = this.getValueForLocale(locale) || '';
+
+      if (value.length > this.threshold) {
+        this._switched[locale] = true;
+      }
+
+      if (this._switched[locale]) {
+        return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject8(), this.getClassesForInput(locale), this.uid, locale || '', this.config.rows || 6, this.config.placeholder || '', locale || '', this.handleInput.bind(this), value, this.renderErrors(selective, data));
+      }
+
+      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject9(), this.getClassesForInput(locale), this.uid, locale || '', this.config.placeholder || '', locale || '', this.handleInput.bind(this), value, this.renderErrors(selective, data));
+    }
+  }]);
+
+  return TextField;
+}(selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"]);
+var TextareaField = /*#__PURE__*/function (_Field8) {
+  _inherits(TextareaField, _Field8);
+
+  var _super8 = _createSuper(TextareaField);
+
+  function TextareaField(ruleTypes, config, extendedConfig) {
+    var _this11;
+
+    _classCallCheck(this, TextareaField);
+
+    _this11 = _super8.call(this, ruleTypes, config, extendedConfig);
+    _this11.fieldType = 'textarea';
+    return _this11;
   }
 
-  renderInput(selective, data, locale) {
-    const value = this.getValueForLocale(locale) || '';
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <textarea
-        id="${this.uid}${locale || ''}"
-        rows=${this.config.rows || 6}
-        placeholder=${this.config.placeholder || ''}
-        data-locale=${locale || ''}
-        @input=${this.handleInput.bind(this)}>${value}</textarea>`;
-  }
+  _createClass(TextareaField, [{
+    key: "renderInput",
+    value: function renderInput(selective, data, locale) {
+      var value = this.getValueForLocale(locale) || '';
+      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject10(), this.getClassesForInput(locale), this.uid, locale || '', this.config.rows || 6, this.config.placeholder || '', locale || '', this.handleInput.bind(this), value, this.renderErrors(selective, data));
+    }
+  }]);
 
-}
+  return TextareaField;
+}(selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"]);
 
 /***/ }),
 
@@ -101717,23 +105338,61 @@ class TextareaField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"]
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return PartialsFields; });
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 /**
  * Partials fields.
  */
 
-class PartialsFields extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Fields"] {
-  constructor(fieldTypes, config, partialKey) {
-    super(fieldTypes, config);
-    this._partialKey = partialKey;
+
+var PartialsFields = /*#__PURE__*/function (_Fields) {
+  _inherits(PartialsFields, _Fields);
+
+  var _super = _createSuper(PartialsFields);
+
+  function PartialsFields(fieldTypes, ruleTypes, config, partialKey) {
+    var _this;
+
+    _classCallCheck(this, PartialsFields);
+
+    _this = _super.call(this, fieldTypes, ruleTypes, config);
+    _this._partialKey = partialKey;
+    return _this;
   }
 
-  get defaultValue() {
-    return {
-      'partial': this._partialKey
-    };
-  }
+  _createClass(PartialsFields, [{
+    key: "defaultValue",
+    get: function get() {
+      return {
+        'partial': this._partialKey
+      };
+    }
+  }]);
 
-}
+  return PartialsFields;
+}(selective_edit__WEBPACK_IMPORTED_MODULE_0__["Fields"]);
+
+
 
 /***/ }),
 
@@ -101750,28 +105409,44 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../utility/config */ "./source/utility/config.js");
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
 /* harmony import */ var _utility_storage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/storage */ "./source/utility/storage.js");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 /**
  * Content editor.
  */
 
 
 
-class MenuBase {
-  constructor(config) {
+
+var MenuBase = /*#__PURE__*/function () {
+  function MenuBase(config) {
+    _classCallCheck(this, MenuBase);
+
     this.config = new _utility_config__WEBPACK_IMPORTED_MODULE_0__["default"](config || {});
     this.storage = new _utility_storage__WEBPACK_IMPORTED_MODULE_2__["default"](this.isTesting);
   }
 
-  get isTesting() {
-    return this.config.get('testing', false);
-  }
+  _createClass(MenuBase, [{
+    key: "render",
+    value: function render() {
+      // Trigger a render event.
+      document.dispatchEvent(new CustomEvent('selective.render'));
+    }
+  }, {
+    key: "isTesting",
+    get: function get() {
+      return this.config.get('testing', false);
+    }
+  }]);
 
-  render() {
-    // Trigger a render event.
-    document.dispatchEvent(new CustomEvent('selective.render'));
-  }
+  return MenuBase;
+}();
 
-}
+
 
 /***/ }),
 
@@ -101788,10 +105463,121 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
 /* harmony import */ var _field__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../field */ "./source/editor/field.js");
-/* harmony import */ var _utility_uuid__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utility/uuid */ "./source/utility/uuid.js");
-/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./base */ "./source/editor/menu/base.js");
-/* harmony import */ var _folderStructure__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./folderStructure */ "./source/editor/menu/folderStructure.js");
-/* harmony import */ var _parts_modal__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../parts/modal */ "./source/editor/parts/modal.js");
+/* harmony import */ var _validation__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../validation */ "./source/editor/validation.js");
+/* harmony import */ var _utility_uuid__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../utility/uuid */ "./source/utility/uuid.js");
+/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./base */ "./source/editor/menu/base.js");
+/* harmony import */ var _folderStructure__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./folderStructure */ "./source/editor/menu/folderStructure.js");
+/* harmony import */ var _parts_modal__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../parts/modal */ "./source/editor/parts/modal.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _templateObject8() {
+  var data = _taggedTemplateLiteral(["\n      ", ""]);
+
+  _templateObject8 = function _templateObject8() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject7() {
+  var data = _taggedTemplateLiteral(["", ""]);
+
+  _templateObject7 = function _templateObject7() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject6() {
+  var data = _taggedTemplateLiteral(["<div class=\"editor__loading editor__loading--small\" title=\"Loading...\"></div>"]);
+
+  _templateObject6 = function _templateObject6() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject5() {
+  var data = _taggedTemplateLiteral(["Are you sure you want to delete the page at <strong>", "</strong>?"]);
+
+  _templateObject5 = function _templateObject5() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject4() {
+  var data = _taggedTemplateLiteral(["\n          <div class=\"menu__tree__new__template__option\">\n            <div class=\"menu__tree__new__template__option__label\">\n              <h3>", "</h3>\n            </div>\n            ", "\n            <div class=\"menu__tree__new__template__option__description\">\n              ", "\n            </div>\n          </div>"]);
+
+  _templateObject4 = function _templateObject4() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject3() {
+  var data = _taggedTemplateLiteral(["\n              <img src=\"", "\">\n            "]);
+
+  _templateObject3 = function _templateObject3() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject2() {
+  var data = _taggedTemplateLiteral(["\n          <div class=\"menu__tree__new__template__option__screenshots\">\n            ", "\n          </div>"]);
+
+  _templateObject2 = function _templateObject2() {
+    return data;
+  };
+
+  return data;
+}
+
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["\n        <div class=\"menu__tree__new__template__option\">\n          <div class=\"menu__tree__new__template__option__label\">\n            <h3>Empty page</h3>\n          </div>\n        </div>"]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 /**
  * Content editor.
  */
@@ -101803,215 +105589,340 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class FileTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
-  constructor(config) {
-    super(config);
-    this.podPath = null;
-    this.expandedFolders = [];
-    this._selectives = {};
-    this.deleteFileWindow = this.config.get('deleteFileModal');
-    this.newFileWindow = this.config.get('newFileModal');
+
+
+var FileTreeMenu = /*#__PURE__*/function (_MenuBase) {
+  _inherits(FileTreeMenu, _MenuBase);
+
+  var _super = _createSuper(FileTreeMenu);
+
+  function FileTreeMenu(config) {
+    var _this;
+
+    _classCallCheck(this, FileTreeMenu);
+
+    _this = _super.call(this, config);
+    _this.podPath = null;
+    _this.expandedFolders = [];
+    _this._selectiveCopyFile = null;
+    _this._selectivesNewFile = {};
+    _this.deleteFileWindow = _this.config.get('deleteFileModal');
+    _this.newFileWindow = _this.config.get('newFileModal');
+    _this.copyFileWindow = _this.config.get('copyFileModal');
+    return _this;
   }
 
-  get template() {
-    return (editor, menuState, eventHandlers) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      ${this.renderTree(editor, menuState, eventHandlers)}`;
-  }
+  _createClass(FileTreeMenu, [{
+    key: "_addPodPathFolderAsExpanded",
+    value: function _addPodPathFolderAsExpanded(podPath) {
+      var podPathParts = podPath.split('/');
+      podPathParts.pop();
+      var podPathFolder = podPathParts.join('/');
 
-  _addPodPathFolderAsExpanded(podPath) {
-    let podPathParts = podPath.split('/');
-    podPathParts.pop();
-    const podPathFolder = podPathParts.join('/');
-
-    if (!this.expandedFolders.includes(podPathFolder)) {
-      this.expandedFolders.push(podPathFolder);
+      if (!this.expandedFolders.includes(podPathFolder)) {
+        this.expandedFolders.push(podPathFolder);
+      }
     }
-  }
+  }, {
+    key: "_createSelectiveCopyFile",
+    value: function _createSelectiveCopyFile(podPaths, podPath) {
+      // Selective editor for the form to add new file.
+      var newSelective = new selective_edit__WEBPACK_IMPORTED_MODULE_0__["default"](null);
+      newSelective.data = {
+        podPath: podPath,
+        fileName: podPath
+      }; // Add the editor default field types.
 
-  _createSelective(templates) {
-    // Selective editor for the form to add new file.
-    const newSelective = new selective_edit__WEBPACK_IMPORTED_MODULE_0__["default"](null);
-    newSelective.data = {}; // Add the editor extension default field types.
+      newSelective.addFieldTypes(_field__WEBPACK_IMPORTED_MODULE_2__["defaultFields"]); // Add the editor default validation types.
 
-    for (const key of Object.keys(_field__WEBPACK_IMPORTED_MODULE_2__["defaultFields"])) {
-      newSelective.addFieldType(key, _field__WEBPACK_IMPORTED_MODULE_2__["defaultFields"][key]);
-    }
+      newSelective.addRuleTypes(_validation__WEBPACK_IMPORTED_MODULE_3__["defaultValidationRules"]); // The new file should match the extension of the old file.
 
-    newSelective.addField({
-      'type': 'text',
-      'key': 'fileName',
-      'label': 'File name',
-      'help': 'May also be used for the url stub.'
-    });
-    const keys = Object.keys(templates || {}).sort();
-    const options = [{
-      'label': selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-        <div class="menu__tree__new__template__option">
-          <div class="menu__tree__new__template__option__label">
-            <h3>Empty page</h3>
-          </div>
-        </div>`,
-      'value': ''
-    }];
+      var originalExt = 'yaml';
 
-    for (const key of keys) {
-      const template = templates[key];
-      let screenshots = '';
-
-      if (template.screenshots) {
-        const resolutions = Object.keys(template.screenshots).sort();
-        screenshots = selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-          <div class="menu__tree__new__template__option__screenshots">
-            ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(resolutions, resolution => resolution, (resolution, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-              <img src="${template.screenshots[resolution].serving_url}">
-            `)}
-          </div>`;
+      if (podPath.endsWith('.html')) {
+        originalExt = 'html';
+      } else if (podPath.endsWith('.md')) {
+        originalExt = 'md';
       }
 
-      options.push({
-        'label': selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-          <div class="menu__tree__new__template__option">
-            <div class="menu__tree__new__template__option__label">
-              <h3>${template.label}</h3>
-            </div>
-            ${screenshots}
-            <div class="menu__tree__new__template__option__description">
-              ${template.description}
-            </div>
-          </div>`,
-        'value': key
-      });
-    } // Only add template if there are templates.
-
-
-    if (options.length > 1) {
       newSelective.addField({
-        'type': 'select',
-        'key': 'template',
-        'label': 'Template',
-        'help': 'Template to base the new file off of.',
-        'options': options
+        'type': 'text',
+        'key': 'fileName',
+        'label': 'File name',
+        'help': "Copy '".concat(podPath, "' to this new file."),
+        'validation': [{
+          'type': 'required',
+          'message': 'File name is required.'
+        }, {
+          'type': 'pattern',
+          'pattern': '^[a-z0-9-_\.\/]*$',
+          'message': 'File name can only contain lowercase alpha-numeric characters, . (period), _ (underscore), / (forward slash), and - (dash).'
+        }, {
+          'type': 'pattern',
+          'pattern': '/[a-z0-9]+[^/]*$',
+          'message': 'File name in the sub directory needs to start with alpha-numeric characters.'
+        }, {
+          'type': 'pattern',
+          'pattern': '^/content/[a-z0-9]+/',
+          'message': 'File name needs to be in a collection (ex: /content/pages/).'
+        }, {
+          'type': 'pattern',
+          'pattern': "^.*.(".concat(originalExt, ")$"),
+          'message': "File name needs to end with \".".concat(originalExt, "\" to match the original file.")
+        }, {
+          'type': 'match',
+          'excluded': {
+            'values': podPaths,
+            'message': 'File name already exists.'
+          }
+        }]
       });
+      return newSelective;
     }
+  }, {
+    key: "_createSelectiveNewFile",
+    value: function _createSelectiveNewFile(templates) {
+      // Selective editor for the form to add new file.
+      var newSelective = new selective_edit__WEBPACK_IMPORTED_MODULE_0__["default"](null);
+      newSelective.data = {}; // Add the editor default field types.
 
-    return newSelective;
-  }
+      newSelective.addFieldTypes(_field__WEBPACK_IMPORTED_MODULE_2__["defaultFields"]); // Add the editor default validation types.
 
-  _getOrCreateSelective(folder, templates) {
-    if (!this._selectives[folder]) {
-      if (!templates) {
-        console.error('Unable to create selective editor without templates.');
+      newSelective.addRuleTypes(_validation__WEBPACK_IMPORTED_MODULE_3__["defaultValidationRules"]);
+      newSelective.addField({
+        'type': 'text',
+        'key': 'fileName',
+        'label': 'File name',
+        'help': 'May also be used for the url stub.',
+        'validation': [{
+          'type': 'required',
+          'message': 'File name is required.'
+        }, {
+          'type': 'pattern',
+          'pattern': '^[a-z0-9-_\.]*$',
+          'message': 'File name can only contain lowercase alpha-numeric characters, . (period), _ (underscore) and - (dash).'
+        }, {
+          'type': 'pattern',
+          'pattern': '^[a-z0-9]+',
+          'message': 'File name can only start with an alpha-numeric character.'
+        }, {
+          'type': 'pattern',
+          'pattern': '^.*\.(yaml|md|html)$',
+          'message': 'File name needs to end with ".yaml", ".md", or ".html".'
+        }]
+      });
+      var keys = Object.keys(templates || {}).sort();
+      var options = [{
+        'label': Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject()),
+        'value': ''
+      }];
+
+      var _iterator = _createForOfIteratorHelper(keys),
+          _step;
+
+      try {
+        var _loop = function _loop() {
+          var key = _step.value;
+          var template = templates[key];
+          var screenshots = '';
+
+          if (template.screenshots) {
+            var resolutions = Object.keys(template.screenshots).sort();
+            screenshots = Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject2(), Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(resolutions, function (resolution) {
+              return resolution;
+            }, function (resolution, index) {
+              return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject3(), template.screenshots[resolution].serving_url);
+            }));
+          }
+
+          options.push({
+            'label': Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject4(), template.label, screenshots, template.description),
+            'value': key
+          });
+        };
+
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          _loop();
+        } // Only add template if there are templates.
+
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
       }
 
-      this._selectives[folder] = this._createSelective(templates);
-    }
-
-    return this._selectives[folder];
-  }
-
-  handleFileClick(evt) {
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'menu__tree__folder__file');
-    const podPath = target.dataset.podPath;
-    document.dispatchEvent(new CustomEvent('selective.path.update', {
-      detail: {
-        path: podPath
+      if (options.length > 1) {
+        newSelective.addField({
+          'type': 'select',
+          'key': 'template',
+          'label': 'Template',
+          'help': 'Template to base the new file off of.',
+          'options': options
+        });
       }
-    }));
-  }
 
-  handleFileCopyClick(evt) {
-    evt.stopPropagation();
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'menu__tree__folder__file');
-    const podPath = target.dataset.podPath;
-    console.log('copy: ', podPath);
-    document.dispatchEvent(new CustomEvent('selective.path.copy', {
-      detail: {
-        path: podPath
+      return newSelective;
+    }
+  }, {
+    key: "_getOrCreateSelectiveCopyFile",
+    value: function _getOrCreateSelectiveCopyFile(podPaths, podPath) {
+      if (!this._selectiveCopyFile) {
+        this._selectiveCopyFile = this._createSelectiveCopyFile(podPaths, podPath);
       }
-    }));
-  }
 
-  handleFileDeleteClick(evt) {
-    evt.stopPropagation();
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'menu__tree__folder__file');
-    const podPath = target.dataset.podPath;
-    this.deleteFileWindow.podPath = podPath;
-
-    this.deleteFileWindow.contentRenderFunc = () => {
-      return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`Are you sure you want to delete the page at <strong>${podPath}</strong>?`;
-    };
-
-    this.deleteFileWindow.open();
-  }
-
-  handleFileNewClick(evt) {
-    evt.stopPropagation();
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'menu__tree__folder__actions');
-    const folder = target.dataset.folder;
-    this.newFileWindow.newFileFolder = folder;
-    this.newFileWindow.open();
-  }
-
-  handleFolderToggle(evt) {
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'menu__tree__folder__directory');
-    const folder = target.dataset.folder;
-
-    if (this.expandedFolders.includes(folder)) {
-      this.expandedFolders = this.expandedFolders.filter(item => item !== folder);
-    } else {
-      this.expandedFolders.push(folder);
+      return this._selectiveCopyFile;
     }
+  }, {
+    key: "_getOrCreateSelectiveNewFile",
+    value: function _getOrCreateSelectiveNewFile(folder, templates) {
+      if (!this._selectivesNewFile[folder]) {
+        if (!templates) {
+          console.error('Unable to create selective editor without templates.');
+        }
 
-    evt.preventDefault();
-    evt.stopPropagation();
-    this.render();
-  }
+        this._selectivesNewFile[folder] = this._createSelectiveNewFile(templates);
+      }
 
-  renderTree(editor, menuState, eventHandlers) {
-    if (!menuState.podPaths || !menuState.templates) {
-      // Editor handles multiple call resolution.
-      editor.loadPodPaths();
-      editor.loadTemplates();
-      return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="editor__loading editor__loading--small" title="Loading..."></div>`;
-    } // Pod path has changed, make sure that the pod path folder is
-    // expanded by default. Can still be toggled by clicking folder.
-
-
-    if (menuState.podPath && this.podPath != menuState.podPath) {
-      this.podPath = menuState.podPath;
-
-      this._addPodPathFolderAsExpanded(this.podPath);
+      return this._selectivesNewFile[folder];
     }
+  }, {
+    key: "handleFileClick",
+    value: function handleFileClick(evt) {
+      var target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'menu__tree__folder__file');
+      var podPath = target.dataset.podPath;
+      document.dispatchEvent(new CustomEvent('selective.path.update', {
+        detail: {
+          path: podPath
+        }
+      }));
+    }
+  }, {
+    key: "handleFileCopyClick",
+    value: function handleFileCopyClick(evt) {
+      evt.stopPropagation();
+      var target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'menu__tree__folder__file');
+      var podPath = target.dataset.podPath; // Reset the selective form so that it can be regenerated.
 
-    const folderStructure = new _folderStructure__WEBPACK_IMPORTED_MODULE_5__["default"](menuState.podPaths, menuState.templates, '/');
+      this._selectiveCopyFile = null;
+      this.copyFileWindow.podPath = podPath;
+      this.copyFileWindow.open();
+    }
+  }, {
+    key: "handleFileDeleteClick",
+    value: function handleFileDeleteClick(evt) {
+      evt.stopPropagation();
+      var target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'menu__tree__folder__file');
+      var podPath = target.dataset.podPath;
+      this.deleteFileWindow.podPath = podPath;
 
-    if (this.newFileWindow.newFileFolder) {
-      const templates = menuState.templates[this.newFileWindow.newFileFolder];
-
-      const newFileSelective = this._getOrCreateSelective(this.newFileWindow.newFileFolder, templates); // Store the selective editor for the new file for processing in the menu.
-
-
-      this.newFileWindow.selective = newFileSelective;
-
-      this.newFileWindow.canClickToCloseFunc = () => {
-        return newFileSelective.isClean;
+      this.deleteFileWindow.contentRenderFunc = function () {
+        return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject5(), podPath);
       };
 
-      this.newFileWindow.contentRenderFunc = () => {
-        return newFileSelective.template(newFileSelective, newFileSelective.data);
+      this.deleteFileWindow.open();
+    }
+  }, {
+    key: "handleFileNewClick",
+    value: function handleFileNewClick(evt) {
+      evt.stopPropagation();
+      var target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'menu__tree__folder__actions');
+      var folder = target.dataset.folder;
+      this.newFileWindow.newFileFolder = folder;
+      this.newFileWindow.open();
+    }
+  }, {
+    key: "handleFolderToggle",
+    value: function handleFolderToggle(evt) {
+      var target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'menu__tree__folder__directory');
+      var folder = target.dataset.folder;
+
+      if (this.expandedFolders.includes(folder)) {
+        this.expandedFolders = this.expandedFolders.filter(function (item) {
+          return item !== folder;
+        });
+      } else {
+        this.expandedFolders.push(folder);
+      }
+
+      evt.preventDefault();
+      evt.stopPropagation();
+      this.render();
+    }
+  }, {
+    key: "renderTree",
+    value: function renderTree(editor, menuState, eventHandlers) {
+      if (!menuState.podPaths || !menuState.templates) {
+        // Editor handles multiple call resolution.
+        editor.loadPodPaths();
+        editor.loadTemplates();
+        return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject6());
+      } // Pod path has changed, make sure that the pod path folder is
+      // expanded by default. Can still be toggled by clicking folder.
+
+
+      if (menuState.podPath && this.podPath != menuState.podPath) {
+        this.podPath = menuState.podPath;
+
+        this._addPodPathFolderAsExpanded(this.podPath);
+      }
+
+      var folderStructure = new _folderStructure__WEBPACK_IMPORTED_MODULE_6__["default"](menuState.podPaths, menuState.templates, '/');
+
+      if (this.copyFileWindow.podPath) {
+        var copyFileSelective = this._getOrCreateSelectiveCopyFile(menuState.podPaths, this.copyFileWindow.podPath); // Store the selective editor for the new file for processing in the menu.
+
+
+        this.copyFileWindow.selective = copyFileSelective;
+
+        this.copyFileWindow.canClickToCloseFunc = function () {
+          return copyFileSelective.isClean;
+        };
+
+        this.copyFileWindow.contentRenderFunc = function () {
+          return copyFileSelective.template(copyFileSelective, copyFileSelective.data);
+        };
+      }
+
+      if (this.newFileWindow.newFileFolder) {
+        var templates = menuState.templates[this.newFileWindow.newFileFolder];
+
+        var newFileSelective = this._getOrCreateSelectiveNewFile(this.newFileWindow.newFileFolder, templates); // Store the selective editor for the new file for processing in the menu.
+
+
+        this.newFileWindow.selective = newFileSelective;
+
+        this.newFileWindow.canClickToCloseFunc = function () {
+          return newFileSelective.isClean;
+        };
+
+        this.newFileWindow.contentRenderFunc = function () {
+          return newFileSelective.template(newFileSelective, newFileSelective.data);
+        };
+      }
+
+      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject7(), folderStructure.render(this.podPath, this.expandedFolders, {
+        handleFolderToggle: this.handleFolderToggle.bind(this),
+        handleFileClick: this.handleFileClick.bind(this),
+        handleFileCopyClick: this.handleFileCopyClick.bind(this),
+        handleFileDeleteClick: this.handleFileDeleteClick.bind(this),
+        handleFileNewClick: this.handleFileNewClick.bind(this)
+      }, 1));
+    }
+  }, {
+    key: "template",
+    get: function get() {
+      var _this2 = this;
+
+      return function (editor, menuState, eventHandlers) {
+        return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject8(), _this2.renderTree(editor, menuState, eventHandlers));
       };
     }
+  }]);
 
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`${folderStructure.render(this.podPath, this.expandedFolders, {
-      handleFolderToggle: this.handleFolderToggle.bind(this),
-      handleFileClick: this.handleFileClick.bind(this),
-      handleFileCopyClick: this.handleFileCopyClick.bind(this),
-      handleFileDeleteClick: this.handleFileDeleteClick.bind(this),
-      handleFileNewClick: this.handleFileNewClick.bind(this)
-    }, 1)}`;
-  }
+  return FileTreeMenu;
+}(_base__WEBPACK_IMPORTED_MODULE_5__["default"]);
 
-}
+
 
 /***/ }),
 
@@ -102028,32 +105939,118 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
 /* harmony import */ var _utility_uuid__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/uuid */ "./source/utility/uuid.js");
+function _templateObject7() {
+  var data = _taggedTemplateLiteral(["<i\n                      class=\"material-icons icon icon--hover-only\"\n                      title=\"Delete file\"\n                      @click=", ">\n                    delete\n                  </i>"]);
+
+  _templateObject7 = function _templateObject7() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject6() {
+  var data = _taggedTemplateLiteral(["<i\n                      class=\"material-icons icon icon--hover-only\"\n                      title=\"Copy file\"\n                      @click=", ">\n                    file_copy\n                  </i>"]);
+
+  _templateObject6 = function _templateObject6() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject5() {
+  var data = _taggedTemplateLiteral(["\n              <div\n                  class=\"menu__tree__folder__file ", " icons\"\n                  data-pod-path=", "\n                  @click=", ">\n                <i class=\"material-icons\">notes</i>\n                <div class=\"menu__tree__folder__file__label\">\n                  ", "\n                </div>\n                ", "\n                ", "\n              </div>"]);
+
+  _templateObject5 = function _templateObject5() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject4() {
+  var data = _taggedTemplateLiteral(["\n            <div data-folder=", " class=\"menu__tree__folder__actions\">\n              <button class=\"editor__button editor__actions--add\" @click=", ">New file</button>\n            </div>"]);
+
+  _templateObject4 = function _templateObject4() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject3() {
+  var data = _taggedTemplateLiteral(["\n            ", ""]);
+
+  _templateObject3 = function _templateObject3() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject2() {
+  var data = _taggedTemplateLiteral(["\n          <div class=\"menu__tree__folder__directory icons\" data-folder=", " @click=", ">\n            <i class=\"material-icons\">", "</i>\n            <div class=\"menu__tree__folder__directory__label\">\n              ", "\n            </div>\n          </div>"]);
+
+  _templateObject2 = function _templateObject2() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["<div class=", ">\n      ", "\n      <div class=", ">\n        <div class=", ">\n          ", "\n        </div>\n        <div class=", ">\n          ", "\n          ", "\n        </div>\n      </div>\n    </div>"]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 /**
  * Folder like structure for displaying paths.
  */
 
 
 
-const PROTECTED_FROM_COPY_PATHS = ['/podspec.yaml'];
-const PROTECTED_FROM_DELETE_PATHS = ['/podspec.yaml'];
+var PROTECTED_FROM_COPY_PATHS = ['/podspec.yaml'];
+var PROTECTED_FROM_DELETE_PATHS = ['/podspec.yaml'];
 
-const hasTemplate = (templates, folder) => {
-  const collections = Object.keys(templates);
+var hasTemplate = function hasTemplate(templates, folder) {
+  var collections = Object.keys(templates);
   return collections.includes(folder);
 };
 
-const isProtectedFromCopy = podPath => {
+var isProtectedFromCopy = function isProtectedFromCopy(podPath) {
   // TODO: Expand to let the config also define protected files.
   return PROTECTED_FROM_COPY_PATHS.includes(podPath);
 };
 
-const isProtectedFromDelete = podPath => {
+var isProtectedFromDelete = function isProtectedFromDelete(podPath) {
   // TODO: Expand to let the config also define protected files.
   return PROTECTED_FROM_DELETE_PATHS.includes(podPath);
 };
 
-class FolderStructure {
-  constructor(paths, templates, folder, folderBase) {
+var FolderStructure = /*#__PURE__*/function () {
+  function FolderStructure(paths, templates, folder, folderBase) {
+    _classCallCheck(this, FolderStructure);
+
     this.uid = Object(_utility_uuid__WEBPACK_IMPORTED_MODULE_2__["default"])();
     this.templates = templates;
     this.folderInfo = {
@@ -102062,117 +106059,98 @@ class FolderStructure {
       folders: [],
       files: []
     };
-    let prefix = this.folderInfo.folder; // Make sure the prefix ends with a /.
+    var prefix = this.folderInfo.folder; // Make sure the prefix ends with a /.
 
     if (!prefix.endsWith('/')) {
       prefix += '/';
     }
 
-    const subFolders = [];
+    var subFolders = [];
 
-    for (const path of paths) {
-      if (path.startsWith(prefix)) {
-        const subPath = path.slice(prefix.length);
-        const subPathParts = subPath.split('/');
+    var _iterator = _createForOfIteratorHelper(paths),
+        _step;
 
-        if (subPathParts.length > 1) {
-          const subFolder = subPathParts[0];
+    try {
+      for (_iterator.s(); !(_step = _iterator.n()).done;) {
+        var path = _step.value;
 
-          if (subFolders.includes(subFolder)) {
-            continue;
+        if (path.startsWith(prefix)) {
+          var subPath = path.slice(prefix.length);
+          var subPathParts = subPath.split('/');
+
+          if (subPathParts.length > 1) {
+            var subFolder = subPathParts[0];
+
+            if (subFolders.includes(subFolder)) {
+              continue;
+            }
+
+            subFolders.push(subFolder);
+            this.folderInfo.folders.push(new FolderStructure(paths, this.templates, "".concat(prefix).concat(subFolder), subFolder));
+          } else {
+            var fileName = subPathParts[0];
+            var fileExt = '';
+
+            if (fileName.includes('.')) {
+              fileExt = fileName.split('.').pop();
+            }
+
+            var fileBase = fileName;
+
+            if (fileExt) {
+              fileBase = fileName.slice(0, fileName.length - fileExt.length - 1);
+            }
+
+            this.folderInfo.files.push({
+              fileName: fileName,
+              fileBase: fileBase,
+              fileExt: fileExt
+            });
           }
-
-          subFolders.push(subFolder);
-          this.folderInfo.folders.push(new FolderStructure(paths, this.templates, `${prefix}${subFolder}`, subFolder));
-        } else {
-          const fileName = subPathParts[0];
-          let fileExt = '';
-
-          if (fileName.includes('.')) {
-            fileExt = fileName.split('.').pop();
-          }
-
-          let fileBase = fileName;
-
-          if (fileExt) {
-            fileBase = fileName.slice(0, fileName.length - fileExt.length - 1);
-          }
-
-          this.folderInfo.files.push({
-            fileName: fileName,
-            fileBase: fileBase,
-            fileExt: fileExt
-          });
         }
       }
+    } catch (err) {
+      _iterator.e(err);
+    } finally {
+      _iterator.f();
     }
   }
 
-  render(path, expandedFolders, eventHandlers, threshold, lookupFunc, features) {
-    threshold = threshold || 0;
-    const folder = this.folderInfo.folder;
-    const level = folder == '/' ? 0 : folder.split('/').length - 1;
-    const classes = ['menu__tree__folder'];
-    const isExpanded = level <= threshold || expandedFolders.includes(folder);
-    const filePrefix = `${folder == '/' ? '' : folder}/`;
-    features = features || {};
-    features['allowDeleteFile'] = features['allowDeleteFile'] == undefined ? true : features['allowDeleteFile'];
-    features['allowDuplicateFile'] = features['allowDuplicateFile'] == undefined ? true : features['allowDuplicateFile'];
-    features['allowNewFile'] = features['allowNewFile'] == undefined ? true : features['allowNewFile'];
+  _createClass(FolderStructure, [{
+    key: "render",
+    value: function render(path, expandedFolders, eventHandlers, threshold, lookupFunc, features) {
+      threshold = threshold || 0;
+      var folder = this.folderInfo.folder;
+      var level = folder == '/' ? 0 : folder.split('/').length - 1;
+      var classes = ['menu__tree__folder'];
+      var isExpanded = level <= threshold || expandedFolders.includes(folder);
+      var filePrefix = "".concat(folder == '/' ? '' : folder, "/");
+      features = features || {};
+      features['allowDeleteFile'] = features['allowDeleteFile'] == undefined ? true : features['allowDeleteFile'];
+      features['allowDuplicateFile'] = features['allowDuplicateFile'] == undefined ? true : features['allowDuplicateFile'];
+      features['allowNewFile'] = features['allowNewFile'] == undefined ? true : features['allowNewFile'];
 
-    if (!isExpanded) {
-      classes.push('menu__tree__folder--collapsed');
+      if (!isExpanded) {
+        classes.push('menu__tree__folder--collapsed');
+      }
+
+      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject(), classes.join(' '), level > threshold ? Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject2(), folder, eventHandlers.handleFolderToggle, isExpanded ? 'expand_more' : 'expand_less', this.folderInfo.folderBase) : '', level > threshold ? 'menu__tree__folder__level' : '', level > threshold ? 'menu__tree__folder__folder' : '', Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(this.folderInfo.folders, function (folder) {
+        return folder.uid;
+      }, function (folder, index) {
+        return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject3(), folder.render(path, expandedFolders, eventHandlers, threshold, lookupFunc, features));
+      }), level > threshold ? 'menu__tree__folder__files' : '', level > threshold && features['allowNewFile'] ? Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject4(), folder, eventHandlers.handleFileNewClick) : '', Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(this.folderInfo.files, function (file) {
+        return "".concat(filePrefix).concat(file.fileName);
+      }, function (file, index) {
+        var podPath = lookupFunc ? lookupFunc("".concat(filePrefix).concat(file.fileName)) : "".concat(filePrefix).concat(file.fileName);
+        return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject5(), path == "".concat(filePrefix).concat(file.fileName) || path == "".concat(filePrefix).concat(file.fileName, "/") ? 'menu__tree__folder__file--selected' : '', podPath, eventHandlers.handleFileClick, file.fileBase || '/', isProtectedFromCopy(podPath) || !features['allowDuplicateFile'] ? '' : Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject6(), eventHandlers.handleFileCopyClick), isProtectedFromDelete(podPath) || !features['allowDeleteFile'] ? '' : Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject7(), eventHandlers.handleFileDeleteClick));
+      }));
     }
+  }]);
 
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class=${classes.join(' ')}>
-      ${level > threshold ? selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-          <div class="menu__tree__folder__directory icons" data-folder=${folder} @click=${eventHandlers.handleFolderToggle}>
-            <i class="material-icons">${isExpanded ? 'expand_more' : 'expand_less'}</i>
-            <div class="menu__tree__folder__directory__label">
-              ${this.folderInfo.folderBase}
-            </div>
-          </div>` : ''}
-      <div class=${level > threshold ? 'menu__tree__folder__level' : ''}>
-        <div class=${level > threshold ? 'menu__tree__folder__folder' : ''}>
-          ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(this.folderInfo.folders, folder => folder.uid, (folder, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-            ${folder.render(path, expandedFolders, eventHandlers, threshold, lookupFunc, features)}`)}
-        </div>
-        <div class=${level > threshold ? 'menu__tree__folder__files' : ''}>
-          ${level > threshold && features['allowNewFile'] ? selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-            <div data-folder=${folder} class="menu__tree__folder__actions">
-              <button class="editor__button editor__actions--add" @click=${eventHandlers.handleFileNewClick}>New file</button>
-            </div>` : ''}
-          ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(this.folderInfo.files, file => `${filePrefix}${file.fileName}`, (file, index) => {
-      const podPath = lookupFunc ? lookupFunc(`${filePrefix}${file.fileName}`) : `${filePrefix}${file.fileName}`;
-      return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-              <div
-                  class="menu__tree__folder__file ${path == `${filePrefix}${file.fileName}` || path == `${filePrefix}${file.fileName}/` ? 'menu__tree__folder__file--selected' : ''} icons"
-                  data-pod-path=${podPath}
-                  @click=${eventHandlers.handleFileClick}>
-                <i class="material-icons">notes</i>
-                <div class="menu__tree__folder__file__label">
-                  ${file.fileBase || '/'}
-                </div>
-                ${isProtectedFromCopy(podPath) || !features['allowDuplicateFile'] ? '' : selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<i
-                      class="material-icons icon icon--hover-only"
-                      title="Copy file"
-                      @click=${eventHandlers.handleFileCopyClick}>
-                    file_copy
-                  </i>`}
-                ${isProtectedFromDelete(podPath) || !features['allowDeleteFile'] ? '' : selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<i
-                      class="material-icons icon icon--hover-only"
-                      title="Delete file"
-                      @click=${eventHandlers.handleFileDeleteClick}>
-                    delete
-                  </i>`}
-              </div>`;
-    })}
-        </div>
-      </div>
-    </div>`;
-  }
+  return FolderStructure;
+}();
 
-}
+
 
 /***/ }),
 
@@ -102194,6 +106172,70 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _repo__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./repo */ "./source/editor/menu/repo.js");
 /* harmony import */ var _site__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./site */ "./source/editor/menu/site.js");
 /* harmony import */ var _workspace__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./workspace */ "./source/editor/menu/workspace.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _templateObject4() {
+  var data = _taggedTemplateLiteral(["<div class=\"menu\">\n      ", "\n      ", "\n    </div>"]);
+
+  _templateObject4 = function _templateObject4() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject3() {
+  var data = _taggedTemplateLiteral(["\n      <div class=\"menu__bar\">\n        <div class=\"menu__bar__section\">\n          <div\n              class=\"menu__hamburger\"\n              @click=", "\n              title=\"Open menu\">\n            <i class=\"material-icons\">menu</i>\n          </div>\n          <div class=\"menu__bar__title\">\n            ", "\n          </div>\n        </div>\n        <div class=\"menu__bar__section\">\n          ", "\n        </div>\n      </div>"]);
+
+  _templateObject3 = function _templateObject3() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject2() {
+  var data = _taggedTemplateLiteral(["\n      ", "\n      ", "\n      ", "\n      ", "\n      ", ""]);
+
+  _templateObject2 = function _templateObject2() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["\n          <div class=\"menu__contents\">\n            <div class=\"menu__section\">\n              <div class=\"menu__site\">\n                <div class=\"menu__site__title\">\n                  ", "\n                </div>\n                <i class=\"material-icons\" @click=", " title=\"Close menu\">\n                  close\n                </i>\n              </div>\n            </div>\n            ", "\n            ", "\n          </div>"]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 /**
  * Content editor.
  */
@@ -102206,40 +106248,67 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class Menu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
-  constructor(config, editor) {
-    super(config);
-    this.editor = editor;
-    this.menuWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_3__["MenuWindow"](); // this.menuWindow.isOpen = true  // TODO: Remove
-    // Create the delete page modal outside of the modal for the menu.
+
+var Menu = /*#__PURE__*/function (_MenuBase) {
+  _inherits(Menu, _MenuBase);
+
+  var _super = _createSuper(Menu);
+
+  function Menu(config, editor) {
+    var _this;
+
+    _classCallCheck(this, Menu);
+
+    _this = _super.call(this, config);
+    _this.editor = editor;
+    _this.menuWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_3__["MenuWindow"](); // this.menuWindow.isOpen = true  // TODO: Remove
+    // Create the copy page modal outside of the modal for the menu.
+    // Otherwise, the copy modal is constrained to the menu modal.
+
+    _this.copyFileWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_3__["default"]('Copy page');
+
+    _this.copyFileWindow.addAction('Copy file', _this.handleFileCopySubmit.bind(_assertThisInitialized(_this)), true, null, _this.handleFileCopyDisabled.bind(_assertThisInitialized(_this)));
+
+    _this.copyFileWindow.addAction('Cancel', _this.handleFileCopyCancel.bind(_assertThisInitialized(_this)), false, true); // Create the delete page modal outside of the modal for the menu.
     // Otherwise, the delete modal is constrained to the menu modal.
 
-    this.deleteFileWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_3__["default"]('Delete page');
-    this.deleteFileWindow.addAction('Delete file', this.handleFileDeleteSubmit.bind(this), true);
-    this.deleteFileWindow.addAction('Cancel', this.handleFileDeleteCancel.bind(this), false, true); // Create the new page modal outside of the modal for the menu.
+
+    _this.deleteFileWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_3__["default"]('Delete page');
+
+    _this.deleteFileWindow.addAction('Delete file', _this.handleFileDeleteSubmit.bind(_assertThisInitialized(_this)), true);
+
+    _this.deleteFileWindow.addAction('Cancel', _this.handleFileDeleteCancel.bind(_assertThisInitialized(_this)), false, true); // Create the new page modal outside of the modal for the menu.
     // Otherwise, the new modal is constrained to the menu modal.
 
-    this.newFileWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_3__["default"]('New page');
-    this.newFileWindow.addAction('Create file', this.handleFileNewSubmit.bind(this), true);
-    this.newFileWindow.addAction('Cancel', this.handleFileNewCancel.bind(this), false, true); // Create the new workspace modal outside of the modal for the menu.
+
+    _this.newFileWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_3__["default"]('New page');
+
+    _this.newFileWindow.addAction('Create file', _this.handleFileNewSubmit.bind(_assertThisInitialized(_this)), true, null, _this.handleFileNewDisabled.bind(_assertThisInitialized(_this)));
+
+    _this.newFileWindow.addAction('Cancel', _this.handleFileNewCancel.bind(_assertThisInitialized(_this)), false, true); // Create the new workspace modal outside of the modal for the menu.
     // Otherwise, the new modal is constrained to the menu modal.
 
-    this.newWorkspaceWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_3__["default"]('New workspace');
-    this.newWorkspaceWindow.addAction('Create workspace', this.handleWorkspaceNewSubmit.bind(this), true);
-    this.newWorkspaceWindow.addAction('Cancel', this.handleWorkspaceNewCancel.bind(this), false, true);
-    this._repoMenu = new _repo__WEBPACK_IMPORTED_MODULE_5__["default"]({
-      testing: this.isTesting
+
+    _this.newWorkspaceWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_3__["default"]('New workspace');
+
+    _this.newWorkspaceWindow.addAction('Create workspace', _this.handleWorkspaceNewSubmit.bind(_assertThisInitialized(_this)), true, null, _this.handleWorkspaceNewDisabled.bind(_assertThisInitialized(_this)));
+
+    _this.newWorkspaceWindow.addAction('Cancel', _this.handleWorkspaceNewCancel.bind(_assertThisInitialized(_this)), false, true);
+
+    _this._repoMenu = new _repo__WEBPACK_IMPORTED_MODULE_5__["default"]({
+      testing: _this.isTesting
     });
-    this._siteMenu = new _site__WEBPACK_IMPORTED_MODULE_6__["default"]({
-      deleteFileModal: this.deleteFileWindow,
-      newFileModal: this.newFileWindow,
-      testing: this.isTesting
+    _this._siteMenu = new _site__WEBPACK_IMPORTED_MODULE_6__["default"]({
+      copyFileModal: _this.copyFileWindow,
+      deleteFileModal: _this.deleteFileWindow,
+      newFileModal: _this.newFileWindow,
+      testing: _this.isTesting
     });
-    this._workspaceMenu = new _workspace__WEBPACK_IMPORTED_MODULE_7__["default"]({
-      newWorkspaceModal: this.newWorkspaceWindow,
-      testing: this.isTesting
+    _this._workspaceMenu = new _workspace__WEBPACK_IMPORTED_MODULE_7__["default"]({
+      newWorkspaceModal: _this.newWorkspaceWindow,
+      testing: _this.isTesting
     });
-    this._state = {
+    _this._state = {
       pod: null,
       podPath: editor.podPath,
       podPaths: null,
@@ -102248,206 +106317,257 @@ class Menu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
       templates: null,
       trees: {
         file: {
-          isOpen: this.storage.getItem('selective.menu.tree.file.open') == 'true'
+          isOpen: _this.storage.getItem('selective.menu.tree.file.open') == 'true'
         },
         site: {
-          isOpen: this.storage.getItem('selective.menu.tree.site.open') == 'true'
+          isOpen: _this.storage.getItem('selective.menu.tree.site.open') == 'true'
         }
       }
     };
-    this.filterFunc = this.config.get('filterFunc') || Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createWhiteBlackFilter"])([/^\/content\//, /^\/data\//], // Whitelist.
+    _this.filterFunc = _this.config.get('filterFunc') || Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createWhiteBlackFilter"])([/^\/content\//, /^\/data\//], // Whitelist.
     [] // Blacklist.
     );
-    this.bindEvents();
+
+    _this.bindEvents();
+
+    return _this;
   }
 
-  get template() {
-    return editor => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="menu">
-      ${this.renderMenuBar(editor)}
-      ${this.renderMenu(editor)}
-    </div>`;
-  }
+  _createClass(Menu, [{
+    key: "bindEvents",
+    value: function bindEvents() {
+      var _this2 = this;
 
-  bindEvents() {
-    this.editor.listeners.add('podPath', this.handlePodPathChange.bind(this));
-    this.editor.listeners.add('load.pod', this.handlePodChange.bind(this));
-    this.editor.listeners.add('load.podPaths', this.handleLoadPodPaths.bind(this));
-    this.editor.listeners.add('load.repo', this.handleLoadRepo.bind(this));
-    this.editor.listeners.add('load.routes', this.handleLoadRoutes.bind(this));
-    this.editor.listeners.add('load.templates', this.handleLoadTemplates.bind(this)); // Close the menu when updating the path.
+      this.editor.listeners.add('podPath', this.handlePodPathChange.bind(this));
+      this.editor.listeners.add('load.pod', this.handlePodChange.bind(this));
+      this.editor.listeners.add('load.podPaths', this.handleLoadPodPaths.bind(this));
+      this.editor.listeners.add('load.repo', this.handleLoadRepo.bind(this));
+      this.editor.listeners.add('load.routes', this.handleLoadRoutes.bind(this));
+      this.editor.listeners.add('load.templates', this.handleLoadTemplates.bind(this)); // Close the menu when updating the path.
 
-    document.addEventListener('selective.path.update', evt => {
-      this.menuWindow.close();
-    });
-  }
-
-  handleFileDeleteCancel(evt) {
-    evt.stopPropagation();
-    this.deleteFileWindow.close();
-  }
-
-  handleFileDeleteSubmit(evt) {
-    evt.stopPropagation();
-    const podPath = this.deleteFileWindow.podPath;
-    console.log('pod path: ', podPath);
-    document.dispatchEvent(new CustomEvent('selective.path.delete', {
-      detail: {
-        path: podPath
-      }
-    }));
-    this.deleteFileWindow.close();
-  }
-
-  handleFileNewCancel(evt) {
-    evt.stopPropagation();
-    this.newFileWindow.newFileFolder = null;
-    this.newFileWindow.close();
-  }
-
-  handleFileNewSubmit(evt) {
-    evt.stopPropagation();
-    const value = this.newFileWindow.selective.value;
-    document.dispatchEvent(new CustomEvent('selective.path.template', {
-      detail: {
-        collectionPath: this.newFileWindow.newFileFolder,
-        fileName: value.fileName,
-        template: value.template
-      }
-    }));
-    this.newFileWindow.close();
-  }
-
-  handleLoadPodPaths(response) {
-    this._state.podPaths = response.pod_paths.sort().filter(this.filterFunc);
-    this.render();
-  }
-
-  handleLoadRepo(response) {
-    this._state.repo = response.repo;
-    this.render();
-  }
-
-  handleLoadRoutes(response) {
-    this._state.routes = response.routes;
-    this.render();
-  }
-
-  handleLoadTemplates(response) {
-    this._state.templates = response.templates;
-    this.render();
-  }
-
-  handlePodChange(response) {
-    this._state.pod = response.pod;
-    this.render();
-  }
-
-  handlePodPathChange(podPath) {
-    this._state.podPath = podPath;
-  }
-
-  handleToggleMenu(evt) {
-    this.menuWindow.toggle();
-  }
-
-  handleToggleTree(evt) {
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'menu__tree__title');
-    const tree = target.dataset.tree;
-    const isOpen = !this._state.trees[tree].isOpen;
-    this._state.trees[tree].isOpen = isOpen;
-    this.storage.setItem(`selective.menu.tree.${tree}.open`, isOpen);
-    this.render();
-  }
-
-  handleWorkspaceNewCancel(evt) {
-    evt.stopPropagation();
-    this.newWorkspaceWindow.close();
-  }
-
-  handleWorkspaceNewSubmit(evt) {
-    evt.stopPropagation();
-    const value = this.newWorkspaceWindow.selective.value;
-    document.dispatchEvent(new CustomEvent('editor.workspace.new', {
-      detail: {
-        base: value.base,
-        workspace: value.workspace
-      }
-    }));
-    this.newWorkspaceWindow.close();
-  }
-
-  renderMenu(editor) {
-    // Always show the menu when there is not a pod path.
-    const hasPodPath = Boolean(editor.podPath && editor.podPath != '');
-
-    if (!hasPodPath) {
-      this.menuWindow.isOpen = true;
+      document.addEventListener('selective.path.update', function (evt) {
+        _this2.menuWindow.close();
+      });
     }
-
-    const isOpen = this.menuWindow.isOpen;
-
-    if (!this._state.pod) {
-      editor.loadPod();
+  }, {
+    key: "handleFileCopyCancel",
+    value: function handleFileCopyCancel(evt) {
+      evt.stopPropagation();
+      this.copyFileWindow.copyFileFolder = null;
+      this.copyFileWindow.close();
     }
+  }, {
+    key: "handleFileCopyDisabled",
+    value: function handleFileCopyDisabled() {
+      // Only do disabled when the selective for the window is defined.
+      if (!this.copyFileWindow.selective) {
+        return false;
+      }
 
-    if (isOpen) {
-      this.menuWindow.contentRenderFunc = () => {
-        return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-          <div class="menu__contents">
-            <div class="menu__section">
-              <div class="menu__site">
-                <div class="menu__site__title">
-                  ${this._state.pod ? this._state.pod.title : ''}
-                </div>
-                <i class="material-icons" @click=${this.handleToggleMenu.bind(this)} title="Close menu">
-                  close
-                </i>
-              </div>
-            </div>
-            ${this.config.enableMenuWorkspace ? this._workspaceMenu.template(editor, this._state, {
-          handleWorkspaceNewClick: () => {
-            this.newWorkspaceWindow.open();
-          }
-        }) : ''}
-            ${this._siteMenu.template(editor, this._state, {
-          handleToggleTree: this.handleToggleTree.bind(this)
-        })}
-          </div>`;
+      return !this.copyFileWindow.selective.isValid;
+    }
+  }, {
+    key: "handleFileCopySubmit",
+    value: function handleFileCopySubmit(evt) {
+      evt.stopPropagation();
+      var value = this.copyFileWindow.selective.value;
+      document.dispatchEvent(new CustomEvent('selective.path.copy', {
+        detail: {
+          podPath: value.podPath,
+          newPodPath: value.fileName
+        }
+      }));
+      this.copyFileWindow.close();
+    }
+  }, {
+    key: "handleFileDeleteCancel",
+    value: function handleFileDeleteCancel(evt) {
+      evt.stopPropagation();
+      this.deleteFileWindow.close();
+    }
+  }, {
+    key: "handleFileDeleteSubmit",
+    value: function handleFileDeleteSubmit(evt) {
+      evt.stopPropagation();
+      var podPath = this.deleteFileWindow.podPath;
+      document.dispatchEvent(new CustomEvent('selective.path.delete', {
+        detail: {
+          path: podPath
+        }
+      }));
+      this.deleteFileWindow.close();
+    }
+  }, {
+    key: "handleFileNewCancel",
+    value: function handleFileNewCancel(evt) {
+      evt.stopPropagation();
+      this.newFileWindow.newFileFolder = null;
+      this.newFileWindow.close();
+    }
+  }, {
+    key: "handleFileNewDisabled",
+    value: function handleFileNewDisabled() {
+      // Only do disabled when the selective for the window is defined.
+      if (!this.newFileWindow.selective) {
+        return false;
+      }
+
+      return !this.newFileWindow.selective.isValid;
+    }
+  }, {
+    key: "handleFileNewSubmit",
+    value: function handleFileNewSubmit(evt) {
+      evt.stopPropagation();
+      var value = this.newFileWindow.selective.value;
+      document.dispatchEvent(new CustomEvent('selective.path.template', {
+        detail: {
+          collectionPath: this.newFileWindow.newFileFolder,
+          fileName: value.fileName,
+          template: value.template
+        }
+      }));
+      this.newFileWindow.close();
+    }
+  }, {
+    key: "handleLoadPodPaths",
+    value: function handleLoadPodPaths(response) {
+      this._state.podPaths = response.pod_paths.sort().filter(this.filterFunc);
+      this.render();
+    }
+  }, {
+    key: "handleLoadRepo",
+    value: function handleLoadRepo(response) {
+      this._state.repo = response.repo;
+      this.render();
+    }
+  }, {
+    key: "handleLoadRoutes",
+    value: function handleLoadRoutes(response) {
+      this._state.routes = response.routes;
+      this.render();
+    }
+  }, {
+    key: "handleLoadTemplates",
+    value: function handleLoadTemplates(response) {
+      this._state.templates = response.templates;
+      this.render();
+    }
+  }, {
+    key: "handlePodChange",
+    value: function handlePodChange(response) {
+      this._state.pod = response.pod;
+      this.render();
+    }
+  }, {
+    key: "handlePodPathChange",
+    value: function handlePodPathChange(podPath) {
+      this._state.podPath = podPath;
+    }
+  }, {
+    key: "handleToggleMenu",
+    value: function handleToggleMenu(evt) {
+      this.menuWindow.toggle();
+    }
+  }, {
+    key: "handleToggleTree",
+    value: function handleToggleTree(evt) {
+      var target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'menu__tree__title');
+      var tree = target.dataset.tree;
+      var isOpen = !this._state.trees[tree].isOpen;
+      this._state.trees[tree].isOpen = isOpen;
+      this.storage.setItem("selective.menu.tree.".concat(tree, ".open"), isOpen);
+      this.render();
+    }
+  }, {
+    key: "handleWorkspaceNewCancel",
+    value: function handleWorkspaceNewCancel(evt) {
+      evt.stopPropagation();
+      this.newWorkspaceWindow.close();
+    }
+  }, {
+    key: "handleWorkspaceNewDisabled",
+    value: function handleWorkspaceNewDisabled() {
+      // Only do disabled when the selective for the window is defined.
+      if (!this.newWorkspaceWindow.selective) {
+        return false;
+      }
+
+      return !this.newWorkspaceWindow.selective.isValid;
+    }
+  }, {
+    key: "handleWorkspaceNewSubmit",
+    value: function handleWorkspaceNewSubmit(evt) {
+      evt.stopPropagation(); // Do not do anything when the form is invalid.
+
+      if (!this.newWorkspaceWindow.selective.isValid) {
+        return;
+      }
+
+      var value = this.newWorkspaceWindow.selective.value;
+      document.dispatchEvent(new CustomEvent('editor.workspace.new', {
+        detail: {
+          base: value.base,
+          workspace: value.workspace
+        }
+      }));
+      this.newWorkspaceWindow.close();
+    }
+  }, {
+    key: "renderMenu",
+    value: function renderMenu(editor) {
+      var _this3 = this;
+
+      // Always show the menu when there is not a pod path.
+      var hasPodPath = Boolean(editor.podPath && editor.podPath != '');
+
+      if (!hasPodPath) {
+        this.menuWindow.isOpen = true;
+      }
+
+      var isOpen = this.menuWindow.isOpen;
+
+      if (!this._state.pod) {
+        editor.loadPod();
+      }
+
+      if (isOpen) {
+        this.menuWindow.contentRenderFunc = function () {
+          return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject(), _this3._state.pod ? _this3._state.pod.title : '', _this3.handleToggleMenu.bind(_this3), _this3.config.enableMenuWorkspace ? _this3._workspaceMenu.template(editor, _this3._state, {
+            handleWorkspaceNewClick: function handleWorkspaceNewClick() {
+              _this3.newWorkspaceWindow.open();
+            }
+          }) : '', _this3._siteMenu.template(editor, _this3._state, {
+            handleToggleTree: _this3.handleToggleTree.bind(_this3)
+          }));
+        };
+      }
+
+      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject2(), this.menuWindow.template, this.copyFileWindow.template, this.deleteFileWindow.template, this.newFileWindow.template, this.newWorkspaceWindow.template);
+    }
+  }, {
+    key: "renderMenuBar",
+    value: function renderMenuBar(editor) {
+      if (!this._state.pod) {
+        editor.loadPod();
+      }
+
+      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject3(), this.handleToggleMenu.bind(this), this._state.pod ? this._state.pod.title : '', this._repoMenu.template(editor, this._state, {}));
+    }
+  }, {
+    key: "template",
+    get: function get() {
+      var _this4 = this;
+
+      return function (editor) {
+        return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject4(), _this4.renderMenuBar(editor), _this4.renderMenu(editor));
       };
     }
+  }]);
 
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      ${this.menuWindow.template}
-      ${this.deleteFileWindow.template}
-      ${this.newFileWindow.template}
-      ${this.newWorkspaceWindow.template}`;
-  }
+  return Menu;
+}(_base__WEBPACK_IMPORTED_MODULE_4__["default"]);
 
-  renderMenuBar(editor) {
-    if (!this._state.pod) {
-      editor.loadPod();
-    }
 
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <div class="menu__bar">
-        <div class="menu__bar__section">
-          <div
-              class="menu__hamburger"
-              @click=${this.handleToggleMenu.bind(this)}
-              title="Open menu">
-            <i class="material-icons">menu</i>
-          </div>
-          <div class="menu__bar__title">
-            ${this._state.pod ? this._state.pod.title : ''}
-          </div>
-        </div>
-        <div class="menu__bar__section">
-          ${this._repoMenu.template(editor, this._state, {})}
-        </div>
-      </div>`;
-  }
-
-}
 
 /***/ }),
 
@@ -102467,6 +106587,60 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
 /* harmony import */ var _workspace__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./workspace */ "./source/editor/menu/workspace.js");
 /* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./base */ "./source/editor/menu/base.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _templateObject3() {
+  var data = _taggedTemplateLiteral(["<div class=\"menu__section\">\n      <div class=\"menu__repo\">\n        <div class=\"menu__repo__label\">\n          Workspace:\n        </div>\n        <div class=\"menu__repo__info\">\n          ", "\n        </div>\n      </div>\n    </div>"]);
+
+  _templateObject3 = function _templateObject3() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject2() {
+  var data = _taggedTemplateLiteral(["\n      <div class=\"menu__repo__workspace menu__repo__value\">\n        <a\n            class=\"menu__repo__workspace__branch\"\n            href=", "\n            target=\"_blank\">\n          ", "\n        </a>\n        @ <a\n            href=", "\n            target=\"_blank\">\n          ", "\n        </a>\n        by ", "\n        <span class=\"menu__repo__time\" title=\"", "\">\n          (", ")\n        </span>\n      </div>"]);
+
+  _templateObject2 = function _templateObject2() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["<a href=\"mailto:", "\">", "</a>"]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 /**
  * Content editor.
  */
@@ -102475,55 +106649,51 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class RepoMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
-  get template() {
-    return (editor, menuState, eventHandlers) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="menu__section">
-      <div class="menu__repo">
-        <div class="menu__repo__label">
-          Workspace:
-        </div>
-        <div class="menu__repo__info">
-          ${this.renderBranch(editor, menuState, eventHandlers)}
-        </div>
-      </div>
-    </div>`;
+
+var RepoMenu = /*#__PURE__*/function (_MenuBase) {
+  _inherits(RepoMenu, _MenuBase);
+
+  var _super = _createSuper(RepoMenu);
+
+  function RepoMenu() {
+    _classCallCheck(this, RepoMenu);
+
+    return _super.apply(this, arguments);
   }
 
-  renderBranch(editor, menuState, eventHandlers) {
-    editor.loadRepo();
-    let lastCommitAuthor = null;
-    let lastCommitDate = null;
+  _createClass(RepoMenu, [{
+    key: "renderBranch",
+    value: function renderBranch(editor, menuState, eventHandlers) {
+      editor.loadRepo();
+      var lastCommitAuthor = null;
+      var lastCommitDate = null;
 
-    if (menuState.repo) {
-      const lastCommit = menuState.repo.commits[0]; // Need to append the `Z` so that it knows there is no timezone offset.
+      if (menuState.repo) {
+        var lastCommit = menuState.repo.commits[0]; // Need to append the `Z` so that it knows there is no timezone offset.
 
-      lastCommitDate = moment__WEBPACK_IMPORTED_MODULE_1___default()(lastCommit.commit_date + 'Z', moment__WEBPACK_IMPORTED_MODULE_1___default.a.ISO_8601);
-      lastCommitAuthor = selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<a href="mailto:${lastCommit.author.email}">${lastCommit.author.name}</a>`;
-    } else {
-      return '…';
+        lastCommitDate = moment__WEBPACK_IMPORTED_MODULE_1___default()(lastCommit.commit_date + 'Z', moment__WEBPACK_IMPORTED_MODULE_1___default.a.ISO_8601);
+        lastCommitAuthor = Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject(), lastCommit.author.email, lastCommit.author.name);
+      } else {
+        return '…';
+      }
+
+      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject2(), menuState.repo.webUrlForBranch(menuState.repo, menuState.repo.branch), menuState.repo.cleanBranch(menuState.repo.branch), menuState.repo.webUrlForCommit(menuState.repo, menuState.repo.commits[0].sha), menuState.repo.commits[0].sha.substring(0, 6), lastCommitAuthor, lastCommitDate.format('D MMM YYYY, h:mm:ss a'), lastCommitDate.fromNow());
     }
+  }, {
+    key: "template",
+    get: function get() {
+      var _this = this;
 
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <div class="menu__repo__workspace menu__repo__value">
-        <a
-            class="menu__repo__workspace__branch"
-            href=${menuState.repo.webUrlForBranch(menuState.repo, menuState.repo.branch)}
-            target="_blank">
-          ${menuState.repo.cleanBranch(menuState.repo.branch)}
-        </a>
-        @ <a
-            href=${menuState.repo.webUrlForCommit(menuState.repo, menuState.repo.commits[0].sha)}
-            target="_blank">
-          ${menuState.repo.commits[0].sha.substring(0, 6)}
-        </a>
-        by ${lastCommitAuthor}
-        <span class="menu__repo__time" title="${lastCommitDate.format('D MMM YYYY, h:mm:ss a')}">
-          (${lastCommitDate.fromNow()})
-        </span>
-      </div>`;
-  }
+      return function (editor, menuState, eventHandlers) {
+        return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject3(), _this.renderBranch(editor, menuState, eventHandlers));
+      };
+    }
+  }]);
 
-}
+  return RepoMenu;
+}(_base__WEBPACK_IMPORTED_MODULE_4__["default"]);
+
+
 
 /***/ }),
 
@@ -102541,6 +106711,40 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
 /* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./base */ "./source/editor/menu/base.js");
 /* harmony import */ var _tree__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./tree */ "./source/editor/menu/tree.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["\n      <div class=\"menu__section\">\n        <div class=\"menu__section__title\">\n          Site\n        </div>\n        ", "\n      </div>"]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 /**
  * Content editor.
  */
@@ -102548,36 +106752,52 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class SiteMenu extends _base__WEBPACK_IMPORTED_MODULE_2__["default"] {
-  constructor(config) {
-    super(config);
-    this._treeMenu = new _tree__WEBPACK_IMPORTED_MODULE_3__["default"]({
-      deleteFileModal: this.config.get('deleteFileModal'),
-      newFileModal: this.config.get('newFileModal'),
-      testing: this.isTesting
+
+var SiteMenu = /*#__PURE__*/function (_MenuBase) {
+  _inherits(SiteMenu, _MenuBase);
+
+  var _super = _createSuper(SiteMenu);
+
+  function SiteMenu(config) {
+    var _this;
+
+    _classCallCheck(this, SiteMenu);
+
+    _this = _super.call(this, config);
+    _this._treeMenu = new _tree__WEBPACK_IMPORTED_MODULE_3__["default"]({
+      copyFileModal: _this.config.get('copyFileModal'),
+      deleteFileModal: _this.config.get('deleteFileModal'),
+      newFileModal: _this.config.get('newFileModal'),
+      testing: _this.isTesting
     });
+    return _this;
   }
 
-  get template() {
-    return (editor, menuState, eventHandlers) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <div class="menu__section">
-        <div class="menu__section__title">
-          Site
-        </div>
-        ${this._treeMenu.template(editor, menuState, eventHandlers)}
-      </div>`;
-  }
+  _createClass(SiteMenu, [{
+    key: "renderSiteTitle",
+    value: function renderSiteTitle(editor, menuState, eventHandlers) {
+      if (!menuState.pod) {
+        editor.loadPod();
+        return '…';
+      }
 
-  renderSiteTitle(editor, menuState, eventHandlers) {
-    if (!menuState.pod) {
-      editor.loadPod();
-      return '…';
+      return menuState.pod.title;
     }
+  }, {
+    key: "template",
+    get: function get() {
+      var _this2 = this;
 
-    return menuState.pod.title;
-  }
+      return function (editor, menuState, eventHandlers) {
+        return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject(), _this2._treeMenu.template(editor, menuState, eventHandlers));
+      };
+    }
+  }]);
 
-}
+  return SiteMenu;
+}(_base__WEBPACK_IMPORTED_MODULE_2__["default"]);
+
+
 
 /***/ }),
 
@@ -102597,6 +106817,66 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utility_uuid__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utility/uuid */ "./source/utility/uuid.js");
 /* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./base */ "./source/editor/menu/base.js");
 /* harmony import */ var _folderStructure__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./folderStructure */ "./source/editor/menu/folderStructure.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _templateObject3() {
+  var data = _taggedTemplateLiteral(["\n      ", ""]);
+
+  _templateObject3 = function _templateObject3() {
+    return data;
+  };
+
+  return data;
+}
+
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _templateObject2() {
+  var data = _taggedTemplateLiteral(["<div class=\"editor__loading editor__loading--small\" title=\"Loading...\"></div>"]);
+
+  _templateObject2 = function _templateObject2() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["Are you sure you want to delete the page at <strong>", "</strong>?"]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 /**
  * Content editor.
  */
@@ -102606,166 +106886,213 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class SiteTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
-  constructor(config) {
-    super(config);
-    this.podPath = null;
-    this.path = null;
-    this.expandedFolders = [];
-    this.filterFunc = this.config.get('filterFunc') || Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createWhiteBlackFilter"])([/\/content\//, /\/podspec.yaml/], // Whitelist.
+
+var SiteTreeMenu = /*#__PURE__*/function (_MenuBase) {
+  _inherits(SiteTreeMenu, _MenuBase);
+
+  var _super = _createSuper(SiteTreeMenu);
+
+  function SiteTreeMenu(config) {
+    var _this;
+
+    _classCallCheck(this, SiteTreeMenu);
+
+    _this = _super.call(this, config);
+    _this.podPath = null;
+    _this.path = null;
+    _this.expandedFolders = [];
+    _this.filterFunc = _this.config.get('filterFunc') || Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createWhiteBlackFilter"])([/\/content\//, /\/podspec.yaml/], // Whitelist.
     [] // Blacklist.
     );
-    this.deleteFileWindow = this.config.get('deleteFileModal');
+    _this.copyFileWindow = _this.config.get('copyFileModal');
+    _this.deleteFileWindow = _this.config.get('deleteFileModal');
+    return _this;
   }
 
-  get template() {
-    return (editor, menuState, eventHandlers) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      ${this.renderTree(editor, menuState, eventHandlers)}`;
-  }
+  _createClass(SiteTreeMenu, [{
+    key: "_addPodPathFolderAsExpanded",
+    value: function _addPodPathFolderAsExpanded(podPath, routes) {
+      var path = null;
 
-  _addPodPathFolderAsExpanded(podPath, routes) {
-    let path = null;
+      for (var _i = 0, _Object$keys = Object.keys(routes); _i < _Object$keys.length; _i++) {
+        var servingPath = _Object$keys[_i];
 
-    for (const servingPath of Object.keys(routes)) {
-      if (routes[servingPath].pod_path == podPath) {
-        path = servingPath;
-        break;
-      }
-    }
-
-    if (!path) {
-      return;
-    }
-
-    this.path = path;
-
-    if (path.endsWith('/')) {
-      path = path.slice(0, -1);
-    }
-
-    let pathParts = path.split('/');
-    pathParts.pop();
-    const pathFolder = pathParts.join('/');
-
-    if (!this.expandedFolders.includes(pathFolder)) {
-      this.expandedFolders.push(pathFolder);
-    }
-  }
-
-  handleFileClick(evt) {
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'menu__tree__folder__file');
-    const podPath = target.dataset.podPath;
-    document.dispatchEvent(new CustomEvent('selective.path.update', {
-      detail: {
-        path: podPath
-      }
-    }));
-  }
-
-  handleFileCopyClick(evt) {
-    evt.stopPropagation();
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'menu__tree__folder__file');
-    const podPath = target.dataset.podPath;
-    console.log('copy: ', podPath);
-    document.dispatchEvent(new CustomEvent('selective.path.copy', {
-      detail: {
-        path: podPath
-      }
-    }));
-  }
-
-  handleFileDeleteClick(evt) {
-    evt.stopPropagation();
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'menu__tree__folder__file');
-    const podPath = target.dataset.podPath;
-    this.deleteFileWindow.podPath = podPath;
-
-    this.deleteFileWindow.contentRenderFunc = () => {
-      return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`Are you sure you want to delete the page at <strong>${podPath}</strong>?`;
-    };
-
-    this.deleteFileWindow.open();
-  }
-
-  handleFolderToggle(evt) {
-    const target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'menu__tree__folder__directory');
-    const folder = target.dataset.folder;
-
-    if (this.expandedFolders.includes(folder)) {
-      this.expandedFolders = this.expandedFolders.filter(item => item !== folder);
-    } else {
-      this.expandedFolders.push(folder);
-    }
-
-    evt.preventDefault();
-    evt.stopPropagation();
-    this.render();
-  }
-
-  renderTree(editor, menuState, eventHandlers) {
-    if (!menuState.routes) {
-      // Editor handles multiple call resolution.
-      editor.loadRoutes();
-      return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="editor__loading editor__loading--small" title="Loading..."></div>`;
-    } // Pod path has changed, make sure that the pod path folder is
-    // expanded by default. Can still be toggled by clicking folder.
-
-
-    if (menuState.podPath && this.podPath != menuState.podPath) {
-      this.podPath = menuState.podPath;
-
-      this._addPodPathFolderAsExpanded(this.podPath, menuState.routes);
-    }
-
-    let validPodPaths = [];
-
-    for (const path of Object.keys(menuState.routes).sort()) {
-      const podPath = menuState.routes[path].pod_path;
-      validPodPaths.push(podPath);
-    }
-
-    validPodPaths = validPodPaths.filter(this.filterFunc);
-    const paths = [];
-
-    for (const path of Object.keys(menuState.routes).sort()) {
-      if (!validPodPaths.includes(menuState.routes[path].pod_path)) {
-        continue;
+        if (routes[servingPath].pod_path == podPath) {
+          path = servingPath;
+          break;
+        }
       }
 
-      if (path != '/' && path.endsWith('/')) {
-        paths.push(path.slice(0, -1));
+      if (!path) {
+        return;
+      }
+
+      this.path = path;
+
+      if (path.endsWith('/')) {
+        path = path.slice(0, -1);
+      }
+
+      var pathParts = path.split('/');
+      pathParts.pop();
+      var pathFolder = pathParts.join('/');
+
+      if (!this.expandedFolders.includes(pathFolder)) {
+        this.expandedFolders.push(pathFolder);
+      }
+    }
+  }, {
+    key: "handleFileClick",
+    value: function handleFileClick(evt) {
+      var target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'menu__tree__folder__file');
+      var podPath = target.dataset.podPath;
+      document.dispatchEvent(new CustomEvent('selective.path.update', {
+        detail: {
+          path: podPath
+        }
+      }));
+    }
+  }, {
+    key: "handleFileCopyClick",
+    value: function handleFileCopyClick(evt) {
+      evt.stopPropagation();
+      var target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'menu__tree__folder__file');
+      var podPath = target.dataset.podPath;
+      this.copyFileWindow.podPath = podPath;
+      this.copyFileWindow.open();
+    }
+  }, {
+    key: "handleFileDeleteClick",
+    value: function handleFileDeleteClick(evt) {
+      evt.stopPropagation();
+      var target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'menu__tree__folder__file');
+      var podPath = target.dataset.podPath;
+      this.deleteFileWindow.podPath = podPath;
+
+      this.deleteFileWindow.contentRenderFunc = function () {
+        return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject(), podPath);
+      };
+
+      this.deleteFileWindow.open();
+    }
+  }, {
+    key: "handleFolderToggle",
+    value: function handleFolderToggle(evt) {
+      var target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'menu__tree__folder__directory');
+      var folder = target.dataset.folder;
+
+      if (this.expandedFolders.includes(folder)) {
+        this.expandedFolders = this.expandedFolders.filter(function (item) {
+          return item !== folder;
+        });
       } else {
-        paths.push(path);
+        this.expandedFolders.push(folder);
       }
+
+      evt.preventDefault();
+      evt.stopPropagation();
+      this.render();
     }
+  }, {
+    key: "renderTree",
+    value: function renderTree(editor, menuState, eventHandlers) {
+      if (!menuState.routes) {
+        // Editor handles multiple call resolution.
+        editor.loadRoutes();
+        return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject2());
+      } // Pod path has changed, make sure that the pod path folder is
+      // expanded by default. Can still be toggled by clicking folder.
 
-    const folderStructure = new _folderStructure__WEBPACK_IMPORTED_MODULE_5__["default"](paths, {}, '/');
 
-    const lookupFunc = path => {
-      if (menuState.routes[path]) {
-        return menuState.routes[path].pod_path;
-      } else if (menuState.routes[`${path}/`]) {
-        return menuState.routes[`${path}/`].pod_path;
+      if (menuState.podPath && this.podPath != menuState.podPath) {
+        this.podPath = menuState.podPath;
+
+        this._addPodPathFolderAsExpanded(this.podPath, menuState.routes);
       }
 
-      return null;
-    };
+      var validPodPaths = [];
 
-    return folderStructure.render(this.path, this.expandedFolders, {
-      handleFolderToggle: this.handleFolderToggle.bind(this),
-      handleFileClick: this.handleFileClick.bind(this),
-      handleFileCopyClick: this.handleFileCopyClick.bind(this),
-      handleFileDeleteClick: this.handleFileDeleteClick.bind(this)
-    }, 0, // Threshold
-    lookupFunc, {
-      // features
-      'allowDeleteFile': false,
-      'allowDuplicateFile': false,
-      'allowNewFile': false
-    });
-  }
+      var _iterator = _createForOfIteratorHelper(Object.keys(menuState.routes).sort()),
+          _step;
 
-}
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var path = _step.value;
+          var podPath = menuState.routes[path].pod_path;
+          validPodPaths.push(podPath);
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+
+      validPodPaths = validPodPaths.filter(this.filterFunc);
+      var paths = [];
+
+      var _iterator2 = _createForOfIteratorHelper(Object.keys(menuState.routes).sort()),
+          _step2;
+
+      try {
+        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+          var _path = _step2.value;
+
+          if (!validPodPaths.includes(menuState.routes[_path].pod_path)) {
+            continue;
+          }
+
+          if (_path != '/' && _path.endsWith('/')) {
+            paths.push(_path.slice(0, -1));
+          } else {
+            paths.push(_path);
+          }
+        }
+      } catch (err) {
+        _iterator2.e(err);
+      } finally {
+        _iterator2.f();
+      }
+
+      var folderStructure = new _folderStructure__WEBPACK_IMPORTED_MODULE_5__["default"](paths, {}, '/');
+
+      var lookupFunc = function lookupFunc(path) {
+        if (menuState.routes[path]) {
+          return menuState.routes[path].pod_path;
+        } else if (menuState.routes["".concat(path, "/")]) {
+          return menuState.routes["".concat(path, "/")].pod_path;
+        }
+
+        return null;
+      };
+
+      return folderStructure.render(this.path, this.expandedFolders, {
+        handleFolderToggle: this.handleFolderToggle.bind(this),
+        handleFileClick: this.handleFileClick.bind(this),
+        handleFileCopyClick: this.handleFileCopyClick.bind(this),
+        handleFileDeleteClick: this.handleFileDeleteClick.bind(this)
+      }, 0, // Threshold
+      lookupFunc, {
+        // features
+        'allowDeleteFile': false,
+        'allowDuplicateFile': false,
+        'allowNewFile': false
+      });
+    }
+  }, {
+    key: "template",
+    get: function get() {
+      var _this2 = this;
+
+      return function (editor, menuState, eventHandlers) {
+        return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject3(), _this2.renderTree(editor, menuState, eventHandlers));
+      };
+    }
+  }]);
+
+  return SiteTreeMenu;
+}(_base__WEBPACK_IMPORTED_MODULE_4__["default"]);
+
+
 
 /***/ }),
 
@@ -102784,6 +107111,50 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./base */ "./source/editor/menu/base.js");
 /* harmony import */ var _filetree__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./filetree */ "./source/editor/menu/filetree.js");
 /* harmony import */ var _sitetree__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./sitetree */ "./source/editor/menu/sitetree.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _templateObject2() {
+  var data = _taggedTemplateLiteral(["\n      ", ""]);
+
+  _templateObject2 = function _templateObject2() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["\n      <div class=\"menu__trees\">\n        <div class=\"menu__tree\">\n          <div\n              class=\"menu__tree__title\"\n              data-tree=\"file\"\n              @click=", ">\n            <i class=\"material-icons\">", "</i>\n            Collections\n          </div>\n          <div class=\"menu__tree__tree\" data-tree=\"file\">\n            ", "\n          </div>\n        </div>\n        <div class=\"menu__tree\">\n          <div\n              class=\"menu__tree__title\"\n              data-tree=\"site\"\n              @click=", ">\n            <i class=\"material-icons\">", "</i>\n            Sitemap\n          </div>\n          <div class=\"menu__tree__tree\" data-tree=\"site\">\n            ", "\n          </div>\n        </div>\n      </div>"]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 /**
  * Content editor.
  */
@@ -102792,62 +107163,59 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class TreeMenu extends _base__WEBPACK_IMPORTED_MODULE_2__["default"] {
-  constructor(config) {
-    super(config);
-    this._fileTreeMenu = new _filetree__WEBPACK_IMPORTED_MODULE_3__["default"]({
-      deleteFileModal: this.config.get('deleteFileModal'),
-      newFileModal: this.config.get('newFileModal'),
-      testing: this.isTesting
+
+var TreeMenu = /*#__PURE__*/function (_MenuBase) {
+  _inherits(TreeMenu, _MenuBase);
+
+  var _super = _createSuper(TreeMenu);
+
+  function TreeMenu(config) {
+    var _this;
+
+    _classCallCheck(this, TreeMenu);
+
+    _this = _super.call(this, config);
+    _this._fileTreeMenu = new _filetree__WEBPACK_IMPORTED_MODULE_3__["default"]({
+      copyFileModal: _this.config.get('copyFileModal'),
+      deleteFileModal: _this.config.get('deleteFileModal'),
+      newFileModal: _this.config.get('newFileModal'),
+      testing: _this.isTesting
     });
-    this._siteTreeMenu = new _sitetree__WEBPACK_IMPORTED_MODULE_4__["default"]({
-      deleteFileModal: this.config.get('deleteFileModal'),
-      newFileModal: this.config.get('newFileModal'),
-      testing: this.isTesting
+    _this._siteTreeMenu = new _sitetree__WEBPACK_IMPORTED_MODULE_4__["default"]({
+      copyFileModal: _this.config.get('copyFileModal'),
+      deleteFileModal: _this.config.get('deleteFileModal'),
+      newFileModal: _this.config.get('newFileModal'),
+      testing: _this.isTesting
     });
+    return _this;
   }
 
-  get template() {
-    return (editor, menuState, eventHandlers) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      ${this.renderTree(editor, menuState, eventHandlers)}`;
-  }
+  _createClass(TreeMenu, [{
+    key: "handleSubMenuSwitch",
+    value: function handleSubMenuSwitch(selected) {
+      this.selected = selected;
+      this.render();
+    }
+  }, {
+    key: "renderTree",
+    value: function renderTree(editor, menuState, eventHandlers) {
+      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject(), eventHandlers.handleToggleTree, menuState.trees.file.isOpen ? 'expand_more' : 'expand_less', menuState.trees.file.isOpen ? this._fileTreeMenu.template(editor, menuState, eventHandlers) : '', eventHandlers.handleToggleTree, menuState.trees.site.isOpen ? 'expand_more' : 'expand_less', menuState.trees.site.isOpen ? this._siteTreeMenu.template(editor, menuState, eventHandlers) : '');
+    }
+  }, {
+    key: "template",
+    get: function get() {
+      var _this2 = this;
 
-  handleSubMenuSwitch(selected) {
-    this.selected = selected;
-    this.render();
-  }
+      return function (editor, menuState, eventHandlers) {
+        return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject2(), _this2.renderTree(editor, menuState, eventHandlers));
+      };
+    }
+  }]);
 
-  renderTree(editor, menuState, eventHandlers) {
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <div class="menu__trees">
-        <div class="menu__tree">
-          <div
-              class="menu__tree__title"
-              data-tree="file"
-              @click=${eventHandlers.handleToggleTree}>
-            <i class="material-icons">${menuState.trees.file.isOpen ? 'expand_more' : 'expand_less'}</i>
-            Collections
-          </div>
-          <div class="menu__tree__tree" data-tree="file">
-            ${menuState.trees.file.isOpen ? this._fileTreeMenu.template(editor, menuState, eventHandlers) : ''}
-          </div>
-        </div>
-        <div class="menu__tree">
-          <div
-              class="menu__tree__title"
-              data-tree="site"
-              @click=${eventHandlers.handleToggleTree}>
-            <i class="material-icons">${menuState.trees.site.isOpen ? 'expand_more' : 'expand_less'}</i>
-            Sitemap
-          </div>
-          <div class="menu__tree__tree" data-tree="site">
-            ${menuState.trees.site.isOpen ? this._siteTreeMenu.template(editor, menuState, eventHandlers) : ''}
-          </div>
-        </div>
-      </div>`;
-  }
+  return TreeMenu;
+}(_base__WEBPACK_IMPORTED_MODULE_2__["default"]);
 
-}
+
 
 /***/ }),
 
@@ -102865,8 +107233,79 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return WorkspaceMenu; });
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
 /* harmony import */ var _field__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../field */ "./source/editor/field.js");
-/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
-/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./base */ "./source/editor/menu/base.js");
+/* harmony import */ var _validation__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../validation */ "./source/editor/validation.js");
+/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
+/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./base */ "./source/editor/menu/base.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _templateObject4() {
+  var data = _taggedTemplateLiteral(["\n      <div class=\"menu__section\">\n        <div class=\"menu__section__title\">\n          Workspaces\n        </div>\n\n        ", "\n      </div>"]);
+
+  _templateObject4 = function _templateObject4() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject3() {
+  var data = _taggedTemplateLiteral(["\n            <a\n                href=", "\n                class=\"menu__workspace__branch\">\n              <i\n                  class=\"material-icons icon\"\n                  title=\"", "\">\n                dashboard\n              </i>\n              <div class=\"menu__workspace__branch__label\">\n                ", "\n              </div>\n            </a>"]);
+
+  _templateObject3 = function _templateObject3() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject2() {
+  var data = _taggedTemplateLiteral(["<div class=\"menu__workspace\">\n        <div class=\"menu__workspace__add\">\n          <button class=\"editor__button editor__actions--add\" @click=", ">New workspace</button>\n        </div>\n        <div class=\"menu__workspace__branches\">\n          ", "\n        </div>\n      </div>"]);
+
+  _templateObject2 = function _templateObject2() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["<div class=\"editor__loading editor__loading--small\" title=\"Loading...\"></div>"]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 /**
  * Content editor.
  */
@@ -102875,145 +107314,191 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const SPECIAL_BRANCHES = ['master', 'staging', 'sandbox'];
-const WORKSPACE_BRANCH_PREFIX = 'workspace/';
-class WorkspaceMenu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
-  constructor(config) {
-    super(config);
-    this.modalWindow = this.config.get('newWorkspaceModal');
+
+var SPECIAL_BRANCHES = ['master', 'staging', 'sandbox'];
+var WORKSPACE_BRANCH_PREFIX = 'workspace/';
+
+var WorkspaceMenu = /*#__PURE__*/function (_MenuBase) {
+  _inherits(WorkspaceMenu, _MenuBase);
+
+  var _super = _createSuper(WorkspaceMenu);
+
+  function WorkspaceMenu(config) {
+    var _this;
+
+    _classCallCheck(this, WorkspaceMenu);
+
+    _this = _super.call(this, config);
+    _this.modalWindow = _this.config.get('newWorkspaceModal');
+    return _this;
   }
 
-  get template() {
-    return (editor, menuState, eventHandlers) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <div class="menu__section">
-        <div class="menu__section__title">
-          Workspaces
-        </div>
+  _createClass(WorkspaceMenu, [{
+    key: "_createSelective",
+    value: function _createSelective(branch, workspaces) {
+      // Selective editor for the form to add new workspace.
+      var newSelective = new selective_edit__WEBPACK_IMPORTED_MODULE_0__["default"](null);
+      newSelective.data = {
+        'base': branch
+      }; // Add the editor default field types.
 
-        ${this.renderWorkspace(editor, menuState, eventHandlers)}
-      </div>`;
-  }
+      newSelective.addFieldTypes(_field__WEBPACK_IMPORTED_MODULE_1__["defaultFields"]); // Add the editor default validation types.
 
-  _createSelective(workspaces) {
-    // Selective editor for the form to add new workspace.
-    const newSelective = new selective_edit__WEBPACK_IMPORTED_MODULE_0__["default"](null);
-    newSelective.data = {}; // Add the editor extension default field types.
+      newSelective.addRuleTypes(_validation__WEBPACK_IMPORTED_MODULE_2__["defaultValidationRules"]);
+      var options = [];
 
-    for (const key of Object.keys(_field__WEBPACK_IMPORTED_MODULE_1__["defaultFields"])) {
-      newSelective.addFieldType(key, _field__WEBPACK_IMPORTED_MODULE_1__["defaultFields"][key]);
-    }
+      var _iterator = _createForOfIteratorHelper(workspaces),
+          _step;
 
-    const options = [];
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var workspace = _step.value;
+          options.push({
+            'label': workspace,
+            'value': workspace
+          });
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
 
-    for (const workspace of workspaces) {
-      options.push({
-        'label': workspace,
-        'value': workspace
+      newSelective.addField({
+        'type': 'select',
+        'key': 'base',
+        'label': 'Parent workspace',
+        'help': 'Workspace to base the new workspace on.',
+        'options': options,
+        'validation': [{
+          'type': 'required',
+          'message': 'Parent workspace is required.'
+        }]
       });
+      newSelective.addField({
+        'type': 'text',
+        'key': 'workspace',
+        'label': 'New workspace name',
+        'help': 'Used for the workspace url and the git branch.',
+        'validation': [{
+          'type': 'required',
+          'message': 'Workspace name is required.'
+        }, {
+          'type': 'pattern',
+          'pattern': '^[a-z0-9-]*$',
+          'message': 'Workspace name can only contain lowercase alpha-numeric characters and - (dash).'
+        }, {
+          'type': 'match',
+          'excluded': {
+            'values': ['master', 'staging'],
+            'message': 'Workspace name cannot be "master" or "staging".'
+          }
+        }]
+      });
+      return newSelective;
     }
-
-    newSelective.addField({
-      'type': 'select',
-      'key': 'base',
-      'label': 'Parent workspace',
-      'help': 'Workspace to create the new workspace from.',
-      'options': options
-    });
-    newSelective.addField({
-      'type': 'text',
-      'key': 'workspace',
-      'label': 'New workspace name',
-      'help': 'Can only contain alpha-numeric characters and - (dash).'
-    });
-    return newSelective;
-  }
-
-  _getOrCreateSelective(workspaces) {
-    if (!this._selective) {
-      this._selective = this._createSelective(workspaces);
-    }
-
-    return this._selective;
-  }
-
-  filterBranches(branches) {
-    // Give order priority to the special branches.
-    const specialWorkspaces = [];
-    const branchWorkspaces = []; // Filter down to the workspace branches.
-
-    for (const branch of branches) {
-      if (SPECIAL_BRANCHES.includes(branch)) {
-        specialWorkspaces.push(branch);
-        continue;
+  }, {
+    key: "_getOrCreateSelective",
+    value: function _getOrCreateSelective(branch, workspaces) {
+      if (!this._selective) {
+        this._selective = this._createSelective(branch, workspaces);
       }
 
-      if (branch.startsWith(WORKSPACE_BRANCH_PREFIX)) {
-        branchWorkspaces.push(branch.slice(WORKSPACE_BRANCH_PREFIX.length));
-        continue;
+      return this._selective;
+    }
+  }, {
+    key: "filterBranches",
+    value: function filterBranches(branches) {
+      // Give order priority to the special branches.
+      var specialWorkspaces = [];
+      var branchWorkspaces = []; // Filter down to the workspace branches.
+
+      var _iterator2 = _createForOfIteratorHelper(branches),
+          _step2;
+
+      try {
+        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+          var branch = _step2.value;
+
+          if (SPECIAL_BRANCHES.includes(branch)) {
+            specialWorkspaces.push(branch);
+            continue;
+          }
+
+          if (branch.startsWith(WORKSPACE_BRANCH_PREFIX)) {
+            branchWorkspaces.push(branch.slice(WORKSPACE_BRANCH_PREFIX.length));
+            continue;
+          }
+        }
+      } catch (err) {
+        _iterator2.e(err);
+      } finally {
+        _iterator2.f();
       }
+
+      return specialWorkspaces.concat(branchWorkspaces.sort());
     }
+  }, {
+    key: "renderWorkspace",
+    value: function renderWorkspace(editor, menuState, eventHandlers) {
+      var _this2 = this;
 
-    return specialWorkspaces.concat(branchWorkspaces.sort());
-  }
+      editor.loadRepo();
 
-  renderWorkspace(editor, menuState, eventHandlers) {
-    editor.loadRepo();
+      if (!menuState.repo) {
+        return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject());
+      }
 
-    if (!menuState.repo) {
-      return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="editor__loading editor__loading--small" title="Loading..."></div>`;
+      var workspaces = this.filterBranches(menuState.repo.branches.sort());
+
+      if (this.modalWindow.isOpen) {
+        var newWorkspaceSelective = this._getOrCreateSelective(menuState.repo.branch, workspaces); // Store the selective editor for the new file for processing in the menu.
+
+
+        this.modalWindow.selective = newWorkspaceSelective;
+
+        this.modalWindow.canClickToCloseFunc = function () {
+          return newWorkspaceSelective.isClean;
+        };
+
+        this.modalWindow.contentRenderFunc = function () {
+          return newWorkspaceSelective.template(newWorkspaceSelective, newWorkspaceSelective.data);
+        };
+      }
+
+      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject2(), eventHandlers.handleWorkspaceNewClick, Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(workspaces, function (branch) {
+        return branch;
+      }, function (branch, index) {
+        return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject3(), _this2.urlForBranch(branch), branch, branch);
+      }));
     }
+  }, {
+    key: "urlForBranch",
+    value: function urlForBranch(branch) {
+      if (window.location.hostname == 'localhost') {
+        return '#';
+      }
 
-    const workspaces = this.filterBranches(menuState.repo.branches.sort());
+      var hostnameParts = window.location.hostname.split('.');
+      var baseDomain = hostnameParts.slice(1).join('.');
+      var project = hostnameParts[0].split('-')[0];
+      return "//".concat(project, "-").concat(branch, ".").concat(baseDomain).concat(window.location.pathname);
+    }
+  }, {
+    key: "template",
+    get: function get() {
+      var _this3 = this;
 
-    if (this.modalWindow.isOpen) {
-      const newWorkspaceSelective = this._getOrCreateSelective(workspaces); // Store the selective editor for the new file for processing in the menu.
-
-
-      this.modalWindow.selective = newWorkspaceSelective;
-
-      this.modalWindow.canClickToCloseFunc = () => {
-        return newWorkspaceSelective.isClean;
+      return function (editor, menuState, eventHandlers) {
+        return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject4(), _this3.renderWorkspace(editor, menuState, eventHandlers));
       };
-
-      this.modalWindow.contentRenderFunc = () => {
-        return newWorkspaceSelective.template(newWorkspaceSelective, newWorkspaceSelective.data);
-      };
     }
+  }]);
 
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="menu__workspace">
-        <div class="menu__workspace__add">
-          <button class="editor__button editor__actions--add" @click=${eventHandlers.handleWorkspaceNewClick}>New workspace</button>
-        </div>
-        <div class="menu__workspace__branches">
-          ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(workspaces, branch => branch, (branch, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-            <a
-                href=${this.urlForBranch(branch)}
-                class="menu__workspace__branch">
-              <i
-                  class="material-icons icon"
-                  title="${branch}">
-                dashboard
-              </i>
-              <div class="menu__workspace__branch__label">
-                ${branch}
-              </div>
-            </a>`)}
-        </div>
-      </div>`;
-  }
+  return WorkspaceMenu;
+}(_base__WEBPACK_IMPORTED_MODULE_4__["default"]);
 
-  urlForBranch(branch) {
-    if (window.location.hostname == 'localhost') {
-      return '#';
-    }
 
-    const hostnameParts = window.location.hostname.split('.');
-    const baseDomain = hostnameParts.slice(1).join('.');
-    const project = hostnameParts[0].split('-')[0];
-    return `//${project}-${branch}.${baseDomain}${window.location.pathname}`;
-  }
-
-}
 
 /***/ }),
 
@@ -103027,18 +107512,32 @@ class WorkspaceMenu extends _base__WEBPACK_IMPORTED_MODULE_3__["default"] {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return BasePart; });
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 /**
  * Base class for UI parts.
  */
-class BasePart {
-  constructor() {}
-
-  render() {
-    // Trigger a render event.
-    document.dispatchEvent(new CustomEvent('selective.render'));
+var BasePart = /*#__PURE__*/function () {
+  function BasePart() {
+    _classCallCheck(this, BasePart);
   }
 
-}
+  _createClass(BasePart, [{
+    key: "render",
+    value: function render() {
+      // Trigger a render event.
+      document.dispatchEvent(new CustomEvent('selective.render'));
+    }
+  }]);
+
+  return BasePart;
+}();
+
+
 
 /***/ }),
 
@@ -103059,6 +107558,74 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utility_defer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/defer */ "./source/utility/defer.js");
 /* harmony import */ var _utility_uuid__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utility/uuid */ "./source/utility/uuid.js");
 /* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./base */ "./source/editor/parts/base.js");
+function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
+
+function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _templateObject4() {
+  var data = _taggedTemplateLiteral(["<h2>", "</h2>"]);
+
+  _templateObject4 = function _templateObject4() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject3() {
+  var data = _taggedTemplateLiteral(["\n      <div class=", ">\n        <div\n            class=\"modal__wrapper\"\n            @click=", "\n            @keydown=", ">\n          <div class=\"modal__container\">\n            ", "\n            <div class=\"modal__content\">\n              ", "\n            </div>\n            <div class=\"modal__actions\">\n              ", "\n            </div>\n          </div>\n        </div>\n      </div>"]);
+
+  _templateObject3 = function _templateObject3() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject2() {
+  var data = _taggedTemplateLiteral(["\n      <button\n          class=\"editor__button ", "\"\n          @click=", "\n          ?disabled=", ">\n        ", "\n      </button>\n    "]);
+
+  _templateObject2 = function _templateObject2() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["", ""]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 /**
  * Utility for creating and controlling modal windows.
  */
@@ -103067,141 +107634,199 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class ModalWindow extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
-  constructor(title) {
-    super();
-    this.isOpen = false;
-    this.title = title;
 
-    this.contentRenderFunc = () => '';
+var disabledNoOp = function disabledNoOp() {
+  return false;
+};
 
-    this.clickToClose = true;
+var ModalWindow = /*#__PURE__*/function (_BasePart) {
+  _inherits(ModalWindow, _BasePart);
 
-    this.canClickToCloseFunc = () => this.clickToClose;
+  var _super = _createSuper(ModalWindow);
 
-    this.actions = [];
-  }
+  function ModalWindow(title) {
+    var _this;
 
-  get actionsTemplate() {
-    if (!this.actions.length) {
+    _classCallCheck(this, ModalWindow);
+
+    _this = _super.call(this);
+    _this.isOpen = false;
+    _this.title = title;
+
+    _this.contentRenderFunc = function () {
       return '';
+    };
+
+    _this.clickToClose = true;
+
+    _this.canClickToCloseFunc = function () {
+      return _this.clickToClose;
+    };
+
+    _this.actions = [];
+    return _this;
+  }
+
+  _createClass(ModalWindow, [{
+    key: "addAction",
+    value: function addAction(label, callback, isPrimary, isSecondary, callbackDisabled) {
+      var classes = [];
+
+      if (isPrimary) {
+        classes.push('editor__button--primary');
+      }
+
+      if (isSecondary) {
+        classes.push('editor__button--secondary');
+      }
+
+      this.actions.push({
+        uid: Object(_utility_uuid__WEBPACK_IMPORTED_MODULE_3__["default"])(),
+        label: label,
+        callback: callback,
+        callbackDisabled: callbackDisabled || disabledNoOp,
+        classes: classes,
+        isPrimary: isPrimary,
+        isSecondary: isSecondary
+      });
     }
-
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(this.actions, action => action.uid, (action, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <button
-          class="editor__button ${action.classes}"
-          @click=${action.callback}>
-        ${action.label}
-      </button>
-    `)}`;
-  }
-
-  get classesMain() {
-    return ['modal'];
-  }
-
-  get template() {
-    if (!this.isOpen) {
-      return '';
+  }, {
+    key: "close",
+    value: function close() {
+      this.isOpen = false;
+      this.render();
     }
+  }, {
+    key: "handleOffsetClick",
+    value: function handleOffsetClick(evt) {
+      if (!this.canClickToCloseFunc()) {
+        return;
+      } // Test if the click was from within the content section.
 
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <div class=${this.classesMain}>
-        <div
-            class="modal__wrapper"
-            @click=${this.handleOffsetClick.bind(this)}>
-          <div class="modal__container">
-            ${this.title ? selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<h2>${this.title}</h2>` : ''}
-            <div class="modal__content">
-              ${this.contentRenderFunc()}
-            </div>
-            <div class="modal__actions">
-              ${this.actionsTemplate}
-            </div>
-          </div>
-        </div>
-      </div>`;
-  }
 
-  addAction(label, callback, isPrimary, isSecondary) {
-    const classes = [];
+      var contentParent = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'modal__container');
 
-    if (isPrimary) {
-      classes.push('editor__button--primary');
+      if (contentParent) {
+        return;
+      }
+
+      evt.preventDefault();
+      evt.stopPropagation();
+      this.close();
     }
+  }, {
+    key: "handleOffsetKeyboard",
+    value: function handleOffsetKeyboard(evt) {
+      if (!this.canClickToCloseFunc()) {
+        return;
+      } // Allow escaping out of modal.
 
-    if (isSecondary) {
-      classes.push('editor__button--secondary');
+
+      if (event.key == 'Escape') {
+        this.close();
+      }
     }
-
-    this.actions.push({
-      uid: Object(_utility_uuid__WEBPACK_IMPORTED_MODULE_3__["default"])(),
-      label: label,
-      callback: callback,
-      classes: classes,
-      isPrimary: isPrimary,
-      isSecondary: isSecondary
-    });
-  }
-
-  close() {
-    this.isOpen = false;
-    this.render();
-  }
-
-  handleOffsetClick(evt) {
-    if (!this.canClickToCloseFunc()) {
-      return;
-    } // Test if the click was from within the content section.
-
-
-    const contentParent = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'modal__container');
-
-    if (contentParent) {
-      return;
+  }, {
+    key: "open",
+    value: function open() {
+      this.isOpen = true;
+      this.render();
     }
+  }, {
+    key: "toggle",
+    value: function toggle() {
+      this.isOpen = !this.isOpen;
+      this.render();
+    }
+  }, {
+    key: "actionsTemplate",
+    get: function get() {
+      if (!this.actions.length) {
+        return '';
+      }
 
-    evt.preventDefault();
-    evt.stopPropagation();
-    this.close();
-  }
+      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject(), Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(this.actions, function (action) {
+        return action.uid;
+      }, function (action, index) {
+        return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject2(), action.classes, action.callback, action.callbackDisabled(), action.label);
+      }));
+    }
+  }, {
+    key: "classesMain",
+    get: function get() {
+      return ['modal'];
+    }
+  }, {
+    key: "template",
+    get: function get() {
+      if (!this.isOpen) {
+        return '';
+      }
 
-  open() {
-    this.isOpen = true;
-    this.render();
-  }
+      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject3(), this.classesMain, this.handleOffsetClick.bind(this), this.handleOffsetKeyboard.bind(this), this.title ? Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject4(), this.title) : '', this.contentRenderFunc(), this.actionsTemplate);
+    }
+  }]);
 
-  toggle() {
-    this.isOpen = !this.isOpen;
-    this.render();
-  }
+  return ModalWindow;
+}(_base__WEBPACK_IMPORTED_MODULE_4__["default"]);
 
-}
-class ConfirmWindow extends ModalWindow {
-  constructor(title, submitLabel, cancelLabel) {
-    super(title);
-    this.result = new _utility_defer__WEBPACK_IMPORTED_MODULE_2__["default"]();
-    this.addAction(submitLabel || 'Confirm', () => {
-      this.result.resolve();
+
+var ConfirmWindow = /*#__PURE__*/function (_ModalWindow) {
+  _inherits(ConfirmWindow, _ModalWindow);
+
+  var _super2 = _createSuper(ConfirmWindow);
+
+  function ConfirmWindow(title, submitLabel, cancelLabel) {
+    var _this2;
+
+    _classCallCheck(this, ConfirmWindow);
+
+    _this2 = _super2.call(this, title);
+    _this2.result = new _utility_defer__WEBPACK_IMPORTED_MODULE_2__["default"]();
+
+    _this2.addAction(submitLabel || 'Confirm', function () {
+      _this2.result.resolve();
     }, true);
-    this.addAction(cancelLabel || 'Cancel', () => {
-      this.result.reject();
+
+    _this2.addAction(cancelLabel || 'Cancel', function () {
+      _this2.result.reject();
     });
+
+    return _this2;
   }
 
-  get promise() {
-    return this.result.promise;
+  _createClass(ConfirmWindow, [{
+    key: "promise",
+    get: function get() {
+      return this.result.promise;
+    }
+  }]);
+
+  return ConfirmWindow;
+}(ModalWindow);
+var MenuWindow = /*#__PURE__*/function (_ModalWindow2) {
+  _inherits(MenuWindow, _ModalWindow2);
+
+  var _super3 = _createSuper(MenuWindow);
+
+  function MenuWindow() {
+    _classCallCheck(this, MenuWindow);
+
+    return _super3.apply(this, arguments);
   }
 
-}
-class MenuWindow extends ModalWindow {
-  get classesMain() {
-    const superClasses = super.classesMain;
-    superClasses.push('modal--menu');
-    return superClasses.join(' ');
-  }
+  _createClass(MenuWindow, [{
+    key: "classesMain",
+    get: function get() {
+      var superClasses = _get(_getPrototypeOf(MenuWindow.prototype), "classesMain", this);
 
-}
+      superClasses.push('modal--menu');
+      return superClasses.join(' ');
+    }
+  }]);
+
+  return MenuWindow;
+}(ModalWindow);
 
 /***/ }),
 
@@ -103216,27 +107841,42 @@ class MenuWindow extends ModalWindow {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ImageUploader; });
 /* harmony import */ var _utility_base64__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../utility/base64 */ "./source/utility/base64.js");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 // Adapted from github.com/quilljs/quill/issues/1089#issuecomment-614313509
 
-class ImageUploader {
-  constructor(uploadFunc) {
+
+var ImageUploader = /*#__PURE__*/function () {
+  function ImageUploader(uploadFunc) {
+    _classCallCheck(this, ImageUploader);
+
     this.uploadFunc = uploadFunc;
   }
 
-  uploadBase64(base64Str) {
-    if (typeof base64Str !== 'string' || base64Str.length < 100) {
-      return base64Str;
-    } // Convert into a blob.
+  _createClass(ImageUploader, [{
+    key: "uploadBase64",
+    value: function uploadBase64(base64Str) {
+      if (typeof base64Str !== 'string' || base64Str.length < 100) {
+        return base64Str;
+      } // Convert into a blob.
 
 
-    const block = base64Str.split(";");
-    const contentType = block[0].split(":")[1];
-    const imageData = block[1].split(",")[1];
-    const imageBlob = Object(_utility_base64__WEBPACK_IMPORTED_MODULE_0__["default"])(imageData, contentType);
-    return this.uploadFunc(imageBlob);
-  }
+      var block = base64Str.split(";");
+      var contentType = block[0].split(":")[1];
+      var imageData = block[1].split(",")[1];
+      var imageBlob = Object(_utility_base64__WEBPACK_IMPORTED_MODULE_0__["default"])(imageData, contentType);
+      return this.uploadFunc(imageBlob);
+    }
+  }]);
 
-}
+  return ImageUploader;
+}();
+
+
 
 /***/ }),
 
@@ -103252,76 +107892,61 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * Custom extension for external linking.
  */
-const ExternalLink = function (editor, preset) {
-  const className = 'tui-link';
-  const toolbar = editor.getUI().getToolbar();
-  const {
-    i18n
-  } = editor;
-  const EVENT_NAME = 'externalLinkButtonClicked';
-  const wwEditor = editor.wwEditor; // Register Event
+var ExternalLink = function ExternalLink(editor, preset) {
+  var className = 'tui-link';
+  var toolbar = editor.getUI().getToolbar();
+  var i18n = editor.i18n;
+  var EVENT_NAME = 'externalLinkButtonClicked';
+  var wwEditor = editor.wwEditor; // Register Event
 
   editor.eventManager.addEventType(EVENT_NAME); // Add Button to tool bar.
 
   toolbar.insertItem(16, {
     type: 'button',
     options: {
-      name,
-      className,
+      name: name,
+      className: className,
       event: EVENT_NAME,
       tooltip: 'External Link'
     }
   }); // Create popup.
 
-  const POPUP_CONTENT = `
-    <label for="url">${i18n.get('URL')}</label>
-    <input type="text" class="te-url-input"/>
-
-    <label for="linkText">${i18n.get('Link text')}</label>
-    <input type="text" class="te-link-text-input" />
-
-    <label for="target">
-      <input type="checkbox" name="target" class="te-link-target-external"> Open in new window?
-    </label>
-    <div class="te-button-section">
-      <button type="button" class="te-ok-button" style="width: 100px">${i18n.get('OK')}</button>
-      <button type="button" class="te-close-button" style="width: 100px">${i18n.get('Cancel')}</button>
-    </div>`;
-  const URL_REGEX = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})(\/([^\s]*))?$/;
-  const popupElement = document.createElement('DIV');
+  var POPUP_CONTENT = "\n    <label for=\"url\">".concat(i18n.get('URL'), "</label>\n    <input type=\"text\" class=\"te-url-input\"/>\n\n    <label for=\"linkText\">").concat(i18n.get('Link text'), "</label>\n    <input type=\"text\" class=\"te-link-text-input\" />\n\n    <label for=\"target\">\n      <input type=\"checkbox\" name=\"target\" class=\"te-link-target-external\"> Open in new window?\n    </label>\n    <div class=\"te-button-section\">\n      <button type=\"button\" class=\"te-ok-button\" style=\"width: 100px\">").concat(i18n.get('OK'), "</button>\n      <button type=\"button\" class=\"te-close-button\" style=\"width: 100px\">").concat(i18n.get('Cancel'), "</button>\n    </div>");
+  var URL_REGEX = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})(\/([^\s]*))?$/;
+  var popupElement = document.createElement('DIV');
   popupElement.innerHTML = POPUP_CONTENT;
-  const popup = editor.getUI().createPopup({
+  var popup = editor.getUI().createPopup({
     header: true,
     title: "Insert Link",
     content: popupElement,
     className: 'te-popup-add-link tui-editor-popup',
     target: editor.getUI().getToolbar().el
   });
-  const inputUrlElement = popup.el.querySelector('.te-url-input');
-  const inputTextElement = popup.el.querySelector('.te-link-text-input');
-  const inputTargetElement = popup.el.querySelector('.te-link-target-external'); // Handle okay button
+  var inputUrlElement = popup.el.querySelector('.te-url-input');
+  var inputTextElement = popup.el.querySelector('.te-link-text-input');
+  var inputTargetElement = popup.el.querySelector('.te-link-target-external'); // Handle okay button
 
-  popup.el.querySelector('.te-ok-button').addEventListener('click', () => {
+  popup.el.querySelector('.te-ok-button').addEventListener('click', function () {
     wwEditor.editor.focus();
     wwEditor.editor.removeAllFormatting();
-    let link = `<a data-external="false" href="${inputUrlElement.value}">${inputTextElement.value}</a>`;
+    var link = "<a data-external=\"false\" href=\"".concat(inputUrlElement.value, "\">").concat(inputTextElement.value, "</a>");
 
     if (inputTargetElement.checked) {
-      link = `<a data-external="true" target="_blank" rel="noopener noreferrer" href="${inputUrlElement.value}">${inputTextElement.value}</a>`;
+      link = "<a data-external=\"true\" target=\"_blank\" rel=\"noopener noreferrer\" href=\"".concat(inputUrlElement.value, "\">").concat(inputTextElement.value, "</a>");
     }
 
-    const linkWrap = document.createElement('span');
+    var linkWrap = document.createElement('span');
     linkWrap.innerHTML = link;
     wwEditor.editor.replaceSelection('');
     wwEditor.editor.insertElement(linkWrap);
     popup.hide();
   }); // Hanlde close button
 
-  popup.el.querySelector('.te-close-button').addEventListener('click', () => {
+  popup.el.querySelector('.te-close-button').addEventListener('click', function () {
     popup.hide();
   }); // Handle Event.
 
-  editor.eventManager.listen(EVENT_NAME, () => {
+  editor.eventManager.listen(EVENT_NAME, function () {
     if (popup.isShow()) {
       popup.hide();
       return;
@@ -103333,7 +107958,7 @@ const ExternalLink = function (editor, preset) {
     inputUrlElement.value = '';
     inputTextElement.value = ''; // Initially populate input fields.
 
-    const selectedText = editor.getSelectedText().trim();
+    var selectedText = editor.getSelectedText().trim();
     inputTextElement.value = selectedText;
 
     if (URL_REGEX.exec(selectedText)) {
@@ -103342,10 +107967,10 @@ const ExternalLink = function (editor, preset) {
 
     inputUrlElement.focus();
   });
-  editor.eventManager.listen('closeAllPopup', () => {
+  editor.eventManager.listen('closeAllPopup', function () {
     popup.hide();
   });
-  editor.eventManager.listen('removeEditor', () => {
+  editor.eventManager.listen('removeEditor', function () {
     popup.remove();
   });
 };
@@ -103367,144 +107992,223 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
 /* harmony import */ var _utility_filter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/filter */ "./source/utility/filter.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _templateObject5() {
+  var data = _taggedTemplateLiteral(["<div class=\"selective__file_list\">\n      ", "\n      <div class=\"selective__file_list__list\" data-locale=", ">\n        <div class=\"editor__loading editor__loading--small editor__loading--pad\"></div>\n      </div>\n    </div>"]);
+
+  _templateObject5 = function _templateObject5() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject4() {
+  var data = _taggedTemplateLiteral(["\n          <div class=\"selective__file_list__file selective__file_list__file--empty\">\n            No matches found.\n          </div>"]);
+
+  _templateObject4 = function _templateObject4() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject3() {
+  var data = _taggedTemplateLiteral(["\n          <div\n              class=\"selective__file_list__file\"\n              data-pod-path=", "\n              @click=", ">\n            ", "\n          </div>\n        "]);
+
+  _templateObject3 = function _templateObject3() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject2() {
+  var data = _taggedTemplateLiteral(["<div class=\"selective__file_list\">\n      ", "\n      <div class=\"selective__file_list__list\" data-locale=", ">\n        ", "\n        ", "\n      </div>\n    </div>"]);
+
+  _templateObject2 = function _templateObject2() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["\n      <input\n        id=\"", "-filter\"\n        type=\"text\"\n        @input=", "\n        placeholder=\"Filter...\" />"]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 /**
  * UI elements for the working with files.
  */
 
 
 
-class FileListUI extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["UI"] {
-  constructor(config) {
-    super(config);
-    this.filterFunc = this.config.get('filterFunc') || Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createWhiteBlackFilter"])([], // Whitelist.
+var FileListUI = /*#__PURE__*/function (_UI) {
+  _inherits(FileListUI, _UI);
+
+  var _super = _createSuper(FileListUI);
+
+  function FileListUI(config) {
+    var _this;
+
+    _classCallCheck(this, FileListUI);
+
+    _this = _super.call(this, config);
+    _this.filterFunc = _this.config.get('filterFunc') || Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createWhiteBlackFilter"])([], // Whitelist.
     [] // Blacklist.
     );
-    this.podPaths = null;
-    this.filterValue = '';
-    this._listeningForPodPaths = false;
-    this.showFileList = false;
+    _this.podPaths = null;
+    _this.filterValue = '';
+    _this._listeningForPodPaths = false;
+    _this.showFileList = false;
+    return _this;
   }
 
-  bindListeners(selective) {
-    // Bind the field to the pod paths loading.
-    if (!this._listeningForPodPaths) {
-      this._listeningForPodPaths = true; // Check if the pod paths are already loaded.
+  _createClass(FileListUI, [{
+    key: "bindListeners",
+    value: function bindListeners(selective) {
+      // Bind the field to the pod paths loading.
+      if (!this._listeningForPodPaths) {
+        this._listeningForPodPaths = true; // Check if the pod paths are already loaded.
 
-      if (selective.editor._podPaths) {
-        this.handlePodPaths({
-          pod_paths: selective.editor._podPaths
-        });
-      } // Bind to the load event to listen for future changes to the pod paths.
+        if (selective.editor._podPaths) {
+          this.handlePodPaths({
+            pod_paths: selective.editor._podPaths
+          });
+        } // Bind to the load event to listen for future changes to the pod paths.
 
 
-      selective.editor.listeners.add('load.podPaths', this.handlePodPaths.bind(this));
+        selective.editor.listeners.add('load.podPaths', this.handlePodPaths.bind(this));
+      }
     }
-  }
+  }, {
+    key: "delayedFocus",
+    value: function delayedFocus() {
+      var _this2 = this;
 
-  delayedFocus() {
-    // Wait for the render then focus on the filter input.
-    document.addEventListener('selective.render.complete', () => {
-      Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["inputFocusAtEnd"])(`${this.uid}-filter`);
-    }, {
-      once: true
-    });
-  }
-
-  handleFileClick(evt) {
-    const localeTarget = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'selective__file_list__list');
-    const locale = localeTarget.dataset.locale;
-    const podPath = evt.target.dataset.podPath;
-    this.showFileList = false;
-    this.listeners.trigger('podPath', podPath, locale);
-  }
-
-  handleInputFilter(evt) {
-    this.filterValue = evt.target.value;
-    this.render();
-  }
-
-  handlePodPaths(response) {
-    this.podPaths = response.pod_paths.sort().filter(this.filterFunc);
-    this.delayedFocus();
-    this.render();
-  }
-
-  renderFilterInput(selective, data, locale) {
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <input
-        id="${this.uid}-filter"
-        type="text"
-        @input=${this.handleInputFilter.bind(this)}
-        placeholder="Filter..." />`;
-  }
-
-  renderFileList(selective, data, locale) {
-    this.bindListeners(selective);
-
-    if (!this.showFileList) {
-      return '';
-    } // If the pod paths have not loaded, show the loading status.
-
-
-    if (!this.podPaths) {
-      this.triggerLoad(selective);
-      return this.renderLoading(selective, data, locale);
+      // Wait for the render then focus on the filter input.
+      document.addEventListener('selective.render.complete', function () {
+        Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["inputFocusAtEnd"])("".concat(_this2.uid, "-filter"));
+      }, {
+        once: true
+      });
     }
-
-    return this.renderFiles(selective, data, locale);
-  }
-
-  renderFiles(selective, data, locale) {
-    let podPaths = this.podPaths; // Allow the current value to also filter the pod paths.
-
-    if (this.filterValue && this.filterValue != '') {
-      podPaths = podPaths.filter(Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createValueFilter"])(this.filterValue));
+  }, {
+    key: "handleFileClick",
+    value: function handleFileClick(evt) {
+      var localeTarget = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_1__["findParentByClassname"])(evt.target, 'selective__file_list__list');
+      var locale = localeTarget.dataset.locale;
+      var podPath = evt.target.dataset.podPath;
+      this.showFileList = false;
+      this.listeners.trigger('podPath', podPath, locale);
     }
-
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__file_list">
-      ${this.renderFilterInput(selective, data, locale)}
-      <div class="selective__file_list__list" data-locale=${locale || ''}>
-        ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(podPaths, podPath => podPath, (podPath, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-          <div
-              class="selective__file_list__file"
-              data-pod-path=${podPath}
-              @click=${this.handleFileClick.bind(this)}>
-            ${podPath}
-          </div>
-        `)}
-        ${podPaths.length == 0 ? selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-          <div class="selective__file_list__file selective__file_list__file--empty">
-            No matches found.
-          </div>` : ''}
-      </div>
-    </div>`;
-  }
-
-  renderLoading(selective, data, locale) {
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__file_list">
-      ${this.renderFilterInput(selective, data, locale)}
-      <div class="selective__file_list__list" data-locale=${locale || ''}>
-        <div class="editor__loading editor__loading--small editor__loading--pad"></div>
-      </div>
-    </div>`;
-  }
-
-  toggle() {
-    this.showFileList = !this.showFileList;
-
-    if (this.showFileList) {
+  }, {
+    key: "handleInputFilter",
+    value: function handleInputFilter(evt) {
+      this.filterValue = evt.target.value;
+      this.render();
+    }
+  }, {
+    key: "handlePodPaths",
+    value: function handlePodPaths(response) {
+      this.podPaths = response.pod_paths.sort().filter(this.filterFunc);
       this.delayedFocus();
+      this.render();
     }
+  }, {
+    key: "renderFilterInput",
+    value: function renderFilterInput(selective, data, locale) {
+      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject(), this.uid, this.handleInputFilter.bind(this));
+    }
+  }, {
+    key: "renderFileList",
+    value: function renderFileList(selective, data, locale) {
+      this.bindListeners(selective);
 
-    this.render();
-  }
+      if (!this.showFileList) {
+        return '';
+      } // If the pod paths have not loaded, show the loading status.
 
-  triggerLoad(selective) {
-    // Editor ensures it only loads once.
-    selective.editor.loadPodPaths();
-  }
 
-}
+      if (!this.podPaths) {
+        this.triggerLoad(selective);
+        return this.renderLoading(selective, data, locale);
+      }
+
+      return this.renderFiles(selective, data, locale);
+    }
+  }, {
+    key: "renderFiles",
+    value: function renderFiles(selective, data, locale) {
+      var _this3 = this;
+
+      var podPaths = this.podPaths; // Allow the current value to also filter the pod paths.
+
+      if (this.filterValue && this.filterValue != '') {
+        podPaths = podPaths.filter(Object(_utility_filter__WEBPACK_IMPORTED_MODULE_2__["createValueFilter"])(this.filterValue));
+      }
+
+      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject2(), this.renderFilterInput(selective, data, locale), locale || '', Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(podPaths, function (podPath) {
+        return podPath;
+      }, function (podPath, index) {
+        return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject3(), podPath, _this3.handleFileClick.bind(_this3), podPath);
+      }), podPaths.length == 0 ? Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject4()) : '');
+    }
+  }, {
+    key: "renderLoading",
+    value: function renderLoading(selective, data, locale) {
+      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject5(), this.renderFilterInput(selective, data, locale), locale || '');
+    }
+  }, {
+    key: "toggle",
+    value: function toggle() {
+      this.showFileList = !this.showFileList;
+
+      if (this.showFileList) {
+        this.delayedFocus();
+      }
+
+      this.render();
+    }
+  }, {
+    key: "triggerLoad",
+    value: function triggerLoad(selective) {
+      // Editor ensures it only loads once.
+      selective.editor.loadPodPaths();
+    }
+  }]);
+
+  return FileListUI;
+}(selective_edit__WEBPACK_IMPORTED_MODULE_0__["UI"]);
 
 /***/ }),
 
@@ -103524,6 +108228,90 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
 /* harmony import */ var _utility_filter__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../utility/filter */ "./source/utility/filter.js");
 /* harmony import */ var _ui_file__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../ui/file */ "./source/editor/ui/file.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _templateObject6() {
+  var data = _taggedTemplateLiteral(["\n        <div\n            class=\"selective__file_list__file\"\n            data-pod-path=", "\n            data-key=", "\n            @click=", ">\n          <div class=\"selective__file_list__file__key\">\n            ", "\n          </div>\n          <div class=\"selective__file_list__file__value\">\n            ", "\n          </div>\n        </div>"]);
+
+  _templateObject6 = function _templateObject6() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject5() {
+  var data = _taggedTemplateLiteral(["\n          ", "\n        "]);
+
+  _templateObject5 = function _templateObject5() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject4() {
+  var data = _taggedTemplateLiteral(["\n        ", ""]);
+
+  _templateObject4 = function _templateObject4() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject3() {
+  var data = _taggedTemplateLiteral(["\n          <div class=\"selective__file_list__file selective__file_list__file--empty\">\n            No matches found.\n          </div>"]);
+
+  _templateObject3 = function _templateObject3() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject2() {
+  var data = _taggedTemplateLiteral(["\n          <div\n              class=\"selective__file_list__group\">\n            ", "\n          </div>\n          ", "\n        "]);
+
+  _templateObject2 = function _templateObject2() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["<div class=\"selective__file_list\">\n      ", "\n      <div class=\"selective__file_list__list selective__file_list__list--grouped\" data-locale=", ">\n        ", "\n        ", "\n      </div>\n    </div>"]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 /**
  * UI elements for the working with string files.
  */
@@ -103533,147 +108321,175 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class StringListUI extends _ui_file__WEBPACK_IMPORTED_MODULE_5__["FileListUI"] {
-  constructor(config) {
-    super(config);
-    this._listeningForStrings = false;
+var StringListUI = /*#__PURE__*/function (_FileListUI) {
+  _inherits(StringListUI, _FileListUI);
+
+  var _super = _createSuper(StringListUI);
+
+  function StringListUI(config) {
+    var _this;
+
+    _classCallCheck(this, StringListUI);
+
+    _this = _super.call(this, config);
+    _this._listeningForStrings = false;
+    return _this;
   }
 
-  bindListeners(selective) {
-    // Bind the field to the pod paths loading.
-    if (!this._listeningForStrings) {
-      this._listeningForStrings = true; // Check if the pod paths are already loaded.
+  _createClass(StringListUI, [{
+    key: "bindListeners",
+    value: function bindListeners(selective) {
+      // Bind the field to the pod paths loading.
+      if (!this._listeningForStrings) {
+        this._listeningForStrings = true; // Check if the pod paths are already loaded.
 
-      if (selective.editor._strings) {
-        this.handleStrings({
-          strings: selective.editor._strings
-        });
-      } // Bind to the load event to listen for future changes to the strings.
+        if (selective.editor._strings) {
+          this.handleStrings({
+            strings: selective.editor._strings
+          });
+        } // Bind to the load event to listen for future changes to the strings.
 
 
-      selective.editor.listeners.add('load.strings', this.handleStrings.bind(this));
+        selective.editor.listeners.add('load.strings', this.handleStrings.bind(this));
+      }
     }
-  }
-
-  handleFileClick(evt) {
-    const localeTarget = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_3__["findParentByClassname"])(evt.target, 'selective__file_list__list');
-    const dataTarget = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_3__["findParentByClassname"])(evt.target, 'selective__file_list__file');
-    const locale = localeTarget.dataset.locale;
-    const podPath = dataTarget.dataset.podPath;
-    const key = dataTarget.dataset.key;
-    const filename = podPath.split('/').pop();
-    const filebase = filename.replace(/.y[a]?ml$/i, '');
-    const reference = `${filebase}.${key}`;
-    this.showFileList = false;
-    this.listeners.trigger('podPath', reference, locale);
-  }
-
-  handleStrings(response) {
-    this.podPaths = response.strings; // TODO: filter the keys using the filter function.
-    // .sort().filter(this.filterFunc)
-
-    this.delayedFocus();
-    this.render();
-  }
-
-  isValueValidReference(reference) {
-    return Boolean(this.valueFromReference(reference));
-  }
-
-  _partsFromReference(reference) {
-    if (!reference || !this.podPaths) {
-      return null;
+  }, {
+    key: "handleFileClick",
+    value: function handleFileClick(evt) {
+      var localeTarget = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_3__["findParentByClassname"])(evt.target, 'selective__file_list__list');
+      var dataTarget = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_3__["findParentByClassname"])(evt.target, 'selective__file_list__file');
+      var locale = localeTarget.dataset.locale;
+      var podPath = dataTarget.dataset.podPath;
+      var key = dataTarget.dataset.key;
+      var filename = podPath.split('/').pop();
+      var filebase = filename.replace(/.y[a]?ml$/i, '');
+      var reference = "".concat(filebase, ".").concat(key);
+      this.showFileList = false;
+      this.listeners.trigger('podPath', reference, locale);
     }
+  }, {
+    key: "handleStrings",
+    value: function handleStrings(response) {
+      this.podPaths = response.strings; // TODO: filter the keys using the filter function.
+      // .sort().filter(this.filterFunc)
 
-    const referenceParts = reference.split('.'); // String references need at least 2 parts: filebase and key.
-
-    if (referenceParts.length < 2) {
-      return null;
+      this.delayedFocus();
+      this.render();
     }
-
-    const filebase = referenceParts.shift();
-    const podPath = `/content/strings/${filebase}.yaml`;
-    return {
-      'podPath': podPath,
-      'reference': referenceParts.join('.')
-    };
-  }
-
-  renderFiles(selective, data, locale) {
-    let podPaths = this.podPaths; // Filter the pod paths information to filter by value in the keys and value.
-
-    if (this.filterValue && this.filterValue != '') {
-      podPaths = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_4__["filterObject"])(podPaths, Object(_utility_filter__WEBPACK_IMPORTED_MODULE_4__["createValueFilter"])(this.filterValue), true) || {};
+  }, {
+    key: "isValueValidReference",
+    value: function isValueValidReference(reference) {
+      return Boolean(this.valueFromReference(reference));
     }
+  }, {
+    key: "_partsFromReference",
+    value: function _partsFromReference(reference) {
+      if (!reference || !this.podPaths) {
+        return null;
+      }
 
-    return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="selective__file_list">
-      ${this.renderFilterInput(selective, data, locale)}
-      <div class="selective__file_list__list selective__file_list__list--grouped" data-locale=${locale || ''}>
-        ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(Object.keys(podPaths), podPath => podPath, (podPath, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-          <div
-              class="selective__file_list__group">
-            ${podPath}
-          </div>
-          ${this.renderStringsDeep(selective, podPath, podPaths[podPath])}
-        `)}
-        ${Object.keys(podPaths).length == 0 ? selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-          <div class="selective__file_list__file selective__file_list__file--empty">
-            No matches found.
-          </div>` : ''}
-      </div>
-    </div>`;
-  }
+      var referenceParts = reference.split('.'); // String references need at least 2 parts: filebase and key.
 
-  renderStringsDeep(selective, podPath, value, keys) {
-    keys = keys || [];
+      if (referenceParts.length < 2) {
+        return null;
+      }
 
-    if (_utility_dataType__WEBPACK_IMPORTED_MODULE_1__["default"].isObject(value)) {
-      return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-        ${Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(Object.keys(value).sort(), key => keys.concat([key]).join('_'), (key, index) => selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-          ${this.renderStringsDeep(selective, podPath, value[key], keys.concat([key]))}
-        `)}`;
-    } else {
-      return selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"]`
-        <div
-            class="selective__file_list__file"
-            data-pod-path=${podPath}
-            data-key=${keys.join('.')}
-            @click=${this.handleFileClick.bind(this)}>
-          <div class="selective__file_list__file__key">
-            ${keys.join('.')}
-          </div>
-          <div class="selective__file_list__file__value">
-            ${value}
-          </div>
-        </div>`;
+      var filebase = referenceParts.shift();
+      var podPath = "/content/strings/".concat(filebase, ".yaml");
+      return {
+        'podPath': podPath,
+        'reference': referenceParts.join('.')
+      };
     }
-  }
+  }, {
+    key: "renderFiles",
+    value: function renderFiles(selective, data, locale) {
+      var _this2 = this;
 
-  triggerLoad(selective) {
-    // Editor ensures it only loads once.
-    selective.editor.loadStrings();
-  }
+      var podPaths = this.podPaths; // Filter the pod paths information to filter by value in the keys and value.
 
-  valueFromReference(reference) {
-    if (!this.podPaths) {
-      return null;
+      if (this.filterValue && this.filterValue != '') {
+        podPaths = Object(_utility_filter__WEBPACK_IMPORTED_MODULE_4__["filterObject"])(podPaths, Object(_utility_filter__WEBPACK_IMPORTED_MODULE_4__["createValueFilter"])(this.filterValue), true) || {};
+      }
+
+      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject(), this.renderFilterInput(selective, data, locale), locale || '', Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(Object.keys(podPaths), function (podPath) {
+        return podPath;
+      }, function (podPath, index) {
+        return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject2(), podPath, _this2.renderStringsDeep(selective, podPath, podPaths[podPath]));
+      }), Object.keys(podPaths).length == 0 ? Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject3()) : '');
     }
+  }, {
+    key: "renderStringsDeep",
+    value: function renderStringsDeep(selective, podPath, value, keys) {
+      var _this3 = this;
 
-    const parts = this._partsFromReference(reference);
+      keys = keys || [];
 
-    if (!parts) {
-      return null;
+      if (_utility_dataType__WEBPACK_IMPORTED_MODULE_1__["default"].isObject(value)) {
+        return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject4(), Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(Object.keys(value).sort(), function (key) {
+          return keys.concat([key]).join('_');
+        }, function (key, index) {
+          return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject5(), _this3.renderStringsDeep(selective, podPath, value[key], keys.concat([key])));
+        }));
+      } else {
+        return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject6(), podPath, keys.join('.'), this.handleFileClick.bind(this), keys.join('.'), value);
+      }
     }
-
-    if (!this.podPaths[parts.podPath]) {
-      return null;
+  }, {
+    key: "triggerLoad",
+    value: function triggerLoad(selective) {
+      // Editor ensures it only loads once.
+      selective.editor.loadStrings();
     }
+  }, {
+    key: "valueFromReference",
+    value: function valueFromReference(reference) {
+      if (!this.podPaths) {
+        return null;
+      }
 
-    const deepValue = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_2__["autoDeepObject"])(this.podPaths[parts.podPath]);
-    return deepValue.get(parts.reference);
-  }
+      var parts = this._partsFromReference(reference);
 
-}
+      if (!parts) {
+        return null;
+      }
+
+      if (!this.podPaths[parts.podPath]) {
+        return null;
+      }
+
+      var deepValue = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_2__["autoDeepObject"])(this.podPaths[parts.podPath]);
+      return deepValue.get(parts.reference);
+    }
+  }]);
+
+  return StringListUI;
+}(_ui_file__WEBPACK_IMPORTED_MODULE_5__["FileListUI"]);
+
+/***/ }),
+
+/***/ "./source/editor/validation.js":
+/*!*************************************!*\
+  !*** ./source/editor/validation.js ***!
+  \*************************************/
+/*! exports provided: defaultValidationRules */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "defaultValidationRules", function() { return defaultValidationRules; });
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/**
+ * Field types for the editor extension.
+ */
+
+var defaultValidationRules = {
+  'length': selective_edit__WEBPACK_IMPORTED_MODULE_0__["LengthValidationRule"],
+  'match': selective_edit__WEBPACK_IMPORTED_MODULE_0__["MatchValidationRule"],
+  'pattern': selective_edit__WEBPACK_IMPORTED_MODULE_0__["PatternValidationRule"],
+  'range': selective_edit__WEBPACK_IMPORTED_MODULE_0__["RangeValidationRule"],
+  'required': selective_edit__WEBPACK_IMPORTED_MODULE_0__["RequiredValidationRule"]
+};
 
 /***/ }),
 
@@ -103687,29 +108503,29 @@ class StringListUI extends _ui_file__WEBPACK_IMPORTED_MODULE_5__["FileListUI"] {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "zoomIframe", function() { return zoomIframe; });
-const zoomIframe = (containerEl, iframeEl, isDeviceView, isRotated, device, containedClass) => {
+var zoomIframe = function zoomIframe(containerEl, iframeEl, isDeviceView, isRotated, device, containedClass) {
   if (!iframeEl) {
     return;
   } // Reset styling to grab correct container bounds.
 
 
   iframeEl.style.height = '100px';
-  iframeEl.style.transform = `scale(1)`;
+  iframeEl.style.transform = "scale(1)";
   iframeEl.style.width = '100px';
   containerEl.style.maxHeight = null;
   containerEl.style.maxWidth = null;
   containerEl.classList.remove(containedClass); // Default adjustments to reset the iframeEl.
 
-  let adjustHeight = 'auto';
-  let adjustMaxHeight = 'auto';
-  let adjustScale = 1;
-  let adjustWidth = 'auto';
+  var adjustHeight = 'auto';
+  var adjustMaxHeight = 'auto';
+  var adjustScale = 1;
+  var adjustWidth = 'auto';
 
   if (isDeviceView) {
-    const containerHeight = containerEl.offsetHeight;
-    const containerWidth = containerEl.offsetWidth;
-    let deviceHeight = device['height'];
-    let deviceWidth = device['width'];
+    var containerHeight = containerEl.offsetHeight;
+    var containerWidth = containerEl.offsetWidth;
+    var deviceHeight = device['height'];
+    var deviceWidth = device['width'];
 
     if (deviceWidth && deviceHeight) {
       containerEl.classList.add(containedClass); // Adjust for rotated device.
@@ -103717,8 +108533,8 @@ const zoomIframe = (containerEl, iframeEl, isDeviceView, isRotated, device, cont
       deviceHeight = isRotated ? device['width'] : device['height'];
       deviceWidth = isRotated ? device['height'] : device['width']; // Constant ratio.
 
-      const fitsWidth = deviceWidth <= containerWidth;
-      const fitsHeight = deviceHeight <= containerHeight;
+      var fitsWidth = deviceWidth <= containerWidth;
+      var fitsHeight = deviceHeight <= containerHeight;
 
       if (fitsWidth && fitsHeight) {
         // No need to do scaling, just adjust the size of the iframe.
@@ -103740,9 +108556,9 @@ const zoomIframe = (containerEl, iframeEl, isDeviceView, isRotated, device, cont
       }
     } else if (deviceWidth) {
       // Scale width and auto adjust height.
-      const fitsWidth = deviceWidth <= containerWidth;
+      var _fitsWidth = deviceWidth <= containerWidth;
 
-      if (fitsWidth) {
+      if (_fitsWidth) {
         containerEl.classList.add(containedClass);
         adjustWidth = deviceWidth;
       } else {
@@ -103753,9 +108569,9 @@ const zoomIframe = (containerEl, iframeEl, isDeviceView, isRotated, device, cont
       }
     } else {
       // Scale height and auto adjust width.
-      const fitsHeight = deviceHeight <= containerHeight;
+      var _fitsHeight = deviceHeight <= containerHeight;
 
-      if (fitsHeight) {
+      if (_fitsHeight) {
         adjustHeight = deviceHeight;
       } else {
         adjustHeight = deviceHeight;
@@ -103766,14 +108582,14 @@ const zoomIframe = (containerEl, iframeEl, isDeviceView, isRotated, device, cont
     } // Make sure that the framing container does not expand.
 
 
-    containerEl.style.maxWidth = `${containerWidth}px`;
+    containerEl.style.maxWidth = "".concat(containerWidth, "px");
   } // TODO: This is not working after adding the menu row.
   // iframeEl.style.height = adjustHeight == 'auto' ? 'auto' : `${adjustHeight}px`
 
 
-  iframeEl.style.maxHeight = adjustMaxHeight == 'auto' ? null : `${adjustMaxHeight}px`;
-  iframeEl.style.transform = `scale(${adjustScale})`;
-  iframeEl.style.width = adjustWidth == 'auto' ? 'auto' : `${adjustWidth}px`;
+  iframeEl.style.maxHeight = adjustMaxHeight == 'auto' ? null : "".concat(adjustMaxHeight, "px");
+  iframeEl.style.transform = "scale(".concat(adjustScale, ")");
+  iframeEl.style.width = adjustWidth == 'auto' ? 'auto' : "".concat(adjustWidth, "px");
 };
 
 /***/ }),
@@ -103789,26 +108605,40 @@ const zoomIframe = (containerEl, iframeEl, isDeviceView, isRotated, device, cont
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Api; });
 /* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./config */ "./source/utility/config.js");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 /**
  * Utility for working with apis.
  */
 
 
-const request = __webpack_require__(/*! superagent */ "./node_modules/superagent/lib/client.js");
+var request = __webpack_require__(/*! superagent */ "./node_modules/superagent/lib/client.js");
 
-class Api {
-  constructor(config) {
+var Api = /*#__PURE__*/function () {
+  function Api(config) {
+    _classCallCheck(this, Api);
+
     this.config = new _config__WEBPACK_IMPORTED_MODULE_0__["default"](config, {
       'basePath': '/_grow/api/editor/'
     });
     this.request = request;
   }
 
-  apiPath(path) {
-    return `${this.config.get('basePath', '/')}${path}`;
-  }
+  _createClass(Api, [{
+    key: "apiPath",
+    value: function apiPath(path) {
+      return "".concat(this.config.get('basePath', '/')).concat(path);
+    }
+  }]);
 
-}
+  return Api;
+}();
+
+
 
 /***/ }),
 
@@ -103829,14 +108659,14 @@ function base64toBlob(base64Data, contentType, sliceSize) {
   var byteArrays = [];
 
   for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-    const slice = byteCharacters.slice(offset, offset + sliceSize);
-    const byteNumbers = new Array(slice.length);
+    var slice = byteCharacters.slice(offset, offset + sliceSize);
+    var byteNumbers = new Array(slice.length);
 
     for (var i = 0; i < slice.length; i++) {
       byteNumbers[i] = slice.charCodeAt(i);
     }
 
-    const byteArray = new Uint8Array(byteNumbers);
+    var byteArray = new Uint8Array(byteNumbers);
     byteArrays.push(byteArray);
   }
 
@@ -103857,33 +108687,49 @@ function base64toBlob(base64Data, contentType, sliceSize) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Config; });
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 /**
  * Utility for working with config.
  */
-class Config {
-  constructor(config, defaultValues) {
+var Config = /*#__PURE__*/function () {
+  function Config(config, defaultValues) {
+    _classCallCheck(this, Config);
+
     this._defaultValues = defaultValues || {};
     this._config = Object.assign({}, this._defaultValues, config || {}); // Allow for direct access to config values.
 
-    for (const key of Object.keys(this._config)) {
+    for (var _i = 0, _Object$keys = Object.keys(this._config); _i < _Object$keys.length; _i++) {
+      var key = _Object$keys[_i];
       this[key] = this._config[key];
     }
   }
 
-  get(key, defaultValue) {
-    if (typeof this._config[key] == 'undefined') {
-      return defaultValue;
+  _createClass(Config, [{
+    key: "get",
+    value: function get(key, defaultValue) {
+      if (typeof this._config[key] == 'undefined') {
+        return defaultValue;
+      }
+
+      return this._config[key];
     }
+  }, {
+    key: "set",
+    value: function set(key, value) {
+      this._config[key] = value;
+      return this[key] = value;
+    }
+  }]);
 
-    return this._config[key];
-  }
+  return Config;
+}();
 
-  set(key, value) {
-    this._config[key] = value;
-    return this[key] = value;
-  }
 
-}
 
 /***/ }),
 
@@ -103897,59 +108743,87 @@ class Config {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return DataType; });
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 /**
  * Utility for determining the type of a data value.
  */
-class DataType {
-  static isArray(value) {
-    if (Array.isArray) {
-      return Array.isArray(value);
+var DataType = /*#__PURE__*/function () {
+  function DataType() {
+    _classCallCheck(this, DataType);
+  }
+
+  _createClass(DataType, null, [{
+    key: "isArray",
+    value: function isArray(value) {
+      if (Array.isArray) {
+        return Array.isArray(value);
+      }
+
+      return value && _typeof(value) === 'object' && value.constructor === Array;
     }
+  }, {
+    key: "isBoolean",
+    value: function isBoolean(value) {
+      return typeof value === 'boolean';
+    }
+  }, {
+    key: "isDate",
+    value: function isDate(value) {
+      return value instanceof Date;
+    }
+  }, {
+    key: "isFunction",
+    value: function isFunction(value) {
+      return typeof value === 'function';
+    }
+  }, {
+    key: "isNumber",
+    value: function isNumber(value) {
+      return typeof value === 'number' && isFinite(value);
+    }
+  }, {
+    key: "isNull",
+    value: function isNull(value) {
+      return value === null;
+    }
+  }, {
+    key: "isObject",
+    value: function isObject(value) {
+      return value && _typeof(value) === 'object' && value.constructor === Object;
+    }
+  }, {
+    key: "isRegExp",
+    value: function isRegExp(value) {
+      return value && _typeof(value) === 'object' && value.constructor === RegExp;
+    }
+  }, {
+    key: "isString",
+    value: function isString(value) {
+      return typeof value === 'string' || value instanceof String;
+    }
+  }, {
+    key: "isSymbol",
+    value: function isSymbol(value) {
+      return _typeof(value) === 'symbol';
+    }
+  }, {
+    key: "isUndefined",
+    value: function isUndefined(value) {
+      return typeof value === 'undefined';
+    }
+  }]);
 
-    return value && typeof value === 'object' && value.constructor === Array;
-  }
+  return DataType;
+}();
 
-  static isBoolean(value) {
-    return typeof value === 'boolean';
-  }
 
-  static isDate(value) {
-    return value instanceof Date;
-  }
-
-  static isFunction(value) {
-    return typeof value === 'function';
-  }
-
-  static isNumber(value) {
-    return typeof value === 'number' && isFinite(value);
-  }
-
-  static isNull(value) {
-    return value === null;
-  }
-
-  static isObject(value) {
-    return value && typeof value === 'object' && value.constructor === Object;
-  }
-
-  static isRegExp(value) {
-    return value && typeof value === 'object' && value.constructor === RegExp;
-  }
-
-  static isString(value) {
-    return typeof value === 'string' || value instanceof String;
-  }
-
-  static isSymbol(value) {
-    return typeof value === 'symbol';
-  }
-
-  static isUndefined(value) {
-    return typeof value === 'undefined';
-  }
-
-}
 
 /***/ }),
 
@@ -103964,67 +108838,99 @@ class DataType {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return DeepObject; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "autoDeepObject", function() { return autoDeepObject; });
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 /**
  * Utility for working with deep object references.
  *
  * Example: obj.get('somthing.sub.key') would deeply reference the object.
  */
-class DeepObject {
-  constructor(obj) {
+var DeepObject = /*#__PURE__*/function () {
+  function DeepObject(obj) {
+    _classCallCheck(this, DeepObject);
+
     this.obj = obj || {};
   }
 
-  get(key) {
-    let root = this.obj;
+  _createClass(DeepObject, [{
+    key: "get",
+    value: function get(key) {
+      var root = this.obj;
 
-    if (!key) {
+      if (!key) {
+        return root;
+      }
+
+      var _iterator = _createForOfIteratorHelper(key.split('.')),
+          _step;
+
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var part = _step.value;
+
+          if (!root) {
+            return undefined;
+          }
+
+          if (!part in root) {
+            return undefined;
+          }
+
+          root = root[part];
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+
       return root;
     }
-
-    for (const part of key.split('.')) {
-      if (!root) {
-        return undefined;
+  }, {
+    key: "set",
+    value: function set(key, value) {
+      if (!key) {
+        this.obj = value;
+        return;
       }
 
-      if (!part in root) {
-        return undefined;
+      var root = this.obj;
+      var parts = key.split('.');
+
+      for (var i = 0; i < parts.length - 1; i++) {
+        var part = parts[i];
+
+        if (!(part in root)) {
+          root[part] = {};
+        }
+
+        root = root[part];
       }
 
-      root = root[part];
+      root[parts[parts.length - 1]] = value;
     }
+  }]);
 
-    return root;
-  }
+  return DeepObject;
+}();
 
-  set(key, value) {
-    if (!key) {
-      this.obj = value;
-      return;
-    }
 
-    let root = this.obj;
-    const parts = key.split('.');
-
-    for (let i = 0; i < parts.length - 1; i++) {
-      const part = parts[i];
-
-      if (!(part in root)) {
-        root[part] = {};
-      }
-
-      root = root[part];
-    }
-
-    root[parts[parts.length - 1]] = value;
-  }
-
-}
-const autoDeepObject = value => {
+var autoDeepObject = function autoDeepObject(value) {
   if (value === undefined) {
     return value;
   }
 
-  let has_get = false;
+  var has_get = false;
 
   if (value.get && typeof value.get === 'function') {
     has_get = true;
@@ -104050,18 +108956,21 @@ const autoDeepObject = value => {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Defer; });
-class Defer {
-  constructor() {
-    this.resolve = null;
-    this.reject = null;
-    this.promise = new Promise(function (resolve, reject) {
-      this.resolve = resolve;
-      this.reject = reject;
-    }.bind(this));
-    Object.freeze(this);
-  }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-}
+var Defer = function Defer() {
+  _classCallCheck(this, Defer);
+
+  this.resolve = null;
+  this.reject = null;
+  this.promise = new Promise(function (resolve, reject) {
+    this.resolve = resolve;
+    this.reject = reject;
+  }.bind(this));
+  Object.freeze(this);
+};
+
+
 
 /***/ }),
 
@@ -104080,15 +108989,15 @@ __webpack_require__.r(__webpack_exports__);
 /**
  *  DOM helper functions.
  */
-const findParentByClassname = (element, classname) => {
+var findParentByClassname = function findParentByClassname(element, classname) {
   while (element && !element.classList.contains(classname)) {
     element = element.parentElement;
   }
 
   return element;
 };
-const inputFocusAtEnd = elementId => {
-  const inputEl = document.getElementById(elementId);
+var inputFocusAtEnd = function inputFocusAtEnd(elementId) {
+  var inputEl = document.getElementById(elementId);
 
   if (!inputEl) {
     return;
@@ -104098,8 +109007,8 @@ const inputFocusAtEnd = elementId => {
 
   inputEl.selectionStart = inputEl.selectionEnd = inputEl.value.length;
 };
-const inputFocusAtPosition = (elementId, position) => {
-  const inputEl = document.getElementById(elementId);
+var inputFocusAtPosition = function inputFocusAtPosition(elementId, position) {
+  var inputEl = document.getElementById(elementId);
 
   if (!inputEl) {
     return;
@@ -104126,21 +109035,38 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "filterObject", function() { return filterObject; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "regexList", function() { return regexList; });
 /* harmony import */ var _dataType__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dataType */ "./source/utility/dataType.js");
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
  // Creates a filter that uses a whitelist and blacklist of regex to filter.
 
-const createWhiteBlackFilter = (whitelist, blacklist) => {
+var createWhiteBlackFilter = function createWhiteBlackFilter(whitelist, blacklist) {
   whitelist = whitelist || [];
   blacklist = blacklist || [];
-  return value => {
+  return function (value) {
     // Test against the whitelist.
     if (whitelist.length) {
-      let meetsWhitelist = false;
+      var meetsWhitelist = false;
 
-      for (const exp of whitelist) {
-        if (value.match(exp)) {
-          meetsWhitelist = true;
-          break;
+      var _iterator = _createForOfIteratorHelper(whitelist),
+          _step;
+
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var exp = _step.value;
+
+          if (value.match(exp)) {
+            meetsWhitelist = true;
+            break;
+          }
         }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
       }
 
       if (!meetsWhitelist) {
@@ -104149,23 +109075,34 @@ const createWhiteBlackFilter = (whitelist, blacklist) => {
     } // Test against the blacklist.
 
 
-    for (const exp of blacklist) {
-      if (value.match(exp)) {
-        return false;
+    var _iterator2 = _createForOfIteratorHelper(blacklist),
+        _step2;
+
+    try {
+      for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+        var _exp = _step2.value;
+
+        if (value.match(_exp)) {
+          return false;
+        }
       }
+    } catch (err) {
+      _iterator2.e(err);
+    } finally {
+      _iterator2.f();
     }
 
     return true;
   };
 }; // Creates a filter that uses a value to filter.
 
-const createValueFilter = filterValue => {
-  const regex = RegExp(filterValue, 'i');
-  return value => {
+var createValueFilter = function createValueFilter(filterValue) {
+  var regex = RegExp(filterValue, 'i');
+  return function (value) {
     return value.match(regex);
   };
 };
-const filterObject = (obj, filterFunc, includeKeys, keyParts) => {
+var filterObject = function filterObject(obj, filterFunc, includeKeys, keyParts) {
   includeKeys = includeKeys || false;
   keyParts = keyParts || [];
 
@@ -104180,17 +109117,18 @@ const filterObject = (obj, filterFunc, includeKeys, keyParts) => {
     return null;
   }
 
-  const newObj = {};
-  const keys = Object.keys(obj);
+  var newObj = {};
+  var keys = Object.keys(obj);
 
-  for (const key of keys) {
-    const newKeyParts = keyParts.concat([key]);
-    const fullKey = newKeyParts.join('.'); // Keep the entire value of the matching key if testing keys and matches.
+  for (var _i = 0, _keys = keys; _i < _keys.length; _i++) {
+    var key = _keys[_i];
+    var newKeyParts = keyParts.concat([key]);
+    var fullKey = newKeyParts.join('.'); // Keep the entire value of the matching key if testing keys and matches.
 
     if (includeKeys && filterFunc(fullKey)) {
       newObj[key] = obj[key];
     } else {
-      const subValue = filterObject(obj[key], filterFunc, includeKeys, newKeyParts); // Only add it in to the new object if some of the sub object matches.
+      var subValue = filterObject(obj[key], filterFunc, includeKeys, newKeyParts); // Only add it in to the new object if some of the sub object matches.
 
       if (subValue) {
         newObj[key] = subValue;
@@ -104205,12 +109143,22 @@ const filterObject = (obj, filterFunc, includeKeys, keyParts) => {
 
   return newObj;
 };
-const regexList = (rawList, defaults) => {
-  const list = [];
+var regexList = function regexList(rawList, defaults) {
+  var list = [];
   rawList = rawList || [];
 
-  for (const value of rawList) {
-    list.push(new RegExp(value, 'gi'));
+  var _iterator3 = _createForOfIteratorHelper(rawList),
+      _step3;
+
+  try {
+    for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+      var value = _step3.value;
+      list.push(new RegExp(value, 'gi'));
+    }
+  } catch (err) {
+    _iterator3.e(err);
+  } finally {
+    _iterator3.f();
   }
 
   if (!list.length) {
@@ -104232,34 +109180,70 @@ const regexList = (rawList, defaults) => {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Listeners; });
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 /**
  * Utility class for allowing a class to bind listeners and trigger callbacks.
  */
-class Listeners {
-  constructor() {
+var Listeners = /*#__PURE__*/function () {
+  function Listeners() {
+    _classCallCheck(this, Listeners);
+
     this._listeners = {};
   }
 
-  add(eventName, callback) {
-    const listeners = this.listenersForEvent(eventName);
-    listeners.push(callback);
-  }
-
-  listenersForEvent(eventName) {
-    if (!this._listeners[eventName]) {
-      this._listeners[eventName] = [];
+  _createClass(Listeners, [{
+    key: "add",
+    value: function add(eventName, callback) {
+      var listeners = this.listenersForEvent(eventName);
+      listeners.push(callback);
     }
+  }, {
+    key: "listenersForEvent",
+    value: function listenersForEvent(eventName) {
+      if (!this._listeners[eventName]) {
+        this._listeners[eventName] = [];
+      }
 
-    return this._listeners[eventName];
-  }
-
-  trigger(eventName, ...data) {
-    for (const listener of this.listenersForEvent(eventName)) {
-      listener(...data);
+      return this._listeners[eventName];
     }
-  }
+  }, {
+    key: "trigger",
+    value: function trigger(eventName) {
+      for (var _len = arguments.length, data = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        data[_key - 1] = arguments[_key];
+      }
 
-}
+      var _iterator = _createForOfIteratorHelper(this.listenersForEvent(eventName)),
+          _step;
+
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var listener = _step.value;
+          listener.apply(void 0, data);
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+    }
+  }]);
+
+  return Listeners;
+}();
+
+
 
 /***/ }),
 
@@ -104274,9 +109258,18 @@ class Listeners {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Repo; });
 /* harmony import */ var _editor_menu_workspace__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../editor/menu/workspace */ "./source/editor/menu/workspace.js");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-class Repo {
-  constructor(branch, branches, commits, remote_url, revision, web_url) {
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
+var Repo = /*#__PURE__*/function () {
+  function Repo(branch, branches, commits, remote_url, revision, web_url) {
+    _classCallCheck(this, Repo);
+
     this.branch = branch;
     this.branches = branches;
     this.commits = commits;
@@ -104285,37 +109278,45 @@ class Repo {
     this.web_url = web_url;
   }
 
-  cleanBranch(branch_id) {
-    if (branch_id.startsWith(_editor_menu_workspace__WEBPACK_IMPORTED_MODULE_0__["WORKSPACE_BRANCH_PREFIX"])) {
-      return branch_id.slice(_editor_menu_workspace__WEBPACK_IMPORTED_MODULE_0__["WORKSPACE_BRANCH_PREFIX"].length);
-    }
-
-    return branch_id;
-  }
-
-  webUrlForBranch(branch) {
-    if (branch != 'master') {
-      if (this.web_url.includes('github.com')) {
-        return `${this.web_url}/tree/${branch}`;
-      } else if (this.web_url.includes('source.cloud.google.com')) {
-        return `${this.web_url}/+/${branch}:`;
+  _createClass(Repo, [{
+    key: "cleanBranch",
+    value: function cleanBranch(branch_id) {
+      if (branch_id.startsWith(_editor_menu_workspace__WEBPACK_IMPORTED_MODULE_0__["WORKSPACE_BRANCH_PREFIX"])) {
+        return branch_id.slice(_editor_menu_workspace__WEBPACK_IMPORTED_MODULE_0__["WORKSPACE_BRANCH_PREFIX"].length);
       }
+
+      return branch_id;
     }
+  }, {
+    key: "webUrlForBranch",
+    value: function webUrlForBranch(branch) {
+      if (branch != 'master') {
+        if (this.web_url.includes('github.com')) {
+          return "".concat(this.web_url, "/tree/").concat(branch);
+        } else if (this.web_url.includes('source.cloud.google.com')) {
+          return "".concat(this.web_url, "/+/").concat(branch, ":");
+        }
+      }
 
-    return this.web_url;
-  }
-
-  webUrlForCommit(commitHash) {
-    if (this.web_url.includes('github.com')) {
-      return `${this.web_url}/commit/${commitHash}`;
-    } else if (this.web_url.includes('source.cloud.google.com')) {
-      return `${this.web_url}/+/${commitHash}`;
+      return this.web_url;
     }
+  }, {
+    key: "webUrlForCommit",
+    value: function webUrlForCommit(commitHash) {
+      if (this.web_url.includes('github.com')) {
+        return "".concat(this.web_url, "/commit/").concat(commitHash);
+      } else if (this.web_url.includes('source.cloud.google.com')) {
+        return "".concat(this.web_url, "/+/").concat(commitHash);
+      }
 
-    return this.web_url;
-  }
+      return this.web_url;
+    }
+  }]);
 
-}
+  return Repo;
+}();
+
+
 
 /***/ }),
 
@@ -104330,13 +109331,47 @@ class Repo {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SettingSet", function() { return SettingSet; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SettingToggle", function() { return SettingToggle; });
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function set(target, property, value, receiver) { if (typeof Reflect !== "undefined" && Reflect.set) { set = Reflect.set; } else { set = function set(target, property, value, receiver) { var base = _superPropBase(target, property); var desc; if (base) { desc = Object.getOwnPropertyDescriptor(base, property); if (desc.set) { desc.set.call(receiver, value); return true; } else if (!desc.writable) { return false; } } desc = Object.getOwnPropertyDescriptor(receiver, property); if (desc) { if (!desc.writable) { return false; } desc.value = value; Object.defineProperty(receiver, property, desc); } else { _defineProperty(receiver, property, value); } return true; }; } return set(target, property, value, receiver); }
+
+function _set(target, property, value, receiver, isStrict) { var s = set(target, property, value, receiver || target); if (!s && isStrict) { throw new Error('failed to set property'); } return value; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
+
+function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 /**
  * Utility for managing settings easily.
  *
  * Includes support for persistent storage.
  */
-class SettingBase {
-  constructor(defaultValue, storage, storageKey) {
+var SettingBase = /*#__PURE__*/function () {
+  function SettingBase(defaultValue, storage, storageKey) {
+    _classCallCheck(this, SettingBase);
+
     this.defaultValue = defaultValue;
     this.storage = storage;
     this.storageKey = storageKey;
@@ -104349,79 +109384,113 @@ class SettingBase {
     }
   }
 
-  get value() {
-    return this._value;
-  }
+  _createClass(SettingBase, [{
+    key: "retrieve",
+    value: function retrieve() {
+      var storageValue = this.storage.getItem(this.storageKey);
 
-  set value(value) {
-    this._value = value;
+      if (typeof storageValue == 'undefined' || storageValue == null) {
+        return this.defaultValue;
+      }
 
-    if (this.storage && this.storageKey) {
-      this.storage.setItem(this.storageKey, this._value);
+      return storageValue;
     }
-  }
+  }, {
+    key: "value",
+    get: function get() {
+      return this._value;
+    },
+    set: function set(value) {
+      this._value = value;
 
-  retrieve() {
-    const storageValue = this.storage.getItem(this.storageKey);
-
-    if (typeof storageValue == 'undefined' || storageValue == null) {
-      return this.defaultValue;
+      if (this.storage && this.storageKey) {
+        this.storage.setItem(this.storageKey, this._value);
+      }
     }
+  }]);
 
-    return storageValue;
+  return SettingBase;
+}();
+
+var SettingSet = /*#__PURE__*/function (_SettingBase) {
+  _inherits(SettingSet, _SettingBase);
+
+  var _super = _createSuper(SettingSet);
+
+  function SettingSet(validValues, defaultValue, storage, storageKey) {
+    var _this;
+
+    _classCallCheck(this, SettingSet);
+
+    _this = _super.call(this, defaultValue, storage, storageKey);
+    _this.validValues = validValues;
+    return _this;
   }
 
-}
-
-class SettingSet extends SettingBase {
-  constructor(validValues, defaultValue, storage, storageKey) {
-    super(defaultValue, storage, storageKey);
-    this.validValues = validValues;
-  }
-
-  get value() {
-    return super.value;
-  }
-
-  set value(value) {
-    if (!this.validValues || this.validValues.includes(value)) {
-      super.value = value;
-    } else {
-      super.value = this.defaultValue;
+  _createClass(SettingSet, [{
+    key: "is",
+    value: function is(value) {
+      return this.value == value;
     }
+  }, {
+    key: "value",
+    get: function get() {
+      return _get(_getPrototypeOf(SettingSet.prototype), "value", this);
+    },
+    set: function set(value) {
+      if (!this.validValues || this.validValues.includes(value)) {
+        _set(_getPrototypeOf(SettingSet.prototype), "value", value, this, true);
+      } else {
+        _set(_getPrototypeOf(SettingSet.prototype), "value", this.defaultValue, this, true);
+      }
+    }
+  }]);
+
+  return SettingSet;
+}(SettingBase);
+var SettingToggle = /*#__PURE__*/function (_SettingBase2) {
+  _inherits(SettingToggle, _SettingBase2);
+
+  var _super2 = _createSuper(SettingToggle);
+
+  function SettingToggle() {
+    _classCallCheck(this, SettingToggle);
+
+    return _super2.apply(this, arguments);
   }
 
-  is(value) {
-    return this.value == value;
-  }
+  _createClass(SettingToggle, [{
+    key: "retrieve",
+    value: function retrieve() {
+      return this.storage.getItem(this.storageKey) == 'true';
+    }
+  }, {
+    key: "toggle",
+    value: function toggle() {
+      this.value = !this._value;
+    }
+  }, {
+    key: "off",
+    get: function get() {
+      return this._value != true;
+    }
+  }, {
+    key: "on",
+    get: function get() {
+      return this._value == true;
+    }
+  }, {
+    key: "value",
+    get: function get() {
+      return _get(_getPrototypeOf(SettingToggle.prototype), "value", this);
+    },
+    set: function set(value) {
+      _set(_getPrototypeOf(SettingToggle.prototype), "value", Boolean(value), this, true);
+    }
+  }]);
 
-}
-class SettingToggle extends SettingBase {
-  get off() {
-    return this._value != true;
-  }
-
-  get on() {
-    return this._value == true;
-  }
-
-  get value() {
-    return super.value;
-  }
-
-  set value(value) {
-    super.value = Boolean(value);
-  }
-
-  retrieve() {
-    return this.storage.getItem(this.storageKey) == 'true';
-  }
-
-  toggle() {
-    this.value = !this._value;
-  }
-
-}
+  return SettingToggle;
+}(SettingBase);
 
 /***/ }),
 
@@ -104435,44 +109504,67 @@ class SettingToggle extends SettingBase {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Storage; });
-class Storage {
-  constructor(isTesting) {
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var Storage = /*#__PURE__*/function () {
+  function Storage(isTesting) {
+    _classCallCheck(this, Storage);
+
     this.isTesting = isTesting;
   }
 
-  clear() {
-    if (this.isTesting) {
-      return undefined;
+  _createClass(Storage, [{
+    key: "clear",
+    value: function clear() {
+      if (this.isTesting) {
+        return undefined;
+      }
+
+      return localStorage.clear();
     }
+  }, {
+    key: "getItem",
+    value: function getItem() {
+      var _localStorage;
 
-    return localStorage.clear();
-  }
+      if (this.isTesting) {
+        return null;
+      }
 
-  getItem(...args) {
-    if (this.isTesting) {
-      return null;
+      return (_localStorage = localStorage).getItem.apply(_localStorage, arguments);
     }
+  }, {
+    key: "removeItem",
+    value: function removeItem() {
+      var _localStorage2;
 
-    return localStorage.getItem(...args);
-  }
+      if (this.isTesting) {
+        return undefined;
+      }
 
-  removeItem(...args) {
-    if (this.isTesting) {
-      return undefined;
+      return (_localStorage2 = localStorage).removeItem.apply(_localStorage2, arguments);
     }
+  }, {
+    key: "setItem",
+    value: function setItem() {
+      var _localStorage3;
 
-    return localStorage.removeItem(...args);
-  }
+      if (this.isTesting) {
+        return undefined;
+      }
 
-  setItem(...args) {
-    if (this.isTesting) {
-      return undefined;
+      return (_localStorage3 = localStorage).setItem.apply(_localStorage3, arguments);
     }
+  }]);
 
-    return localStorage.setItem(...args);
-  }
+  return Storage;
+}();
 
-}
+
 
 /***/ }),
 
@@ -104486,26 +109578,31 @@ class Storage {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Throttle; });
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 /**
  * Throttle events using the requestAnimationFrame.
  */
-class Throttle {
-  constructor(type, name) {
-    this.running = false;
-    window.addEventListener(type, () => {
-      if (this.running) {
-        return;
-      }
+var Throttle = function Throttle(type, name) {
+  var _this = this;
 
-      this.running = true;
-      requestAnimationFrame(() => {
-        window.dispatchEvent(new CustomEvent(name));
-        this.running = false;
-      });
+  _classCallCheck(this, Throttle);
+
+  this.running = false;
+  window.addEventListener(type, function () {
+    if (_this.running) {
+      return;
+    }
+
+    _this.running = true;
+    requestAnimationFrame(function () {
+      window.dispatchEvent(new CustomEvent(name));
+      _this.running = false;
     });
-  }
+  });
+};
 
-}
+
 
 /***/ }),
 
@@ -104521,12 +109618,12 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * UUID Generator for JS.
  */
-const generateUUID = () => {
-  let array = new Uint32Array(8);
+var generateUUID = function generateUUID() {
+  var array = new Uint32Array(8);
   window.crypto.getRandomValues(array);
-  let str = '';
+  var str = '';
 
-  for (let i = 0; i < array.length; i++) {
+  for (var i = 0; i < array.length; i++) {
     str += (i < 2 || i > 5 ? '' : '-') + array[i].toString(16).slice(-4);
   }
 

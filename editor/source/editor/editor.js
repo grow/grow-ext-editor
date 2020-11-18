@@ -21,6 +21,7 @@ import EditorApi from './editorApi'
 import Menu from './menu/menu'
 import EditorAutoFields from './autoFields'
 import { defaultFields } from './field'
+import { defaultValidationRules } from './validation'
 import { zoomIframe } from './zoomIframe'
 import { findParentByClassname } from '../utility/dom'
 import Repo from '../utility/repo'
@@ -132,10 +133,11 @@ export default class Editor {
     // Load the selective editor preference for localize.
     this.selective.localize = this.settingLocalize.on
 
-    // Add the editor extension default field types.
-    for (const key of Object.keys(defaultFields)) {
-      this.selective.addFieldType(key, defaultFields[key])
-    }
+    // Add the editor default field types.
+    this.selective.addFieldTypes(defaultFields)
+
+    // Add the editor default validation types.
+    this.selective.addRuleTypes(defaultValidationRules)
 
     this.bindEvents()
     this.bindKeyboard()
@@ -173,6 +175,14 @@ export default class Editor {
 
   get isTesting() {
     return this.config.get('testing', false)
+  }
+
+  get isValid() {
+    if (!this.document) {
+      return true
+    }
+
+    return this.selective.isValid
   }
 
   get linkedFields() {
@@ -414,19 +424,13 @@ export default class Editor {
 
     // Allow copying files.
     document.addEventListener('selective.path.copy', (evt) => {
-      const podPath = evt.detail['path']
-      const parts = podPath.split('/')
-      const fileName = parts.pop()
-      const fileNameParts = fileName.split('.')
-      const fileNameExt = fileNameParts.pop()
-      const fileNameBase = fileNameParts.join('.')
-      const newFileNameBase = window.prompt(`Enter the new file name for the duplicate of ${fileNameBase}`, fileNameBase);
-      parts.push([newFileNameBase, fileNameExt].join('.'))
-      const newPodPath = parts.join('/')
-      this.api.copyFile(podPath, newPodPath).then(() => {
+      const podPath = evt.detail['podPath']
+      const newPodPath = evt.detail['newPodPath']
+      this.api.copyFile(podPath, newPodPath).then((response) => {
         if (this._podPaths) {
           this.loadPodPaths(true)
         }
+        this.listeners.trigger('copy.response', response)
       }).catch((error) => {
         console.error(error)
       })
@@ -1041,6 +1045,29 @@ export default class Editor {
       return ''
     }
 
+    const isValid = editor.isValid
+
+    let saveStatusLabel = 'Save'
+    let saveDisabled = false
+    let saveClasses = []
+
+    if (editor.isClean) {
+      saveStatusLabel = 'No changes'
+      saveDisabled = true
+    }
+
+    if (!isValid) {
+      saveClasses.push('editor__button--invalid')
+      saveStatusLabel = 'Invalid values'
+      saveDisabled = true
+    }
+
+    if (editor._isSaving) {
+      saveClasses.push('editor__button--processing')
+      saveStatusLabel = 'Saving...'
+      saveDisabled = true
+    }
+
     return html`<div class="editor__edit">
       <div class="editor__edit__header">
         <div class="editor__edit__header__section">
@@ -1065,12 +1092,21 @@ export default class Editor {
               <button class="editor__style__raw editor__button editor__button--secondary ${this.settingEditorPane.is('source') ? 'editor__button--selected' : ''}" @click=${editor.handleSourceClick.bind(editor)} ?disabled=${!editor.isClean}>Source</button>
               <button class="editor__style__raw editor__button editor__button--secondary ${this.settingEditorPane.is('history') ? 'editor__button--selected' : ''}" @click=${editor.handleHistoryClick.bind(editor)} ?disabled=${!editor.isClean}>History</button>
             </div>
-            <button
-                ?disabled=${editor._isSaving || editor.isClean}
-                class="editor__save editor__button editor__button--primary ${editor._isSaving ? 'editor__save--saving' : ''}"
-                @click=${editor.save.bind(editor)}>
-              ${editor.isClean ? 'No changes' : editor._isSaving ? 'Saving...' : 'Save'}
-            </button>
+            <div class="editor__actions">
+              ${isValid ? '' :
+                html`<div class="editor__actions">
+                    <span
+                        class="editor__invalid">
+                      <i class="material-icons">error</i>
+                    </span>
+                  </div>`}
+              <button
+                  ?disabled=${saveDisabled}
+                  class="editor__save editor__button editor__button--primary ${saveClasses.join(' ')}"
+                  @click=${editor.save.bind(editor)}>
+                ${saveStatusLabel}
+              </button>
+            </div>
         </div>
         ${editor.templatePane}
       </div>

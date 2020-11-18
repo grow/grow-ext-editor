@@ -18,14 +18,17 @@ $ge-color-on-secondary-dark: #ffffff !default
 $ge-color-back: #ffffff !default
 $ge-color-back-light: #e5e5e5 !default
 $ge-color-back-dark: darken($ge-color-back, 15%) !default
+$ge-color-warning: #f44336 !default
 $ge-color-back-highlight: #e1fc8d !default
 $ge-color-back-oclude: rgba(0, 0, 0, .45) !default
+$ge-color-back-warning: $ge-color-warning !default
 $ge-color-on-back: #000000 !default
 $ge-color-on-back-subtle: darken($ge-color-back, 25%) !default
 $ge-color-on-back-light: #000000 !default
 $ge-color-on-back-dark: lighten($ge-color-on-back-light, 15%) !default
 $ge-color-on-back-highlight: #000000 !default
 $ge-color-on-back-oclude: #ffffff !default
+$ge-color-on-back-warning: #000000 !default
 
 $ge-color-border: #e5e5e5 !default
 $ge-color-border-light: rgba(0, 0, 0, 0.1) !default
@@ -123,6 +126,9 @@ $ge-menu-column-min-width: 20em !default
 
     &:focus
       border: $ge-border-size solid $ge-color-primary
+
+=field-border-error
+  border: $ge-border-size solid $ge-color-warning
 
 =field-clickable
   cursor: pointer

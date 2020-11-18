@@ -18,15 +18,16 @@ import {
 import ImageUploader from '../quill/image-upload'
 
 export class CheckboxField extends Field {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig)
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig)
     this.fieldType = 'checkbox'
   }
 
-  classesInput(value) {
-    const classes = [
-      'selective__field__input__option'
-    ]
+  getClassesForInput(locale, zoneKey) {
+    const classes = super.getClassesForInput(locale, zoneKey).split(' ')
+    const value = this.getValueForLocale(locale) || false
+
+    classes.push('selective__field__input__option')
 
     if (value) {
       classes.push('selective__field__input__option--selected')
@@ -47,7 +48,7 @@ export class CheckboxField extends Field {
 
     return html`
       <div
-          class=${this.classesInput(value)}
+          class="${this.getClassesForInput(locale)}"
           data-locale=${locale || ''}
           @click=${this.handleInput.bind(this)}>
         <div class="selective__field__label">
@@ -56,7 +57,8 @@ export class CheckboxField extends Field {
         <i class="material-icons">
           ${value ? 'check_box' : 'check_box_outline_blank'}
         </i>
-      </div>`
+      </div>
+      ${this.renderErrors(selective, data)}`
   }
 
   // Label is shown by the individual input.
@@ -66,8 +68,8 @@ export class CheckboxField extends Field {
 }
 
 export class DateField extends Field {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig)
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig)
     this.fieldType = 'date'
   }
 
@@ -76,18 +78,20 @@ export class DateField extends Field {
 
     return html`
       <input
+        class="${this.getClassesForInput(locale)}"
         id="${this.uid}${locale || ''}"
         type="date"
         placeholder=${this.config.placeholder || ''}
         data-locale=${locale || ''}
         @input=${this.handleInput.bind(this)}
-        value=${value} />`
+        value=${value} />
+      ${this.renderErrors(selective, data)}`
   }
 }
 
 export class DateTimeField extends Field {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig)
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig)
     this.fieldType = 'datetime'
   }
 
@@ -104,18 +108,20 @@ export class DateTimeField extends Field {
 
     return html`
       <input
+        class="${this.getClassesForInput(locale)}"
         id="${this.uid}${locale || ''}"
         type="datetime-local"
         placeholder=${this.config.placeholder || ''}
         data-locale=${locale || ''}
         @input=${this.handleInput.bind(this)}
-        value=${value} />`
+        value=${value} />
+      ${this.renderErrors(selective, data)}`
   }
 }
 
 export class HtmlField extends Field {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig)
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig)
     this.fieldType = 'html'
     this.api = this.config.get('api')
 
@@ -159,6 +165,15 @@ export class HtmlField extends Field {
     return value
   }
 
+  getClassesForInput(locale, zoneKey) {
+    const classes = super.getClassesForInput(locale, zoneKey).split(' ')
+
+    classes.push('selective__html')
+    classes.push('html_editor')
+
+    return classes.join(' ')
+  }
+
   imageUpload(element) {
     const base64Str = element.getAttribute('src')
     return this.imageUploader.uploadBase64(base64Str)
@@ -168,9 +183,10 @@ export class HtmlField extends Field {
     const value = this.getValueForLocale(locale) || ''
     return html`
       <div
+          class="${this.getClassesForInput(locale)}"
           id="${this.uid}${locale || ''}"
-          class="selective__html html_editor"
-          data-locale=${locale || ''}>${unsafeHTML(value)}</div>`
+          data-locale=${locale || ''}>${unsafeHTML(value)}</div>
+      ${this.renderErrors(selective, data)}`
   }
 
   postRender(containerEl) {
@@ -230,18 +246,28 @@ export class HtmlField extends Field {
 }
 
 export class MarkdownField extends Field {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig)
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig)
     this.fieldType = 'markdown'
+  }
+
+  getClassesForInput(locale, zoneKey) {
+    const classes = super.getClassesForInput(locale, zoneKey).split(' ')
+
+    classes.push('selective__markdown')
+    classes.push('markdown_editor')
+
+    return classes.join(' ')
   }
 
   renderInput(selective, data, locale) {
     const value = this.getValueForLocale(locale) || ''
     return html`
       <div
+          class="${this.getClassesForInput(locale)}"
           id="${this.uid}${locale || ''}"
-          class="selective__markdown markdown_editor"
-          data-locale=${locale || ''}></div>`
+          data-locale=${locale || ''}></div>
+      ${this.renderErrors(selective, data)}`
   }
 
   postRender(containerEl) {
@@ -282,8 +308,8 @@ export class MarkdownField extends Field {
 }
 
 export class SelectField extends Field {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig)
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig)
     this.fieldType = 'select'
     this.threshold = this.config.threshold || 12
 
@@ -349,7 +375,8 @@ export class SelectField extends Field {
     }
 
     return html`
-      <div class="selective__field__select__options">
+      <div
+        class="${this.getClassesForInput(locale)} selective__field__select__options">
         ${repeat(options, (option) => option.value, (option, index) => html`
           <div
               class="selective__field__select__option ${isOptionSelected(option.value) ? 'selective__field__select__option--checked' : ''}"
@@ -364,13 +391,14 @@ export class SelectField extends Field {
             </div>
           </div>
         `)}
-      </div>`
+      </div>
+      ${this.renderErrors(selective, data)}`
   }
 }
 
 export class TextField extends Field {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig)
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig)
     this.fieldType = 'text'
 
     // When the text field is too long, convert input to a textarea.
@@ -412,26 +440,30 @@ export class TextField extends Field {
     if (this._switched[locale]) {
       return html`
         <textarea
+          class="${this.getClassesForInput(locale)}"
           id="${this.uid}${locale || ''}"
           rows=${this.config.rows || 6}
           placeholder=${this.config.placeholder || ''}
           data-locale=${locale || ''}
-          @input=${this.handleInput.bind(this)}>${value}</textarea>`
+          @input=${this.handleInput.bind(this)}>${value}</textarea>
+        ${this.renderErrors(selective, data)}`
     }
 
     return html`
       <input
+        class="${this.getClassesForInput(locale)}"
         id="${this.uid}${locale || ''}"
         placeholder=${this.config.placeholder || ''}
         data-locale=${locale || ''}
         @input=${this.handleInput.bind(this)}
-        value=${value} />`
+        value=${value} />
+      ${this.renderErrors(selective, data)}`
   }
 }
 
 export class TextareaField extends Field {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig)
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig)
     this.fieldType = 'textarea'
   }
 
@@ -440,10 +472,12 @@ export class TextareaField extends Field {
 
     return html`
       <textarea
+        class="${this.getClassesForInput(locale)}"
         id="${this.uid}${locale || ''}"
         rows=${this.config.rows || 6}
         placeholder=${this.config.placeholder || ''}
         data-locale=${locale || ''}
-        @input=${this.handleInput.bind(this)}>${value}</textarea>`
+        @input=${this.handleInput.bind(this)}>${value}</textarea>
+      ${this.renderErrors(selective, data)}`
   }
 }

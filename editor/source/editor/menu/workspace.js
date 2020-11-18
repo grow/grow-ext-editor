@@ -9,6 +9,7 @@ import {
 } from 'selective-edit'
 import Selective from 'selective-edit'
 import { defaultFields } from '../field'
+import { defaultValidationRules } from '../validation'
 import { findParentByClassname } from '../../utility/dom'
 import MenuBase from './base'
 
@@ -35,15 +36,18 @@ export default class WorkspaceMenu extends MenuBase {
       </div>`
   }
 
-  _createSelective(workspaces) {
+  _createSelective(branch, workspaces) {
     // Selective editor for the form to add new workspace.
     const newSelective = new Selective(null)
-    newSelective.data = {}
-
-    // Add the editor extension default field types.
-    for (const key of Object.keys(defaultFields)) {
-      newSelective.addFieldType(key, defaultFields[key])
+    newSelective.data = {
+      'base': branch,
     }
+
+    // Add the editor default field types.
+    newSelective.addFieldTypes(defaultFields)
+
+    // Add the editor default validation types.
+    newSelective.addRuleTypes(defaultValidationRules)
 
     const options = []
     for (const workspace of workspaces) {
@@ -57,23 +61,50 @@ export default class WorkspaceMenu extends MenuBase {
       'type': 'select',
       'key': 'base',
       'label': 'Parent workspace',
-      'help': 'Workspace to create the new workspace from.',
-      'options': options
+      'help': 'Workspace to base the new workspace on.',
+      'options': options,
+      'validation': [
+        {
+          'type': 'required',
+          'message': 'Parent workspace is required.',
+        },
+      ],
     })
 
     newSelective.addField({
       'type': 'text',
       'key': 'workspace',
       'label': 'New workspace name',
-      'help': 'Can only contain alpha-numeric characters and - (dash).',
+      'help': 'Used for the workspace url and the git branch.',
+      'validation': [
+        {
+          'type': 'required',
+          'message': 'Workspace name is required.',
+        },
+        {
+          'type': 'pattern',
+          'pattern': '^[a-z0-9-]*$',
+          'message': 'Workspace name can only contain lowercase alpha-numeric characters and - (dash).',
+        },
+        {
+          'type': 'match',
+          'excluded': {
+            'values': [
+              'master',
+              'staging',
+            ],
+            'message': 'Workspace name cannot be "master" or "staging".',
+          },
+        },
+      ],
     })
 
     return newSelective
   }
 
-  _getOrCreateSelective(workspaces) {
+  _getOrCreateSelective(branch, workspaces) {
     if (!this._selective) {
-      this._selective = this._createSelective(workspaces)
+      this._selective = this._createSelective(branch, workspaces)
     }
     return this._selective
   }
@@ -109,7 +140,8 @@ export default class WorkspaceMenu extends MenuBase {
     const workspaces = this.filterBranches(menuState.repo.branches.sort())
 
     if (this.modalWindow.isOpen) {
-      const newWorkspaceSelective = this._getOrCreateSelective(workspaces)
+      const newWorkspaceSelective = this._getOrCreateSelective(
+        menuState.repo.branch, workspaces)
 
       // Store the selective editor for the new file for processing in the menu.
       this.modalWindow.selective = newWorkspaceSelective

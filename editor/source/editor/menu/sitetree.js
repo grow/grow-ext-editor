@@ -29,6 +29,7 @@ export default class SiteTreeMenu extends MenuBase {
       [],  // Blacklist.
     )
 
+    this.copyFileWindow = this.config.get('copyFileModal')
     this.deleteFileWindow = this.config.get('deleteFileModal')
   }
 
@@ -78,12 +79,8 @@ export default class SiteTreeMenu extends MenuBase {
     evt.stopPropagation()
     const target = findParentByClassname(evt.target, 'menu__tree__folder__file')
     const podPath = target.dataset.podPath
-    console.log('copy: ', podPath);
-    document.dispatchEvent(new CustomEvent('selective.path.copy', {
-      detail: {
-        path: podPath,
-      }
-    }))
+    this.copyFileWindow.podPath = podPath
+    this.copyFileWindow.open()
   }
 
   handleFileDeleteClick(evt) {
