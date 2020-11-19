@@ -628,8 +628,8 @@ export class MediaFileField extends MediaField {
 
 // TODO: Move into the google media extension.
 export class GoogleMediaField extends MediaField {
-  constructor(config, extendedConfig) {
-    super(config, extendedConfig)
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig)
     this.fieldType = 'google_media'
     this.api = this.config.get('api')
 

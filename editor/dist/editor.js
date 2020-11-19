@@ -100055,6 +100055,7 @@ window.Editor = _editor_editor__WEBPACK_IMPORTED_MODULE_0__["default"];
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return EditorAutoFields; });
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var _utility_dataType__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utility/dataType */ "./source/utility/dataType.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -100084,6 +100085,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 /**
  * Automatically guess the field configuration from data.
  */
+
 
 var MEDIA_REGEX = /\.(jp[e]?g|png|svg|webp|gif|avif)$/i;
 var GOOGLE_MEDIA_REGEX = /(\.googleusercontent.com|storage.googleapis.com)\//i;
@@ -100135,13 +100137,13 @@ var EditorAutoFields = /*#__PURE__*/function (_AutoFields) {
   }, {
     key: "typeFromValue",
     value: function typeFromValue(value, key) {
-      if (this.DataType.isArray(value)) {
+      if (_utility_dataType__WEBPACK_IMPORTED_MODULE_1__["default"].isArray(value)) {
         if (key == 'partials') {
           return 'partials';
         }
       }
 
-      if (this.DataType.isObject(value)) {
+      if (_utility_dataType__WEBPACK_IMPORTED_MODULE_1__["default"].isObject(value)) {
         if (this._isConstructor(value)) {
           switch (value['tag']) {
             case '!g.doc':
@@ -103973,12 +103975,12 @@ var GoogleMediaField = /*#__PURE__*/function (_MediaField2) {
 
   var _super3 = _createSuper(GoogleMediaField);
 
-  function GoogleMediaField(config, extendedConfig) {
+  function GoogleMediaField(ruleTypes, config, extendedConfig) {
     var _this5;
 
     _classCallCheck(this, GoogleMediaField);
 
-    _this5 = _super3.call(this, config, extendedConfig);
+    _this5 = _super3.call(this, ruleTypes, config, extendedConfig);
     _this5.fieldType = 'google_media';
     _this5.api = _this5.config.get('api'); // TODO: Change to use the API after the extension is updated to the new
     // Extension style.
@@ -104207,12 +104209,12 @@ var PartialsField = /*#__PURE__*/function (_ListField) {
 
   var _super = _createSuper(PartialsField);
 
-  function PartialsField(config, globalConfig) {
+  function PartialsField(ruleTypes, config, globalConfig) {
     var _this;
 
     _classCallCheck(this, PartialsField);
 
-    _this = _super.call(this, config, globalConfig);
+    _this = _super.call(this, ruleTypes, config, globalConfig);
     _this.fieldType = 'partials';
     _this.partialTypes = null;
     _this.api = _this.config.get('api');

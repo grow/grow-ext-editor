@@ -3,6 +3,7 @@
  */
 
 import { AutoFields } from 'selective-edit'
+import DataType from '../utility/dataType'
 
 
 const MEDIA_REGEX = /\.(jp[e]?g|png|svg|webp|gif|avif)$/i
@@ -38,13 +39,13 @@ export default class EditorAutoFields extends AutoFields {
    * From a value, guess the type of field.
    */
   typeFromValue(value, key) {
-    if (this.DataType.isArray(value)) {
+    if (DataType.isArray(value)) {
       if (key == 'partials') {
         return 'partials'
       }
     }
 
-    if (this.DataType.isObject(value)) {
+    if (DataType.isObject(value)) {
       if (this._isConstructor(value)) {
         switch (value['tag']) {
           case '!g.doc':

@@ -17,8 +17,8 @@ import EditorAutoFields from '../autoFields'
 import ModalWindow from '../parts/modal'
 
 export class PartialsField extends ListField {
-  constructor(config, globalConfig) {
-    super(config, globalConfig)
+  constructor(ruleTypes, config, globalConfig) {
+    super(ruleTypes, config, globalConfig)
     this.fieldType = 'partials'
     this.partialTypes = null
     this.api = this.config.get('api')
