@@ -58,6 +58,7 @@ export default class Editor {
     this.listeners = new Listeners()
 
     this.menu = new Menu({
+      api: this.api,
       testing: this.isTesting,
       enableMenuWorkspace: this.config.enableMenuWorkspace,
     }, this)

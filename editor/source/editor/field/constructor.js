@@ -8,7 +8,7 @@ import {
   Field,
 } from 'selective-edit'
 import {
-  createWhiteBlackFilter,
+  createIncludeExcludeFilter,
   regexList,
 } from '../../utility/filter'
 import DataType from '../../utility/dataType'
@@ -67,11 +67,11 @@ export class ConstructorFileField extends ConstructorField {
     super(ruleTypes, config, extendedConfig)
     this._fileListUi = {}
     this._fileListCls = FileListUI
-    this.filterFunc = createWhiteBlackFilter(
-      // Whitelist.
-      regexList(this.config.get('whitelist')),
-      // Blacklist.
-      regexList(this.config.get('blacklist')),
+    this.filterFunc = createIncludeExcludeFilter(
+      // Included.
+      regexList(this.config.get('included')),
+      // Excluded.
+      regexList(this.config.get('excluded')),
     )
   }
 
@@ -150,11 +150,11 @@ export class DocumentField extends ConstructorFileField {
     super(ruleTypes, config, extendedConfig)
     this.fieldType = 'document'
     this.tag = '!g.doc'
-    this.filterFunc = createWhiteBlackFilter(
-      // Whitelist.
-      regexList(this.config.get('whitelist'), [/^\/content\//]),
-      // Blacklist.
-      regexList(this.config.get('blacklist')),
+    this.filterFunc = createIncludeExcludeFilter(
+      // Included.
+      regexList(this.config.get('included'), [/^\/content\//]),
+      // Excluded.
+      regexList(this.config.get('excluded')),
     )
   }
 }
@@ -164,15 +164,15 @@ export class StaticField extends ConstructorFileField {
     super(ruleTypes, config, extendedConfig)
     this.fieldType = 'static'
     this.tag = '!g.static'
-    this.filterFunc = createWhiteBlackFilter(
-      // Whitelist.
-      regexList(this.config.get('whitelist'), [
+    this.filterFunc = createIncludeExcludeFilter(
+      // Included.
+      regexList(this.config.get('included'), [
         /^.*\.(png|svg|jpg|jpeg|gif|avif)$/,
         /^\/source\/static\//,
         /^\/static\//,
       ]),
-      // Blacklist.
-      regexList(this.config.get('blacklist')),
+      // Excluded.
+      regexList(this.config.get('excluded')),
     )
   }
 }
@@ -184,11 +184,11 @@ export class StringField extends ConstructorFileField {
     this.tag = '!g.string'
     this._fileListUi = {}
     this._fileListCls = StringListUI
-    this.filterFunc = createWhiteBlackFilter(
-      // Whitelist.
-      regexList(this.config.get('whitelist')),
-      // Blacklist.
-      regexList(this.config.get('blacklist')),
+    this.filterFunc = createIncludeExcludeFilter(
+      // Included.
+      regexList(this.config.get('included')),
+      // Excluded.
+      regexList(this.config.get('excluded')),
     )
   }
 
@@ -247,11 +247,11 @@ export class YamlField extends ConstructorFileField {
     super(ruleTypes, config, extendedConfig)
     this.fieldType = 'yaml'
     this.tag = '!g.yaml'
-    this.filterFunc = createWhiteBlackFilter(
-      // Whitelist.
-      regexList(this.config.get('whitelist'), [/^\/content\/.*\.yaml$/, /^\/data\/.*\.yaml$/]),
-      // Blacklist.
-      regexList(this.config.get('blacklist')),
+    this.filterFunc = createIncludeExcludeFilter(
+      // Included.
+      regexList(this.config.get('included'), [/^\/content\/.*\.yaml$/, /^\/data\/.*\.yaml$/]),
+      // Excluded.
+      regexList(this.config.get('excluded')),
     )
   }
 }
