@@ -447,7 +447,8 @@ export class MediaField extends Field {
 
   renderPreviewMedia(selective, data, locale, servingPath) {
     for (const fileExt of Object.keys(EXT_TO_MIME_TYPE)) {
-      const isVideoFile = VALID_VIDEO_MIME_TYPES.includes(fileExt)
+      const extMimeType = EXT_TO_MIME_TYPE[fileExt]
+      const isVideoFile = VALID_VIDEO_MIME_TYPES.includes(extMimeType)
       if (isVideoFile && servingPath.endsWith(`.${fileExt}`)) {
         return html`<video
             data-locale=${locale || ''}

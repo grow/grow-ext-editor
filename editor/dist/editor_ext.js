@@ -103786,7 +103786,8 @@ var MediaField = /*#__PURE__*/function (_Field) {
     value: function renderPreviewMedia(selective, data, locale, servingPath) {
       for (var _i = 0, _Object$keys = Object.keys(EXT_TO_MIME_TYPE); _i < _Object$keys.length; _i++) {
         var fileExt = _Object$keys[_i];
-        var isVideoFile = VALID_VIDEO_MIME_TYPES.includes(fileExt);
+        var extMimeType = EXT_TO_MIME_TYPE[fileExt];
+        var isVideoFile = VALID_VIDEO_MIME_TYPES.includes(extMimeType);
 
         if (isVideoFile && servingPath.endsWith(".".concat(fileExt))) {
           return Object(selective_edit__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject9(), locale || '', servingPath, this.handleVideoLoad.bind(this), servingPath);
