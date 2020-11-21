@@ -10,7 +10,7 @@ git clone git@github.com:grow/grow-ext-editor.git
 git clone git@github.com:grow/selective-edit.git
 cd selective-edit
 npm link
-cd ../grow/ext-editor
+cd ../grow-ext-editor
 make develop
 cd editor
 npm link selective-edit
