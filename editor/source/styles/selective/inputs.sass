@@ -8,8 +8,11 @@
     padding: $ge-pad
     transition: all $ge-speed-faster ease-in-out
 
-    &.selective__field__input--error
+    &.selective__field__input--error__level__error
         +field-border-error
+
+    &.selective__field__input--error__level__warning
+        +field-border-warning
 
     // Alternate with nesting.
     // +list-nesting
@@ -29,8 +32,11 @@
     padding: $ge-pad
     transition: all $ge-speed-slow ease-in-out
 
-    &.selective__field__input--error
+    &.selective__field__input--error__level__error
         +field-border-error
+
+    &.selective__field__input--error__level__warning
+        +field-border-warning
 
     // Alternate with nesting.
     // +list-nesting

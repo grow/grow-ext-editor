@@ -68,11 +68,15 @@
     font-weight: 500
     margin-bottom: $ge-pad/2
 
-  &--error
+  .selective__field--invalid > &
+    color: $ge-color-error
+
+  &--error__level__warning
     color: $ge-color-warning
 
-  .selective__field--invalid > &
-    color: $ge-color-warning
+  // Error override warning message priority.
+  &--error__level__error
+    color: $ge-color-error
 
 .selective__field__deep_link
   display: none
@@ -85,8 +89,14 @@
   margin: $ge-pad/2 0
 
 .selective__field__invalid
-  color: $ge-color-warning
+  color: $ge-color-error
   margin-right: $ge-pad/2
+
+  .selective__field__label--error__level__warning &
+    color: $ge-color-warning
+
+  .selective__field__label--error__level__error &
+    color: $ge-color-error
 
 .selective__field__actions__wrapper
   align-items: center
@@ -100,12 +110,15 @@
   flex-flow: row
 
 .selective__field__errors
-  color: $ge-color-warning
+  color: $ge-color-error
   font-size: $ge-font-size-small
   margin: $ge-pad $ge-pad/2
 
 .selective__field__error
   margin: $ge-pad 0
+
+  &--level__warning
+    color: $ge-color-warning
 
 .selective__field__help
   font-size: $ge-font-size-small

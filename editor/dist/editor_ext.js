@@ -933,7 +933,7 @@ function _templateObject4() {
 }
 
 function _templateObject3() {
-  var data = _taggedTemplateLiteral(["\n            <div class=\"selective__field__error\" data-error-type=\"", "\">\n              ", "\n            </div>\n          "]);
+  var data = _taggedTemplateLiteral(["\n            <div\n                class=\"selective__field__error selective__field__error--level__", "\"\n                data-error-level=\"", "\"\n                data-error-type=\"", "\">\n              ", "\n            </div>\n          "]);
 
   _templateObject3 = function _templateObject3() {
     return data;
@@ -1057,6 +1057,7 @@ var Field = /*#__PURE__*/function (_compose) {
       if (errors) {
         var zoneErrors = errors.getErrorsForZone(zoneKey);
         var errorTypes = Object.keys(zoneErrors).sort();
+        var errorLevels = new Set();
 
         if (errorTypes.length) {
           classes.push('selective__field__input--error');
@@ -1069,11 +1070,26 @@ var Field = /*#__PURE__*/function (_compose) {
           for (_iterator.s(); !(_step = _iterator.n()).done;) {
             var key = _step.value;
             classes.push("selective__field__input--error__".concat(key));
+            errorLevels.add(zoneErrors[key].level);
           }
         } catch (err) {
           _iterator.e(err);
         } finally {
           _iterator.f();
+        }
+
+        var _iterator2 = _createForOfIteratorHelper(errorLevels),
+            _step2;
+
+        try {
+          for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+            var _key = _step2.value;
+            classes.push("selective__field__input--error__level__".concat(_key));
+          }
+        } catch (err) {
+          _iterator2.e(err);
+        } finally {
+          _iterator2.f();
         }
       }
 
@@ -1090,23 +1106,39 @@ var Field = /*#__PURE__*/function (_compose) {
         if (errors) {
           var zoneErrors = errors.getErrorsForZone(zoneKey);
           var errorTypes = Object.keys(zoneErrors).sort();
+          var errorLevels = new Set();
 
           if (errorTypes.length) {
             classes.push('selective__field__label--error');
           }
 
-          var _iterator2 = _createForOfIteratorHelper(errorTypes),
-              _step2;
+          var _iterator3 = _createForOfIteratorHelper(errorTypes),
+              _step3;
 
           try {
-            for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-              var key = _step2.value;
+            for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+              var key = _step3.value;
               classes.push("selective__field__label--error__".concat(key));
+              errorLevels.add(zoneErrors[key].level);
             }
           } catch (err) {
-            _iterator2.e(err);
+            _iterator3.e(err);
           } finally {
-            _iterator2.f();
+            _iterator3.f();
+          }
+
+          var _iterator4 = _createForOfIteratorHelper(errorLevels),
+              _step4;
+
+          try {
+            for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+              var _key2 = _step4.value;
+              classes.push("selective__field__label--error__level__".concat(_key2));
+            }
+          } catch (err) {
+            _iterator4.e(err);
+          } finally {
+            _iterator4.f();
           }
         }
       }
@@ -1209,7 +1241,7 @@ var Field = /*#__PURE__*/function (_compose) {
       return Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject2(), Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_3__["repeat"])(errorTypes, function (type) {
         return type;
       }, function (type, index) {
-        return Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject3(), type, zoneErrors[type]);
+        return Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject3(), zoneErrors[type].level, zoneErrors[type].level, type, zoneErrors[type].message);
       }));
     }
   }, {
@@ -1328,21 +1360,21 @@ var Field = /*#__PURE__*/function (_compose) {
       var sortedLocales = (selective.config.locales || [this.defaultLocale]).sort();
       var newLocales = [this.defaultLocale];
 
-      var _iterator3 = _createForOfIteratorHelper(sortedLocales),
-          _step3;
+      var _iterator5 = _createForOfIteratorHelper(sortedLocales),
+          _step5;
 
       try {
-        for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
-          var _locale = _step3.value;
+        for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
+          var _locale = _step5.value;
 
           if (_locale != this.defaultLocale) {
             newLocales.push(_locale);
           }
         }
       } catch (err) {
-        _iterator3.e(err);
+        _iterator5.e(err);
       } finally {
-        _iterator3.f();
+        _iterator5.f();
       }
 
       this.locales = newLocales; // Certain formats in the data may need to be cleaned up
@@ -1375,12 +1407,12 @@ var Field = /*#__PURE__*/function (_compose) {
         if (_typeof(data) === 'object' && data !== null) {
           data = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_7__["autoDeepObject"])(data);
 
-          var _iterator4 = _createForOfIteratorHelper(this.locales),
-              _step4;
+          var _iterator6 = _createForOfIteratorHelper(this.locales),
+              _step6;
 
           try {
-            for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
-              var locale = _step4.value;
+            for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
+              var locale = _step6.value;
 
               if (locale == this.defaultLocale) {
                 continue;
@@ -1390,9 +1422,9 @@ var Field = /*#__PURE__*/function (_compose) {
               newValues[localeKey] = this._cleanOriginalValue(data.get(localeKey));
             }
           } catch (err) {
-            _iterator4.e(err);
+            _iterator6.e(err);
           } finally {
-            _iterator4.f();
+            _iterator6.f();
           }
         } // Only if the field is clean, update the value.
 
@@ -1431,18 +1463,18 @@ var Field = /*#__PURE__*/function (_compose) {
       var classes = ['selective__field', "selective__field__type__".concat(this.fieldType)];
 
       if (this.config.classes) {
-        var _iterator5 = _createForOfIteratorHelper(this.config.classes),
-            _step5;
+        var _iterator7 = _createForOfIteratorHelper(this.config.classes),
+            _step7;
 
         try {
-          for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
-            var className = _step5.value;
+          for (_iterator7.s(); !(_step7 = _iterator7.n()).done;) {
+            var className = _step7.value;
             classes.push(className);
           }
         } catch (err) {
-          _iterator5.e(err);
+          _iterator7.e(err);
         } finally {
-          _iterator5.f();
+          _iterator7.f();
         }
       }
 
@@ -1516,21 +1548,21 @@ var Field = /*#__PURE__*/function (_compose) {
         return [];
       })();
 
-      var _iterator6 = _createForOfIteratorHelper(linkedFields),
-          _step6;
+      var _iterator8 = _createForOfIteratorHelper(linkedFields),
+          _step8;
 
       try {
-        for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
-          var linkedField = _step6.value;
+        for (_iterator8.s(); !(_step8 = _iterator8.n()).done;) {
+          var linkedField = _step8.value;
 
           if (linkedField == fullKey) {
             return true;
           }
         }
       } catch (err) {
-        _iterator6.e(err);
+        _iterator8.e(err);
       } finally {
-        _iterator6.f();
+        _iterator8.f();
       }
 
       return false;
@@ -1549,12 +1581,12 @@ var Field = /*#__PURE__*/function (_compose) {
       } // Validate each locale separately.
 
 
-      var _iterator7 = _createForOfIteratorHelper(locales),
-          _step7;
+      var _iterator9 = _createForOfIteratorHelper(locales),
+          _step9;
 
       try {
-        for (_iterator7.s(); !(_step7 = _iterator7.n()).done;) {
-          var locale = _step7.value;
+        for (_iterator9.s(); !(_step9 = _iterator9.n()).done;) {
+          var locale = _step9.value;
           var errors = new _validation_errors__WEBPACK_IMPORTED_MODULE_10__["default"]();
           var isDefaultLocale = !locale || locale == this.defaultLocale;
           var value = this.getValueForLocale(locale);
@@ -1580,9 +1612,9 @@ var Field = /*#__PURE__*/function (_compose) {
           }
         }
       } catch (err) {
-        _iterator7.e(err);
+        _iterator9.e(err);
       } finally {
-        _iterator7.f();
+        _iterator9.f();
       }
 
       return !hasErrors;
@@ -3831,9 +3863,13 @@ var ValidationErrors = /*#__PURE__*/function () {
 
   _createClass(ValidationErrors, [{
     key: "addError",
-    value: function addError(type, message, zoneKey) {
+    value: function addError(type, level, message, zoneKey) {
       var zone = this.getErrorsForZone(zoneKey);
-      zone[type] = message;
+      zone[type] = {
+        'level': level,
+        'message': message,
+        'type': type
+      };
     }
   }, {
     key: "getErrorsForZone",
@@ -3852,6 +3888,23 @@ var ValidationErrors = /*#__PURE__*/function () {
       for (var _i = 0, _Object$keys = Object.keys(this._zones); _i < _Object$keys.length; _i++) {
         var zoneKey = _Object$keys[_i];
 
+        for (var _i2 = 0, _Object$keys2 = Object.keys(this._zones[zoneKey]); _i2 < _Object$keys2.length; _i2++) {
+          var typeKey = _Object$keys2[_i2];
+
+          if (this._zones[zoneKey][typeKey].level == 'error') {
+            return true;
+          }
+        }
+      }
+
+      return false;
+    }
+  }, {
+    key: "hasAnyMessages",
+    value: function hasAnyMessages() {
+      for (var _i3 = 0, _Object$keys3 = Object.keys(this._zones); _i3 < _Object$keys3.length; _i3++) {
+        var zoneKey = _Object$keys3[_i3];
+
         if (Object.keys(this._zones[zoneKey]).length > 0) {
           return true;
         }
@@ -3862,6 +3915,21 @@ var ValidationErrors = /*#__PURE__*/function () {
   }, {
     key: "hasErrors",
     value: function hasErrors(zoneKey) {
+      var zone = this.getErrorsForZone(zoneKey);
+
+      for (var _i4 = 0, _Object$keys4 = Object.keys(zone); _i4 < _Object$keys4.length; _i4++) {
+        var typeKey = _Object$keys4[_i4];
+
+        if (this._zones[zoneKey][typeKey].level == 'error') {
+          return true;
+        }
+      }
+
+      return false;
+    }
+  }, {
+    key: "hasMessages",
+    value: function hasMessages(zoneKey) {
       var zone = this.getErrorsForZone(zoneKey);
       return Object.keys(zone).length > 0;
     }
@@ -3891,7 +3959,7 @@ var ValidationErrors = /*#__PURE__*/function () {
           var result = rule.validate(value, locale, isDefaultLocale);
 
           if (result) {
-            this.addError(rule.type, result, zoneKey);
+            this.addError(rule.type, rule.level, result, zoneKey);
           }
         }
       } catch (err) {
@@ -3972,6 +4040,9 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 var DEFAULT_ZONE_KEY = '__default__';
+var LEVEL_ERROR = 'error';
+var LEVEL_INFO = 'info';
+var LEVEL_WARNING = 'warning';
 
 var ValidationRules = /*#__PURE__*/function (_compose) {
   _inherits(ValidationRules, _compose);
@@ -4113,6 +4184,11 @@ var ValidationRule = /*#__PURE__*/function (_compose2) {
     key: "message",
     get: function get() {
       return this.config.message;
+    }
+  }, {
+    key: "level",
+    get: function get() {
+      return this.config.level || LEVEL_ERROR;
     }
   }, {
     key: "type",
@@ -105665,8 +105741,12 @@ var FileTreeMenu = /*#__PURE__*/function (_MenuBase) {
         originalExt = 'html';
       } else if (podPath.endsWith('.md')) {
         originalExt = 'md';
-      }
+      } // Do not want to show warning if the path is the same as the current path.
 
+
+      var otherPodPaths = podPaths.filter(function (value) {
+        return value !== podPath;
+      });
       newSelective.addField({
         'type': 'text',
         'key': 'fileName',
@@ -105694,8 +105774,15 @@ var FileTreeMenu = /*#__PURE__*/function (_MenuBase) {
         }, {
           'type': 'match',
           'excluded': {
-            'values': podPaths,
-            'message': 'File name already exists.'
+            'values': [podPath],
+            'message': 'Cannot copy to the same file.'
+          }
+        }, {
+          'type': 'match',
+          'level': 'warning',
+          'excluded': {
+            'values': otherPodPaths,
+            'message': 'File name already exists. Copying will overwrite the existing file.'
           }
         }]
       });

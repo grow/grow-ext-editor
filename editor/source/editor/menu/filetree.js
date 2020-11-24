@@ -68,6 +68,9 @@ export default class FileTreeMenu extends MenuBase {
       originalExt = 'md'
     }
 
+    // Do not want to show warning if the path is the same as the current path.
+    const otherPodPaths = podPaths.filter(value => value !== podPath)
+
     newSelective.addField({
       'type': 'text',
       'key': 'fileName',
@@ -101,8 +104,16 @@ export default class FileTreeMenu extends MenuBase {
         {
           'type': 'match',
           'excluded': {
-            'values': podPaths,
-            'message': 'File name already exists.',
+            'values': [podPath],
+            'message': 'Cannot copy to the same file.',
+          },
+        },
+        {
+          'type': 'match',
+          'level': 'warning',
+          'excluded': {
+            'values': otherPodPaths,
+            'message': 'File name already exists. Copying will overwrite the existing file.',
           },
         },
       ],
