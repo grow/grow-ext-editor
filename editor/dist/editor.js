@@ -822,10 +822,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mixin_uid__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../mixin/uid */ "../../../selective-edit/js/mixin/uid.js");
 /* harmony import */ var _validation_errors__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../validation/errors */ "../../../selective-edit/js/selective/validation/errors.js");
 /* harmony import */ var _validation_rules__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../validation/rules */ "../../../selective-edit/js/selective/validation/rules.js");
-function _templateObject13() {
+function _templateObject14() {
   var data = _taggedTemplateLiteral(["\n      ", "\n      ", ""]);
 
-  _templateObject13 = function _templateObject13() {
+  _templateObject14 = function _templateObject14() {
     return data;
   };
 
@@ -842,8 +842,18 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToAr
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-function _templateObject12() {
+function _templateObject13() {
   var data = _taggedTemplateLiteral(["\n      <div\n          class=", "\n          data-field-type=\"", "\"\n          data-field-full-key=\"", "\">\n        ", "\n      </div>"]);
+
+  _templateObject13 = function _templateObject13() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject12() {
+  var data = _taggedTemplateLiteral(["<span>(default)</span>"]);
 
   _templateObject12 = function _templateObject12() {
     return data;
@@ -853,7 +863,7 @@ function _templateObject12() {
 }
 
 function _templateObject11() {
-  var data = _taggedTemplateLiteral(["<span>(default)</span>"]);
+  var data = _taggedTemplateLiteral(["\n            <div class=\"selective__field__locale\">\n              <label for=\"", "", "\">", " ", "</label>\n            </div>\n            <div class=\"selective__field__input\">\n              ", "\n            </div>\n          "]);
 
   _templateObject11 = function _templateObject11() {
     return data;
@@ -863,7 +873,7 @@ function _templateObject11() {
 }
 
 function _templateObject10() {
-  var data = _taggedTemplateLiteral(["\n            <div class=\"selective__field__locale\">\n              <label for=\"", "", "\">", " ", "</label>\n            </div>\n            <div class=\"selective__field__input\">\n              ", "\n            </div>\n          "]);
+  var data = _taggedTemplateLiteral(["\n      <div class=\"selective__field__localization\">\n        ", "\n      </div>"]);
 
   _templateObject10 = function _templateObject10() {
     return data;
@@ -873,7 +883,7 @@ function _templateObject10() {
 }
 
 function _templateObject9() {
-  var data = _taggedTemplateLiteral(["\n      <div class=\"selective__field__localization\">\n        ", "\n      </div>"]);
+  var data = _taggedTemplateLiteral(["\n        <div class=\"selective__field__input\">\n          ", "\n        </div>"]);
 
   _templateObject9 = function _templateObject9() {
     return data;
@@ -883,7 +893,7 @@ function _templateObject9() {
 }
 
 function _templateObject8() {
-  var data = _taggedTemplateLiteral(["\n        <div class=\"selective__field__input\">\n          ", "\n        </div>"]);
+  var data = _taggedTemplateLiteral(["<div class=\"", "\">\n      ", "\n      ", "\n      <label for=\"", "\">", "</label>\n    </div>"]);
 
   _templateObject8 = function _templateObject8() {
     return data;
@@ -893,7 +903,7 @@ function _templateObject8() {
 }
 
 function _templateObject7() {
-  var data = _taggedTemplateLiteral(["<div class=\"", "\">\n      ", "\n      ", "\n      <label for=\"", "\">", "</label>\n    </div>"]);
+  var data = _taggedTemplateLiteral(["\n      <span\n          class=\"selective__field__deep_link\"\n          @click=", ">\n        <i class=\"material-icons\">link</i>\n      </span>"]);
 
   _templateObject7 = function _templateObject7() {
     return data;
@@ -903,7 +913,7 @@ function _templateObject7() {
 }
 
 function _templateObject6() {
-  var data = _taggedTemplateLiteral(["\n      <span\n          class=\"selective__field__deep_link\"\n          @click=", ">\n        <i class=\"material-icons\">link</i>\n      </span>"]);
+  var data = _taggedTemplateLiteral(["\n      <span\n          class=\"selective__field__invalid\">\n        <i class=\"material-icons\">error</i>\n      </span>"]);
 
   _templateObject6 = function _templateObject6() {
     return data;
@@ -913,7 +923,7 @@ function _templateObject6() {
 }
 
 function _templateObject5() {
-  var data = _taggedTemplateLiteral(["\n      <span\n          class=\"selective__field__invalid\">\n        <i class=\"material-icons\">error</i>\n      </span>"]);
+  var data = _taggedTemplateLiteral(["<div class=\"selective__field__help\">", "</div>"]);
 
   _templateObject5 = function _templateObject5() {
     return data;
@@ -923,7 +933,7 @@ function _templateObject5() {
 }
 
 function _templateObject4() {
-  var data = _taggedTemplateLiteral(["<div class=\"selective__field__help\">", "</div>"]);
+  var data = _taggedTemplateLiteral(["\n                <div\n                    class=\"selective__field__error selective__field__error--level__", "\"\n                    data-error-level=\"", "\"\n                    data-error-type=\"", "\">\n                  ", "\n                </div>\n              "]);
 
   _templateObject4 = function _templateObject4() {
     return data;
@@ -933,7 +943,7 @@ function _templateObject4() {
 }
 
 function _templateObject3() {
-  var data = _taggedTemplateLiteral(["\n            <div\n                class=\"selective__field__error selective__field__error--level__", "\"\n                data-error-level=\"", "\"\n                data-error-type=\"", "\">\n              ", "\n            </div>\n          "]);
+  var data = _taggedTemplateLiteral(["\n            ", "\n          "]);
 
   _templateObject3 = function _templateObject3() {
     return data;
@@ -1070,7 +1080,21 @@ var Field = /*#__PURE__*/function (_compose) {
           for (_iterator.s(); !(_step = _iterator.n()).done;) {
             var key = _step.value;
             classes.push("selective__field__input--error__".concat(key));
-            errorLevels.add(zoneErrors[key].level);
+            var _errors = zoneErrors[key];
+
+            var _iterator3 = _createForOfIteratorHelper(_errors),
+                _step3;
+
+            try {
+              for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+                var error = _step3.value;
+                errorLevels.add(error.level);
+              }
+            } catch (err) {
+              _iterator3.e(err);
+            } finally {
+              _iterator3.f();
+            }
           }
         } catch (err) {
           _iterator.e(err);
@@ -1112,33 +1136,47 @@ var Field = /*#__PURE__*/function (_compose) {
             classes.push('selective__field__label--error');
           }
 
-          var _iterator3 = _createForOfIteratorHelper(errorTypes),
-              _step3;
-
-          try {
-            for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
-              var key = _step3.value;
-              classes.push("selective__field__label--error__".concat(key));
-              errorLevels.add(zoneErrors[key].level);
-            }
-          } catch (err) {
-            _iterator3.e(err);
-          } finally {
-            _iterator3.f();
-          }
-
-          var _iterator4 = _createForOfIteratorHelper(errorLevels),
+          var _iterator4 = _createForOfIteratorHelper(errorTypes),
               _step4;
 
           try {
             for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
-              var _key2 = _step4.value;
-              classes.push("selective__field__label--error__level__".concat(_key2));
+              var key = _step4.value;
+              classes.push("selective__field__label--error__".concat(key));
+              var _errors2 = zoneErrors[key];
+
+              var _iterator6 = _createForOfIteratorHelper(_errors2),
+                  _step6;
+
+              try {
+                for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
+                  var error = _step6.value;
+                  errorLevels.add(error.level);
+                }
+              } catch (err) {
+                _iterator6.e(err);
+              } finally {
+                _iterator6.f();
+              }
             }
           } catch (err) {
             _iterator4.e(err);
           } finally {
             _iterator4.f();
+          }
+
+          var _iterator5 = _createForOfIteratorHelper(errorLevels),
+              _step5;
+
+          try {
+            for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
+              var _key2 = _step5.value;
+              classes.push("selective__field__label--error__level__".concat(_key2));
+            }
+          } catch (err) {
+            _iterator5.e(err);
+          } finally {
+            _iterator5.f();
           }
         }
       }
@@ -1241,7 +1279,11 @@ var Field = /*#__PURE__*/function (_compose) {
       return Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject2(), Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_3__["repeat"])(errorTypes, function (type) {
         return type;
       }, function (type, index) {
-        return Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject3(), zoneErrors[type].level, zoneErrors[type].level, type, zoneErrors[type].message);
+        return Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject3(), Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_3__["repeat"])(zoneErrors[type], function (errorMsg) {
+          return errorMsg.id;
+        }, function (errorMsg, index) {
+          return Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject4(), errorMsg.level, errorMsg.level, errorMsg.type, errorMsg.message);
+        }));
       }));
     }
   }, {
@@ -1261,7 +1303,7 @@ var Field = /*#__PURE__*/function (_compose) {
         return '';
       }
 
-      return Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject4(), this.config.help);
+      return Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject5(), this.config.help);
     }
   }, {
     key: "renderIconError",
@@ -1270,12 +1312,12 @@ var Field = /*#__PURE__*/function (_compose) {
         return '';
       }
 
-      return Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject5());
+      return Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject6());
     }
   }, {
     key: "renderIconLink",
     value: function renderIconLink(selective, data, locale) {
-      return Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject6(), this.handleDeepLink.bind(this));
+      return Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject7(), this.handleDeepLink.bind(this));
     }
   }, {
     key: "renderInput",
@@ -1289,7 +1331,7 @@ var Field = /*#__PURE__*/function (_compose) {
         return '';
       }
 
-      return Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject7(), this.getClassesForLabel(), this.renderIconLink(selective, data), this.renderIconError(selective, data), this.uid, this.config.label);
+      return Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject8(), this.getClassesForLabel(), this.renderIconLink(selective, data), this.renderIconError(selective, data), this.uid, this.config.label);
     }
   }, {
     key: "renderLocalization",
@@ -1297,20 +1339,20 @@ var Field = /*#__PURE__*/function (_compose) {
       var _this2 = this;
 
       if (this.ignoreLocalize || !selective.localize) {
-        return Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject8(), this.renderInput(selective, data));
+        return Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject9(), this.renderInput(selective, data));
       } // Render the localization grid.
 
 
-      return Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject9(), Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_3__["repeat"])(this.locales, function (locale) {
+      return Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject10(), Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_3__["repeat"])(this.locales, function (locale) {
         return locale;
       }, function (locale, index) {
-        return Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject10(), _this2.uid, locale, locale, locale == _this2.defaultLocale ? Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject11()) : '', _this2.renderInput(selective, data, locale));
+        return Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject11(), _this2.uid, locale, locale, locale == _this2.defaultLocale ? Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject12()) : '', _this2.renderInput(selective, data, locale));
       }));
     }
   }, {
     key: "renderWrapper",
     value: function renderWrapper(selective, data) {
-      return Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject12(), this.classesField, this.fieldType, this.fullKey, this.renderField(selective, data));
+      return Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject13(), this.classesField, this.fieldType, this.fullKey, this.renderField(selective, data));
     }
   }, {
     key: "setErrorsForLocale",
@@ -1360,21 +1402,21 @@ var Field = /*#__PURE__*/function (_compose) {
       var sortedLocales = (selective.config.locales || [this.defaultLocale]).sort();
       var newLocales = [this.defaultLocale];
 
-      var _iterator5 = _createForOfIteratorHelper(sortedLocales),
-          _step5;
+      var _iterator7 = _createForOfIteratorHelper(sortedLocales),
+          _step7;
 
       try {
-        for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
-          var _locale = _step5.value;
+        for (_iterator7.s(); !(_step7 = _iterator7.n()).done;) {
+          var _locale = _step7.value;
 
           if (_locale != this.defaultLocale) {
             newLocales.push(_locale);
           }
         }
       } catch (err) {
-        _iterator5.e(err);
+        _iterator7.e(err);
       } finally {
-        _iterator5.f();
+        _iterator7.f();
       }
 
       this.locales = newLocales; // Certain formats in the data may need to be cleaned up
@@ -1407,12 +1449,12 @@ var Field = /*#__PURE__*/function (_compose) {
         if (_typeof(data) === 'object' && data !== null) {
           data = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_7__["autoDeepObject"])(data);
 
-          var _iterator6 = _createForOfIteratorHelper(this.locales),
-              _step6;
+          var _iterator8 = _createForOfIteratorHelper(this.locales),
+              _step8;
 
           try {
-            for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
-              var locale = _step6.value;
+            for (_iterator8.s(); !(_step8 = _iterator8.n()).done;) {
+              var locale = _step8.value;
 
               if (locale == this.defaultLocale) {
                 continue;
@@ -1422,9 +1464,9 @@ var Field = /*#__PURE__*/function (_compose) {
               newValues[localeKey] = this._cleanOriginalValue(data.get(localeKey));
             }
           } catch (err) {
-            _iterator6.e(err);
+            _iterator8.e(err);
           } finally {
-            _iterator6.f();
+            _iterator8.f();
           }
         } // Only if the field is clean, update the value.
 
@@ -1463,18 +1505,18 @@ var Field = /*#__PURE__*/function (_compose) {
       var classes = ['selective__field', "selective__field__type__".concat(this.fieldType)];
 
       if (this.config.classes) {
-        var _iterator7 = _createForOfIteratorHelper(this.config.classes),
-            _step7;
+        var _iterator9 = _createForOfIteratorHelper(this.config.classes),
+            _step9;
 
         try {
-          for (_iterator7.s(); !(_step7 = _iterator7.n()).done;) {
-            var className = _step7.value;
+          for (_iterator9.s(); !(_step9 = _iterator9.n()).done;) {
+            var className = _step9.value;
             classes.push(className);
           }
         } catch (err) {
-          _iterator7.e(err);
+          _iterator9.e(err);
         } finally {
-          _iterator7.f();
+          _iterator9.f();
         }
       }
 
@@ -1548,21 +1590,21 @@ var Field = /*#__PURE__*/function (_compose) {
         return [];
       })();
 
-      var _iterator8 = _createForOfIteratorHelper(linkedFields),
-          _step8;
+      var _iterator10 = _createForOfIteratorHelper(linkedFields),
+          _step10;
 
       try {
-        for (_iterator8.s(); !(_step8 = _iterator8.n()).done;) {
-          var linkedField = _step8.value;
+        for (_iterator10.s(); !(_step10 = _iterator10.n()).done;) {
+          var linkedField = _step10.value;
 
           if (linkedField == fullKey) {
             return true;
           }
         }
       } catch (err) {
-        _iterator8.e(err);
+        _iterator10.e(err);
       } finally {
-        _iterator8.f();
+        _iterator10.f();
       }
 
       return false;
@@ -1581,12 +1623,12 @@ var Field = /*#__PURE__*/function (_compose) {
       } // Validate each locale separately.
 
 
-      var _iterator9 = _createForOfIteratorHelper(locales),
-          _step9;
+      var _iterator11 = _createForOfIteratorHelper(locales),
+          _step11;
 
       try {
-        for (_iterator9.s(); !(_step9 = _iterator9.n()).done;) {
-          var locale = _step9.value;
+        for (_iterator11.s(); !(_step11 = _iterator11.n()).done;) {
+          var locale = _step11.value;
           var errors = new _validation_errors__WEBPACK_IMPORTED_MODULE_10__["default"]();
           var isDefaultLocale = !locale || locale == this.defaultLocale;
           var value = this.getValueForLocale(locale);
@@ -1612,9 +1654,9 @@ var Field = /*#__PURE__*/function (_compose) {
           }
         }
       } catch (err) {
-        _iterator9.e(err);
+        _iterator11.e(err);
       } finally {
-        _iterator9.f();
+        _iterator11.f();
       }
 
       return !hasErrors;
@@ -1652,7 +1694,7 @@ var Field = /*#__PURE__*/function (_compose) {
       var _this3 = this;
 
       return function (selective, data) {
-        return Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject13(), _this3.updateOriginal(selective, data), _this3.renderWrapper(selective, data));
+        return Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject14(), _this3.updateOriginal(selective, data), _this3.renderWrapper(selective, data));
       };
     }
   }, {
@@ -3834,6 +3876,7 @@ var UI = /*#__PURE__*/function (_compose) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ValidationErrors; });
+/* harmony import */ var _utility_uuid__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../utility/uuid */ "../../../selective-edit/js/utility/uuid.js");
 function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -3852,6 +3895,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
  * 'Zone' based error tracking. Allows for complex fields that have different
  * validation for different parts of the field.
  */
+
 var DEFAULT_ZONE_KEY = '__default__';
 
 var ValidationErrors = /*#__PURE__*/function () {
@@ -3865,11 +3909,17 @@ var ValidationErrors = /*#__PURE__*/function () {
     key: "addError",
     value: function addError(type, level, message, zoneKey) {
       var zone = this.getErrorsForZone(zoneKey);
-      zone[type] = {
+
+      if (!zone[type]) {
+        zone[type] = [];
+      }
+
+      zone[type].push({
+        'id': Object(_utility_uuid__WEBPACK_IMPORTED_MODULE_0__["default"])(),
         'level': level,
         'message': message,
         'type': type
-      };
+      });
     }
   }, {
     key: "getErrorsForZone",
@@ -3887,12 +3937,27 @@ var ValidationErrors = /*#__PURE__*/function () {
     value: function hasAnyErrors() {
       for (var _i = 0, _Object$keys = Object.keys(this._zones); _i < _Object$keys.length; _i++) {
         var zoneKey = _Object$keys[_i];
+        var zone = this._zones[zoneKey];
 
-        for (var _i2 = 0, _Object$keys2 = Object.keys(this._zones[zoneKey]); _i2 < _Object$keys2.length; _i2++) {
+        for (var _i2 = 0, _Object$keys2 = Object.keys(zone); _i2 < _Object$keys2.length; _i2++) {
           var typeKey = _Object$keys2[_i2];
+          var typeErrors = this._zones[zoneKey][typeKey];
 
-          if (this._zones[zoneKey][typeKey].level == 'error') {
-            return true;
+          var _iterator = _createForOfIteratorHelper(typeErrors),
+              _step;
+
+          try {
+            for (_iterator.s(); !(_step = _iterator.n()).done;) {
+              var error = _step.value;
+
+              if (error.level == 'error') {
+                return true;
+              }
+            }
+          } catch (err) {
+            _iterator.e(err);
+          } finally {
+            _iterator.f();
           }
         }
       }
@@ -3919,9 +3984,23 @@ var ValidationErrors = /*#__PURE__*/function () {
 
       for (var _i4 = 0, _Object$keys4 = Object.keys(zone); _i4 < _Object$keys4.length; _i4++) {
         var typeKey = _Object$keys4[_i4];
+        var typeErrors = this._zones[zoneKey][typeKey];
 
-        if (this._zones[zoneKey][typeKey].level == 'error') {
-          return true;
+        var _iterator2 = _createForOfIteratorHelper(typeErrors),
+            _step2;
+
+        try {
+          for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+            var error = _step2.value;
+
+            if (error.level == 'error') {
+              return true;
+            }
+          }
+        } catch (err) {
+          _iterator2.e(err);
+        } finally {
+          _iterator2.f();
         }
       }
 
@@ -3936,12 +4015,12 @@ var ValidationErrors = /*#__PURE__*/function () {
   }, {
     key: "validateRules",
     value: function validateRules(rules, value, locale, isDefaultLocale, zoneKey) {
-      var _iterator = _createForOfIteratorHelper(rules.getRulesForZone(zoneKey)),
-          _step;
+      var _iterator3 = _createForOfIteratorHelper(rules.getRulesForZone(zoneKey)),
+          _step3;
 
       try {
-        for (_iterator.s(); !(_step = _iterator.n()).done;) {
-          var rule = _step.value;
+        for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+          var rule = _step3.value;
 
           // Ignore rules that only apply to default locale when not default.
           // For example, a required rule is usually only required in the default.
@@ -3963,9 +4042,9 @@ var ValidationErrors = /*#__PURE__*/function () {
           }
         }
       } catch (err) {
-        _iterator.e(err);
+        _iterator3.e(err);
       } finally {
-        _iterator.f();
+        _iterator3.f();
       }
     }
   }, {
