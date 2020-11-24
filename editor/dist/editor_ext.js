@@ -100328,7 +100328,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../utility/dom */ "./source/utility/dom.js");
 /* harmony import */ var _utility_repo__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../utility/repo */ "./source/utility/repo.js");
 /* harmony import */ var _utility_storage__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../utility/storage */ "./source/utility/storage.js");
-/* harmony import */ var _utility_settings__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ../utility/settings */ "./source/utility/settings.js");
+/* harmony import */ var _utility_strings__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ../utility/strings */ "./source/utility/strings.js");
+/* harmony import */ var _utility_settings__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ../utility/settings */ "./source/utility/settings.js");
 function _templateObject22() {
   var data = _taggedTemplateLiteral(["\n      ", "\n      <div class=\"editor__card editor__field_list\">\n        <div class=\"editor__card__title\">\n          Content\n        </div>\n        <div class=\"editor__selective\">\n          ", "\n        </div>\n      </div>\n      <div class=\"editor__dev_tools\">\n        <div>Developer tools:</div>\n        <div class=\"editor__dev_tools__icons\">\n          <i\n              class=\"editor__dev_tools__icon ", " material-icons\"\n              @click=", "\n              title=\"Highlight auto fields\">\n            assistant\n          </i>\n          <i\n              class=\"editor__dev_tools__icon ", " material-icons\"\n              @click=", "\n              title=\"Deep link to fields\">\n            link\n          </i>\n          <i\n              class=\"editor__dev_tools__icon ", " material-icons\"\n              @click=", "\n              title=\"Highlight dirty fields\">\n            change_history\n          </i>\n        </div>\n      </div>"]);
 
@@ -100595,6 +100596,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 
 
+
+
 var CONTENT_KEY = '__content__';
 var CODEMIRROR_OPTIONS = {
   lineNumbers: true,
@@ -100650,16 +100653,16 @@ var Editor = /*#__PURE__*/function () {
     this._defaultDevice = 'desktop';
     this._device = this.storage.getItem('selective.device') || this._defaultDevice; // Persistent settings in local storage.
 
-    this.settingDeviceRotated = new _utility_settings__WEBPACK_IMPORTED_MODULE_19__["SettingToggle"](false, this.storage, 'selective.device.rotated');
-    this.settingDeviceView = new _utility_settings__WEBPACK_IMPORTED_MODULE_19__["SettingToggle"](false, this.storage, 'selective.device.view');
-    this.settingFullScreenEditor = new _utility_settings__WEBPACK_IMPORTED_MODULE_19__["SettingToggle"](false, this.storage, 'selective.fullScreenEditor');
-    this.settingFullScreenPreview = new _utility_settings__WEBPACK_IMPORTED_MODULE_19__["SettingToggle"](false, this.storage, 'selective.fullScreenPreview');
-    this.settingHighlightDirty = new _utility_settings__WEBPACK_IMPORTED_MODULE_19__["SettingToggle"](false, this.storage, 'selective.highlight.dirty');
-    this.settingHighlightGuess = new _utility_settings__WEBPACK_IMPORTED_MODULE_19__["SettingToggle"](false, this.storage, 'selective.highlight.guess');
-    this.settingHighlightLinked = new _utility_settings__WEBPACK_IMPORTED_MODULE_19__["SettingToggle"](false, this.storage, 'selective.highlight.linked');
-    this.settingLocalize = new _utility_settings__WEBPACK_IMPORTED_MODULE_19__["SettingToggle"](false, this.storage, 'selective.localize');
-    this.settingLocalizeUrls = new _utility_settings__WEBPACK_IMPORTED_MODULE_19__["SettingToggle"](false, this.storage, 'selective.localize.urls');
-    this.settingEditorPane = new _utility_settings__WEBPACK_IMPORTED_MODULE_19__["SettingSet"](['fields', 'source', 'history'], 'fields', this.storage, 'selective.editor.pane');
+    this.settingDeviceRotated = new _utility_settings__WEBPACK_IMPORTED_MODULE_20__["SettingToggle"](false, this.storage, 'selective.device.rotated');
+    this.settingDeviceView = new _utility_settings__WEBPACK_IMPORTED_MODULE_20__["SettingToggle"](false, this.storage, 'selective.device.view');
+    this.settingFullScreenEditor = new _utility_settings__WEBPACK_IMPORTED_MODULE_20__["SettingToggle"](false, this.storage, 'selective.fullScreenEditor');
+    this.settingFullScreenPreview = new _utility_settings__WEBPACK_IMPORTED_MODULE_20__["SettingToggle"](false, this.storage, 'selective.fullScreenPreview');
+    this.settingHighlightDirty = new _utility_settings__WEBPACK_IMPORTED_MODULE_20__["SettingToggle"](false, this.storage, 'selective.highlight.dirty');
+    this.settingHighlightGuess = new _utility_settings__WEBPACK_IMPORTED_MODULE_20__["SettingToggle"](false, this.storage, 'selective.highlight.guess');
+    this.settingHighlightLinked = new _utility_settings__WEBPACK_IMPORTED_MODULE_20__["SettingToggle"](false, this.storage, 'selective.highlight.linked');
+    this.settingLocalize = new _utility_settings__WEBPACK_IMPORTED_MODULE_20__["SettingToggle"](false, this.storage, 'selective.localize');
+    this.settingLocalizeUrls = new _utility_settings__WEBPACK_IMPORTED_MODULE_20__["SettingToggle"](false, this.storage, 'selective.localize.urls');
+    this.settingEditorPane = new _utility_settings__WEBPACK_IMPORTED_MODULE_20__["SettingSet"](['fields', 'source', 'history'], 'fields', this.storage, 'selective.editor.pane');
     this.settingLocale = null;
     this._isFullMarkdownEditor = false;
     this._hasLoadedFields = false;
@@ -100861,7 +100864,7 @@ var Editor = /*#__PURE__*/function () {
     key: "documentFromResponse",
     value: function documentFromResponse(response) {
       this.document = new _document__WEBPACK_IMPORTED_MODULE_9__["default"](response['pod_path'], response['front_matter'], response['raw_front_matter'], response['serving_paths'], response['default_locale'], response['locales'], response['content'], response['hash']);
-      this.settingLocale = new _utility_settings__WEBPACK_IMPORTED_MODULE_19__["SettingSet"](this.document.locales, this.document.defaultLocale, this.storage, 'selective.editor.locale');
+      this.settingLocale = new _utility_settings__WEBPACK_IMPORTED_MODULE_20__["SettingSet"](this.document.locales, this.document.defaultLocale, this.storage, 'selective.editor.locale');
     }
   }, {
     key: "handleDeviceRotateClick",
@@ -101127,7 +101130,7 @@ var Editor = /*#__PURE__*/function () {
   }, {
     key: "handleLoadStrings",
     value: function handleLoadStrings(response) {
-      this._strings = response['strings'];
+      this._strings = new _utility_strings__WEBPACK_IMPORTED_MODULE_19__["default"](response['strings']);
       this.listeners.trigger('load.strings', {
         strings: this._strings
       });
@@ -101467,7 +101470,7 @@ var Editor = /*#__PURE__*/function () {
         saveDisabled = true;
       }
 
-      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject2(), editor.document.data['$title'] || editor.document.data['$title@'], editor.podPath, this.servingPath ? Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject3(), editor.handleFullScreenEditorClick.bind(editor), editor.settingFullScreenEditor.on || !this.servingPath ? 'fullscreen_exit' : 'fullscreen') : '', this.settingEditorPane.is('fields') ? 'editor__button--selected' : '', editor.handleFieldsClick.bind(editor), !editor.isClean, this.settingEditorPane.is('source') ? 'editor__button--selected' : '', editor.handleSourceClick.bind(editor), !editor.isClean, this.settingEditorPane.is('history') ? 'editor__button--selected' : '', editor.handleHistoryClick.bind(editor), !editor.isClean, isValid ? '' : Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject4()), saveDisabled, saveClasses.join(' '), editor.save.bind(editor), saveStatusLabel, editor.templatePane);
+      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject2(), Object(_utility_strings__WEBPACK_IMPORTED_MODULE_19__["textOrString"])(editor.document.data['$title'] || editor.document.data['$title@'], this._strings, this.loadStrings.bind(this)), editor.podPath, this.servingPath ? Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject3(), editor.handleFullScreenEditorClick.bind(editor), editor.settingFullScreenEditor.on || !this.servingPath ? 'fullscreen_exit' : 'fullscreen') : '', this.settingEditorPane.is('fields') ? 'editor__button--selected' : '', editor.handleFieldsClick.bind(editor), !editor.isClean, this.settingEditorPane.is('source') ? 'editor__button--selected' : '', editor.handleSourceClick.bind(editor), !editor.isClean, this.settingEditorPane.is('history') ? 'editor__button--selected' : '', editor.handleHistoryClick.bind(editor), !editor.isClean, isValid ? '' : Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject4()), saveDisabled, saveClasses.join(' '), editor.save.bind(editor), saveStatusLabel, editor.templatePane);
     }
   }, {
     key: "renderPreview",
@@ -108402,9 +108405,7 @@ var StringListUI = /*#__PURE__*/function (_FileListUI) {
   }, {
     key: "handleStrings",
     value: function handleStrings(response) {
-      this.podPaths = response.strings; // TODO: filter the keys using the filter function.
-      // .sort().filter(this.filterFunc)
-
+      this.podPaths = response.strings.strings;
       this.delayedFocus();
       this.render();
     }
@@ -109597,6 +109598,77 @@ var Storage = /*#__PURE__*/function () {
 }();
 
 
+
+/***/ }),
+
+/***/ "./source/utility/strings.js":
+/*!***********************************!*\
+  !*** ./source/utility/strings.js ***!
+  \***********************************/
+/*! exports provided: default, textOrString */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Strings; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "textOrString", function() { return textOrString; });
+/* harmony import */ var _dataType__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dataType */ "./source/utility/dataType.js");
+/* harmony import */ var _deepObject__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./deepObject */ "./source/utility/deepObject.js");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
+var STRINGS_POD_PATH = '/content/strings/';
+var STRINGS_EXTENSION = '.yaml';
+
+var Strings = /*#__PURE__*/function () {
+  function Strings(strings) {
+    _classCallCheck(this, Strings);
+
+    this.strings = strings;
+    this._deep = {};
+  }
+
+  _createClass(Strings, [{
+    key: "string",
+    value: function string(key) {
+      var parts = key.split('.');
+
+      if (parts.length < 2) {
+        return key;
+      }
+
+      var filename = parts.shift();
+      var podPath = "".concat(STRINGS_POD_PATH).concat(filename).concat(STRINGS_EXTENSION);
+
+      if (!this._deep[podPath]) {
+        this._deep[podPath] = new _deepObject__WEBPACK_IMPORTED_MODULE_1__["default"](this.strings[podPath] || {});
+      }
+
+      return this._deep[podPath].get(parts.join('.'));
+    }
+  }]);
+
+  return Strings;
+}();
+
+
+function textOrString(value, strings, loadStrings) {
+  if (_dataType__WEBPACK_IMPORTED_MODULE_0__["default"].isObject(value) && value.tag == '!g.string') {
+    if (!strings) {
+      loadStrings();
+      return value;
+    }
+
+    return strings.string(value.value);
+  }
+
+  return value;
+}
 
 /***/ }),
 

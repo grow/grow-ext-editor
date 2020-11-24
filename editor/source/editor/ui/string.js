@@ -61,9 +61,7 @@ export class StringListUI extends FileListUI {
   }
 
   handleStrings(response) {
-    this.podPaths = response.strings
-    // TODO: filter the keys using the filter function.
-    // .sort().filter(this.filterFunc)
+    this.podPaths = response.strings.strings
     this.delayedFocus()
     this.render()
   }

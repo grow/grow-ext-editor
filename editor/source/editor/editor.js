@@ -26,6 +26,8 @@ import { zoomIframe } from './zoomIframe'
 import { findParentByClassname } from '../utility/dom'
 import Repo from '../utility/repo'
 import Storage from '../utility/storage'
+import Strings from '../utility/strings'
+import { textOrString } from '../utility/strings'
 import {
   SettingSet,
   SettingToggle,
@@ -761,7 +763,7 @@ export default class Editor {
   }
 
   handleLoadStrings(response) {
-    this._strings = response['strings']
+    this._strings = new Strings(response['strings'])
     this.listeners.trigger('load.strings', {
       strings: this._strings,
     })
@@ -1076,7 +1078,7 @@ export default class Editor {
             Page:
           </div>
           <div class="editor__edit__header__title">
-            ${editor.document.data['$title'] || editor.document.data['$title@']}
+            ${textOrString(editor.document.data['$title'] || editor.document.data['$title@'], this._strings, this.loadStrings.bind(this))}
           </div>
         </div>
         <div class="editor__edit__header__section">
