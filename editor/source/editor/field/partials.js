@@ -27,7 +27,7 @@ export class PartialsField extends ListField {
   }
 
   _createFields(fieldTypes, config, partialKey) {
-    return new PartialsFields(fieldTypes, config, partialKey)
+    return new PartialsFields(fieldTypes, this.ruleTypes, config, partialKey)
   }
 
   get fullKey() {
