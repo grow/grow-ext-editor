@@ -103871,7 +103871,7 @@ class RepoMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
       return '…';
     }
 
-    return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject3(), menuState.repo.webUrlForBranch(menuState.repo, menuState.repo.branch), menuState.repo.cleanBranch(menuState.repo.branch), menuState.repo.webUrlForCommit(menuState.repo, menuState.repo.commits[0].sha), menuState.repo.commits[0].sha.substring(0, 6), lastCommitAuthor, lastCommitDate.format('D MMM YYYY, h:mm:ss a'), lastCommitDate.fromNow());
+    return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject3(), menuState.repo.webUrlForBranch(menuState.repo.branch), menuState.repo.cleanBranch(menuState.repo.branch), menuState.repo.webUrlForCommit(menuState.repo.commits[0].sha), menuState.repo.commits[0].sha.substring(0, 6), lastCommitAuthor, lastCommitDate.format('D MMM YYYY, h:mm:ss a'), lastCommitDate.fromNow());
   }
 
 }

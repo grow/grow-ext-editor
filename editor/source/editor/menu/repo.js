@@ -45,12 +45,12 @@ export default class RepoMenu extends MenuBase {
       <div class="menu__repo__workspace menu__repo__value">
         <a
             class="menu__repo__workspace__branch"
-            href=${menuState.repo.webUrlForBranch(menuState.repo, menuState.repo.branch)}
+            href=${menuState.repo.webUrlForBranch(menuState.repo.branch)}
             target="_blank">
           ${menuState.repo.cleanBranch(menuState.repo.branch)}
         </a>
         @ <a
-            href=${menuState.repo.webUrlForCommit(menuState.repo, menuState.repo.commits[0].sha)}
+            href=${menuState.repo.webUrlForCommit(menuState.repo.commits[0].sha)}
             target="_blank">
           ${menuState.repo.commits[0].sha.substring(0, 6)}
         </a>
