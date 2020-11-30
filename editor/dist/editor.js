@@ -1269,42 +1269,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../utility/config */ "../../../selective-edit/js/utility/config.js");
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../utility/dom */ "../../../selective-edit/js/utility/dom.js");
 /* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
-/* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../autoFields */ "../../../selective-edit/js/selective/autoFields.js");
-/* harmony import */ var _fields_fields__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../fields/fields */ "../../../selective-edit/js/selective/fields/fields.js");
-/* harmony import */ var _ui_sortable__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../ui/sortable */ "../../../selective-edit/js/selective/ui/sortable.js");
-/* harmony import */ var _field__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./field */ "../../../selective-edit/js/selective/field/field.js");
-function _templateObject14() {
-  var data = _taggedTemplateLiteral(["<div\n        class=\"selective__list__item__preview\"\n        data-item-uid=", "\n        data-locale=", "\n        @click=", ">\n      ", "\n    </div>"]);
-
-  _templateObject14 = function _templateObject14() {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject13() {
-  var data = _taggedTemplateLiteral(["\n      <div class=\"selective__field__actions__wrapper\">\n        <div class=\"", "\">\n          ", "\n          <label>", "</label>\n        </div>\n        ", "\n      </div>"]);
-
-  _templateObject13 = function _templateObject13() {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject12() {
-  var data = _taggedTemplateLiteral(["\n      <div class=\"selective__list__item selective__list__item--simple selective__sortable\"\n          draggable=\"true\"\n          data-index=", "\n          data-locale=", "\n          @dragenter=", "\n          @dragleave=", "\n          @dragover=", "\n          @dragstart=", "\n          @drop=", ">\n        <div class=\"selective__list__item__drag\">\n          <i class=\"material-icons\">drag_indicator</i>\n        </div>\n        ", "\n        <div\n            class=\"selective__list__item__delete\"\n            data-item-uid=", "\n            data-locale=", "\n            @click=", "\n            title=\"Delete item\">\n          <i class=\"material-icons\">delete</i>\n        </div>\n      </div>"]);
-
-  _templateObject12 = function _templateObject12() {
-    return data;
-  };
-
-  return data;
-}
-
+/* harmony import */ var _utility_preview__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../utility/preview */ "../../../selective-edit/js/utility/preview.js");
+/* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../autoFields */ "../../../selective-edit/js/selective/autoFields.js");
+/* harmony import */ var _fields_fields__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../fields/fields */ "../../../selective-edit/js/selective/fields/fields.js");
+/* harmony import */ var _ui_sortable__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../ui/sortable */ "../../../selective-edit/js/selective/ui/sortable.js");
+/* harmony import */ var _field__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./field */ "../../../selective-edit/js/selective/field/field.js");
 function _templateObject11() {
-  var data = _taggedTemplateLiteral(["\n      <div class=\"selective__list__item selective__sortable\"\n          draggable=\"true\"\n          data-index=", "\n          data-locale=", "\n          @dragenter=", "\n          @dragleave=", "\n          @dragover=", "\n          @dragstart=", "\n          @drop=", ">\n        <div class=\"selective__list__fields__label ", "\"\n            data-item-uid=", "\n            data-locale=", "\n            @click=", ">\n          ", "\n        </div>\n        ", "\n      </div>"]);
+  var data = _taggedTemplateLiteral(["<div\n        class=\"selective__list__item__preview\"\n        data-item-uid=", "\n        data-locale=", "\n        @click=", ">\n      ", "\n    </div>"]);
 
   _templateObject11 = function _templateObject11() {
     return data;
@@ -1314,7 +1285,7 @@ function _templateObject11() {
 }
 
 function _templateObject10() {
-  var data = _taggedTemplateLiteral(["\n      <div class=\"selective__list__item selective__list__item--empty\"\n          data-index=", "\n          data-locale=", ">\n        ", "\n      </div>"]);
+  var data = _taggedTemplateLiteral(["\n      <div class=\"selective__field__actions__wrapper\">\n        <div class=\"", "\">\n          ", "\n          <label>", "</label>\n        </div>\n        ", "\n      </div>"]);
 
   _templateObject10 = function _templateObject10() {
     return data;
@@ -1324,7 +1295,7 @@ function _templateObject10() {
 }
 
 function _templateObject9() {
-  var data = _taggedTemplateLiteral(["\n      <div class=\"selective__list__item selective__list__item--collapsed selective__sortable\"\n          draggable=\"true\"\n          data-index=", "\n          data-locale=", "\n          @dragenter=", "\n          @dragleave=", "\n          @dragover=", "\n          @dragstart=", "\n          @drop=", ">\n        <div class=\"selective__list__item__drag\"><i class=\"material-icons\">drag_indicator</i></div>\n        ", "\n        <div\n            class=\"selective__list__item__delete\"\n            data-item-uid=", "\n            data-locale=", "\n            @click=", "\n            title=\"Delete item\">\n          <i class=\"material-icons\">delete</i>\n        </div>\n      </div>"]);
+  var data = _taggedTemplateLiteral(["\n      <div class=\"selective__list__item selective__list__item--simple selective__sortable\"\n          draggable=\"true\"\n          data-index=", "\n          data-locale=", "\n          @dragenter=", "\n          @dragleave=", "\n          @dragover=", "\n          @dragstart=", "\n          @drop=", ">\n        <div class=\"selective__list__item__drag\">\n          <i class=\"material-icons\">drag_indicator</i>\n        </div>\n        ", "\n        <div\n            class=\"selective__list__item__delete\"\n            data-item-uid=", "\n            data-locale=", "\n            @click=", "\n            title=\"Delete item\">\n          <i class=\"material-icons\">delete</i>\n        </div>\n      </div>"]);
 
   _templateObject9 = function _templateObject9() {
     return data;
@@ -1334,7 +1305,7 @@ function _templateObject9() {
 }
 
 function _templateObject8() {
-  var data = _taggedTemplateLiteral(["\n      <div class=\"selective__list\">\n        ", "\n        ", "\n      </div>\n      ", "\n      ", ""]);
+  var data = _taggedTemplateLiteral(["\n      <div class=\"selective__list__item selective__sortable\"\n          draggable=\"true\"\n          data-index=", "\n          data-locale=", "\n          @dragenter=", "\n          @dragleave=", "\n          @dragover=", "\n          @dragstart=", "\n          @drop=", ">\n        <div class=\"selective__list__fields__label ", "\"\n            data-item-uid=", "\n            data-locale=", "\n            @click=", ">\n          ", "\n        </div>\n        ", "\n      </div>"]);
 
   _templateObject8 = function _templateObject8() {
     return data;
@@ -1344,7 +1315,7 @@ function _templateObject8() {
 }
 
 function _templateObject7() {
-  var data = _taggedTemplateLiteral(["<div class=\"selective__actions\">\n      ", "\n    </div>"]);
+  var data = _taggedTemplateLiteral(["\n      <div class=\"selective__list__item selective__list__item--empty\"\n          data-index=", "\n          data-locale=", ">\n        ", "\n      </div>"]);
 
   _templateObject7 = function _templateObject7() {
     return data;
@@ -1354,7 +1325,7 @@ function _templateObject7() {
 }
 
 function _templateObject6() {
-  var data = _taggedTemplateLiteral(["\n      <div\n          ?disabled=", "\n          class=\"selective__action selective__action__collapse\"\n          data-locale=", "\n          @click=", ">\n        <i class=\"material-icons\">unfold_less</i>\n      </div>"]);
+  var data = _taggedTemplateLiteral(["\n      <div class=\"selective__list__item selective__list__item--collapsed selective__sortable\"\n          draggable=\"true\"\n          data-index=", "\n          data-locale=", "\n          @dragenter=", "\n          @dragleave=", "\n          @dragover=", "\n          @dragstart=", "\n          @drop=", ">\n        <div class=\"selective__list__item__drag\"><i class=\"material-icons\">drag_indicator</i></div>\n        ", "\n        <div\n            class=\"selective__list__item__delete\"\n            data-item-uid=", "\n            data-locale=", "\n            @click=", "\n            title=\"Delete item\">\n          <i class=\"material-icons\">delete</i>\n        </div>\n      </div>"]);
 
   _templateObject6 = function _templateObject6() {
     return data;
@@ -1364,7 +1335,7 @@ function _templateObject6() {
 }
 
 function _templateObject5() {
-  var data = _taggedTemplateLiteral(["\n      <div\n          ?disabled=", "\n          class=\"selective__action selective__action__expand\"\n          data-locale=", "\n          @click=", ">\n        <i class=\"material-icons\">unfold_more</i>\n      </div>"]);
+  var data = _taggedTemplateLiteral(["\n      <div class=\"selective__list\">\n        ", "\n        ", "\n      </div>\n      ", "\n      ", ""]);
 
   _templateObject5 = function _templateObject5() {
     return data;
@@ -1374,7 +1345,7 @@ function _templateObject5() {
 }
 
 function _templateObject4() {
-  var data = _taggedTemplateLiteral(["<div class=\"selective__actions\">\n      <button\n          data-locale=", "\n          @click=", ">\n        Add\n      </button>\n    </div>"]);
+  var data = _taggedTemplateLiteral(["<div class=\"selective__actions\">\n      ", "\n    </div>"]);
 
   _templateObject4 = function _templateObject4() {
     return data;
@@ -1384,7 +1355,7 @@ function _templateObject4() {
 }
 
 function _templateObject3() {
-  var data = _taggedTemplateLiteral(["<img src=\"", "\" class=\"selective__image__fingernail\">"]);
+  var data = _taggedTemplateLiteral(["\n      <div\n          ?disabled=", "\n          class=\"selective__action selective__action__collapse\"\n          data-locale=", "\n          @click=", ">\n        <i class=\"material-icons\">unfold_less</i>\n      </div>"]);
 
   _templateObject3 = function _templateObject3() {
     return data;
@@ -1394,7 +1365,7 @@ function _templateObject3() {
 }
 
 function _templateObject2() {
-  var data = _taggedTemplateLiteral(["<img src=\"", "\" class=\"selective__image__fingernail\">"]);
+  var data = _taggedTemplateLiteral(["\n      <div\n          ?disabled=", "\n          class=\"selective__action selective__action__expand\"\n          data-locale=", "\n          @click=", ">\n        <i class=\"material-icons\">unfold_more</i>\n      </div>"]);
 
   _templateObject2 = function _templateObject2() {
     return data;
@@ -1404,7 +1375,7 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["<video playsinline disableremoteplayback muted autoplay loop>\n            <source src=\"", "\" />\n          </video>"]);
+  var data = _taggedTemplateLiteral(["<div class=\"selective__actions\">\n      <button\n          data-locale=", "\n          @click=", ">\n        Add\n      </button>\n    </div>"]);
 
   _templateObject = function _templateObject() {
     return data;
@@ -1431,24 +1402,21 @@ function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(
 
 
 
-var COMMON_PREVIEW_KEYS = [// First match wins.
-'title', 'label', 'subtitle', 'type', 'text', 'key', 'id', 'url', 'value', 'doc', 'partial'];
-var VIDEO_EXT = [// Video extensions.
-'mp4', 'webm'];
-class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
+
+class ListField extends _field__WEBPACK_IMPORTED_MODULE_13__["default"] {
   constructor(ruleTypes, config, globalConfig) {
     super(ruleTypes, config, globalConfig);
     this.fieldType = 'list';
     this.isLocalized = true;
     this._listItems = {};
     this._useAutoFields = false;
-    this._sortableUi = new _ui_sortable__WEBPACK_IMPORTED_MODULE_11__["SortableUI"]();
+    this._sortableUi = new _ui_sortable__WEBPACK_IMPORTED_MODULE_12__["SortableUI"]();
 
     this._sortableUi.listeners.add('sort', this.handleSort.bind(this));
   }
 
   _createFields(fieldTypes, ruleTypes, config) {
-    var FieldsCls = this.config.get('FieldsCls', _fields_fields__WEBPACK_IMPORTED_MODULE_10__["default"]);
+    var FieldsCls = this.config.get('FieldsCls', _fields_fields__WEBPACK_IMPORTED_MODULE_11__["default"]);
     return new FieldsCls(fieldTypes, ruleTypes, config);
   }
 
@@ -1474,7 +1442,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
       fields.updateOriginal(selective, itemData); // Auto guess the fields if they are not defined.
 
       if (this._useAutoFields) {
-        var AutoFieldsCls = this.config.get('AutoFieldsCls', _autoFields__WEBPACK_IMPORTED_MODULE_9__["default"]);
+        var AutoFieldsCls = this.config.get('AutoFieldsCls', _autoFields__WEBPACK_IMPORTED_MODULE_10__["default"]);
         fieldConfigs = new AutoFieldsCls(itemData).config['fields'];
       } // Create the fields based on the config.
 
@@ -1509,22 +1477,6 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
     }
   }
 
-  _createPreviewTemplate(url) {
-    if (url.startsWith('http') || url.startsWith('//')) {
-      for (var videoExt of VIDEO_EXT) {
-        if (url.endsWith(".".concat(videoExt))) {
-          return Object(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject(), url);
-        }
-      }
-
-      return Object(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject2(), url);
-    } else if (url.startsWith('/')) {
-      return Object(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject3(), url);
-    }
-
-    return url;
-  }
-
   _getListItemsForLocale(locale) {
     var localeKey = this.keyForLocale(locale);
 
@@ -1535,31 +1487,6 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
     }
 
     return [...this._listItems[localeKey]];
-  }
-
-  _guessPreviewForObject(obj) {
-    var deepObj = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_8__["autoDeepObject"])(obj);
-    var previewValue = obj;
-
-    for (var key of COMMON_PREVIEW_KEYS) {
-      previewValue = deepObj.get(key);
-
-      if (!previewValue) {
-        // Also check for translation marked keys.
-        previewValue = deepObj.get("".concat(key, "@"));
-      }
-
-      if (previewValue) {
-        break;
-      }
-    } // If the matched preview is also an object try again.
-
-
-    if (typeof previewValue == 'object') {
-      return this._guessPreviewForObject(previewValue);
-    }
-
-    return previewValue;
   }
 
   _setListItemsForLocale(locale, listItems) {
@@ -1636,36 +1563,9 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
   }
 
   guessPreview(item, index, defaultPreview) {
-    var defaultPreviewField = this.config.get('preview_field');
-    var previewType = this.config.get('preview_type', 'text');
-    var previewField = item.config.preview_field;
-    var previewValue = item.fields.value;
-    var dataDeepObject = Object(_utility_deepObject__WEBPACK_IMPORTED_MODULE_8__["autoDeepObject"])(previewValue);
-
-    if (previewField || defaultPreviewField) {
-      previewValue = dataDeepObject.get(previewField || defaultPreviewField);
-    } // Do not try to show preview for complex values.
-
-
-    if (typeof previewValue == 'object') {
-      previewValue = null;
-    }
-
-    if (previewType == 'image' && previewValue) {
-      return this._createPreviewTemplate(previewValue);
-    }
-
-    if (previewValue || defaultPreview) {
-      return previewValue || defaultPreview;
-    }
-
-    previewValue = this._guessPreviewForObject(dataDeepObject);
-
-    if (previewValue) {
-      return previewValue;
-    }
-
-    return "{ Item ".concat(index + 1, " }");
+    var previewType = item.config.get('preview_type', this.config.get('preview_type', 'text'));
+    var previewValue = Object(_utility_preview__WEBPACK_IMPORTED_MODULE_9__["findPreviewValue"])(this.config, item.config, item.fields.value);
+    return Object(_utility_preview__WEBPACK_IMPORTED_MODULE_9__["templatePreviewValue"])(previewValue, previewType, "{ Item ".concat(index + 1, " }"));
   }
 
   handleAddItem(evt, selective) {
@@ -1874,7 +1774,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
   }
 
   renderActionsFooter(selective, data, locale) {
-    return Object(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject4(), locale || '', evt => {
+    return Object(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject(), locale || '', evt => {
       this.handleAddItem(evt, selective);
     });
   }
@@ -1914,9 +1814,9 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
       return '';
     }
 
-    actions.push(Object(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject5(), areAllExpanded, locale || '', this.handleExpandAll.bind(this)));
-    actions.push(Object(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject6(), areAllCollapsed, locale || '', this.handleCollapseAll.bind(this)));
-    return Object(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject7(), actions);
+    actions.push(Object(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject2(), areAllExpanded, locale || '', this.handleExpandAll.bind(this)));
+    actions.push(Object(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject3(), areAllCollapsed, locale || '', this.handleCollapseAll.bind(this)));
+    return Object(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject4(), actions);
   }
 
   renderInput(selective, data, locale) {
@@ -1925,7 +1825,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
     var items = this._getListItemsForLocale(locale) || [];
     var origValue = this.getOriginalValueForLocale(locale) || [];
     var origValueLen = origValue.length;
-    return Object(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject8(), Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__["repeat"])(items, item => item.uid, (item, index) => this.renderItem(selective, index < origValueLen ? origValue[index] : item.fields.defaultValue, item, index, locale)), items.length < 1 ? this.renderItemEmpty(selective, data, 0, locale) : '', this.renderActionsFooter(selective, data, locale), this.renderErrors(selective, data, locale));
+    return Object(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject5(), Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__["repeat"])(items, item => item.uid, (item, index) => this.renderItem(selective, index < origValueLen ? origValue[index] : item.fields.defaultValue, item, index, locale)), items.length < 1 ? this.renderItemEmpty(selective, data, 0, locale) : '', this.renderActionsFooter(selective, data, locale), this.renderErrors(selective, data, locale));
   }
 
   renderItem(selective, data, item, index, locale) {
@@ -1940,27 +1840,27 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_12__["default"] {
 
   renderItemCollapsed(selective, data, item, index, locale) {
     item.fields.updateOriginal(selective, data, true);
-    return Object(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject9(), index, locale || '', this._sortableUi.handleDragEnter.bind(this._sortableUi), this._sortableUi.handleDragLeave.bind(this._sortableUi), this._sortableUi.handleDragOver.bind(this._sortableUi), this._sortableUi.handleDragStart.bind(this._sortableUi), this._sortableUi.handleDrop.bind(this._sortableUi), this.renderPreview(selective, data, item, index, locale), item.uid, locale || '', this.handleDeleteItem.bind(this));
+    return Object(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject6(), index, locale || '', this._sortableUi.handleDragEnter.bind(this._sortableUi), this._sortableUi.handleDragLeave.bind(this._sortableUi), this._sortableUi.handleDragOver.bind(this._sortableUi), this._sortableUi.handleDragStart.bind(this._sortableUi), this._sortableUi.handleDrop.bind(this._sortableUi), this.renderPreview(selective, data, item, index, locale), item.uid, locale || '', this.handleDeleteItem.bind(this));
   }
 
   renderItemEmpty(selective, data, index, locale) {
-    return Object(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject10(), index, locale || '', this.config.get('emptyLabel', '{ Empty }'));
+    return Object(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject7(), index, locale || '', this.config.get('emptyLabel', '{ Empty }'));
   }
 
   renderItemExpanded(selective, data, item, index, locale) {
-    return Object(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject11(), index, locale || '', this._sortableUi.handleDragEnter.bind(this._sortableUi), this._sortableUi.handleDragLeave.bind(this._sortableUi), this._sortableUi.handleDragOver.bind(this._sortableUi), this._sortableUi.handleDragStart.bind(this._sortableUi), this._sortableUi.handleDrop.bind(this._sortableUi), !item.fields.label ? 'selective__list__fields__label--empty' : '', item.uid, locale || '', this.handleCollapseItem.bind(this), item.fields.label, item.fields.template(selective, data));
+    return Object(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject8(), index, locale || '', this._sortableUi.handleDragEnter.bind(this._sortableUi), this._sortableUi.handleDragLeave.bind(this._sortableUi), this._sortableUi.handleDragOver.bind(this._sortableUi), this._sortableUi.handleDragStart.bind(this._sortableUi), this._sortableUi.handleDrop.bind(this._sortableUi), !item.fields.label ? 'selective__list__fields__label--empty' : '', item.uid, locale || '', this.handleCollapseItem.bind(this), item.fields.label, item.fields.template(selective, data));
   }
 
   renderItemSimple(selective, data, item, index, locale) {
-    return Object(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject12(), index, locale || '', this._sortableUi.handleDragEnter.bind(this._sortableUi), this._sortableUi.handleDragLeave.bind(this._sortableUi), this._sortableUi.handleDragOver.bind(this._sortableUi), this._sortableUi.handleDragStart.bind(this._sortableUi), this._sortableUi.handleDrop.bind(this._sortableUi), item.fields.template(selective, data), item.uid, locale || '', this.handleDeleteItem.bind(this));
+    return Object(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject9(), index, locale || '', this._sortableUi.handleDragEnter.bind(this._sortableUi), this._sortableUi.handleDragLeave.bind(this._sortableUi), this._sortableUi.handleDragOver.bind(this._sortableUi), this._sortableUi.handleDragStart.bind(this._sortableUi), this._sortableUi.handleDrop.bind(this._sortableUi), item.fields.template(selective, data), item.uid, locale || '', this.handleDeleteItem.bind(this));
   }
 
   renderLabel(selective, data) {
-    return Object(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject13(), this.getClassesForLabel(), this.renderIconError(selective, data), this.config.label, this.renderActionsHeader(selective, data));
+    return Object(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject10(), this.getClassesForLabel(), this.renderIconError(selective, data), this.config.label, this.renderActionsHeader(selective, data));
   }
 
   renderPreview(selective, data, item, index, locale) {
-    return Object(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject14(), item.uid, locale || '', this.handleExpandItem.bind(this), this.guessPreview(item, index));
+    return Object(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject11(), item.uid, locale || '', this.handleExpandItem.bind(this), this.guessPreview(item, index));
   }
 
 }
@@ -3520,6 +3420,151 @@ class Listeners {
   }
 
 }
+
+/***/ }),
+
+/***/ "../../../selective-edit/js/utility/preview.js":
+/*!*********************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit/js/utility/preview.js ***!
+  \*********************************************************************/
+/*! exports provided: findPreviewValue, templatePreviewValue */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "findPreviewValue", function() { return findPreviewValue; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "templatePreviewValue", function() { return templatePreviewValue; });
+/* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lit-html */ "../../../selective-edit/node_modules/lit-html/lit-html.js");
+/* harmony import */ var _dataType__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./dataType */ "../../../selective-edit/js/utility/dataType.js");
+/* harmony import */ var _deepObject__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./deepObject */ "../../../selective-edit/js/utility/deepObject.js");
+function _templateObject3() {
+  var data = _taggedTemplateLiteral(["<img src=\"", "\" class=\"selective__image__fingernail\">"]);
+
+  _templateObject3 = function _templateObject3() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject2() {
+  var data = _taggedTemplateLiteral(["<img src=\"", "\" class=\"selective__image__fingernail\">"]);
+
+  _templateObject2 = function _templateObject2() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["<video playsinline disableremoteplayback muted autoplay loop>\n            <source src=\"", "\" />\n          </video>"]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+/**
+ *  Utility for determining the preview value.
+ */
+
+
+
+var COMMON_PREVIEW_KEYS = [// First match wins.
+'title', 'label', 'subtitle', 'type', 'text', 'key', 'id', 'url', 'value', 'doc', 'partial'];
+var VIDEO_EXT = [// Video extensions.
+'mp4', 'webm'];
+
+var guessPreviewForObject = obj => {
+  var deepObj = Object(_deepObject__WEBPACK_IMPORTED_MODULE_2__["autoDeepObject"])(obj);
+  var previewValue = obj;
+
+  for (var key of COMMON_PREVIEW_KEYS) {
+    previewValue = deepObj.get(key);
+
+    if (!previewValue) {
+      // Also check for translation marked keys.
+      previewValue = deepObj.get("".concat(key, "@"));
+    }
+
+    if (previewValue) {
+      break;
+    }
+  } // If the matched preview is also an object try again.
+
+
+  if (_dataType__WEBPACK_IMPORTED_MODULE_1__["default"].isObject(previewValue)) {
+    return guessPreviewForObject(previewValue);
+  }
+
+  return previewValue;
+};
+
+var findPreviewValue = (mainConfig, subConfig, value, defaultValue) => {
+  value = Object(_deepObject__WEBPACK_IMPORTED_MODULE_2__["autoDeepObject"])(value);
+  var previewValue = null;
+  var defaultPreviewField = mainConfig.get('preview_field');
+  var defaultPreviewFields = mainConfig.get('preview_fields');
+  var previewField = subConfig.preview_field;
+  var previewFields = subConfig.preview_fields;
+  var previewFieldKeys = previewField || previewFields || defaultPreviewField || defaultPreviewFields;
+
+  if (previewFieldKeys) {
+    // Treat preview_type and preview_types as an array.
+    if (!_dataType__WEBPACK_IMPORTED_MODULE_1__["default"].isArray(previewFieldKeys)) {
+      previewFieldKeys = [previewFieldKeys];
+    }
+
+    for (var fieldKey of previewFieldKeys) {
+      previewValue = value.get(fieldKey); // First matching field key becomes the value.
+
+      if (previewValue) {
+        break;
+      }
+    }
+  }
+
+  if (!previewValue) {
+    previewValue = value.obj;
+  }
+
+  if (previewValue) {
+    // Do not return a object as a preview.
+    // Previews need to be something that can be displayed.
+    if (_dataType__WEBPACK_IMPORTED_MODULE_1__["default"].isObject(previewValue)) {
+      previewValue = guessPreviewForObject(previewValue);
+    }
+
+    return previewValue || defaultValue;
+  }
+
+  return defaultValue;
+};
+
+var templatePreviewValue = (previewValue, previewType, defaultValue) => {
+  if (previewType == 'image') {
+    if (previewValue.startsWith('http') || previewValue.startsWith('//')) {
+      for (var videoExt of VIDEO_EXT) {
+        if (previewValue.endsWith(".".concat(videoExt))) {
+          return Object(lit_html__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject(), previewValue);
+        }
+      }
+
+      return Object(lit_html__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject2(), previewValue);
+    } else if (previewValue.startsWith('/')) {
+      return Object(lit_html__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject3(), previewValue);
+    }
+  }
+
+  return previewValue || defaultValue;
+};
+
+
 
 /***/ }),
 
