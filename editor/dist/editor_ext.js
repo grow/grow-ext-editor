@@ -103028,8 +103028,10 @@ class FileTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_5__["default"] {
       originalExt = 'html';
     } else if (podPath.endsWith('.md')) {
       originalExt = 'md';
-    }
+    } // Do not want to show warning if the path is the same as the current path.
 
+
+    var otherPodPaths = podPaths.filter(value => value !== podPath);
     newSelective.addField({
       'type': 'text',
       'key': 'fileName',
@@ -103057,8 +103059,15 @@ class FileTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_5__["default"] {
       }, {
         'type': 'match',
         'excluded': {
-          'values': podPaths,
-          'message': 'File name already exists.'
+          'values': [podPath],
+          'message': 'Cannot copy to the same file.'
+        }
+      }, {
+        'type': 'match',
+        'level': 'warning',
+        'excluded': {
+          'values': otherPodPaths,
+          'message': 'File name already exists. Copying will overwrite the existing file.'
         }
       }]
     });
