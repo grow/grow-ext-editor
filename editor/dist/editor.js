@@ -102309,19 +102309,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _toast_ui_editor__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_toast_ui_editor__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _tui_editor_externalLink__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../tui-editor/externalLink */ "./source/editor/tui-editor/externalLink.js");
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
-/* harmony import */ var _quill_image_upload__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../quill/image-upload */ "./source/editor/quill/image-upload.js");
-function _templateObject10() {
-  var data = _taggedTemplateLiteral(["\n      <textarea\n        class=\"", "\"\n        id=\"", "", "\"\n        rows=", "\n        placeholder=", "\n        data-locale=", "\n        @input=", ">", "</textarea>\n      ", ""]);
-
-  _templateObject10 = function _templateObject10() {
-    return data;
-  };
-
-  return data;
-}
-
+/* harmony import */ var _template_option__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../template/option */ "./source/editor/template/option.js");
+/* harmony import */ var _quill_image_upload__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../quill/image-upload */ "./source/editor/quill/image-upload.js");
 function _templateObject9() {
-  var data = _taggedTemplateLiteral(["\n      <input\n        class=\"", "\"\n        id=\"", "", "\"\n        placeholder=", "\n        data-locale=", "\n        @input=", "\n        value=", " />\n      ", ""]);
+  var data = _taggedTemplateLiteral(["\n      <textarea\n        class=\"", "\"\n        id=\"", "", "\"\n        rows=", "\n        placeholder=", "\n        data-locale=", "\n        @input=", ">", "</textarea>\n      ", ""]);
 
   _templateObject9 = function _templateObject9() {
     return data;
@@ -102331,7 +102322,7 @@ function _templateObject9() {
 }
 
 function _templateObject8() {
-  var data = _taggedTemplateLiteral(["\n        <textarea\n          class=\"", "\"\n          id=\"", "", "\"\n          rows=", "\n          placeholder=", "\n          data-locale=", "\n          @input=", ">", "</textarea>\n        ", ""]);
+  var data = _taggedTemplateLiteral(["\n      <input\n        class=\"", "\"\n        id=\"", "", "\"\n        placeholder=", "\n        data-locale=", "\n        @input=", "\n        value=", " />\n      ", ""]);
 
   _templateObject8 = function _templateObject8() {
     return data;
@@ -102341,7 +102332,7 @@ function _templateObject8() {
 }
 
 function _templateObject7() {
-  var data = _taggedTemplateLiteral(["\n          <div\n              class=\"selective__field__select__option ", "\"\n              data-locale=", "\n              data-value=", "\n              @click=", ">\n            <i class=\"material-icons\">\n              ", "\n            </i>\n            <div>\n              ", "\n            </div>\n          </div>\n        "]);
+  var data = _taggedTemplateLiteral(["\n        <textarea\n          class=\"", "\"\n          id=\"", "", "\"\n          rows=", "\n          placeholder=", "\n          data-locale=", "\n          @input=", ">", "</textarea>\n        ", ""]);
 
   _templateObject7 = function _templateObject7() {
     return data;
@@ -102419,6 +102410,7 @@ function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(
 /**
  * Standard field types for the editor extension.
  */
+
 
 
 
@@ -102518,7 +102510,7 @@ class HtmlField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
       if (extension_config['googleImageUploadUrl']) {
         var uploadUrl = extension_config['googleImageUploadUrl'];
         var bucket = extension_config['googleImageBucket'];
-        this.imageUploader = new _quill_image_upload__WEBPACK_IMPORTED_MODULE_5__["default"]( /*#__PURE__*/function () {
+        this.imageUploader = new _quill_image_upload__WEBPACK_IMPORTED_MODULE_6__["default"]( /*#__PURE__*/function () {
           var _ref = _asyncToGenerator(function* (imageBlob) {
             var result = yield _this.api.saveGoogleImage(imageBlob, uploadUrl, bucket);
             return result['url'];
@@ -102530,7 +102522,7 @@ class HtmlField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
         }());
       } else {
         var destination = this.config.get('destination', '/static/img/upload');
-        this.imageUploader = new _quill_image_upload__WEBPACK_IMPORTED_MODULE_5__["default"]( /*#__PURE__*/function () {
+        this.imageUploader = new _quill_image_upload__WEBPACK_IMPORTED_MODULE_6__["default"]( /*#__PURE__*/function () {
           var _ref2 = _asyncToGenerator(function* (imageBlob) {
             var result = yield _this.api.saveImage(imageBlob, destination);
             return result['serving_url'];
@@ -102766,7 +102758,9 @@ class SelectField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
       return value == optionValue;
     };
 
-    return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject6(), this.getClassesForInput(locale), Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(options, option => option.value, (option, index) => Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject7(), isOptionSelected(option.value) ? 'selective__field__select__option--checked' : '', locale || '', option.value || '', this.handleInput.bind(this), isOptionSelected(option.value) ? this.icons[1] : this.icons[0], option.label || '(None)')), this.renderErrors(selective, data));
+    return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject6(), this.getClassesForInput(locale), Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(options, option => option.value, (option, index) => Object(_template_option__WEBPACK_IMPORTED_MODULE_5__["templateOptionColor"])(locale, option, isOptionSelected(option.value), [], {
+      handleInput: this.handleInput.bind(this)
+    })), this.renderErrors(selective, data));
   }
 
 }
@@ -102811,10 +102805,10 @@ class TextField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
     }
 
     if (this._switched[locale]) {
-      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject8(), this.getClassesForInput(locale), this.uid, locale || '', this.config.rows || 6, this.config.placeholder || '', locale || '', this.handleInput.bind(this), value, this.renderErrors(selective, data));
+      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject7(), this.getClassesForInput(locale), this.uid, locale || '', this.config.rows || 6, this.config.placeholder || '', locale || '', this.handleInput.bind(this), value, this.renderErrors(selective, data));
     }
 
-    return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject9(), this.getClassesForInput(locale), this.uid, locale || '', this.config.placeholder || '', locale || '', this.handleInput.bind(this), value, this.renderErrors(selective, data));
+    return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject8(), this.getClassesForInput(locale), this.uid, locale || '', this.config.placeholder || '', locale || '', this.handleInput.bind(this), value, this.renderErrors(selective, data));
   }
 
 }
@@ -102826,7 +102820,7 @@ class TextareaField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"]
 
   renderInput(selective, data, locale) {
     var value = this.getValueForLocale(locale) || '';
-    return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject10(), this.getClassesForInput(locale), this.uid, locale || '', this.config.rows || 6, this.config.placeholder || '', locale || '', this.handleInput.bind(this), value, this.renderErrors(selective, data));
+    return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject9(), this.getClassesForInput(locale), this.uid, locale || '', this.config.rows || 6, this.config.placeholder || '', locale || '', this.handleInput.bind(this), value, this.renderErrors(selective, data));
   }
 
 }
@@ -104747,6 +104741,87 @@ class ImageUploader {
   }
 
 }
+
+/***/ }),
+
+/***/ "./source/editor/template/option.js":
+/*!******************************************!*\
+  !*** ./source/editor/template/option.js ***!
+  \******************************************/
+/*! exports provided: templateOptionColor */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "templateOptionColor", function() { return templateOptionColor; });
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var _utility_dataType__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dataType */ "./source/utility/dataType.js");
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["\n    <div\n        class=\"selective__field__select__option ", "\"\n        data-locale=", "\n        data-value=", "\n        @click=", ">\n      <div\n          class=\"selective__field__select__dot\"\n          aria-label=", "\n          style=\"", " ", "\"></div>\n      <div>\n        ", "\n      </div>\n    </div>"]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+/**
+ *  Template for options.
+ */
+
+
+
+var templateOptionColor = (locale, option, isSelected, classes, handlers) => {
+  isSelected = isSelected || false;
+  classes = classes || [];
+
+  if (isSelected) {
+    classes.push('selective__field__select__option--checked');
+  }
+
+  var colorDotStyle = '';
+  var colorDotSelectedStyle = '';
+  var colorAria = '';
+
+  if (option.color) {
+    classes.push('selective__field__select__option--colored');
+
+    if (_utility_dataType__WEBPACK_IMPORTED_MODULE_1__["default"].isArray(option.color)) {
+      var colorBreakpoints = [];
+      var breakpoint = Math.floor(100 / option.color.length);
+      colorBreakpoints.push("".concat(option.color[0], " 0%"));
+      var lastColor = null;
+
+      for (var color of option.color) {
+        if (!lastColor) {
+          lastColor = color;
+          continue;
+        }
+
+        colorBreakpoints.push("".concat(lastColor, " ").concat(breakpoint, "%"));
+        colorBreakpoints.push("".concat(color, " ").concat(breakpoint, "%"));
+        breakpoint += breakpoint;
+        lastColor = color;
+      }
+
+      colorBreakpoints.push("".concat(option.color[option.color.length - 1], " 100%"));
+      colorDotStyle = "background: linear-gradient(45deg, ".concat(colorBreakpoints.join(', '), ");"); // colorDotSelectedStyle = `box-shadow: 0px 0px 0px 2px #fff, 0px 0px 0px 3px ${option.color[0]};`
+
+      colorAria = option.color.join(', ');
+    } else {
+      colorDotStyle = "background-color: ".concat(option.color, ";");
+      colorDotSelectedStyle = "box-shadow: 0px 0px 0px 2px #fff, 0px 0px 0px 3px ".concat(option.color, ";");
+      colorAria = option.color;
+    }
+  }
+
+  return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject(), classes.join(' '), locale || '', option.value || '', handlers.handleInput, colorAria, colorDotStyle, isSelected ? colorDotSelectedStyle : '', option.label || '(Empty)');
+};
+
+
 
 /***/ }),
 

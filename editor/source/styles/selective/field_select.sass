@@ -14,10 +14,27 @@
   border-radius: $ge-radius-5
   display: flex
   flex-flow: row
-  padding: $ge-pad/4
+  padding: $ge-pad/2
+
+  &.selective__field__select__option--checked
+    font-weight: 700
 
   > div
     padding: $ge-pad/4
 
   img
     max-height: 15vh
+
+.selective__field__select__dot
+  border: 1px solid $ge-color-select-border
+  border-radius: 50%
+  margin-right: $ge-pad
+  height: 16px
+  width: 16px
+
+  .selective__field__select__option--colored &
+    border-radius: $ge-radius-2
+
+  .selective__field__select__option--checked &
+    background-color: $ge-color-select-selected-border
+    box-shadow: 0px 0px 0px 2px $ge-color-on-select-selected-border, 0px 0px 0px 3px $ge-color-select-selected-border

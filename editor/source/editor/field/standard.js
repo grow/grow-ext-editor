@@ -15,6 +15,9 @@ import {
   findParentByClassname,
   inputFocusAtPosition,
 } from '../../utility/dom'
+import {
+  templateOptionColor,
+} from '../template/option'
 import ImageUploader from '../quill/image-upload'
 
 export class CheckboxField extends Field {
@@ -377,20 +380,11 @@ export class SelectField extends Field {
     return html`
       <div
         class="${this.getClassesForInput(locale)} selective__field__select__options">
-        ${repeat(options, (option) => option.value, (option, index) => html`
-          <div
-              class="selective__field__select__option ${isOptionSelected(option.value) ? 'selective__field__select__option--checked' : ''}"
-              data-locale=${locale || ''}
-              data-value=${option.value || ''}
-              @click=${this.handleInput.bind(this)}>
-            <i class="material-icons">
-              ${isOptionSelected(option.value) ? this.icons[1] : this.icons[0] }
-            </i>
-            <div>
-              ${option.label || '(None)'}
-            </div>
-          </div>
-        `)}
+        ${repeat(options, (option) => option.value, (option, index) => templateOptionColor(
+          locale, option, isOptionSelected(option.value), [], {
+            handleInput: this.handleInput.bind(this),
+          }
+        ))}
       </div>
       ${this.renderErrors(selective, data)}`
   }
