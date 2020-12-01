@@ -6,8 +6,11 @@
   flex-flow: column
   font-family: $ge-font-family
   font-size: $ge-font-size
+  font-smooth: always
   line-height: $ge-line-height
   height: 100vh
+  text-rendering: optimizeLegibility
+  -webkit-font-smoothing: antialiased
 
   *
     box-sizing: border-box
@@ -28,6 +31,9 @@
 
 .editor__edit
   border-right: $ge-border-size-thick solid $ge-color-border
+  display: flex
+  flex-flow: column
+  justify-content: space-between
   flex-basis: 40%
   max-height: 100vh
   max-width: $ge-edit-column-max-width
@@ -48,13 +54,13 @@
   color: $ge-color-on-secondary
   display: flex
   flex-flow: row
+  font-size: $ge-font-size-small
   justify-content: space-between
-  height: $ge-header-height
-  padding: $ge-pad/2
+  padding: $ge-space-m
 
   i
     cursor: pointer
-    margin: 0 $ge-pad/4
+    margin: 0 $ge-space-xxs
     opacity: 0.25
     transition: opacity $ge-speed-fast ease-in-out
 
@@ -64,7 +70,7 @@
     color: $ge-color-on-secondary
     flex-grow: 1
     font-weight: bold
-    padding: $ge-pad/2
+    padding: $ge-space-xs
     width: 100%
 
   &:hover
@@ -81,8 +87,14 @@
 
 .editor__edit__header__label
   font-weight: 700
-  margin: 0 $ge-pad
   text-transform: uppercase
+
+.editor__edit__header__title
+  margin-left: $ge-space-s
+
+// .editor__edit__header__links
+//   .material-icons
+//     font-size: $ge-font-size-icon-large
 
 .editor__edit__header__section
   align-items: center
@@ -94,22 +106,23 @@
 
 .editor__edit__header__pod_path
   font-size: $ge-font-size-small
-  margin-right: $ge-pad
+  margin-right: $ge-space-s
 
 .editor__cards
   align-items: center
   display: flex
   flex-flow: column
   flex-grow: 1
-  max-height: calc(100vh - #{$ge-header-height * 2})
+  // TODO: Do not think this is right anymore?
+  max-height: calc(100vh - #{$ge-space-l * 2})
   overflow-y: auto
-  padding-bottom: $ge-pad * 2
+  padding-bottom: $ge-space-m
   // Attempt to keep scroll sticky menu from overlapping linked fields.
   scroll-margin-top: $ge-font-size * 3
 
 .editor__card
-  padding: 0 $ge-pad*2
-  margin: $ge-pad 0
+  padding: 0 $ge-space-m
+  margin: $ge-space-s 0
   max-width: $ge-edit-column-max-width
   width: 100%
 
@@ -123,36 +136,48 @@
     border-top-right-radius: 0
 
   .editor--fullscreen &
-    margin: $ge-pad auto
+    margin: $ge-space-s auto
     max-width: $ge-edit-column-max-width
-    width: calc(100% - #{$ge-pad * 2})
+    width: calc(100% - #{$ge-space-m})
 
 .editor__card__title
+  font-size: $ge-font-size-small
   font-weight: 700
-  margin: 0 0 $ge-pad*2 0
+  margin: 0 0 $ge-space-m 0
+  opacity: .5
   text-transform: uppercase
 
 .editor__dev_tools
   align-items: center
+  background-color: $ge-color-back-light
   color: $ge-color-on-back-subtle
   display: flex
   flex-flow: row
-  justify-content: flex-end
-  margin: $ge-pad*2 $ge-pad
+  font-size: $ge-font-size-small
+  justify-content: space-between
+  padding: $ge-space-m
+
+  .material-icons
+    font-size: $ge-font-size-icon-small
+
+.editor__dev_tools__section
+  align-items: center
+  display: flex
+  flex-flow: row
 
 .editor__dev_tools__icon
   color: $ge-color-icon-on-back
   cursor: pointer
-  margin: 0 $ge-pad/4
+  margin: 0 $ge-space-xxs
 
   &--selected
     color: $ge-color-icon-on-back-selected
 
   &:first-child
-    margin-left: $ge-pad
+    margin-left: $ge-space-s
 
   &:last-child
-    margin-right: $ge-pad/2
+    margin-right: $ge-space-xs
 
 .editor__invalid
   color: $ge-color-error
@@ -164,9 +189,9 @@
   display: flex
   flex-flow: row
   justify-content: space-between
-  margin-bottom: $ge-pad*2
+  margin-bottom: $ge-space-m
   position: sticky
-  padding: $ge-pad*1.5 $ge-pad*2
+  padding: $ge-space-m
   top: 0
   z-index: 1
 
@@ -177,7 +202,7 @@
   border: $ge-border-size solid $ge-color-back-light
   font-family: $ge-font-family
   font-size: $ge-font-size
-  padding: $ge-pad/2 $ge-pad
+  padding: $ge-space-xs $ge-space-s
 
   &[disabled]
     opacity: .5
@@ -223,7 +248,7 @@
   flex-flow: row
 
   button
-    margin: 0 $ge-pad/2
+    margin: 0 $ge-space-xs
 
     &:first-child
       margin-left: 0
@@ -233,12 +258,12 @@
 
   &--add
     background-repeat: no-repeat
-    background-position: left $ge-pad/2 center
+    background-position: left $ge-space-xs center
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><path d="M-2-2h24v24H-2V-2z" fill="none"/><path d="M10 2.5c-4.1 0-7.5 3.4-7.5 7.5s3.4 7.5 7.5 7.5 7.5-3.4 7.5-7.5-3.4-7.5-7.5-7.5zm3.8 8.3h-3v3H9.2v-3h-3V9.3h3v-3h1.5v3h3v1.5h.1z"/></svg>')
     border: none
     cursor: pointer
     font-weight: 700
-    padding-left: $ge-pad * 3
+    padding-left: $ge-space-l
 
     &:focus,
     &:hover,
@@ -254,7 +279,7 @@
     +field-border
     border-radius: $ge-radius-2
     flex-grow: 1
-    margin-bottom: $ge-pad
+    margin-bottom: $ge-space-s
 
     &:last-child
       margin-bottom: 0
@@ -273,7 +298,7 @@
 
   .editor__source__title
     font-weight: 700
-    margin: $ge-pad 0 $ge-pad/2 0
+    margin: $ge-space-s 0 $ge-space-xs 0
 
   &:first-child
     .editor__source__title
@@ -300,16 +325,16 @@
   color: $ge-color-on-secondary
   display: flex
   flex-flow: row
-  height: $ge-header-height
+  font-size: $ge-font-size-small
   justify-content: space-between
-  padding: $ge-pad/2
+  padding: $ge-space-m
   position: sticky
   top: 0
   width: 100%
 
   i
     cursor: pointer
-    margin: 0 $ge-pad/4
+    margin: 0 $ge-space-xxs
     opacity: 0.25
     transition: opacity $ge-speed-fast ease-in-out
 
@@ -323,7 +348,7 @@
     color: $ge-color-on-secondary
     flex-grow: 1
     font-weight: bold
-    padding: $ge-pad/2
+    padding: $ge-space-xs
     width: 100%
 
   &:hover
@@ -384,7 +409,7 @@
   z-index: 10
 
 .editor__preview__size
-  padding: $ge-pad/2 $ge-pad
+  padding: $ge-space-xs $ge-space-s
   cursor: pointer
 
   &:hover,
@@ -400,22 +425,22 @@
   color: inherit
   display: block
   font-size: $ge-font-size
-  padding: $ge-pad/2 $ge-pad/4
+  padding: $ge-space-xs $ge-space-xxs
 
   &:focus
     outline: none
 
 .editor__workspace__url
-  margin: $ge-pad 0
+  margin: $ge-space-s 0
 
 .editor__workspace__url__more
   font-size: $ge-font-size-small
-  margin-left: $ge-pad
+  margin-left: $ge-space-s
   text-decoration: none
 
 .editor__workspace__locale
   font-size: $ge-font-size-small
-  margin-left: $ge-pad
+  margin-left: $ge-space-s
 
 .icon
   &--hover-only
@@ -431,16 +456,16 @@
   align-items: center
   display: flex
   flex-flow: row
-  padding: $ge-pad
+  padding: $ge-space-s
 
 .editor__workspace__branch__label
-  margin-left: $ge-pad
+  margin-left: $ge-space-s
 
 .editor__history__commits__commit
   align-items: center
   display: flex
   flex-flow: row
-  padding: $ge-pad
+  padding: $ge-space-s
 
   &:first-child
     background-color: $ge-color-primary
@@ -455,7 +480,7 @@
   flex-flow: row
 
 .editor__history__commits__commit__meta
-  margin-left: $ge-pad
+  margin-left: $ge-space-s
 
 .editor__history__commits__commit__hash
   font-family: $ge-font-family-mono
@@ -465,8 +490,8 @@
 
 .editor__history__commits__commit__message
   font-size: $ge-font-size-small
-  margin-top: $ge-pad/2
-  padding-left: $ge-pad
+  margin-top: $ge-space-xs
+  padding-left: $ge-space-s
   overflow: hidden
   text-overflow: ellipsis
   white-space: nowrap

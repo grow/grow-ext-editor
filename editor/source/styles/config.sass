@@ -16,8 +16,8 @@ $ge-color-on-secondary-dark: #ffffff !default
 
 // Utility Colors
 $ge-color-back: #ffffff !default
-$ge-color-back-light: #e5e5e5 !default
-$ge-color-back-dark: darken($ge-color-back, 15%) !default
+$ge-color-back-light: #fafafa !default
+$ge-color-back-dark: #f5f5f5 !default
 $ge-color-error: #C71F25 !default
 $ge-color-warning: #D78528 !default
 $ge-color-back-highlight: #e1fc8d !default
@@ -25,7 +25,7 @@ $ge-color-back-oclude: rgba(0, 0, 0, .45) !default
 $ge-color-back-error: $ge-color-error !default
 $ge-color-back-warning: $ge-color-warning !default
 $ge-color-on-back: #000000 !default
-$ge-color-on-back-subtle: darken($ge-color-back, 25%) !default
+$ge-color-on-back-subtle: rgba($ge-color-on-back, .25) !default
 $ge-color-on-back-light: #000000 !default
 $ge-color-on-back-dark: lighten($ge-color-on-back-light, 15%) !default
 $ge-color-on-back-highlight: #000000 !default
@@ -38,9 +38,9 @@ $ge-color-border-light: rgba(0, 0, 0, 0.1) !default
 $ge-color-bar: rgba(0, 0, 0, 0.1) !default
 
 // Input colors
-$ge-color-field-back: rgba($ge-color-back-light, .5) !default
+$ge-color-field-back: $ge-color-back-dark !default
 $ge-color-field-back-alt: $ge-color-back !default
-$ge-color-on-field-back: $ge-color-on-back-light !default
+$ge-color-on-field-back: $ge-color-on-back-dark !default
 $ge-color-on-field-back-light: lighten($ge-color-on-field-back, 15%) !default
 $ge-color-on-field-back-alt: $ge-color-on-back !default
 $ge-color-on-field-back-alt-light: lighten($ge-color-on-field-back, 15%) !default
@@ -63,11 +63,23 @@ $ge-timing-cubic-bezier: cubic-bezier(0, 1, 0.5, 1) !default
 // Padding unit
 $ge-pad: 10px !default
 
+// Spacing
+$ge-space-xxxs: 1px
+$ge-space-xxs: 2px
+$ge-space-xs: 4px
+$ge-space-s: 8px
+$ge-space-m: 16px
+$ge-space-l: 32px
+$ge-space-xl: 64px
+$ge-space-xxl: 128px
+$ge-space-xxxl: 256px
+
 // Typography
-$ge-font-family: Roboto !default
+$ge-font-family: 'Nunito Sans', sans-serif !default
+$ge-font-family-text: 'Rubik', sans-serif !default
 $ge-font-family-mono: "Roboto Mono", monospace !default
 $ge-font-size: 14px !default
-$ge-font-size-small: $ge-font-size * .8 !default
+$ge-font-size-small: 12px !default
 $ge-font-size-icon: 18px !default
 $ge-font-size-icon-small: 14px !default
 $ge-font-size-icon-large: 22px !default
@@ -104,8 +116,6 @@ $ge-device-height: 731px !default
 $ge-edit-column-max-width: 750px !default
 $ge-edit-column-min-width: 250px !default
 
-$ge-header-height: 38px !default
-
 // Empty bar height
 $ge-bar-height: 10px !default
 
@@ -121,14 +131,11 @@ $ge-menu-column-min-width: 20em !default
   border: $ge-border-size solid transparent
 
   &:focus
-    border: $ge-border-size solid $ge-color-primary
+    box-shadow: 0 $ge-border-size-thick 0 0 $ge-color-secondary-dark
     outline: none
 
   &:hover
     border: $ge-border-size solid $ge-color-border
-
-    &:focus
-      border: $ge-border-size solid $ge-color-primary
 
 =field-border-error
   border: $ge-border-size solid $ge-color-error

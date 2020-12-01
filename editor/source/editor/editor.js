@@ -359,29 +359,6 @@ export default class Editor {
         <div class="editor__selective">
           ${this.selective.template(this.selective, this.selective.data)}
         </div>
-      </div>
-      <div class="editor__dev_tools">
-        <div>Developer tools:</div>
-        <div class="editor__dev_tools__icons">
-          <i
-              class="editor__dev_tools__icon ${this.settingHighlightGuess.on ? 'editor__dev_tools__icon--selected': ''} material-icons"
-              @click=${this.handleHighlightGuess.bind(this)}
-              title="Highlight auto fields">
-            assistant
-          </i>
-          <i
-              class="editor__dev_tools__icon ${this.settingHighlightLinked.on ? 'editor__dev_tools__icon--selected': ''} material-icons"
-              @click=${this.handleHighlightLinked.bind(this)}
-              title="Deep link to fields">
-            link
-          </i>
-          <i
-              class="editor__dev_tools__icon ${this.settingHighlightDirty.on ? 'editor__dev_tools__icon--selected': ''} material-icons"
-              @click=${this.handleHighlightDirty.bind(this)}
-              title="Highlight dirty fields">
-            change_history
-          </i>
-        </div>
       </div>`
   }
 
@@ -1061,7 +1038,7 @@ export default class Editor {
 
     if (!isValid) {
       saveClasses.push('editor__button--invalid')
-      saveStatusLabel = 'Invalid values'
+      saveStatusLabel = 'Save'
       saveDisabled = true
     }
 
@@ -1069,6 +1046,31 @@ export default class Editor {
       saveClasses.push('editor__button--processing')
       saveStatusLabel = 'Saving...'
       saveDisabled = true
+    }
+
+    let localize = ''
+    if (editor.document.locales.length > 1) {
+      const locales = [...editor.document.locales].sort()
+      const defaultLocaleIndex = locales.indexOf(this.document.defaultLocale)
+      if (defaultLocaleIndex) {
+        locales.splice(defaultLocaleIndex, 1)
+      }
+
+      localize = html`
+        <i class="material-icons" @click=${editor.handleLocalize.bind(editor)} title="Localize content">translate</i>
+        <select class="editor__locales" @change=${editor.handleLocalizeSelect.bind(editor)}>
+          <option
+              data-locale="${this.document.defaultLocale}"
+              ?selected=${this.settingLocale.value == this.document.defaultLocale}>
+            ${this.document.defaultLocale}
+          </option>
+          ${repeat(locales, (locale) => locale, (locale, index) => html`
+            <option
+                data-locale="${locale}"
+                ?selected=${this.settingLocale.value == locale}>
+              ${locale}
+            </option>`)}
+        </select>`
     }
 
     return html`<div class="editor__edit">
@@ -1082,9 +1084,12 @@ export default class Editor {
           </div>
         </div>
         <div class="editor__edit__header__section">
-          <div class="editor__edit__header__pod_path">
-            ${editor.podPath}
+          <div class="editor__edit__header__links">
+            <i class="material-icons" @click=${editor.handleOpenInNew.bind(editor)} title="Preview with editor">
+              https
+            </i>
           </div>
+          ${localize}
           ${this.servingPath ? html`<i class="material-icons" @click=${editor.handleFullScreenEditorClick.bind(editor)} title="Fullscreen">${editor.settingFullScreenEditor.on || !this.servingPath ? 'fullscreen_exit' : 'fullscreen'}</i>` : ''}
         </div>
       </div>
@@ -1113,6 +1118,34 @@ export default class Editor {
         </div>
         ${editor.templatePane}
       </div>
+      <div class="editor__dev_tools">
+        <div class="editor__dev_tools__section">
+          <!-- TODO: Grow logo -->
+        </div>
+        <div class="editor__dev_tools__section">
+          <div>Developer tools:</div>
+          <div class="editor__dev_tools__icons">
+            <i
+                class="editor__dev_tools__icon ${this.settingHighlightGuess.on ? 'editor__dev_tools__icon--selected': ''} material-icons"
+                @click=${this.handleHighlightGuess.bind(this)}
+                title="Highlight auto fields">
+              assistant
+            </i>
+            <i
+                class="editor__dev_tools__icon ${this.settingHighlightLinked.on ? 'editor__dev_tools__icon--selected': ''} material-icons"
+                @click=${this.handleHighlightLinked.bind(this)}
+                title="Deep link to fields">
+              link
+            </i>
+            <i
+                class="editor__dev_tools__icon ${this.settingHighlightDirty.on ? 'editor__dev_tools__icon--selected': ''} material-icons"
+                @click=${this.handleHighlightDirty.bind(this)}
+                title="Highlight dirty fields">
+              change_history
+            </i>
+          </div>
+        </div>
+      </div>
     </div>`
   }
 
@@ -1137,36 +1170,10 @@ export default class Editor {
       </div>`
     }
 
-    let localize = ''
-    if (editor.document.locales.length > 1) {
-      const locales = [...editor.document.locales].sort()
-      const defaultLocaleIndex = locales.indexOf(this.document.defaultLocale)
-      if (defaultLocaleIndex) {
-        locales.splice(defaultLocaleIndex, 1)
-      }
-
-      localize = html`
-        <i class="material-icons" @click=${editor.handleLocalize.bind(editor)} title="Localize content">translate</i>
-        <select class="editor__locales" @change=${editor.handleLocalizeSelect.bind(editor)}>
-          <option
-              data-locale="${this.document.defaultLocale}"
-              ?selected=${this.settingLocale.value == this.document.defaultLocale}>
-            ${this.document.defaultLocale}
-          </option>
-          ${repeat(locales, (locale) => locale, (locale, index) => html`
-            <option
-                data-locale="${locale}"
-                ?selected=${this.settingLocale.value == locale}>
-              ${locale}
-            </option>`)}
-        </select>`
-    }
-
     return html`<div class="editor__preview">
       <div class="editor__preview__header">
         <div class="editor__preview__header__icons">
           <i class="material-icons" @click=${editor.handleFullScreenPreviewClick.bind(editor)} title="Fullscreen">${editor.settingFullScreenPreview.on ? 'fullscreen_exit' : 'fullscreen'}</i>
-          ${localize}
         </div>
         <div class="editor__preview__header__label">
           Preview

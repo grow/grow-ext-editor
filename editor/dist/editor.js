@@ -98899,7 +98899,7 @@ function _templateObject16() {
 }
 
 function _templateObject15() {
-  var data = _taggedTemplateLiteral(["<div class=\"editor__preview\">\n      <div class=\"editor__preview__header\">\n        <div class=\"editor__preview__header__icons\">\n          <i class=\"material-icons\" @click=", " title=\"Fullscreen\">", "</i>\n          ", "\n        </div>\n        <div class=\"editor__preview__header__label\">\n          Preview\n        </div>\n        <div class=\"editor__preview__header__icons\">\n          ", "\n          <i class=\"material-icons\" @click=", " title=\"Toggle device view\">devices</i>\n          <i class=\"material-icons editor--device-only\" @click=", " title=\"Rotate device view\">screen_rotation</i>\n          <i class=\"material-icons\" @click=", " title=\"Preview in new window\">open_in_new</i>\n        </div>\n      </div>\n      <div class=\"editor__preview__frame\">\n        <iframe src=\"", "\" @load=", "></iframe>\n      </div>\n    </div>"]);
+  var data = _taggedTemplateLiteral(["<div class=\"editor__preview\">\n      <div class=\"editor__preview__header\">\n        <div class=\"editor__preview__header__icons\">\n          <i class=\"material-icons\" @click=", " title=\"Fullscreen\">", "</i>\n        </div>\n        <div class=\"editor__preview__header__label\">\n          Preview\n        </div>\n        <div class=\"editor__preview__header__icons\">\n          ", "\n          <i class=\"material-icons\" @click=", " title=\"Toggle device view\">devices</i>\n          <i class=\"material-icons editor--device-only\" @click=", " title=\"Rotate device view\">screen_rotation</i>\n          <i class=\"material-icons\" @click=", " title=\"Preview in new window\">open_in_new</i>\n        </div>\n      </div>\n      <div class=\"editor__preview__frame\">\n        <iframe src=\"", "\" @load=", "></iframe>\n      </div>\n    </div>"]);
 
   _templateObject15 = function _templateObject15() {
     return data;
@@ -98909,7 +98909,7 @@ function _templateObject15() {
 }
 
 function _templateObject14() {
-  var data = _taggedTemplateLiteral(["\n            <option\n                data-locale=\"", "\"\n                ?selected=", ">\n              ", "\n            </option>"]);
+  var data = _taggedTemplateLiteral(["\n          <div\n              class=\"editor__preview__size ", "\"\n              data-device=\"", "\"\n              @click=", ">\n            ", "\n            <span class=\"editor__preview__size__dimension\">\n              (", ")\n            </span>\n          </div>"]);
 
   _templateObject14 = function _templateObject14() {
     return data;
@@ -98919,7 +98919,7 @@ function _templateObject14() {
 }
 
 function _templateObject13() {
-  var data = _taggedTemplateLiteral(["\n        <i class=\"material-icons\" @click=", " title=\"Localize content\">translate</i>\n        <select class=\"editor__locales\" @change=", ">\n          <option\n              data-locale=\"", "\"\n              ?selected=", ">\n            ", "\n          </option>\n          ", "\n        </select>"]);
+  var data = _taggedTemplateLiteral(["<div class=\"editor__preview__sizes\">\n        ", "\n      </div>"]);
 
   _templateObject13 = function _templateObject13() {
     return data;
@@ -98929,7 +98929,7 @@ function _templateObject13() {
 }
 
 function _templateObject12() {
-  var data = _taggedTemplateLiteral(["\n          <div\n              class=\"editor__preview__size ", "\"\n              data-device=\"", "\"\n              @click=", ">\n            ", "\n            <span class=\"editor__preview__size__dimension\">\n              (", ")\n            </span>\n          </div>"]);
+  var data = _taggedTemplateLiteral(["<div class=\"editor__actions\">\n                    <span\n                        class=\"editor__invalid\">\n                      <i class=\"material-icons\">error</i>\n                    </span>\n                  </div>"]);
 
   _templateObject12 = function _templateObject12() {
     return data;
@@ -98939,7 +98939,7 @@ function _templateObject12() {
 }
 
 function _templateObject11() {
-  var data = _taggedTemplateLiteral(["<div class=\"editor__preview__sizes\">\n        ", "\n      </div>"]);
+  var data = _taggedTemplateLiteral(["<i class=\"material-icons\" @click=", " title=\"Fullscreen\">", "</i>"]);
 
   _templateObject11 = function _templateObject11() {
     return data;
@@ -98949,7 +98949,7 @@ function _templateObject11() {
 }
 
 function _templateObject10() {
-  var data = _taggedTemplateLiteral(["<div class=\"editor__actions\">\n                    <span\n                        class=\"editor__invalid\">\n                      <i class=\"material-icons\">error</i>\n                    </span>\n                  </div>"]);
+  var data = _taggedTemplateLiteral(["<div class=\"editor__edit\">\n      <div class=\"editor__edit__header\">\n        <div class=\"editor__edit__header__section\">\n          <div class=\"editor__edit__header__label\">\n            Page:\n          </div>\n          <div class=\"editor__edit__header__title\">\n            ", "\n          </div>\n        </div>\n        <div class=\"editor__edit__header__section\">\n          <div class=\"editor__edit__header__links\">\n            <i class=\"material-icons\" @click=", " title=\"Preview with editor\">\n              https\n            </i>\n          </div>\n          ", "\n          ", "\n        </div>\n      </div>\n      <div class=\"editor__cards\">\n        <div class=\"editor__card editor__menu\">\n            <div class=\"editor__actions\">\n              <button class=\"editor__style__fields editor__button editor__button--secondary ", "\" @click=", " ?disabled=", ">Fields</button>\n              <button class=\"editor__style__raw editor__button editor__button--secondary ", "\" @click=", " ?disabled=", ">Source</button>\n              <button class=\"editor__style__raw editor__button editor__button--secondary ", "\" @click=", " ?disabled=", ">History</button>\n            </div>\n            <div class=\"editor__actions\">\n              ", "\n              <button\n                  ?disabled=", "\n                  class=\"editor__save editor__button editor__button--primary ", "\"\n                  @click=", ">\n                ", "\n              </button>\n            </div>\n        </div>\n        ", "\n      </div>\n      <div class=\"editor__dev_tools\">\n        <div class=\"editor__dev_tools__section\">\n          <!-- TODO: Grow logo -->\n        </div>\n        <div class=\"editor__dev_tools__section\">\n          <div>Developer tools:</div>\n          <div class=\"editor__dev_tools__icons\">\n            <i\n                class=\"editor__dev_tools__icon ", " material-icons\"\n                @click=", "\n                title=\"Highlight auto fields\">\n              assistant\n            </i>\n            <i\n                class=\"editor__dev_tools__icon ", " material-icons\"\n                @click=", "\n                title=\"Deep link to fields\">\n              link\n            </i>\n            <i\n                class=\"editor__dev_tools__icon ", " material-icons\"\n                @click=", "\n                title=\"Highlight dirty fields\">\n              change_history\n            </i>\n          </div>\n        </div>\n      </div>\n    </div>"]);
 
   _templateObject10 = function _templateObject10() {
     return data;
@@ -98959,7 +98959,7 @@ function _templateObject10() {
 }
 
 function _templateObject9() {
-  var data = _taggedTemplateLiteral(["<i class=\"material-icons\" @click=", " title=\"Fullscreen\">", "</i>"]);
+  var data = _taggedTemplateLiteral(["\n            <option\n                data-locale=\"", "\"\n                ?selected=", ">\n              ", "\n            </option>"]);
 
   _templateObject9 = function _templateObject9() {
     return data;
@@ -98969,7 +98969,7 @@ function _templateObject9() {
 }
 
 function _templateObject8() {
-  var data = _taggedTemplateLiteral(["<div class=\"editor__edit\">\n      <div class=\"editor__edit__header\">\n        <div class=\"editor__edit__header__section\">\n          <div class=\"editor__edit__header__label\">\n            Page:\n          </div>\n          <div class=\"editor__edit__header__title\">\n            ", "\n          </div>\n        </div>\n        <div class=\"editor__edit__header__section\">\n          <div class=\"editor__edit__header__pod_path\">\n            ", "\n          </div>\n          ", "\n        </div>\n      </div>\n      <div class=\"editor__cards\">\n        <div class=\"editor__card editor__menu\">\n            <div class=\"editor__actions\">\n              <button class=\"editor__style__fields editor__button editor__button--secondary ", "\" @click=", " ?disabled=", ">Fields</button>\n              <button class=\"editor__style__raw editor__button editor__button--secondary ", "\" @click=", " ?disabled=", ">Source</button>\n              <button class=\"editor__style__raw editor__button editor__button--secondary ", "\" @click=", " ?disabled=", ">History</button>\n            </div>\n            <div class=\"editor__actions\">\n              ", "\n              <button\n                  ?disabled=", "\n                  class=\"editor__save editor__button editor__button--primary ", "\"\n                  @click=", ">\n                ", "\n              </button>\n            </div>\n        </div>\n        ", "\n      </div>\n    </div>"]);
+  var data = _taggedTemplateLiteral(["\n        <i class=\"material-icons\" @click=", " title=\"Localize content\">translate</i>\n        <select class=\"editor__locales\" @change=", ">\n          <option\n              data-locale=\"", "\"\n              ?selected=", ">\n            ", "\n          </option>\n          ", "\n        </select>"]);
 
   _templateObject8 = function _templateObject8() {
     return data;
@@ -98979,7 +98979,7 @@ function _templateObject8() {
 }
 
 function _templateObject7() {
-  var data = _taggedTemplateLiteral(["\n      ", "\n      <div class=\"editor__card editor__field_list\">\n        <div class=\"editor__card__title\">\n          Content\n        </div>\n        <div class=\"editor__selective\">\n          ", "\n        </div>\n      </div>\n      <div class=\"editor__dev_tools\">\n        <div>Developer tools:</div>\n        <div class=\"editor__dev_tools__icons\">\n          <i\n              class=\"editor__dev_tools__icon ", " material-icons\"\n              @click=", "\n              title=\"Highlight auto fields\">\n            assistant\n          </i>\n          <i\n              class=\"editor__dev_tools__icon ", " material-icons\"\n              @click=", "\n              title=\"Deep link to fields\">\n            link\n          </i>\n          <i\n              class=\"editor__dev_tools__icon ", " material-icons\"\n              @click=", "\n              title=\"Highlight dirty fields\">\n            change_history\n          </i>\n        </div>\n      </div>"]);
+  var data = _taggedTemplateLiteral(["\n      ", "\n      <div class=\"editor__card editor__field_list\">\n        <div class=\"editor__card__title\">\n          Content\n        </div>\n        <div class=\"editor__selective\">\n          ", "\n        </div>\n      </div>"]);
 
   _templateObject7 = function _templateObject7() {
     return data;
@@ -99304,7 +99304,7 @@ class Editor {
       return Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject5(), this.repo.branch, Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["repeat"])(this.repo.commits, commit => commit.sha, (commit, index) => Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject6(), this.repo.webUrlForCommit(commit.sha), commit.sha.slice(0, 5), commit.author.email, commit.author.name, moment__WEBPACK_IMPORTED_MODULE_4___default()(commit.commit_date + 'Z', moment__WEBPACK_IMPORTED_MODULE_4___default.a.ISO_8601).format('D MMM YYYY, h:mm:ss a'), moment__WEBPACK_IMPORTED_MODULE_4___default()(commit.commit_date + 'Z', moment__WEBPACK_IMPORTED_MODULE_4___default.a.ISO_8601).fromNow(), commit.message)));
     }
 
-    return Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject7(), this.renderWorkspace(this, this.selective), this.selective.template(this.selective, this.selective.data), this.settingHighlightGuess.on ? 'editor__dev_tools__icon--selected' : '', this.handleHighlightGuess.bind(this), this.settingHighlightLinked.on ? 'editor__dev_tools__icon--selected' : '', this.handleHighlightLinked.bind(this), this.settingHighlightDirty.on ? 'editor__dev_tools__icon--selected' : '', this.handleHighlightDirty.bind(this));
+    return Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject7(), this.renderWorkspace(this, this.selective), this.selective.template(this.selective, this.selective.data));
   }
 
   set device(value) {
@@ -99972,7 +99972,7 @@ class Editor {
 
     if (!isValid) {
       saveClasses.push('editor__button--invalid');
-      saveStatusLabel = 'Invalid values';
+      saveStatusLabel = 'Save';
       saveDisabled = true;
     }
 
@@ -99980,20 +99980,6 @@ class Editor {
       saveClasses.push('editor__button--processing');
       saveStatusLabel = 'Saving...';
       saveDisabled = true;
-    }
-
-    return Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject8(), Object(_utility_strings__WEBPACK_IMPORTED_MODULE_19__["textOrString"])(editor.document.data['$title'] || editor.document.data['$title@'], this._strings, this.loadStrings.bind(this)), editor.podPath, this.servingPath ? Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject9(), editor.handleFullScreenEditorClick.bind(editor), editor.settingFullScreenEditor.on || !this.servingPath ? 'fullscreen_exit' : 'fullscreen') : '', this.settingEditorPane.is('fields') ? 'editor__button--selected' : '', editor.handleFieldsClick.bind(editor), !editor.isClean, this.settingEditorPane.is('source') ? 'editor__button--selected' : '', editor.handleSourceClick.bind(editor), !editor.isClean, this.settingEditorPane.is('history') ? 'editor__button--selected' : '', editor.handleHistoryClick.bind(editor), !editor.isClean, isValid ? '' : Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject10()), saveDisabled, saveClasses.join(' '), editor.save.bind(editor), saveStatusLabel, editor.templatePane);
-  }
-
-  renderPreview(editor, selective) {
-    if (this.settingFullScreenEditor.on || !this.servingPath) {
-      return '';
-    }
-
-    var previewSizes = '';
-
-    if (editor.settingDeviceView.on) {
-      previewSizes = Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject11(), Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["repeat"])(Object.entries(this.devices), device => device[0], (device, index) => Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject12(), editor.device == device[0] ? 'editor__preview__size--selected' : '', device[0], editor.handleDeviceSwitchClick.bind(editor), device[1].label, editor._sizeLabel(device[1], editor.settingDeviceRotated.on))));
     }
 
     var localize = '';
@@ -100006,10 +99992,24 @@ class Editor {
         locales.splice(defaultLocaleIndex, 1);
       }
 
-      localize = Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject13(), editor.handleLocalize.bind(editor), editor.handleLocalizeSelect.bind(editor), this.document.defaultLocale, this.settingLocale.value == this.document.defaultLocale, this.document.defaultLocale, Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["repeat"])(locales, locale => locale, (locale, index) => Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject14(), locale, this.settingLocale.value == locale, locale)));
+      localize = Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject8(), editor.handleLocalize.bind(editor), editor.handleLocalizeSelect.bind(editor), this.document.defaultLocale, this.settingLocale.value == this.document.defaultLocale, this.document.defaultLocale, Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["repeat"])(locales, locale => locale, (locale, index) => Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject9(), locale, this.settingLocale.value == locale, locale)));
     }
 
-    return Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject15(), editor.handleFullScreenPreviewClick.bind(editor), editor.settingFullScreenPreview.on ? 'fullscreen_exit' : 'fullscreen', localize, previewSizes, editor.handleDeviceToggleClick.bind(editor), editor.handleDeviceRotateClick.bind(editor), editor.handleOpenInNew.bind(editor), editor.previewUrl, editor.handlePreviewIframeNavigation.bind(editor));
+    return Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject10(), Object(_utility_strings__WEBPACK_IMPORTED_MODULE_19__["textOrString"])(editor.document.data['$title'] || editor.document.data['$title@'], this._strings, this.loadStrings.bind(this)), editor.handleOpenInNew.bind(editor), localize, this.servingPath ? Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject11(), editor.handleFullScreenEditorClick.bind(editor), editor.settingFullScreenEditor.on || !this.servingPath ? 'fullscreen_exit' : 'fullscreen') : '', this.settingEditorPane.is('fields') ? 'editor__button--selected' : '', editor.handleFieldsClick.bind(editor), !editor.isClean, this.settingEditorPane.is('source') ? 'editor__button--selected' : '', editor.handleSourceClick.bind(editor), !editor.isClean, this.settingEditorPane.is('history') ? 'editor__button--selected' : '', editor.handleHistoryClick.bind(editor), !editor.isClean, isValid ? '' : Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject12()), saveDisabled, saveClasses.join(' '), editor.save.bind(editor), saveStatusLabel, editor.templatePane, this.settingHighlightGuess.on ? 'editor__dev_tools__icon--selected' : '', this.handleHighlightGuess.bind(this), this.settingHighlightLinked.on ? 'editor__dev_tools__icon--selected' : '', this.handleHighlightLinked.bind(this), this.settingHighlightDirty.on ? 'editor__dev_tools__icon--selected' : '', this.handleHighlightDirty.bind(this));
+  }
+
+  renderPreview(editor, selective) {
+    if (this.settingFullScreenEditor.on || !this.servingPath) {
+      return '';
+    }
+
+    var previewSizes = '';
+
+    if (editor.settingDeviceView.on) {
+      previewSizes = Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject13(), Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["repeat"])(Object.entries(this.devices), device => device[0], (device, index) => Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject14(), editor.device == device[0] ? 'editor__preview__size--selected' : '', device[0], editor.handleDeviceSwitchClick.bind(editor), device[1].label, editor._sizeLabel(device[1], editor.settingDeviceRotated.on))));
+    }
+
+    return Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject15(), editor.handleFullScreenPreviewClick.bind(editor), editor.settingFullScreenPreview.on ? 'fullscreen_exit' : 'fullscreen', previewSizes, editor.handleDeviceToggleClick.bind(editor), editor.handleDeviceRotateClick.bind(editor), editor.handleOpenInNew.bind(editor), editor.previewUrl, editor.handlePreviewIframeNavigation.bind(editor));
   }
 
   renderWorkspace(editor, selective) {
