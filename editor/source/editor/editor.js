@@ -1100,6 +1100,7 @@ export default class Editor {
                 https
               </i>
             </span>
+            <!-- TODO: Create ability for staging links.
             <span
                 class="tooltip--bottom"
                 aria-label="View in staging site"
@@ -1108,6 +1109,8 @@ export default class Editor {
                 vpn_lock
               </i>
             </span>
+            -->
+            <!-- TODO: Create ability for public links.
             <span
                 class="tooltip--bottom"
                 aria-label="View on live site"
@@ -1116,6 +1119,7 @@ export default class Editor {
                 public
               </i>
             </span>
+            -->
           </div>
           ${localize}
           ${this.servingPath

@@ -1,6 +1,6 @@
 .selective__field
   border-radius: $ge-radius-3
-  margin: $ge-space-s 0 $ge-space-m 0
+  margin: $ge-space-l 0
 
   .material-icons
     font-size: $ge-font-size-icon
@@ -44,7 +44,7 @@
 
 .selective__field__localization
   .selective__field__input
-    margin-bottom: $ge-pad*1.5
+    margin-bottom: $ge-space-l
 
     &:last-child
       margin-bottom: none
@@ -85,9 +85,6 @@
   .editor--highlight-linked &
     display: inherit
 
-.selective__field__input
-  margin: $ge-pad/2 0
-
 .selective__field__invalid
   color: $ge-color-error
   margin-right: $ge-pad/2
@@ -112,7 +109,7 @@
 .selective__field__errors
   color: $ge-color-error
   font-size: $ge-font-size-small
-  margin: $ge-pad $ge-pad/2
+  margin: $ge-space-m
 
 .selective__field__error
   margin: $ge-pad 0
@@ -122,7 +119,8 @@
 
 .selective__field__help
   font-size: $ge-font-size-small
-  margin: $ge-pad $ge-pad/2
+  margin: $ge-space-m
+  opacity: $ge-color-opacity-subtle
 
   // Alternate with nesting.
   // +list-nesting

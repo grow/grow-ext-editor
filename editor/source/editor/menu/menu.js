@@ -313,13 +313,15 @@ export default class Menu extends MenuBase {
                 ${this._state.pod ? this._state.pod.title : ''}
               </div>
               <div class="menu__header__icons">
+                <!-- TODO: Ability to dock the menu.
                 <span
                     class="tooltip--left"
-                    data-tip="Expand out menu">
+                    data-tip="Dock the menu">
                   <i class="material-icons" @click=${this.handleToggleMenu.bind(this)}>
                     last_page
                   </i>
                 </span>
+                -->
                 <i class="material-icons" @click=${this.handleToggleMenu.bind(this)} title="Close menu">
                   close
                 </i>
