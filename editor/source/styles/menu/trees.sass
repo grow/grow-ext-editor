@@ -1,28 +1,25 @@
 .menu__trees
+  margin: $ge-space-m 0
   overflow-x: auto
 
   .material-icons
     font-size: $ge-font-size
-    margin-right: $ge-pad / 2
+    margin-right: $ge-space-s
 
 .menu__tree__title
   cursor: pointer
   font-weight: 700
-  margin: $ge-pad 0
-  text-transform: uppercase
+  margin: 0 $ge-space-m $ge-space-m $ge-space-m
 
 .menu__tree__tree
-  margin: $ge-pad*1.5 0 $ge-pad*1.5 $ge-pad
-
-.menu__tree__folder
-  margin: $ge-pad 0
+  margin: $ge-space-m 0 $ge-space-m $ge-space-l
 
 .menu__tree__label
-  padding: $ge-pad/2 $ge-pad
+  padding: $ge-space-s $ge-space-m
 
 .menu__tree__folder__level
-  margin-bottom: $ge-pad
-  margin-left: $ge-pad
+  margin-bottom: $ge-space-m
+  margin-left: $ge-space-m
 
   .menu__tree__folder--collapsed &
     display: none
@@ -33,23 +30,34 @@
   display: flex
   flex-flow: row
   font-weight: 700
-  margin: $ge-pad/2 0
+  margin: $ge-space-m 0
 
 .menu__tree__folder__file
   align-items: center
   display: flex
   flex-flow: row
-  padding: $ge-pad/2
+  padding: $ge-space-s
   border: $ge-border-size solid transparent
   transition: all $ge-speed-faster ease-in-out
 
   &:hover
-    border-color: $ge-color-back-light
+    background-color: $ge-color-back-dark
+    border-color: transparent
+    // Hack around the background being indented.
+    box-shadow: -200px 0 0 $ge-color-back-dark
     cursor: pointer
 
   &--selected
-    background-color: $ge-color-back-dark
-    color: $ge-color-on-back-dark
+    background-color: $ge-color-secondary
+    // Hack around the background being indented.
+    box-shadow: -200px 0 0 $ge-color-secondary
+    color: $ge-color-on-secondary
+
+    &:hover
+      background-color: $ge-color-secondary
+      // Hack around the background being indented.
+      box-shadow: -200px 0 0 $ge-color-secondary
+      border-color: transparent
 
   .material-icons
     .menu__trees &
@@ -60,13 +68,10 @@
   flex-grow: 1
 
 .menu__tree__new__template
-  padding: $ge-pad
+  padding: $ge-space-m
 
 .menu__tree__new__template__option__screenshots
-  margin: $ge-pad/2 0
+  margin: $ge-space-s 0
 
   img
-    margin-right: $ge-pad/2
-
-.menu__tree__folder__actions
-  margin: $ge-pad 0
+    margin-right: $ge-space-s

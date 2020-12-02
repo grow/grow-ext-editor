@@ -53,9 +53,28 @@
   &--hidden
     display: none
 
+.menu__header
+  align-items: center
+  background: $ge-color-secondary-dark
+  color: $ge-color-on-secondary-dark
+  display: flex
+  flex-flow: row
+  padding: $ge-space-m
+
+  .material-icons
+    cursor: pointer
+
+.menu__header__icons
+  font-size: $ge-font-size-icon-large
+
+  > *
+    margin-right: $ge-space-s
+
+    &:last-child
+      margin-right: 0
+
 .menu__section
   border-bottom: $ge-border-size-thick solid $ge-color-back-light
-  padding: $ge-space-m
 
   &:last-child
     border-bottom: none
@@ -67,9 +86,11 @@
     text-decoration: none
 
 .menu__section__title
+  font-size: $ge-font-size-small
   font-weight: 700
+  opacity: $ge-color-opacity-subtle
   text-transform: uppercase
-  margin-bottom: $ge-space-m
+  margin: $ge-space-m
 
 .menu__sub_menu
   display: flex

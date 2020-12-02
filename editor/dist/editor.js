@@ -103235,7 +103235,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
 /* harmony import */ var _utility_uuid__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/uuid */ "./source/utility/uuid.js");
 function _templateObject7() {
-  var data = _taggedTemplateLiteral(["<i\n                      class=\"material-icons icon icon--hover-only\"\n                      title=\"Delete file\"\n                      @click=", ">\n                    delete\n                  </i>"]);
+  var data = _taggedTemplateLiteral(["\n                    <span\n                        class=\"tooltip--left\"\n                        aria-label=\"Delete file\"\n                        data-tip=\"Delete file\">\n                      <i\n                          class=\"material-icons icon icon--hover-only icon--delete\"\n                          @click=", ">\n                        remove_circle\n                      </i>\n                    </span>"]);
 
   _templateObject7 = function _templateObject7() {
     return data;
@@ -103245,7 +103245,7 @@ function _templateObject7() {
 }
 
 function _templateObject6() {
-  var data = _taggedTemplateLiteral(["<i\n                      class=\"material-icons icon icon--hover-only\"\n                      title=\"Copy file\"\n                      @click=", ">\n                    file_copy\n                  </i>"]);
+  var data = _taggedTemplateLiteral(["\n                    <span\n                        class=\"tooltip--left\"\n                        aria-label=\"Duplicate file\"\n                        data-tip=\"Duplicate file\">\n                      <i\n                          class=\"material-icons icon icon--hover-only\"\n                          @click=", ">\n                        file_copy\n                      </i>\n                    </span>"]);
 
   _templateObject6 = function _templateObject6() {
     return data;
@@ -103452,7 +103452,7 @@ function _templateObject3() {
 }
 
 function _templateObject2() {
-  var data = _taggedTemplateLiteral(["\n          <div class=\"menu__contents\">\n            <div class=\"menu__section\">\n              <div class=\"menu__site\">\n                <div class=\"menu__site__title\">\n                  ", "\n                </div>\n                <i class=\"material-icons\" @click=", " title=\"Close menu\">\n                  close\n                </i>\n              </div>\n            </div>\n            ", "\n            ", "\n          </div>"]);
+  var data = _taggedTemplateLiteral(["\n          <div class=\"menu__contents\">\n            <div class=\"menu__header\">\n              <div class=\"menu__site__title\">\n                ", "\n              </div>\n              <div class=\"menu__header__icons\">\n                <span\n                    class=\"tooltip--left\"\n                    data-tip=\"Expand out menu\">\n                  <i class=\"material-icons\" @click=", ">\n                    last_page\n                  </i>\n                </span>\n                <i class=\"material-icons\" @click=", " title=\"Close menu\">\n                  close\n                </i>\n              </div>\n            </div>\n            ", "\n            ", "\n          </div>"]);
 
   _templateObject2 = function _templateObject2() {
     return data;
@@ -103492,7 +103492,7 @@ class Menu extends _base__WEBPACK_IMPORTED_MODULE_5__["default"] {
   constructor(config, editor) {
     super(config);
     this.editor = editor;
-    this.menuWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_4__["MenuWindow"](); // this.menuWindow.isOpen = true  // TODO: Remove
+    this.menuWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_4__["MenuWindow"](); // this.menuWindow.isOpen = true  // For debugging menu overlay.
     // Create the copy page modal outside of the modal for the menu.
     // Otherwise, the copy modal is constrained to the menu modal.
 
@@ -103734,7 +103734,7 @@ class Menu extends _base__WEBPACK_IMPORTED_MODULE_5__["default"] {
 
     if (isOpen) {
       this.menuWindow.contentRenderFunc = () => {
-        return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject2(), this._state.pod ? this._state.pod.title : '', this.handleToggleMenu.bind(this), this.config.enableMenuWorkspace ? this._workspaceMenu.template(editor, this._state, {
+        return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject2(), this._state.pod ? this._state.pod.title : '', this.handleToggleMenu.bind(this), this.handleToggleMenu.bind(this), this.config.enableMenuWorkspace ? this._workspaceMenu.template(editor, this._state, {
           handleWorkspaceNewClick: () => {
             this.newWorkspaceWindow.open();
           }
@@ -104235,7 +104235,7 @@ function _templateObject3() {
 }
 
 function _templateObject2() {
-  var data = _taggedTemplateLiteral(["<div class=\"editor__loading editor__loading--small\" title=\"Loading...\"></div>"]);
+  var data = _taggedTemplateLiteral(["\n        <div class=\"menu__workspace\">\n          <div class=\"editor__loading editor__loading--small\" title=\"Loading...\"></div>\n        </div>"]);
 
   _templateObject2 = function _templateObject2() {
     return data;

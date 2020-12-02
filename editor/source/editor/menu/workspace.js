@@ -134,7 +134,10 @@ export default class WorkspaceMenu extends MenuBase {
     editor.loadRepo()
 
     if (!menuState.repo) {
-      return html`<div class="editor__loading editor__loading--small" title="Loading..."></div>`
+      return html`
+        <div class="menu__workspace">
+          <div class="editor__loading editor__loading--small" title="Loading..."></div>
+        </div>`
     }
 
     const workspaces = this.filterBranches(menuState.repo.branches.sort())
