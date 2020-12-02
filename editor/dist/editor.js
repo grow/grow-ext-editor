@@ -1305,7 +1305,7 @@ function _templateObject9() {
 }
 
 function _templateObject8() {
-  var data = _taggedTemplateLiteral(["\n      <div class=\"selective__list__item selective__sortable\"\n          draggable=\"true\"\n          data-index=", "\n          data-locale=", "\n          @dragenter=", "\n          @dragleave=", "\n          @dragover=", "\n          @dragstart=", "\n          @drop=", ">\n        <div class=\"selective__list__fields__label ", "\"\n            data-item-uid=", "\n            data-locale=", "\n            @click=", ">\n          ", "\n        </div>\n        ", "\n      </div>"]);
+  var data = _taggedTemplateLiteral(["\n      <div class=\"selective__list__item selective__sortable\"\n          draggable=\"true\"\n          data-index=", "\n          data-locale=", "\n          @dragenter=", "\n          @dragleave=", "\n          @dragover=", "\n          @dragstart=", "\n          @drop=", ">\n        <div class=\"selective__list__fields__label ", "\"\n            data-item-uid=", "\n            data-locale=", "\n            @click=", ">\n          ", "\n        </div>\n\n        <div class=\"selective__list__fields\">\n          ", "\n        </div>\n      </div>"]);
 
   _templateObject8 = function _templateObject8() {
     return data;
