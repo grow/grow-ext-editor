@@ -6,10 +6,8 @@
   flex-flow: column
   font-family: $ge-font-family
   font-size: $ge-font-size
-  font-smooth: always
   line-height: $ge-line-height
   height: 100vh
-  text-rendering: optimizeLegibility
   -webkit-font-smoothing: antialiased
 
   *
@@ -28,6 +26,8 @@
   display: flex
   flex-flow: row
   flex-grow: 1
+  // Need to make the frame max height adjust for the app menu.
+  max-height: calc(100vh - #{$ge-menu-height})
 
 .editor__edit
   border-right: $ge-border-size-thick solid $ge-color-border
