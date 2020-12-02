@@ -100,7 +100,6 @@
   display: flex
   flex-flow: row
   flex-shrink: 0
-  overflow: hidden
   text-overflow: ellipsis
 
 .editor__edit__header__pod_path
@@ -189,8 +188,8 @@
   display: flex
   flex-flow: row
   justify-content: space-between
+  padding: 0 $ge-space-m
   position: sticky
-  padding: $ge-space-m
   top: 0
   z-index: 1
 
@@ -201,7 +200,7 @@
   border: $ge-border-size solid $ge-color-back-light
   font-family: $ge-font-family
   font-size: $ge-font-size
-  padding: $ge-space-xs $ge-space-s
+  padding: $ge-space-s $ge-space-m
 
   &[disabled]
     opacity: .5
@@ -241,13 +240,23 @@
     background-color: $ge-color-back-error
     border-color: $ge-color-back-error
 
+  &.editor__button--item
+    padding: $ge-space-m
+    margin: 0
+
+    &:hover
+      box-shadow: 0 $ge-border-size-thick 0 0 $ge-color-on-back
+
+    &.editor__button--selected
+      box-shadow: 0 $ge-border-size-thick 0 0 $ge-color-on-back
+
 .editor__actions
   align-items: center
   display: flex
   flex-flow: row
 
   button
-    margin: 0 $ge-space-xs
+    margin: 0 $ge-space-s
 
     &:first-child
       margin-left: 0
@@ -311,9 +320,6 @@
   justify-content: center
   flex-direction: column
   max-height: 100vh
-  overflow: hidden
-  position: sticky
-  top: 0
 
   .editor--device &
     align-items: center
@@ -327,9 +333,6 @@
   font-size: $ge-font-size-small
   justify-content: space-between
   padding: $ge-space-m
-  position: sticky
-  top: 0
-  width: 100%
 
   i
     cursor: pointer
