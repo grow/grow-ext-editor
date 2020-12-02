@@ -92,9 +92,8 @@
 .editor__edit__header__title
   margin-left: $ge-space-s
 
-// .editor__edit__header__links
-//   .material-icons
-//     font-size: $ge-font-size-icon-large
+.editor__edit__header__links
+  margin-right: $ge-space-s
 
 .editor__edit__header__section
   align-items: center
@@ -121,8 +120,8 @@
   scroll-margin-top: $ge-font-size * 3
 
 .editor__card
-  padding: 0 $ge-space-m
-  margin: $ge-space-s 0
+  padding: 0 $ge-space-l
+  margin: $ge-space-m 0
   max-width: $ge-edit-column-max-width
   width: 100%
 
@@ -165,6 +164,10 @@
   display: flex
   flex-flow: row
 
+.editor__dev_tools__logo
+  max-height: 20px
+  max-width: 20px
+
 .editor__dev_tools__icon
   color: $ge-color-icon-on-back
   cursor: pointer
@@ -184,8 +187,9 @@
 
 .editor__menu
   align-items: center
-  background-color: $ge-color-back
+  background-color: $ge-color-back-dark
   border-bottom: $ge-border-size solid $ge-color-back-light
+  color: $ge-color-on-back-dark
   display: flex
   flex-flow: row
   justify-content: space-between

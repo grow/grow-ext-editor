@@ -351,7 +351,6 @@ export default class Editor {
     }
 
     return html`
-      ${this.renderWorkspace(this, this.selective)}
       <div class="editor__card editor__field_list">
         <div class="editor__card__title">
           Content
@@ -1094,7 +1093,7 @@ export default class Editor {
         </div>
       </div>
       <div class="editor__cards">
-        <div class="editor__card editor__menu">
+        <div class="editor__card editor__card--flush editor__menu">
             <div class="editor__actions">
               <button class="editor__style__fields editor__button editor__button--secondary ${this.settingEditorPane.is('fields') ? 'editor__button--selected' : ''}" @click=${editor.handleFieldsClick.bind(editor)} ?disabled=${!editor.isClean}>Fields</button>
               <button class="editor__style__raw editor__button editor__button--secondary ${this.settingEditorPane.is('source') ? 'editor__button--selected' : ''}" @click=${editor.handleSourceClick.bind(editor)} ?disabled=${!editor.isClean}>Source</button>
@@ -1120,7 +1119,7 @@ export default class Editor {
       </div>
       <div class="editor__dev_tools">
         <div class="editor__dev_tools__section">
-          <!-- TODO: Grow logo -->
+          <img class="editor__dev_tools__logo" src="/_grow/ext/editor/grow.svg">
         </div>
         <div class="editor__dev_tools__section">
           <div>Developer tools:</div>
@@ -1189,69 +1188,6 @@ export default class Editor {
         <iframe src="${editor.previewUrl}" @load=${editor.handlePreviewIframeNavigation.bind(editor)}></iframe>
       </div>
     </div>`
-  }
-
-  renderWorkspace(editor, selective) {
-    const locales = Object.keys(editor.document.servingPaths)
-
-    if (!locales.length) {
-      return ''
-    }
-
-    let urlList = ''
-    let moreLocales = ''
-
-    if (locales.length > 1) {
-      if (this.settingLocalizeUrls.on) {
-        moreLocales = html`
-          <a
-              class="editor__workspace__url__more"
-              @click=${editor.handleLocalizeUrlsClick.bind(this)}
-              href="#">
-            (show less)
-          </a>`
-      } else {
-        moreLocales = html`
-          <a
-              class="editor__workspace__url__more"
-              @click=${editor.handleLocalizeUrlsClick.bind(this)}
-              href="#">
-            +${locales.length - 1}
-          </a>`
-      }
-    }
-
-    if (this.settingLocalizeUrls.on) {
-      urlList = html`
-        ${repeat(Object.entries(editor.document.servingPaths), (path) => path[0], (path, index) => html`
-          <div
-              class="editor__workspace__url"
-              data-locale="${path[0]}">
-            <a href="${path[1]}">${path[1]}</a>
-            ${this.document.defaultLocale == path[0] ? moreLocales : html`<span class="editor__workspace__locale">${path[0]}</span>`}
-          </div>`)}`
-    } else {
-      const defaultLocale = editor.document.defaultLocale
-      const localeUrl = editor.document.servingPaths[defaultLocale]
-
-      urlList = html`
-        <div
-            class="editor__workspace__url"
-            data-locale="${defaultLocale}">
-          <a href="${localeUrl}">${localeUrl}</a>
-          ${moreLocales}
-        </div>`
-    }
-
-    return html`
-      <div class="editor__card">
-        <div class="editor__card__title">
-          Workspace
-        </div>
-        <div class="editor__workspace">
-          ${urlList}
-        </div>
-      </div>`
   }
 
   save(force, isAutosave) {

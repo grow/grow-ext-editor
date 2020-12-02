@@ -1375,7 +1375,7 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["<div class=\"selective__actions\">\n      <button\n          data-locale=", "\n          @click=", ">\n        Add\n      </button>\n    </div>"]);
+  var data = _taggedTemplateLiteral(["<div class=\"selective__actions\">\n      <button\n          data-locale=", "\n          @click=", ">\n        ", "\n      </button>\n    </div>"]);
 
   _templateObject = function _templateObject() {
     return data;
@@ -1776,7 +1776,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_13__["default"] {
   renderActionsFooter(selective, data, locale) {
     return Object(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject(), locale || '', evt => {
       this.handleAddItem(evt, selective);
-    });
+    }, this.config.add_label || 'Add');
   }
 
   renderActionsHeader(selective, data, locale) {
@@ -98843,76 +98843,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utility_storage__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../utility/storage */ "./source/utility/storage.js");
 /* harmony import */ var _utility_strings__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ../utility/strings */ "./source/utility/strings.js");
 /* harmony import */ var _utility_settings__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ../utility/settings */ "./source/utility/settings.js");
-function _templateObject22() {
-  var data = _taggedTemplateLiteral(["\n      <div class=\"editor__card\">\n        <div class=\"editor__card__title\">\n          Workspace\n        </div>\n        <div class=\"editor__workspace\">\n          ", "\n        </div>\n      </div>"]);
-
-  _templateObject22 = function _templateObject22() {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject21() {
-  var data = _taggedTemplateLiteral(["\n        <div\n            class=\"editor__workspace__url\"\n            data-locale=\"", "\">\n          <a href=\"", "\">", "</a>\n          ", "\n        </div>"]);
-
-  _templateObject21 = function _templateObject21() {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject20() {
-  var data = _taggedTemplateLiteral(["<span class=\"editor__workspace__locale\">", "</span>"]);
-
-  _templateObject20 = function _templateObject20() {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject19() {
-  var data = _taggedTemplateLiteral(["\n          <div\n              class=\"editor__workspace__url\"\n              data-locale=\"", "\">\n            <a href=\"", "\">", "</a>\n            ", "\n          </div>"]);
-
-  _templateObject19 = function _templateObject19() {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject18() {
-  var data = _taggedTemplateLiteral(["\n        ", ""]);
-
-  _templateObject18 = function _templateObject18() {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject17() {
-  var data = _taggedTemplateLiteral(["\n          <a\n              class=\"editor__workspace__url__more\"\n              @click=", "\n              href=\"#\">\n            +", "\n          </a>"]);
-
-  _templateObject17 = function _templateObject17() {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject16() {
-  var data = _taggedTemplateLiteral(["\n          <a\n              class=\"editor__workspace__url__more\"\n              @click=", "\n              href=\"#\">\n            (show less)\n          </a>"]);
-
-  _templateObject16 = function _templateObject16() {
-    return data;
-  };
-
-  return data;
-}
-
 function _templateObject15() {
   var data = _taggedTemplateLiteral(["<div class=\"editor__preview\">\n      <div class=\"editor__preview__header\">\n        <div class=\"editor__preview__header__icons\">\n          <i class=\"material-icons\" @click=", " title=\"Fullscreen\">", "</i>\n        </div>\n        <div class=\"editor__preview__header__label\">\n          Preview\n        </div>\n        <div class=\"editor__preview__header__icons\">\n          ", "\n          <i class=\"material-icons\" @click=", " title=\"Toggle device view\">devices</i>\n          <i class=\"material-icons editor--device-only\" @click=", " title=\"Rotate device view\">screen_rotation</i>\n          <i class=\"material-icons\" @click=", " title=\"Preview in new window\">open_in_new</i>\n        </div>\n      </div>\n      <div class=\"editor__preview__frame\">\n        <iframe src=\"", "\" @load=", "></iframe>\n      </div>\n    </div>"]);
 
@@ -98964,7 +98894,7 @@ function _templateObject11() {
 }
 
 function _templateObject10() {
-  var data = _taggedTemplateLiteral(["<div class=\"editor__edit\">\n      <div class=\"editor__edit__header\">\n        <div class=\"editor__edit__header__section\">\n          <div class=\"editor__edit__header__label\">\n            Page:\n          </div>\n          <div class=\"editor__edit__header__title\">\n            ", "\n          </div>\n        </div>\n        <div class=\"editor__edit__header__section\">\n          <div class=\"editor__edit__header__links\">\n            <i class=\"material-icons\" @click=", " title=\"Preview with editor\">\n              https\n            </i>\n          </div>\n          ", "\n          ", "\n        </div>\n      </div>\n      <div class=\"editor__cards\">\n        <div class=\"editor__card editor__menu\">\n            <div class=\"editor__actions\">\n              <button class=\"editor__style__fields editor__button editor__button--secondary ", "\" @click=", " ?disabled=", ">Fields</button>\n              <button class=\"editor__style__raw editor__button editor__button--secondary ", "\" @click=", " ?disabled=", ">Source</button>\n              <button class=\"editor__style__raw editor__button editor__button--secondary ", "\" @click=", " ?disabled=", ">History</button>\n            </div>\n            <div class=\"editor__actions\">\n              ", "\n              <button\n                  ?disabled=", "\n                  class=\"editor__save editor__button editor__button--primary ", "\"\n                  @click=", ">\n                ", "\n              </button>\n            </div>\n        </div>\n        ", "\n      </div>\n      <div class=\"editor__dev_tools\">\n        <div class=\"editor__dev_tools__section\">\n          <!-- TODO: Grow logo -->\n        </div>\n        <div class=\"editor__dev_tools__section\">\n          <div>Developer tools:</div>\n          <div class=\"editor__dev_tools__icons\">\n            <i\n                class=\"editor__dev_tools__icon ", " material-icons\"\n                @click=", "\n                title=\"Highlight auto fields\">\n              assistant\n            </i>\n            <i\n                class=\"editor__dev_tools__icon ", " material-icons\"\n                @click=", "\n                title=\"Deep link to fields\">\n              link\n            </i>\n            <i\n                class=\"editor__dev_tools__icon ", " material-icons\"\n                @click=", "\n                title=\"Highlight dirty fields\">\n              change_history\n            </i>\n          </div>\n        </div>\n      </div>\n    </div>"]);
+  var data = _taggedTemplateLiteral(["<div class=\"editor__edit\">\n      <div class=\"editor__edit__header\">\n        <div class=\"editor__edit__header__section\">\n          <div class=\"editor__edit__header__label\">\n            Page:\n          </div>\n          <div class=\"editor__edit__header__title\">\n            ", "\n          </div>\n        </div>\n        <div class=\"editor__edit__header__section\">\n          <div class=\"editor__edit__header__links\">\n            <i class=\"material-icons\" @click=", " title=\"Preview with editor\">\n              https\n            </i>\n          </div>\n          ", "\n          ", "\n        </div>\n      </div>\n      <div class=\"editor__cards\">\n        <div class=\"editor__card editor__card--flush editor__menu\">\n            <div class=\"editor__actions\">\n              <button class=\"editor__style__fields editor__button editor__button--secondary ", "\" @click=", " ?disabled=", ">Fields</button>\n              <button class=\"editor__style__raw editor__button editor__button--secondary ", "\" @click=", " ?disabled=", ">Source</button>\n              <button class=\"editor__style__raw editor__button editor__button--secondary ", "\" @click=", " ?disabled=", ">History</button>\n            </div>\n            <div class=\"editor__actions\">\n              ", "\n              <button\n                  ?disabled=", "\n                  class=\"editor__save editor__button editor__button--primary ", "\"\n                  @click=", ">\n                ", "\n              </button>\n            </div>\n        </div>\n        ", "\n      </div>\n      <div class=\"editor__dev_tools\">\n        <div class=\"editor__dev_tools__section\">\n          <img class=\"editor__dev_tools__logo\" src=\"/_grow/ext/editor/grow.svg\">\n        </div>\n        <div class=\"editor__dev_tools__section\">\n          <div>Developer tools:</div>\n          <div class=\"editor__dev_tools__icons\">\n            <i\n                class=\"editor__dev_tools__icon ", " material-icons\"\n                @click=", "\n                title=\"Highlight auto fields\">\n              assistant\n            </i>\n            <i\n                class=\"editor__dev_tools__icon ", " material-icons\"\n                @click=", "\n                title=\"Deep link to fields\">\n              link\n            </i>\n            <i\n                class=\"editor__dev_tools__icon ", " material-icons\"\n                @click=", "\n                title=\"Highlight dirty fields\">\n              change_history\n            </i>\n          </div>\n        </div>\n      </div>\n    </div>"]);
 
   _templateObject10 = function _templateObject10() {
     return data;
@@ -98994,7 +98924,7 @@ function _templateObject8() {
 }
 
 function _templateObject7() {
-  var data = _taggedTemplateLiteral(["\n      ", "\n      <div class=\"editor__card editor__field_list\">\n        <div class=\"editor__card__title\">\n          Content\n        </div>\n        <div class=\"editor__selective\">\n          ", "\n        </div>\n      </div>"]);
+  var data = _taggedTemplateLiteral(["\n      <div class=\"editor__card editor__field_list\">\n        <div class=\"editor__card__title\">\n          Content\n        </div>\n        <div class=\"editor__selective\">\n          ", "\n        </div>\n      </div>"]);
 
   _templateObject7 = function _templateObject7() {
     return data;
@@ -99319,7 +99249,7 @@ class Editor {
       return Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject5(), this.repo.branch, Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["repeat"])(this.repo.commits, commit => commit.sha, (commit, index) => Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject6(), this.repo.webUrlForCommit(commit.sha), commit.sha.slice(0, 5), commit.author.email, commit.author.name, moment__WEBPACK_IMPORTED_MODULE_4___default()(commit.commit_date + 'Z', moment__WEBPACK_IMPORTED_MODULE_4___default.a.ISO_8601).format('D MMM YYYY, h:mm:ss a'), moment__WEBPACK_IMPORTED_MODULE_4___default()(commit.commit_date + 'Z', moment__WEBPACK_IMPORTED_MODULE_4___default.a.ISO_8601).fromNow(), commit.message)));
     }
 
-    return Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject7(), this.renderWorkspace(this, this.selective), this.selective.template(this.selective, this.selective.data));
+    return Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject7(), this.selective.template(this.selective, this.selective.data));
   }
 
   set device(value) {
@@ -100025,35 +99955,6 @@ class Editor {
     }
 
     return Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject15(), editor.handleFullScreenPreviewClick.bind(editor), editor.settingFullScreenPreview.on ? 'fullscreen_exit' : 'fullscreen', previewSizes, editor.handleDeviceToggleClick.bind(editor), editor.handleDeviceRotateClick.bind(editor), editor.handleOpenInNew.bind(editor), editor.previewUrl, editor.handlePreviewIframeNavigation.bind(editor));
-  }
-
-  renderWorkspace(editor, selective) {
-    var locales = Object.keys(editor.document.servingPaths);
-
-    if (!locales.length) {
-      return '';
-    }
-
-    var urlList = '';
-    var moreLocales = '';
-
-    if (locales.length > 1) {
-      if (this.settingLocalizeUrls.on) {
-        moreLocales = Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject16(), editor.handleLocalizeUrlsClick.bind(this));
-      } else {
-        moreLocales = Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject17(), editor.handleLocalizeUrlsClick.bind(this), locales.length - 1);
-      }
-    }
-
-    if (this.settingLocalizeUrls.on) {
-      urlList = Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject18(), Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["repeat"])(Object.entries(editor.document.servingPaths), path => path[0], (path, index) => Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject19(), path[0], path[1], path[1], this.document.defaultLocale == path[0] ? moreLocales : Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject20(), path[0]))));
-    } else {
-      var defaultLocale = editor.document.defaultLocale;
-      var localeUrl = editor.document.servingPaths[defaultLocale];
-      urlList = Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject21(), defaultLocale, localeUrl, localeUrl, moreLocales);
-    }
-
-    return Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject22(), urlList);
   }
 
   save(force, isAutosave) {
