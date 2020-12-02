@@ -1092,29 +1092,29 @@ export default class Editor {
           ${this.servingPath ? html`<i class="material-icons" @click=${editor.handleFullScreenEditorClick.bind(editor)} title="Fullscreen">${editor.settingFullScreenEditor.on || !this.servingPath ? 'fullscreen_exit' : 'fullscreen'}</i>` : ''}
         </div>
       </div>
+      <div class="editor__menu">
+          <div class="editor__actions">
+            <button class="editor__style__fields editor__button editor__button--secondary ${this.settingEditorPane.is('fields') ? 'editor__button--selected' : ''}" @click=${editor.handleFieldsClick.bind(editor)} ?disabled=${!editor.isClean}>Fields</button>
+            <button class="editor__style__raw editor__button editor__button--secondary ${this.settingEditorPane.is('source') ? 'editor__button--selected' : ''}" @click=${editor.handleSourceClick.bind(editor)} ?disabled=${!editor.isClean}>Source</button>
+            <button class="editor__style__raw editor__button editor__button--secondary ${this.settingEditorPane.is('history') ? 'editor__button--selected' : ''}" @click=${editor.handleHistoryClick.bind(editor)} ?disabled=${!editor.isClean}>History</button>
+          </div>
+          <div class="editor__actions">
+            ${isValid ? '' :
+              html`<div class="editor__actions">
+                  <span
+                      class="editor__invalid">
+                    <i class="material-icons">error</i>
+                  </span>
+                </div>`}
+            <button
+                ?disabled=${saveDisabled}
+                class="editor__save editor__button editor__button--primary ${saveClasses.join(' ')}"
+                @click=${editor.save.bind(editor)}>
+              ${saveStatusLabel}
+            </button>
+          </div>
+      </div>
       <div class="editor__cards">
-        <div class="editor__card editor__card--flush editor__menu">
-            <div class="editor__actions">
-              <button class="editor__style__fields editor__button editor__button--secondary ${this.settingEditorPane.is('fields') ? 'editor__button--selected' : ''}" @click=${editor.handleFieldsClick.bind(editor)} ?disabled=${!editor.isClean}>Fields</button>
-              <button class="editor__style__raw editor__button editor__button--secondary ${this.settingEditorPane.is('source') ? 'editor__button--selected' : ''}" @click=${editor.handleSourceClick.bind(editor)} ?disabled=${!editor.isClean}>Source</button>
-              <button class="editor__style__raw editor__button editor__button--secondary ${this.settingEditorPane.is('history') ? 'editor__button--selected' : ''}" @click=${editor.handleHistoryClick.bind(editor)} ?disabled=${!editor.isClean}>History</button>
-            </div>
-            <div class="editor__actions">
-              ${isValid ? '' :
-                html`<div class="editor__actions">
-                    <span
-                        class="editor__invalid">
-                      <i class="material-icons">error</i>
-                    </span>
-                  </div>`}
-              <button
-                  ?disabled=${saveDisabled}
-                  class="editor__save editor__button editor__button--primary ${saveClasses.join(' ')}"
-                  @click=${editor.save.bind(editor)}>
-                ${saveStatusLabel}
-              </button>
-            </div>
-        </div>
         ${editor.templatePane}
       </div>
       <div class="editor__dev_tools">

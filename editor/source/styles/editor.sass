@@ -112,12 +112,8 @@
   display: flex
   flex-flow: column
   flex-grow: 1
-  // TODO: Do not think this is right anymore?
-  max-height: calc(100vh - #{$ge-space-l * 2})
   overflow-y: auto
-  padding-bottom: $ge-space-m
-  // Attempt to keep scroll sticky menu from overlapping linked fields.
-  scroll-margin-top: $ge-font-size * 3
+  padding: $ge-space-m 0
 
 .editor__card
   padding: 0 $ge-space-l
@@ -193,7 +189,6 @@
   display: flex
   flex-flow: row
   justify-content: space-between
-  margin-bottom: $ge-space-m
   position: sticky
   padding: $ge-space-m
   top: 0
