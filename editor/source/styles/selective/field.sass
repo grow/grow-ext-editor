@@ -14,16 +14,16 @@
   &--guess
     .editor--highlight-guess &
       border-right: $ge-border-size solid $ge-color-back-highlight !important
-      padding-right: $ge-pad/2
+      padding-right: $ge-space-s
 
   &--dirty
     .editor--highlight-dirty &
       border-right: $ge-border-size solid $ge-color-back-highlight !important
-      padding-right: $ge-pad/2
+      padding-right: $ge-space-s
 
   &--linked
     border: $ge-border-size solid $ge-color-back-highlight !important
-    padding: $ge-pad/2
+    padding: $ge-space-s
 
 .selective__actions
   align-items: center
@@ -31,7 +31,7 @@
   flex-flow: row
 
   > *
-    margin: 0 $ge-pad/2
+    margin: 0 $ge-space-s
 
     &:first-child
       margin-left: 0
@@ -66,7 +66,7 @@
   &--secondary
     font-size: $ge-font-size-small
     font-weight: 500
-    margin-bottom: $ge-pad/2
+    margin-bottom: $ge-space-s
 
   .selective__field--invalid > &
     color: $ge-color-error
@@ -80,14 +80,14 @@
 
 .selective__field__deep_link
   display: none
-  margin-right: $ge-pad/2
+  margin-right: $ge-space-s
 
   .editor--highlight-linked &
     display: inherit
 
 .selective__field__invalid
   color: $ge-color-error
-  margin-right: $ge-pad/2
+  margin-right: $ge-space-s
 
   .selective__field__label--error__level__warning &
     color: $ge-color-warning
@@ -112,7 +112,7 @@
   margin: $ge-space-m
 
 .selective__field__error
-  margin: $ge-pad 0
+  margin: $ge-space-m 0
 
   &--level__warning
     color: $ge-color-warning

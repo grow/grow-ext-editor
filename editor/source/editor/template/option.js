@@ -21,10 +21,12 @@ const templateOptionColor = (locale, option, isSelected, classes, handlers) => {
   let colorAria = ''
   if (option.color) {
     classes.push('selective__field__select__option--colored')
+    const isSmooth = option.smooth == true
 
     if (DataType.isArray(option.color)) {
       const colorBreakpoints = []
-      let breakpoint = Math.floor(100/option.color.length)
+      const numBreakpoints = isSmooth ? option.color.length - 1 : option.color.length
+      let breakpoint = Math.floor(100/numBreakpoints)
       colorBreakpoints.push(`${option.color[0]} 0%`)
 
       let lastColor = null
@@ -34,15 +36,28 @@ const templateOptionColor = (locale, option, isSelected, classes, handlers) => {
           continue
         }
 
-        colorBreakpoints.push(`${lastColor} ${breakpoint}%`)
+        if (!isSmooth) {
+          colorBreakpoints.push(`${lastColor} ${breakpoint}%`)
+        }
         colorBreakpoints.push(`${color} ${breakpoint}%`)
         breakpoint += breakpoint
         lastColor = color
       }
 
-      colorBreakpoints.push(`${option.color[option.color.length - 1]} 100%`)
+      const orientation = option.orientation || 'vertical'
+      let orientationAngle = '90deg'
 
-      colorDotStyle = `background: linear-gradient(45deg, ${colorBreakpoints.join(', ')});`
+      if (orientation == 'horizontal') {
+        orientationAngle = '0deg'
+      } else if (orientation == 'angled' || orientation == 'sloped') {
+        orientationAngle = '45deg'
+      }
+
+      if (!isSmooth) {
+        colorBreakpoints.push(`${option.color[option.color.length - 1]} 100%`)
+      }
+
+      colorDotStyle = `background: linear-gradient(${orientationAngle}, ${colorBreakpoints.join(', ')});`
       // colorDotSelectedStyle = `box-shadow: 0px 0px 0px 2px #fff, 0px 0px 0px 3px ${option.color[0]};`
       colorAria = option.color.join(', ')
     } else {

@@ -101884,7 +101884,7 @@ function _templateObject8() {
 }
 
 function _templateObject7() {
-  var data = _taggedTemplateLiteral(["\n      ", "\n      <div class=\"selective__actions\">\n        <button\n            class=\"selective__button selective__actions__add\"\n            @click=", ">\n          ", "\n        </button>\n      </div>"]);
+  var data = _taggedTemplateLiteral(["\n      ", "\n      <div class=\"selective__actions\">\n        <button\n            class=\"selective__button selective__button--add\"\n            @click=", ">\n          ", "\n        </button>\n      </div>"]);
 
   _templateObject7 = function _templateObject7() {
     return data;
@@ -102190,7 +102190,7 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListFie
       };
     }
 
-    return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject7(), this.modalWindow.template, this.handleTogglePartialList.bind(this), this.config.addLabel || 'Add partial');
+    return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject7(), this.modalWindow.template, this.handleTogglePartialList.bind(this), this.config.add_label || 'Add partial');
   }
 
   renderPreview(selective, data, item, index, locale) {
@@ -103784,8 +103784,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
 /* harmony import */ var _workspace__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./workspace */ "./source/editor/menu/workspace.js");
 /* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./base */ "./source/editor/menu/base.js");
+function _templateObject4() {
+  var data = _taggedTemplateLiteral(["\n      <div class=\"menu__repo__workspace\">\n        <a\n            class=\"menu__repo__workspace__branch\"\n            href=", "\n            target=\"_blank\">\n          ", "\n        </a>\n        @ <a\n            href=", "\n            target=\"_blank\">\n          ", "\n        </a>\n        by ", "\n        <span class=\"menu__repo__time\" title=\"", "\">\n          (", ")\n        </span>\n      </div>"]);
+
+  _templateObject4 = function _templateObject4() {
+    return data;
+  };
+
+  return data;
+}
+
 function _templateObject3() {
-  var data = _taggedTemplateLiteral(["\n      <div class=\"menu__repo__workspace menu__repo__value\">\n        <a\n            class=\"menu__repo__workspace__branch\"\n            href=", "\n            target=\"_blank\">\n          ", "\n        </a>\n        @ <a\n            href=", "\n            target=\"_blank\">\n          ", "\n        </a>\n        by ", "\n        <span class=\"menu__repo__time\" title=\"", "\">\n          (", ")\n        </span>\n      </div>"]);
+  var data = _taggedTemplateLiteral(["<div class=\"menu__repo__workspace\">\u2026</div>"]);
 
   _templateObject3 = function _templateObject3() {
     return data;
@@ -103840,10 +103850,10 @@ class RepoMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
       lastCommitDate = moment__WEBPACK_IMPORTED_MODULE_1___default()(lastCommit.commit_date + 'Z', moment__WEBPACK_IMPORTED_MODULE_1___default.a.ISO_8601);
       lastCommitAuthor = Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject2(), lastCommit.author.email, lastCommit.author.name);
     } else {
-      return '…';
+      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject3());
     }
 
-    return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject3(), menuState.repo.webUrlForBranch(menuState.repo.branch), menuState.repo.cleanBranch(menuState.repo.branch), menuState.repo.webUrlForCommit(menuState.repo.commits[0].sha), menuState.repo.commits[0].sha.substring(0, 6), lastCommitAuthor, lastCommitDate.format('D MMM YYYY, h:mm:ss a'), lastCommitDate.fromNow());
+    return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject4(), menuState.repo.webUrlForBranch(menuState.repo.branch), menuState.repo.cleanBranch(menuState.repo.branch), menuState.repo.webUrlForCommit(menuState.repo.commits[0].sha), menuState.repo.commits[0].sha.substring(0, 6), lastCommitAuthor, lastCommitDate.format('D MMM YYYY, h:mm:ss a'), lastCommitDate.fromNow());
   }
 
 }
@@ -104712,10 +104722,12 @@ var templateOptionColor = (locale, option, isSelected, classes, handlers) => {
 
   if (option.color) {
     classes.push('selective__field__select__option--colored');
+    var isSmooth = option.smooth == true;
 
     if (_utility_dataType__WEBPACK_IMPORTED_MODULE_1__["default"].isArray(option.color)) {
       var colorBreakpoints = [];
-      var breakpoint = Math.floor(100 / option.color.length);
+      var numBreakpoints = isSmooth ? option.color.length - 1 : option.color.length;
+      var breakpoint = Math.floor(100 / numBreakpoints);
       colorBreakpoints.push("".concat(option.color[0], " 0%"));
       var lastColor = null;
 
@@ -104725,14 +104737,29 @@ var templateOptionColor = (locale, option, isSelected, classes, handlers) => {
           continue;
         }
 
-        colorBreakpoints.push("".concat(lastColor, " ").concat(breakpoint, "%"));
+        if (!isSmooth) {
+          colorBreakpoints.push("".concat(lastColor, " ").concat(breakpoint, "%"));
+        }
+
         colorBreakpoints.push("".concat(color, " ").concat(breakpoint, "%"));
         breakpoint += breakpoint;
         lastColor = color;
       }
 
-      colorBreakpoints.push("".concat(option.color[option.color.length - 1], " 100%"));
-      colorDotStyle = "background: linear-gradient(45deg, ".concat(colorBreakpoints.join(', '), ");"); // colorDotSelectedStyle = `box-shadow: 0px 0px 0px 2px #fff, 0px 0px 0px 3px ${option.color[0]};`
+      var orientation = option.orientation || 'vertical';
+      var orientationAngle = '90deg';
+
+      if (orientation == 'horizontal') {
+        orientationAngle = '0deg';
+      } else if (orientation == 'angled' || orientation == 'sloped') {
+        orientationAngle = '45deg';
+      }
+
+      if (!isSmooth) {
+        colorBreakpoints.push("".concat(option.color[option.color.length - 1], " 100%"));
+      }
+
+      colorDotStyle = "background: linear-gradient(".concat(orientationAngle, ", ").concat(colorBreakpoints.join(', '), ");"); // colorDotSelectedStyle = `box-shadow: 0px 0px 0px 2px #fff, 0px 0px 0px 3px ${option.color[0]};`
 
       colorAria = option.color.join(', ');
     } else {
