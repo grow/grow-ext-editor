@@ -1295,7 +1295,7 @@ function _templateObject10() {
 }
 
 function _templateObject9() {
-  var data = _taggedTemplateLiteral(["\n      <div class=\"selective__list__item selective__list__item--simple selective__sortable\"\n          draggable=\"true\"\n          data-index=", "\n          data-locale=", "\n          @dragenter=", "\n          @dragleave=", "\n          @dragover=", "\n          @dragstart=", "\n          @drop=", ">\n        <div class=\"selective__list__item__drag\">\n          <i class=\"material-icons\">drag_indicator</i>\n        </div>\n        ", "\n        <div\n            class=\"selective__list__item__delete\"\n            data-item-uid=", "\n            data-locale=", "\n            @click=", "\n            title=\"Delete item\">\n          <i class=\"material-icons\">delete</i>\n        </div>\n      </div>"]);
+  var data = _taggedTemplateLiteral(["\n      <div class=\"selective__list__item selective__list__item--simple selective__sortable\"\n          draggable=\"true\"\n          data-index=", "\n          data-locale=", "\n          @dragenter=", "\n          @dragleave=", "\n          @dragover=", "\n          @dragstart=", "\n          @drop=", ">\n        <div class=\"selective__list__item__drag\">\n          <i class=\"material-icons\">drag_indicator</i>\n        </div>\n        ", "\n        <div\n            class=\"selective__list__item__delete tooltip--left\"\n            data-item-uid=", "\n            data-locale=", "\n            @click=", "\n            title=\"Delete item\">\n          <i class=\"material-icons\">delete</i>\n        </div>\n      </div>"]);
 
   _templateObject9 = function _templateObject9() {
     return data;
@@ -1305,7 +1305,7 @@ function _templateObject9() {
 }
 
 function _templateObject8() {
-  var data = _taggedTemplateLiteral(["\n      <div class=\"selective__list__item selective__sortable\"\n          draggable=\"true\"\n          data-index=", "\n          data-locale=", "\n          @dragenter=", "\n          @dragleave=", "\n          @dragover=", "\n          @dragstart=", "\n          @drop=", ">\n        <div class=\"selective__list__fields__label ", "\"\n            data-item-uid=", "\n            data-locale=", "\n            @click=", ">\n          ", "\n        </div>\n        ", "\n      </div>"]);
+  var data = _taggedTemplateLiteral(["\n      <div class=\"selective__list__item selective__sortable\"\n          draggable=\"true\"\n          data-index=", "\n          data-locale=", "\n          @dragenter=", "\n          @dragleave=", "\n          @dragover=", "\n          @dragstart=", "\n          @drop=", ">\n        <div class=\"selective__list__fields__label ", "\"\n            data-item-uid=", "\n            data-locale=", "\n            @click=", ">\n          ", "\n        </div>\n\n        <div class=\"selective__list__fields\">\n          ", "\n        </div>\n      </div>"]);
 
   _templateObject8 = function _templateObject8() {
     return data;
@@ -1325,7 +1325,7 @@ function _templateObject7() {
 }
 
 function _templateObject6() {
-  var data = _taggedTemplateLiteral(["\n      <div class=\"selective__list__item selective__list__item--collapsed selective__sortable\"\n          draggable=\"true\"\n          data-index=", "\n          data-locale=", "\n          @dragenter=", "\n          @dragleave=", "\n          @dragover=", "\n          @dragstart=", "\n          @drop=", ">\n        <div class=\"selective__list__item__drag\"><i class=\"material-icons\">drag_indicator</i></div>\n        ", "\n        <div\n            class=\"selective__list__item__delete\"\n            data-item-uid=", "\n            data-locale=", "\n            @click=", "\n            title=\"Delete item\">\n          <i class=\"material-icons\">delete</i>\n        </div>\n      </div>"]);
+  var data = _taggedTemplateLiteral(["\n      <div class=\"selective__list__item selective__list__item--collapsed selective__sortable\"\n          draggable=\"true\"\n          data-index=", "\n          data-locale=", "\n          @dragenter=", "\n          @dragleave=", "\n          @dragover=", "\n          @dragstart=", "\n          @drop=", ">\n        <div class=\"selective__list__item__drag\"><i class=\"material-icons\">drag_indicator</i></div>\n        ", "\n        <div\n            class=\"selective__list__item__delete tooltip--left\"\n            data-item-uid=", "\n            data-locale=", "\n            @click=", "\n            aria-label=\"Delete item\"\n            data-tip=\"Delete item\">\n          <i class=\"material-icons icon icon--delete\">remove_circle</i>\n        </div>\n      </div>"]);
 
   _templateObject6 = function _templateObject6() {
     return data;
@@ -1345,7 +1345,7 @@ function _templateObject5() {
 }
 
 function _templateObject4() {
-  var data = _taggedTemplateLiteral(["<div class=\"selective__actions\">\n      ", "\n    </div>"]);
+  var data = _taggedTemplateLiteral(["<div class=\"selective__field__actions\">\n      ", "\n    </div>"]);
 
   _templateObject4 = function _templateObject4() {
     return data;
@@ -1375,7 +1375,7 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["<div class=\"selective__actions\">\n      <button\n          data-locale=", "\n          @click=", ">\n        Add\n      </button>\n    </div>"]);
+  var data = _taggedTemplateLiteral(["<div class=\"selective__field__actions\">\n      <button\n          class=\"selective__button--add\"\n          data-locale=", "\n          @click=", ">\n        ", "\n      </button>\n    </div>"]);
 
   _templateObject = function _templateObject() {
     return data;
@@ -1776,7 +1776,7 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_13__["default"] {
   renderActionsFooter(selective, data, locale) {
     return Object(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject(), locale || '', evt => {
       this.handleAddItem(evt, selective);
-    });
+    }, this.config.add_label || 'Add');
   }
 
   renderActionsHeader(selective, data, locale) {
@@ -1951,7 +1951,7 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n      <div\n          class=\"selective__field__label selective__field__label--action selective__field__label--strong\"\n          @click=", ">\n        <div class=\"selective__field__actions\">\n          <i class=\"material-icons\">\n            ", "\n          </i>\n          <label>", "</label>\n        </div>\n      </div>"]);
+  var data = _taggedTemplateLiteral(["\n      <div class=\"selective__field__actions__wrapper ", "\" @click=", ">\n        <label>", "</label>\n        <div class=\"selective__field__actions\">\n          <i class=\"material-icons\">\n            ", "\n          </i>\n        </div>\n      </div>"]);
 
   _templateObject = function _templateObject() {
     return data;
@@ -1979,7 +1979,7 @@ class GroupField extends _field__WEBPACK_IMPORTED_MODULE_7__["default"] {
     this.fieldType = 'group';
     this.ignoreLocalize = true;
     this.fields = null;
-    this.isExpanded = false;
+    this.isExpanded = this.config.get('is_expanded', false);
     this._useAutoFields = false;
   }
 
@@ -2064,7 +2064,7 @@ class GroupField extends _field__WEBPACK_IMPORTED_MODULE_7__["default"] {
   }
 
   renderLabel(selective, data) {
-    return Object(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject(), this.handleExpandToggle.bind(this), this.isExpanded ? 'expand_less' : 'expand_more', this.config.label || '(Group)');
+    return Object(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject(), this.getClassesForLabel(), this.handleExpandToggle.bind(this), this.config.label || '(Group)', this.isExpanded ? 'expand_less' : 'expand_more');
   }
 
 }
@@ -2810,12 +2810,15 @@ class LengthValidationRule extends ValidationRule {
     // Allow for empty fields. Use the required rule for making sure it exists.
     if (!value) {
       return null;
-    } // Do not count whitespace.
+    }
 
-
-    value = value.trim();
     var configMax = this.config.max;
     var configMin = this.config.min;
+
+    if (!_utility_dataType__WEBPACK_IMPORTED_MODULE_2__["default"].isArray(value)) {
+      // Do not count whitespace.
+      value = value.trim();
+    }
 
     if (configMin && value.length < configMin.value) {
       return configMin.message || this.message;
@@ -2924,24 +2927,33 @@ class RangeValidationRule extends ValidationRule {
     // Allow for empty fields. Use the required rule for making sure it exists.
     if (!value) {
       return null;
-    } // Do not count whitespace.
-
-
-    value = parseFloat(value);
-
-    if (isNaN(value)) {
-      return this.message;
     }
 
     var configMax = this.config.max;
     var configMin = this.config.min;
 
-    if (configMin && value < configMin.value) {
-      return configMin.message || this.message;
-    }
+    if (_utility_dataType__WEBPACK_IMPORTED_MODULE_2__["default"].isArray(value)) {
+      if (configMin && value.length < configMin.value) {
+        return configMin.message || this.message;
+      }
 
-    if (configMax && value > configMax.value) {
-      return configMax.message || this.message;
+      if (configMax && value.length > configMax.value) {
+        return configMax.message || this.message;
+      }
+    } else {
+      value = parseFloat(value);
+
+      if (isNaN(value)) {
+        return this.message;
+      }
+
+      if (configMin && value < configMin.value) {
+        return configMin.message || this.message;
+      }
+
+      if (configMax && value > configMax.value) {
+        return configMax.message || this.message;
+      }
     }
 
     return null;
