@@ -1345,7 +1345,7 @@ function _templateObject5() {
 }
 
 function _templateObject4() {
-  var data = _taggedTemplateLiteral(["<div class=\"selective__actions\">\n      ", "\n    </div>"]);
+  var data = _taggedTemplateLiteral(["<div class=\"selective__field__actions\">\n      ", "\n    </div>"]);
 
   _templateObject4 = function _templateObject4() {
     return data;
@@ -1375,7 +1375,7 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["<div class=\"selective__actions\">\n      <button\n          class=\"selective__button--add\"\n          data-locale=", "\n          @click=", ">\n        ", "\n      </button>\n    </div>"]);
+  var data = _taggedTemplateLiteral(["<div class=\"selective__field__actions\">\n      <button\n          class=\"selective__button--add\"\n          data-locale=", "\n          @click=", ">\n        ", "\n      </button>\n    </div>"]);
 
   _templateObject = function _templateObject() {
     return data;
@@ -1951,7 +1951,7 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n      <div\n          class=\"selective__field__label selective__field__label--action selective__field__label--strong\"\n          @click=", ">\n        <div class=\"selective__field__actions\">\n          <i class=\"material-icons\">\n            ", "\n          </i>\n          <label>", "</label>\n        </div>\n      </div>"]);
+  var data = _taggedTemplateLiteral(["\n      <div class=\"selective__field__actions__wrapper ", "\" @click=", ">\n        <label>", "</label>\n        <div class=\"selective__field__actions\">\n          <i class=\"material-icons\">\n            ", "\n          </i>\n        </div>\n      </div>"]);
 
   _templateObject = function _templateObject() {
     return data;
@@ -1979,7 +1979,7 @@ class GroupField extends _field__WEBPACK_IMPORTED_MODULE_7__["default"] {
     this.fieldType = 'group';
     this.ignoreLocalize = true;
     this.fields = null;
-    this.isExpanded = false;
+    this.isExpanded = this.config.get('is_expanded', false);
     this._useAutoFields = false;
   }
 
@@ -2064,7 +2064,7 @@ class GroupField extends _field__WEBPACK_IMPORTED_MODULE_7__["default"] {
   }
 
   renderLabel(selective, data) {
-    return Object(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject(), this.handleExpandToggle.bind(this), this.isExpanded ? 'expand_less' : 'expand_more', this.config.label || '(Group)');
+    return Object(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject(), this.getClassesForLabel(), this.handleExpandToggle.bind(this), this.config.label || '(Group)', this.isExpanded ? 'expand_less' : 'expand_more');
   }
 
 }
@@ -98909,7 +98909,7 @@ function _templateObject8() {
 }
 
 function _templateObject7() {
-  var data = _taggedTemplateLiteral(["\n      <div class=\"editor__card editor__field_list\">\n        <div class=\"editor__card__title\">\n          Content\n        </div>\n        <div class=\"editor__selective\">\n          ", "\n        </div>\n      </div>"]);
+  var data = _taggedTemplateLiteral(["\n      <div class=\"editor__card editor__field_list\">\n        <div class=\"editor__selective\">\n          ", "\n        </div>\n      </div>"]);
 
   _templateObject7 = function _templateObject7() {
     return data;

@@ -352,9 +352,6 @@ export default class Editor {
 
     return html`
       <div class="editor__card editor__field_list">
-        <div class="editor__card__title">
-          Content
-        </div>
         <div class="editor__selective">
           ${this.selective.template(this.selective, this.selective.data)}
         </div>
