@@ -2,6 +2,7 @@
   input
     +field-border
     +field-control
+    +field-shadow
     font-family: $ge-font-family-text
     font-size: $ge-font-size
     line-height: $ge-line-height-paragraph
@@ -14,18 +15,10 @@
     &.selective__field__input--error__level__warning
         +field-border-warning
 
-    // Alternate with nesting.
-    // +list-nesting
-    //   background-color: $ge-color-field-back-alt
-    //   color: $ge-color-on-field-back-alt
-    //
-    // +list-nesting-alt
-    //   background-color: $ge-color-field-back
-    //   color: $ge-color-on-field-back
-
   textarea
     +field-border
     +field-control
+    +field-shadow
     font-family: $ge-font-family-text
     font-size: $ge-font-size
     line-height: $ge-line-height-paragraph
@@ -37,15 +30,6 @@
 
     &.selective__field__input--error__level__warning
         +field-border-warning
-
-    // Alternate with nesting.
-    // +list-nesting
-    //   background-color: $ge-color-field-back-alt
-    //   color: $ge-color-on-field-back-alt
-    //
-    // +list-nesting-alt
-    //   background-color: $ge-color-field-back
-    //   color: $ge-color-on-field-back
 
   [contenteditable=true]
     &:not(.tui-editor-contents)
