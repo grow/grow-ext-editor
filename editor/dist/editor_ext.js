@@ -613,8 +613,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mixin_uid__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../mixin/uid */ "../../../selective-edit/js/mixin/uid.js");
 /* harmony import */ var _validation_errors__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../validation/errors */ "../../../selective-edit/js/selective/validation/errors.js");
 /* harmony import */ var _validation_rules__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../validation/rules */ "../../../selective-edit/js/selective/validation/rules.js");
-function _templateObject13() {
+function _templateObject14() {
   var data = _taggedTemplateLiteral(["\n      <div\n          class=", "\n          data-field-type=\"", "\"\n          data-field-full-key=\"", "\">\n        ", "\n      </div>"]);
+
+  _templateObject14 = function _templateObject14() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject13() {
+  var data = _taggedTemplateLiteral(["<span>(default)</span>"]);
 
   _templateObject13 = function _templateObject13() {
     return data;
@@ -624,7 +634,7 @@ function _templateObject13() {
 }
 
 function _templateObject12() {
-  var data = _taggedTemplateLiteral(["<span>(default)</span>"]);
+  var data = _taggedTemplateLiteral(["\n            <div class=\"selective__field__locale\">\n              <label for=\"", "", "\">", " ", "</label>\n            </div>\n            <div class=\"selective__field__input\">\n              ", "\n            </div>\n          "]);
 
   _templateObject12 = function _templateObject12() {
     return data;
@@ -634,7 +644,7 @@ function _templateObject12() {
 }
 
 function _templateObject11() {
-  var data = _taggedTemplateLiteral(["\n            <div class=\"selective__field__locale\">\n              <label for=\"", "", "\">", " ", "</label>\n            </div>\n            <div class=\"selective__field__input\">\n              ", "\n            </div>\n          "]);
+  var data = _taggedTemplateLiteral(["\n      <div class=\"selective__field__localization\">\n        ", "\n      </div>"]);
 
   _templateObject11 = function _templateObject11() {
     return data;
@@ -644,7 +654,7 @@ function _templateObject11() {
 }
 
 function _templateObject10() {
-  var data = _taggedTemplateLiteral(["\n      <div class=\"selective__field__localization\">\n        ", "\n      </div>"]);
+  var data = _taggedTemplateLiteral(["\n        <div class=\"selective__field__input\">\n          ", "\n        </div>"]);
 
   _templateObject10 = function _templateObject10() {
     return data;
@@ -654,7 +664,7 @@ function _templateObject10() {
 }
 
 function _templateObject9() {
-  var data = _taggedTemplateLiteral(["\n        <div class=\"selective__field__input\">\n          ", "\n        </div>"]);
+  var data = _taggedTemplateLiteral(["<div class=\"", "\">\n      ", "\n      ", "\n      <label for=\"", "\">", "</label>\n    </div>"]);
 
   _templateObject9 = function _templateObject9() {
     return data;
@@ -664,7 +674,7 @@ function _templateObject9() {
 }
 
 function _templateObject8() {
-  var data = _taggedTemplateLiteral(["<div class=\"", "\">\n      ", "\n      ", "\n      <label for=\"", "\">", "</label>\n    </div>"]);
+  var data = _taggedTemplateLiteral(["\n      <span\n          class=\"selective__field__deep_link\"\n          @click=", ">\n        <i class=\"material-icons\">link</i>\n      </span>"]);
 
   _templateObject8 = function _templateObject8() {
     return data;
@@ -674,7 +684,7 @@ function _templateObject8() {
 }
 
 function _templateObject7() {
-  var data = _taggedTemplateLiteral(["\n      <span\n          class=\"selective__field__deep_link\"\n          @click=", ">\n        <i class=\"material-icons\">link</i>\n      </span>"]);
+  var data = _taggedTemplateLiteral(["\n      <span\n          class=\"selective__field__invalid\">\n        <i class=\"material-icons\">error</i>\n      </span>"]);
 
   _templateObject7 = function _templateObject7() {
     return data;
@@ -684,7 +694,7 @@ function _templateObject7() {
 }
 
 function _templateObject6() {
-  var data = _taggedTemplateLiteral(["\n      <span\n          class=\"selective__field__invalid\">\n        <i class=\"material-icons\">error</i>\n      </span>"]);
+  var data = _taggedTemplateLiteral(["<div class=\"selective__field__help\">", "</div>"]);
 
   _templateObject6 = function _templateObject6() {
     return data;
@@ -694,7 +704,7 @@ function _templateObject6() {
 }
 
 function _templateObject5() {
-  var data = _taggedTemplateLiteral(["<div class=\"selective__field__help\">", "</div>"]);
+  var data = _taggedTemplateLiteral(["\n                <div\n                    class=\"selective__field__error selective__field__error--level__", "\"\n                    data-error-level=\"", "\"\n                    data-error-type=\"", "\">\n                  ", "\n                </div>\n              "]);
 
   _templateObject5 = function _templateObject5() {
     return data;
@@ -704,7 +714,7 @@ function _templateObject5() {
 }
 
 function _templateObject4() {
-  var data = _taggedTemplateLiteral(["\n            <div class=\"selective__field__error\" data-error-type=\"", "\">\n              ", "\n            </div>\n          "]);
+  var data = _taggedTemplateLiteral(["\n            ", "\n          "]);
 
   _templateObject4 = function _templateObject4() {
     return data;
@@ -955,6 +965,7 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compos
     if (errors) {
       var zoneErrors = errors.getErrorsForZone(zoneKey);
       var errorTypes = Object.keys(zoneErrors).sort();
+      var errorLevels = new Set();
 
       if (errorTypes.length) {
         classes.push('selective__field__input--error');
@@ -962,6 +973,15 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compos
 
       for (var key of errorTypes) {
         classes.push("selective__field__input--error__".concat(key));
+        var _errors = zoneErrors[key];
+
+        for (var error of _errors) {
+          errorLevels.add(error.level);
+        }
+      }
+
+      for (var _key of errorLevels) {
+        classes.push("selective__field__input--error__level__".concat(_key));
       }
     }
 
@@ -977,6 +997,7 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compos
       if (errors) {
         var zoneErrors = errors.getErrorsForZone(zoneKey);
         var errorTypes = Object.keys(zoneErrors).sort();
+        var errorLevels = new Set();
 
         if (errorTypes.length) {
           classes.push('selective__field__label--error');
@@ -984,6 +1005,15 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compos
 
         for (var key of errorTypes) {
           classes.push("selective__field__label--error__".concat(key));
+          var _errors2 = zoneErrors[key];
+
+          for (var error of _errors2) {
+            errorLevels.add(error.level);
+          }
+        }
+
+        for (var _key2 of errorLevels) {
+          classes.push("selective__field__label--error__level__".concat(_key2));
         }
       }
     }
@@ -1075,7 +1105,7 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compos
       return '';
     }
 
-    return Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject3(), Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_3__["repeat"])(errorTypes, type => type, (type, index) => Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject4(), type, zoneErrors[type])));
+    return Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject3(), Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_3__["repeat"])(errorTypes, type => type, (type, index) => Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject4(), Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_3__["repeat"])(zoneErrors[type], errorMsg => errorMsg.id, (errorMsg, index) => Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject5(), errorMsg.level, errorMsg.level, errorMsg.type, errorMsg.message)))));
   }
 
   renderFooter(selective, data) {
@@ -1091,7 +1121,7 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compos
       return '';
     }
 
-    return Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject5(), this.config.help);
+    return Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject6(), this.config.help);
   }
 
   renderIconError(selective, data, locale) {
@@ -1099,11 +1129,11 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compos
       return '';
     }
 
-    return Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject6());
+    return Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject7());
   }
 
   renderIconLink(selective, data, locale) {
-    return Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject7(), this.handleDeepLink.bind(this));
+    return Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject8(), this.handleDeepLink.bind(this));
   }
 
   renderInput(selective, data, locale) {
@@ -1115,20 +1145,20 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compos
       return '';
     }
 
-    return Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject8(), this.getClassesForLabel(), this.renderIconLink(selective, data), this.renderIconError(selective, data), this.uid, this.config.label);
+    return Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject9(), this.getClassesForLabel(), this.renderIconLink(selective, data), this.renderIconError(selective, data), this.uid, this.config.label);
   }
 
   renderLocalization(selective, data) {
     if (this.ignoreLocalize || !selective.localize) {
-      return Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject9(), this.renderInput(selective, data));
+      return Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject10(), this.renderInput(selective, data));
     } // Render the localization grid.
 
 
-    return Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject10(), Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_3__["repeat"])(this.locales, locale => locale, (locale, index) => Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject11(), this.uid, locale, locale, locale == this.defaultLocale ? Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject12()) : '', this.renderInput(selective, data, locale))));
+    return Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject11(), Object(lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_3__["repeat"])(this.locales, locale => locale, (locale, index) => Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject12(), this.uid, locale, locale, locale == this.defaultLocale ? Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject13()) : '', this.renderInput(selective, data, locale))));
   }
 
   renderWrapper(selective, data) {
-    return Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject13(), this.classesField, this.fieldType, this.fullKey, this.renderField(selective, data));
+    return Object(lit_html__WEBPACK_IMPORTED_MODULE_2__["html"])(_templateObject14(), this.classesField, this.fieldType, this.fullKey, this.renderField(selective, data));
   }
 
   setErrorsForLocale(locale, value) {
@@ -2616,12 +2646,14 @@ class UI extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_0__["compose"]
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ValidationErrors; });
+/* harmony import */ var _utility_uuid__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../utility/uuid */ "../../../selective-edit/js/utility/uuid.js");
 /**
  * Validation errors for fields.
  *
  * 'Zone' based error tracking. Allows for complex fields that have different
  * validation for different parts of the field.
  */
+
 var DEFAULT_ZONE_KEY = '__default__';
 class ValidationErrors {
   constructor() {
@@ -2632,9 +2664,19 @@ class ValidationErrors {
     return this.getErrorsForZone();
   }
 
-  addError(type, message, zoneKey) {
+  addError(type, level, message, zoneKey) {
     var zone = this.getErrorsForZone(zoneKey);
-    zone[type] = message;
+
+    if (!zone[type]) {
+      zone[type] = [];
+    }
+
+    zone[type].push({
+      'id': Object(_utility_uuid__WEBPACK_IMPORTED_MODULE_0__["default"])(),
+      'level': level,
+      'message': message,
+      'type': type
+    });
   }
 
   getErrorsForZone(zoneKey) {
@@ -2649,6 +2691,24 @@ class ValidationErrors {
 
   hasAnyErrors() {
     for (var zoneKey of Object.keys(this._zones)) {
+      var zone = this._zones[zoneKey];
+
+      for (var typeKey of Object.keys(zone)) {
+        var typeErrors = this._zones[zoneKey][typeKey];
+
+        for (var error of typeErrors) {
+          if (error.level == 'error') {
+            return true;
+          }
+        }
+      }
+    }
+
+    return false;
+  }
+
+  hasAnyMessages() {
+    for (var zoneKey of Object.keys(this._zones)) {
       if (Object.keys(this._zones[zoneKey]).length > 0) {
         return true;
       }
@@ -2658,6 +2718,22 @@ class ValidationErrors {
   }
 
   hasErrors(zoneKey) {
+    var zone = this.getErrorsForZone(zoneKey);
+
+    for (var typeKey of Object.keys(zone)) {
+      var typeErrors = this._zones[zoneKey][typeKey];
+
+      for (var error of typeErrors) {
+        if (error.level == 'error') {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  }
+
+  hasMessages(zoneKey) {
     var zone = this.getErrorsForZone(zoneKey);
     return Object.keys(zone).length > 0;
   }
@@ -2680,7 +2756,7 @@ class ValidationErrors {
       var result = rule.validate(value, locale, isDefaultLocale);
 
       if (result) {
-        this.addError(rule.type, result, zoneKey);
+        this.addError(rule.type, rule.level, result, zoneKey);
       }
     }
   }
@@ -2715,6 +2791,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var DEFAULT_ZONE_KEY = '__default__';
+var LEVEL_ERROR = 'error';
+var LEVEL_INFO = 'info';
+var LEVEL_WARNING = 'warning';
 class ValidationRules extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_0__["compose"])(_mixin_config__WEBPACK_IMPORTED_MODULE_1__["default"])(_utility_compose__WEBPACK_IMPORTED_MODULE_0__["Base"]) {
   constructor(config) {
     super();
@@ -2792,6 +2871,10 @@ class ValidationRule extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_0_
     return this.config.message;
   }
 
+  get level() {
+    return this.config.level || LEVEL_ERROR;
+  }
+
   get type() {
     return this.config.type;
   }
@@ -2810,12 +2893,15 @@ class LengthValidationRule extends ValidationRule {
     // Allow for empty fields. Use the required rule for making sure it exists.
     if (!value) {
       return null;
-    } // Do not count whitespace.
+    }
 
-
-    value = value.trim();
     var configMax = this.config.max;
     var configMin = this.config.min;
+
+    if (!_utility_dataType__WEBPACK_IMPORTED_MODULE_2__["default"].isArray(value)) {
+      // Do not count whitespace.
+      value = value.trim();
+    }
 
     if (configMin && value.length < configMin.value) {
       return configMin.message || this.message;
@@ -2924,24 +3010,33 @@ class RangeValidationRule extends ValidationRule {
     // Allow for empty fields. Use the required rule for making sure it exists.
     if (!value) {
       return null;
-    } // Do not count whitespace.
-
-
-    value = parseFloat(value);
-
-    if (isNaN(value)) {
-      return this.message;
     }
 
     var configMax = this.config.max;
     var configMin = this.config.min;
 
-    if (configMin && value < configMin.value) {
-      return configMin.message || this.message;
-    }
+    if (_utility_dataType__WEBPACK_IMPORTED_MODULE_2__["default"].isArray(value)) {
+      if (configMin && value.length < configMin.value) {
+        return configMin.message || this.message;
+      }
 
-    if (configMax && value > configMax.value) {
-      return configMax.message || this.message;
+      if (configMax && value.length > configMax.value) {
+        return configMax.message || this.message;
+      }
+    } else {
+      value = parseFloat(value);
+
+      if (isNaN(value)) {
+        return this.message;
+      }
+
+      if (configMin && value < configMin.value) {
+        return configMin.message || this.message;
+      }
+
+      if (configMax && value > configMax.value) {
+        return configMax.message || this.message;
+      }
     }
 
     return null;
