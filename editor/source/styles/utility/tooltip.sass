@@ -39,6 +39,13 @@
     transform: translateY(-50%)
     z-index: 51
 
+  &.tooltip--no-wrap
+    &:before
+      max-width: none
+      min-width: 0
+      white-space: nowrap
+      width: auto
+
   &.tooltip--bottom
     &:before
       // Reset
@@ -103,4 +110,28 @@
       bottom: 100%
       left: 50%
       margin-bottom: -$ge-space-s
+      transform: translateX(-50%)
+
+  &.tooltip--bottom-right
+    &:before
+      // Reset
+      left: initial
+      margin: initial
+      top: initial
+
+      top: 100%
+      left: 50%
+      margin-top: $ge-space-s
+      transform: translateX(-$ge-space-m)
+
+    &:after
+      // Reset
+      left: initial
+      margin: initial
+      top: initial
+
+      border-color: transparent transparent $ge-color-secondary-light transparent
+      top: 100%
+      left: 50%
+      margin-top: -$ge-space-s
       transform: translateX(-50%)

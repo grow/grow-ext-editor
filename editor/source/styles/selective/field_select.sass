@@ -6,6 +6,11 @@
   .modal &
     grid-template-columns: 1fr
 
+  &--swatches
+    display: flex
+    flex-flow: row
+    flex-wrap: wrap
+
 .selective__field__select__option
   +field-border
   +field-clickable
@@ -31,6 +36,9 @@
   margin-right: $ge-space-s
   height: $ge-space-m
   width: $ge-space-m
+
+  .selective__field__select__options--swatches &
+    margin-right: 0
 
   .selective__field__select__option--colored &
     border-radius: $ge-radius-2

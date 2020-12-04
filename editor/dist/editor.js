@@ -102728,6 +102728,17 @@ class SelectField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
     return value;
   }
 
+  getClassesForInput(locale, zoneKey) {
+    var classes = super.getClassesForInput(locale, zoneKey).split(' ');
+    var value = this.getValueForLocale(locale) || false;
+
+    if (this.config.use_swatches) {
+      classes.push('selective__field__select__options--swatches');
+    }
+
+    return classes.join(' ');
+  }
+
   handleInput(evt) {
     var target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_4__["findParentByClassname"])(evt.target, 'selective__field__select__option');
     var locale = target.dataset.locale;
@@ -102762,7 +102773,10 @@ class SelectField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
       return value == optionValue;
     };
 
-    return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject6(), this.getClassesForInput(locale), Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(options, option => option.value, (option, index) => Object(_template_option__WEBPACK_IMPORTED_MODULE_5__["templateOptionColor"])(locale, option, isOptionSelected(option.value), [], {
+    return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject6(), this.getClassesForInput(locale), Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(options, option => option.value, (option, index) => Object(_template_option__WEBPACK_IMPORTED_MODULE_5__["templateOptionColor"])(locale, option, {
+      useSwatches: this.config.use_swatches == true,
+      isSelected: isOptionSelected(option.value)
+    }, [], {
       handleInput: this.handleInput.bind(this)
     })), this.renderErrors(selective, data));
   }
@@ -104771,8 +104785,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
 /* harmony import */ var _utility_dataType__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dataType */ "./source/utility/dataType.js");
 /* harmony import */ var _utility_color__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/color */ "./source/utility/color.js");
-function _templateObject() {
+function _templateObject2() {
   var data = _taggedTemplateLiteral(["\n    <div\n        class=\"selective__field__select__option ", "\"\n        data-locale=", "\n        data-value=", "\n        @click=", ">\n      <div\n          class=\"selective__field__select__dot\"\n          aria-label=", "\n          style=\"", " ", "\"></div>\n      <div>\n        ", "\n      </div>\n    </div>"]);
+
+  _templateObject2 = function _templateObject2() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["\n      <div\n          class=\"selective__field__select__option ", " tooltip--bottom-right tooltip--no-wrap\"\n          data-locale=", "\n          data-value=", "\n          data-tip=", "\n          @click=", ">\n        <div\n            class=\"selective__field__select__dot\"\n            aria-label=", "\n            style=\"", " ", "\"></div>\n      </div>"]);
 
   _templateObject = function _templateObject() {
     return data;
@@ -104792,9 +104816,9 @@ function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(
 var BACKGROUND_COLOR = new _utility_color__WEBPACK_IMPORTED_MODULE_2__["default"](255, 255, 255);
 var CONTRAST_THRESHOLD = 3;
 
-var templateOptionColor = (locale, option, isSelected, classes, handlers) => {
-  isSelected = isSelected || false;
+var templateOptionColor = (locale, option, display_options, classes, handlers) => {
   classes = classes || [];
+  var isSelected = display_options.isSelected || false;
 
   if (isSelected) {
     classes.push('selective__field__select__option--checked');
@@ -104861,7 +104885,11 @@ var templateOptionColor = (locale, option, isSelected, classes, handlers) => {
     }
   }
 
-  return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject(), classes.join(' '), locale || '', option.value || '', handlers.handleInput, colorAria, colorDotStyle, isSelected ? colorDotSelectedStyle : '', option.label || '(Empty)');
+  if (display_options.useSwatches) {
+    return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject(), classes.join(' '), locale || '', option.value || '', option.label || '(Empty)', handlers.handleInput, colorAria, colorDotStyle, isSelected ? colorDotSelectedStyle : '');
+  }
+
+  return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject2(), classes.join(' '), locale || '', option.value || '', handlers.handleInput, colorAria, colorDotStyle, isSelected ? colorDotSelectedStyle : '', option.label || '(Empty)');
 };
 
 

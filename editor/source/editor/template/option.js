@@ -13,10 +13,10 @@ const BACKGROUND_COLOR = new Color(255, 255, 255)
 const CONTRAST_THRESHOLD = 3
 
 
-const templateOptionColor = (locale, option, isSelected, classes, handlers) => {
-  isSelected = isSelected || false
+const templateOptionColor = (locale, option, display_options, classes, handlers) => {
   classes = classes || []
 
+  const isSelected = display_options.isSelected || false
   if (isSelected) {
     classes.push('selective__field__select__option--checked')
   }
@@ -77,6 +77,21 @@ const templateOptionColor = (locale, option, isSelected, classes, handlers) => {
       colorDotStyle = `background-color: ${option.color};`
       colorAria = option.color
     }
+  }
+
+  if (display_options.useSwatches) {
+    return html`
+      <div
+          class="selective__field__select__option ${classes.join(' ')} tooltip--bottom-right tooltip--no-wrap"
+          data-locale=${locale || ''}
+          data-value=${option.value || ''}
+          data-tip=${option.label || '(Empty)'}
+          @click=${handlers.handleInput}>
+        <div
+            class="selective__field__select__dot"
+            aria-label=${colorAria}
+            style="${colorDotStyle} ${isSelected ? colorDotSelectedStyle : ''}"></div>
+      </div>`
   }
 
   return html`

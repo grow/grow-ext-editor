@@ -346,6 +346,17 @@ export class SelectField extends Field {
     return value
   }
 
+  getClassesForInput(locale, zoneKey) {
+    const classes = super.getClassesForInput(locale, zoneKey).split(' ')
+    const value = this.getValueForLocale(locale) || false
+
+    if (this.config.use_swatches) {
+      classes.push('selective__field__select__options--swatches')
+    }
+
+    return classes.join(' ')
+  }
+
   handleInput(evt) {
     const target = findParentByClassname(evt.target, 'selective__field__select__option')
     const locale = target.dataset.locale
@@ -381,7 +392,11 @@ export class SelectField extends Field {
       <div
         class="${this.getClassesForInput(locale)} selective__field__select__options">
         ${repeat(options, (option) => option.value, (option, index) => templateOptionColor(
-          locale, option, isOptionSelected(option.value), [], {
+          locale, option, {
+            useSwatches: this.config.use_swatches == true,
+            isSelected: isOptionSelected(option.value),
+          },
+          [], {
             handleInput: this.handleInput.bind(this),
           }
         ))}
