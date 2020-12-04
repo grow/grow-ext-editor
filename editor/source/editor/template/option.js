@@ -6,6 +6,11 @@ import {
   html,
 } from 'selective-edit'
 import DataType from '../../utility/dataType'
+import Color from '../../utility/color'
+
+
+const BACKGROUND_COLOR = new Color(255, 255, 255)
+const CONTRAST_THRESHOLD = 3
 
 
 const templateOptionColor = (locale, option, isSelected, classes, handlers) => {
@@ -60,7 +65,14 @@ const templateOptionColor = (locale, option, isSelected, classes, handlers) => {
       colorDotStyle = `background: linear-gradient(${orientationAngle}, ${colorBreakpoints.join(', ')});`
       // colorDotSelectedStyle = `box-shadow: 0px 0px 0px 2px #fff, 0px 0px 0px 3px ${option.color[0]};`
       colorAria = option.color.join(', ')
+      classes.push('selective__field__select__option--border')
     } else {
+      const color = new Color(option.color)
+
+      if (color.contrast(BACKGROUND_COLOR) < CONTRAST_THRESHOLD) {
+        classes.push('selective__field__select__option--low_contrast')
+      }
+
       colorDotStyle = `background-color: ${option.color};`
       colorDotSelectedStyle = `box-shadow: 0px 0px 0px 2px #fff, 0px 0px 0px 3px ${option.color};`
       colorAria = option.color

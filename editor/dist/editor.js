@@ -104770,6 +104770,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "templateOptionColor", function() { return templateOptionColor; });
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
 /* harmony import */ var _utility_dataType__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dataType */ "./source/utility/dataType.js");
+/* harmony import */ var _utility_color__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/color */ "./source/utility/color.js");
 function _templateObject() {
   var data = _taggedTemplateLiteral(["\n    <div\n        class=\"selective__field__select__option ", "\"\n        data-locale=", "\n        data-value=", "\n        @click=", ">\n      <div\n          class=\"selective__field__select__dot\"\n          aria-label=", "\n          style=\"", " ", "\"></div>\n      <div>\n        ", "\n      </div>\n    </div>"]);
 
@@ -104787,6 +104788,9 @@ function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(
  */
 
 
+
+var BACKGROUND_COLOR = new _utility_color__WEBPACK_IMPORTED_MODULE_2__["default"](255, 255, 255);
+var CONTRAST_THRESHOLD = 3;
 
 var templateOptionColor = (locale, option, isSelected, classes, handlers) => {
   isSelected = isSelected || false;
@@ -104842,7 +104846,14 @@ var templateOptionColor = (locale, option, isSelected, classes, handlers) => {
       colorDotStyle = "background: linear-gradient(".concat(orientationAngle, ", ").concat(colorBreakpoints.join(', '), ");"); // colorDotSelectedStyle = `box-shadow: 0px 0px 0px 2px #fff, 0px 0px 0px 3px ${option.color[0]};`
 
       colorAria = option.color.join(', ');
+      classes.push('selective__field__select__option--border');
     } else {
+      var _color = new _utility_color__WEBPACK_IMPORTED_MODULE_2__["default"](option.color);
+
+      if (_color.contrast(BACKGROUND_COLOR) < CONTRAST_THRESHOLD) {
+        classes.push('selective__field__select__option--low_contrast');
+      }
+
       colorDotStyle = "background-color: ".concat(option.color, ";");
       colorDotSelectedStyle = "box-shadow: 0px 0px 0px 2px #fff, 0px 0px 0px 3px ".concat(option.color, ";");
       colorAria = option.color;
@@ -105527,6 +105538,89 @@ function base64toBlob(base64Data, contentType, sliceSize) {
   return new Blob(byteArrays, {
     type: contentType
   });
+}
+
+/***/ }),
+
+/***/ "./source/utility/color.js":
+/*!*********************************!*\
+  !*** ./source/utility/color.js ***!
+  \*********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Color; });
+/**
+ * Color modification utilities.
+ */
+var HEX_REGEX = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i;
+var HEX_SHORT_REGEX = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+class Color {
+  constructor(r, g, b) {
+    // Check for hex from constructor.
+    if (!g && !b) {
+      var rgb = Color.hexToRgb(r);
+      r = rgb.r;
+      g = rgb.g;
+      b = rgb.b;
+    }
+
+    this.r = r;
+    this.g = g;
+    this.b = b;
+  }
+
+  static colorValueToHex(c) {
+    var hex = c.toString(16);
+    return "".concat(hex.length == 1 ? "0" : "").concat(hex);
+  }
+
+  static hexToRgb(hex) {
+    // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+    hex = hex.replace(HEX_SHORT_REGEX, (_, r, g, b) => "".concat(r).concat(r).concat(g).concat(g).concat(b).concat(b));
+    var result = HEX_REGEX.exec(hex);
+
+    if (!result) {
+      return null;
+    }
+
+    return {
+      r: parseInt(result[1], 16),
+      g: parseInt(result[2], 16),
+      b: parseInt(result[3], 16)
+    };
+  }
+
+  get luminanace() {
+    // Formula: http://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
+    var normalized = [this.r, this.g, this.b].map(function (v) {
+      v /= 255;
+      return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+    });
+    return normalized[0] * 0.2126 + normalized[1] * 0.7152 + normalized[2] * 0.0722;
+  }
+
+  contrast(otherColor) {
+    var brightest = Math.max(this.luminanace, otherColor.luminanace);
+    var darkest = Math.min(this.luminanace, otherColor.luminanace);
+    return (brightest + 0.05) / (darkest + 0.05);
+  }
+
+  toInverse() {
+    return new this(255 - this.r, 255 - this.g, 255 - this.b);
+  }
+
+  toGrayscale() {
+    var grayscaleColorValue = r * 76 + g * 150 + b * 29 >> 8;
+    return new this(grayscaleColorValue, grayscaleColorValue, grayscaleColorValue);
+  }
+
+  toHex() {
+    return "#".concat(Color.colorValueToHex(this.r)).concat(Color.colorValueToHex(this.g)).concat(Color.colorValueToHex(this.b));
+  }
+
 }
 
 /***/ }),
