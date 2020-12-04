@@ -65,16 +65,16 @@ const templateOptionColor = (locale, option, isSelected, classes, handlers) => {
       colorDotStyle = `background: linear-gradient(${orientationAngle}, ${colorBreakpoints.join(', ')});`
       // colorDotSelectedStyle = `box-shadow: 0px 0px 0px 2px #fff, 0px 0px 0px 3px ${option.color[0]};`
       colorAria = option.color.join(', ')
-      classes.push('selective__field__select__option--border')
+      classes.push('selective__field__select__option--multiple')
     } else {
       const color = new Color(option.color)
-
       if (color.contrast(BACKGROUND_COLOR) < CONTRAST_THRESHOLD) {
         classes.push('selective__field__select__option--low_contrast')
+      } else {
+        colorDotSelectedStyle = `box-shadow: 0px 0px 0px 2px #fff, 0px 0px 0px 4px ${option.color};`
       }
 
       colorDotStyle = `background-color: ${option.color};`
-      colorDotSelectedStyle = `box-shadow: 0px 0px 0px 2px #fff, 0px 0px 0px 3px ${option.color};`
       colorAria = option.color
     }
   }

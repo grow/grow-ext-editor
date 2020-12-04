@@ -9,7 +9,6 @@
 .selective__field__select__option
   +field-border
   +field-clickable
-  +field-color
   align-items: center
   border-radius: $ge-radius-5
   display: flex
@@ -27,19 +26,27 @@
 
 .selective__field__select__dot
   background-repeat: no-repeat
-  border: 1px solid transparent
+  border: $ge-border-size solid $ge-color-select-border
   border-radius: 50%
   margin-right: $ge-space-s
-  height: 20px
-  width: 20px
-
-  .selective__field__select__option--low_contrast &,
-  .selective__field__select__option--border &
-    border-color: $ge-color-select-border
+  height: $ge-space-m
+  width: $ge-space-m
 
   .selective__field__select__option--colored &
     border-radius: $ge-radius-2
+    border-color: transparent
+    height: 20px
+    width: 20px
+
+  .selective__field__select__option--low_contrast &
+    border-color: $ge-color-select-contrast-border
+
+  .selective__field__select__option--multiple &
+    border-color: $ge-color-select-border
 
   .selective__field__select__option--checked &
     background-color: $ge-color-select-selected-border
-    box-shadow: 0px 0px 0px 2px $ge-color-on-select-selected-border, 0px 0px 0px 3px $ge-color-select-selected-border
+    box-shadow: 0px 0px 0px $ge-color-select-selected-gap $ge-color-on-select-selected-border, 0px 0px 0px ($ge-color-select-selected-gap + $ge-color-select-selected-border-size) $ge-color-select-selected-border
+
+  .selective__field__select__option--checked.selective__field__select__option--low_contrast &
+    box-shadow: 0px 0px 0px $ge-color-select-selected-gap $ge-color-on-select-contrast-border, 0px 0px 0px ($ge-color-select-selected-gap + $ge-color-select-selected-border-size) $ge-color-select-contrast-border

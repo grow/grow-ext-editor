@@ -104861,16 +104861,17 @@ var templateOptionColor = (locale, option, isSelected, classes, handlers) => {
       colorDotStyle = "background: linear-gradient(".concat(orientationAngle, ", ").concat(colorBreakpoints.join(', '), ");"); // colorDotSelectedStyle = `box-shadow: 0px 0px 0px 2px #fff, 0px 0px 0px 3px ${option.color[0]};`
 
       colorAria = option.color.join(', ');
-      classes.push('selective__field__select__option--border');
+      classes.push('selective__field__select__option--multiple');
     } else {
       var _color = new _utility_color__WEBPACK_IMPORTED_MODULE_2__["default"](option.color);
 
       if (_color.contrast(BACKGROUND_COLOR) < CONTRAST_THRESHOLD) {
         classes.push('selective__field__select__option--low_contrast');
+      } else {
+        colorDotSelectedStyle = "box-shadow: 0px 0px 0px 2px #fff, 0px 0px 0px 4px ".concat(option.color, ";");
       }
 
       colorDotStyle = "background-color: ".concat(option.color, ";");
-      colorDotSelectedStyle = "box-shadow: 0px 0px 0px 2px #fff, 0px 0px 0px 3px ".concat(option.color, ";");
       colorAria = option.color;
     }
   }
