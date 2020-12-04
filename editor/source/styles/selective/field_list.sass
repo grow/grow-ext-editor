@@ -13,7 +13,7 @@
   border: $ge-border-size solid $ge-color-border
   border-radius: $ge-radius-2
   // color: $ge-color-on-field-back
-  margin: $ge-space-m 0
+  margin: $ge-space-medium 0
   transition: all $ge-speed-faster ease-in-out
 
   &:hover
@@ -33,21 +33,21 @@
     display: flex
     flex-flow: row
     align-items: center
-    padding: $ge-space-s 0
+    padding: $ge-space-small 0
 
     .selective__field
       flex-grow: 1
       margin: 0
 
   &--simple
-    padding: $ge-space-xs 0
+    padding: $ge-space-xsmall 0
 
 .selective__list__fields
-  margin: $ge-space-m
+  margin: $ge-space-medium
 
 .selective__list__item__delete,
 .selective__list__item__drag
-  padding: 0 $ge-space-s
+  padding: 0 $ge-space-small
 
   .material-icons
     +field-clickable
@@ -59,7 +59,7 @@
   flex-basis: 25%
   flex-grow: 1
   font-weight: bold
-  padding-right: $ge-space-m
+  padding-right: $ge-space-medium
 
 .selective__list__item__preview
   +field-clickable
@@ -72,7 +72,7 @@
 
   img,
   video
-    margin: $ge-space-s 0
+    margin: $ge-space-small 0
     max-height: 15vh
     max-width: 100%
 
@@ -81,8 +81,8 @@
   background: $ge-color-field-back
   color: $ge-color-on-field-back
   font-weight: 700
-  margin-bottom: $ge-space-m
-  padding: $ge-space-m
+  margin-bottom: $ge-space-medium
+  padding: $ge-space-medium
 
   &--empty
     background: $ge-color-bar

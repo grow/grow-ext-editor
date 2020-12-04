@@ -1,7 +1,7 @@
 .selective__file_list
   border: $ge-border-size solid $ge-color-back-light
   border-radius: $ge-radius-2
-  margin: $ge-space-s 0
+  margin: $ge-space-small 0
 
   input
     +field-border
@@ -11,21 +11,21 @@
     width: calc(100% + #{$ge-border-size*2}) !important
 
 .selective__file_list__list
-  height: $ge-space-xxl
-  padding: $ge-space-s 0
+  height: $ge-space-xxlarge
+  padding: $ge-space-small 0
   overflow: auto
 
 .selective__file_list__group
   font-size: $ge-font-size-small
   font-weight: 700
-  padding: $ge-space-s $ge-space-m
+  padding: $ge-space-small $ge-space-medium
 
 .selective__file_list__file
   +field-clickable
-  padding: $ge-space-s $ge-space-m
+  padding: $ge-space-small $ge-space-medium
 
   .selective__file_list__list--grouped &
-    padding-left: $ge-space-m
+    padding-left: $ge-space-medium
 
   &--empty
     cursor: default
@@ -36,9 +36,9 @@
 
 .selective__file_list__file__key
   font-weight: 700
-  margin-bottom: $ge-space-s
+  margin-bottom: $ge-space-small
 
 .selective__file_list__file__value
-  max-height: $ge-space-xxl
+  max-height: $ge-space-xxlarge
   overflow: auto
-  padding-left: $ge-space-s
+  padding-left: $ge-space-small

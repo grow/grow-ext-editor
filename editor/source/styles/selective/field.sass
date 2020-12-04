@@ -1,6 +1,6 @@
 .selective__field
   border-radius: $ge-radius-3
-  margin: $ge-space-l 0
+  margin: $ge-space-large 0
 
   .material-icons
     font-size: $ge-font-size-icon
@@ -14,16 +14,16 @@
   &--guess
     .editor--highlight-guess &
       border-right: $ge-border-size solid $ge-color-back-highlight !important
-      padding-right: $ge-space-s
+      padding-right: $ge-space-small
 
   &--dirty
     .editor--highlight-dirty &
       border-right: $ge-border-size solid $ge-color-back-highlight !important
-      padding-right: $ge-space-s
+      padding-right: $ge-space-small
 
   &--linked
     border: $ge-border-size solid $ge-color-back-highlight !important
-    padding: $ge-space-s
+    padding: $ge-space-small
 
 .selective__actions
   align-items: center
@@ -31,7 +31,7 @@
   flex-flow: row
 
   > *
-    margin: 0 $ge-space-s
+    margin: 0 $ge-space-small
 
     &:first-child
       margin-left: 0
@@ -44,7 +44,7 @@
 
 .selective__field__localization
   .selective__field__input
-    margin-bottom: $ge-space-l
+    margin-bottom: $ge-space-large
 
     &:last-child
       margin-bottom: none
@@ -58,7 +58,7 @@
   display: flex
   font-weight: 700
   flex-flow: row
-  margin: $ge-space-s 0
+  margin: $ge-space-small 0
 
   label
     display: block
@@ -66,7 +66,7 @@
   &--secondary
     font-size: $ge-font-size-small
     font-weight: 500
-    margin-bottom: $ge-space-s
+    margin-bottom: $ge-space-small
 
   .selective__field--invalid > &
     color: $ge-color-error
@@ -80,14 +80,14 @@
 
 .selective__field__deep_link
   display: none
-  margin-right: $ge-space-s
+  margin-right: $ge-space-small
 
   .editor--highlight-linked &
     display: inherit
 
 .selective__field__invalid
   color: $ge-color-error
-  margin-right: $ge-space-s
+  margin-right: $ge-space-small
 
   .selective__field__label--error__level__warning &
     color: $ge-color-warning
@@ -109,17 +109,17 @@
 .selective__field__errors
   color: $ge-color-error
   font-size: $ge-font-size-small
-  margin: $ge-space-m
+  margin: $ge-space-medium
 
 .selective__field__error
-  margin: $ge-space-m 0
+  margin: $ge-space-medium 0
 
   &--level__warning
     color: $ge-color-warning
 
 .selective__field__help
   font-size: $ge-font-size-small
-  margin: $ge-space-m
+  margin: $ge-space-medium
   opacity: $ge-color-opacity-subtle
 
   // Alternate with nesting.

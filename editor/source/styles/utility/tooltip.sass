@@ -13,10 +13,10 @@
     font-size: $ge-font-size
     position: absolute
     left: 100%
-    margin-left: $ge-space-s
-    max-width: $ge-space-xxxl
-    min-width: $ge-space-xxl
-    padding: $ge-space-s
+    margin-left: $ge-space-small
+    max-width: $ge-space-xxxlarge
+    min-width: $ge-space-xxlarge
+    padding: $ge-space-small
     text-align: center
     top: 50%
     transform: translateY(-50%)
@@ -28,12 +28,12 @@
       display: block
 
   &:after
-    border: $ge-space-s solid $ge-color-secondary-light
+    border: $ge-space-small solid $ge-color-secondary-light
     border-color: transparent $ge-color-secondary-light transparent transparent
     content: ""
     display: none
     left: 100%
-    margin-left: -$ge-space-s
+    margin-left: -$ge-space-small
     position: absolute
     top: 50%
     transform: translateY(-50%)
@@ -55,7 +55,7 @@
 
       top: 100%
       left: 50%
-      margin-top: $ge-space-s
+      margin-top: $ge-space-small
       transform: translateX(-50%)
 
     &:after
@@ -67,7 +67,7 @@
       border-color: transparent transparent $ge-color-secondary-light transparent
       top: 100%
       left: 50%
-      margin-top: -$ge-space-s
+      margin-top: -$ge-space-small
       transform: translateX(-50%)
 
   &.tooltip--left
@@ -76,7 +76,7 @@
       left: initial
       margin: initial
 
-      margin-right: $ge-space-s
+      margin-right: $ge-space-small
       right: 100%
 
     &:after
@@ -85,7 +85,7 @@
       margin: initial
 
       border-color: transparent transparent transparent $ge-color-secondary-light
-      margin-right: -$ge-space-s
+      margin-right: -$ge-space-small
       right: 100%
 
   &.tooltip--top
@@ -97,7 +97,7 @@
 
       bottom: 100%
       left: 50%
-      margin-bottom: $ge-space-s
+      margin-bottom: $ge-space-small
       transform: translateX(-50%)
 
     &:after
@@ -109,7 +109,7 @@
       border-color: $ge-color-secondary-light transparent transparent transparent
       bottom: 100%
       left: 50%
-      margin-bottom: -$ge-space-s
+      margin-bottom: -$ge-space-small
       transform: translateX(-50%)
 
   &.tooltip--bottom-right
@@ -121,8 +121,8 @@
 
       top: 100%
       left: 50%
-      margin-top: $ge-space-s
-      transform: translateX(-$ge-space-m)
+      margin-top: $ge-space-small
+      transform: translateX(-$ge-space-medium)
 
     &:after
       // Reset
@@ -133,5 +133,5 @@
       border-color: transparent transparent $ge-color-secondary-light transparent
       top: 100%
       left: 50%
-      margin-top: -$ge-space-s
+      margin-top: -$ge-space-small
       transform: translateX(-50%)
