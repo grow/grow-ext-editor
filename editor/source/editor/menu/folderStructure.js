@@ -147,7 +147,7 @@ export default class FolderStructure {
                   ? ''
                   : html`
                     <span
-                        class="tooltip--left"
+                        class="tooltip--top-left"
                         aria-label="Duplicate file"
                         data-tip="Duplicate file">
                       <i
@@ -160,7 +160,7 @@ export default class FolderStructure {
                   ? ''
                   : html`
                     <span
-                        class="tooltip--left"
+                        class="tooltip--top-left"
                         aria-label="Delete file"
                         data-tip="Delete file">
                       <i

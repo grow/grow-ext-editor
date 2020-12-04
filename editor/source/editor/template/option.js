@@ -82,7 +82,7 @@ const templateOptionColor = (locale, option, display_options, classes, handlers)
   if (display_options.useSwatches) {
     return html`
       <div
-          class="selective__field__select__option ${classes.join(' ')} tooltip--bottom-right tooltip--no-wrap"
+          class="selective__field__select__option ${classes.join(' ')} tooltip--bottom-right"
           data-locale=${locale || ''}
           data-value=${option.value || ''}
           data-tip=${option.label || '(Empty)'}

@@ -14,12 +14,11 @@
     position: absolute
     left: 100%
     margin-left: $ge-space-small
-    max-width: $ge-space-xxxlarge
-    min-width: $ge-space-xxlarge
     padding: $ge-space-small
     text-align: center
     top: 50%
     transform: translateY(-50%)
+    white-space: nowrap
     z-index: 50
 
   &:hover
@@ -39,14 +38,16 @@
     transform: translateY(-50%)
     z-index: 51
 
-  &.tooltip--no-wrap
+  &.tooltip--wrap
     &:before
-      max-width: none
-      min-width: 0
-      white-space: nowrap
-      width: auto
+      max-width: $ge-space-xxxlarge
+      min-width: $ge-space-xxlarge
+      white-space: normal
+      width: 10vw
 
-  &.tooltip--bottom
+  &.tooltip--bottom,
+  &.tooltip--bottom-left,
+  &.tooltip--bottom-right
     &:before
       // Reset
       left: initial
@@ -70,6 +71,14 @@
       margin-top: -$ge-space-small
       transform: translateX(-50%)
 
+  &.tooltip--bottom-left
+    &:before
+      transform: translateX(calc(-100% + #{$ge-space-medium}))
+
+  &.tooltip--bottom-right
+    &:before
+      transform: translateX(-$ge-space-medium)
+
   &.tooltip--left
     &:before
       // Reset
@@ -88,7 +97,9 @@
       margin-right: -$ge-space-small
       right: 100%
 
-  &.tooltip--top
+  &.tooltip--top,
+  &.tooltip--top-left,
+  &.tooltip--top-right
     &:before
       // Reset
       left: initial
@@ -112,26 +123,10 @@
       margin-bottom: -$ge-space-small
       transform: translateX(-50%)
 
-  &.tooltip--bottom-right
+  &.tooltip--top-left
     &:before
-      // Reset
-      left: initial
-      margin: initial
-      top: initial
+      transform: translateX(calc(-100% + #{$ge-space-medium}))
 
-      top: 100%
-      left: 50%
-      margin-top: $ge-space-small
+  &.tooltip--top-right
+    &:before
       transform: translateX(-$ge-space-medium)
-
-    &:after
-      // Reset
-      left: initial
-      margin: initial
-      top: initial
-
-      border-color: transparent transparent $ge-color-secondary-light transparent
-      top: 100%
-      left: 50%
-      margin-top: -$ge-space-small
-      transform: translateX(-50%)

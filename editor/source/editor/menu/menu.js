@@ -315,7 +315,7 @@ export default class Menu extends MenuBase {
               <div class="menu__header__icons">
                 <!-- TODO: Ability to dock the menu.
                 <span
-                    class="tooltip--left"
+                    class="tooltip--bottom-left"
                     data-tip="Dock the menu">
                   <i class="material-icons" @click=${this.handleToggleMenu.bind(this)}>
                     last_page

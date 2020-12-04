@@ -1090,7 +1090,7 @@ export default class Editor {
         <div class="editor__edit__header__section">
           <div class="editor__edit__header__links">
             <span
-                class="tooltip--bottom"
+                class="tooltip--top"
                 aria-label="Preview in editor"
                 data-tip="Preview in editor">
               <i class="material-icons" @click=${editor.handleOpenInNew.bind(editor)}>
@@ -1099,7 +1099,7 @@ export default class Editor {
             </span>
             <!-- TODO: Create ability for staging links.
             <span
-                class="tooltip--bottom"
+                class="tooltip--top"
                 aria-label="View in staging site"
                 data-tip="View in staging site">
               <i class="material-icons" @click=${editor.handleOpenStagingInNew.bind(editor)}>
@@ -1109,7 +1109,7 @@ export default class Editor {
             -->
             <!-- TODO: Create ability for public links.
             <span
-                class="tooltip--bottom"
+                class="tooltip--top"
                 aria-label="View on live site"
                 data-tip="View on live site">
               <i class="material-icons" @click=${editor.handleOpenPublicInNew.bind(editor)}>
@@ -1122,7 +1122,7 @@ export default class Editor {
           ${this.servingPath
             ? html`
               <span
-                  class="tooltip--bottom"
+                  class="tooltip--top"
                   aria-label="Fullscreen editor"
                   data-tip="Fullscreen editor">
                 <i class="material-icons" @click=${editor.handleFullScreenEditorClick.bind(editor)}>${editor.settingFullScreenEditor.on || !this.servingPath ? 'fullscreen_exit' : 'fullscreen'}</i>
@@ -1231,7 +1231,7 @@ export default class Editor {
       <div class="editor__preview__header">
         <div class="editor__preview__header__icons">
           <span
-              class="tooltip--bottom"
+              class="tooltip--top"
               aria-label="Fullscreen preview"
               data-tip="Fullscreen preview">
             <i class="material-icons" @click=${editor.handleFullScreenPreviewClick.bind(editor)}>${editor.settingFullScreenPreview.on ? 'fullscreen_exit' : 'fullscreen'}</i>
@@ -1243,19 +1243,19 @@ export default class Editor {
         <div class="editor__preview__header__icons">
           ${previewSizes}
           <span
-              class="tooltip--left"
+              class="tooltip--top-left"
               aria-label="Toggle device view"
               data-tip="Toggle device view">
             <i class="material-icons" @click=${editor.handleDeviceToggleClick.bind(editor)}>devices</i>
           </span>
           <span
-              class="tooltip--left"
+              class="tooltip--top-left"
               aria-label="Rotate device view"
               data-tip="Rotate device view">
             <i class="material-icons editor--device-only" @click=${editor.handleDeviceRotateClick.bind(editor)}>screen_rotation</i>
           </span>
           <span
-              class="tooltip--left"
+              class="tooltip--top-left"
               aria-label="Preview in new window"
               data-tip="Preview in new window">
             <i class="material-icons" @click=${editor.handleOpenInNew.bind(editor)}>open_in_new</i>

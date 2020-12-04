@@ -37,18 +37,26 @@
     font-weight: 700
     margin-top: 0
     margin-bottom: $ge-space-medium
-    padding: $ge-space-large
+    padding: $ge-space-medium
     text-transform: uppercase
 
 .modal__content
-  margin: $ge-space-large
+  margin: $ge-space-medium
 
 .modal__actions
   align-items: center
   display: flex
   flex-flow: row-reverse
   justify-content: space-between
-  margin: $ge-space-large $ge-space-medium
+  margin: $ge-space-medium
 
   button
     margin-right: $ge-space-medium
+
+    &:first-child
+      // Using row-reverse
+      margin-right: 0
+
+    &:last-child
+      // Using row-reverse
+      margin-left: 0
