@@ -73,7 +73,7 @@ describe('menu drawer', () => {
     await page.waitForSelector('.menu__contents')
 
     // Close the file tree using icon.
-    await page.click('.menu__site .material-icons')
+    await page.click('.menu__header__icons .material-icons[title="Close menu"]')
     await page.waitForSelector('.menu__contents', {
       hidden: true,
     })

@@ -311,7 +311,7 @@ export default class Editor {
           <div class="editor__history__workspace">
             <i
                 class="material-icons icon"
-                title="">
+                title="${this.repo.branch}">
               dashboard
             </i>
             <div class="editor__workspace__branch__label">
@@ -329,7 +329,7 @@ export default class Editor {
                   class="editor__history__commits__commit">
                 <i
                     class="material-icons icon"
-                    title="">
+                    title="Commit ${commit.sha.slice(0, 5)}">
                   notes
                 </i>
                 <div class="editor__history__commits__commit__meta">
@@ -351,36 +351,9 @@ export default class Editor {
     }
 
     return html`
-      ${this.renderWorkspace(this, this.selective)}
       <div class="editor__card editor__field_list">
-        <div class="editor__card__title">
-          Content
-        </div>
         <div class="editor__selective">
           ${this.selective.template(this.selective, this.selective.data)}
-        </div>
-      </div>
-      <div class="editor__dev_tools">
-        <div>Developer tools:</div>
-        <div class="editor__dev_tools__icons">
-          <i
-              class="editor__dev_tools__icon ${this.settingHighlightGuess.on ? 'editor__dev_tools__icon--selected': ''} material-icons"
-              @click=${this.handleHighlightGuess.bind(this)}
-              title="Highlight auto fields">
-            assistant
-          </i>
-          <i
-              class="editor__dev_tools__icon ${this.settingHighlightLinked.on ? 'editor__dev_tools__icon--selected': ''} material-icons"
-              @click=${this.handleHighlightLinked.bind(this)}
-              title="Deep link to fields">
-            link
-          </i>
-          <i
-              class="editor__dev_tools__icon ${this.settingHighlightDirty.on ? 'editor__dev_tools__icon--selected': ''} material-icons"
-              @click=${this.handleHighlightDirty.bind(this)}
-              title="Highlight dirty fields">
-            change_history
-          </i>
         </div>
       </div>`
   }
@@ -793,6 +766,14 @@ export default class Editor {
     window.open(this.previewUrl, '_blank')
   }
 
+  handleOpenPublicInNew(evt) {
+    window.open(this.previewUrl, '_blank')
+  }
+
+  handleOpenStagingInNew(evt) {
+    window.open(this.previewUrl, '_blank')
+  }
+
   handlePodPathChange(evt) {
     this.load(evt.target.value)
   }
@@ -1061,7 +1042,7 @@ export default class Editor {
 
     if (!isValid) {
       saveClasses.push('editor__button--invalid')
-      saveStatusLabel = 'Invalid values'
+      saveStatusLabel = 'Save'
       saveDisabled = true
     }
 
@@ -1069,72 +1050,6 @@ export default class Editor {
       saveClasses.push('editor__button--processing')
       saveStatusLabel = 'Saving...'
       saveDisabled = true
-    }
-
-    return html`<div class="editor__edit">
-      <div class="editor__edit__header">
-        <div class="editor__edit__header__section">
-          <div class="editor__edit__header__label">
-            Page:
-          </div>
-          <div class="editor__edit__header__title">
-            ${textOrString(editor.document.data['$title'] || editor.document.data['$title@'], this._strings, this.loadStrings.bind(this))}
-          </div>
-        </div>
-        <div class="editor__edit__header__section">
-          <div class="editor__edit__header__pod_path">
-            ${editor.podPath}
-          </div>
-          ${this.servingPath ? html`<i class="material-icons" @click=${editor.handleFullScreenEditorClick.bind(editor)} title="Fullscreen">${editor.settingFullScreenEditor.on || !this.servingPath ? 'fullscreen_exit' : 'fullscreen'}</i>` : ''}
-        </div>
-      </div>
-      <div class="editor__cards">
-        <div class="editor__card editor__menu">
-            <div class="editor__actions">
-              <button class="editor__style__fields editor__button editor__button--secondary ${this.settingEditorPane.is('fields') ? 'editor__button--selected' : ''}" @click=${editor.handleFieldsClick.bind(editor)} ?disabled=${!editor.isClean}>Fields</button>
-              <button class="editor__style__raw editor__button editor__button--secondary ${this.settingEditorPane.is('source') ? 'editor__button--selected' : ''}" @click=${editor.handleSourceClick.bind(editor)} ?disabled=${!editor.isClean}>Source</button>
-              <button class="editor__style__raw editor__button editor__button--secondary ${this.settingEditorPane.is('history') ? 'editor__button--selected' : ''}" @click=${editor.handleHistoryClick.bind(editor)} ?disabled=${!editor.isClean}>History</button>
-            </div>
-            <div class="editor__actions">
-              ${isValid ? '' :
-                html`<div class="editor__actions">
-                    <span
-                        class="editor__invalid">
-                      <i class="material-icons">error</i>
-                    </span>
-                  </div>`}
-              <button
-                  ?disabled=${saveDisabled}
-                  class="editor__save editor__button editor__button--primary ${saveClasses.join(' ')}"
-                  @click=${editor.save.bind(editor)}>
-                ${saveStatusLabel}
-              </button>
-            </div>
-        </div>
-        ${editor.templatePane}
-      </div>
-    </div>`
-  }
-
-  renderPreview(editor, selective) {
-    if (this.settingFullScreenEditor.on || !this.servingPath) {
-      return ''
-    }
-
-    let previewSizes = ''
-    if (editor.settingDeviceView.on) {
-      previewSizes = html`<div class="editor__preview__sizes">
-        ${repeat(Object.entries(this.devices), (device) => device[0], (device, index) => html`
-          <div
-              class="editor__preview__size ${editor.device == device[0] ? 'editor__preview__size--selected' : ''}"
-              data-device="${device[0]}"
-              @click=${editor.handleDeviceSwitchClick.bind(editor)}>
-            ${device[1].label}
-            <span class="editor__preview__size__dimension">
-              (${editor._sizeLabel(device[1], editor.settingDeviceRotated.on)})
-            </span>
-          </div>`)}
-      </div>`
     }
 
     let localize = ''
@@ -1162,89 +1077,195 @@ export default class Editor {
         </select>`
     }
 
+    return html`<div class="editor__edit">
+      <div class="editor__edit__header">
+        <div class="editor__edit__header__section">
+          <div class="editor__edit__header__label">
+            Page:
+          </div>
+          <div class="editor__edit__header__title">
+            ${textOrString(editor.document.data['$title'] || editor.document.data['$title@'], this._strings, this.loadStrings.bind(this))}
+          </div>
+        </div>
+        <div class="editor__edit__header__section">
+          <div class="editor__edit__header__links">
+            <span
+                class="tooltip--top"
+                aria-label="Preview in editor"
+                data-tip="Preview in editor">
+              <i class="material-icons" @click=${editor.handleOpenInNew.bind(editor)}>
+                https
+              </i>
+            </span>
+            <!-- TODO: Create ability for staging links.
+            <span
+                class="tooltip--top"
+                aria-label="View in staging site"
+                data-tip="View in staging site">
+              <i class="material-icons" @click=${editor.handleOpenStagingInNew.bind(editor)}>
+                vpn_lock
+              </i>
+            </span>
+            -->
+            <!-- TODO: Create ability for public links.
+            <span
+                class="tooltip--top"
+                aria-label="View on live site"
+                data-tip="View on live site">
+              <i class="material-icons" @click=${editor.handleOpenPublicInNew.bind(editor)}>
+                public
+              </i>
+            </span>
+            -->
+          </div>
+          ${localize}
+          ${this.servingPath
+            ? html`
+              <span
+                  class="tooltip--top"
+                  aria-label="Fullscreen editor"
+                  data-tip="Fullscreen editor">
+                <i class="material-icons" @click=${editor.handleFullScreenEditorClick.bind(editor)}>${editor.settingFullScreenEditor.on || !this.servingPath ? 'fullscreen_exit' : 'fullscreen'}</i>
+              </span>`
+            : ''}
+        </div>
+      </div>
+      <div class="editor__menu">
+          <div class="editor__actions">
+            <button class="editor__style__fields editor__button editor__button--item editor__button--secondary ${this.settingEditorPane.is('fields') ? 'editor__button--selected' : ''}" @click=${editor.handleFieldsClick.bind(editor)} ?disabled=${!editor.isClean}>Fields</button>
+            <button class="editor__style__raw editor__button editor__button--item editor__button--secondary ${this.settingEditorPane.is('source') ? 'editor__button--selected' : ''}" @click=${editor.handleSourceClick.bind(editor)} ?disabled=${!editor.isClean}>Source</button>
+            <button class="editor__style__raw editor__button editor__button--item editor__button--secondary ${this.settingEditorPane.is('history') ? 'editor__button--selected' : ''}" @click=${editor.handleHistoryClick.bind(editor)} ?disabled=${!editor.isClean}>History</button>
+          </div>
+          <div class="editor__actions">
+            ${isValid ? '' :
+              html`<div class="editor__actions">
+                  <span
+                      class="editor__invalid tooltip--left"
+                      aria-label="Validation errors"
+                      data-tip="Validation errors">
+                    <i class="material-icons">error</i>
+                  </span>
+                </div>`}
+            <button
+                ?disabled=${saveDisabled}
+                class="editor__save editor__button editor__button--primary ${saveClasses.join(' ')}"
+                @click=${editor.save.bind(editor)}>
+              ${saveStatusLabel}
+            </button>
+          </div>
+      </div>
+      <div class="editor__cards">
+        ${editor.templatePane}
+      </div>
+      <div class="editor__dev_tools">
+        <div class="editor__dev_tools__section">
+          <span
+              aria-label="Grow"
+              data-tip="Grow editor">
+            <img
+                class="editor__dev_tools__logo
+                " src="/_grow/ext/editor/grow.svg">
+          </span>
+        </div>
+        <div class="editor__dev_tools__section">
+          <div>Developer tools:</div>
+          <div class="editor__dev_tools__icons">
+            <span
+                class="tooltip--top editor__dev_tools__icon ${this.settingHighlightGuess.on ? 'editor__dev_tools__icon--selected': ''}"
+                aria-label="Highlight auto fields"
+                data-tip="Highlight auto fields">
+              <i
+                  class="material-icons"
+                  @click=${this.handleHighlightGuess.bind(this)}>
+                assistant
+              </i>
+            </span>
+            <span
+                class="tooltip--top editor__dev_tools__icon ${this.settingHighlightLinked.on ? 'editor__dev_tools__icon--selected': ''}"
+                aria-label="Deep link to fields"
+                data-tip="Deep link to fields">
+              <i
+                  class="material-icons"
+                  @click=${this.handleHighlightLinked.bind(this)}>
+                link
+              </i>
+            </span>
+            <span
+                class="tooltip--top editor__dev_tools__icon ${this.settingHighlightDirty.on ? 'editor__dev_tools__icon--selected': ''}"
+                aria-label="Highlight dirty fields"
+                data-tip="Highlight dirty fields">
+              <i
+                  class="material-icons"
+                  @click=${this.handleHighlightDirty.bind(this)}>
+                change_history
+              </i>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>`
+  }
+
+  renderPreview(editor, selective) {
+    if (this.settingFullScreenEditor.on || !this.servingPath) {
+      return ''
+    }
+
+    let previewSizes = ''
+    if (editor.settingDeviceView.on) {
+      previewSizes = html`<div class="editor__preview__sizes">
+        ${repeat(Object.entries(this.devices), (device) => device[0], (device, index) => html`
+          <div
+              class="editor__preview__size ${editor.device == device[0] ? 'editor__preview__size--selected' : ''}"
+              data-device="${device[0]}"
+              @click=${editor.handleDeviceSwitchClick.bind(editor)}>
+            ${device[1].label}
+            <span class="editor__preview__size__dimension">
+              (${editor._sizeLabel(device[1], editor.settingDeviceRotated.on)})
+            </span>
+          </div>`)}
+      </div>`
+    }
+
     return html`<div class="editor__preview">
       <div class="editor__preview__header">
         <div class="editor__preview__header__icons">
-          <i class="material-icons" @click=${editor.handleFullScreenPreviewClick.bind(editor)} title="Fullscreen">${editor.settingFullScreenPreview.on ? 'fullscreen_exit' : 'fullscreen'}</i>
-          ${localize}
+          <span
+              class="tooltip--top"
+              aria-label="Fullscreen preview"
+              data-tip="Fullscreen preview">
+            <i class="material-icons" @click=${editor.handleFullScreenPreviewClick.bind(editor)}>${editor.settingFullScreenPreview.on ? 'fullscreen_exit' : 'fullscreen'}</i>
+          </span>
         </div>
         <div class="editor__preview__header__label">
           Preview
         </div>
         <div class="editor__preview__header__icons">
           ${previewSizes}
-          <i class="material-icons" @click=${editor.handleDeviceToggleClick.bind(editor)} title="Toggle device view">devices</i>
-          <i class="material-icons editor--device-only" @click=${editor.handleDeviceRotateClick.bind(editor)} title="Rotate device view">screen_rotation</i>
-          <i class="material-icons" @click=${editor.handleOpenInNew.bind(editor)} title="Preview in new window">open_in_new</i>
+          <span
+              class="tooltip--top-left"
+              aria-label="Toggle device view"
+              data-tip="Toggle device view">
+            <i class="material-icons" @click=${editor.handleDeviceToggleClick.bind(editor)}>devices</i>
+          </span>
+          <span
+              class="tooltip--top-left"
+              aria-label="Rotate device view"
+              data-tip="Rotate device view">
+            <i class="material-icons editor--device-only" @click=${editor.handleDeviceRotateClick.bind(editor)}>screen_rotation</i>
+          </span>
+          <span
+              class="tooltip--top-left"
+              aria-label="Preview in new window"
+              data-tip="Preview in new window">
+            <i class="material-icons" @click=${editor.handleOpenInNew.bind(editor)}>open_in_new</i>
+          </span>
         </div>
       </div>
       <div class="editor__preview__frame">
         <iframe src="${editor.previewUrl}" @load=${editor.handlePreviewIframeNavigation.bind(editor)}></iframe>
       </div>
     </div>`
-  }
-
-  renderWorkspace(editor, selective) {
-    const locales = Object.keys(editor.document.servingPaths)
-
-    if (!locales.length) {
-      return ''
-    }
-
-    let urlList = ''
-    let moreLocales = ''
-
-    if (locales.length > 1) {
-      if (this.settingLocalizeUrls.on) {
-        moreLocales = html`
-          <a
-              class="editor__workspace__url__more"
-              @click=${editor.handleLocalizeUrlsClick.bind(this)}
-              href="#">
-            (show less)
-          </a>`
-      } else {
-        moreLocales = html`
-          <a
-              class="editor__workspace__url__more"
-              @click=${editor.handleLocalizeUrlsClick.bind(this)}
-              href="#">
-            +${locales.length - 1}
-          </a>`
-      }
-    }
-
-    if (this.settingLocalizeUrls.on) {
-      urlList = html`
-        ${repeat(Object.entries(editor.document.servingPaths), (path) => path[0], (path, index) => html`
-          <div
-              class="editor__workspace__url"
-              data-locale="${path[0]}">
-            <a href="${path[1]}">${path[1]}</a>
-            ${this.document.defaultLocale == path[0] ? moreLocales : html`<span class="editor__workspace__locale">${path[0]}</span>`}
-          </div>`)}`
-    } else {
-      const defaultLocale = editor.document.defaultLocale
-      const localeUrl = editor.document.servingPaths[defaultLocale]
-
-      urlList = html`
-        <div
-            class="editor__workspace__url"
-            data-locale="${defaultLocale}">
-          <a href="${localeUrl}">${localeUrl}</a>
-          ${moreLocales}
-        </div>`
-    }
-
-    return html`
-      <div class="editor__card">
-        <div class="editor__card__title">
-          Workspace
-        </div>
-        <div class="editor__workspace">
-          ${urlList}
-        </div>
-      </div>`
   }
 
   save(force, isAutosave) {

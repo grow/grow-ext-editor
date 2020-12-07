@@ -2,10 +2,11 @@
   input
     +field-border
     +field-control
-    font-family: $ge-font-family
+    +field-shadow
+    font-family: $ge-font-family-text
     font-size: $ge-font-size
     line-height: $ge-line-height-paragraph
-    padding: $ge-pad
+    padding: $ge-space-medium
     transition: all $ge-speed-faster ease-in-out
 
     &.selective__field__input--error__level__error
@@ -14,22 +15,14 @@
     &.selective__field__input--error__level__warning
         +field-border-warning
 
-    // Alternate with nesting.
-    // +list-nesting
-    //   background-color: $ge-color-field-back-alt
-    //   color: $ge-color-on-field-back-alt
-    //
-    // +list-nesting-alt
-    //   background-color: $ge-color-field-back
-    //   color: $ge-color-on-field-back
-
   textarea
     +field-border
     +field-control
-    font-family: $ge-font-family
+    +field-shadow
+    font-family: $ge-font-family-text
     font-size: $ge-font-size
     line-height: $ge-line-height-paragraph
-    padding: $ge-pad
+    padding: $ge-space-medium
     transition: all $ge-speed-slow ease-in-out
 
     &.selective__field__input--error__level__error
@@ -38,37 +31,20 @@
     &.selective__field__input--error__level__warning
         +field-border-warning
 
-    // Alternate with nesting.
-    // +list-nesting
-    //   background-color: $ge-color-field-back-alt
-    //   color: $ge-color-on-field-back-alt
-    //
-    // +list-nesting-alt
-    //   background-color: $ge-color-field-back
-    //   color: $ge-color-on-field-back
-
   [contenteditable=true]
     &:not(.tui-editor-contents)
       +field-border
       +field-control
 
   button
-    background-color: $ge-color-field-back-alt
-    border-radius: $ge-radius-5
-    color: $ge-color-on-field-back-alt
-    border: 1px solid $ge-color-back-light
+    background-color: $ge-color-back
+    border-radius: $ge-radius-1
+    color: $ge-color-primary
+    border: 1px solid $ge-color-primary
     font-family: $ge-font-family
     font-size: $ge-font-size
-    padding: $ge-pad/2 $ge-pad
-
-    // Alternate with nesting.
-    // +list-nesting
-    //   background-color: $ge-color-field-back-alt
-    //   color: $ge-color-on-field-back-alt
-    //
-    // +list-nesting-alt
-    //   background-color: $ge-color-field-back
-    //   color: $ge-color-on-field-back
+    font-weight: 700
+    padding: $ge-space-small $ge-space-medium
 
     &[disabled]
       opacity: .5
@@ -108,6 +84,15 @@
       &:focus
         box-shadow: none
 
+    &.selective__button--add
+      background-repeat: no-repeat
+      background-position: left $ge-space-small center
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><path d="M-2-2h24v24H-2V-2z" fill="none"/><path d="M10 2.5c-4.1 0-7.5 3.4-7.5 7.5s3.4 7.5 7.5 7.5 7.5-3.4 7.5-7.5-3.4-7.5-7.5-7.5zm3.8 8.3h-3v3H9.2v-3h-3V9.3h3v-3h1.5v3h3v1.5h.1z" fill="%23#{str-slice(inspect($ge-color-primary), 2)}" /></svg>')
+      background-size: $ge-font-size-icon
+      border-color: transparent
+      cursor: pointer
+      padding: $ge-space-small $ge-space-small $ge-space-small #{$ge-space-small*2 + $ge-font-size-icon}
+
   &--data
     input,
     textarea
@@ -116,4 +101,4 @@
   &--translatable
     input,
     textarea
-      font-family: $ge-font-family
+      font-family: $ge-font-family-text

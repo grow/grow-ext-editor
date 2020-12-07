@@ -145,20 +145,30 @@ export default class FolderStructure {
                 </div>
                 ${isProtectedFromCopy(podPath) || !features['allowDuplicateFile']
                   ? ''
-                  : html`<i
-                      class="material-icons icon icon--hover-only"
-                      title="Copy file"
-                      @click=${eventHandlers.handleFileCopyClick}>
-                    file_copy
-                  </i>`}
+                  : html`
+                    <span
+                        class="tooltip--top-left"
+                        aria-label="Duplicate file"
+                        data-tip="Duplicate file">
+                      <i
+                          class="material-icons icon icon--hover-only"
+                          @click=${eventHandlers.handleFileCopyClick}>
+                        file_copy
+                      </i>
+                    </span>`}
                 ${isProtectedFromDelete(podPath) || !features['allowDeleteFile']
                   ? ''
-                  : html`<i
-                      class="material-icons icon icon--hover-only"
-                      title="Delete file"
-                      @click=${eventHandlers.handleFileDeleteClick}>
-                    delete
-                  </i>`}
+                  : html`
+                    <span
+                        class="tooltip--top-left"
+                        aria-label="Delete file"
+                        data-tip="Delete file">
+                      <i
+                          class="material-icons icon icon--hover-only icon--delete"
+                          @click=${eventHandlers.handleFileDeleteClick}>
+                        remove_circle
+                      </i>
+                    </span>`}
               </div>`
           })}
         </div>

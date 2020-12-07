@@ -478,7 +478,7 @@ export class MediaField extends Field {
       // Create the subfield's group using the fields config.
       const groupFieldConfig = {
         'key': SUB_FIELDS_KEY,
-        'label': this.config.extraLabel || 'Extra',
+        'label': this.config.extra_label || 'Extra',
         'fields': this.config.fields,
       }
       this._subFields[localeKey] = new GroupField(

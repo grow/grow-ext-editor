@@ -14,7 +14,7 @@
   flex-flow: column
   height: 100vh
   justify-content: center
-  padding: $ge-pad
+  padding: $ge-space-medium
 
 .modal__control
   align-self: flex-end
@@ -32,23 +32,31 @@
   overflow: auto
 
   h2
-    border-bottom: $ge-border-size-thick solid $ge-color-border
+    border-bottom: $ge-border-size-large solid $ge-color-border
     font-size: $ge-font-size
     font-weight: 700
     margin-top: 0
-    margin-bottom: $ge-pad
-    padding: $ge-pad*2
+    margin-bottom: $ge-space-medium
+    padding: $ge-space-medium
     text-transform: uppercase
 
 .modal__content
-  margin: $ge-pad*2
+  margin: $ge-space-medium
 
 .modal__actions
   align-items: center
   display: flex
   flex-flow: row-reverse
   justify-content: space-between
-  margin: $ge-pad*2 $ge-pad
+  margin: $ge-space-medium
 
   button
-    margin-right: $ge-pad
+    margin-right: $ge-space-medium
+
+    &:first-child
+      // Using row-reverse
+      margin-right: 0
+
+    &:last-child
+      // Using row-reverse
+      margin-left: 0

@@ -98923,78 +98923,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utility_storage__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../utility/storage */ "./source/utility/storage.js");
 /* harmony import */ var _utility_strings__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ../utility/strings */ "./source/utility/strings.js");
 /* harmony import */ var _utility_settings__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ../utility/settings */ "./source/utility/settings.js");
-function _templateObject22() {
-  var data = _taggedTemplateLiteral(["\n      <div class=\"editor__card\">\n        <div class=\"editor__card__title\">\n          Workspace\n        </div>\n        <div class=\"editor__workspace\">\n          ", "\n        </div>\n      </div>"]);
-
-  _templateObject22 = function _templateObject22() {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject21() {
-  var data = _taggedTemplateLiteral(["\n        <div\n            class=\"editor__workspace__url\"\n            data-locale=\"", "\">\n          <a href=\"", "\">", "</a>\n          ", "\n        </div>"]);
-
-  _templateObject21 = function _templateObject21() {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject20() {
-  var data = _taggedTemplateLiteral(["<span class=\"editor__workspace__locale\">", "</span>"]);
-
-  _templateObject20 = function _templateObject20() {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject19() {
-  var data = _taggedTemplateLiteral(["\n          <div\n              class=\"editor__workspace__url\"\n              data-locale=\"", "\">\n            <a href=\"", "\">", "</a>\n            ", "\n          </div>"]);
-
-  _templateObject19 = function _templateObject19() {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject18() {
-  var data = _taggedTemplateLiteral(["\n        ", ""]);
-
-  _templateObject18 = function _templateObject18() {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject17() {
-  var data = _taggedTemplateLiteral(["\n          <a\n              class=\"editor__workspace__url__more\"\n              @click=", "\n              href=\"#\">\n            +", "\n          </a>"]);
-
-  _templateObject17 = function _templateObject17() {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject16() {
-  var data = _taggedTemplateLiteral(["\n          <a\n              class=\"editor__workspace__url__more\"\n              @click=", "\n              href=\"#\">\n            (show less)\n          </a>"]);
-
-  _templateObject16 = function _templateObject16() {
-    return data;
-  };
-
-  return data;
-}
-
 function _templateObject15() {
-  var data = _taggedTemplateLiteral(["<div class=\"editor__preview\">\n      <div class=\"editor__preview__header\">\n        <div class=\"editor__preview__header__icons\">\n          <i class=\"material-icons\" @click=", " title=\"Fullscreen\">", "</i>\n          ", "\n        </div>\n        <div class=\"editor__preview__header__label\">\n          Preview\n        </div>\n        <div class=\"editor__preview__header__icons\">\n          ", "\n          <i class=\"material-icons\" @click=", " title=\"Toggle device view\">devices</i>\n          <i class=\"material-icons editor--device-only\" @click=", " title=\"Rotate device view\">screen_rotation</i>\n          <i class=\"material-icons\" @click=", " title=\"Preview in new window\">open_in_new</i>\n        </div>\n      </div>\n      <div class=\"editor__preview__frame\">\n        <iframe src=\"", "\" @load=", "></iframe>\n      </div>\n    </div>"]);
+  var data = _taggedTemplateLiteral(["<div class=\"editor__preview\">\n      <div class=\"editor__preview__header\">\n        <div class=\"editor__preview__header__icons\">\n          <span\n              class=\"tooltip--top\"\n              aria-label=\"Fullscreen preview\"\n              data-tip=\"Fullscreen preview\">\n            <i class=\"material-icons\" @click=", ">", "</i>\n          </span>\n        </div>\n        <div class=\"editor__preview__header__label\">\n          Preview\n        </div>\n        <div class=\"editor__preview__header__icons\">\n          ", "\n          <span\n              class=\"tooltip--top-left\"\n              aria-label=\"Toggle device view\"\n              data-tip=\"Toggle device view\">\n            <i class=\"material-icons\" @click=", ">devices</i>\n          </span>\n          <span\n              class=\"tooltip--top-left\"\n              aria-label=\"Rotate device view\"\n              data-tip=\"Rotate device view\">\n            <i class=\"material-icons editor--device-only\" @click=", ">screen_rotation</i>\n          </span>\n          <span\n              class=\"tooltip--top-left\"\n              aria-label=\"Preview in new window\"\n              data-tip=\"Preview in new window\">\n            <i class=\"material-icons\" @click=", ">open_in_new</i>\n          </span>\n        </div>\n      </div>\n      <div class=\"editor__preview__frame\">\n        <iframe src=\"", "\" @load=", "></iframe>\n      </div>\n    </div>"]);
 
   _templateObject15 = function _templateObject15() {
     return data;
@@ -99004,7 +98934,7 @@ function _templateObject15() {
 }
 
 function _templateObject14() {
-  var data = _taggedTemplateLiteral(["\n            <option\n                data-locale=\"", "\"\n                ?selected=", ">\n              ", "\n            </option>"]);
+  var data = _taggedTemplateLiteral(["\n          <div\n              class=\"editor__preview__size ", "\"\n              data-device=\"", "\"\n              @click=", ">\n            ", "\n            <span class=\"editor__preview__size__dimension\">\n              (", ")\n            </span>\n          </div>"]);
 
   _templateObject14 = function _templateObject14() {
     return data;
@@ -99014,7 +98944,7 @@ function _templateObject14() {
 }
 
 function _templateObject13() {
-  var data = _taggedTemplateLiteral(["\n        <i class=\"material-icons\" @click=", " title=\"Localize content\">translate</i>\n        <select class=\"editor__locales\" @change=", ">\n          <option\n              data-locale=\"", "\"\n              ?selected=", ">\n            ", "\n          </option>\n          ", "\n        </select>"]);
+  var data = _taggedTemplateLiteral(["<div class=\"editor__preview__sizes\">\n        ", "\n      </div>"]);
 
   _templateObject13 = function _templateObject13() {
     return data;
@@ -99024,7 +98954,7 @@ function _templateObject13() {
 }
 
 function _templateObject12() {
-  var data = _taggedTemplateLiteral(["\n          <div\n              class=\"editor__preview__size ", "\"\n              data-device=\"", "\"\n              @click=", ">\n            ", "\n            <span class=\"editor__preview__size__dimension\">\n              (", ")\n            </span>\n          </div>"]);
+  var data = _taggedTemplateLiteral(["<div class=\"editor__actions\">\n                  <span\n                      class=\"editor__invalid tooltip--left\"\n                      aria-label=\"Validation errors\"\n                      data-tip=\"Validation errors\">\n                    <i class=\"material-icons\">error</i>\n                  </span>\n                </div>"]);
 
   _templateObject12 = function _templateObject12() {
     return data;
@@ -99034,7 +98964,7 @@ function _templateObject12() {
 }
 
 function _templateObject11() {
-  var data = _taggedTemplateLiteral(["<div class=\"editor__preview__sizes\">\n        ", "\n      </div>"]);
+  var data = _taggedTemplateLiteral(["\n              <span\n                  class=\"tooltip--top\"\n                  aria-label=\"Fullscreen editor\"\n                  data-tip=\"Fullscreen editor\">\n                <i class=\"material-icons\" @click=", ">", "</i>\n              </span>"]);
 
   _templateObject11 = function _templateObject11() {
     return data;
@@ -99044,7 +98974,7 @@ function _templateObject11() {
 }
 
 function _templateObject10() {
-  var data = _taggedTemplateLiteral(["<div class=\"editor__actions\">\n                    <span\n                        class=\"editor__invalid\">\n                      <i class=\"material-icons\">error</i>\n                    </span>\n                  </div>"]);
+  var data = _taggedTemplateLiteral(["<div class=\"editor__edit\">\n      <div class=\"editor__edit__header\">\n        <div class=\"editor__edit__header__section\">\n          <div class=\"editor__edit__header__label\">\n            Page:\n          </div>\n          <div class=\"editor__edit__header__title\">\n            ", "\n          </div>\n        </div>\n        <div class=\"editor__edit__header__section\">\n          <div class=\"editor__edit__header__links\">\n            <span\n                class=\"tooltip--top\"\n                aria-label=\"Preview in editor\"\n                data-tip=\"Preview in editor\">\n              <i class=\"material-icons\" @click=", ">\n                https\n              </i>\n            </span>\n            <!-- TODO: Create ability for staging links.\n            <span\n                class=\"tooltip--top\"\n                aria-label=\"View in staging site\"\n                data-tip=\"View in staging site\">\n              <i class=\"material-icons\" @click=", ">\n                vpn_lock\n              </i>\n            </span>\n            -->\n            <!-- TODO: Create ability for public links.\n            <span\n                class=\"tooltip--top\"\n                aria-label=\"View on live site\"\n                data-tip=\"View on live site\">\n              <i class=\"material-icons\" @click=", ">\n                public\n              </i>\n            </span>\n            -->\n          </div>\n          ", "\n          ", "\n        </div>\n      </div>\n      <div class=\"editor__menu\">\n          <div class=\"editor__actions\">\n            <button class=\"editor__style__fields editor__button editor__button--item editor__button--secondary ", "\" @click=", " ?disabled=", ">Fields</button>\n            <button class=\"editor__style__raw editor__button editor__button--item editor__button--secondary ", "\" @click=", " ?disabled=", ">Source</button>\n            <button class=\"editor__style__raw editor__button editor__button--item editor__button--secondary ", "\" @click=", " ?disabled=", ">History</button>\n          </div>\n          <div class=\"editor__actions\">\n            ", "\n            <button\n                ?disabled=", "\n                class=\"editor__save editor__button editor__button--primary ", "\"\n                @click=", ">\n              ", "\n            </button>\n          </div>\n      </div>\n      <div class=\"editor__cards\">\n        ", "\n      </div>\n      <div class=\"editor__dev_tools\">\n        <div class=\"editor__dev_tools__section\">\n          <span\n              aria-label=\"Grow\"\n              data-tip=\"Grow editor\">\n            <img\n                class=\"editor__dev_tools__logo\n                \" src=\"/_grow/ext/editor/grow.svg\">\n          </span>\n        </div>\n        <div class=\"editor__dev_tools__section\">\n          <div>Developer tools:</div>\n          <div class=\"editor__dev_tools__icons\">\n            <span\n                class=\"tooltip--top editor__dev_tools__icon ", "\"\n                aria-label=\"Highlight auto fields\"\n                data-tip=\"Highlight auto fields\">\n              <i\n                  class=\"material-icons\"\n                  @click=", ">\n                assistant\n              </i>\n            </span>\n            <span\n                class=\"tooltip--top editor__dev_tools__icon ", "\"\n                aria-label=\"Deep link to fields\"\n                data-tip=\"Deep link to fields\">\n              <i\n                  class=\"material-icons\"\n                  @click=", ">\n                link\n              </i>\n            </span>\n            <span\n                class=\"tooltip--top editor__dev_tools__icon ", "\"\n                aria-label=\"Highlight dirty fields\"\n                data-tip=\"Highlight dirty fields\">\n              <i\n                  class=\"material-icons\"\n                  @click=", ">\n                change_history\n              </i>\n            </span>\n          </div>\n        </div>\n      </div>\n    </div>"]);
 
   _templateObject10 = function _templateObject10() {
     return data;
@@ -99054,7 +98984,7 @@ function _templateObject10() {
 }
 
 function _templateObject9() {
-  var data = _taggedTemplateLiteral(["<i class=\"material-icons\" @click=", " title=\"Fullscreen\">", "</i>"]);
+  var data = _taggedTemplateLiteral(["\n            <option\n                data-locale=\"", "\"\n                ?selected=", ">\n              ", "\n            </option>"]);
 
   _templateObject9 = function _templateObject9() {
     return data;
@@ -99064,7 +98994,7 @@ function _templateObject9() {
 }
 
 function _templateObject8() {
-  var data = _taggedTemplateLiteral(["<div class=\"editor__edit\">\n      <div class=\"editor__edit__header\">\n        <div class=\"editor__edit__header__section\">\n          <div class=\"editor__edit__header__label\">\n            Page:\n          </div>\n          <div class=\"editor__edit__header__title\">\n            ", "\n          </div>\n        </div>\n        <div class=\"editor__edit__header__section\">\n          <div class=\"editor__edit__header__pod_path\">\n            ", "\n          </div>\n          ", "\n        </div>\n      </div>\n      <div class=\"editor__cards\">\n        <div class=\"editor__card editor__menu\">\n            <div class=\"editor__actions\">\n              <button class=\"editor__style__fields editor__button editor__button--secondary ", "\" @click=", " ?disabled=", ">Fields</button>\n              <button class=\"editor__style__raw editor__button editor__button--secondary ", "\" @click=", " ?disabled=", ">Source</button>\n              <button class=\"editor__style__raw editor__button editor__button--secondary ", "\" @click=", " ?disabled=", ">History</button>\n            </div>\n            <div class=\"editor__actions\">\n              ", "\n              <button\n                  ?disabled=", "\n                  class=\"editor__save editor__button editor__button--primary ", "\"\n                  @click=", ">\n                ", "\n              </button>\n            </div>\n        </div>\n        ", "\n      </div>\n    </div>"]);
+  var data = _taggedTemplateLiteral(["\n        <i class=\"material-icons\" @click=", " title=\"Localize content\">translate</i>\n        <select class=\"editor__locales\" @change=", ">\n          <option\n              data-locale=\"", "\"\n              ?selected=", ">\n            ", "\n          </option>\n          ", "\n        </select>"]);
 
   _templateObject8 = function _templateObject8() {
     return data;
@@ -99074,7 +99004,7 @@ function _templateObject8() {
 }
 
 function _templateObject7() {
-  var data = _taggedTemplateLiteral(["\n      ", "\n      <div class=\"editor__card editor__field_list\">\n        <div class=\"editor__card__title\">\n          Content\n        </div>\n        <div class=\"editor__selective\">\n          ", "\n        </div>\n      </div>\n      <div class=\"editor__dev_tools\">\n        <div>Developer tools:</div>\n        <div class=\"editor__dev_tools__icons\">\n          <i\n              class=\"editor__dev_tools__icon ", " material-icons\"\n              @click=", "\n              title=\"Highlight auto fields\">\n            assistant\n          </i>\n          <i\n              class=\"editor__dev_tools__icon ", " material-icons\"\n              @click=", "\n              title=\"Deep link to fields\">\n            link\n          </i>\n          <i\n              class=\"editor__dev_tools__icon ", " material-icons\"\n              @click=", "\n              title=\"Highlight dirty fields\">\n            change_history\n          </i>\n        </div>\n      </div>"]);
+  var data = _taggedTemplateLiteral(["\n      <div class=\"editor__card editor__field_list\">\n        <div class=\"editor__selective\">\n          ", "\n        </div>\n      </div>"]);
 
   _templateObject7 = function _templateObject7() {
     return data;
@@ -99084,7 +99014,7 @@ function _templateObject7() {
 }
 
 function _templateObject6() {
-  var data = _taggedTemplateLiteral(["\n              <div\n                  class=\"editor__history__commits__commit\">\n                <i\n                    class=\"material-icons icon\"\n                    title=\"\">\n                  notes\n                </i>\n                <div class=\"editor__history__commits__commit__meta\">\n                  <div class=\"editor__history__commits__commit__info\">\n                    <a href=\"", "\" class=\"editor__history__commits__commit__hash\">", "</a>\n                    &nbsp;by&nbsp;<a href=\"mailto:", "\">", "</a>\n                    <span class=\"editor__history__commits__commit__time\" title=\"", "\">\n                      &nbsp;(", ")\n                    </span>\n                  </div>\n                  <div class=\"editor__history__commits__commit__message\">\n                    ", "\n                  </div>\n                </div>\n              </div>\n            "]);
+  var data = _taggedTemplateLiteral(["\n              <div\n                  class=\"editor__history__commits__commit\">\n                <i\n                    class=\"material-icons icon\"\n                    title=\"Commit ", "\">\n                  notes\n                </i>\n                <div class=\"editor__history__commits__commit__meta\">\n                  <div class=\"editor__history__commits__commit__info\">\n                    <a href=\"", "\" class=\"editor__history__commits__commit__hash\">", "</a>\n                    &nbsp;by&nbsp;<a href=\"mailto:", "\">", "</a>\n                    <span class=\"editor__history__commits__commit__time\" title=\"", "\">\n                      &nbsp;(", ")\n                    </span>\n                  </div>\n                  <div class=\"editor__history__commits__commit__message\">\n                    ", "\n                  </div>\n                </div>\n              </div>\n            "]);
 
   _templateObject6 = function _templateObject6() {
     return data;
@@ -99094,7 +99024,7 @@ function _templateObject6() {
 }
 
 function _templateObject5() {
-  var data = _taggedTemplateLiteral(["\n        <div class=\"editor__card\">\n          <div class=\"editor__card__title\">\n            Current Workspace\n          </div>\n          <div class=\"editor__history__workspace\">\n            <i\n                class=\"material-icons icon\"\n                title=\"\">\n              dashboard\n            </i>\n            <div class=\"editor__workspace__branch__label\">\n              ", "\n            </div>\n          </div>\n        </div>\n        <div class=\"editor__card\">\n          <div class=\"editor__card__title\">\n            Change History\n          </div>\n          <div class=\"editor__history__commits\">\n            ", "\n          </div>\n        </div>"]);
+  var data = _taggedTemplateLiteral(["\n        <div class=\"editor__card\">\n          <div class=\"editor__card__title\">\n            Current Workspace\n          </div>\n          <div class=\"editor__history__workspace\">\n            <i\n                class=\"material-icons icon\"\n                title=\"", "\">\n              dashboard\n            </i>\n            <div class=\"editor__workspace__branch__label\">\n              ", "\n            </div>\n          </div>\n        </div>\n        <div class=\"editor__card\">\n          <div class=\"editor__card__title\">\n            Change History\n          </div>\n          <div class=\"editor__history__commits\">\n            ", "\n          </div>\n        </div>"]);
 
   _templateObject5 = function _templateObject5() {
     return data;
@@ -99396,10 +99326,10 @@ class Editor {
         return Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject4());
       }
 
-      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject5(), this.repo.branch, Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["repeat"])(this.repo.commits, commit => commit.sha, (commit, index) => Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject6(), this.repo.webUrlForCommit(commit.sha), commit.sha.slice(0, 5), commit.author.email, commit.author.name, moment__WEBPACK_IMPORTED_MODULE_4___default()(commit.commit_date + 'Z', moment__WEBPACK_IMPORTED_MODULE_4___default.a.ISO_8601).format('D MMM YYYY, h:mm:ss a'), moment__WEBPACK_IMPORTED_MODULE_4___default()(commit.commit_date + 'Z', moment__WEBPACK_IMPORTED_MODULE_4___default.a.ISO_8601).fromNow(), commit.message)));
+      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject5(), this.repo.branch, this.repo.branch, Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["repeat"])(this.repo.commits, commit => commit.sha, (commit, index) => Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject6(), commit.sha.slice(0, 5), this.repo.webUrlForCommit(commit.sha), commit.sha.slice(0, 5), commit.author.email, commit.author.name, moment__WEBPACK_IMPORTED_MODULE_4___default()(commit.commit_date + 'Z', moment__WEBPACK_IMPORTED_MODULE_4___default.a.ISO_8601).format('D MMM YYYY, h:mm:ss a'), moment__WEBPACK_IMPORTED_MODULE_4___default()(commit.commit_date + 'Z', moment__WEBPACK_IMPORTED_MODULE_4___default.a.ISO_8601).fromNow(), commit.message)));
     }
 
-    return Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject7(), this.renderWorkspace(this, this.selective), this.selective.template(this.selective, this.selective.data), this.settingHighlightGuess.on ? 'editor__dev_tools__icon--selected' : '', this.handleHighlightGuess.bind(this), this.settingHighlightLinked.on ? 'editor__dev_tools__icon--selected' : '', this.handleHighlightLinked.bind(this), this.settingHighlightDirty.on ? 'editor__dev_tools__icon--selected' : '', this.handleHighlightDirty.bind(this));
+    return Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject7(), this.selective.template(this.selective, this.selective.data));
   }
 
   set device(value) {
@@ -99799,6 +99729,14 @@ class Editor {
     window.open(this.previewUrl, '_blank');
   }
 
+  handleOpenPublicInNew(evt) {
+    window.open(this.previewUrl, '_blank');
+  }
+
+  handleOpenStagingInNew(evt) {
+    window.open(this.previewUrl, '_blank');
+  }
+
   handlePodPathChange(evt) {
     this.load(evt.target.value);
   }
@@ -100067,7 +100005,7 @@ class Editor {
 
     if (!isValid) {
       saveClasses.push('editor__button--invalid');
-      saveStatusLabel = 'Invalid values';
+      saveStatusLabel = 'Save';
       saveDisabled = true;
     }
 
@@ -100075,20 +100013,6 @@ class Editor {
       saveClasses.push('editor__button--processing');
       saveStatusLabel = 'Saving...';
       saveDisabled = true;
-    }
-
-    return Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject8(), Object(_utility_strings__WEBPACK_IMPORTED_MODULE_19__["textOrString"])(editor.document.data['$title'] || editor.document.data['$title@'], this._strings, this.loadStrings.bind(this)), editor.podPath, this.servingPath ? Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject9(), editor.handleFullScreenEditorClick.bind(editor), editor.settingFullScreenEditor.on || !this.servingPath ? 'fullscreen_exit' : 'fullscreen') : '', this.settingEditorPane.is('fields') ? 'editor__button--selected' : '', editor.handleFieldsClick.bind(editor), !editor.isClean, this.settingEditorPane.is('source') ? 'editor__button--selected' : '', editor.handleSourceClick.bind(editor), !editor.isClean, this.settingEditorPane.is('history') ? 'editor__button--selected' : '', editor.handleHistoryClick.bind(editor), !editor.isClean, isValid ? '' : Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject10()), saveDisabled, saveClasses.join(' '), editor.save.bind(editor), saveStatusLabel, editor.templatePane);
-  }
-
-  renderPreview(editor, selective) {
-    if (this.settingFullScreenEditor.on || !this.servingPath) {
-      return '';
-    }
-
-    var previewSizes = '';
-
-    if (editor.settingDeviceView.on) {
-      previewSizes = Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject11(), Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["repeat"])(Object.entries(this.devices), device => device[0], (device, index) => Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject12(), editor.device == device[0] ? 'editor__preview__size--selected' : '', device[0], editor.handleDeviceSwitchClick.bind(editor), device[1].label, editor._sizeLabel(device[1], editor.settingDeviceRotated.on))));
     }
 
     var localize = '';
@@ -100101,39 +100025,24 @@ class Editor {
         locales.splice(defaultLocaleIndex, 1);
       }
 
-      localize = Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject13(), editor.handleLocalize.bind(editor), editor.handleLocalizeSelect.bind(editor), this.document.defaultLocale, this.settingLocale.value == this.document.defaultLocale, this.document.defaultLocale, Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["repeat"])(locales, locale => locale, (locale, index) => Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject14(), locale, this.settingLocale.value == locale, locale)));
+      localize = Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject8(), editor.handleLocalize.bind(editor), editor.handleLocalizeSelect.bind(editor), this.document.defaultLocale, this.settingLocale.value == this.document.defaultLocale, this.document.defaultLocale, Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["repeat"])(locales, locale => locale, (locale, index) => Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject9(), locale, this.settingLocale.value == locale, locale)));
     }
 
-    return Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject15(), editor.handleFullScreenPreviewClick.bind(editor), editor.settingFullScreenPreview.on ? 'fullscreen_exit' : 'fullscreen', localize, previewSizes, editor.handleDeviceToggleClick.bind(editor), editor.handleDeviceRotateClick.bind(editor), editor.handleOpenInNew.bind(editor), editor.previewUrl, editor.handlePreviewIframeNavigation.bind(editor));
+    return Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject10(), Object(_utility_strings__WEBPACK_IMPORTED_MODULE_19__["textOrString"])(editor.document.data['$title'] || editor.document.data['$title@'], this._strings, this.loadStrings.bind(this)), editor.handleOpenInNew.bind(editor), editor.handleOpenStagingInNew.bind(editor), editor.handleOpenPublicInNew.bind(editor), localize, this.servingPath ? Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject11(), editor.handleFullScreenEditorClick.bind(editor), editor.settingFullScreenEditor.on || !this.servingPath ? 'fullscreen_exit' : 'fullscreen') : '', this.settingEditorPane.is('fields') ? 'editor__button--selected' : '', editor.handleFieldsClick.bind(editor), !editor.isClean, this.settingEditorPane.is('source') ? 'editor__button--selected' : '', editor.handleSourceClick.bind(editor), !editor.isClean, this.settingEditorPane.is('history') ? 'editor__button--selected' : '', editor.handleHistoryClick.bind(editor), !editor.isClean, isValid ? '' : Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject12()), saveDisabled, saveClasses.join(' '), editor.save.bind(editor), saveStatusLabel, editor.templatePane, this.settingHighlightGuess.on ? 'editor__dev_tools__icon--selected' : '', this.handleHighlightGuess.bind(this), this.settingHighlightLinked.on ? 'editor__dev_tools__icon--selected' : '', this.handleHighlightLinked.bind(this), this.settingHighlightDirty.on ? 'editor__dev_tools__icon--selected' : '', this.handleHighlightDirty.bind(this));
   }
 
-  renderWorkspace(editor, selective) {
-    var locales = Object.keys(editor.document.servingPaths);
-
-    if (!locales.length) {
+  renderPreview(editor, selective) {
+    if (this.settingFullScreenEditor.on || !this.servingPath) {
       return '';
     }
 
-    var urlList = '';
-    var moreLocales = '';
+    var previewSizes = '';
 
-    if (locales.length > 1) {
-      if (this.settingLocalizeUrls.on) {
-        moreLocales = Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject16(), editor.handleLocalizeUrlsClick.bind(this));
-      } else {
-        moreLocales = Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject17(), editor.handleLocalizeUrlsClick.bind(this), locales.length - 1);
-      }
+    if (editor.settingDeviceView.on) {
+      previewSizes = Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject13(), Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["repeat"])(Object.entries(this.devices), device => device[0], (device, index) => Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject14(), editor.device == device[0] ? 'editor__preview__size--selected' : '', device[0], editor.handleDeviceSwitchClick.bind(editor), device[1].label, editor._sizeLabel(device[1], editor.settingDeviceRotated.on))));
     }
 
-    if (this.settingLocalizeUrls.on) {
-      urlList = Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject18(), Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["repeat"])(Object.entries(editor.document.servingPaths), path => path[0], (path, index) => Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject19(), path[0], path[1], path[1], this.document.defaultLocale == path[0] ? moreLocales : Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject20(), path[0]))));
-    } else {
-      var defaultLocale = editor.document.defaultLocale;
-      var localeUrl = editor.document.servingPaths[defaultLocale];
-      urlList = Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject21(), defaultLocale, localeUrl, localeUrl, moreLocales);
-    }
-
-    return Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject22(), urlList);
+    return Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject15(), editor.handleFullScreenPreviewClick.bind(editor), editor.settingFullScreenPreview.on ? 'fullscreen_exit' : 'fullscreen', previewSizes, editor.handleDeviceToggleClick.bind(editor), editor.handleDeviceRotateClick.bind(editor), editor.handleOpenInNew.bind(editor), editor.previewUrl, editor.handlePreviewIframeNavigation.bind(editor));
   }
 
   save(force, isAutosave) {
@@ -101846,7 +101755,7 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
       // Create the subfield's group using the fields config.
       var groupFieldConfig = {
         'key': SUB_FIELDS_KEY,
-        'label': this.config.extraLabel || 'Extra',
+        'label': this.config.extra_label || 'Extra',
         'fields': this.config.fields
       };
       this._subFields[localeKey] = new selective_edit__WEBPACK_IMPORTED_MODULE_1__["GroupField"](this.ruleTypes, groupFieldConfig, this.globalConfig);
@@ -102055,7 +101964,7 @@ function _templateObject8() {
 }
 
 function _templateObject7() {
-  var data = _taggedTemplateLiteral(["\n      ", "\n      <div class=\"selective__actions\">\n        <button\n            class=\"selective__button selective__actions__add\"\n            @click=", ">\n          ", "\n        </button>\n      </div>"]);
+  var data = _taggedTemplateLiteral(["\n      ", "\n      <div class=\"selective__actions\">\n        <button\n            class=\"selective__button selective__button--add\"\n            @click=", ">\n          ", "\n        </button>\n      </div>"]);
 
   _templateObject7 = function _templateObject7() {
     return data;
@@ -102361,7 +102270,7 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListFie
       };
     }
 
-    return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject7(), this.modalWindow.template, this.handleTogglePartialList.bind(this), this.config.addLabel || 'Add partial');
+    return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject7(), this.modalWindow.template, this.handleTogglePartialList.bind(this), this.config.add_label || 'Add partial');
   }
 
   renderPreview(selective, data, item, index, locale) {
@@ -102819,6 +102728,17 @@ class SelectField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
     return value;
   }
 
+  getClassesForInput(locale, zoneKey) {
+    var classes = super.getClassesForInput(locale, zoneKey).split(' ');
+    var value = this.getValueForLocale(locale) || false;
+
+    if (this.config.use_swatches) {
+      classes.push('selective__field__select__options--swatches');
+    }
+
+    return classes.join(' ');
+  }
+
   handleInput(evt) {
     var target = Object(_utility_dom__WEBPACK_IMPORTED_MODULE_4__["findParentByClassname"])(evt.target, 'selective__field__select__option');
     var locale = target.dataset.locale;
@@ -102853,7 +102773,10 @@ class SelectField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
       return value == optionValue;
     };
 
-    return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject6(), this.getClassesForInput(locale), Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(options, option => option.value, (option, index) => Object(_template_option__WEBPACK_IMPORTED_MODULE_5__["templateOptionColor"])(locale, option, isOptionSelected(option.value), [], {
+    return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject6(), this.getClassesForInput(locale), Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(options, option => option.value, (option, index) => Object(_template_option__WEBPACK_IMPORTED_MODULE_5__["templateOptionColor"])(locale, option, {
+      useSwatches: this.config.use_swatches == true,
+      isSelected: isOptionSelected(option.value)
+    }, [], {
       handleInput: this.handleInput.bind(this)
     })), this.renderErrors(selective, data));
   }
@@ -103415,7 +103338,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
 /* harmony import */ var _utility_uuid__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/uuid */ "./source/utility/uuid.js");
 function _templateObject7() {
-  var data = _taggedTemplateLiteral(["<i\n                      class=\"material-icons icon icon--hover-only\"\n                      title=\"Delete file\"\n                      @click=", ">\n                    delete\n                  </i>"]);
+  var data = _taggedTemplateLiteral(["\n                    <span\n                        class=\"tooltip--top-left\"\n                        aria-label=\"Delete file\"\n                        data-tip=\"Delete file\">\n                      <i\n                          class=\"material-icons icon icon--hover-only icon--delete\"\n                          @click=", ">\n                        remove_circle\n                      </i>\n                    </span>"]);
 
   _templateObject7 = function _templateObject7() {
     return data;
@@ -103425,7 +103348,7 @@ function _templateObject7() {
 }
 
 function _templateObject6() {
-  var data = _taggedTemplateLiteral(["<i\n                      class=\"material-icons icon icon--hover-only\"\n                      title=\"Copy file\"\n                      @click=", ">\n                    file_copy\n                  </i>"]);
+  var data = _taggedTemplateLiteral(["\n                    <span\n                        class=\"tooltip--top-left\"\n                        aria-label=\"Duplicate file\"\n                        data-tip=\"Duplicate file\">\n                      <i\n                          class=\"material-icons icon icon--hover-only\"\n                          @click=", ">\n                        file_copy\n                      </i>\n                    </span>"]);
 
   _templateObject6 = function _templateObject6() {
     return data;
@@ -103632,7 +103555,7 @@ function _templateObject3() {
 }
 
 function _templateObject2() {
-  var data = _taggedTemplateLiteral(["\n          <div class=\"menu__contents\">\n            <div class=\"menu__section\">\n              <div class=\"menu__site\">\n                <div class=\"menu__site__title\">\n                  ", "\n                </div>\n                <i class=\"material-icons\" @click=", " title=\"Close menu\">\n                  close\n                </i>\n              </div>\n            </div>\n            ", "\n            ", "\n          </div>"]);
+  var data = _taggedTemplateLiteral(["\n          <div class=\"menu__contents\">\n            <div class=\"menu__header\">\n              <div class=\"menu__site__title\">\n                ", "\n              </div>\n              <div class=\"menu__header__icons\">\n                <!-- TODO: Ability to dock the menu.\n                <span\n                    class=\"tooltip--bottom-left\"\n                    data-tip=\"Dock the menu\">\n                  <i class=\"material-icons\" @click=", ">\n                    last_page\n                  </i>\n                </span>\n                -->\n                <i class=\"material-icons\" @click=", " title=\"Close menu\">\n                  close\n                </i>\n              </div>\n            </div>\n            ", "\n            ", "\n          </div>"]);
 
   _templateObject2 = function _templateObject2() {
     return data;
@@ -103672,7 +103595,7 @@ class Menu extends _base__WEBPACK_IMPORTED_MODULE_5__["default"] {
   constructor(config, editor) {
     super(config);
     this.editor = editor;
-    this.menuWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_4__["MenuWindow"](); // this.menuWindow.isOpen = true  // TODO: Remove
+    this.menuWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_4__["MenuWindow"](); // this.menuWindow.isOpen = true  // For debugging menu overlay.
     // Create the copy page modal outside of the modal for the menu.
     // Otherwise, the copy modal is constrained to the menu modal.
 
@@ -103914,7 +103837,7 @@ class Menu extends _base__WEBPACK_IMPORTED_MODULE_5__["default"] {
 
     if (isOpen) {
       this.menuWindow.contentRenderFunc = () => {
-        return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject2(), this._state.pod ? this._state.pod.title : '', this.handleToggleMenu.bind(this), this.config.enableMenuWorkspace ? this._workspaceMenu.template(editor, this._state, {
+        return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject2(), this._state.pod ? this._state.pod.title : '', this.handleToggleMenu.bind(this), this.handleToggleMenu.bind(this), this.config.enableMenuWorkspace ? this._workspaceMenu.template(editor, this._state, {
           handleWorkspaceNewClick: () => {
             this.newWorkspaceWindow.open();
           }
@@ -103955,8 +103878,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
 /* harmony import */ var _workspace__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./workspace */ "./source/editor/menu/workspace.js");
 /* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./base */ "./source/editor/menu/base.js");
+function _templateObject4() {
+  var data = _taggedTemplateLiteral(["\n      <div class=\"menu__repo__workspace\">\n        <a\n            class=\"menu__repo__workspace__branch\"\n            href=", "\n            target=\"_blank\">\n          ", "\n        </a>\n        @ <a\n            href=", "\n            target=\"_blank\">\n          ", "\n        </a>\n        by ", "\n        <span class=\"menu__repo__time\" title=\"", "\">\n          (", ")\n        </span>\n      </div>"]);
+
+  _templateObject4 = function _templateObject4() {
+    return data;
+  };
+
+  return data;
+}
+
 function _templateObject3() {
-  var data = _taggedTemplateLiteral(["\n      <div class=\"menu__repo__workspace menu__repo__value\">\n        <a\n            class=\"menu__repo__workspace__branch\"\n            href=", "\n            target=\"_blank\">\n          ", "\n        </a>\n        @ <a\n            href=", "\n            target=\"_blank\">\n          ", "\n        </a>\n        by ", "\n        <span class=\"menu__repo__time\" title=\"", "\">\n          (", ")\n        </span>\n      </div>"]);
+  var data = _taggedTemplateLiteral(["<div class=\"menu__repo__workspace\">\u2026</div>"]);
 
   _templateObject3 = function _templateObject3() {
     return data;
@@ -104011,10 +103944,10 @@ class RepoMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
       lastCommitDate = moment__WEBPACK_IMPORTED_MODULE_1___default()(lastCommit.commit_date + 'Z', moment__WEBPACK_IMPORTED_MODULE_1___default.a.ISO_8601);
       lastCommitAuthor = Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject2(), lastCommit.author.email, lastCommit.author.name);
     } else {
-      return '…';
+      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject3());
     }
 
-    return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject3(), menuState.repo.webUrlForBranch(menuState.repo.branch), menuState.repo.cleanBranch(menuState.repo.branch), menuState.repo.webUrlForCommit(menuState.repo.commits[0].sha), menuState.repo.commits[0].sha.substring(0, 6), lastCommitAuthor, lastCommitDate.format('D MMM YYYY, h:mm:ss a'), lastCommitDate.fromNow());
+    return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject4(), menuState.repo.webUrlForBranch(menuState.repo.branch), menuState.repo.cleanBranch(menuState.repo.branch), menuState.repo.webUrlForCommit(menuState.repo.commits[0].sha), menuState.repo.commits[0].sha.substring(0, 6), lastCommitAuthor, lastCommitDate.format('D MMM YYYY, h:mm:ss a'), lastCommitDate.fromNow());
   }
 
 }
@@ -104415,7 +104348,7 @@ function _templateObject3() {
 }
 
 function _templateObject2() {
-  var data = _taggedTemplateLiteral(["<div class=\"editor__loading editor__loading--small\" title=\"Loading...\"></div>"]);
+  var data = _taggedTemplateLiteral(["\n        <div class=\"menu__workspace\">\n          <div class=\"editor__loading editor__loading--small\" title=\"Loading...\"></div>\n        </div>"]);
 
   _templateObject2 = function _templateObject2() {
     return data;
@@ -104851,8 +104784,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "templateOptionColor", function() { return templateOptionColor; });
 /* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
 /* harmony import */ var _utility_dataType__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dataType */ "./source/utility/dataType.js");
-function _templateObject() {
+/* harmony import */ var _utility_color__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/color */ "./source/utility/color.js");
+function _templateObject2() {
   var data = _taggedTemplateLiteral(["\n    <div\n        class=\"selective__field__select__option ", "\"\n        data-locale=", "\n        data-value=", "\n        @click=", ">\n      <div\n          class=\"selective__field__select__dot\"\n          aria-label=", "\n          style=\"", " ", "\"></div>\n      <div>\n        ", "\n      </div>\n    </div>"]);
+
+  _templateObject2 = function _templateObject2() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["\n      <div\n          class=\"selective__field__select__option ", " tooltip--bottom-right\"\n          data-locale=", "\n          data-value=", "\n          data-tip=", "\n          @click=", ">\n        <div\n            class=\"selective__field__select__dot\"\n            aria-label=", "\n            style=\"", " ", "\"></div>\n      </div>"]);
 
   _templateObject = function _templateObject() {
     return data;
@@ -104869,9 +104813,12 @@ function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(
 
 
 
-var templateOptionColor = (locale, option, isSelected, classes, handlers) => {
-  isSelected = isSelected || false;
+var BACKGROUND_COLOR = new _utility_color__WEBPACK_IMPORTED_MODULE_2__["default"](255, 255, 255);
+var CONTRAST_THRESHOLD = 3;
+
+var templateOptionColor = (locale, option, display_options, classes, handlers) => {
   classes = classes || [];
+  var isSelected = display_options.isSelected || false;
 
   if (isSelected) {
     classes.push('selective__field__select__option--checked');
@@ -104883,10 +104830,12 @@ var templateOptionColor = (locale, option, isSelected, classes, handlers) => {
 
   if (option.color) {
     classes.push('selective__field__select__option--colored');
+    var isSmooth = option.smooth == true;
 
     if (_utility_dataType__WEBPACK_IMPORTED_MODULE_1__["default"].isArray(option.color)) {
       var colorBreakpoints = [];
-      var breakpoint = Math.floor(100 / option.color.length);
+      var numBreakpoints = isSmooth ? option.color.length - 1 : option.color.length;
+      var breakpoint = Math.floor(100 / numBreakpoints);
       colorBreakpoints.push("".concat(option.color[0], " 0%"));
       var lastColor = null;
 
@@ -104896,24 +104845,51 @@ var templateOptionColor = (locale, option, isSelected, classes, handlers) => {
           continue;
         }
 
-        colorBreakpoints.push("".concat(lastColor, " ").concat(breakpoint, "%"));
+        if (!isSmooth) {
+          colorBreakpoints.push("".concat(lastColor, " ").concat(breakpoint, "%"));
+        }
+
         colorBreakpoints.push("".concat(color, " ").concat(breakpoint, "%"));
         breakpoint += breakpoint;
         lastColor = color;
       }
 
-      colorBreakpoints.push("".concat(option.color[option.color.length - 1], " 100%"));
-      colorDotStyle = "background: linear-gradient(45deg, ".concat(colorBreakpoints.join(', '), ");"); // colorDotSelectedStyle = `box-shadow: 0px 0px 0px 2px #fff, 0px 0px 0px 3px ${option.color[0]};`
+      var orientation = option.orientation || 'vertical';
+      var orientationAngle = '90deg';
+
+      if (orientation == 'horizontal') {
+        orientationAngle = '0deg';
+      } else if (orientation == 'angled' || orientation == 'sloped') {
+        orientationAngle = '45deg';
+      }
+
+      if (!isSmooth) {
+        colorBreakpoints.push("".concat(option.color[option.color.length - 1], " 100%"));
+      }
+
+      colorDotStyle = "background: linear-gradient(".concat(orientationAngle, ", ").concat(colorBreakpoints.join(', '), ");"); // colorDotSelectedStyle = `box-shadow: 0px 0px 0px 2px #fff, 0px 0px 0px 3px ${option.color[0]};`
 
       colorAria = option.color.join(', ');
+      classes.push('selective__field__select__option--multiple');
     } else {
+      var _color = new _utility_color__WEBPACK_IMPORTED_MODULE_2__["default"](option.color);
+
+      if (_color.contrast(BACKGROUND_COLOR) < CONTRAST_THRESHOLD) {
+        classes.push('selective__field__select__option--low_contrast');
+      } else {
+        colorDotSelectedStyle = "box-shadow: 0px 0px 0px 2px #fff, 0px 0px 0px 4px ".concat(option.color, ";");
+      }
+
       colorDotStyle = "background-color: ".concat(option.color, ";");
-      colorDotSelectedStyle = "box-shadow: 0px 0px 0px 2px #fff, 0px 0px 0px 3px ".concat(option.color, ";");
       colorAria = option.color;
     }
   }
 
-  return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject(), classes.join(' '), locale || '', option.value || '', handlers.handleInput, colorAria, colorDotStyle, isSelected ? colorDotSelectedStyle : '', option.label || '(Empty)');
+  if (display_options.useSwatches) {
+    return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject(), classes.join(' '), locale || '', option.value || '', option.label || '(Empty)', handlers.handleInput, colorAria, colorDotStyle, isSelected ? colorDotSelectedStyle : '');
+  }
+
+  return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject2(), classes.join(' '), locale || '', option.value || '', handlers.handleInput, colorAria, colorDotStyle, isSelected ? colorDotSelectedStyle : '', option.label || '(Empty)');
 };
 
 
@@ -105591,6 +105567,89 @@ function base64toBlob(base64Data, contentType, sliceSize) {
   return new Blob(byteArrays, {
     type: contentType
   });
+}
+
+/***/ }),
+
+/***/ "./source/utility/color.js":
+/*!*********************************!*\
+  !*** ./source/utility/color.js ***!
+  \*********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Color; });
+/**
+ * Color modification utilities.
+ */
+var HEX_REGEX = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i;
+var HEX_SHORT_REGEX = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+class Color {
+  constructor(r, g, b) {
+    // Check for hex from constructor.
+    if (!g && !b) {
+      var rgb = Color.hexToRgb(r);
+      r = rgb.r;
+      g = rgb.g;
+      b = rgb.b;
+    }
+
+    this.r = r;
+    this.g = g;
+    this.b = b;
+  }
+
+  static colorValueToHex(c) {
+    var hex = c.toString(16);
+    return "".concat(hex.length == 1 ? "0" : "").concat(hex);
+  }
+
+  static hexToRgb(hex) {
+    // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+    hex = hex.replace(HEX_SHORT_REGEX, (_, r, g, b) => "".concat(r).concat(r).concat(g).concat(g).concat(b).concat(b));
+    var result = HEX_REGEX.exec(hex);
+
+    if (!result) {
+      return null;
+    }
+
+    return {
+      r: parseInt(result[1], 16),
+      g: parseInt(result[2], 16),
+      b: parseInt(result[3], 16)
+    };
+  }
+
+  get luminanace() {
+    // Formula: http://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
+    var normalized = [this.r, this.g, this.b].map(function (v) {
+      v /= 255;
+      return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+    });
+    return normalized[0] * 0.2126 + normalized[1] * 0.7152 + normalized[2] * 0.0722;
+  }
+
+  contrast(otherColor) {
+    var brightest = Math.max(this.luminanace, otherColor.luminanace);
+    var darkest = Math.min(this.luminanace, otherColor.luminanace);
+    return (brightest + 0.05) / (darkest + 0.05);
+  }
+
+  toInverse() {
+    return new this(255 - this.r, 255 - this.g, 255 - this.b);
+  }
+
+  toGrayscale() {
+    var grayscaleColorValue = r * 76 + g * 150 + b * 29 >> 8;
+    return new this(grayscaleColorValue, grayscaleColorValue, grayscaleColorValue);
+  }
+
+  toHex() {
+    return "#".concat(Color.colorValueToHex(this.r)).concat(Color.colorValueToHex(this.g)).concat(Color.colorValueToHex(this.b));
+  }
+
 }
 
 /***/ }),

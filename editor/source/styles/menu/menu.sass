@@ -1,10 +1,9 @@
 .menu
-  background-color: $ge-color-back
+  background-color: $ge-color-secondary-dark
   box-shadow: $ge-shadow-1
-  color: $ge-color-on-back
+  color: $ge-color-on-secondary-dark
   display: flex
   flex-flow: row
-  overflow-y: auto
   z-index: 10
 
 .menu__bar
@@ -24,7 +23,7 @@
 
 .menu__hamburger
   cursor: pointer
-  padding: $ge-pad
+  padding: $ge-space-medium
 
   &--hidden
     display: none
@@ -54,9 +53,26 @@
   &--hidden
     display: none
 
+.menu__header
+  align-items: center
+  background: $ge-color-secondary-dark
+  color: $ge-color-on-secondary-dark
+  display: flex
+  flex-flow: row
+  padding: $ge-space-medium
+
+  .material-icons
+    cursor: pointer
+
+.menu__header__icons
+  > *
+    margin-right: $ge-space-small
+
+    &:last-child
+      margin-right: 0
+
 .menu__section
-  border-bottom: $ge-border-size-thick solid $ge-color-back-light
-  padding: $ge-pad
+  border-bottom: $ge-border-size-large solid $ge-color-back-light
 
   &:last-child
     border-bottom: none
@@ -68,9 +84,11 @@
     text-decoration: none
 
 .menu__section__title
+  font-size: $ge-font-size-small
   font-weight: 700
+  opacity: $ge-color-opacity-subtle
   text-transform: uppercase
-  margin-bottom: $ge-pad
+  margin: $ge-space-medium
 
 .menu__sub_menu
   display: flex
@@ -79,7 +97,7 @@
 
 .menu__sub_menu__item
   cursor: pointer
-  margin: $ge-pad/2
+  margin: $ge-space-xsmall
   white-space: nowrap
 
   &:first-child

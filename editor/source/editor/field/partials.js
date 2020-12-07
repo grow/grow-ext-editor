@@ -256,9 +256,9 @@ export class PartialsField extends ListField {
       ${this.modalWindow.template}
       <div class="selective__actions">
         <button
-            class="selective__button selective__actions__add"
+            class="selective__button selective__button--add"
             @click=${this.handleTogglePartialList.bind(this)}>
-          ${this.config.addLabel || 'Add partial'}
+          ${this.config.add_label || 'Add partial'}
         </button>
       </div>`
   }

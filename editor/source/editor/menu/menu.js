@@ -31,7 +31,7 @@ export default class Menu extends MenuBase {
     super(config)
     this.editor = editor
     this.menuWindow = new MenuWindow()
-    // this.menuWindow.isOpen = true  // TODO: Remove
+    // this.menuWindow.isOpen = true  // For debugging menu overlay.
 
     // Create the copy page modal outside of the modal for the menu.
     // Otherwise, the copy modal is constrained to the menu modal.
@@ -308,11 +308,20 @@ export default class Menu extends MenuBase {
       this.menuWindow.contentRenderFunc = () => {
         return html`
           <div class="menu__contents">
-            <div class="menu__section">
-              <div class="menu__site">
-                <div class="menu__site__title">
-                  ${this._state.pod ? this._state.pod.title : ''}
-                </div>
+            <div class="menu__header">
+              <div class="menu__site__title">
+                ${this._state.pod ? this._state.pod.title : ''}
+              </div>
+              <div class="menu__header__icons">
+                <!-- TODO: Ability to dock the menu.
+                <span
+                    class="tooltip--bottom-left"
+                    data-tip="Dock the menu">
+                  <i class="material-icons" @click=${this.handleToggleMenu.bind(this)}>
+                    last_page
+                  </i>
+                </span>
+                -->
                 <i class="material-icons" @click=${this.handleToggleMenu.bind(this)} title="Close menu">
                   close
                 </i>

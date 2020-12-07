@@ -38,11 +38,11 @@ export default class RepoMenu extends MenuBase {
       lastCommitDate = moment(lastCommit.commit_date + 'Z', moment.ISO_8601)
       lastCommitAuthor = html`<a href="mailto:${lastCommit.author.email}">${lastCommit.author.name}</a>`
     } else {
-      return '…'
+      return html`<div class="menu__repo__workspace">…</div>`
     }
 
     return html`
-      <div class="menu__repo__workspace menu__repo__value">
+      <div class="menu__repo__workspace">
         <a
             class="menu__repo__workspace__branch"
             href=${menuState.repo.webUrlForBranch(menuState.repo.branch)}

@@ -1,28 +1,24 @@
 .menu__trees
+  margin: $ge-space-medium 0
   overflow-x: auto
 
   .material-icons
     font-size: $ge-font-size
-    margin-right: $ge-pad / 2
 
 .menu__tree__title
   cursor: pointer
   font-weight: 700
-  margin: $ge-pad 0
-  text-transform: uppercase
+  margin: 0 $ge-space-medium $ge-space-medium $ge-space-medium
 
 .menu__tree__tree
-  margin: $ge-pad*1.5 0 $ge-pad*1.5 $ge-pad
-
-.menu__tree__folder
-  margin: $ge-pad 0
+  margin: $ge-space-medium 0 $ge-space-medium $ge-space-large
 
 .menu__tree__label
-  padding: $ge-pad/2 $ge-pad
+  padding: $ge-space-small $ge-space-medium
 
 .menu__tree__folder__level
-  margin-bottom: $ge-pad
-  margin-left: $ge-pad
+  margin-bottom: $ge-space-medium
+  margin-left: $ge-space-medium
 
   .menu__tree__folder--collapsed &
     display: none
@@ -33,23 +29,38 @@
   display: flex
   flex-flow: row
   font-weight: 700
-  margin: $ge-pad/2 0
+  margin: $ge-space-medium 0
 
 .menu__tree__folder__file
   align-items: center
   display: flex
   flex-flow: row
-  padding: $ge-pad/2
+  gap: $ge-space-small
+  padding: $ge-space-small
   border: $ge-border-size solid transparent
   transition: all $ge-speed-faster ease-in-out
 
   &:hover
-    border-color: $ge-color-back-light
+    background-color: $ge-color-back-dark
+    border-color: transparent
+    // Hack around the background being indented.
+    box-shadow: -200px 0 0 $ge-color-back-dark
     cursor: pointer
 
   &--selected
-    background-color: $ge-color-back-dark
-    color: $ge-color-on-back-dark
+    background-color: $ge-color-secondary
+    // Hack around the background being indented.
+    box-shadow: -200px 0 0 $ge-color-secondary
+    color: $ge-color-on-secondary
+
+    &:hover
+      background-color: $ge-color-secondary
+      // Hack around the background being indented.
+      box-shadow: -200px 0 0 $ge-color-secondary
+      border-color: transparent
+
+    .icon--delete
+      color: $ge-color-on-secondary
 
   .material-icons
     .menu__trees &
@@ -60,13 +71,10 @@
   flex-grow: 1
 
 .menu__tree__new__template
-  padding: $ge-pad
+  padding: $ge-space-medium
 
 .menu__tree__new__template__option__screenshots
-  margin: $ge-pad/2 0
+  margin: $ge-space-small 0
 
   img
-    margin-right: $ge-pad/2
-
-.menu__tree__folder__actions
-  margin: $ge-pad 0
+    margin-right: $ge-space-small

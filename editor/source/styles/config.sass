@@ -14,10 +14,15 @@ $ge-color-on-secondary: #ffffff !default
 $ge-color-on-secondary-light: #ffffff !default
 $ge-color-on-secondary-dark: #ffffff !default
 
+// Border Sizes
+$ge-border-size: 1px !default
+$ge-border-size-large: 2px !default
+$ge-border-size-xlarge: 3px !default
+
 // Utility Colors
 $ge-color-back: #ffffff !default
-$ge-color-back-light: #e5e5e5 !default
-$ge-color-back-dark: darken($ge-color-back, 15%) !default
+$ge-color-back-light: #fafafa !default
+$ge-color-back-dark: #f5f5f5 !default
 $ge-color-error: #C71F25 !default
 $ge-color-warning: #D78528 !default
 $ge-color-back-highlight: #e1fc8d !default
@@ -25,7 +30,7 @@ $ge-color-back-oclude: rgba(0, 0, 0, .45) !default
 $ge-color-back-error: $ge-color-error !default
 $ge-color-back-warning: $ge-color-warning !default
 $ge-color-on-back: #000000 !default
-$ge-color-on-back-subtle: darken($ge-color-back, 25%) !default
+$ge-color-on-back-subtle: rgba($ge-color-on-back, .25) !default
 $ge-color-on-back-light: #000000 !default
 $ge-color-on-back-dark: lighten($ge-color-on-back-light, 15%) !default
 $ge-color-on-back-highlight: #000000 !default
@@ -38,17 +43,22 @@ $ge-color-border-light: rgba(0, 0, 0, 0.1) !default
 $ge-color-bar: rgba(0, 0, 0, 0.1) !default
 
 // Input colors
-$ge-color-field-back: rgba($ge-color-back-light, .5) !default
+$ge-color-field-back: $ge-color-back-dark !default
 $ge-color-field-back-alt: $ge-color-back !default
-$ge-color-on-field-back: $ge-color-on-back-light !default
+$ge-color-on-field-back: $ge-color-on-back-dark !default
 $ge-color-on-field-back-light: lighten($ge-color-on-field-back, 15%) !default
 $ge-color-on-field-back-alt: $ge-color-on-back !default
 $ge-color-on-field-back-alt-light: lighten($ge-color-on-field-back, 15%) !default
 
 // Select colors
 $ge-color-select-border: #000000 !default
+// Try to keep the contrast between background and this color > 4.
+$ge-color-select-contrast-border: transparentize($ge-color-select-border, .45) !default
 $ge-color-select-selected-border: $ge-color-secondary-dark !default
+$ge-color-select-selected-gap: $ge-border-size-large
+$ge-color-select-selected-border-size: $ge-border-size-large
 $ge-color-on-select-border: #ffffff !default
+$ge-color-on-select-contrast-border: #ffffff !default
 $ge-color-on-select-selected-border: $ge-color-on-secondary-dark !default
 
 // Icon Colors
@@ -56,6 +66,9 @@ $ge-color-icon-on-back: darken($ge-color-back, 25%) !default
 $ge-color-icon-on-back-selected: darken($ge-color-icon-on-back, 25%) !default
 $ge-color-icon-on-back-light: darken($ge-color-back-light, 25%) !default
 $ge-color-icon-on-back-light-selected: darken($ge-color-icon-on-back-light, 25%) !default
+
+// Subtle styling
+$ge-color-opacity-subtle: .5 !default
 
 // Speeds
 $ge-speed-faster: 75ms !default
@@ -66,14 +79,23 @@ $ge-speed-slower: 1500ms !default
 // Transistions
 $ge-timing-cubic-bezier: cubic-bezier(0, 1, 0.5, 1) !default
 
-// Padding unit
-$ge-pad: 10px !default
+// Spacing
+$ge-space-xxxsmall: 1px
+$ge-space-xxsmall: 2px
+$ge-space-xsmall: 4px
+$ge-space-small: 8px
+$ge-space-medium: 16px
+$ge-space-large: 32px
+$ge-space-xlarge: 64px
+$ge-space-xxlarge: 128px
+$ge-space-xxxlarge: 256px
 
 // Typography
-$ge-font-family: Roboto !default
+$ge-font-family: 'Nunito Sans', sans-serif !default
+$ge-font-family-text: 'Rubik', sans-serif !default
 $ge-font-family-mono: "Roboto Mono", monospace !default
 $ge-font-size: 14px !default
-$ge-font-size-small: $ge-font-size * .8 !default
+$ge-font-size-small: 12px !default
 $ge-font-size-icon: 18px !default
 $ge-font-size-icon-small: 14px !default
 $ge-font-size-icon-large: 22px !default
@@ -86,10 +108,6 @@ $ge-shadow-2: 0 3px 6px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24) !default
 $ge-shadow-3: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23) !default
 $ge-shadow-4: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22) !default
 $ge-shadow-5: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22) !default
-
-// Borders
-$ge-border-size: 1px !default
-$ge-border-size-thick: 2px !default
 
 // Focus rings
 $ge-focus-shadow-primary: 0px 0px 0px 2px rgba(66,133,244,0.15) !default
@@ -110,10 +128,8 @@ $ge-device-height: 731px !default
 $ge-edit-column-max-width: 750px !default
 $ge-edit-column-min-width: 250px !default
 
-$ge-header-height: 38px !default
-
 // Empty bar height
-$ge-bar-height: 10px !default
+$ge-bar-height: $ge-space-small !default
 
 // Loading
 $ge-loading-size: 50px !default
@@ -122,6 +138,9 @@ $ge-loading-border-size: 4px !default
 // Menu
 $ge-menu-column-width: clamp(250px, 400px, 35vw) !default
 $ge-menu-column-min-width: 20em !default
+
+// H@x0r
+$ge-menu-height: 50px !default
 
 =field-border
   border: $ge-border-size solid transparent
@@ -133,8 +152,12 @@ $ge-menu-column-min-width: 20em !default
   &:hover
     border: $ge-border-size solid $ge-color-border
 
-    &:focus
-      border: $ge-border-size solid $ge-color-primary
+=field-shadow
+  box-shadow: 0 $ge-border-size 0 0 $ge-color-secondary-dark
+
+  &:focus
+    border: $ge-border-size solid transparent
+    box-shadow: 0 $ge-border-size-large 0 0 $ge-color-secondary-dark
 
 =field-border-error
   border: $ge-border-size solid $ge-color-error
@@ -148,7 +171,7 @@ $ge-menu-column-min-width: 20em !default
 =field-control
   background: $ge-color-field-back
   color: $ge-color-on-field-back
-  padding: $ge-pad/2
+  padding: $ge-space-small
   width: 100%
 
 =field-color
@@ -156,7 +179,7 @@ $ge-menu-column-min-width: 20em !default
     color: $ge-color-primary
 
   &:hover
-    color: $ge-color-border
+    color: $ge-color-primary-light
 
     &:focus
       color: $ge-color-primary
@@ -167,7 +190,6 @@ $ge-menu-column-min-width: 20em !default
 
     &:hover
       color: $ge-color-primary
-
 =list-nesting
   .selective__list__item &,
   .selective__list__item .selective__list__item .selective__list__item &,

@@ -1,20 +1,20 @@
+.selective__field__type__list
+  > .selective__field__actions__wrapper
+    > .selective__field__label
+      font-size: $ge-font-size-small
+      opacity: $ge-color-opacity-subtle
+      text-transform: uppercase
+
+    > .selective__field__actions
+      +field-clickable
+
 .selective__list__item
   // background: $ge-color-field-back
   border: $ge-border-size solid $ge-color-border
   border-radius: $ge-radius-2
   // color: $ge-color-on-field-back
-  margin: $ge-pad/2 0
-  padding: $ge-pad
+  margin: $ge-space-medium 0
   transition: all $ge-speed-faster ease-in-out
-
-  // Alternate with nesting.
-  // +list-nesting
-  //   background-color: $ge-color-field-back-alt
-  //   color: $ge-color-on-field-back-alt
-  //
-  // +list-nesting-alt
-  //   background-color: $ge-color-field-back
-  //   color: $ge-color-on-field-back
 
   &:hover
     box-shadow: $ge-shadow-1
@@ -33,18 +33,21 @@
     display: flex
     flex-flow: row
     align-items: center
-    padding: $ge-pad 0
+    padding: $ge-space-small 0
 
     .selective__field
       flex-grow: 1
       margin: 0
 
   &--simple
-    padding: $ge-pad/4 0
+    padding: $ge-space-xsmall 0
+
+.selective__list__fields
+  margin: $ge-space-medium
 
 .selective__list__item__delete,
 .selective__list__item__drag
-  padding: 0 $ge-pad/2
+  padding: 0 $ge-space-small
 
   .material-icons
     +field-clickable
@@ -56,30 +59,33 @@
   flex-basis: 25%
   flex-grow: 1
   font-weight: bold
-  padding-right: $ge-pad
+  padding-right: $ge-space-medium
 
 .selective__list__item__preview
   +field-clickable
   flex-basis: 75%
   flex-shrink: 1
   flex-grow: 1
+  font-weight: 700
   overflow: hidden
   text-overflow: ellipsis
 
   img,
   video
-    margin: $ge-pad/2 0
+    margin: $ge-space-small 0
     max-height: 15vh
     max-width: 100%
 
 .selective__list__fields__label
   +field-clickable
+  background: $ge-color-field-back
+  color: $ge-color-on-field-back
   font-weight: 700
-  margin-bottom: $ge-pad
+  margin-bottom: $ge-space-medium
+  padding: $ge-space-medium
 
   &--empty
     background: $ge-color-bar
     border-radius: $ge-radius-2 $ge-radius-2 0 0
     height: $ge-bar-height
-    margin: (-$ge-pad) (-$ge-pad) $ge-pad (-$ge-pad)
-    width: calc(100% + #{$ge-pad*2})
+    padding: 0
