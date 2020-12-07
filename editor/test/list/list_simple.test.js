@@ -160,14 +160,14 @@ describe('list simple field', () => {
     await page.waitForSelector('.selective__field__type__text input[data-locale=en]')
 
     // Add the en value.
-    let addButton = await page.$('.selective__field__input .selective__actions button[data-locale=en]')
+    let addButton = await page.$('.selective__field__input .selective__field__actions button[data-locale=en]')
     await addButton.click()
     await page.click('.selective__list__item[data-locale=en]:last-child .selective__field__type__text input[data-locale=en]', {clickCount: 3})
     await page.keyboard.press('Backspace')
     await page.keyboard.type(newValueEn)
 
     // Add the es value.
-    addButton = await page.$('.selective__field__input .selective__actions button[data-locale=es]')
+    addButton = await page.$('.selective__field__input .selective__field__actions button[data-locale=es]')
     await addButton.click()
     await page.click('.selective__list__item[data-locale=es]:last-child .selective__field__type__text input[data-locale=en]', {clickCount: 3})
     await page.keyboard.press('Backspace')
