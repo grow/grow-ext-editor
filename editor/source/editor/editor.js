@@ -1240,8 +1240,8 @@ export default class Editor {
         <div class="editor__preview__header__label">
           Preview
         </div>
+        ${previewSizes}
         <div class="editor__preview__header__icons">
-          ${previewSizes}
           <span
               class="tooltip--top-left"
               aria-label="Toggle device view"
