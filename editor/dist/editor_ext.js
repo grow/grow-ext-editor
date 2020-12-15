@@ -100770,7 +100770,7 @@ function _templateObject8() {
 }
 
 function _templateObject7() {
-  var data = _taggedTemplateLiteral(["<video\n            data-serving-path=", "\n            @loadeddata=", "\n            playsinline disableremoteplayback muted autoplay loop>\n          <source src=\"", "\" />\n        </video>"]);
+  var data = _taggedTemplateLiteral(["<video\n            data-locale=", "\n            data-serving-path=", "\n            @loadeddata=", "\n            playsinline disableremoteplayback muted autoplay loop>\n          <source src=\"", "\" />\n        </video>"]);
 
   _templateObject7 = function _templateObject7() {
     return data;
@@ -100848,19 +100848,33 @@ function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(
 
 
 
-var VALID_MIME_TYPES = ['image/jpeg', 'image/png', 'image/svg+xml', 'image/webp', 'image/gif', 'image/avif'];
-var MIME_TO_TYPE = {
+var VALID_IMAGE_MIME_TYPES = ['image/avif', 'image/gif', 'image/jpeg', 'image/png', 'image/svg+xml', 'image/webp'];
+var VALID_VIDEO_MIME_TYPES = ['image/mp4', 'image/mov', 'image/webm'];
+var MIME_TYPE_TO_EXT = {
+  'image/avif': 'avif',
+  'image/gif': 'gif',
   'image/jpeg': 'jpg',
+  'image/mp4': 'mp4',
+  'image/mov': 'mov',
   'image/png': 'png',
   'image/svg+xml': 'svg',
-  'image/webp': 'webp',
-  'image/gif': 'gif',
-  'image/avif': 'avif'
+  'image/webm': 'webm',
+  'image/webp': 'webp'
+};
+var EXT_TO_MIME_TYPE = {
+  'avif': 'image/avif',
+  'gif': 'image/gif',
+  'jpeg': 'image/jpg',
+  'jpg': 'image/jpg',
+  'mp4': 'image/mp4',
+  'mov': 'image/mov',
+  'png': 'image/png',
+  'svg': 'image/svg+xml',
+  'webm': 'image/webm',
+  'webp': 'image/webp'
 };
 var IMAGE_HOVER_CLASS = 'selective__image--hover';
 var FILE_EXT_REGEX = /\.[0-9a-z]{1,5}$/i;
-var VIDEO_EXT = [// Video extensions.
-'mp4', 'webm'];
 
 var fractReduce = (numerator, denominator) => {
   // Reduce a fraction by finding the Greatest Common Divisor and dividing by it.
@@ -100916,7 +100930,10 @@ class ImageField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
     var validFiles = [];
 
     for (var file of files) {
-      if (VALID_MIME_TYPES.includes(file.type)) {
+      var isValidImageType = VALID_IMAGE_MIME_TYPES.includes(file.type);
+      var isValidVideoType = VALID_VIDEO_MIME_TYPES.includes(file.type);
+
+      if (isValidImageType || isValidVideoType) {
         validFiles.push(file);
       }
     }
@@ -101040,9 +101057,12 @@ class ImageField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
   }
 
   renderPreviewMedia(selective, data, locale, servingPath) {
-    for (var videoExt of VIDEO_EXT) {
-      if (servingPath.endsWith(".".concat(videoExt))) {
-        return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject7(), servingPath, this.handleVideoLoad.bind(this), servingPath);
+    for (var fileExt of Object.keys(EXT_TO_MIME_TYPE)) {
+      var extMimeType = EXT_TO_MIME_TYPE[fileExt];
+      var isVideoFile = VALID_VIDEO_MIME_TYPES.includes(extMimeType);
+
+      if (isVideoFile && servingPath.endsWith(".".concat(fileExt))) {
+        return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject7(), locale || '', servingPath, this.handleVideoLoad.bind(this), servingPath);
       }
     }
 
@@ -101575,7 +101595,10 @@ class MediaField extends selective_edit__WEBPACK_IMPORTED_MODULE_1__["Field"] {
     var validFiles = [];
 
     for (var file of files) {
-      if (VALID_MIME_TYPES.includes(file.type)) {
+      var isValidImageType = VALID_IMAGE_MIME_TYPES.includes(file.type);
+      var isValidVideoType = VALID_VIDEO_MIME_TYPES.includes(file.type);
+
+      if (isValidImageType || isValidVideoType) {
         validFiles.push(file);
       }
     }

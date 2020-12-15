@@ -190,7 +190,9 @@ export class MediaField extends Field {
     const files = evt.dataTransfer.files
     const validFiles = []
     for (const file of files) {
-      if (VALID_MIME_TYPES.includes(file.type)) {
+      const isValidImageType = VALID_IMAGE_MIME_TYPES.includes(file.type)
+      const isValidVideoType = VALID_VIDEO_MIME_TYPES.includes(file.type)
+      if (isValidImageType || isValidVideoType) {
         validFiles.push(file)
       }
     }

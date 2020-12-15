@@ -20,23 +20,44 @@ import {
 } from '../ui/file'
 
 
-const VALID_MIME_TYPES = [
-  'image/jpeg', 'image/png', 'image/svg+xml', 'image/webp', 'image/gif',
-  'image/avif']
-const MIME_TO_TYPE = {
+const VALID_IMAGE_MIME_TYPES = [
+  'image/avif',
+  'image/gif',
+  'image/jpeg',
+  'image/png',
+  'image/svg+xml',
+  'image/webp',
+]
+const VALID_VIDEO_MIME_TYPES = [
+  'image/mp4',
+  'image/mov',
+  'image/webm',
+]
+const MIME_TYPE_TO_EXT = {
+  'image/avif': 'avif',
+  'image/gif': 'gif',
   'image/jpeg': 'jpg',
+  'image/mp4': 'mp4',
+  'image/mov': 'mov',
   'image/png': 'png',
   'image/svg+xml': 'svg',
+  'image/webm': 'webm',
   'image/webp': 'webp',
-  'image/gif': 'gif',
-  'image/avif': 'avif',
+}
+const EXT_TO_MIME_TYPE = {
+  'avif': 'image/avif',
+  'gif': 'image/gif',
+  'jpeg': 'image/jpg',
+  'jpg': 'image/jpg',
+  'mp4': 'image/mp4',
+  'mov': 'image/mov',
+  'png': 'image/png',
+  'svg': 'image/svg+xml',
+  'webm': 'image/webm',
+  'webp': 'image/webp',
 }
 const IMAGE_HOVER_CLASS = 'selective__image--hover'
 const FILE_EXT_REGEX = /\.[0-9a-z]{1,5}$/i
-const VIDEO_EXT = [
-  // Video extensions.
-  'mp4', 'webm',
-]
 
 
 const fractReduce = (numerator,denominator) => {
@@ -93,7 +114,9 @@ export class ImageField extends Field {
     const files = evt.dataTransfer.files
     const validFiles = []
     for (const file of files) {
-      if (VALID_MIME_TYPES.includes(file.type)) {
+      const isValidImageType = VALID_IMAGE_MIME_TYPES.includes(file.type)
+      const isValidVideoType = VALID_VIDEO_MIME_TYPES.includes(file.type)
+      if (isValidImageType || isValidVideoType) {
         validFiles.push(file)
       }
     }
@@ -275,9 +298,12 @@ export class ImageField extends Field {
   }
 
   renderPreviewMedia(selective, data, locale, servingPath) {
-    for (const videoExt of VIDEO_EXT) {
-      if (servingPath.endsWith(`.${videoExt}`)) {
+    for (const fileExt of Object.keys(EXT_TO_MIME_TYPE)) {
+      const extMimeType = EXT_TO_MIME_TYPE[fileExt]
+      const isVideoFile = VALID_VIDEO_MIME_TYPES.includes(extMimeType)
+      if (isVideoFile && servingPath.endsWith(`.${fileExt}`)) {
         return html`<video
+            data-locale=${locale || ''}
             data-serving-path=${servingPath}
             @loadeddata=${this.handleVideoLoad.bind(this)}
             playsinline disableremoteplayback muted autoplay loop>
