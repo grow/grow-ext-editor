@@ -1804,6 +1804,24 @@ class ListField extends _field__WEBPACK_IMPORTED_MODULE_13__["default"] {
   }
 
   renderActionsFooter(selective, data, locale) {
+    var value = this.getValueForLocale(locale) || []; // Check if validation rules allow for adding more items.
+
+    var rules = this._validationRules.getRulesForZone();
+
+    var isDefaultLocale = !locale || locale == this.defaultLocale;
+    var allowMore = true;
+
+    for (var rule of rules) {
+      if (!rule.allowMore(value, locale, isDefaultLocale)) {
+        allowMore = false;
+        break;
+      }
+    }
+
+    if (!allowMore) {
+      return '';
+    }
+
     return Object(lit_html__WEBPACK_IMPORTED_MODULE_1__["html"])(_templateObject(), locale || '', evt => {
       this.handleAddItem(evt, selective);
     }, this.config.add_label || 'Add');
@@ -2877,6 +2895,12 @@ class ValidationRule extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_0_
 
   get type() {
     return this.config.type;
+  } // Validation rule can control whether the field allows more to be added.
+
+
+  allowMore(value, locale, isDefaultLocale) {
+    // Defaults to true to allow more.
+    return true;
   }
 
   validate(value, locale, isDefaultLocale) {
@@ -2885,8 +2909,33 @@ class ValidationRule extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_0_
 
 }
 class LengthValidationRule extends ValidationRule {
+  _cleanValue(value) {
+    if (!_utility_dataType__WEBPACK_IMPORTED_MODULE_2__["default"].isArray(value)) {
+      // Do not count whitespace.
+      value = value.trim();
+    }
+
+    return value;
+  }
+
   get message() {
     return super.message || 'Value needs to have the correct length.';
+  }
+
+  allowMore(value, locale, isDefaultLocale) {
+    // Allow for empty fields.
+    if (!value) {
+      return true;
+    }
+
+    value = this._cleanValue(value);
+    var configMax = this.config.max; // Do not allow more to be added when at max length.
+
+    if (configMax && value.length >= configMax.value) {
+      return false;
+    }
+
+    return true;
   }
 
   validate(value, locale, isDefaultLocale) {
@@ -2895,13 +2944,9 @@ class LengthValidationRule extends ValidationRule {
       return null;
     }
 
+    value = this._cleanValue(value);
     var configMax = this.config.max;
     var configMin = this.config.min;
-
-    if (!_utility_dataType__WEBPACK_IMPORTED_MODULE_2__["default"].isArray(value)) {
-      // Do not count whitespace.
-      value = value.trim();
-    }
 
     if (configMin && value.length < configMin.value) {
       return configMin.message || this.message;
@@ -3002,6 +3047,33 @@ class PatternValidationRule extends ValidationRule {
 
 }
 class RangeValidationRule extends ValidationRule {
+  allowMore(value, locale, isDefaultLocale) {
+    // Allow for empty fields.
+    if (!value) {
+      return true;
+    }
+
+    var configMax = this.config.max;
+
+    if (_utility_dataType__WEBPACK_IMPORTED_MODULE_2__["default"].isArray(value)) {
+      if (configMax && value.length >= configMax.value) {
+        return false;
+      }
+    } else {
+      value = parseFloat(value);
+
+      if (isNaN(value)) {
+        return true;
+      }
+
+      if (configMax && value >= configMax.value) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
   get message() {
     return super.message || 'Value needs to be a number in range.';
   }
