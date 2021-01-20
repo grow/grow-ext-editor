@@ -99010,6 +99010,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utility_storage__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../utility/storage */ "./source/utility/storage.js");
 /* harmony import */ var _utility_strings__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ../utility/strings */ "./source/utility/strings.js");
 /* harmony import */ var _utility_settings__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ../utility/settings */ "./source/utility/settings.js");
+/* harmony import */ var _parts_modal__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./parts/modal */ "./source/editor/parts/modal.js");
+function _templateObject16() {
+  var data = _taggedTemplateLiteral(["<div>\n        <div class=\"error__message\">", "</div>\n        <div class=\"error__details\">Debug information</div>\n        <div class=\"error__details__full\">\n          <textarea rows=\"10\">", "</textarea>\n        </div>\n      </div>"]);
+
+  _templateObject16 = function _templateObject16() {
+    return data;
+  };
+
+  return data;
+}
+
 function _templateObject15() {
   var data = _taggedTemplateLiteral(["<div class=\"editor__preview\">\n      <div class=\"editor__preview__header\">\n        <div class=\"editor__preview__header__icons\">\n          <span\n              class=\"tooltip--top\"\n              aria-label=\"Fullscreen preview\"\n              data-tip=\"Fullscreen preview\">\n            <i class=\"material-icons\" @click=", ">", "</i>\n          </span>\n        </div>\n        <div class=\"editor__preview__header__label\">\n          Preview\n        </div>\n        ", "\n        <div class=\"editor__preview__header__icons\">\n          <span\n              class=\"tooltip--top-left\"\n              aria-label=\"Toggle device view\"\n              data-tip=\"Toggle device view\">\n            <i class=\"material-icons\" @click=", ">devices</i>\n          </span>\n          <span\n              class=\"tooltip--top-left\"\n              aria-label=\"Rotate device view\"\n              data-tip=\"Rotate device view\">\n            <i class=\"material-icons editor--device-only\" @click=", ">screen_rotation</i>\n          </span>\n          <span\n              class=\"tooltip--top-left\"\n              aria-label=\"Preview in new window\"\n              data-tip=\"Preview in new window\">\n            <i class=\"material-icons\" @click=", ">open_in_new</i>\n          </span>\n        </div>\n      </div>\n      <div class=\"editor__preview__frame\">\n        <iframe src=\"", "\" @load=", "></iframe>\n      </div>\n    </div>"]);
 
@@ -99061,7 +99072,7 @@ function _templateObject11() {
 }
 
 function _templateObject10() {
-  var data = _taggedTemplateLiteral(["<div class=\"editor__edit\">\n      <div class=\"editor__edit__header\">\n        <div class=\"editor__edit__header__section\">\n          <div class=\"editor__edit__header__label\">\n            Page:\n          </div>\n          <div class=\"editor__edit__header__title\">\n            ", "\n          </div>\n        </div>\n        <div class=\"editor__edit__header__section\">\n          <div class=\"editor__edit__header__links\">\n            <span\n                class=\"tooltip--top\"\n                aria-label=\"Preview in editor\"\n                data-tip=\"Preview in editor\">\n              <i class=\"material-icons\" @click=", ">\n                https\n              </i>\n            </span>\n            <!-- TODO: Create ability for staging links.\n            <span\n                class=\"tooltip--top\"\n                aria-label=\"View in staging site\"\n                data-tip=\"View in staging site\">\n              <i class=\"material-icons\" @click=", ">\n                vpn_lock\n              </i>\n            </span>\n            -->\n            <!-- TODO: Create ability for public links.\n            <span\n                class=\"tooltip--top\"\n                aria-label=\"View on live site\"\n                data-tip=\"View on live site\">\n              <i class=\"material-icons\" @click=", ">\n                public\n              </i>\n            </span>\n            -->\n          </div>\n          ", "\n          ", "\n        </div>\n      </div>\n      <div class=\"editor__menu\">\n          <div class=\"editor__actions\">\n            <button class=\"editor__style__fields editor__button editor__button--item editor__button--secondary ", "\" @click=", " ?disabled=", ">Fields</button>\n            <button class=\"editor__style__raw editor__button editor__button--item editor__button--secondary ", "\" @click=", " ?disabled=", ">Source</button>\n            <button class=\"editor__style__raw editor__button editor__button--item editor__button--secondary ", "\" @click=", " ?disabled=", ">History</button>\n          </div>\n          <div class=\"editor__actions\">\n            ", "\n            <button\n                ?disabled=", "\n                class=\"editor__save editor__button editor__button--primary ", "\"\n                @click=", ">\n              ", "\n            </button>\n          </div>\n      </div>\n      <div class=\"editor__cards\">\n        ", "\n      </div>\n      <div class=\"editor__dev_tools\">\n        <div class=\"editor__dev_tools__section\">\n          <span\n              aria-label=\"Grow\"\n              data-tip=\"Grow editor\">\n            <img\n                class=\"editor__dev_tools__logo\n                \" src=\"/_grow/ext/editor/grow.svg\">\n          </span>\n        </div>\n        <div class=\"editor__dev_tools__section\">\n          <div>Developer tools:</div>\n          <div class=\"editor__dev_tools__icons\">\n            <span\n                class=\"tooltip--top editor__dev_tools__icon ", "\"\n                aria-label=\"Highlight auto fields\"\n                data-tip=\"Highlight auto fields\">\n              <i\n                  class=\"material-icons\"\n                  @click=", ">\n                assistant\n              </i>\n            </span>\n            <span\n                class=\"tooltip--top editor__dev_tools__icon ", "\"\n                aria-label=\"Deep link to fields\"\n                data-tip=\"Deep link to fields\">\n              <i\n                  class=\"material-icons\"\n                  @click=", ">\n                link\n              </i>\n            </span>\n            <span\n                class=\"tooltip--top editor__dev_tools__icon ", "\"\n                aria-label=\"Highlight dirty fields\"\n                data-tip=\"Highlight dirty fields\">\n              <i\n                  class=\"material-icons\"\n                  @click=", ">\n                change_history\n              </i>\n            </span>\n          </div>\n        </div>\n      </div>\n    </div>"]);
+  var data = _taggedTemplateLiteral(["<div class=\"editor__edit\">\n      <div class=\"editor__edit__header\">\n        <div class=\"editor__edit__header__section\">\n          <div class=\"editor__edit__header__label\">\n            Page:\n          </div>\n          <div class=\"editor__edit__header__title\">\n            ", "\n          </div>\n        </div>\n        <div class=\"editor__edit__header__section\">\n          <div class=\"editor__edit__header__links\">\n            <span\n                class=\"tooltip--top\"\n                aria-label=\"Preview in editor\"\n                data-tip=\"Preview in editor\">\n              <i class=\"material-icons\" @click=", ">\n                https\n              </i>\n            </span>\n            <!-- TODO: Create ability for staging links.\n            <span\n                class=\"tooltip--top\"\n                aria-label=\"View in staging site\"\n                data-tip=\"View in staging site\">\n              <i class=\"material-icons\" @click=", ">\n                vpn_lock\n              </i>\n            </span>\n            -->\n            <!-- TODO: Create ability for public links.\n            <span\n                class=\"tooltip--top\"\n                aria-label=\"View on live site\"\n                data-tip=\"View on live site\">\n              <i class=\"material-icons\" @click=", ">\n                public\n              </i>\n            </span>\n            -->\n          </div>\n          ", "\n          ", "\n        </div>\n      </div>\n      <div class=\"editor__menu\">\n          <div class=\"editor__actions\">\n            <button class=\"editor__style__fields editor__button editor__button--item editor__button--secondary ", "\" @click=", " ?disabled=", ">Fields</button>\n            <button class=\"editor__style__raw editor__button editor__button--item editor__button--secondary ", "\" @click=", " ?disabled=", ">Source</button>\n            <button class=\"editor__style__raw editor__button editor__button--item editor__button--secondary ", "\" @click=", " ?disabled=", ">History</button>\n          </div>\n          <div class=\"editor__actions\">\n            ", "\n            <button\n                ?disabled=", "\n                class=\"editor__save editor__button editor__button--primary ", "\"\n                @click=", ">\n              ", "\n            </button>\n          </div>\n      </div>\n      <div class=\"editor__cards\">\n        ", "\n      </div>\n      <div class=\"editor__dev_tools\">\n        <div class=\"editor__dev_tools__section\">\n          <span\n              aria-label=\"Grow\"\n              data-tip=\"Grow editor\">\n            <img\n                class=\"editor__dev_tools__logo\n                \" src=\"/_grow/ext/editor/grow.svg\">\n          </span>\n        </div>\n        <div class=\"editor__dev_tools__section\">\n          <div>Developer tools:</div>\n          <div class=\"editor__dev_tools__icons\">\n            <span\n                class=\"tooltip--top editor__dev_tools__icon ", "\"\n                aria-label=\"Highlight auto fields\"\n                data-tip=\"Highlight auto fields\">\n              <i\n                  class=\"material-icons\"\n                  @click=", ">\n                assistant\n              </i>\n            </span>\n            <span\n                class=\"tooltip--top editor__dev_tools__icon ", "\"\n                aria-label=\"Deep link to fields\"\n                data-tip=\"Deep link to fields\">\n              <i\n                  class=\"material-icons\"\n                  @click=", ">\n                link\n              </i>\n            </span>\n            <span\n                class=\"tooltip--top editor__dev_tools__icon ", "\"\n                aria-label=\"Highlight dirty fields\"\n                data-tip=\"Highlight dirty fields\">\n              <i\n                  class=\"material-icons\"\n                  @click=", ">\n                change_history\n              </i>\n            </span>\n          </div>\n        </div>\n      </div>\n    </div>\n    ", ""]);
 
   _templateObject10 = function _templateObject10() {
     return data;
@@ -99188,6 +99199,7 @@ function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(
 
 
 
+
 var CONTENT_KEY = '__content__';
 var CODEMIRROR_OPTIONS = {
   lineNumbers: true,
@@ -99278,9 +99290,10 @@ class Editor {
       this.load(this.podPath);
     } else {
       this.render();
-    } // TODO Start the autosave depending on local storage.
-    // this.startAutosave()
+    } // Global error modal
 
+
+    this.errorWindow = new _parts_modal__WEBPACK_IMPORTED_MODULE_21__["default"]('Error');
   }
 
   get device() {
@@ -99585,6 +99598,11 @@ class Editor {
   handleDeviceToggleClick(evt) {
     this.settingDeviceView.toggle();
     this.render();
+  }
+
+  handleErrorClose(evt) {
+    evt.stopPropagation();
+    this.errorWindow.close();
   }
 
   handleFieldsClick(evt) {
@@ -100115,7 +100133,7 @@ class Editor {
       localize = Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject8(), editor.handleLocalize.bind(editor), editor.handleLocalizeSelect.bind(editor), this.document.defaultLocale, this.settingLocale.value == this.document.defaultLocale, this.document.defaultLocale, Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["repeat"])(locales, locale => locale, (locale, index) => Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject9(), locale, this.settingLocale.value == locale, locale)));
     }
 
-    return Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject10(), Object(_utility_strings__WEBPACK_IMPORTED_MODULE_19__["textOrString"])(editor.document.data['$title'] || editor.document.data['$title@'], this._strings, this.loadStrings.bind(this)), editor.handleOpenInNew.bind(editor), editor.handleOpenStagingInNew.bind(editor), editor.handleOpenPublicInNew.bind(editor), localize, this.servingPath ? Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject11(), editor.handleFullScreenEditorClick.bind(editor), editor.settingFullScreenEditor.on || !this.servingPath ? 'fullscreen_exit' : 'fullscreen') : '', this.settingEditorPane.is('fields') ? 'editor__button--selected' : '', editor.handleFieldsClick.bind(editor), !editor.isClean, this.settingEditorPane.is('source') ? 'editor__button--selected' : '', editor.handleSourceClick.bind(editor), !editor.isClean, this.settingEditorPane.is('history') ? 'editor__button--selected' : '', editor.handleHistoryClick.bind(editor), !editor.isClean, isValid ? '' : Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject12()), saveDisabled, saveClasses.join(' '), editor.save.bind(editor), saveStatusLabel, editor.templatePane, this.settingHighlightGuess.on ? 'editor__dev_tools__icon--selected' : '', this.handleHighlightGuess.bind(this), this.settingHighlightLinked.on ? 'editor__dev_tools__icon--selected' : '', this.handleHighlightLinked.bind(this), this.settingHighlightDirty.on ? 'editor__dev_tools__icon--selected' : '', this.handleHighlightDirty.bind(this));
+    return Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject10(), Object(_utility_strings__WEBPACK_IMPORTED_MODULE_19__["textOrString"])(editor.document.data['$title'] || editor.document.data['$title@'], this._strings, this.loadStrings.bind(this)), editor.handleOpenInNew.bind(editor), editor.handleOpenStagingInNew.bind(editor), editor.handleOpenPublicInNew.bind(editor), localize, this.servingPath ? Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject11(), editor.handleFullScreenEditorClick.bind(editor), editor.settingFullScreenEditor.on || !this.servingPath ? 'fullscreen_exit' : 'fullscreen') : '', this.settingEditorPane.is('fields') ? 'editor__button--selected' : '', editor.handleFieldsClick.bind(editor), !editor.isClean, this.settingEditorPane.is('source') ? 'editor__button--selected' : '', editor.handleSourceClick.bind(editor), !editor.isClean, this.settingEditorPane.is('history') ? 'editor__button--selected' : '', editor.handleHistoryClick.bind(editor), !editor.isClean, isValid ? '' : Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject12()), saveDisabled, saveClasses.join(' '), editor.save.bind(editor), saveStatusLabel, editor.templatePane, this.settingHighlightGuess.on ? 'editor__dev_tools__icon--selected' : '', this.handleHighlightGuess.bind(this), this.settingHighlightLinked.on ? 'editor__dev_tools__icon--selected' : '', this.handleHighlightLinked.bind(this), this.settingHighlightDirty.on ? 'editor__dev_tools__icon--selected' : '', this.handleHighlightDirty.bind(this), this.errorWindow.template);
   }
 
   renderPreview(editor, selective) {
@@ -100207,6 +100225,25 @@ class Editor {
     };
 
     searchForLinkedField();
+  }
+
+  showError(title, message, details, button) {
+    this.errorWindow.title = title;
+
+    this.errorWindow.canClickToCloseFunc = () => false;
+
+    this.errorWindow.contentRenderFunc = () => {
+      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_6__["html"])(_templateObject16(), message, details);
+    };
+
+    this.errorWindow.actions = [];
+    this.errorWindow.addAction('Close', this.handleErrorClose.bind(this), false, true);
+
+    if (button) {
+      this.errorWindow.addAction(button.label, button.handleClick, true);
+    }
+
+    this.errorWindow.open();
   }
 
   startAutosave() {

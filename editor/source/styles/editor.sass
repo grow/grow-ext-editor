@@ -507,6 +507,21 @@
   text-overflow: ellipsis
   white-space: nowrap
 
+.error__message
+  margin: $ge-space-medium 0
+
+.error__details
+  font-size: $ge-font-size-small
+  margin: $ge-space-large 0 $ge-space-small 0
+
+.error__details__full
+  textarea
+    border: $ge-border-size solid $ge-color-border
+    font-family: $ge-font-family-mono
+    font-size: $ge-font-size-small
+    max-height: 20vh
+    width: 100%
+
 // Import theme for codemirror.
 @import 'codemirror/lib/codemirror.css'
 @import 'codemirror/theme/elegant.css'

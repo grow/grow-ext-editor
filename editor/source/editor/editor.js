@@ -32,6 +32,7 @@ import {
   SettingSet,
   SettingToggle,
 } from '../utility/settings'
+import ModalWindow from './parts/modal'
 
 
 const CONTENT_KEY = '__content__'
@@ -151,8 +152,8 @@ export default class Editor {
       this.render()
     }
 
-    // TODO Start the autosave depending on local storage.
-    // this.startAutosave()
+    // Global error modal
+    this.errorWindow = new ModalWindow('Error')
   }
 
   get device() {
@@ -540,6 +541,11 @@ export default class Editor {
   handleDeviceToggleClick(evt) {
     this.settingDeviceView.toggle()
     this.render()
+  }
+
+  handleErrorClose(evt) {
+    evt.stopPropagation()
+    this.errorWindow.close()
   }
 
   handleFieldsClick(evt) {
@@ -1203,7 +1209,8 @@ export default class Editor {
           </div>
         </div>
       </div>
-    </div>`
+    </div>
+    ${this.errorWindow.template}`
   }
 
   renderPreview(editor, selective) {
@@ -1345,6 +1352,30 @@ export default class Editor {
     }
 
     searchForLinkedField()
+  }
+
+  showError(title, message, details, button) {
+    this.errorWindow.title = title
+    this.errorWindow.canClickToCloseFunc = () => false
+
+    this.errorWindow.contentRenderFunc = () => {
+      return html`<div>
+        <div class="error__message">${message}</div>
+        <div class="error__details">Debug information</div>
+        <div class="error__details__full">
+          <textarea rows="10">${details}</textarea>
+        </div>
+      </div>`
+    }
+
+    this.errorWindow.actions = []
+    this.errorWindow.addAction(
+      'Close', this.handleErrorClose.bind(this), false, true)
+    if(button) {
+      this.errorWindow.addAction(button.label, button.handleClick, true)
+    }
+
+    this.errorWindow.open()
   }
 
   startAutosave() {
