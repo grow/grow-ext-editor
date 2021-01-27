@@ -213,7 +213,7 @@ export class PartialsField extends ListField {
         return html`
           <div class="selective__partials__gallery__preview">
             ${repeat(screenshotKeys, (key) => key, (key, index) => html`
-              ${repeat(Object.keys(screenshots[key]), (resolutionKey) => `${key}-${resolutionKey}`, (resolutionKey, index) => html`
+              ${repeat(Object.keys(screenshots[key]).sort(), (resolutionKey) => `${key}-${resolutionKey}`, (resolutionKey, index) => html`
                 <img src="${screenshots[key][resolutionKey].serving_url}">
               `)}
             `)}

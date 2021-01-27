@@ -102392,7 +102392,7 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListFie
           return '';
         }
 
-        return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject(), Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(screenshotKeys, key => key, (key, index) => Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject2(), Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(Object.keys(screenshots[key]), resolutionKey => "".concat(key, "-").concat(resolutionKey), (resolutionKey, index) => Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject3(), screenshots[key][resolutionKey].serving_url)))));
+        return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject(), Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(screenshotKeys, key => key, (key, index) => Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject2(), Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(Object.keys(screenshots[key]).sort(), resolutionKey => "".concat(key, "-").concat(resolutionKey), (resolutionKey, index) => Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject3(), screenshots[key][resolutionKey].serving_url)))));
       }; // Sort the partials by the label, not the key.
 
 
