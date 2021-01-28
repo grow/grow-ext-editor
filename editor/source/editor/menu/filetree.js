@@ -145,7 +145,7 @@ export default class FileTreeMenu extends MenuBase {
         },
         {
           'type': 'pattern',
-          'pattern': '^[a-z0-9-_\.]*$',
+          'pattern': '^[a-z0-9-_\./]*$',
           'message': 'File name can only contain lowercase alpha-numeric characters, . (period), _ (underscore) and - (dash).',
         },
         {
