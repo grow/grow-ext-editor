@@ -417,10 +417,11 @@ export default class Editor {
     document.addEventListener('selective.path.delete', (evt) => {
       const podPath = evt.detail['path']
 
-      this.api.deleteFile(podPath).then(() => {
+      this.api.deleteFile(podPath).then((response) => {
         if (this._podPaths) {
           this.loadPodPaths(true)
         }
+        this.listeners.trigger('delete.response', response)
       }).catch((error) => {
         console.error(error)
       })
@@ -431,10 +432,11 @@ export default class Editor {
       const collectionPath = evt.detail['collectionPath']
       const fileName = evt.detail['fileName']
       const template = evt.detail['template']
-      this.api.templateFile(collectionPath, template, fileName).then(() => {
+      this.api.templateFile(collectionPath, template, fileName).then((response) => {
         if (this._podPaths) {
           this.loadPodPaths(true)
         }
+        this.listeners.trigger('new.response', response)
       }).catch((error) => {
         console.error(error)
       })

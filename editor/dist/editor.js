@@ -99472,10 +99472,12 @@ class Editor {
 
     document.addEventListener('selective.path.delete', evt => {
       var podPath = evt.detail['path'];
-      this.api.deleteFile(podPath).then(() => {
+      this.api.deleteFile(podPath).then(response => {
         if (this._podPaths) {
           this.loadPodPaths(true);
         }
+
+        this.listeners.trigger('delete.response', response);
       }).catch(error => {
         console.error(error);
       });
@@ -99485,10 +99487,12 @@ class Editor {
       var collectionPath = evt.detail['collectionPath'];
       var fileName = evt.detail['fileName'];
       var template = evt.detail['template'];
-      this.api.templateFile(collectionPath, template, fileName).then(() => {
+      this.api.templateFile(collectionPath, template, fileName).then(response => {
         if (this._podPaths) {
           this.loadPodPaths(true);
         }
+
+        this.listeners.trigger('new.response', response);
       }).catch(error => {
         console.error(error);
       });
