@@ -100580,6 +100580,7 @@ var defaultFields = {
   'list': _field_list__WEBPACK_IMPORTED_MODULE_4__["EditorListField"],
   'markdown': _field_standard__WEBPACK_IMPORTED_MODULE_6__["MarkdownField"],
   'media': _field_media__WEBPACK_IMPORTED_MODULE_3__["MediaFileField"],
+  'number': _field_standard__WEBPACK_IMPORTED_MODULE_6__["NumberField"],
   'partials': _field_partials__WEBPACK_IMPORTED_MODULE_5__["PartialsField"],
   'select': _field_standard__WEBPACK_IMPORTED_MODULE_6__["SelectField"],
   'static': _field_constructor__WEBPACK_IMPORTED_MODULE_1__["StaticField"],
@@ -102430,7 +102431,7 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListFie
 /*!*****************************************!*\
   !*** ./source/editor/field/standard.js ***!
   \*****************************************/
-/*! exports provided: CheckboxField, DateField, DateTimeField, HtmlField, MarkdownField, SelectField, TextField, TextareaField */
+/*! exports provided: CheckboxField, DateField, DateTimeField, HtmlField, MarkdownField, NumberField, SelectField, TextField, TextareaField */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -102440,6 +102441,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DateTimeField", function() { return DateTimeField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HtmlField", function() { return HtmlField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MarkdownField", function() { return MarkdownField; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NumberField", function() { return NumberField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SelectField", function() { return SelectField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TextField", function() { return TextField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TextareaField", function() { return TextareaField; });
@@ -102451,8 +102453,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
 /* harmony import */ var _template_option__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../template/option */ "./source/editor/template/option.js");
 /* harmony import */ var _quill_image_upload__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../quill/image-upload */ "./source/editor/quill/image-upload.js");
-function _templateObject9() {
+function _templateObject10() {
   var data = _taggedTemplateLiteral(["\n      <textarea\n        class=\"", "\"\n        id=\"", "", "\"\n        rows=", "\n        placeholder=", "\n        data-locale=", "\n        @input=", ">", "</textarea>\n      ", ""]);
+
+  _templateObject10 = function _templateObject10() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject9() {
+  var data = _taggedTemplateLiteral(["\n      <input\n        class=\"", "\"\n        id=\"", "", "\"\n        placeholder=", "\n        data-locale=", "\n        @input=", "\n        value=", " />\n      ", ""]);
 
   _templateObject9 = function _templateObject9() {
     return data;
@@ -102462,7 +102474,7 @@ function _templateObject9() {
 }
 
 function _templateObject8() {
-  var data = _taggedTemplateLiteral(["\n      <input\n        class=\"", "\"\n        id=\"", "", "\"\n        placeholder=", "\n        data-locale=", "\n        @input=", "\n        value=", " />\n      ", ""]);
+  var data = _taggedTemplateLiteral(["\n        <textarea\n          class=\"", "\"\n          id=\"", "", "\"\n          rows=", "\n          placeholder=", "\n          data-locale=", "\n          @input=", ">", "</textarea>\n        ", ""]);
 
   _templateObject8 = function _templateObject8() {
     return data;
@@ -102472,7 +102484,7 @@ function _templateObject8() {
 }
 
 function _templateObject7() {
-  var data = _taggedTemplateLiteral(["\n        <textarea\n          class=\"", "\"\n          id=\"", "", "\"\n          rows=", "\n          placeholder=", "\n          data-locale=", "\n          @input=", ">", "</textarea>\n        ", ""]);
+  var data = _taggedTemplateLiteral(["\n      <div\n        class=\"", " selective__field__select__options\">\n        ", "\n      </div>\n      ", ""]);
 
   _templateObject7 = function _templateObject7() {
     return data;
@@ -102482,7 +102494,7 @@ function _templateObject7() {
 }
 
 function _templateObject6() {
-  var data = _taggedTemplateLiteral(["\n      <div\n        class=\"", " selective__field__select__options\">\n        ", "\n      </div>\n      ", ""]);
+  var data = _taggedTemplateLiteral(["\n      <input\n        type=\"number\"\n        class=\"", "\"\n        id=\"", "", "\"\n        placeholder=", "\n        data-locale=", "\n        @input=", "\n        value=", " />\n      ", ""]);
 
   _templateObject6 = function _templateObject6() {
     return data;
@@ -102832,6 +102844,24 @@ class MarkdownField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"]
   }
 
 }
+class NumberField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig);
+    this.fieldType = 'number';
+  }
+
+  handleInput(evt) {
+    var value = parseFloat(evt.target.value) || undefined;
+    var locale = evt.target.dataset.locale;
+    this.setValueForLocale(locale, value);
+  }
+
+  renderInput(selective, data, locale) {
+    var value = this.getValueForLocale(locale) || '';
+    return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject6(), this.getClassesForInput(locale), this.uid, locale || '', this.config.placeholder || '', locale || '', this.handleInput.bind(this), value, this.renderErrors(selective, data));
+  }
+
+}
 class SelectField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
   constructor(ruleTypes, config, extendedConfig) {
     super(ruleTypes, config, extendedConfig);
@@ -102909,7 +102939,7 @@ class SelectField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
       return value == optionValue;
     };
 
-    return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject6(), this.getClassesForInput(locale), Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(options, option => option.value, (option, index) => Object(_template_option__WEBPACK_IMPORTED_MODULE_5__["templateOptionColor"])(locale, option, {
+    return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject7(), this.getClassesForInput(locale), Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(options, option => option.value, (option, index) => Object(_template_option__WEBPACK_IMPORTED_MODULE_5__["templateOptionColor"])(locale, option, {
       useSwatches: this.config.use_swatches == true,
       isSelected: isOptionSelected(option.value)
     }, [], {
@@ -102959,10 +102989,10 @@ class TextField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"] {
     }
 
     if (this._switched[locale]) {
-      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject7(), this.getClassesForInput(locale), this.uid, locale || '', this.config.rows || 6, this.config.placeholder || '', locale || '', this.handleInput.bind(this), value, this.renderErrors(selective, data));
+      return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject8(), this.getClassesForInput(locale), this.uid, locale || '', this.config.rows || 6, this.config.placeholder || '', locale || '', this.handleInput.bind(this), value, this.renderErrors(selective, data));
     }
 
-    return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject8(), this.getClassesForInput(locale), this.uid, locale || '', this.config.placeholder || '', locale || '', this.handleInput.bind(this), value, this.renderErrors(selective, data));
+    return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject9(), this.getClassesForInput(locale), this.uid, locale || '', this.config.placeholder || '', locale || '', this.handleInput.bind(this), value, this.renderErrors(selective, data));
   }
 
 }
@@ -102974,7 +103004,7 @@ class TextareaField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"]
 
   renderInput(selective, data, locale) {
     var value = this.getValueForLocale(locale) || '';
-    return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject9(), this.getClassesForInput(locale), this.uid, locale || '', this.config.rows || 6, this.config.placeholder || '', locale || '', this.handleInput.bind(this), value, this.renderErrors(selective, data));
+    return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject10(), this.getClassesForInput(locale), this.uid, locale || '', this.config.rows || 6, this.config.placeholder || '', locale || '', this.handleInput.bind(this), value, this.renderErrors(selective, data));
   }
 
 }
