@@ -310,6 +310,28 @@ export class MarkdownField extends Field {
   }
 }
 
+export class NumberField extends Field {
+  constructor(ruleTypes, config, extendedConfig) {
+    super(ruleTypes, config, extendedConfig)
+    this.fieldType = 'number'
+  }
+
+  renderInput(selective, data, locale) {
+    const value = this.getValueForLocale(locale) || ''
+
+    return html`
+      <input
+        type="number"
+        class="${this.getClassesForInput(locale)}"
+        id="${this.uid}${locale || ''}"
+        placeholder=${this.config.placeholder || ''}
+        data-locale=${locale || ''}
+        @input=${this.handleInput.bind(this)}
+        value=${value} />
+      ${this.renderErrors(selective, data)}`
+  }
+}
+
 export class SelectField extends Field {
   constructor(ruleTypes, config, extendedConfig) {
     super(ruleTypes, config, extendedConfig)
