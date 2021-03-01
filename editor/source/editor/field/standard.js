@@ -316,6 +316,12 @@ export class NumberField extends Field {
     this.fieldType = 'number'
   }
 
+  handleInput(evt) {
+    const value = parseFloat(evt.target.value) || undefined
+    const locale = evt.target.dataset.locale
+    this.setValueForLocale(locale, value)
+  }
+
   renderInput(selective, data, locale) {
     const value = this.getValueForLocale(locale) || ''
 
