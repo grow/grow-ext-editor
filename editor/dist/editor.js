@@ -3714,7 +3714,7 @@ var findPreviewValue = (mainConfig, subConfig, value, defaultValue) => {
 };
 
 var templatePreviewValue = (previewValue, previewType, defaultValue) => {
-  if (previewType == 'image' && previewValue) {
+  if (previewType == 'image' && typeof previewValue === 'string') {
     if (previewValue.startsWith('http') || previewValue.startsWith('//')) {
       for (var videoExt of VIDEO_EXT) {
         if (previewValue.endsWith(".".concat(videoExt))) {
