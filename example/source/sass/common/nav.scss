@@ -15,11 +15,11 @@
       }
 
       &:hover {
-        border-bottom: 2px solid $color-2;
+        border-bottom: 2px solid var(--color-2;
       }
 
       &--active {
-        border-bottom: 2px solid $color-1;
+        border-bottom: 2px solid var(--color-1;
       }
     }
   }
