@@ -575,7 +575,11 @@ class PodApi(object):
         doc = self.pod.get_doc(pod_path)
         if self._has_post('raw_front_matter'):
             front_matter_content = self._get_post('raw_front_matter')
-            front_matter_content = front_matter_content.encode('utf-8')
+            try:
+                # Decode if it is a bytes like object.
+                front_matter_content = front_matter_content.decode('utf-8')
+            except (UnicodeDecodeError, AttributeError):
+                pass
             doc.format.front_matter.update_raw_front_matter(front_matter_content)
             doc.write()
         elif self._has_post('front_matter'):
