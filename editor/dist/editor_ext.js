@@ -86,16 +86,16 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "../../../selective-edit/js/mixin/config.js":
-/*!******************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/js/mixin/config.js ***!
-  \******************************************************************/
+/***/ "../../../selective-edit-js/js/mixin/config.js":
+/*!*********************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit-js/js/mixin/config.js ***!
+  \*********************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utility/config */ "../../../selective-edit/js/utility/config.js");
+/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utility/config */ "../../../selective-edit-js/js/utility/config.js");
 /**
  * Config mixin for adding configuration options to a class.
  */
@@ -121,16 +121,16 @@ var ConfigMixin = superclass => class extends superclass {
 
 /***/ }),
 
-/***/ "../../../selective-edit/js/mixin/uid.js":
-/*!***************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/js/mixin/uid.js ***!
-  \***************************************************************/
+/***/ "../../../selective-edit-js/js/mixin/uid.js":
+/*!******************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit-js/js/mixin/uid.js ***!
+  \******************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _utility_uuid__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utility/uuid */ "../../../selective-edit/js/utility/uuid.js");
+/* harmony import */ var _utility_uuid__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utility/uuid */ "../../../selective-edit-js/js/utility/uuid.js");
 /**
  * UID mixin for adding unique id to a class.
  */
@@ -151,49 +151,49 @@ var UidMixin = superclass => class extends superclass {
 
 /***/ }),
 
-/***/ "../../../selective-edit/js/selective.js":
-/*!***************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/js/selective.js ***!
-  \***************************************************************/
+/***/ "../../../selective-edit-js/js/selective.js":
+/*!******************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit-js/js/selective.js ***!
+  \******************************************************************/
 /*! exports provided: default, AutoFields, Field, Fields, GroupField, LengthValidationRule, ListField, ListItem, MatchValidationRule, PatternValidationRule, RangeValidationRule, RequiredValidationRule, UI, VariantField, ValidationRule, ValidationRules, autoConfig, autoDeepObject, directive, html, repeat, render, unsafeHTML */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lit-html */ "../../../selective-edit/node_modules/lit-html/lit-html.js");
+/* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lit-html */ "../../../selective-edit-js/node_modules/lit-html/lit-html.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "directive", function() { return lit_html__WEBPACK_IMPORTED_MODULE_0__["directive"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "html", function() { return lit_html__WEBPACK_IMPORTED_MODULE_0__["html"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return lit_html__WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony import */ var lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lit-html/directives/repeat */ "../../../selective-edit/node_modules/lit-html/directives/repeat.js");
+/* harmony import */ var lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lit-html/directives/repeat */ "../../../selective-edit-js/node_modules/lit-html/directives/repeat.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "repeat", function() { return lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_1__["repeat"]; });
 
-/* harmony import */ var lit_html_directives_unsafe_html__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lit-html/directives/unsafe-html */ "../../../selective-edit/node_modules/lit-html/directives/unsafe-html.js");
+/* harmony import */ var lit_html_directives_unsafe_html__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lit-html/directives/unsafe-html */ "../../../selective-edit-js/node_modules/lit-html/directives/unsafe-html.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "unsafeHTML", function() { return lit_html_directives_unsafe_html__WEBPACK_IMPORTED_MODULE_2__["unsafeHTML"]; });
 
-/* harmony import */ var _selective_editor__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./selective/editor */ "../../../selective-edit/js/selective/editor.js");
-/* harmony import */ var _selective_field_field__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./selective/field/field */ "../../../selective-edit/js/selective/field/field.js");
+/* harmony import */ var _selective_editor__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./selective/editor */ "../../../selective-edit-js/js/selective/editor.js");
+/* harmony import */ var _selective_field_field__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./selective/field/field */ "../../../selective-edit-js/js/selective/field/field.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Field", function() { return _selective_field_field__WEBPACK_IMPORTED_MODULE_4__["default"]; });
 
-/* harmony import */ var _selective_ui_ui__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./selective/ui/ui */ "../../../selective-edit/js/selective/ui/ui.js");
+/* harmony import */ var _selective_ui_ui__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./selective/ui/ui */ "../../../selective-edit-js/js/selective/ui/ui.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "UI", function() { return _selective_ui_ui__WEBPACK_IMPORTED_MODULE_5__["default"]; });
 
-/* harmony import */ var _selective_field_list__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./selective/field/list */ "../../../selective-edit/js/selective/field/list.js");
+/* harmony import */ var _selective_field_list__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./selective/field/list */ "../../../selective-edit-js/js/selective/field/list.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ListField", function() { return _selective_field_list__WEBPACK_IMPORTED_MODULE_6__["ListField"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ListItem", function() { return _selective_field_list__WEBPACK_IMPORTED_MODULE_6__["ListItem"]; });
 
-/* harmony import */ var _selective_field_structure__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./selective/field/structure */ "../../../selective-edit/js/selective/field/structure.js");
+/* harmony import */ var _selective_field_structure__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./selective/field/structure */ "../../../selective-edit-js/js/selective/field/structure.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "GroupField", function() { return _selective_field_structure__WEBPACK_IMPORTED_MODULE_7__["GroupField"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "VariantField", function() { return _selective_field_structure__WEBPACK_IMPORTED_MODULE_7__["VariantField"]; });
 
-/* harmony import */ var _selective_fields_fields__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./selective/fields/fields */ "../../../selective-edit/js/selective/fields/fields.js");
+/* harmony import */ var _selective_fields_fields__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./selective/fields/fields */ "../../../selective-edit-js/js/selective/fields/fields.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Fields", function() { return _selective_fields_fields__WEBPACK_IMPORTED_MODULE_8__["default"]; });
 
-/* harmony import */ var _selective_validation_rules__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./selective/validation/rules */ "../../../selective-edit/js/selective/validation/rules.js");
+/* harmony import */ var _selective_validation_rules__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./selective/validation/rules */ "../../../selective-edit-js/js/selective/validation/rules.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ValidationRules", function() { return _selective_validation_rules__WEBPACK_IMPORTED_MODULE_9__["default"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LengthValidationRule", function() { return _selective_validation_rules__WEBPACK_IMPORTED_MODULE_9__["LengthValidationRule"]; });
@@ -208,13 +208,13 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ValidationRule", function() { return _selective_validation_rules__WEBPACK_IMPORTED_MODULE_9__["ValidationRule"]; });
 
-/* harmony import */ var _selective_autoFields__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./selective/autoFields */ "../../../selective-edit/js/selective/autoFields.js");
+/* harmony import */ var _selective_autoFields__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./selective/autoFields */ "../../../selective-edit-js/js/selective/autoFields.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AutoFields", function() { return _selective_autoFields__WEBPACK_IMPORTED_MODULE_10__["default"]; });
 
-/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./utility/config */ "../../../selective-edit/js/utility/config.js");
+/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./utility/config */ "../../../selective-edit-js/js/utility/config.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "autoConfig", function() { return _utility_config__WEBPACK_IMPORTED_MODULE_11__["autoConfig"]; });
 
-/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
+/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./utility/deepObject */ "../../../selective-edit-js/js/utility/deepObject.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "autoDeepObject", function() { return _utility_deepObject__WEBPACK_IMPORTED_MODULE_12__["autoDeepObject"]; });
 
 /**
@@ -240,20 +240,20 @@ var Selective = _selective_editor__WEBPACK_IMPORTED_MODULE_3__["default"];
 
 /***/ }),
 
-/***/ "../../../selective-edit/js/selective/autoFields.js":
-/*!**************************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/js/selective/autoFields.js ***!
-  \**************************************************************************/
+/***/ "../../../selective-edit-js/js/selective/autoFields.js":
+/*!*****************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit-js/js/selective/autoFields.js ***!
+  \*****************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return AutoFields; });
-/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../mixin/config */ "../../../selective-edit/js/mixin/config.js");
-/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utility/compose */ "../../../selective-edit/js/utility/compose.js");
-/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
-/* harmony import */ var _utility_dataType__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utility/dataType */ "../../../selective-edit/js/utility/dataType.js");
+/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../mixin/config */ "../../../selective-edit-js/js/mixin/config.js");
+/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utility/compose */ "../../../selective-edit-js/js/utility/compose.js");
+/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utility/deepObject */ "../../../selective-edit-js/js/utility/deepObject.js");
+/* harmony import */ var _utility_dataType__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utility/dataType */ "../../../selective-edit-js/js/utility/dataType.js");
 /**
  * Automatically guess the field configuration from data.
  */
@@ -402,23 +402,23 @@ class AutoFields extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_1__["c
 
 /***/ }),
 
-/***/ "../../../selective-edit/js/selective/editor.js":
-/*!**********************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/js/selective/editor.js ***!
-  \**********************************************************************/
+/***/ "../../../selective-edit-js/js/selective/editor.js":
+/*!*************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit-js/js/selective/editor.js ***!
+  \*************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Editor; });
-/* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lit-html */ "../../../selective-edit/node_modules/lit-html/lit-html.js");
-/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../mixin/config */ "../../../selective-edit/js/mixin/config.js");
-/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
-/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utility/compose */ "../../../selective-edit/js/utility/compose.js");
-/* harmony import */ var _utility_classes__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utility/classes */ "../../../selective-edit/js/utility/classes.js");
-/* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./autoFields */ "../../../selective-edit/js/selective/autoFields.js");
-/* harmony import */ var _fields_fields__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./fields/fields */ "../../../selective-edit/js/selective/fields/fields.js");
+/* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lit-html */ "../../../selective-edit-js/node_modules/lit-html/lit-html.js");
+/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../mixin/config */ "../../../selective-edit-js/js/mixin/config.js");
+/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utility/deepObject */ "../../../selective-edit-js/js/utility/deepObject.js");
+/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utility/compose */ "../../../selective-edit-js/js/utility/compose.js");
+/* harmony import */ var _utility_classes__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utility/classes */ "../../../selective-edit-js/js/utility/classes.js");
+/* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./autoFields */ "../../../selective-edit-js/js/selective/autoFields.js");
+/* harmony import */ var _fields_fields__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./fields/fields */ "../../../selective-edit-js/js/selective/fields/fields.js");
 function _templateObject() {
   var data = _taggedTemplateLiteral(["<div class=\"selective\">\n      ", "\n    </div>"]);
 
@@ -589,30 +589,30 @@ class Editor extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["compo
 
 /***/ }),
 
-/***/ "../../../selective-edit/js/selective/field/field.js":
-/*!***************************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/js/selective/field/field.js ***!
-  \***************************************************************************/
+/***/ "../../../selective-edit-js/js/selective/field/field.js":
+/*!******************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit-js/js/selective/field/field.js ***!
+  \******************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Field; });
-/* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! deep-extend */ "../../../selective-edit/node_modules/deep-extend/lib/deep-extend.js");
+/* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! deep-extend */ "../../../selective-edit-js/node_modules/deep-extend/lib/deep-extend.js");
 /* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(deep_extend__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var json_stable_stringify__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! json-stable-stringify */ "../../../selective-edit/node_modules/json-stable-stringify/index.js");
+/* harmony import */ var json_stable_stringify__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! json-stable-stringify */ "../../../selective-edit-js/node_modules/json-stable-stringify/index.js");
 /* harmony import */ var json_stable_stringify__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(json_stable_stringify__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lit-html */ "../../../selective-edit/node_modules/lit-html/lit-html.js");
-/* harmony import */ var lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lit-html/directives/repeat */ "../../../selective-edit/node_modules/lit-html/directives/repeat.js");
-/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../utility/compose */ "../../../selective-edit/js/utility/compose.js");
-/* harmony import */ var _utility_dataType__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../utility/dataType */ "../../../selective-edit/js/utility/dataType.js");
-/* harmony import */ var _utility_listeners__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../utility/listeners */ "../../../selective-edit/js/utility/listeners.js");
-/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
-/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../mixin/config */ "../../../selective-edit/js/mixin/config.js");
-/* harmony import */ var _mixin_uid__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../mixin/uid */ "../../../selective-edit/js/mixin/uid.js");
-/* harmony import */ var _validation_errors__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../validation/errors */ "../../../selective-edit/js/selective/validation/errors.js");
-/* harmony import */ var _validation_rules__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../validation/rules */ "../../../selective-edit/js/selective/validation/rules.js");
+/* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lit-html */ "../../../selective-edit-js/node_modules/lit-html/lit-html.js");
+/* harmony import */ var lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lit-html/directives/repeat */ "../../../selective-edit-js/node_modules/lit-html/directives/repeat.js");
+/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../utility/compose */ "../../../selective-edit-js/js/utility/compose.js");
+/* harmony import */ var _utility_dataType__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../utility/dataType */ "../../../selective-edit-js/js/utility/dataType.js");
+/* harmony import */ var _utility_listeners__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../utility/listeners */ "../../../selective-edit-js/js/utility/listeners.js");
+/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../utility/deepObject */ "../../../selective-edit-js/js/utility/deepObject.js");
+/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../mixin/config */ "../../../selective-edit-js/js/mixin/config.js");
+/* harmony import */ var _mixin_uid__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../mixin/uid */ "../../../selective-edit-js/js/mixin/uid.js");
+/* harmony import */ var _validation_errors__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../validation/errors */ "../../../selective-edit-js/js/selective/validation/errors.js");
+/* harmony import */ var _validation_rules__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../validation/rules */ "../../../selective-edit-js/js/selective/validation/rules.js");
 function _templateObject14() {
   var data = _taggedTemplateLiteral(["\n      <div\n          class=", "\n          data-field-type=\"", "\"\n          data-field-full-key=\"", "\">\n        ", "\n      </div>"]);
 
@@ -1278,10 +1278,10 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compos
 
 /***/ }),
 
-/***/ "../../../selective-edit/js/selective/field/list.js":
-/*!**************************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/js/selective/field/list.js ***!
-  \**************************************************************************/
+/***/ "../../../selective-edit-js/js/selective/field/list.js":
+/*!*****************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit-js/js/selective/field/list.js ***!
+  \*****************************************************************************/
 /*! exports provided: ListField, ListItem */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1289,21 +1289,21 @@ class Field extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_4__["compos
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ListField", function() { return ListField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ListItem", function() { return ListItem; });
-/* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! deep-extend */ "../../../selective-edit/node_modules/deep-extend/lib/deep-extend.js");
+/* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! deep-extend */ "../../../selective-edit-js/node_modules/deep-extend/lib/deep-extend.js");
 /* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(deep_extend__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lit-html */ "../../../selective-edit/node_modules/lit-html/lit-html.js");
-/* harmony import */ var lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lit-html/directives/repeat */ "../../../selective-edit/node_modules/lit-html/directives/repeat.js");
-/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utility/compose */ "../../../selective-edit/js/utility/compose.js");
-/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../mixin/config */ "../../../selective-edit/js/mixin/config.js");
-/* harmony import */ var _mixin_uid__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../mixin/uid */ "../../../selective-edit/js/mixin/uid.js");
-/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../utility/config */ "../../../selective-edit/js/utility/config.js");
-/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../utility/dom */ "../../../selective-edit/js/utility/dom.js");
-/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
-/* harmony import */ var _utility_preview__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../utility/preview */ "../../../selective-edit/js/utility/preview.js");
-/* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../autoFields */ "../../../selective-edit/js/selective/autoFields.js");
-/* harmony import */ var _fields_fields__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../fields/fields */ "../../../selective-edit/js/selective/fields/fields.js");
-/* harmony import */ var _ui_sortable__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../ui/sortable */ "../../../selective-edit/js/selective/ui/sortable.js");
-/* harmony import */ var _field__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./field */ "../../../selective-edit/js/selective/field/field.js");
+/* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lit-html */ "../../../selective-edit-js/node_modules/lit-html/lit-html.js");
+/* harmony import */ var lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lit-html/directives/repeat */ "../../../selective-edit-js/node_modules/lit-html/directives/repeat.js");
+/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utility/compose */ "../../../selective-edit-js/js/utility/compose.js");
+/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../mixin/config */ "../../../selective-edit-js/js/mixin/config.js");
+/* harmony import */ var _mixin_uid__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../mixin/uid */ "../../../selective-edit-js/js/mixin/uid.js");
+/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../utility/config */ "../../../selective-edit-js/js/utility/config.js");
+/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../utility/dom */ "../../../selective-edit-js/js/utility/dom.js");
+/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../utility/deepObject */ "../../../selective-edit-js/js/utility/deepObject.js");
+/* harmony import */ var _utility_preview__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../utility/preview */ "../../../selective-edit-js/js/utility/preview.js");
+/* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../autoFields */ "../../../selective-edit-js/js/selective/autoFields.js");
+/* harmony import */ var _fields_fields__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../fields/fields */ "../../../selective-edit-js/js/selective/fields/fields.js");
+/* harmony import */ var _ui_sortable__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../ui/sortable */ "../../../selective-edit-js/js/selective/ui/sortable.js");
+/* harmony import */ var _field__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./field */ "../../../selective-edit-js/js/selective/field/field.js");
 function _templateObject11() {
   var data = _taggedTemplateLiteral(["<div\n        class=\"selective__list__item__preview\"\n        data-item-uid=", "\n        data-locale=", "\n        @click=", ">\n      ", "\n    </div>"]);
 
@@ -1948,10 +1948,10 @@ class ListItem extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["com
 
 /***/ }),
 
-/***/ "../../../selective-edit/js/selective/field/structure.js":
-/*!*******************************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/js/selective/field/structure.js ***!
-  \*******************************************************************************/
+/***/ "../../../selective-edit-js/js/selective/field/structure.js":
+/*!**********************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit-js/js/selective/field/structure.js ***!
+  \**********************************************************************************/
 /*! exports provided: GroupField, VariantField */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1959,15 +1959,15 @@ class ListItem extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["com
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GroupField", function() { return GroupField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VariantField", function() { return VariantField; });
-/* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! deep-extend */ "../../../selective-edit/node_modules/deep-extend/lib/deep-extend.js");
+/* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! deep-extend */ "../../../selective-edit-js/node_modules/deep-extend/lib/deep-extend.js");
 /* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(deep_extend__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lit-html */ "../../../selective-edit/node_modules/lit-html/lit-html.js");
-/* harmony import */ var lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lit-html/directives/repeat */ "../../../selective-edit/node_modules/lit-html/directives/repeat.js");
-/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utility/config */ "../../../selective-edit/js/utility/config.js");
-/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../utility/dom */ "../../../selective-edit/js/utility/dom.js");
-/* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../autoFields */ "../../../selective-edit/js/selective/autoFields.js");
-/* harmony import */ var _fields_fields__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../fields/fields */ "../../../selective-edit/js/selective/fields/fields.js");
-/* harmony import */ var _field__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./field */ "../../../selective-edit/js/selective/field/field.js");
+/* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lit-html */ "../../../selective-edit-js/node_modules/lit-html/lit-html.js");
+/* harmony import */ var lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lit-html/directives/repeat */ "../../../selective-edit-js/node_modules/lit-html/directives/repeat.js");
+/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utility/config */ "../../../selective-edit-js/js/utility/config.js");
+/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../utility/dom */ "../../../selective-edit-js/js/utility/dom.js");
+/* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../autoFields */ "../../../selective-edit-js/js/selective/autoFields.js");
+/* harmony import */ var _fields_fields__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../fields/fields */ "../../../selective-edit-js/js/selective/fields/fields.js");
+/* harmony import */ var _field__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./field */ "../../../selective-edit-js/js/selective/field/field.js");
 function _templateObject4() {
   var data = _taggedTemplateLiteral(["\n            <button\n                class=\"selective__variant__variant ", "\"\n                data-variant=\"", "\"\n                ?disabled=", "\n                @click=", ">\n              ", "\n            </button>\n          "]);
 
@@ -2260,25 +2260,25 @@ class VariantField extends _field__WEBPACK_IMPORTED_MODULE_7__["default"] {
 
 /***/ }),
 
-/***/ "../../../selective-edit/js/selective/fields/fields.js":
-/*!*****************************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/js/selective/fields/fields.js ***!
-  \*****************************************************************************/
+/***/ "../../../selective-edit-js/js/selective/fields/fields.js":
+/*!********************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit-js/js/selective/fields/fields.js ***!
+  \********************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Fields; });
-/* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! deep-extend */ "../../../selective-edit/node_modules/deep-extend/lib/deep-extend.js");
+/* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! deep-extend */ "../../../selective-edit-js/node_modules/deep-extend/lib/deep-extend.js");
 /* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(deep_extend__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lit-html */ "../../../selective-edit/node_modules/lit-html/lit-html.js");
-/* harmony import */ var lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lit-html/directives/repeat */ "../../../selective-edit/node_modules/lit-html/directives/repeat.js");
-/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utility/compose */ "../../../selective-edit/js/utility/compose.js");
-/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../mixin/config */ "../../../selective-edit/js/mixin/config.js");
-/* harmony import */ var _mixin_uid__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../mixin/uid */ "../../../selective-edit/js/mixin/uid.js");
-/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../utility/config */ "../../../selective-edit/js/utility/config.js");
-/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../utility/deepObject */ "../../../selective-edit/js/utility/deepObject.js");
+/* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lit-html */ "../../../selective-edit-js/node_modules/lit-html/lit-html.js");
+/* harmony import */ var lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lit-html/directives/repeat */ "../../../selective-edit-js/node_modules/lit-html/directives/repeat.js");
+/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utility/compose */ "../../../selective-edit-js/js/utility/compose.js");
+/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../mixin/config */ "../../../selective-edit-js/js/mixin/config.js");
+/* harmony import */ var _mixin_uid__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../mixin/uid */ "../../../selective-edit-js/js/mixin/uid.js");
+/* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../utility/config */ "../../../selective-edit-js/js/utility/config.js");
+/* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../utility/deepObject */ "../../../selective-edit-js/js/utility/deepObject.js");
 function _templateObject3() {
   var data = _taggedTemplateLiteral(["\n        ", "\n      "]);
 
@@ -2484,20 +2484,20 @@ class Fields extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_3__["compo
 
 /***/ }),
 
-/***/ "../../../selective-edit/js/selective/ui/sortable.js":
-/*!***************************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/js/selective/ui/sortable.js ***!
-  \***************************************************************************/
+/***/ "../../../selective-edit-js/js/selective/ui/sortable.js":
+/*!******************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit-js/js/selective/ui/sortable.js ***!
+  \******************************************************************************/
 /*! exports provided: SortableUI */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SortableUI", function() { return SortableUI; });
-/* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lit-html */ "../../../selective-edit/node_modules/lit-html/lit-html.js");
-/* harmony import */ var lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lit-html/directives/repeat */ "../../../selective-edit/node_modules/lit-html/directives/repeat.js");
-/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/dom */ "../../../selective-edit/js/utility/dom.js");
-/* harmony import */ var _ui__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ui */ "../../../selective-edit/js/selective/ui/ui.js");
+/* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lit-html */ "../../../selective-edit-js/node_modules/lit-html/lit-html.js");
+/* harmony import */ var lit_html_directives_repeat__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lit-html/directives/repeat */ "../../../selective-edit-js/node_modules/lit-html/directives/repeat.js");
+/* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/dom */ "../../../selective-edit-js/js/utility/dom.js");
+/* harmony import */ var _ui__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ui */ "../../../selective-edit-js/js/selective/ui/ui.js");
 /**
  * UI elements for the working with sortables.
  */
@@ -2609,20 +2609,20 @@ class SortableUI extends _ui__WEBPACK_IMPORTED_MODULE_3__["default"] {
 
 /***/ }),
 
-/***/ "../../../selective-edit/js/selective/ui/ui.js":
-/*!*********************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/js/selective/ui/ui.js ***!
-  \*********************************************************************/
+/***/ "../../../selective-edit-js/js/selective/ui/ui.js":
+/*!************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit-js/js/selective/ui/ui.js ***!
+  \************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return UI; });
-/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../utility/compose */ "../../../selective-edit/js/utility/compose.js");
-/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../mixin/config */ "../../../selective-edit/js/mixin/config.js");
-/* harmony import */ var _mixin_uid__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../mixin/uid */ "../../../selective-edit/js/mixin/uid.js");
-/* harmony import */ var _utility_listeners__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utility/listeners */ "../../../selective-edit/js/utility/listeners.js");
+/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../utility/compose */ "../../../selective-edit-js/js/utility/compose.js");
+/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../mixin/config */ "../../../selective-edit-js/js/mixin/config.js");
+/* harmony import */ var _mixin_uid__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../mixin/uid */ "../../../selective-edit-js/js/mixin/uid.js");
+/* harmony import */ var _utility_listeners__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utility/listeners */ "../../../selective-edit-js/js/utility/listeners.js");
 /**
  * Base class for reusable UI elements.
  */
@@ -2654,17 +2654,17 @@ class UI extends Object(_utility_compose__WEBPACK_IMPORTED_MODULE_0__["compose"]
 
 /***/ }),
 
-/***/ "../../../selective-edit/js/selective/validation/errors.js":
-/*!*********************************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/js/selective/validation/errors.js ***!
-  \*********************************************************************************/
+/***/ "../../../selective-edit-js/js/selective/validation/errors.js":
+/*!************************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit-js/js/selective/validation/errors.js ***!
+  \************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ValidationErrors; });
-/* harmony import */ var _utility_uuid__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../utility/uuid */ "../../../selective-edit/js/utility/uuid.js");
+/* harmony import */ var _utility_uuid__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../utility/uuid */ "../../../selective-edit-js/js/utility/uuid.js");
 /**
  * Validation errors for fields.
  *
@@ -2783,10 +2783,10 @@ class ValidationErrors {
 
 /***/ }),
 
-/***/ "../../../selective-edit/js/selective/validation/rules.js":
-/*!********************************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/js/selective/validation/rules.js ***!
-  \********************************************************************************/
+/***/ "../../../selective-edit-js/js/selective/validation/rules.js":
+/*!***********************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit-js/js/selective/validation/rules.js ***!
+  \***********************************************************************************/
 /*! exports provided: default, ValidationRule, LengthValidationRule, MatchValidationRule, PatternValidationRule, RangeValidationRule, RequiredValidationRule */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2799,9 +2799,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PatternValidationRule", function() { return PatternValidationRule; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RangeValidationRule", function() { return RangeValidationRule; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RequiredValidationRule", function() { return RequiredValidationRule; });
-/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../utility/compose */ "../../../selective-edit/js/utility/compose.js");
-/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../mixin/config */ "../../../selective-edit/js/mixin/config.js");
-/* harmony import */ var _utility_dataType__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/dataType */ "../../../selective-edit/js/utility/dataType.js");
+/* harmony import */ var _utility_compose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../utility/compose */ "../../../selective-edit-js/js/utility/compose.js");
+/* harmony import */ var _mixin_config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../mixin/config */ "../../../selective-edit-js/js/mixin/config.js");
+/* harmony import */ var _utility_dataType__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/dataType */ "../../../selective-edit-js/js/utility/dataType.js");
 /**
  * Validation rules for fields.
  */
@@ -3180,10 +3180,10 @@ class UnknownValidationRule extends ValidationRule {
 
 /***/ }),
 
-/***/ "../../../selective-edit/js/utility/classes.js":
-/*!*********************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/js/utility/classes.js ***!
-  \*********************************************************************/
+/***/ "../../../selective-edit-js/js/utility/classes.js":
+/*!************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit-js/js/utility/classes.js ***!
+  \************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3247,10 +3247,10 @@ class ClassManager {
 
 /***/ }),
 
-/***/ "../../../selective-edit/js/utility/compose.js":
-/*!*********************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/js/utility/compose.js ***!
-  \*********************************************************************/
+/***/ "../../../selective-edit-js/js/utility/compose.js":
+/*!************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit-js/js/utility/compose.js ***!
+  \************************************************************************/
 /*! exports provided: Base, compose */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3293,10 +3293,10 @@ class Base {}
 
 /***/ }),
 
-/***/ "../../../selective-edit/js/utility/config.js":
-/*!********************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/js/utility/config.js ***!
-  \********************************************************************/
+/***/ "../../../selective-edit-js/js/utility/config.js":
+/*!***********************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit-js/js/utility/config.js ***!
+  \***********************************************************************/
 /*! exports provided: default, autoConfig */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3341,10 +3341,10 @@ var autoConfig = (value, defaultValues) => {
 
 /***/ }),
 
-/***/ "../../../selective-edit/js/utility/dataType.js":
-/*!**********************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/js/utility/dataType.js ***!
-  \**********************************************************************/
+/***/ "../../../selective-edit-js/js/utility/dataType.js":
+/*!*************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit-js/js/utility/dataType.js ***!
+  \*************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3407,10 +3407,10 @@ class DataType {
 
 /***/ }),
 
-/***/ "../../../selective-edit/js/utility/deepObject.js":
-/*!************************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/js/utility/deepObject.js ***!
-  \************************************************************************/
+/***/ "../../../selective-edit-js/js/utility/deepObject.js":
+/*!***************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit-js/js/utility/deepObject.js ***!
+  \***************************************************************************/
 /*! exports provided: default, autoDeepObject */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3504,10 +3504,10 @@ var autoDeepObject = value => {
 
 /***/ }),
 
-/***/ "../../../selective-edit/js/utility/dom.js":
-/*!*****************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/js/utility/dom.js ***!
-  \*****************************************************************/
+/***/ "../../../selective-edit-js/js/utility/dom.js":
+/*!********************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit-js/js/utility/dom.js ***!
+  \********************************************************************/
 /*! exports provided: findParentByClassname, findParentDraggable */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3545,10 +3545,10 @@ var findParentDraggable = target => {
 
 /***/ }),
 
-/***/ "../../../selective-edit/js/utility/listeners.js":
-/*!***********************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/js/utility/listeners.js ***!
-  \***********************************************************************/
+/***/ "../../../selective-edit-js/js/utility/listeners.js":
+/*!**************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit-js/js/utility/listeners.js ***!
+  \**************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3590,10 +3590,10 @@ class Listeners {
 
 /***/ }),
 
-/***/ "../../../selective-edit/js/utility/preview.js":
-/*!*********************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/js/utility/preview.js ***!
-  \*********************************************************************/
+/***/ "../../../selective-edit-js/js/utility/preview.js":
+/*!************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit-js/js/utility/preview.js ***!
+  \************************************************************************/
 /*! exports provided: findPreviewValue, templatePreviewValue */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3601,9 +3601,9 @@ class Listeners {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "findPreviewValue", function() { return findPreviewValue; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "templatePreviewValue", function() { return templatePreviewValue; });
-/* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lit-html */ "../../../selective-edit/node_modules/lit-html/lit-html.js");
-/* harmony import */ var _dataType__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./dataType */ "../../../selective-edit/js/utility/dataType.js");
-/* harmony import */ var _deepObject__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./deepObject */ "../../../selective-edit/js/utility/deepObject.js");
+/* harmony import */ var lit_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lit-html */ "../../../selective-edit-js/node_modules/lit-html/lit-html.js");
+/* harmony import */ var _dataType__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./dataType */ "../../../selective-edit-js/js/utility/dataType.js");
+/* harmony import */ var _deepObject__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./deepObject */ "../../../selective-edit-js/js/utility/deepObject.js");
 function _templateObject3() {
   var data = _taggedTemplateLiteral(["<img src=\"", "\" class=\"selective__image__fingernail\">"]);
 
@@ -3735,10 +3735,10 @@ var templatePreviewValue = (previewValue, previewType, defaultValue) => {
 
 /***/ }),
 
-/***/ "../../../selective-edit/js/utility/uuid.js":
-/*!******************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/js/utility/uuid.js ***!
-  \******************************************************************/
+/***/ "../../../selective-edit-js/js/utility/uuid.js":
+/*!*********************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit-js/js/utility/uuid.js ***!
+  \*********************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3763,10 +3763,10 @@ var generateUUID = () => {
 
 /***/ }),
 
-/***/ "../../../selective-edit/node_modules/deep-extend/lib/deep-extend.js":
-/*!*******************************************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/node_modules/deep-extend/lib/deep-extend.js ***!
-  \*******************************************************************************************/
+/***/ "../../../selective-edit-js/node_modules/deep-extend/lib/deep-extend.js":
+/*!**********************************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit-js/node_modules/deep-extend/lib/deep-extend.js ***!
+  \**********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3926,14 +3926,14 @@ var deepExtend = module.exports = function (/*obj_1, [obj_2], [obj_N]*/) {
 
 /***/ }),
 
-/***/ "../../../selective-edit/node_modules/json-stable-stringify/index.js":
-/*!*******************************************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/node_modules/json-stable-stringify/index.js ***!
-  \*******************************************************************************************/
+/***/ "../../../selective-edit-js/node_modules/json-stable-stringify/index.js":
+/*!**********************************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit-js/node_modules/json-stable-stringify/index.js ***!
+  \**********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-var json = typeof JSON !== 'undefined' ? JSON : __webpack_require__(/*! jsonify */ "../../../selective-edit/node_modules/jsonify/index.js");
+var json = typeof JSON !== 'undefined' ? JSON : __webpack_require__(/*! jsonify */ "../../../selective-edit-js/node_modules/jsonify/index.js");
 
 module.exports = function (obj, opts) {
     if (!opts) opts = {};
@@ -4021,23 +4021,23 @@ var objectKeys = Object.keys || function (obj) {
 
 /***/ }),
 
-/***/ "../../../selective-edit/node_modules/jsonify/index.js":
-/*!*****************************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/node_modules/jsonify/index.js ***!
-  \*****************************************************************************/
+/***/ "../../../selective-edit-js/node_modules/jsonify/index.js":
+/*!********************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit-js/node_modules/jsonify/index.js ***!
+  \********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports.parse = __webpack_require__(/*! ./lib/parse */ "../../../selective-edit/node_modules/jsonify/lib/parse.js");
-exports.stringify = __webpack_require__(/*! ./lib/stringify */ "../../../selective-edit/node_modules/jsonify/lib/stringify.js");
+exports.parse = __webpack_require__(/*! ./lib/parse */ "../../../selective-edit-js/node_modules/jsonify/lib/parse.js");
+exports.stringify = __webpack_require__(/*! ./lib/stringify */ "../../../selective-edit-js/node_modules/jsonify/lib/stringify.js");
 
 
 /***/ }),
 
-/***/ "../../../selective-edit/node_modules/jsonify/lib/parse.js":
-/*!*********************************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/node_modules/jsonify/lib/parse.js ***!
-  \*********************************************************************************/
+/***/ "../../../selective-edit-js/node_modules/jsonify/lib/parse.js":
+/*!************************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit-js/node_modules/jsonify/lib/parse.js ***!
+  \************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -4318,10 +4318,10 @@ module.exports = function (source, reviver) {
 
 /***/ }),
 
-/***/ "../../../selective-edit/node_modules/jsonify/lib/stringify.js":
-/*!*************************************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/node_modules/jsonify/lib/stringify.js ***!
-  \*************************************************************************************/
+/***/ "../../../selective-edit-js/node_modules/jsonify/lib/stringify.js":
+/*!****************************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit-js/node_modules/jsonify/lib/stringify.js ***!
+  \****************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -4483,17 +4483,17 @@ module.exports = function (value, replacer, space) {
 
 /***/ }),
 
-/***/ "../../../selective-edit/node_modules/lit-html/directives/repeat.js":
-/*!******************************************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/node_modules/lit-html/directives/repeat.js ***!
-  \******************************************************************************************/
+/***/ "../../../selective-edit-js/node_modules/lit-html/directives/repeat.js":
+/*!*********************************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit-js/node_modules/lit-html/directives/repeat.js ***!
+  \*********************************************************************************************/
 /*! exports provided: repeat */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "repeat", function() { return repeat; });
-/* harmony import */ var _lit_html_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../lit-html.js */ "../../../selective-edit/node_modules/lit-html/lit-html.js");
+/* harmony import */ var _lit_html_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../lit-html.js */ "../../../selective-edit-js/node_modules/lit-html/lit-html.js");
 /**
  * @license
  * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
@@ -4912,18 +4912,18 @@ const repeat = Object(_lit_html_js__WEBPACK_IMPORTED_MODULE_0__["directive"])((i
 
 /***/ }),
 
-/***/ "../../../selective-edit/node_modules/lit-html/directives/unsafe-html.js":
-/*!***********************************************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/node_modules/lit-html/directives/unsafe-html.js ***!
-  \***********************************************************************************************/
+/***/ "../../../selective-edit-js/node_modules/lit-html/directives/unsafe-html.js":
+/*!**************************************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit-js/node_modules/lit-html/directives/unsafe-html.js ***!
+  \**************************************************************************************************/
 /*! exports provided: unsafeHTML */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "unsafeHTML", function() { return unsafeHTML; });
-/* harmony import */ var _lib_parts_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../lib/parts.js */ "../../../selective-edit/node_modules/lit-html/lib/parts.js");
-/* harmony import */ var _lit_html_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../lit-html.js */ "../../../selective-edit/node_modules/lit-html/lit-html.js");
+/* harmony import */ var _lib_parts_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../lib/parts.js */ "../../../selective-edit-js/node_modules/lit-html/lib/parts.js");
+/* harmony import */ var _lit_html_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../lit-html.js */ "../../../selective-edit-js/node_modules/lit-html/lit-html.js");
 /**
  * @license
  * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
@@ -4971,10 +4971,10 @@ const unsafeHTML = Object(_lit_html_js__WEBPACK_IMPORTED_MODULE_1__["directive"]
 
 /***/ }),
 
-/***/ "../../../selective-edit/node_modules/lit-html/lib/default-template-processor.js":
-/*!*******************************************************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/node_modules/lit-html/lib/default-template-processor.js ***!
-  \*******************************************************************************************************/
+/***/ "../../../selective-edit-js/node_modules/lit-html/lib/default-template-processor.js":
+/*!**********************************************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit-js/node_modules/lit-html/lib/default-template-processor.js ***!
+  \**********************************************************************************************************/
 /*! exports provided: DefaultTemplateProcessor, defaultTemplateProcessor */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -4982,7 +4982,7 @@ const unsafeHTML = Object(_lit_html_js__WEBPACK_IMPORTED_MODULE_1__["directive"]
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DefaultTemplateProcessor", function() { return DefaultTemplateProcessor; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "defaultTemplateProcessor", function() { return defaultTemplateProcessor; });
-/* harmony import */ var _parts_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./parts.js */ "../../../selective-edit/node_modules/lit-html/lib/parts.js");
+/* harmony import */ var _parts_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./parts.js */ "../../../selective-edit-js/node_modules/lit-html/lib/parts.js");
 /**
  * @license
  * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
@@ -5038,10 +5038,10 @@ const defaultTemplateProcessor = new DefaultTemplateProcessor();
 
 /***/ }),
 
-/***/ "../../../selective-edit/node_modules/lit-html/lib/directive.js":
-/*!**************************************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/node_modules/lit-html/lib/directive.js ***!
-  \**************************************************************************************/
+/***/ "../../../selective-edit-js/node_modules/lit-html/lib/directive.js":
+/*!*****************************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit-js/node_modules/lit-html/lib/directive.js ***!
+  \*****************************************************************************************/
 /*! exports provided: directive, isDirective */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -5115,10 +5115,10 @@ const isDirective = (o) => {
 
 /***/ }),
 
-/***/ "../../../selective-edit/node_modules/lit-html/lib/dom.js":
-/*!********************************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/node_modules/lit-html/lib/dom.js ***!
-  \********************************************************************************/
+/***/ "../../../selective-edit-js/node_modules/lit-html/lib/dom.js":
+/*!***********************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit-js/node_modules/lit-html/lib/dom.js ***!
+  \***********************************************************************************/
 /*! exports provided: isCEPolyfill, reparentNodes, removeNodes */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -5174,10 +5174,10 @@ const removeNodes = (container, start, end = null) => {
 
 /***/ }),
 
-/***/ "../../../selective-edit/node_modules/lit-html/lib/part.js":
-/*!*********************************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/node_modules/lit-html/lib/part.js ***!
-  \*********************************************************************************/
+/***/ "../../../selective-edit-js/node_modules/lit-html/lib/part.js":
+/*!************************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit-js/node_modules/lit-html/lib/part.js ***!
+  \************************************************************************************/
 /*! exports provided: noChange, nothing */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -5211,10 +5211,10 @@ const nothing = {};
 
 /***/ }),
 
-/***/ "../../../selective-edit/node_modules/lit-html/lib/parts.js":
-/*!**********************************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/node_modules/lit-html/lib/parts.js ***!
-  \**********************************************************************************/
+/***/ "../../../selective-edit-js/node_modules/lit-html/lib/parts.js":
+/*!*************************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit-js/node_modules/lit-html/lib/parts.js ***!
+  \*************************************************************************************/
 /*! exports provided: isPrimitive, isIterable, AttributeCommitter, AttributePart, NodePart, BooleanAttributePart, PropertyCommitter, PropertyPart, EventPart */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -5229,12 +5229,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PropertyCommitter", function() { return PropertyCommitter; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PropertyPart", function() { return PropertyPart; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EventPart", function() { return EventPart; });
-/* harmony import */ var _directive_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./directive.js */ "../../../selective-edit/node_modules/lit-html/lib/directive.js");
-/* harmony import */ var _dom_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./dom.js */ "../../../selective-edit/node_modules/lit-html/lib/dom.js");
-/* harmony import */ var _part_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./part.js */ "../../../selective-edit/node_modules/lit-html/lib/part.js");
-/* harmony import */ var _template_instance_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./template-instance.js */ "../../../selective-edit/node_modules/lit-html/lib/template-instance.js");
-/* harmony import */ var _template_result_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./template-result.js */ "../../../selective-edit/node_modules/lit-html/lib/template-result.js");
-/* harmony import */ var _template_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./template.js */ "../../../selective-edit/node_modules/lit-html/lib/template.js");
+/* harmony import */ var _directive_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./directive.js */ "../../../selective-edit-js/node_modules/lit-html/lib/directive.js");
+/* harmony import */ var _dom_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./dom.js */ "../../../selective-edit-js/node_modules/lit-html/lib/dom.js");
+/* harmony import */ var _part_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./part.js */ "../../../selective-edit-js/node_modules/lit-html/lib/part.js");
+/* harmony import */ var _template_instance_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./template-instance.js */ "../../../selective-edit-js/node_modules/lit-html/lib/template-instance.js");
+/* harmony import */ var _template_result_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./template-result.js */ "../../../selective-edit-js/node_modules/lit-html/lib/template-result.js");
+/* harmony import */ var _template_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./template.js */ "../../../selective-edit-js/node_modules/lit-html/lib/template.js");
 /**
  * @license
  * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
@@ -5694,10 +5694,10 @@ const getOptions = (o) => o &&
 
 /***/ }),
 
-/***/ "../../../selective-edit/node_modules/lit-html/lib/render.js":
-/*!***********************************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/node_modules/lit-html/lib/render.js ***!
-  \***********************************************************************************/
+/***/ "../../../selective-edit-js/node_modules/lit-html/lib/render.js":
+/*!**************************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit-js/node_modules/lit-html/lib/render.js ***!
+  \**************************************************************************************/
 /*! exports provided: parts, render */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -5705,9 +5705,9 @@ const getOptions = (o) => o &&
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parts", function() { return parts; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
-/* harmony import */ var _dom_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dom.js */ "../../../selective-edit/node_modules/lit-html/lib/dom.js");
-/* harmony import */ var _parts_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./parts.js */ "../../../selective-edit/node_modules/lit-html/lib/parts.js");
-/* harmony import */ var _template_factory_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./template-factory.js */ "../../../selective-edit/node_modules/lit-html/lib/template-factory.js");
+/* harmony import */ var _dom_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dom.js */ "../../../selective-edit-js/node_modules/lit-html/lib/dom.js");
+/* harmony import */ var _parts_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./parts.js */ "../../../selective-edit-js/node_modules/lit-html/lib/parts.js");
+/* harmony import */ var _template_factory_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./template-factory.js */ "../../../selective-edit-js/node_modules/lit-html/lib/template-factory.js");
 /**
  * @license
  * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
@@ -5757,10 +5757,10 @@ const render = (result, container, options) => {
 
 /***/ }),
 
-/***/ "../../../selective-edit/node_modules/lit-html/lib/template-factory.js":
-/*!*********************************************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/node_modules/lit-html/lib/template-factory.js ***!
-  \*********************************************************************************************/
+/***/ "../../../selective-edit-js/node_modules/lit-html/lib/template-factory.js":
+/*!************************************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit-js/node_modules/lit-html/lib/template-factory.js ***!
+  \************************************************************************************************/
 /*! exports provided: templateFactory, templateCaches */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -5768,7 +5768,7 @@ const render = (result, container, options) => {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "templateFactory", function() { return templateFactory; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "templateCaches", function() { return templateCaches; });
-/* harmony import */ var _template_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./template.js */ "../../../selective-edit/node_modules/lit-html/lib/template.js");
+/* harmony import */ var _template_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./template.js */ "../../../selective-edit-js/node_modules/lit-html/lib/template.js");
 /**
  * @license
  * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
@@ -5820,18 +5820,18 @@ const templateCaches = new Map();
 
 /***/ }),
 
-/***/ "../../../selective-edit/node_modules/lit-html/lib/template-instance.js":
-/*!**********************************************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/node_modules/lit-html/lib/template-instance.js ***!
-  \**********************************************************************************************/
+/***/ "../../../selective-edit-js/node_modules/lit-html/lib/template-instance.js":
+/*!*************************************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit-js/node_modules/lit-html/lib/template-instance.js ***!
+  \*************************************************************************************************/
 /*! exports provided: TemplateInstance */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TemplateInstance", function() { return TemplateInstance; });
-/* harmony import */ var _dom_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dom.js */ "../../../selective-edit/node_modules/lit-html/lib/dom.js");
-/* harmony import */ var _template_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./template.js */ "../../../selective-edit/node_modules/lit-html/lib/template.js");
+/* harmony import */ var _dom_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dom.js */ "../../../selective-edit-js/node_modules/lit-html/lib/dom.js");
+/* harmony import */ var _template_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./template.js */ "../../../selective-edit-js/node_modules/lit-html/lib/template.js");
 /**
  * @license
  * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
@@ -5972,10 +5972,10 @@ class TemplateInstance {
 
 /***/ }),
 
-/***/ "../../../selective-edit/node_modules/lit-html/lib/template-result.js":
-/*!********************************************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/node_modules/lit-html/lib/template-result.js ***!
-  \********************************************************************************************/
+/***/ "../../../selective-edit-js/node_modules/lit-html/lib/template-result.js":
+/*!***********************************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit-js/node_modules/lit-html/lib/template-result.js ***!
+  \***********************************************************************************************/
 /*! exports provided: TemplateResult, SVGTemplateResult */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -5983,8 +5983,8 @@ class TemplateInstance {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TemplateResult", function() { return TemplateResult; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SVGTemplateResult", function() { return SVGTemplateResult; });
-/* harmony import */ var _dom_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dom.js */ "../../../selective-edit/node_modules/lit-html/lib/dom.js");
-/* harmony import */ var _template_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./template.js */ "../../../selective-edit/node_modules/lit-html/lib/template.js");
+/* harmony import */ var _dom_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dom.js */ "../../../selective-edit-js/node_modules/lit-html/lib/dom.js");
+/* harmony import */ var _template_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./template.js */ "../../../selective-edit-js/node_modules/lit-html/lib/template.js");
 /**
  * @license
  * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
@@ -6101,10 +6101,10 @@ class SVGTemplateResult extends TemplateResult {
 
 /***/ }),
 
-/***/ "../../../selective-edit/node_modules/lit-html/lib/template.js":
-/*!*************************************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/node_modules/lit-html/lib/template.js ***!
-  \*************************************************************************************/
+/***/ "../../../selective-edit-js/node_modules/lit-html/lib/template.js":
+/*!****************************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit-js/node_modules/lit-html/lib/template.js ***!
+  \****************************************************************************************/
 /*! exports provided: marker, nodeMarker, markerRegex, boundAttributeSuffix, Template, isTemplatePartActive, createMarker, lastAttributeNameRegex */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -6336,10 +6336,10 @@ const lastAttributeNameRegex =
 
 /***/ }),
 
-/***/ "../../../selective-edit/node_modules/lit-html/lit-html.js":
-/*!*********************************************************************************!*\
-  !*** /Users/randy/code/blinkk/selective-edit/node_modules/lit-html/lit-html.js ***!
-  \*********************************************************************************/
+/***/ "../../../selective-edit-js/node_modules/lit-html/lit-html.js":
+/*!************************************************************************************!*\
+  !*** /Users/randy/code/blinkk/selective-edit-js/node_modules/lit-html/lit-html.js ***!
+  \************************************************************************************/
 /*! exports provided: DefaultTemplateProcessor, defaultTemplateProcessor, directive, isDirective, removeNodes, reparentNodes, noChange, nothing, AttributeCommitter, AttributePart, BooleanAttributePart, EventPart, isIterable, isPrimitive, NodePart, PropertyCommitter, PropertyPart, parts, render, templateCaches, templateFactory, TemplateInstance, SVGTemplateResult, TemplateResult, createMarker, isTemplatePartActive, Template, html, svg */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -6347,28 +6347,28 @@ const lastAttributeNameRegex =
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "html", function() { return html; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "svg", function() { return svg; });
-/* harmony import */ var _lib_default_template_processor_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./lib/default-template-processor.js */ "../../../selective-edit/node_modules/lit-html/lib/default-template-processor.js");
-/* harmony import */ var _lib_template_result_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./lib/template-result.js */ "../../../selective-edit/node_modules/lit-html/lib/template-result.js");
+/* harmony import */ var _lib_default_template_processor_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./lib/default-template-processor.js */ "../../../selective-edit-js/node_modules/lit-html/lib/default-template-processor.js");
+/* harmony import */ var _lib_template_result_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./lib/template-result.js */ "../../../selective-edit-js/node_modules/lit-html/lib/template-result.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DefaultTemplateProcessor", function() { return _lib_default_template_processor_js__WEBPACK_IMPORTED_MODULE_0__["DefaultTemplateProcessor"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "defaultTemplateProcessor", function() { return _lib_default_template_processor_js__WEBPACK_IMPORTED_MODULE_0__["defaultTemplateProcessor"]; });
 
-/* harmony import */ var _lib_directive_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./lib/directive.js */ "../../../selective-edit/node_modules/lit-html/lib/directive.js");
+/* harmony import */ var _lib_directive_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./lib/directive.js */ "../../../selective-edit-js/node_modules/lit-html/lib/directive.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "directive", function() { return _lib_directive_js__WEBPACK_IMPORTED_MODULE_2__["directive"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isDirective", function() { return _lib_directive_js__WEBPACK_IMPORTED_MODULE_2__["isDirective"]; });
 
-/* harmony import */ var _lib_dom_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./lib/dom.js */ "../../../selective-edit/node_modules/lit-html/lib/dom.js");
+/* harmony import */ var _lib_dom_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./lib/dom.js */ "../../../selective-edit-js/node_modules/lit-html/lib/dom.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "removeNodes", function() { return _lib_dom_js__WEBPACK_IMPORTED_MODULE_3__["removeNodes"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "reparentNodes", function() { return _lib_dom_js__WEBPACK_IMPORTED_MODULE_3__["reparentNodes"]; });
 
-/* harmony import */ var _lib_part_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./lib/part.js */ "../../../selective-edit/node_modules/lit-html/lib/part.js");
+/* harmony import */ var _lib_part_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./lib/part.js */ "../../../selective-edit-js/node_modules/lit-html/lib/part.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "noChange", function() { return _lib_part_js__WEBPACK_IMPORTED_MODULE_4__["noChange"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "nothing", function() { return _lib_part_js__WEBPACK_IMPORTED_MODULE_4__["nothing"]; });
 
-/* harmony import */ var _lib_parts_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./lib/parts.js */ "../../../selective-edit/node_modules/lit-html/lib/parts.js");
+/* harmony import */ var _lib_parts_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./lib/parts.js */ "../../../selective-edit-js/node_modules/lit-html/lib/parts.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AttributeCommitter", function() { return _lib_parts_js__WEBPACK_IMPORTED_MODULE_5__["AttributeCommitter"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AttributePart", function() { return _lib_parts_js__WEBPACK_IMPORTED_MODULE_5__["AttributePart"]; });
@@ -6387,24 +6387,24 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "PropertyPart", function() { return _lib_parts_js__WEBPACK_IMPORTED_MODULE_5__["PropertyPart"]; });
 
-/* harmony import */ var _lib_render_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./lib/render.js */ "../../../selective-edit/node_modules/lit-html/lib/render.js");
+/* harmony import */ var _lib_render_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./lib/render.js */ "../../../selective-edit-js/node_modules/lit-html/lib/render.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "parts", function() { return _lib_render_js__WEBPACK_IMPORTED_MODULE_6__["parts"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _lib_render_js__WEBPACK_IMPORTED_MODULE_6__["render"]; });
 
-/* harmony import */ var _lib_template_factory_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./lib/template-factory.js */ "../../../selective-edit/node_modules/lit-html/lib/template-factory.js");
+/* harmony import */ var _lib_template_factory_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./lib/template-factory.js */ "../../../selective-edit-js/node_modules/lit-html/lib/template-factory.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "templateCaches", function() { return _lib_template_factory_js__WEBPACK_IMPORTED_MODULE_7__["templateCaches"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "templateFactory", function() { return _lib_template_factory_js__WEBPACK_IMPORTED_MODULE_7__["templateFactory"]; });
 
-/* harmony import */ var _lib_template_instance_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./lib/template-instance.js */ "../../../selective-edit/node_modules/lit-html/lib/template-instance.js");
+/* harmony import */ var _lib_template_instance_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./lib/template-instance.js */ "../../../selective-edit-js/node_modules/lit-html/lib/template-instance.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TemplateInstance", function() { return _lib_template_instance_js__WEBPACK_IMPORTED_MODULE_8__["TemplateInstance"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SVGTemplateResult", function() { return _lib_template_result_js__WEBPACK_IMPORTED_MODULE_1__["SVGTemplateResult"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TemplateResult", function() { return _lib_template_result_js__WEBPACK_IMPORTED_MODULE_1__["TemplateResult"]; });
 
-/* harmony import */ var _lib_template_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./lib/template.js */ "../../../selective-edit/node_modules/lit-html/lib/template.js");
+/* harmony import */ var _lib_template_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./lib/template.js */ "../../../selective-edit-js/node_modules/lit-html/lib/template.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createMarker", function() { return _lib_template_js__WEBPACK_IMPORTED_MODULE_9__["createMarker"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isTemplatePartActive", function() { return _lib_template_js__WEBPACK_IMPORTED_MODULE_9__["isTemplatePartActive"]; });
@@ -98815,7 +98815,7 @@ new _editor__WEBPACK_IMPORTED_MODULE_0__["default"](document.querySelector('.con
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return EditorAutoFields; });
-/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit-js/js/selective.js");
 /* harmony import */ var _utility_dataType__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utility/dataType */ "./source/utility/dataType.js");
 /**
  * Automatically guess the field configuration from data.
@@ -98995,7 +98995,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var js_yaml_lib_js_yaml_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! js-yaml/lib/js-yaml.js */ "./node_modules/js-yaml/lib/js-yaml.js");
 /* harmony import */ var js_yaml_lib_js_yaml_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(js_yaml_lib_js_yaml_js__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit-js/js/selective.js");
 /* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utility/config */ "./source/utility/config.js");
 /* harmony import */ var _utility_listeners__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../utility/listeners */ "./source/utility/listeners.js");
 /* harmony import */ var _document__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./document */ "./source/editor/document.js");
@@ -100173,7 +100173,7 @@ class Editor {
           return;
         }
 
-        var result = this.api.saveDocumentSource(this.podPath, this.document.rawFrontMatter);
+        var result = this.api.saveDocumentSource(this.podPath, this.document.rawFrontMatter, this.document.content);
         result.then(response => this.handleSaveResponse(response, isAutosave));
         result.catch(err => this.handleSaveError(err));
       } else {
@@ -100470,11 +100470,12 @@ class EditorApi extends _utility_api__WEBPACK_IMPORTED_MODULE_0__["default"] {
     return result.promise;
   }
 
-  saveDocumentSource(podPath, rawFrontMatter) {
+  saveDocumentSource(podPath, rawFrontMatter, content) {
     var result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
     var saveRequest = {
       'pod_path': podPath,
-      'raw_front_matter': rawFrontMatter
+      'raw_front_matter': rawFrontMatter,
+      'content': content
     };
     this.request.post(this.apiPath('content')).type('form').send(saveRequest).then(res => {
       result.resolve(res.body);
@@ -100565,7 +100566,7 @@ class EditorApi extends _utility_api__WEBPACK_IMPORTED_MODULE_0__["default"] {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "defaultFields", function() { return defaultFields; });
-/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit-js/js/selective.js");
 /* harmony import */ var _field_constructor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./field/constructor */ "./source/editor/field/constructor.js");
 /* harmony import */ var _field_image__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./field/image */ "./source/editor/field/image.js");
 /* harmony import */ var _field_media__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./field/media */ "./source/editor/field/media.js");
@@ -100623,7 +100624,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "StaticField", function() { return StaticField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "StringField", function() { return StringField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "YamlField", function() { return YamlField; });
-/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit-js/js/selective.js");
 /* harmony import */ var _utility_filter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/filter */ "./source/utility/filter.js");
 /* harmony import */ var _utility_dataType__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/dataType */ "./source/utility/dataType.js");
 /* harmony import */ var _ui_file__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../ui/file */ "./source/editor/ui/file.js");
@@ -100859,7 +100860,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ImageField", function() { return ImageField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ImageFileField", function() { return ImageFileField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GoogleImageField", function() { return GoogleImageField; });
-/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit-js/js/selective.js");
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
 /* harmony import */ var _utility_filter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/filter */ "./source/utility/filter.js");
 /* harmony import */ var _ui_file__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../ui/file */ "./source/editor/ui/file.js");
@@ -101336,7 +101337,7 @@ class GoogleImageField extends ImageField {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EditorListField", function() { return EditorListField; });
-/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit-js/js/selective.js");
 /* harmony import */ var _parts_modal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../parts/modal */ "./source/editor/parts/modal.js");
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
 function _templateObject2() {
@@ -101426,7 +101427,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GoogleMediaField", function() { return GoogleMediaField; });
 /* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! deep-extend */ "./node_modules/deep-extend/lib/deep-extend.js");
 /* harmony import */ var deep_extend__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(deep_extend__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit-js/js/selective.js");
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
 /* harmony import */ var _utility_filter__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utility/filter */ "./source/utility/filter.js");
 /* harmony import */ var _ui_file__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../ui/file */ "./source/editor/ui/file.js");
@@ -102090,7 +102091,7 @@ class GoogleMediaField extends MediaField {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PartialsField", function() { return PartialsField; });
-/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit-js/js/selective.js");
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
 /* harmony import */ var _fields_fields__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../fields/fields */ "./source/editor/fields/fields.js");
 /* harmony import */ var _autoFields__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../autoFields */ "./source/editor/autoFields.js");
@@ -102460,7 +102461,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SelectField", function() { return SelectField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TextField", function() { return TextField; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TextareaField", function() { return TextareaField; });
-/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit-js/js/selective.js");
 /* harmony import */ var quill_quill__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! quill/quill */ "./node_modules/quill/quill.js");
 /* harmony import */ var _toast_ui_editor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @toast-ui/editor */ "./node_modules/@toast-ui/editor/dist/toastui-editor.js");
 /* harmony import */ var _toast_ui_editor__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_toast_ui_editor__WEBPACK_IMPORTED_MODULE_2__);
@@ -103036,7 +103037,7 @@ class TextareaField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Field"]
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return PartialsFields; });
-/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit-js/js/selective.js");
 /**
  * Partials fields.
  */
@@ -103068,7 +103069,7 @@ class PartialsFields extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["Fields
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return MenuBase; });
 /* harmony import */ var _utility_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../utility/config */ "./source/utility/config.js");
-/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit-js/js/selective.js");
 /* harmony import */ var _utility_storage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/storage */ "./source/utility/storage.js");
 /**
  * Content editor.
@@ -103105,7 +103106,7 @@ class MenuBase {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return FileTreeMenu; });
-/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit-js/js/selective.js");
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
 /* harmony import */ var _field__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../field */ "./source/editor/field.js");
 /* harmony import */ var _validation__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../validation */ "./source/editor/validation.js");
@@ -103515,7 +103516,7 @@ class FileTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_5__["default"] {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return FolderStructure; });
-/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit-js/js/selective.js");
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
 /* harmony import */ var _utility_uuid__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/uuid */ "./source/utility/uuid.js");
 function _templateObject7() {
@@ -103706,7 +103707,7 @@ class FolderStructure {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Menu; });
-/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit-js/js/selective.js");
 /* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/deepObject */ "./source/utility/deepObject.js");
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
 /* harmony import */ var _utility_filter__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utility/filter */ "./source/utility/filter.js");
@@ -104053,7 +104054,7 @@ class Menu extends _base__WEBPACK_IMPORTED_MODULE_5__["default"] {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return RepoMenu; });
-/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit-js/js/selective.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
@@ -104145,7 +104146,7 @@ class RepoMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return SiteMenu; });
-/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit-js/js/selective.js");
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
 /* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./base */ "./source/editor/menu/base.js");
 /* harmony import */ var _tree__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./tree */ "./source/editor/menu/tree.js");
@@ -104206,7 +104207,7 @@ class SiteMenu extends _base__WEBPACK_IMPORTED_MODULE_2__["default"] {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return SiteTreeMenu; });
-/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit-js/js/selective.js");
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
 /* harmony import */ var _utility_filter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/filter */ "./source/utility/filter.js");
 /* harmony import */ var _utility_uuid__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utility/uuid */ "./source/utility/uuid.js");
@@ -104422,7 +104423,7 @@ class SiteTreeMenu extends _base__WEBPACK_IMPORTED_MODULE_4__["default"] {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TreeMenu; });
-/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit-js/js/selective.js");
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
 /* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./base */ "./source/editor/menu/base.js");
 /* harmony import */ var _filetree__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./filetree */ "./source/editor/menu/filetree.js");
@@ -104503,7 +104504,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SPECIAL_BRANCHES", function() { return SPECIAL_BRANCHES; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "WORKSPACE_BRANCH_PREFIX", function() { return WORKSPACE_BRANCH_PREFIX; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return WorkspaceMenu; });
-/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit-js/js/selective.js");
 /* harmony import */ var _field__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../field */ "./source/editor/field.js");
 /* harmony import */ var _validation__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../validation */ "./source/editor/validation.js");
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
@@ -104731,7 +104732,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ModalWindow; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ConfirmWindow", function() { return ConfirmWindow; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MenuWindow", function() { return MenuWindow; });
-/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit-js/js/selective.js");
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
 /* harmony import */ var _utility_defer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/defer */ "./source/utility/defer.js");
 /* harmony import */ var _utility_uuid__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utility/uuid */ "./source/utility/uuid.js");
@@ -104963,7 +104964,7 @@ class ImageUploader {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "templateOptionColor", function() { return templateOptionColor; });
-/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit-js/js/selective.js");
 /* harmony import */ var _utility_dataType__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dataType */ "./source/utility/dataType.js");
 /* harmony import */ var _utility_color__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/color */ "./source/utility/color.js");
 function _templateObject2() {
@@ -105188,7 +105189,7 @@ var ExternalLink = function ExternalLink(editor, preset) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FileListUI", function() { return FileListUI; });
-/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit-js/js/selective.js");
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
 /* harmony import */ var _utility_filter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/filter */ "./source/utility/filter.js");
 function _templateObject5() {
@@ -105368,7 +105369,7 @@ class FileListUI extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["UI"] {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "StringListUI", function() { return StringListUI; });
-/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit-js/js/selective.js");
 /* harmony import */ var _utility_dataType__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utility/dataType */ "./source/utility/dataType.js");
 /* harmony import */ var _utility_deepObject__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utility/deepObject */ "./source/utility/deepObject.js");
 /* harmony import */ var _utility_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utility/dom */ "./source/utility/dom.js");
@@ -105567,7 +105568,7 @@ class StringListUI extends _ui_file__WEBPACK_IMPORTED_MODULE_5__["FileListUI"] {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "defaultValidationRules", function() { return defaultValidationRules; });
-/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit/js/selective.js");
+/* harmony import */ var selective_edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! selective-edit */ "../../../selective-edit-js/js/selective.js");
 /**
  * Field types for the editor extension.
  */

@@ -205,11 +205,12 @@ export default class EditorApi extends Api {
     return result.promise
   }
 
-  saveDocumentSource(podPath, rawFrontMatter) {
+  saveDocumentSource(podPath, rawFrontMatter, content) {
     const result = new Defer()
     const saveRequest = {
       'pod_path': podPath,
       'raw_front_matter': rawFrontMatter,
+      'content': content,
     }
 
     this.request.post(this.apiPath('content'))

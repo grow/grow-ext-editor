@@ -1299,7 +1299,7 @@ export default class Editor {
         }
 
         const result = this.api.saveDocumentSource(
-          this.podPath, this.document.rawFrontMatter)
+          this.podPath, this.document.rawFrontMatter, this.document.content)
         result.then((response) => this.handleSaveResponse(response, isAutosave))
         result.catch((err) => this.handleSaveError(err))
       } else {
