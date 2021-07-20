@@ -15,6 +15,13 @@ from grow.templates import filters
 
 TEMPLATE_FILE_NAME = '_template.yaml'
 
+PREVIEW_ORIGINS = [
+  'https://editor.dev',
+  'https://beta.editor.dev',
+  'http://localhost:3000',
+  'http://localhost:8080',
+]
+
 
 class RenderPartialController(render_controller.RenderDocumentController):
     """Controller for handling rendering for partial previews."""
@@ -163,7 +170,7 @@ def serve_partial(pod, request, matched, meta=None, **_kwargs):
     return response
 
 
-def serve_preview_server(pod, _request, matched, meta=None, **_kwargs):
+def serve_preview_server(pod, request, matched, meta=None, **_kwargs):
     """Serve the default console page."""
 
     # Get all the base pod paths and use to find all localized docs.
@@ -199,11 +206,16 @@ def serve_preview_server(pod, _request, matched, meta=None, **_kwargs):
         }
     }
 
+    origin = request.headers.get('Origin') or PREVIEW_ORIGINS[0]
+    origin = origin if origin in PREVIEW_ORIGINS else PREVIEW_ORIGINS[0]
+
     env = create_jinja_env()
     template = env.get_template('/preview.json')
     content = template.render(kwargs)
     response = wrappers.Response(content)
     response.headers['Content-Type'] = 'application/json'
+    response.headers['Access-Control-Allow-Origin'] = origin
+    response.headers['Access-Control-Allow-Credentials'] = 'true'
     return response
 
 
