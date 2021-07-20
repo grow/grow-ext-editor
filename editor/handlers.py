@@ -176,30 +176,30 @@ def serve_preview_server(pod, request, matched, meta=None, **_kwargs):
     # Get all the base pod paths and use to find all localized docs.
     temp_router = pod.router.__class__(pod)
     temp_router.add_all()
+    routes = {}
     pod_paths = set()
-    static_paths = []
 
     for path, route, _ in temp_router.routes.nodes:
         if route.kind == 'doc' and 'pod_path' in route.meta:
             pod_paths.add(route.meta['pod_path'])
         elif route.kind == 'static':
-            static_paths.append({
-                'pod_path': route.meta['pod_path'],
+            routes[route.meta['pod_path']] = {
                 'path': path,
-            })
-        else:
-            print(route)
-
-    docs = []
+            }
 
     for pod_path in pod_paths:
-        docs.append(pod.get_doc(pod_path))
+        doc = pod.get_doc(pod_path)
+        routes[doc.pod_path] = {}
+
+        for locale in doc.locales:
+            routes[doc.pod_path] = {
+                "path": doc.localize(locale).get_serving_path(),
+            }
 
     kwargs = {
         'pod': pod,
         'meta': meta,
-        'docs': docs,
-        'statics': static_paths,
+        'routes': routes,
         'path': matched.params['path'] if 'path' in matched.params else '',
         'env': {
             'is_local': 'development' if '/Users/' in os.getenv('PATH', '') else 'production',
