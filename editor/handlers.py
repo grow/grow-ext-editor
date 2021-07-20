@@ -15,6 +15,13 @@ from grow.templates import filters
 
 TEMPLATE_FILE_NAME = '_template.yaml'
 
+PREVIEW_ORIGINS = [
+  'https://editor.dev',
+  'https://beta.editor.dev',
+  'http://localhost:3000',
+  'http://localhost:8080',
+]
+
 
 class RenderPartialController(render_controller.RenderDocumentController):
     """Controller for handling rendering for partial previews."""
@@ -160,6 +167,55 @@ def serve_partial(pod, request, matched, meta=None, **_kwargs):
     response = wrappers.Response(content)
     # TODO: headers.update is not found...?
     response.headers.extend(headers)
+    return response
+
+
+def serve_preview_server(pod, request, matched, meta=None, **_kwargs):
+    """Serve the default console page."""
+
+    # Get all the base pod paths and use to find all localized docs.
+    temp_router = pod.router.__class__(pod)
+    temp_router.add_all()
+    routes = {}
+    pod_paths = set()
+
+    for path, route, _ in temp_router.routes.nodes:
+        if route.kind == 'doc' and 'pod_path' in route.meta:
+            pod_paths.add(route.meta['pod_path'])
+        elif route.kind == 'static':
+            routes[route.meta['pod_path']] = {
+                'path': path,
+            }
+
+    for pod_path in pod_paths:
+        doc = pod.get_doc(pod_path)
+        routes[doc.pod_path] = {}
+
+        for locale in doc.locales:
+            routes[doc.pod_path] = {
+                "path": doc.localize(locale).get_serving_path(),
+            }
+
+    kwargs = {
+        'pod': pod,
+        'meta': meta,
+        'routes': routes,
+        'path': matched.params['path'] if 'path' in matched.params else '',
+        'env': {
+            'is_local': 'development' if '/Users/' in os.getenv('PATH', '') else 'production',
+        }
+    }
+
+    origin = request.headers.get('Origin') or PREVIEW_ORIGINS[0]
+    origin = origin if origin in PREVIEW_ORIGINS else PREVIEW_ORIGINS[0]
+
+    env = create_jinja_env()
+    template = env.get_template('/preview.json')
+    content = template.render(kwargs)
+    response = wrappers.Response(content)
+    response.headers['Content-Type'] = 'application/json'
+    response.headers['Access-Control-Allow-Origin'] = origin
+    response.headers['Access-Control-Allow-Credentials'] = 'true'
     return response
 
 
