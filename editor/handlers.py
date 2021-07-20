@@ -163,6 +163,50 @@ def serve_partial(pod, request, matched, meta=None, **_kwargs):
     return response
 
 
+def serve_preview_server(pod, _request, matched, meta=None, **_kwargs):
+    """Serve the default console page."""
+
+    # Get all the base pod paths and use to find all localized docs.
+    temp_router = pod.router.__class__(pod)
+    temp_router.add_all()
+    pod_paths = set()
+    static_paths = []
+
+    for path, route, _ in temp_router.routes.nodes:
+        if route.kind == 'doc' and 'pod_path' in route.meta:
+            pod_paths.add(route.meta['pod_path'])
+        elif route.kind == 'static':
+            static_paths.append({
+                'pod_path': route.meta['pod_path'],
+                'path': path,
+            })
+        else:
+            print(route)
+
+    docs = []
+
+    for pod_path in pod_paths:
+        docs.append(pod.get_doc(pod_path))
+
+    kwargs = {
+        'pod': pod,
+        'meta': meta,
+        'docs': docs,
+        'statics': static_paths,
+        'path': matched.params['path'] if 'path' in matched.params else '',
+        'env': {
+            'is_local': 'development' if '/Users/' in os.getenv('PATH', '') else 'production',
+        }
+    }
+
+    env = create_jinja_env()
+    template = env.get_template('/preview.json')
+    content = template.render(kwargs)
+    response = wrappers.Response(content)
+    response.headers['Content-Type'] = 'application/json'
+    return response
+
+
 def serve_template(pod, request, matched, meta=None, **_kwargs):
     """Serve pod contents using the template."""
     controller = RenderTemplateController(

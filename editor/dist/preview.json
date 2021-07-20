@@ -1,0 +1,16 @@
+{
+  "defaultLocale": "{{pod.podspec.default_locale or ''}}",
+  "routes": {
+    {% for doc in docs %}
+      "{{doc.pod_path}}": {
+        {% for locale in doc.locales -%}
+          {% set localized_doc = doc.localize(locale) %}
+          "{{locale}}": "{{localized_doc.get_serving_path()}}",
+        {%- endfor %}
+      }
+    {% endfor %}
+    {% for static in statics %}
+      "{{static.pod_path}}": "{{static.path}}",
+    {% endfor %}
+  }
+}

@@ -45,6 +45,19 @@ class EditorDevHandlerHook(hooks.DevHandlerHook):
             '/_grow/editor',
             grow_router.RouteInfo('console', meta=editor_meta))
 
+        preview_meta = {
+            'handler': handlers.serve_preview_server,
+            'meta': {
+                'app': {
+                    'host': host,
+                    'port': port,
+                },
+            },
+        }
+        routes.add(
+            '/preview.json',
+            grow_router.RouteInfo('console', meta=preview_meta))
+
         partial_meta = {
             'handler': handlers.serve_partial,
             'meta': {
