@@ -173,45 +173,54 @@ def serve_partial(pod, request, matched, meta=None, **_kwargs):
 def serve_preview_server(pod, request, matched, meta=None, **_kwargs):
     """Serve the default console page."""
 
-    # Get all the base pod paths and use to find all localized docs.
-    temp_router = pod.router.__class__(pod)
-    temp_router.add_all()
-    routes = {}
-    pod_paths = set()
+    # Check for a cached version of the preview json.
+    content = ''
 
-    for path, route, _ in temp_router.routes.nodes:
-        if route.kind == 'doc' and 'pod_path' in route.meta:
-            pod_paths.add(route.meta['pod_path'])
-        elif route.kind == 'static':
-            routes[route.meta['pod_path']] = {
-                'path': path,
+    if pod.podcache.object_cache.get('preview.json'):
+        content = pod.podcache.object_cache.get('preview.json')
+    else:
+        # Get all the base pod paths and use to find all localized docs.
+        temp_router = pod.router.__class__(pod)
+        temp_router.add_all()
+        pod_paths = set()
+        routes = {}
+
+        for path, route, _ in temp_router.routes.nodes:
+            if route.kind == 'doc' and 'pod_path' in route.meta:
+                pod_paths.add(route.meta['pod_path'])
+            elif route.kind == 'static':
+                routes[route.meta['pod_path']] = {
+                    'path': path,
+                }
+
+        for pod_path in pod_paths:
+            doc = pod.get_doc(pod_path)
+            routes[doc.pod_path] = {}
+
+            for locale in doc.locales:
+                routes[doc.pod_path] = {
+                    "path": doc.localize(locale).get_serving_path(),
+                }
+
+        kwargs = {
+            'pod': pod,
+            'meta': meta,
+            'routes': routes,
+            'path': matched.params['path'] if 'path' in matched.params else '',
+            'env': {
+                'is_local': 'development' if '/Users/' in os.getenv('PATH', '') else 'production',
             }
-
-    for pod_path in pod_paths:
-        doc = pod.get_doc(pod_path)
-        routes[doc.pod_path] = {}
-
-        for locale in doc.locales:
-            routes[doc.pod_path] = {
-                "path": doc.localize(locale).get_serving_path(),
-            }
-
-    kwargs = {
-        'pod': pod,
-        'meta': meta,
-        'routes': routes,
-        'path': matched.params['path'] if 'path' in matched.params else '',
-        'env': {
-            'is_local': 'development' if '/Users/' in os.getenv('PATH', '') else 'production',
         }
-    }
+        env = create_jinja_env()
+        template = env.get_template('/preview.json')
+        content = template.render(kwargs)
+
+        # Save the generated routes to the preview cache.
+        pod.podcache.object_cache.add('preview.json', content)
 
     origin = request.headers.get('Origin') or PREVIEW_ORIGINS[0]
     origin = origin if origin in PREVIEW_ORIGINS else PREVIEW_ORIGINS[0]
 
-    env = create_jinja_env()
-    template = env.get_template('/preview.json')
-    content = template.render(kwargs)
     response = wrappers.Response(content)
     response.headers['Content-Type'] = 'application/json'
     response.headers['Access-Control-Allow-Origin'] = origin
