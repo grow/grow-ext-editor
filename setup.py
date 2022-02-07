@@ -18,7 +18,6 @@ setup(
         'editor': ['dist/*.js', 'dist/*.json', 'dist/*.css', 'dist/*.map', 'dist/*.html', 'dist/*.svg']
     },
     install_requires=[
-        'selenium==3.141.0',
         'werkzeug==1.0.1',
     ],
 )

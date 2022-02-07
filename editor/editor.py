@@ -58,33 +58,6 @@ class EditorDevHandlerHook(hooks.DevHandlerHook):
             '/preview.json',
             grow_router.RouteInfo('console', meta=preview_meta))
 
-        partial_meta = {
-            'handler': handlers.serve_partial,
-            'meta': {
-                'app': {
-                    'host': host,
-                    'port': port,
-                },
-            },
-        }
-
-        routes.add(
-            '/_grow/screenshot/partial/:partial/:key/',
-            grow_router.RouteInfo('console', meta=partial_meta))
-
-        template_meta = {
-            'handler': handlers.serve_template,
-            'meta': {
-                'app': {
-                    'host': host,
-                    'port': port,
-                },
-            },
-        }
-        routes.add(
-            '/_grow/screenshot/template/*collection',
-            grow_router.RouteInfo('console', meta=template_meta))
-
 
 class EditorDevManagerMessageHook(DevManagerMessageHook):
     """Handle the router add hook."""
