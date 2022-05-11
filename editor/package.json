@@ -4,7 +4,7 @@
   "dependencies": {
     "@percy/puppeteer": "^1.1.0",
     "@toast-ui/editor": "^2.4.0",
-    "codemirror": "^5.58.1",
+    "codemirror": "^5.58.2",
     "js-yaml": "^3.14.0",
     "marked": "^1.2.0",
     "moment": "^2.29.1",
