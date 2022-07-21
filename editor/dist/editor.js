@@ -99748,41 +99748,10 @@ class Editor {
   }
 
   handleLoadTemplates(response) {
-    var _this = this;
-
     this._templates = response['templates'];
     this.listeners.trigger('load.templates', {
       templates: this._templates
-    }); // Check for missing screenshots.
-
-    var _loop = function _loop(collectionPath) {
-      var template = _this._templates[collectionPath];
-
-      var _loop2 = function _loop2(key) {
-        var templateMeta = template[key];
-        var screenshots = templateMeta.screenshots; // Missing template screenshot. Request it.
-
-        if (!Object.keys(screenshots).length) {
-          _this.api.screenshotTemplate(collectionPath, key).then(response => {
-            for (var responseCollection of Object.keys(response)) {
-              templateMeta.screenshots = response[collectionPath + '/'][key];
-
-              _this.listeners.trigger('load.templates', {
-                templates: _this._templates
-              });
-            }
-          });
-        }
-      };
-
-      for (var key of Object.keys(template)) {
-        _loop2(key);
-      }
-    };
-
-    for (var collectionPath of Object.keys(this._templates)) {
-      _loop(collectionPath);
-    }
+    });
   }
 
   handleLoadSourceResponse(response) {
@@ -100490,32 +100459,6 @@ class EditorApi extends _utility_api__WEBPACK_IMPORTED_MODULE_0__["default"] {
     formData.append('file', imageFile);
     formData.append('destination', destination);
     this.request.post(this.apiPath('image')).send(formData).then(res => {
-      result.resolve(res.body);
-    }).catch(err => {
-      result.reject(err);
-    });
-    return result.promise;
-  }
-
-  screenshotPartial(partial, key) {
-    var result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
-    this.request.get(this.apiPath('screenshot/partial')).query({
-      'partial': partial,
-      'key': key
-    }).then(res => {
-      result.resolve(res.body);
-    }).catch(err => {
-      result.reject(err);
-    });
-    return result.promise;
-  }
-
-  screenshotTemplate(collectionPath, key) {
-    var result = new _utility_defer__WEBPACK_IMPORTED_MODULE_1__["default"]();
-    this.request.get(this.apiPath('screenshot/template')).query({
-      'collection_path': collectionPath,
-      'key': key
-    }).then(res => {
       result.resolve(res.body);
     }).catch(err => {
       result.reject(err);
@@ -102214,8 +102157,6 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListFie
   }
 
   handleLoadPartialsResponse(response) {
-    var _this = this;
-
     var partialTypes = {}; // Sorted objects for the partials.
 
     var partialKeys = Object.keys(response['partials']).sort();
@@ -102227,37 +102168,7 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListFie
     }
 
     this.partialTypes = partialTypes;
-    this.render(); // Check for missing screenshots.
-
-    var _loop = function _loop(partialKey) {
-      var partial = _this.partialTypes[partialKey];
-
-      if (partial.examples) {
-        var _loop2 = function _loop2(exampleKey) {
-          var screenshots = partial.screenshots[exampleKey] || {}; // Missing screenshot. Request it.
-
-          if (!Object.keys(screenshots).length) {
-            _this.api.screenshotPartial(partialKey, exampleKey).then(response => {
-              if (!_this.partialTypes[partialKey].screenshots) {
-                _this.partialTypes[partialKey].screenshots = {};
-              }
-
-              _this.partialTypes[partialKey].screenshots[exampleKey] = response[partialKey][exampleKey];
-
-              _this.render();
-            });
-          }
-        };
-
-        for (var exampleKey of Object.keys(partial.examples)) {
-          _loop2(exampleKey);
-        }
-      }
-    };
-
-    for (var partialKey of Object.keys(this.partialTypes)) {
-      _loop(partialKey);
-    }
+    this.render();
   }
 
   _createItems(selective, data, locale) {
@@ -102402,9 +102313,13 @@ class PartialsField extends selective_edit__WEBPACK_IMPORTED_MODULE_0__["ListFie
       }
 
       this.modalWindow.contentRenderFunc = () => {
-        return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject4(), Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(sortedPartialKeys, key => key, (key, index) => Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject5(), this.partialTypes[key].key, evt => {
-          this.handleAddItem(evt, selective);
-        }, this.partialTypes[key].label || this.partialTypes[key].key, this.partialTypes[key].description ? Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject6(), this.partialTypes[key].description) : '', renderScreenshots(this.partialTypes[key].screenshots))));
+        return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject4(), Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["repeat"])(sortedPartialKeys, key => key, (key, index) => {
+          var _this$partialTypes$ke;
+
+          return Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject5(), this.partialTypes[key].key, evt => {
+            this.handleAddItem(evt, selective);
+          }, this.partialTypes[key].label || this.partialTypes[key].key, this.partialTypes[key].description ? Object(selective_edit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject6(), this.partialTypes[key].description) : '', renderScreenshots((_this$partialTypes$ke = this.partialTypes[key].screenshots) !== null && _this$partialTypes$ke !== void 0 ? _this$partialTypes$ke : {}));
+        }));
       };
     }
 

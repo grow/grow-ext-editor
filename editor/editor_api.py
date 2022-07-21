@@ -16,6 +16,7 @@ from grow.common import yaml_utils
 from grow.documents import document
 from grow.documents import document_front_matter
 from grow.routing import router as grow_router
+from .api import screenshot
 from .api import yaml_conversion
 
 
@@ -91,6 +92,14 @@ class PodApi(object):
             return self.pod.read_yaml(editor_path) or {}
         return {}
 
+    def _format_screenshot_base(self, path, key):
+        """Format the screenshot base name."""
+        if not path.endswith('/'):
+            path = '{}/'.format(path)
+        return '{path}{key}'.format(
+            path=path,
+            key=key).strip('/')
+
     def _get_param(self, param_name):
         """Support getting params from different request types."""
         try:
@@ -108,6 +117,24 @@ class PodApi(object):
             if is_file:
                 return self.request.files[param_name]
             return self.request.form.get(param_name)
+
+    def _get_resolutions(self):
+        """Pull the resolutions from config."""
+        screenshot_config = self.ext_config.get('screenshots', {})
+        resolutions_raw = screenshot_config.get('resolutions', [{
+            'width': 1280,
+            'height': 1600,
+        }])
+        resolutions = []
+        for resolution_raw in resolutions_raw:
+            resolutions.append(screenshot.ScreenshotResolution(
+                resolution_raw['width'], resolution_raw['height']))
+        return resolutions
+
+    def _get_screenshot_dir(self):
+        """Pull the screenshot dir from config."""
+        screenshot_config = self.ext_config.get('screenshots', {})
+        return screenshot_config.get('static_dir', screenshot.DEFAULT_SCREENSHOT_DIR)
 
     def _get_collection_templates(self, collection):
         """Find any collection templates for a collection."""
@@ -296,10 +323,29 @@ class PodApi(object):
         """Handle the request for editor content."""
         partials = {}
 
+        screenshot_pod_dir = self._get_screenshot_dir()
+
         # Stand alone partials.
         for partial in self.pod.partials.get_partials():
             partials[partial.key] = partial.config.get(
                 'editor', {})
+
+            screenshots = {}
+
+            # Find any existing screenshots.
+            examples = partials[partial.key].get('examples', [])
+            for example in examples:
+                screenshots[example] = {}
+                screenshot_file_base = self._format_screenshot_base(partial.key, example)
+                resolutions = self._get_resolutions()
+
+                for resolution in resolutions:
+                    screenshot_pod_path = os.path.join(
+                        screenshot_pod_dir, 'partials', resolution.filename(screenshot_file_base))
+                    if self.pod.file_exists(screenshot_pod_path):
+                        screenshots[example][resolution.resolution] = self._load_static_doc(screenshot_pod_path)
+
+            partials[partial.key]['screenshots'] = screenshots
 
         self.data = {
             'partials': partials,
@@ -430,6 +476,7 @@ class PodApi(object):
         templates = {}
 
         collections = self.pod.list_collections()
+        screenshot_pod_dir = self._get_screenshot_dir()
 
         # Check each collection to see if it has defined the template file.
         for collection in collections:
@@ -440,10 +487,22 @@ class PodApi(object):
             templates[collection.pod_path] = {}
 
             for key, template_meta in template_info.items():
+                screenshots = {}
+
+                # Find any existing screenshots.
+                screenshot_file_base = self._format_screenshot_base(collection.pod_path, key)
+                resolutions = self._get_resolutions()
+
+                for resolution in resolutions:
+                    screenshot_pod_path = os.path.join(
+                        screenshot_pod_dir, resolution.filename(screenshot_file_base))
+                    if self.pod.file_exists(screenshot_pod_path):
+                        screenshots[resolution.resolution] = self._load_static_doc(screenshot_pod_path)
+
                 templates[collection.pod_path][key] = {
                     'label': template_meta.get('label', key),
                     'description': template_meta.get('description', ''),
-                    'screenshots': {},
+                    'screenshots': screenshots,
                 }
 
         self.data = {

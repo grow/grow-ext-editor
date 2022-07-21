@@ -225,7 +225,7 @@ export class PartialsField extends ListField {
                     ? html`<p>${this.partialTypes[key].description}</p>`
                     : ''}
                 </div>
-                ${renderScreenshots(this.partialTypes[key].screenshots)}
+                ${renderScreenshots(this.partialTypes[key].screenshots ?? {})}
               </div>`)}
           </div>`
       }
