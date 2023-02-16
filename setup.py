@@ -18,6 +18,6 @@ setup(
         'editor': ['dist/*.js', 'dist/*.json', 'dist/*.css', 'dist/*.map', 'dist/*.html', 'dist/*.svg']
     },
     install_requires=[
-        'werkzeug==1.0.1',
+        'werkzeug==2.2.3',
     ],
 )
